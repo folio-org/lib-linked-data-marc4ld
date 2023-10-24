@@ -1,0 +1,43 @@
+fieldRules:
+  245:
+    - types:
+        - TITLE
+      parent: INSTANCE
+      predicate: TITLE
+      subfields:
+        a: MAIN_TITLE
+        b: SUBTITLE
+        n: PART_NUMBER
+        p: PART_NAME
+      ind2: NON_SORT_NUM
+      labelField: a
+  246:
+    - types:
+        - PARALLEL_TITLE
+      parent: INSTANCE
+      predicate: TITLE
+      condition:
+          ind2: '1'
+      subfields:
+        a: MAIN_TITLE
+        b: SUBTITLE
+        f: DATE
+        i: NOTE
+        n: PART_NUMBER
+        p: PART_NAME
+      labelField: a
+    - types:
+        - VARIANT_TITLE
+      parent: INSTANCE
+      predicate: TITLE
+      condition:
+          ind2: '!1'
+      subfields:
+        a: MAIN_TITLE
+        b: SUBTITLE
+        f: DATE
+        i: NOTE
+        n: PART_NUMBER
+        p: PART_NAME
+      ind2: VARIANT_TYPE
+      labelField: a
