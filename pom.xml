@@ -211,6 +211,14 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>folio-nexus</id>
+            <name>FOLIO Maven repository</name>
+            <url>https://repository.folio.org/repository/maven-folio</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <snapshotRepository>
             <id>folio-eis-</id>
