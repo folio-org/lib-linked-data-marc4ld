@@ -17,6 +17,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -99,7 +100,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("2019493854");
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_LCCN);
+    assertThat(edge.getTarget().getTypes()).containsExactly(ID_LCCN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
@@ -116,7 +117,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("9780143789963");
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_ISBN);
+    assertThat(edge.getTarget().getTypes()).containsExactly(ID_ISBN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);

@@ -2,6 +2,7 @@ fieldRules:
   '010':
     - types:
         - ID_LCCN
+        - IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
@@ -10,6 +11,7 @@ fieldRules:
   '020':
     - types:
         - ID_ISBN
+        - IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
