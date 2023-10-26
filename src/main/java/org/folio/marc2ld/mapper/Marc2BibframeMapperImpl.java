@@ -38,6 +38,21 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private final Marc2BibframeRules rules;
   private final ObjectMapper objectMapper;
 
+  private static void mapProperty(Map<String, List<String>> properties, String rule, String value, boolean concat) {
+    if (nonNull(rule)) {
+      var key = PropertyDictionary.valueOf(rule).getValue();
+      var keyProperties = properties.get(key);
+      if (properties.containsKey(key) && concat && !keyProperties.isEmpty()) {
+        var concatenated = keyProperties.get(0).concat(" ").concat(value.strip());
+        keyProperties.remove(0);
+        keyProperties.add(0, concatenated);
+      } else {
+        properties.computeIfAbsent(key, k -> new ArrayList<>())
+          .add(value.strip());
+      }
+    }
+  }
+
   @Override
   public Resource map(String marc) {
     if (isEmpty(marc)) {
@@ -56,7 +71,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
         }
       }
     }
-    instance.setLabel(selectLabel(instance));
+    instance.setLabel(selectInstanceLabel(instance));
     instance.setResourceHash(hash(instance, objectMapper));
     setEdgesId(instance);
     return instance;
@@ -71,7 +86,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     });
   }
 
-  private String selectLabel(Resource instance) {
+  private String selectInstanceLabel(Resource instance) {
     return getFirstValue(() -> instance.getOutgoingEdges().stream()
       .filter(e -> TITLE.getUri().equals(e.getPredicate().getUri()))
       .map(re -> re.getTarget().getLabel()).toList());
@@ -79,32 +94,63 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
 
   private void addFieldResource(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     if (checkConditions(fieldRule, dataField)) {
-      var resource = new Resource();
-      fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(resource::addType);
-      var properties = new HashMap<String, List<String>>();
-      fieldRule.getSubfields().forEach((key, value) -> {
-        if (nonNull(dataField.getSubfield(key))) {
-          properties.computeIfAbsent(PropertyDictionary.valueOf(value).getValue(), k -> new ArrayList<>())
-            .add(dataField.getSubfield(key).getData());
+      if (fieldRule.getTypes().contains(INSTANCE.name())) {
+        enrichInstance(instance, dataField, fieldRule);
+      } else {
+        var parentResource = selectParent(instance, fieldRule.getParent());
+        if (isNull(parentResource)) {
+          parentResource = new Resource();
+          parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
+          parentResource.setResourceHash(hash(parentResource, objectMapper));
+          instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
+            valueOf(fieldRule.getParentPredicate())));
         }
-      });
-      if (nonNull(fieldRule.getInd1())) {
-        properties.computeIfAbsent(PropertyDictionary.valueOf(fieldRule.getInd1()).getValue(), k -> new ArrayList<>())
-          .add(String.valueOf(dataField.getIndicator1()));
+        appendEdge(parentResource, dataField, fieldRule);
       }
-      if (nonNull(fieldRule.getInd2())) {
-        properties.computeIfAbsent(PropertyDictionary.valueOf(fieldRule.getInd2()).getValue(), k -> new ArrayList<>())
-          .add(String.valueOf(dataField.getIndicator2()));
-      }
-      resource.setDoc(getJsonNode(properties));
-      var labelField = dataField.getSubfield(fieldRule.getLabelField());
-      if (nonNull(labelField)) {
-        resource.setLabel(labelField.getData());
-      }
-      resource.setResourceHash(hash(resource, objectMapper));
-      instance.getOutgoingEdges().add(new ResourceEdge(instance, resource,
-        valueOf(fieldRule.getPredicate())));
     }
+  }
+
+  private Resource selectParent(Resource resource, String parent) {
+    if (resource.getTypes().stream().anyMatch(t -> t.name().equals(parent))) {
+      return resource;
+    }
+    return resource.getOutgoingEdges().stream()
+      .map(re -> selectParent(re.getTarget(), parent))
+      .filter(Objects::nonNull)
+      .findFirst()
+      .orElse(null);
+  }
+
+  private void enrichInstance(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+    var properties = isNull(instance.getDoc()) ? new HashMap<String, List<String>>()
+      : objectMapper.convertValue(instance.getDoc(), Map.class);
+    mapProperties(instance, dataField, fieldRule, properties);
+  }
+
+  private void appendEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+    var edgeResource = new Resource();
+    fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
+    mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
+    var labelFieldRule = fieldRule.getLabelField();
+    if (nonNull(labelFieldRule)) {
+      var labelField = dataField.getSubfield(labelFieldRule);
+      if (nonNull(labelField)) {
+        edgeResource.setLabel(labelField.getData().strip());
+      }
+    }
+    edgeResource.setResourceHash(hash(edgeResource, objectMapper));
+    resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,
+      valueOf(fieldRule.getPredicate())));
+  }
+
+  private void mapProperties(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule,
+                             Map<String, List<String>> properties) {
+    boolean concatProperties = fieldRule.isConcatProperties();
+    fieldRule.getSubfields().forEach((field, rule)
+      -> mapProperty(properties, rule, dataField.getSubfield(field).getData(), concatProperties));
+    mapProperty(properties, fieldRule.getInd1(), String.valueOf(dataField.getIndicator1()), concatProperties);
+    mapProperty(properties, fieldRule.getInd2(), String.valueOf(dataField.getIndicator2()), concatProperties);
+    resource.setDoc(getJsonNode(properties));
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {

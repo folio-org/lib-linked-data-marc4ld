@@ -30,7 +30,8 @@
       "100": {
         "subfields": [
           {
-            "a": "Author name"
+            "a": "Author name",
+            "0": "LCNAF id"
           }
         ],
         "ind1": " ",
@@ -127,6 +128,23 @@
       }
     },
     {
+      "262": {
+        "subfields": [
+          {
+            "a": "Publication262 Place"
+          },
+          {
+            "b": "Publication262 Name"
+          },
+          {
+            "c": "Publication262 Date"
+          }
+        ],
+        "ind1": " ",
+        "ind2": " "
+      }
+    },
+    {
       "264": {
         "subfields": [
           {
@@ -136,7 +154,7 @@
             "b": "Production Name"
           },
           {
-            "c": "2023-01-03"
+            "c": "Production Date"
           }
         ],
         "ind1": " ",
@@ -153,7 +171,7 @@
             "b": "Publication Name"
           },
           {
-            "c": "2023-01-03"
+            "c": "Publication Date"
           }
         ],
         "ind1": " ",
@@ -170,7 +188,7 @@
             "b": "Distribution Name"
           },
           {
-            "c": "2023-01-05"
+            "c": "Distribution Date"
           }
         ],
         "ind1": " ",
@@ -187,7 +205,7 @@
             "b": "Manufacture Name"
           },
           {
-            "c": "2023-01-05"
+            "c": "Manufacture Date"
           }
         ],
         "ind1": " ",

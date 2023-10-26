@@ -22,12 +22,14 @@ public class Marc2BibframeRules {
   public static class FieldRule {
     private Set<String> types = new HashSet<>();
     private String parent;
+    private String parentPredicate;
     private String predicate;
     private FieldCondition condition;
     private Map<Character, String> subfields = new HashMap<>();
     private String ind1;
     private String ind2;
     private Character labelField;
+    private boolean concatProperties;
   }
 
   @Data

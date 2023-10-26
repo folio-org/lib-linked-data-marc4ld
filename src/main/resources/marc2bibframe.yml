@@ -1,4 +1,31 @@
 fieldRules:
+  '010':
+    - types:
+        - ID_LCCN
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: NAME
+      labelField: a
+  '020':
+    - types:
+        - ID_ISBN
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: NAME
+        q: QUALIFIER
+      labelField: a
+  100:
+    - types:
+        - PERSON
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CREATOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      labelField: a
   245:
     - types:
         - TITLE
@@ -17,7 +44,7 @@ fieldRules:
       parent: INSTANCE
       predicate: TITLE
       condition:
-          ind2: '1'
+        ind2: '1'
       subfields:
         a: MAIN_TITLE
         b: SUBTITLE
@@ -31,7 +58,7 @@ fieldRules:
       parent: INSTANCE
       predicate: TITLE
       condition:
-          ind2: '!1'
+        ind2: '!1'
       subfields:
         a: MAIN_TITLE
         b: SUBTITLE
@@ -41,3 +68,32 @@ fieldRules:
         p: PART_NAME
       ind2: VARIANT_TYPE
       labelField: a
+  250:
+    - types:
+        - INSTANCE
+      subfields:
+        a: EDITION_STATEMENT
+        b: EDITION_STATEMENT
+      concatProperties: true
+  262:
+    - types:
+        - PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_PUBLICATION
+      subfields:
+        a: SIMPLE_PLACE
+        b: NAME
+        c: DATE
+      labelField: b
+  264:
+    - types:
+        - PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_PUBLICATION
+      condition:
+        ind2: '1'
+      subfields:
+        a: SIMPLE_PLACE
+        b: NAME
+        c: DATE
+      labelField: b
