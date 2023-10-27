@@ -30,7 +30,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc2ld.mapper.test.TestUtil.loadResourceAsString;
 
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.marc2ld.configuration.ObjectMapperConfig;
+import org.folio.marc2ld.configuration.ObjectMapperBackupConfig;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.configuration.property.YamlPropertySourceFactory;
 import org.folio.marc2ld.model.ResourceEdge;
@@ -42,7 +42,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @AutoConfigureMockMvc
 @EnableConfigurationProperties
-@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, Marc2BibframeRules.class, ObjectMapperConfig.class,
+@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class,
   YamlPropertySourceFactory.class})
 class Marc2BibframeMapperIT {
 
@@ -136,7 +136,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo("");
     assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
     assertThat(edge.getTarget().getDoc()).isNull();
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
