@@ -102,6 +102,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
           parentResource.setResourceHash(hash(parentResource, objectMapper));
+          parentResource.setLabel("");
           instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
             valueOf(fieldRule.getParentPredicate())));
         }
@@ -137,6 +138,9 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       if (nonNull(labelField)) {
         edgeResource.setLabel(labelField.getData().strip());
       }
+    }
+    if (isNull(edgeResource.getLabel())) {
+      edgeResource.setLabel("");
     }
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,

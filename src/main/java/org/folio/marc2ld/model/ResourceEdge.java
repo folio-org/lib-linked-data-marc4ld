@@ -32,8 +32,8 @@ public class ResourceEdge {
     }
     ResourceEdge that = (ResourceEdge) o;
     return Objects.equals(source.getResourceHash(), that.source.getResourceHash())
-        && Objects.equals(target.getResourceHash(), that.target.getResourceHash())
-        && Objects.equals(predicate.getHash(), that.predicate.getHash());
+      && Objects.equals(target.getResourceHash(), that.target.getResourceHash())
+      && Objects.equals(predicate.getHash(), that.predicate.getHash());
   }
 
   @Override
