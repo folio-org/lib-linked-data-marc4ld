@@ -7,19 +7,12 @@
     <groupId>org.folio</groupId>
     <artifactId>lib-linked-data-marc2ld</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    
-    <repositories>
-        <repository>
-            <id>folio-nexus</id>
-            <name>FOLIO Maven repository</name>
-            <url>https://repository.folio.org/repository/maven-central</url>
-        </repository>
-    </repositories>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.4</version>
+        <relativePath/>
     </parent>
 
     <packaging>jar</packaging>
@@ -210,6 +203,14 @@
             <url>https://repository.folio.org/repository/maven-folio</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>folio-nexus</id>
+            <name>FOLIO Maven repository</name>
+            <url>https://repository.folio.org/repository/maven-folio</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <snapshotRepository>
