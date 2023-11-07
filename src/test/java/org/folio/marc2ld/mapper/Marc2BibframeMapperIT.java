@@ -84,6 +84,8 @@ class Marc2BibframeMapperIT {
     validateIsbn(edgeIterator.next(), result.getResourceHash());
     validateWork(edgeIterator.next(), result.getResourceHash());
     validateTitle(edgeIterator.next(), result.getResourceHash());
+    validateTitle2(edgeIterator.next(), result.getResourceHash());
+    validateTitle3(edgeIterator.next(), result.getResourceHash());
     validateVariantTitle(edgeIterator.next(), result.getResourceHash());
     validateParallelTitle(edgeIterator.next(), result.getResourceHash());
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication262");
@@ -191,6 +193,41 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().has(NON_SORT_NUM.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue()).get(0).asText()).isEqualTo("7");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateTitle2(ResourceEdge edge, Long parentHash) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo("Instance Title empty");
+    assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Instance Title empty");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateTitle3(ResourceEdge edge, Long parentHash) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEmpty();
+    assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText())
+      .isEqualTo("Instance Title empty label");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
