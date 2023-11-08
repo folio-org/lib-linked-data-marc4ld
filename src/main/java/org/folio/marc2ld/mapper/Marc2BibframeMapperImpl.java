@@ -3,6 +3,7 @@ package org.folio.marc2ld.mapper;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
@@ -34,9 +36,6 @@ import org.springframework.util.CollectionUtils;
 @Service
 @RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
-
-  private static final char EMPTY_INDICATOR = '\u0000';
-  private static final char SPACE = ' ';
   private static final String NOT = "!";
   private final Marc2BibframeRules rules;
   private final ObjectMapper objectMapper;
@@ -46,14 +45,12 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       value = value.strip();
       if (isNotEmpty(value)) {
         var key = PropertyDictionary.valueOf(rule).getValue();
-        var keyProperties = properties.get(key);
-        if (properties.containsKey(key) && concat && !keyProperties.isEmpty()) {
-          var concatenated = keyProperties.get(0).concat(" ").concat(value.strip());
-          keyProperties.remove(0);
-          keyProperties.add(0, concatenated);
+        var keyProperties = properties.computeIfAbsent(key, k -> new ArrayList<>());
+        if (concat && !keyProperties.isEmpty()) {
+          var concatenated = keyProperties.get(0).concat(StringUtils.SPACE).concat(value);
+          keyProperties.set(0, concatenated);
         } else {
-          properties.computeIfAbsent(key, k -> new ArrayList<>())
-            .add(value.strip());
+          keyProperties.add(value);
         }
       }
     }
@@ -69,8 +66,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     while (reader.hasNext()) {
       var marcRecord = reader.next();
       for (var dataField : marcRecord.getDataFields()) {
-        if (isNotEmpty(dataField.getTag()) && (!CollectionUtils.isEmpty(dataField.getSubfields())
-          || isNotEmptyIndicator(dataField.getIndicator1()) || isNotEmptyIndicator(dataField.getIndicator2()))) {
+        if (isNotEmptyDataField(dataField)) {
           var fieldRules = rules.getFieldRules().get(dataField.getTag());
           if (nonNull(fieldRules)) {
             fieldRules.forEach(fieldRule -> addFieldResource(instance, dataField, fieldRule));
@@ -82,6 +78,16 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     instance.setResourceHash(hash(instance, objectMapper));
     setEdgesId(instance);
     return instance;
+  }
+
+  private boolean isNotEmptyDataField(DataField dataField) {
+    return isNotEmpty(dataField.getTag()) && containsValue(dataField);
+  }
+
+  private boolean containsValue(DataField dataField) {
+    return !CollectionUtils.isEmpty(dataField.getSubfields())
+      || isNotEmptyIndicator(dataField.getIndicator1())
+      || isNotEmptyIndicator(dataField.getIndicator2());
   }
 
   private void setEdgesId(Resource resource) {
@@ -109,7 +115,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
           parentResource.setResourceHash(hash(parentResource, objectMapper));
-          parentResource.setLabel("");
+          parentResource.setLabel(EMPTY);
           instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
             valueOf(fieldRule.getParentPredicate())));
         }
@@ -147,7 +153,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       }
     }
     if (isNull(edgeResource.getLabel())) {
-      edgeResource.setLabel("");
+      edgeResource.setLabel(EMPTY);
     }
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,
@@ -171,7 +177,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private boolean isNotEmptyIndicator(char indicator) {
-    return indicator != EMPTY_INDICATOR && indicator != SPACE;
+    return !Character.isSpaceChar(indicator) && indicator != Character.MIN_VALUE;
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {
