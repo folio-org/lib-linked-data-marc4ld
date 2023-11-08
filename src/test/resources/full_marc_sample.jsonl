@@ -62,6 +62,32 @@
       }
     },
     {
+      "245": {
+        "subfields": [
+          {
+            "a": "Instance Title empty"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "b": "Instance Title empty label"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+          }
+        ]
+      }
+    },
+    {
       "246": {
         "subfields": [
           {
