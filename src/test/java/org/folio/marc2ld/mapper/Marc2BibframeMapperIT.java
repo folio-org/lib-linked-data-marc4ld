@@ -138,7 +138,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("");
+    assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
     assertThat(edge.getTarget().getDoc()).isNull();
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
@@ -221,7 +221,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEmpty();
+    assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
