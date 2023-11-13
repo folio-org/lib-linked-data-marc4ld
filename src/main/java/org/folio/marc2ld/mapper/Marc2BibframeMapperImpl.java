@@ -3,7 +3,6 @@ package org.folio.marc2ld.mapper;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
@@ -21,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -115,7 +115,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
           parentResource.setResourceHash(hash(parentResource, objectMapper));
-          parentResource.setLabel(EMPTY);
+          parentResource.setLabel(UUID.randomUUID().toString());
           instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
             valueOf(fieldRule.getParentPredicate())));
         }
@@ -153,7 +153,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       }
     }
     if (isNull(edgeResource.getLabel())) {
-      edgeResource.setLabel(EMPTY);
+      edgeResource.setLabel(UUID.randomUUID().toString());
     }
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,
