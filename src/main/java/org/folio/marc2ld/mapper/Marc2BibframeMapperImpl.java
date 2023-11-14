@@ -17,10 +17,12 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -30,6 +32,7 @@ import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -37,6 +40,9 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private static final String NOT = "!";
+  private static final String FIELD_UUID = "999";
+  private static final char SUBFIELD_INVENTORY_ID = 'i';
+  private static final char SUBFIELD_SRS_ID = 's';
   private final Marc2BibframeRules rules;
   private final ObjectMapper objectMapper;
 
@@ -70,14 +76,28 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           var fieldRules = rules.getFieldRules().get(dataField.getTag());
           if (nonNull(fieldRules)) {
             fieldRules.forEach(fieldRule -> addFieldResource(instance, dataField, fieldRule));
+          } else {
+            if (FIELD_UUID.equals(dataField.getTag())) {
+              instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
+              instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
+            }
           }
         }
       }
     }
     instance.setLabel(selectInstanceLabel(instance));
+    cleanEmptyEdges(instance);
     instance.setResourceHash(hash(instance, objectMapper));
     setEdgesId(instance);
     return instance;
+  }
+
+  private UUID readUuid(Subfield subfield) {
+    try {
+      return UUID.fromString(subfield.getData().strip());
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   private boolean isNotEmptyDataField(DataField dataField) {
@@ -88,6 +108,14 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     return !CollectionUtils.isEmpty(dataField.getSubfields())
       || isNotEmptyIndicator(dataField.getIndicator1())
       || isNotEmptyIndicator(dataField.getIndicator2());
+  }
+
+  private void cleanEmptyEdges(Resource resource) {
+    resource.setOutgoingEdges(resource.getOutgoingEdges().stream()
+      .filter(re -> nonNull(re.getTarget().getDoc()) && !re.getTarget().getDoc().isEmpty()
+        || !re.getTarget().getOutgoingEdges().isEmpty())
+      .collect(Collectors.toCollection(LinkedHashSet::new))
+    );
   }
 
   private void setEdgesId(Resource resource) {
@@ -115,11 +143,12 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
           parentResource.setLabel(UUID.randomUUID().toString());
-          parentResource.setResourceHash(hash(parentResource, objectMapper));
           instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
             valueOf(fieldRule.getParentPredicate())));
+          parentResource.setResourceHash(hash(parentResource, objectMapper));
         }
         appendEdge(parentResource, dataField, fieldRule);
+        cleanEmptyEdges(parentResource);
       }
     }
   }

@@ -1,5 +1,7 @@
 package org.folio.marc2ld.mapper;
 
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -62,6 +64,25 @@ class Marc2BibframeMapperIT {
   }
 
   @Test
+  void map_shouldReturnCorrectlyMappedEmptyResource() {
+    // given
+    var marc = loadResourceAsString("empty_marc_sample.jsonl");
+
+    // when
+    var result = marc2BibframeMapper.map(marc);
+
+    // then
+    assertThat(result).isNotNull();
+    assertThat(result.getResourceHash()).isNotNull();
+    assertThat(result.getLabel()).isEqualTo(EMPTY);
+    assertThat(result.getDoc()).isEmpty();
+    assertThat(result.getInventoryId()).isNull();
+    assertThat(result.getSrsId()).isNull();
+    assertThat(result.getTypes()).containsExactly(INSTANCE);
+    assertThat(result.getOutgoingEdges()).isEmpty();
+  }
+
+  @Test
   void map_shouldReturnCorrectlyMappedResource() {
     // given
     var marc = loadResourceAsString("full_marc_sample.jsonl");
@@ -73,12 +94,14 @@ class Marc2BibframeMapperIT {
     assertThat(result).isNotNull();
     assertThat(result.getResourceHash()).isNotNull();
     assertThat(result.getLabel()).isEqualTo("Instance MainTitle");
-    assertThat(result.getTypes()).containsExactly(INSTANCE);
     assertThat(result.getDoc()).hasSize(1);
     assertThat(result.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(result.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
     assertThat(result.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
+    assertThat(result.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
+    assertThat(result.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
+    assertThat(result.getTypes()).containsExactly(INSTANCE);
     var edgeIterator = result.getOutgoingEdges().iterator();
     validateLccn(edgeIterator.next(), result.getResourceHash());
     validateIsbn(edgeIterator.next(), result.getResourceHash());
