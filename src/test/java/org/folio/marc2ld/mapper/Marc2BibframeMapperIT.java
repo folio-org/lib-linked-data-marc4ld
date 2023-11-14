@@ -93,6 +93,24 @@ class Marc2BibframeMapperIT {
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
+  @Test
+  void twoMappedResources_shouldContainWorkWithDifferentIds() {
+    // given
+    var marc1 = loadResourceAsString("full_marc_sample.jsonl");
+    var marc2 = loadResourceAsString("short_marc_sample.jsonl");
+
+    // when
+    var result1 = marc2BibframeMapper.map(marc1);
+    var result2 = marc2BibframeMapper.map(marc2);
+
+    // then
+    var work1opt = result1.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
+    var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
+    assertThat(work1opt).isPresent();
+    assertThat(work2opt).isPresent();
+    assertThat(work1opt.get().getTarget().getResourceHash()).isNotEqualTo(work2opt.get().getTarget().getResourceHash());
+  }
+
   private void validateLccn(ResourceEdge edge, Long parentHash) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);

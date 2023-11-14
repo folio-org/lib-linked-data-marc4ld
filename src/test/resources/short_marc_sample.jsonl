@@ -1,0 +1,25 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "100": {
+        "subfields": [
+          {
+            "a": "Author name 2",
+            "0": "LCNAF id 2"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "a": "Instance MainTitle 2"
+          }
+        ]
+      }
+    },
+
+  ]
+}
