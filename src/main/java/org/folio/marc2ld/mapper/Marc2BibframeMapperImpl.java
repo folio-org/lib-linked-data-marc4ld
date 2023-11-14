@@ -114,8 +114,8 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
         if (isNull(parentResource)) {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
-          parentResource.setResourceHash(hash(parentResource, objectMapper));
           parentResource.setLabel(UUID.randomUUID().toString());
+          parentResource.setResourceHash(hash(parentResource, objectMapper));
           instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
             valueOf(fieldRule.getParentPredicate())));
         }
