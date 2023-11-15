@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -36,6 +37,7 @@ import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
@@ -76,11 +78,9 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
           var fieldRules = rules.getFieldRules().get(dataField.getTag());
           if (nonNull(fieldRules)) {
             fieldRules.forEach(fieldRule -> addFieldResource(instance, dataField, fieldRule));
-          } else {
-            if (FIELD_UUID.equals(dataField.getTag())) {
-              instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
-              instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
-            }
+          } else if (FIELD_UUID.equals(dataField.getTag())) {
+            instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
+            instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
           }
         }
       }
@@ -93,9 +93,14 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private UUID readUuid(Subfield subfield) {
+    if (isNull(subfield) || isNull(subfield.getData())) {
+      return null;
+    }
+    var value = subfield.getData().strip();
     try {
-      return UUID.fromString(subfield.getData().strip());
+      return UUID.fromString(value);
     } catch (Exception e) {
+      log.warn("Incorrect UUID value from Marc field 999, subfield [{}]: {}", subfield.getCode(), value);
       return null;
     }
   }
