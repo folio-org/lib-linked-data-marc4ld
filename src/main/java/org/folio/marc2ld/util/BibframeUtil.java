@@ -3,6 +3,7 @@ package org.folio.marc2ld.util;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL_RDF;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,16 +23,16 @@ public class BibframeUtil {
 
   public static String getFirstValue(Supplier<List<String>> valuesSupplier) {
     if (isNull(valuesSupplier)) {
-      return "";
+      return EMPTY;
     }
     var values = valuesSupplier.get();
     if (isNotEmpty(values)) {
       return values.stream()
         .filter(StringUtils::isNotBlank)
         .findFirst()
-        .orElse("");
+        .orElse(EMPTY);
     }
-    return "";
+    return EMPTY;
   }
 
   public static Long hash(Resource resource, ObjectMapper mapper) {
@@ -47,7 +48,9 @@ public class BibframeUtil {
       node = mapper.createObjectNode();
     }
     node.put(LABEL_RDF.getValue(), res.getLabel());
-    node.put("type", res.getFirstType().getHash());
+    if (nonNull(res.getTypes())) {
+      node.put("type", res.getTypes().iterator().next().getHash());
+    }
     res.getOutgoingEdges().forEach(edge -> {
       var predicate = edge.getPredicate().getUri();
       if (!node.has(predicate)) {
