@@ -30,6 +30,7 @@ public class Marc2BibframeRules {
     private String ind2;
     private Character labelField;
     private boolean concatProperties;
+    private boolean append;
   }
 
   @Data

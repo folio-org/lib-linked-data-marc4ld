@@ -16,6 +16,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
+import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
@@ -66,7 +67,7 @@ class Marc2BibframeMapperIT {
   @Test
   void map_shouldReturnCorrectlyMappedEmptyResource() {
     // given
-    var marc = loadResourceAsString("empty_marc_sample.jsonl");
+    var marc = loadResourceAsString("empty_marc.jsonl");
 
     // when
     var result = marc2BibframeMapper.map(marc);
@@ -83,9 +84,42 @@ class Marc2BibframeMapperIT {
   }
 
   @Test
+  void map_shouldReturnCorrectlyMappedResourceWithSingleSoR() {
+    // given
+    var marc = loadResourceAsString("marc_single_sor.jsonl");
+
+    // when
+    var result = marc2BibframeMapper.map(marc);
+
+    // then
+    assertThat(result).isNotNull();
+    assertThat(result.getResourceHash()).isNotNull();
+    assertThat(result.getLabel()).isEqualTo(EMPTY);
+    assertThat(result.getDoc()).isNull();
+    assertThat(result.getInventoryId()).isNull();
+    assertThat(result.getSrsId()).isNull();
+    assertThat(result.getTypes()).containsExactly(INSTANCE);
+    assertThat(result.getOutgoingEdges()).hasSize(1);
+    var workEdge = result.getOutgoingEdges().iterator().next();
+    assertThat(workEdge.getSource()).isEqualTo(result);
+    assertThat(workEdge.getPredicate()).isEqualTo(INSTANTIATES);
+    assertThat(workEdge.getTarget().getResourceHash()).isNotNull();
+    assertThat(workEdge.getTarget().getLabel()).isNotNull();
+    assertThat(workEdge.getTarget().getTypes()).containsExactly(WORK);
+    assertThat(workEdge.getTarget().getInventoryId()).isNull();
+    assertThat(workEdge.getTarget().getSrsId()).isNull();
+    assertThat(workEdge.getTarget().getDoc()).hasSize(1);
+    assertThat(workEdge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
+    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
+    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText())
+      .isEqualTo("Statement Of Responsibility");
+    assertThat(workEdge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  @Test
   void map_shouldReturnCorrectlyMappedResource() {
     // given
-    var marc = loadResourceAsString("full_marc_sample.jsonl");
+    var marc = loadResourceAsString("full_marc.jsonl");
 
     // when
     var result = marc2BibframeMapper.map(marc);
@@ -119,8 +153,8 @@ class Marc2BibframeMapperIT {
   @Test
   void twoMappedResources_shouldContainWorkWithDifferentIds() {
     // given
-    var marc1 = loadResourceAsString("full_marc_sample.jsonl");
-    var marc2 = loadResourceAsString("short_marc_sample.jsonl");
+    var marc1 = loadResourceAsString("full_marc.jsonl");
+    var marc2 = loadResourceAsString("short_marc.jsonl");
 
     // when
     var result1 = marc2BibframeMapper.map(marc1);
@@ -181,7 +215,11 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
-    assertThat(edge.getTarget().getDoc()).isNull();
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
+      "Statement Of Responsibility");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validatePerson(edgeIterator.next(), edge.getTarget().getResourceHash());

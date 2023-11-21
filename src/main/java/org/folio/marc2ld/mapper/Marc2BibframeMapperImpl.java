@@ -21,6 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,7 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private static final String NOT = "!";
+  private static final String PRESENTED = "presented";
   private static final String FIELD_UUID = "999";
   private static final char SUBFIELD_INVENTORY_ID = 'i';
   private static final char SUBFIELD_SRS_ID = 's';
@@ -141,9 +143,9 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private void addFieldResource(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     if (checkConditions(fieldRule, dataField)) {
       if (fieldRule.getTypes().contains(INSTANCE.name())) {
-        enrichInstance(instance, dataField, fieldRule);
+        enrichResource(instance, dataField, fieldRule);
       } else {
-        var parentResource = selectParent(instance, fieldRule.getParent());
+        var parentResource = selectResourceFromEdges(instance, Set.of(fieldRule.getParent()));
         if (isNull(parentResource)) {
           parentResource = new Resource();
           parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
@@ -152,27 +154,32 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
             valueOf(fieldRule.getParentPredicate())));
           parentResource.setResourceHash(hash(parentResource, objectMapper));
         }
-        appendEdge(parentResource, dataField, fieldRule);
+        var existedResource = fieldRule.isAppend() ? selectResourceFromEdges(instance, fieldRule.getTypes()) : null;
+        if (isNull(existedResource)) {
+          appendEdge(parentResource, dataField, fieldRule);
+        } else {
+          enrichResource(existedResource, dataField, fieldRule);
+        }
         cleanEmptyEdges(parentResource);
       }
     }
   }
 
-  private Resource selectParent(Resource resource, String parent) {
-    if (resource.getTypes().stream().anyMatch(t -> t.name().equals(parent))) {
+  private Resource selectResourceFromEdges(Resource resource, Set<String> types) {
+    if (resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet()).equals(types)) {
       return resource;
     }
     return resource.getOutgoingEdges().stream()
-      .map(re -> selectParent(re.getTarget(), parent))
+      .map(re -> selectResourceFromEdges(re.getTarget(), types))
       .filter(Objects::nonNull)
       .findFirst()
       .orElse(null);
   }
 
-  private void enrichInstance(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
-    var properties = isNull(instance.getDoc()) ? new HashMap<String, List<String>>()
-      : objectMapper.convertValue(instance.getDoc(), Map.class);
-    mapProperties(instance, dataField, fieldRule, properties);
+  private void enrichResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+    var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>()
+      : objectMapper.convertValue(resource.getDoc(), Map.class);
+    mapProperties(resource, dataField, fieldRule, properties);
   }
 
   private void appendEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
@@ -239,6 +246,9 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     if (condition.contains(NOT)) {
       condition = condition.replace(NOT, "");
       return !Objects.equals(value, condition);
+    }
+    if (condition.contains(PRESENTED)) {
+      return isNotEmpty(value);
     }
     return Objects.equals(value, condition);
   }
