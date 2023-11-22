@@ -35,6 +35,9 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.marc2ld.configuration.ObjectMapperBackupConfig;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.configuration.property.YamlPropertySourceFactory;
+import org.folio.marc2ld.mapper.condition.ConditionCheckerImpl;
+import org.folio.marc2ld.mapper.field.FieldMapperImpl;
+import org.folio.marc2ld.mapper.field.property.PropertyMapperImpl;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +47,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @AutoConfigureMockMvc
 @EnableConfigurationProperties
-@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class,
-  YamlPropertySourceFactory.class})
+@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, ConditionCheckerImpl.class, FieldMapperImpl.class,
+  PropertyMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class, YamlPropertySourceFactory.class})
 class Marc2BibframeMapperIT {
 
   @Autowired
