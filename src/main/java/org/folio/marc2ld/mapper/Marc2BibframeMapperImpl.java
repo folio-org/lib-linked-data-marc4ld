@@ -119,6 +119,10 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
 
   private void cleanEmptyEdges(Resource resource) {
     resource.setOutgoingEdges(resource.getOutgoingEdges().stream()
+      .map(re -> {
+        cleanEmptyEdges(re.getTarget());
+        return re;
+      })
       .filter(re -> nonNull(re.getTarget().getDoc()) && !re.getTarget().getDoc().isEmpty()
         || !re.getTarget().getOutgoingEdges().isEmpty())
       .collect(Collectors.toCollection(LinkedHashSet::new))
@@ -142,27 +146,31 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
 
   private void addFieldResource(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     if (checkConditions(fieldRule, dataField)) {
-      if (fieldRule.getTypes().contains(INSTANCE.name())) {
-        enrichResource(instance, dataField, fieldRule);
+      final var parentResource = computeParentIfAbsent(instance, fieldRule);
+      if (fieldRule.isAppend()) {
+        ofNullable(selectResourceFromEdges(instance, fieldRule.getTypes()))
+          .ifPresentOrElse(r -> appendResource(r, dataField, fieldRule),
+            () -> addNewEdge(parentResource, dataField, fieldRule));
       } else {
-        var parentResource = selectResourceFromEdges(instance, Set.of(fieldRule.getParent()));
-        if (isNull(parentResource)) {
-          parentResource = new Resource();
-          parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
-          parentResource.setLabel(UUID.randomUUID().toString());
-          instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
-            valueOf(fieldRule.getParentPredicate())));
-          parentResource.setResourceHash(hash(parentResource, objectMapper));
-        }
-        var existedResource = fieldRule.isAppend() ? selectResourceFromEdges(instance, fieldRule.getTypes()) : null;
-        if (isNull(existedResource)) {
-          appendEdge(parentResource, dataField, fieldRule);
-        } else {
-          enrichResource(existedResource, dataField, fieldRule);
-        }
-        cleanEmptyEdges(parentResource);
+        addNewEdge(parentResource, dataField, fieldRule);
       }
     }
+  }
+
+  private Resource computeParentIfAbsent(Resource instance, Marc2BibframeRules.FieldRule fieldRule) {
+    if (fieldRule.getTypes().contains(INSTANCE.name())) {
+      return instance;
+    }
+    var parentResource = selectResourceFromEdges(instance, Set.of(fieldRule.getParent()));
+    if (isNull(parentResource)) {
+      parentResource = new Resource();
+      parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
+      parentResource.setLabel(UUID.randomUUID().toString());
+      instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
+        valueOf(fieldRule.getParentPredicate())));
+      parentResource.setResourceHash(hash(parentResource, objectMapper));
+    }
+    return parentResource;
   }
 
   private Resource selectResourceFromEdges(Resource resource, Set<String> types) {
@@ -176,13 +184,13 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       .orElse(null);
   }
 
-  private void enrichResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private void appendResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>()
       : objectMapper.convertValue(resource.getDoc(), Map.class);
     mapProperties(resource, dataField, fieldRule, properties);
   }
 
-  private void appendEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private void addNewEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
     mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());

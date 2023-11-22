@@ -9,6 +9,18 @@
           }
         ]
       }
+    },
+    {
+      "250": {
+        "subfields": [
+          {
+            "a": "Edition Statement"
+          },
+          {
+            "b": "Edition statement2"
+          }
+        ]
+      }
     }
   ]
 }

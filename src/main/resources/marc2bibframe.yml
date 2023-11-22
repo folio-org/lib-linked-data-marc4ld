@@ -86,6 +86,7 @@ fieldRules:
       subfields:
         a: EDITION_STATEMENT
         b: EDITION_STATEMENT
+      append: true
       concatProperties: true
   262:
     - types:

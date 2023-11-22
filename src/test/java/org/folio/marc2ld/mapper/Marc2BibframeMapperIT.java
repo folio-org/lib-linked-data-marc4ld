@@ -1,7 +1,6 @@
 package org.folio.marc2ld.mapper;
 
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -75,7 +74,7 @@ class Marc2BibframeMapperIT {
     // then
     assertThat(result).isNotNull();
     assertThat(result.getResourceHash()).isNotNull();
-    assertThat(result.getLabel()).isEqualTo(EMPTY);
+    assertThat(result.getLabel()).isNotEmpty();
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
     assertThat(result.getSrsId()).isNull();
@@ -84,9 +83,9 @@ class Marc2BibframeMapperIT {
   }
 
   @Test
-  void map_shouldReturnCorrectlyMappedResourceWithSingleSoR() {
+  void map_shouldReturnCorrectlyMappedResourceWithAppendableFieldsOnly() {
     // given
-    var marc = loadResourceAsString("marc_single_sor.jsonl");
+    var marc = loadResourceAsString("marc_appendable_only.jsonl");
 
     // when
     var result = marc2BibframeMapper.map(marc);
@@ -94,8 +93,12 @@ class Marc2BibframeMapperIT {
     // then
     assertThat(result).isNotNull();
     assertThat(result.getResourceHash()).isNotNull();
-    assertThat(result.getLabel()).isEqualTo(EMPTY);
-    assertThat(result.getDoc()).isNull();
+    assertThat(result.getLabel()).isNotEmpty();
+    assertThat(result.getDoc()).hasSize(1);
+    assertThat(result.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
+    assertThat(result.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
+    assertThat(result.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
+      .isEqualTo("Edition Statement Edition statement2");
     assertThat(result.getInventoryId()).isNull();
     assertThat(result.getSrsId()).isNull();
     assertThat(result.getTypes()).containsExactly(INSTANCE);
