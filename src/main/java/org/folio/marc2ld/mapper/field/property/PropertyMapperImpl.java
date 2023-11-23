@@ -38,6 +38,9 @@ public class PropertyMapperImpl implements PropertyMapper {
     ofNullable(fieldRule.getConstants()).ifPresent(
       c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
 
+    ofNullable(fieldRule.getConstants()).ifPresent(
+      c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
+
     resource.setDoc(getJsonNode(properties));
     return properties;
   }

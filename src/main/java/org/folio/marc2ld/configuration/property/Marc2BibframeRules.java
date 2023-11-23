@@ -26,11 +26,11 @@ public class Marc2BibframeRules {
     private Map<Character, String> subfields;
     private String ind1;
     private String ind2;
-    private String label;
-    private String concat;
+    private Character labelField;
+    private boolean concatProperties;
     private boolean append;
     private Map<String, String> constants;
-    private List<FieldRule> edges;
+    private List<FieldRule> subResources;
   }
 
   @Data
