@@ -61,7 +61,4 @@ public class BibframeUtil {
     return node;
   }
 
-  public static boolean isNotEmptyIndicator(char indicator) {
-    return !Character.isSpaceChar(indicator) && indicator != Character.MIN_VALUE;
-  }
 }

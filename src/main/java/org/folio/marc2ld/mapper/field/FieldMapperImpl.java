@@ -1,7 +1,6 @@
 package org.folio.marc2ld.mapper.field;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -83,16 +82,10 @@ public class FieldMapperImpl implements FieldMapper {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
     propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
-    var labelFieldRule = fieldRule.getLabelField();
-    if (nonNull(labelFieldRule)) {
-      var labelField = dataField.getSubfield(labelFieldRule);
-      if (nonNull(labelField)) {
-        edgeResource.setLabel(labelField.getData().strip());
-      }
-    }
-    if (isNull(edgeResource.getLabel())) {
-      edgeResource.setLabel(UUID.randomUUID().toString());
-    }
+    ofNullable(fieldRule.getLabelField())
+      .flatMap(lfr -> ofNullable(dataField.getSubfield(lfr)))
+      .ifPresentOrElse(lf -> edgeResource.setLabel(lf.getData().strip()),
+        () -> edgeResource.setLabel(UUID.randomUUID().toString()));
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,
       valueOf(fieldRule.getPredicate())));

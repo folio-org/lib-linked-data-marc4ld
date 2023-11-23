@@ -2,6 +2,7 @@ package org.folio.marc2ld.mapper.condition;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -22,9 +23,9 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (isNull(condition)) {
       return true;
     }
-    boolean ind1Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
-    boolean ind2Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
-    boolean fieldConditions = condition.getFields().entrySet().stream()
+    var ind1Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
+    var ind2Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
+    var fieldConditions = condition.getFields().entrySet().stream()
       .allMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
         .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
         .orElse(false));
@@ -36,7 +37,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
       return true;
     }
     if (condition.contains(NOT)) {
-      condition = condition.replace(NOT, "");
+      condition = condition.replace(NOT, EMPTY);
       return !Objects.equals(value, condition);
     }
     if (condition.contains(PRESENTED)) {
