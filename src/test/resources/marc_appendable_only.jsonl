@@ -1,0 +1,26 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "245": {
+        "subfields": [
+          {
+            "c": "Statement Of Responsibility"
+          }
+        ]
+      }
+    },
+    {
+      "250": {
+        "subfields": [
+          {
+            "a": "Edition Statement"
+          },
+          {
+            "b": "Edition statement2"
+          }
+        ]
+      }
+    }
+  ]
+}

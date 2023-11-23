@@ -1,7 +1,6 @@
 package org.folio.marc2ld.mapper;
 
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -16,6 +15,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
+import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
@@ -35,6 +35,9 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.marc2ld.configuration.ObjectMapperBackupConfig;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.configuration.property.YamlPropertySourceFactory;
+import org.folio.marc2ld.mapper.condition.ConditionCheckerImpl;
+import org.folio.marc2ld.mapper.field.FieldMapperImpl;
+import org.folio.marc2ld.mapper.field.property.PropertyMapperImpl;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +47,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @AutoConfigureMockMvc
 @EnableConfigurationProperties
-@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class,
-  YamlPropertySourceFactory.class})
+@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, ConditionCheckerImpl.class, FieldMapperImpl.class,
+  PropertyMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class, YamlPropertySourceFactory.class})
 class Marc2BibframeMapperIT {
 
   @Autowired
@@ -66,7 +69,7 @@ class Marc2BibframeMapperIT {
   @Test
   void map_shouldReturnCorrectlyMappedEmptyResource() {
     // given
-    var marc = loadResourceAsString("empty_marc_sample.jsonl");
+    var marc = loadResourceAsString("empty_marc.jsonl");
 
     // when
     var result = marc2BibframeMapper.map(marc);
@@ -74,7 +77,7 @@ class Marc2BibframeMapperIT {
     // then
     assertThat(result).isNotNull();
     assertThat(result.getResourceHash()).isNotNull();
-    assertThat(result.getLabel()).isEqualTo(EMPTY);
+    assertThat(result.getLabel()).isNotEmpty();
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
     assertThat(result.getSrsId()).isNull();
@@ -83,9 +86,46 @@ class Marc2BibframeMapperIT {
   }
 
   @Test
+  void map_shouldReturnCorrectlyMappedResourceWithAppendableFieldsOnly() {
+    // given
+    var marc = loadResourceAsString("marc_appendable_only.jsonl");
+
+    // when
+    var result = marc2BibframeMapper.map(marc);
+
+    // then
+    assertThat(result).isNotNull();
+    assertThat(result.getResourceHash()).isNotNull();
+    assertThat(result.getLabel()).isNotEmpty();
+    assertThat(result.getDoc()).hasSize(1);
+    assertThat(result.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
+    assertThat(result.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
+    assertThat(result.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
+      .isEqualTo("Edition Statement Edition statement2");
+    assertThat(result.getInventoryId()).isNull();
+    assertThat(result.getSrsId()).isNull();
+    assertThat(result.getTypes()).containsExactly(INSTANCE);
+    assertThat(result.getOutgoingEdges()).hasSize(1);
+    var workEdge = result.getOutgoingEdges().iterator().next();
+    assertThat(workEdge.getSource()).isEqualTo(result);
+    assertThat(workEdge.getPredicate()).isEqualTo(INSTANTIATES);
+    assertThat(workEdge.getTarget().getResourceHash()).isNotNull();
+    assertThat(workEdge.getTarget().getLabel()).isNotNull();
+    assertThat(workEdge.getTarget().getTypes()).containsExactly(WORK);
+    assertThat(workEdge.getTarget().getInventoryId()).isNull();
+    assertThat(workEdge.getTarget().getSrsId()).isNull();
+    assertThat(workEdge.getTarget().getDoc()).hasSize(1);
+    assertThat(workEdge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
+    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
+    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText())
+      .isEqualTo("Statement Of Responsibility");
+    assertThat(workEdge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  @Test
   void map_shouldReturnCorrectlyMappedResource() {
     // given
-    var marc = loadResourceAsString("full_marc_sample.jsonl");
+    var marc = loadResourceAsString("full_marc.jsonl");
 
     // when
     var result = marc2BibframeMapper.map(marc);
@@ -119,8 +159,8 @@ class Marc2BibframeMapperIT {
   @Test
   void twoMappedResources_shouldContainWorkWithDifferentIds() {
     // given
-    var marc1 = loadResourceAsString("full_marc_sample.jsonl");
-    var marc2 = loadResourceAsString("short_marc_sample.jsonl");
+    var marc1 = loadResourceAsString("full_marc.jsonl");
+    var marc2 = loadResourceAsString("short_marc.jsonl");
 
     // when
     var result1 = marc2BibframeMapper.map(marc1);
@@ -181,7 +221,11 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
-    assertThat(edge.getTarget().getDoc()).isNull();
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
+      "Statement Of Responsibility");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validatePerson(edgeIterator.next(), edge.getTarget().getResourceHash());
