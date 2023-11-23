@@ -8,6 +8,36 @@ fieldRules:
       subfields:
         a: NAME
       labelField: a
+      condition:
+        fields:
+          a: presented
+      subResources:
+        - types:
+            STATUS
+          parent: ID_LCCN
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/status/current
+    - types:
+        - ID_LCCN
+        - IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: NAME
+      labelField: z
+      condition:
+        fields:
+          z: presented
+      subResources:
+        - types:
+            STATUS
+          parent: ID_LCCN
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   '020':
     - types:
         - ID_ISBN
@@ -18,6 +48,37 @@ fieldRules:
         a: NAME
         q: QUALIFIER
       labelField: a
+      condition:
+        fields:
+          a: presented
+      subResources:
+        - types:
+            STATUS
+          parent: ID_ISBN
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/status/current
+    - types:
+        - ID_ISBN
+        - IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: NAME
+        q: QUALIFIER
+      labelField: z
+      condition:
+        fields:
+          z: presented
+      subResources:
+        - types:
+            STATUS
+          parent: ID_ISBN
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   100:
     - types:
         - PERSON

@@ -5,9 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
+import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
+import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
+import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
@@ -32,6 +35,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc2ld.mapper.test.TestUtil.loadResourceAsString;
 
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.ObjectMapperBackupConfig;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.configuration.property.YamlPropertySourceFactory;
@@ -143,8 +147,10 @@ class Marc2BibframeMapperIT {
     assertThat(result.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
     assertThat(result.getTypes()).containsExactly(INSTANCE);
     var edgeIterator = result.getOutgoingEdges().iterator();
-    validateLccn(edgeIterator.next(), result.getResourceHash());
-    validateIsbn(edgeIterator.next(), result.getResourceHash());
+    validateLccn(edgeIterator.next(), result.getResourceHash(), "2019493854", "current");
+    validateLccn(edgeIterator.next(), result.getResourceHash(), "88888888", "canceled or invalid");
+    validateIsbn(edgeIterator.next(), result.getResourceHash(), "9780143789963", "current");
+    validateIsbn(edgeIterator.next(), result.getResourceHash(), "9999999", "canceled or invalid");
     validateWork(edgeIterator.next(), result.getResourceHash());
     validateTitle(edgeIterator.next(), result.getResourceHash());
     validateTitle2(edgeIterator.next(), result.getResourceHash());
@@ -174,7 +180,7 @@ class Marc2BibframeMapperIT {
     assertThat(work1opt.get().getTarget().getResourceHash()).isNotEqualTo(work2opt.get().getTarget().getResourceHash());
   }
 
-  private void validateLccn(ResourceEdge edge, Long parentHash) {
+  private void validateLccn(ResourceEdge edge, Long parentHash, String number, String status) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
@@ -182,16 +188,18 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("2019493854");
+    assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsExactly(ID_LCCN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("2019493854");
-    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
+    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateIsbn(ResourceEdge edge, Long parentHash) {
+  private void validateIsbn(ResourceEdge edge, Long parentHash, String number, String status) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
@@ -199,15 +207,38 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("9780143789963");
+    assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsExactly(ID_ISBN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("9780143789963");
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(QUALIFIER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("(paperback)");
+    var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
+    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    assertThat(edgeIterator.hasNext()).isFalse();
+  }
+
+  private void validateIdStatus(ResourceEdge edge, Long parentHash, String value) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(STATUS.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(STATUS.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo(value);
+    assertThat(edge.getTarget().getTypes()).containsExactly(ResourceTypeDictionary.STATUS);
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
+    assertThat(edge.getTarget().getDoc().has(LABEL.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo(value);
+    assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText())
+      .isEqualTo("http://id.loc.gov/vocabulary/status/" + (value.equals("canceled or invalid") ? "cancinv" : value));
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

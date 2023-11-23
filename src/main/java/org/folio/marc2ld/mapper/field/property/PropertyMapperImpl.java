@@ -36,6 +36,9 @@ public class PropertyMapperImpl implements PropertyMapper {
     mapProperty(properties, fieldRule.getInd1(), getIndicatorValue(dataField.getIndicator1()), concatProperties);
     mapProperty(properties, fieldRule.getInd2(), getIndicatorValue(dataField.getIndicator2()), concatProperties);
 
+    ofNullable(fieldRule.getConstants()).ifPresent(
+      c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
+
     resource.setDoc(getJsonNode(properties));
   }
 
@@ -59,6 +62,10 @@ public class PropertyMapperImpl implements PropertyMapper {
 
   private boolean isNotEmptyIndicator(char indicator) {
     return !Character.isSpaceChar(indicator) && indicator != Character.MIN_VALUE;
+  }
+
+  private void mapConstant(Map<String, List<String>> properties, String field, String value) {
+    properties.put(PropertyDictionary.valueOf(field).getValue(), List.of(value));
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {

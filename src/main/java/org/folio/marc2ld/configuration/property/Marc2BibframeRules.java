@@ -1,7 +1,5 @@
 package org.folio.marc2ld.configuration.property;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,22 +18,24 @@ public class Marc2BibframeRules {
 
   @Data
   public static class FieldRule {
-    private Set<String> types = new HashSet<>();
+    private Set<String> types;
     private String parent;
     private String parentPredicate;
     private String predicate;
     private FieldCondition condition;
-    private Map<Character, String> subfields = new HashMap<>();
+    private Map<Character, String> subfields;
     private String ind1;
     private String ind2;
     private Character labelField;
     private boolean concatProperties;
     private boolean append;
+    private Map<String, String> constants;
+    private List<FieldRule> subResources;
   }
 
   @Data
   public static class FieldCondition {
-    private Map<Character, String> fields = new HashMap<>();
+    private Map<Character, String> fields;
     private String ind1;
     private String ind2;
   }
