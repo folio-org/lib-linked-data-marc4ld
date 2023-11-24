@@ -23,9 +23,8 @@ public class PropertyMapperImpl implements PropertyMapper {
   private final ObjectMapper objectMapper;
 
   @Override
-  public Map<String, List<String>> mapProperties(Resource resource, DataField dataField,
-                                                 Marc2BibframeRules.FieldRule fieldRule,
-                                                 Map<String, List<String>> properties) {
+  public void mapProperties(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule,
+                            Map<String, List<String>> properties) {
     ofNullable(fieldRule.getSubfields()).ifPresent(sf -> sf.forEach((field, rule) -> {
       var subfield = dataField.getSubfield(field);
       if (nonNull(subfield)) {
@@ -38,11 +37,7 @@ public class PropertyMapperImpl implements PropertyMapper {
     ofNullable(fieldRule.getConstants()).ifPresent(
       c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
 
-    ofNullable(fieldRule.getConstants()).ifPresent(
-      c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
-
     resource.setDoc(getJsonNode(properties));
-    return properties;
   }
 
   private void mapProperty(Map<String, List<String>> properties, String rule, final String value, String concat) {

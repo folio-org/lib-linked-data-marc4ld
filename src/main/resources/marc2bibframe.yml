@@ -5,66 +5,66 @@ fieldRules:
       predicate: MAP
       subfields:
         a: NAME
-      label: NAME
+      labelFields: a
       condition:
         fields:
           a: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_LCCN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+            LINK: http://id.loc.gov/vocabulary/status/current
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: NAME
-      label: NAME
+      labelFields: z
       condition:
         fields:
           z: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_LCCN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         a: LOCAL_ID_VALUE
-      label: LOCAL_ID_VALUE
+      labelFields: a
       condition:
         fields:
           a: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_LOCAL
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+            LINK: http://id.loc.gov/vocabulary/status/current
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: LOCAL_ID_VALUE
-      label: LOCAL_ID_VALUE
+      labelFields: z
       condition:
         fields:
           z: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_LOCAL
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   '020':
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
@@ -72,34 +72,34 @@ fieldRules:
       subfields:
         a: NAME
         q: QUALIFIER
-      label: NAME
+      labelFields: a
       condition:
         fields:
           a: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_ISBN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+            LINK: http://id.loc.gov/vocabulary/status/current
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: NAME
         q: QUALIFIER
-      label: NAME
+      labelFields: z
       condition:
         fields:
           z: presented
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_ISBN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   '024':
     - types: ID_EAN, IDENTIFIER
       parent: INSTANCE
@@ -108,72 +108,72 @@ fieldRules:
         a: EAN_VALUE
         d: EAN_VALUE
         q: QUALIFIER
-      label: EAN_VALUE
+      labelFields: a,d
       condition:
         fields:
           a: presented
         ind1: '3'
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_EAN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+            LINK: http://id.loc.gov/vocabulary/status/current
     - types: ID_EAN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: EAN_VALUE
         q: QUALIFIER
-      label: EAN_VALUE
+      labelFields: z
       condition:
         fields:
           z: presented
         ind1: '3'
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_EAN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         a: NAME
         q: QUALIFIER
-      label: NAME
+      labelFields: a
       condition:
         fields:
           a: presented
         ind1: '!3'
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_UNKNOWN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+            LINK: http://id.loc.gov/vocabulary/status/current
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: NAME
         q: QUALIFIER
-      label: NAME
+      labelFields: z
       condition:
         fields:
           z: presented
         ind1: '!3'
-      edges:
+      subResources:
         - types: STATUS
+          parent: ID_UNKNOWN
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   100:
     - types: PERSON
       parent: WORK
@@ -182,7 +182,7 @@ fieldRules:
       subfields:
         a: NAME
         '0': LCNAF_ID
-      label: NAME
+      labelFields: a
   245:
     - types: TITLE
       parent: INSTANCE
@@ -193,7 +193,7 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: NON_SORT_NUM
-      label: MAIN_TITLE
+      labelFields: a
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
@@ -216,7 +216,7 @@ fieldRules:
         i: NOTE
         n: PART_NUMBER
         p: PART_NAME
-      label: MAIN_TITLE
+      labelFields: a
     - types: VARIANT_TITLE
       parent: INSTANCE
       predicate: TITLE
@@ -230,7 +230,7 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: VARIANT_TYPE
-      label: MAIN_TITLE
+      labelFields: a
   250:
     - types: INSTANCE
       subfields:
@@ -246,7 +246,7 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
+      labelFields: b
   264:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -257,4 +257,4 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
+      labelFields: b
