@@ -1,97 +1,190 @@
 fieldRules:
   '010':
-    - types:
-        - ID_LCCN
-        - IDENTIFIER
+    - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         a: NAME
-      labelField: a
+      labelFields: a
       condition:
         fields:
           a: presented
       subResources:
-        - types:
-            STATUS
+        - types: STATUS
           parent: ID_LCCN
           predicate: STATUS
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
-    - types:
-        - ID_LCCN
-        - IDENTIFIER
+    - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: NAME
-      labelField: z
+      labelFields: z
       condition:
         fields:
           z: presented
       subResources:
-        - types:
-            STATUS
+        - types: STATUS
           parent: ID_LCCN
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
+  '019':
+    - types: ID_LOCAL, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: LOCAL_ID_VALUE
+      labelFields: a
+      condition:
+        fields:
+          a: presented
+      subResources:
+        - types: STATUS
+          parent: ID_LOCAL
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/status/current
+    - types: ID_LOCAL, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: LOCAL_ID_VALUE
+      labelFields: z
+      condition:
+        fields:
+          z: presented
+      subResources:
+        - types: STATUS
+          parent: ID_LOCAL
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
   '020':
-    - types:
-        - ID_ISBN
-        - IDENTIFIER
+    - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         a: NAME
         q: QUALIFIER
-      labelField: a
+      labelFields: a
       condition:
         fields:
           a: presented
       subResources:
-        - types:
-            STATUS
+        - types: STATUS
           parent: ID_ISBN
           predicate: STATUS
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
-    - types:
-        - ID_ISBN
-        - IDENTIFIER
+    - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
         z: NAME
         q: QUALIFIER
-      labelField: z
+      labelFields: z
       condition:
         fields:
           z: presented
       subResources:
-        - types:
-            STATUS
+        - types: STATUS
           parent: ID_ISBN
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
+  '024':
+    - types: ID_EAN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: EAN_VALUE
+        d: EAN_VALUE
+        q: QUALIFIER
+      labelFields: a,d
+      condition:
+        fields:
+          a: presented
+        ind1: '3'
+      subResources:
+        - types: STATUS
+          parent: ID_EAN
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/status/current
+    - types: ID_EAN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: EAN_VALUE
+        q: QUALIFIER
+      labelFields: z
+      condition:
+        fields:
+          z: presented
+        ind1: '3'
+      subResources:
+        - types: STATUS
+          parent: ID_EAN
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
+    - types: ID_UNKNOWN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: NAME
+        q: QUALIFIER
+      labelFields: a
+      condition:
+        fields:
+          a: presented
+        ind1: '!3'
+      subResources:
+        - types: STATUS
+          parent: ID_UNKNOWN
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/status/current
+    - types: ID_UNKNOWN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: NAME
+        q: QUALIFIER
+      labelFields: z
+      condition:
+        fields:
+          z: presented
+        ind1: '!3'
+      subResources:
+        - types: STATUS
+          parent: ID_UNKNOWN
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/status/cancinv
   100:
-    - types:
-        - PERSON
+    - types: PERSON
       parent: WORK
       parentPredicate: INSTANTIATES
       predicate: CREATOR
       subfields:
         a: NAME
         '0': LCNAF_ID
-      labelField: a
+      labelFields: a
   245:
-    - types:
-        - TITLE
+    - types: TITLE
       parent: INSTANCE
       predicate: TITLE
       subfields:
@@ -100,9 +193,8 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: NON_SORT_NUM
-      labelField: a
-    - types:
-        - WORK
+      labelFields: a
+    - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
       subfields:
@@ -112,8 +204,7 @@ fieldRules:
           c: presented
       append: true
   246:
-    - types:
-        - PARALLEL_TITLE
+    - types: PARALLEL_TITLE
       parent: INSTANCE
       predicate: TITLE
       condition:
@@ -125,9 +216,8 @@ fieldRules:
         i: NOTE
         n: PART_NUMBER
         p: PART_NAME
-      labelField: a
-    - types:
-        - VARIANT_TITLE
+      labelFields: a
+    - types: VARIANT_TITLE
       parent: INSTANCE
       predicate: TITLE
       condition:
@@ -140,28 +230,25 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: VARIANT_TYPE
-      labelField: a
+      labelFields: a
   250:
-    - types:
-        - INSTANCE
+    - types: INSTANCE
       subfields:
         a: EDITION_STATEMENT
         b: EDITION_STATEMENT
+      concat: ' '
       append: true
-      concatProperties: true
   262:
-    - types:
-        - PROVIDER_EVENT
+    - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
       subfields:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      labelField: b
+      labelFields: b
   264:
-    - types:
-        - PROVIDER_EVENT
+    - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
       condition:
@@ -170,4 +257,4 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      labelField: b
+      labelFields: b

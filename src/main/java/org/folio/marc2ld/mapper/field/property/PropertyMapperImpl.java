@@ -3,7 +3,6 @@ package org.folio.marc2ld.mapper.field.property;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,15 +25,14 @@ public class PropertyMapperImpl implements PropertyMapper {
   @Override
   public void mapProperties(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule,
                             Map<String, List<String>> properties) {
-    var concatProperties = fieldRule.isConcatProperties();
     ofNullable(fieldRule.getSubfields()).ifPresent(sf -> sf.forEach((field, rule) -> {
       var subfield = dataField.getSubfield(field);
       if (nonNull(subfield)) {
-        mapProperty(properties, rule, subfield.getData(), concatProperties);
+        mapProperty(properties, rule, subfield.getData(), fieldRule.getConcat());
       }
     }));
-    mapProperty(properties, fieldRule.getInd1(), getIndicatorValue(dataField.getIndicator1()), concatProperties);
-    mapProperty(properties, fieldRule.getInd2(), getIndicatorValue(dataField.getIndicator2()), concatProperties);
+    mapProperty(properties, fieldRule.getInd1(), getIndicatorValue(dataField.getIndicator1()), fieldRule.getConcat());
+    mapProperty(properties, fieldRule.getInd2(), getIndicatorValue(dataField.getIndicator2()), fieldRule.getConcat());
 
     ofNullable(fieldRule.getConstants()).ifPresent(
       c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
@@ -42,13 +40,13 @@ public class PropertyMapperImpl implements PropertyMapper {
     resource.setDoc(getJsonNode(properties));
   }
 
-  private void mapProperty(Map<String, List<String>> properties, String rule, final String value, boolean concat) {
+  private void mapProperty(Map<String, List<String>> properties, String rule, final String value, String concat) {
     ofNullable(rule).ifPresent(
-      r -> ofNullable(value).map(String::strip).filter(StringUtils::isNotEmpty).ifPresent(v -> {
+      r -> ofNullable(value).map(String::trim).filter(StringUtils::isNotEmpty).ifPresent(v -> {
         var key = PropertyDictionary.valueOf(r).getValue();
         var keyProperties = properties.computeIfAbsent(key, k -> new ArrayList<>());
-        if (concat && !keyProperties.isEmpty()) {
-          var concatenated = keyProperties.get(0).concat(SPACE).concat(v);
+        if (!keyProperties.isEmpty()) {
+          var concatenated = keyProperties.get(0).concat(ofNullable(concat).orElse(EMPTY)).concat(v);
           keyProperties.set(0, concatenated);
         } else {
           keyProperties.add(v);
