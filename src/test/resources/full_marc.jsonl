@@ -209,6 +209,21 @@
       }
     },
     {
+      "261": {
+        "subfields": [
+          {
+            "b": "Manufacture261 Name"
+          },
+          {
+            "d": "Manufacture261 Date"
+          },
+          {
+            "f": "Manufacture261 Place"
+          }
+        ]
+      }
+    },
+    {
       "262": {
         "subfields": [
           {
@@ -223,6 +238,15 @@
         ],
         "ind1": " ",
         "ind2": " "
+      }
+    },
+    {
+      "263": {
+        "subfields": [
+          {
+            "a": "projectedProvisionDate"
+          }
+        ]
       }
     },
     {
@@ -302,6 +326,69 @@
         ],
         "ind1": " ",
         "ind2": "4"
+      }
+    },
+    {
+      "300": {
+        "subfields": [
+          {
+            "a": "extent"
+          },
+          {
+            "c": "dimensions"
+          }
+        ]
+      }
+    },
+    {
+      "334": {
+        "subfields": [
+          {
+            "a": "issuance"
+          }
+        ]
+      }
+    },
+    {
+      "337": {
+        "subfields": [
+          {
+            "a": "MEDIA term"
+          },
+          {
+            "b": "MEDIA code"
+          },
+          {
+            "1": "MEDIA link"
+          }
+        ]
+      }
+    },
+    {
+      "338": {
+        "subfields": [
+          {
+            "a": "CARRIER term"
+          },
+          {
+            "b": "CARRIER code"
+          },
+          {
+            "1": "CARRIER link"
+          }
+        ]
+      }
+    },
+    {
+      "865": {
+        "subfields": [
+          {
+            "u": "access location URI"
+          },
+          {
+            "z": "access location note"
+          }
+        ]
       }
     },
     {

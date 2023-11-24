@@ -2,13 +2,24 @@ package org.folio.marc2ld.mapper;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
+import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
+import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
+import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
+import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
+import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
+import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
+import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
+import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
+import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
@@ -19,11 +30,16 @@ import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
+import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
+import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
@@ -160,19 +176,41 @@ class Marc2BibframeMapperIT {
     validateTitle3(edgeIterator.next(), result.getResourceHash());
     validateVariantTitle(edgeIterator.next(), result.getResourceHash());
     validateParallelTitle(edgeIterator.next(), result.getResourceHash());
+    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture261");
+    validateCopyrightDate(edgeIterator.next(), result.getResourceHash(), "Manufacture261 Date");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication262");
+    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PRODUCTION, "Production");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication");
+    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_DISTRIBUTION, "Distribution");
+    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture");
+    validateCopyrightDate(edgeIterator.next(), result.getResourceHash(), "©2018");
+    validateCategory(edgeIterator.next(), result.getResourceHash(), MEDIA);
+    validateCategory(edgeIterator.next(), result.getResourceHash(), CARRIER);
+    validateAccessLocation(edgeIterator.next(), result.getResourceHash());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
   private void validateInstance(Resource resource) {
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo("Instance MainTitle");
-    assertThat(resource.getDoc()).hasSize(1);
+    assertThat(resource.getDoc()).hasSize(5);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
+    assertThat(resource.getDoc().has(EXTENT.getValue())).isTrue();
+    assertThat(resource.getDoc().get(EXTENT.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(EXTENT.getValue()).get(0).asText()).isEqualTo("extent");
+    assertThat(resource.getDoc().has(DIMENSIONS.getValue())).isTrue();
+    assertThat(resource.getDoc().get(DIMENSIONS.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(DIMENSIONS.getValue()).get(0).asText()).isEqualTo("dimensions");
+    assertThat(resource.getDoc().has(ISSUANCE.getValue())).isTrue();
+    assertThat(resource.getDoc().get(ISSUANCE.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(ISSUANCE.getValue()).get(0).asText()).isEqualTo("issuance");
+    assertThat(resource.getDoc().has(PROJECTED_PROVISION_DATE.getValue())).isTrue();
+    assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
+      "projectedProvisionDate");
     assertThat(resource.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
     assertThat(resource.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
     assertThat(resource.getTypes()).containsExactly(INSTANCE);
@@ -517,4 +555,65 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Name");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
+
+  private void validateCopyrightDate(ResourceEdge edge, Long parentHash, String value) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo(value);
+    assertThat(edge.getTarget().getTypes()).containsExactly(COPYRIGHT_EVENT);
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo(value);
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateCategory(ResourceEdge edge, Long parentHash, PredicateDictionary predicate) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo(predicate.name() + " term");
+    assertThat(edge.getTarget().getTypes()).containsExactly(CATEGORY);
+    assertThat(edge.getTarget().getDoc()).hasSize(3);
+    assertThat(edge.getTarget().getDoc().has(CODE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(CODE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
+    assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(predicate.name() + " link");
+    assertThat(edge.getTarget().getDoc().has(TERM.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(TERM.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateAccessLocation(ResourceEdge edge, Long parentHash) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(ACCESS_LOCATION.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(ACCESS_LOCATION.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo("access location URI");
+    assertThat(edge.getTarget().getTypes()).containsExactly(ANNOTATION);
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
+    assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo("access location URI");
+    assertThat(edge.getTarget().getDoc().has(NOTE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("access location note");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
 }

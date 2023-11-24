@@ -238,6 +238,24 @@ fieldRules:
         b: EDITION_STATEMENT
       concat: ' '
       append: true
+  261:
+    - types: PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_MANUFACTURE
+      subfields:
+        f: SIMPLE_PLACE
+        b: NAME
+        d: DATE
+      label: NAME
+    - types: COPYRIGHT_EVENT
+      parent: INSTANCE
+      predicate: COPYRIGHT
+      condition:
+        fields:
+          d: presented
+      subfields:
+        d: DATE
+      label: DATE
   262:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -247,7 +265,25 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+  263:
+    - types: INSTANCE
+      subfields:
+        a: PROJECTED_PROVISION_DATE
+      append: true
+      condition:
+        fields:
+          a: presented
   264:
+    - types: PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_PRODUCTION
+      condition:
+        ind2: '0'
+      subfields:
+        a: SIMPLE_PLACE
+        b: NAME
+        c: DATE
+      label: NAME
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
@@ -258,3 +294,80 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+    - types: PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_DISTRIBUTION
+      condition:
+        ind2: '2'
+      subfields:
+        a: SIMPLE_PLACE
+        b: NAME
+        c: DATE
+      label: NAME
+    - types: PROVIDER_EVENT
+      parent: INSTANCE
+      predicate: PE_MANUFACTURE
+      condition:
+        ind2: '3'
+      subfields:
+        a: SIMPLE_PLACE
+        b: NAME
+        c: DATE
+      label: NAME
+    - types: COPYRIGHT_EVENT
+      parent: INSTANCE
+      predicate: COPYRIGHT
+      condition:
+        ind2: '4'
+      subfields:
+        c: DATE
+      label: DATE
+  300:
+    - types: INSTANCE
+      subfields:
+        a: EXTENT
+      append: true
+      condition:
+        fields:
+          a: presented
+    - types: INSTANCE
+      subfields:
+        c: DIMENSIONS
+      append: true
+      condition:
+        fields:
+          c: presented
+  334:
+    - types: INSTANCE
+      subfields:
+        a: ISSUANCE
+      append: true
+      condition:
+        fields:
+          a: presented
+  337:
+    - types: CATEGORY
+      parent: INSTANCE
+      predicate: MEDIA
+      subfields:
+        a: TERM
+        b: CODE
+        '1': LINK
+      label: TERM
+  338:
+    - types: CATEGORY
+      parent: INSTANCE
+      predicate: CARRIER
+      subfields:
+        a: TERM
+        b: CODE
+        '1': LINK
+      label: TERM
+  865:
+    - types: ANNOTATION
+      parent: INSTANCE
+      predicate: ACCESS_LOCATION
+      subfields:
+        u: LINK
+        z: NOTE
+      label: LINK
