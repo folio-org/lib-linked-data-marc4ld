@@ -8,7 +8,8 @@ import org.marc4j.marc.DataField;
 
 public interface PropertyMapper {
 
-  void mapProperties(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule,
-                     Map<String, List<String>> properties);
+  Map<String, List<String>> mapProperties(Resource resource, DataField dataField,
+                                          Marc2BibframeRules.FieldRule fieldRule,
+                                          Map<String, List<String>> properties);
 
 }

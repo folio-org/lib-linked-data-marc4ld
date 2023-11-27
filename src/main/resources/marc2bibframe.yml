@@ -5,13 +5,14 @@ fieldRules:
       predicate: MAP
       subfields:
         a: NAME
-      labelFields: a
+      label: NAME
       condition:
         fields:
           a: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
@@ -20,13 +21,14 @@ fieldRules:
       predicate: MAP
       subfields:
         z: NAME
-      labelFields: z
+      label: NAME
       condition:
         fields:
           z: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
@@ -36,13 +38,14 @@ fieldRules:
       predicate: MAP
       subfields:
         a: LOCAL_ID_VALUE
-      labelFields: a
+      label: LOCAL_ID_VALUE
       condition:
         fields:
           a: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
@@ -51,13 +54,14 @@ fieldRules:
       predicate: MAP
       subfields:
         z: LOCAL_ID_VALUE
-      labelFields: z
+      label: LOCAL_ID_VALUE
       condition:
         fields:
           z: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
@@ -68,13 +72,14 @@ fieldRules:
       subfields:
         a: NAME
         q: QUALIFIER
-      labelFields: a
+      label: NAME
       condition:
         fields:
           a: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
@@ -84,13 +89,14 @@ fieldRules:
       subfields:
         z: NAME
         q: QUALIFIER
-      labelFields: z
+      label: NAME
       condition:
         fields:
           z: presented
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
@@ -102,7 +108,7 @@ fieldRules:
         a: EAN_VALUE
         d: EAN_VALUE
         q: QUALIFIER
-      labelFields: a,d
+      label: EAN_VALUE
       condition:
         fields:
           a: presented
@@ -110,6 +116,7 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
@@ -119,7 +126,7 @@ fieldRules:
       subfields:
         z: EAN_VALUE
         q: QUALIFIER
-      labelFields: z
+      label: EAN_VALUE
       condition:
         fields:
           z: presented
@@ -127,6 +134,7 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
@@ -136,7 +144,7 @@ fieldRules:
       subfields:
         a: NAME
         q: QUALIFIER
-      labelFields: a
+      label: NAME
       condition:
         fields:
           a: presented
@@ -144,6 +152,7 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/status/current
@@ -153,7 +162,7 @@ fieldRules:
       subfields:
         z: NAME
         q: QUALIFIER
-      labelFields: z
+      label: NAME
       condition:
         fields:
           z: presented
@@ -161,6 +170,7 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
+          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/status/cancinv
@@ -172,7 +182,7 @@ fieldRules:
       subfields:
         a: NAME
         '0': LCNAF_ID
-      labelFields: a
+      label: NAME
   245:
     - types: TITLE
       parent: INSTANCE
@@ -183,7 +193,7 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: NON_SORT_NUM
-      labelFields: a
+      label: MAIN_TITLE
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
@@ -206,7 +216,7 @@ fieldRules:
         i: NOTE
         n: PART_NUMBER
         p: PART_NAME
-      labelFields: a
+      label: MAIN_TITLE
     - types: VARIANT_TITLE
       parent: INSTANCE
       predicate: TITLE
@@ -220,7 +230,7 @@ fieldRules:
         n: PART_NUMBER
         p: PART_NAME
       ind2: VARIANT_TYPE
-      labelFields: a
+      label: MAIN_TITLE
   250:
     - types: INSTANCE
       subfields:
@@ -236,7 +246,7 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      labelFields: b
+      label: NAME
   264:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -247,4 +257,4 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      labelFields: b
+      label: NAME
