@@ -30,7 +30,7 @@ public class Marc2BibframeRules {
     private String concat;
     private boolean append;
     private Map<String, String> constants;
-    private List<FieldRule> subResources;
+    private List<FieldRule> edges;
   }
 
   @Data

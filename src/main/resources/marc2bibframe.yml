@@ -9,9 +9,8 @@ fieldRules:
       condition:
         fields:
           a: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_LCCN
           predicate: STATUS
           constants:
             LABEL: current
@@ -25,9 +24,8 @@ fieldRules:
       condition:
         fields:
           z: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_LCCN
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
@@ -42,9 +40,8 @@ fieldRules:
       condition:
         fields:
           a: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_LOCAL
           predicate: STATUS
           constants:
             LABEL: current
@@ -58,9 +55,8 @@ fieldRules:
       condition:
         fields:
           z: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_LOCAL
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
@@ -76,9 +72,8 @@ fieldRules:
       condition:
         fields:
           a: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_ISBN
           predicate: STATUS
           constants:
             LABEL: current
@@ -93,9 +88,8 @@ fieldRules:
       condition:
         fields:
           z: presented
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_ISBN
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
@@ -113,9 +107,8 @@ fieldRules:
         fields:
           a: presented
         ind1: '3'
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_EAN
           predicate: STATUS
           constants:
             LABEL: current
@@ -131,9 +124,8 @@ fieldRules:
         fields:
           z: presented
         ind1: '3'
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_EAN
           predicate: STATUS
           constants:
             LABEL: canceled or invalid
@@ -149,9 +141,8 @@ fieldRules:
         fields:
           a: presented
         ind1: '!3'
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_UNKNOWN
           predicate: STATUS
           constants:
             LABEL: current
@@ -167,9 +158,8 @@ fieldRules:
         fields:
           z: presented
         ind1: '!3'
-      subResources:
+      edges:
         - types: STATUS
-          parent: ID_UNKNOWN
           predicate: STATUS
           constants:
             LABEL: canceled or invalid

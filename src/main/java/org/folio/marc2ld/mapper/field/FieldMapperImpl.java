@@ -4,7 +4,6 @@ import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc2ld.util.BibframeUtil.hash;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,34 +36,35 @@ public class FieldMapperImpl implements FieldMapper {
   private final ObjectMapper objectMapper;
 
   @Override
-  public void handleField(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  public void handleField(Resource parent, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
-      final var parentResource = computeParentIfAbsent(resource, fieldRule);
+      final var parentResource = computeParentIfAbsent(parent, fieldRule);
       Resource mappedResource;
       if (fieldRule.isAppend()) {
-        mappedResource = ofNullable(selectResourceFromEdges(resource, fieldRule.getTypes())).map(
+        mappedResource = ofNullable(selectResourceFromEdges(parent, fieldRule.getTypes())).map(
             r -> appendResource(r, dataField, fieldRule))
           .orElseGet(() -> addNewEdge(parentResource, dataField, fieldRule));
       } else {
         mappedResource = addNewEdge(parentResource, dataField, fieldRule);
       }
-      ofNullable(fieldRule.getSubResources()).ifPresent(
+      ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, subResource)));
     }
   }
 
-  private Resource computeParentIfAbsent(Resource instance, Marc2BibframeRules.FieldRule fieldRule) {
-    if (fieldRule.getTypes().contains(INSTANCE.name())) {
-      return instance;
+  private Resource computeParentIfAbsent(Resource parent, Marc2BibframeRules.FieldRule fieldRule) {
+    if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceTypeDictionary::getUri).collect(
+      Collectors.toSet()))) {
+      return parent;
     }
     var parentResource =
-      selectResourceFromEdges(instance, ofNullable(fieldRule.getParent()).map(Set::of).orElse(new HashSet<>()));
+      selectResourceFromEdges(parent, ofNullable(fieldRule.getParent()).map(Set::of).orElse(new HashSet<>()));
     if (isNull(parentResource)) {
       parentResource = new Resource();
       parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
       parentResource.setLabel(UUID.randomUUID().toString());
-      instance.getOutgoingEdges()
-        .add(new ResourceEdge(instance, parentResource, valueOf(fieldRule.getParentPredicate())));
+      parent.getOutgoingEdges()
+        .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
       parentResource.setResourceHash(hash(parentResource, objectMapper));
     }
     return parentResource;
