@@ -1,22 +1,23 @@
 package org.folio.marc2ld.mapper.field;
 
+import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.marc2ld.util.BibframeUtil.hash;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.mapper.condition.ConditionChecker;
@@ -24,7 +25,6 @@ import org.folio.marc2ld.mapper.field.property.PropertyMapper;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.marc4j.marc.DataField;
-import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -88,26 +88,19 @@ public class FieldMapperImpl implements FieldMapper {
   private Resource addNewEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
-    propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
-    getLabelSubfieldValues(fieldRule.getLabelFields(), dataField)
-      .ifPresentOrElse(edgeResource::setLabel, () -> ofNullable(fieldRule.getConstants())
-        .flatMap(c -> ofNullable(c.get(LABEL.name())))
-        .ifPresentOrElse(edgeResource::setLabel, () -> edgeResource.setLabel(UUID.randomUUID().toString()))
-      );
+    var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
+    setLabel(edgeResource, properties, fieldRule.getLabel());
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource, valueOf(fieldRule.getPredicate())));
     return edgeResource;
   }
 
-  private Optional<String> getLabelSubfieldValues(List<Character> labelFields, DataField dataField) {
-    return ofNullable(labelFields)
-      .map(lfs -> lfs.stream()
-        .map(dataField::getSubfield)
-        .filter(Objects::nonNull)
-        .map(Subfield::getData)
-        .map(String::strip)
-        .collect(Collectors.joining()))
-      .filter(StringUtils::isNotEmpty);
+  private void setLabel(Resource resource, Map<String, List<String>> properties, String labelProperty) {
+    resource.setLabel(
+      ofNullable(labelProperty)
+        .flatMap(lp -> ofNullable(properties.get(PropertyDictionary.valueOf(lp).getValue())).map(vs -> join(SPACE, vs)))
+        .orElseGet(() -> UUID.randomUUID().toString())
+    );
   }
 
 }
