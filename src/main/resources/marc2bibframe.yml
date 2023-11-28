@@ -15,7 +15,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/status/current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -31,7 +31,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/status/cancinv
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
@@ -48,7 +48,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/status/current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -64,7 +64,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/status/cancinv
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '020':
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
@@ -82,7 +82,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/status/current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -99,7 +99,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/status/cancinv
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '024':
     - types: ID_EAN, IDENTIFIER
       parent: INSTANCE
@@ -119,7 +119,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/status/current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_EAN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -137,7 +137,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/status/cancinv
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -155,7 +155,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: current
-            LINK: http://id.loc.gov/vocabulary/status/current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -173,7 +173,7 @@ fieldRules:
           label: LABEL
           constants:
             LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/status/cancinv
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   100:
     - types: PERSON
       parent: WORK

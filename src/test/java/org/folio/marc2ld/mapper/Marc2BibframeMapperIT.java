@@ -317,7 +317,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText())
-      .isEqualTo("http://id.loc.gov/vocabulary/status/" + (value.equals("canceled or invalid") ? "cancinv" : value));
+      .isEqualTo("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value));
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
