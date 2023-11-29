@@ -357,9 +357,6 @@
           },
           {
             "b": "MEDIA code"
-          },
-          {
-            "1": "MEDIA link"
           }
         ]
       }
@@ -372,9 +369,6 @@
           },
           {
             "b": "CARRIER code"
-          },
-          {
-            "1": "CARRIER link"
           }
         ]
       }

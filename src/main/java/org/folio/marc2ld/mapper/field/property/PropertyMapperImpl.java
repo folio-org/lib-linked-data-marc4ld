@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PropertyMapperImpl implements PropertyMapper {
+  private static final String PERCENT = "%";
   private final ObjectMapper objectMapper;
 
   @Override
@@ -65,6 +66,11 @@ public class PropertyMapperImpl implements PropertyMapper {
   }
 
   private void mapConstant(Map<String, List<String>> properties, String field, String value) {
+    if (value.contains(PERCENT)) {
+      var propertyEnumName = value.substring(value.indexOf(PERCENT) + 1);
+      var propertyName = PropertyDictionary.valueOf(propertyEnumName).getValue();
+      value = value.substring(0, value.indexOf(PERCENT)) + String.join("", properties.get(propertyName));
+    }
     properties.put(PropertyDictionary.valueOf(field).getValue(), List.of(value));
   }
 

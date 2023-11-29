@@ -343,8 +343,9 @@ fieldRules:
       subfields:
         a: TERM
         b: CODE
-        '1': LINK
       label: TERM
+      constants:
+        LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
   338:
     - types: CATEGORY
       parent: INSTANCE
@@ -352,8 +353,9 @@ fieldRules:
       subfields:
         a: TERM
         b: CODE
-        '1': LINK
       label: TERM
+      constants:
+        LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE
   865:
     - types: ANNOTATION
       parent: INSTANCE

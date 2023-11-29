@@ -588,7 +588,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
     assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(predicate.name() + " link");
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(
+      "http://id.loc.gov/vocabulary/" + predicate.name().toLowerCase() + "Types/" + predicate.name() + " code");
     assertThat(edge.getTarget().getDoc().has(TERM.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(TERM.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
