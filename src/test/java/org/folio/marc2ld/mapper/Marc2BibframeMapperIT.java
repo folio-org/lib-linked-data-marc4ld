@@ -177,13 +177,12 @@ class Marc2BibframeMapperIT {
     validateVariantTitle(edgeIterator.next(), result.getResourceHash());
     validateParallelTitle(edgeIterator.next(), result.getResourceHash());
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture261");
-    validateCopyrightDate(edgeIterator.next(), result.getResourceHash(), "Manufacture261 Date");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication262");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PRODUCTION, "Production");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_DISTRIBUTION, "Distribution");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture");
-    validateCopyrightDate(edgeIterator.next(), result.getResourceHash(), "©2018");
+    validateCopyrightDate(edgeIterator.next(), result.getResourceHash());
     validateCategory(edgeIterator.next(), result.getResourceHash(), MEDIA);
     validateCategory(edgeIterator.next(), result.getResourceHash(), CARRIER);
     validateAccessLocation(edgeIterator.next(), result.getResourceHash());
@@ -556,7 +555,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateCopyrightDate(ResourceEdge edge, Long parentHash, String value) {
+  private void validateCopyrightDate(ResourceEdge edge, Long parentHash) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
@@ -564,12 +563,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo(value);
+    assertThat(edge.getTarget().getLabel()).isEqualTo("©2018");
     assertThat(edge.getTarget().getTypes()).containsExactly(COPYRIGHT_EVENT);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo(value);
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("©2018");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

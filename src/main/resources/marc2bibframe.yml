@@ -247,15 +247,6 @@ fieldRules:
         b: NAME
         d: DATE
       label: NAME
-    - types: COPYRIGHT_EVENT
-      parent: INSTANCE
-      predicate: COPYRIGHT
-      condition:
-        fields:
-          d: presented
-      subfields:
-        d: DATE
-      label: DATE
   262:
     - types: PROVIDER_EVENT
       parent: INSTANCE
