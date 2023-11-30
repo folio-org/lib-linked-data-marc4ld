@@ -7,8 +7,10 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -69,9 +71,14 @@ public class PropertyMapperImpl implements PropertyMapper {
     if (value.contains(PERCENT)) {
       var propertyEnumName = value.substring(value.indexOf(PERCENT) + 1);
       var propertyName = PropertyDictionary.valueOf(propertyEnumName).getValue();
-      value = value.substring(0, value.indexOf(PERCENT)) + String.join("", properties.get(propertyName));
+      var values = properties.get(propertyName)
+        .stream()
+        .map(prop -> value.substring(0, value.indexOf(PERCENT)) + prop)
+        .collect(Collectors.toCollection(LinkedHashSet::new));
+      properties.put(PropertyDictionary.valueOf(field).getValue(), new ArrayList<>(values));
+    } else {
+      properties.put(PropertyDictionary.valueOf(field).getValue(), List.of(value));
     }
-    properties.put(PropertyDictionary.valueOf(field).getValue(), List.of(value));
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {
