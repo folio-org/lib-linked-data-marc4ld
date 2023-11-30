@@ -3,6 +3,7 @@ package org.folio.marc2ld.mapper.field.property;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,9 +14,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.model.Resource;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class PropertyMapperImpl implements PropertyMapper {
   @Override
   public Map<String, List<String>> mapProperties(Resource resource, DataField dataField,
                                                  Marc2BibframeRules.FieldRule fieldRule,
+                                                 List<ControlField> controlFields,
                                                  Map<String, List<String>> properties) {
     ofNullable(fieldRule.getSubfields()).ifPresent(sf -> sf.forEach((field, rule) -> {
       var subfield = dataField.getSubfield(field);
@@ -37,6 +39,15 @@ public class PropertyMapperImpl implements PropertyMapper {
     }));
     mapProperty(properties, fieldRule.getInd1(), getIndicatorValue(dataField.getIndicator1()), fieldRule.getConcat());
     mapProperty(properties, fieldRule.getInd2(), getIndicatorValue(dataField.getIndicator2()), fieldRule.getConcat());
+
+    ofNullable(fieldRule.getControlFields()).ifPresent(controlFieldRules ->
+      ofNullable(controlFields).ifPresent(cfs -> controlFieldRules
+        .forEach((cfRuleTag, cfRules) -> cfs.stream()
+          .filter(cf -> cf.getTag().equals(cfRuleTag))
+          .forEach(
+            cf -> cfRules.forEach((property, range) -> mapControlField(properties, cf.getData(), range, property)))
+        ))
+    );
 
     ofNullable(fieldRule.getConstants()).ifPresent(
       c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
@@ -48,7 +59,7 @@ public class PropertyMapperImpl implements PropertyMapper {
   private void mapProperty(Map<String, List<String>> properties, String rule, final String value, String concat) {
     ofNullable(rule).ifPresent(
       r -> ofNullable(value).map(String::trim).filter(StringUtils::isNotEmpty).ifPresent(v -> {
-        var key = PropertyDictionary.valueOf(r).getValue();
+        var key = valueOf(r).getValue();
         var keyProperties = properties.computeIfAbsent(key, k -> new ArrayList<>());
         if (!keyProperties.isEmpty()) {
           var concatenated = keyProperties.get(0).concat(ofNullable(concat).orElse(EMPTY)).concat(v);
@@ -70,15 +81,20 @@ public class PropertyMapperImpl implements PropertyMapper {
   private void mapConstant(Map<String, List<String>> properties, String field, String value) {
     if (value.contains(PERCENT)) {
       var propertyEnumName = value.substring(value.indexOf(PERCENT) + 1);
-      var propertyName = PropertyDictionary.valueOf(propertyEnumName).getValue();
-      var values = properties.get(propertyName)
-        .stream()
-        .map(prop -> value.substring(0, value.indexOf(PERCENT)) + prop)
-        .collect(Collectors.toCollection(LinkedHashSet::new));
-      properties.put(PropertyDictionary.valueOf(field).getValue(), new ArrayList<>(values));
+      var propertyName = valueOf(propertyEnumName).getValue();
+      ofNullable(properties.get(propertyName)).map(propValues -> propValues
+          .stream()
+          .map(prop -> value.substring(0, value.indexOf(PERCENT)) + prop)
+          .collect(Collectors.toCollection(LinkedHashSet::new)))
+        .ifPresent(values -> properties.put(valueOf(field).getValue(), new ArrayList<>(values)));
     } else {
-      properties.put(PropertyDictionary.valueOf(field).getValue(), List.of(value));
+      properties.put(valueOf(field).getValue(), List.of(value));
     }
+  }
+
+  private void mapControlField(Map<String, List<String>> properties, String cfValue, List<Integer> range,
+                               String property) {
+    properties.put(valueOf(property).getValue(), List.of(cfValue.strip().substring(range.get(0), range.get(1))));
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {

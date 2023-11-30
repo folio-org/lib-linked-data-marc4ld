@@ -30,6 +30,7 @@ public class Marc2BibframeRules {
     private String concat;
     private boolean append;
     private Map<String, String> constants;
+    private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
   }
 

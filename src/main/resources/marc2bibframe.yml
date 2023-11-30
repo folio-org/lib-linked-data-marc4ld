@@ -247,6 +247,21 @@ fieldRules:
         b: NAME
         d: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            f: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
   262:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -256,6 +271,21 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            a: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
   263:
     - types: INSTANCE
       subfields:
@@ -275,6 +305,21 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            a: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
@@ -285,6 +330,21 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            a: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_DISTRIBUTION
@@ -295,6 +355,21 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            a: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_MANUFACTURE
@@ -305,6 +380,21 @@ fieldRules:
         b: NAME
         c: DATE
       label: NAME
+      controlFields:
+        '008':
+          PROVIDER_DATE: 7,11
+      edges:
+        - types: PLACE
+          parent: PROVIDER_EVENT
+          predicate: PROVIDER_PLACE
+          label: LABEL
+          subfields:
+            a: LABEL
+          controlFields:
+            '008':
+              CODE: 15,18
+          constants:
+            LINK: http://id.loc.gov/vocabulary/countries/%CODE
     - types: COPYRIGHT_EVENT
       parent: INSTANCE
       predicate: COPYRIGHT
