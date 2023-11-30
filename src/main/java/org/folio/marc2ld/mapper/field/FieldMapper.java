@@ -6,6 +6,6 @@ import org.marc4j.marc.DataField;
 
 public interface FieldMapper {
 
-  void handleField(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule);
+  void handleField(Resource parent, DataField dataField, Marc2BibframeRules.FieldRule fieldRule);
 
 }

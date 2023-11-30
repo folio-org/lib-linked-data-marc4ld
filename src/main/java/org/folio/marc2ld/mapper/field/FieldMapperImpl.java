@@ -1,19 +1,23 @@
 package org.folio.marc2ld.mapper.field;
 
+import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc2ld.util.BibframeUtil.hash;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.mapper.condition.ConditionChecker;
@@ -32,63 +36,71 @@ public class FieldMapperImpl implements FieldMapper {
   private final ObjectMapper objectMapper;
 
   @Override
-  public void handleField(Resource instance, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  public void handleField(Resource parent, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
-      final var parentResource = computeParentIfAbsent(instance, fieldRule);
+      final var parentResource = computeParentIfAbsent(parent, fieldRule);
+      Resource mappedResource;
       if (fieldRule.isAppend()) {
-        ofNullable(selectResourceFromEdges(instance, fieldRule.getTypes()))
-          .ifPresentOrElse(r -> appendResource(r, dataField, fieldRule),
-            () -> addNewEdge(parentResource, dataField, fieldRule));
+        mappedResource = ofNullable(selectResourceFromEdges(parent, fieldRule.getTypes())).map(
+            r -> appendResource(r, dataField, fieldRule))
+          .orElseGet(() -> addNewEdge(parentResource, dataField, fieldRule));
       } else {
-        addNewEdge(parentResource, dataField, fieldRule);
+        mappedResource = addNewEdge(parentResource, dataField, fieldRule);
       }
+      ofNullable(fieldRule.getEdges()).ifPresent(
+        sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, subResource)));
     }
   }
 
-  private Resource computeParentIfAbsent(Resource instance, Marc2BibframeRules.FieldRule fieldRule) {
-    if (fieldRule.getTypes().contains(INSTANCE.name())) {
-      return instance;
+  private Resource computeParentIfAbsent(Resource parent, Marc2BibframeRules.FieldRule fieldRule) {
+    if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceTypeDictionary::getUri).collect(
+      Collectors.toSet()))) {
+      return parent;
     }
-    var parentResource = selectResourceFromEdges(instance, Set.of(fieldRule.getParent()));
+    var parentResource =
+      selectResourceFromEdges(parent, ofNullable(fieldRule.getParent()).map(Set::of).orElse(new HashSet<>()));
     if (isNull(parentResource)) {
       parentResource = new Resource();
       parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
       parentResource.setLabel(UUID.randomUUID().toString());
-      instance.getOutgoingEdges().add(new ResourceEdge(instance, parentResource,
-        valueOf(fieldRule.getParentPredicate())));
+      parent.getOutgoingEdges()
+        .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
       parentResource.setResourceHash(hash(parentResource, objectMapper));
     }
     return parentResource;
   }
 
   private Resource selectResourceFromEdges(Resource resource, Set<String> types) {
-    if (resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet()).equals(types)) {
+    if (resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet()).containsAll(types)) {
       return resource;
     }
-    return resource.getOutgoingEdges().stream()
-      .map(re -> selectResourceFromEdges(re.getTarget(), types))
-      .filter(Objects::nonNull)
-      .findFirst()
-      .orElse(null);
+    return resource.getOutgoingEdges().stream().map(re -> selectResourceFromEdges(re.getTarget(), types))
+      .filter(Objects::nonNull).findFirst().orElse(null);
   }
 
-  private void appendResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
-    var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>()
-      : objectMapper.convertValue(resource.getDoc(), HashMap.class);
+  private Resource appendResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+    var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>() :
+      objectMapper.convertValue(resource.getDoc(), HashMap.class);
     propertyMapper.mapProperties(resource, dataField, fieldRule, properties);
+    return resource;
   }
 
-  private void addNewEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private Resource addNewEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
-    propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
-    ofNullable(fieldRule.getLabelField())
-      .flatMap(lfr -> ofNullable(dataField.getSubfield(lfr)))
-      .ifPresentOrElse(lf -> edgeResource.setLabel(lf.getData().strip()),
-        () -> edgeResource.setLabel(UUID.randomUUID().toString()));
+    var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
+    setLabel(edgeResource, properties, fieldRule.getLabel());
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
-    resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource,
-      valueOf(fieldRule.getPredicate())));
+    resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource, valueOf(fieldRule.getPredicate())));
+    return edgeResource;
+  }
+
+  private void setLabel(Resource resource, Map<String, List<String>> properties, String labelProperty) {
+    resource.setLabel(
+      ofNullable(labelProperty)
+        .flatMap(lp -> ofNullable(properties.get(PropertyDictionary.valueOf(lp).getValue())).map(vs -> join(SPACE, vs)))
+        .orElseGet(() -> UUID.randomUUID().toString())
+    );
   }
 
 }

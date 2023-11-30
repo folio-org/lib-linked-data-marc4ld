@@ -3,10 +3,11 @@ package org.folio.marc2ld.mapper.condition;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
     }
     var ind1Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
     var ind2Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
-    var fieldConditions = condition.getFields().entrySet().stream()
+    var fieldConditions = isEmpty(condition.getFields()) || condition.getFields().entrySet().stream()
       .allMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
         .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
         .orElse(false));
@@ -33,7 +34,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private boolean isSingleConditionSatisfied(String value, String condition) {
-    if (isEmpty(condition)) {
+    if (StringUtils.isEmpty(condition)) {
       return true;
     }
     if (condition.contains(NOT)) {
