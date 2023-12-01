@@ -46,7 +46,8 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       marcRecord.getDataFields().forEach(dataField -> {
         var fieldRules = rules.getFieldRules().get(dataField.getTag());
         if (nonNull(fieldRules)) {
-          fieldRules.forEach(fieldRule -> fieldMapper.handleField(instance, dataField, fieldRule));
+          fieldRules.forEach(fieldRule -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(),
+            fieldRule));
         } else if (FIELD_UUID.equals(dataField.getTag())) {
           instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
           instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));

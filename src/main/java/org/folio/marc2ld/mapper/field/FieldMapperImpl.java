@@ -24,6 +24,7 @@ import org.folio.marc2ld.mapper.condition.ConditionChecker;
 import org.folio.marc2ld.mapper.field.property.PropertyMapper;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
 
@@ -36,19 +37,20 @@ public class FieldMapperImpl implements FieldMapper {
   private final ObjectMapper objectMapper;
 
   @Override
-  public void handleField(Resource parent, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
+                          Marc2BibframeRules.FieldRule fieldRule) {
     if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
       final var parentResource = computeParentIfAbsent(parent, fieldRule);
       Resource mappedResource;
       if (fieldRule.isAppend()) {
         mappedResource = ofNullable(selectResourceFromEdges(parent, fieldRule.getTypes())).map(
-            r -> appendResource(r, dataField, fieldRule))
-          .orElseGet(() -> addNewEdge(parentResource, dataField, fieldRule));
+            r -> appendResource(r, dataField, controlFields, fieldRule))
+          .orElseGet(() -> addNewEdge(parentResource, dataField, controlFields, fieldRule));
       } else {
-        mappedResource = addNewEdge(parentResource, dataField, fieldRule);
+        mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
       }
       ofNullable(fieldRule.getEdges()).ifPresent(
-        sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, subResource)));
+        sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
     }
   }
 
@@ -78,17 +80,19 @@ public class FieldMapperImpl implements FieldMapper {
       .filter(Objects::nonNull).findFirst().orElse(null);
   }
 
-  private Resource appendResource(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private Resource appendResource(Resource resource, DataField dataField, List<ControlField> controlFields,
+                                  Marc2BibframeRules.FieldRule fieldRule) {
     var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>() :
       objectMapper.convertValue(resource.getDoc(), HashMap.class);
-    propertyMapper.mapProperties(resource, dataField, fieldRule, properties);
+    propertyMapper.mapProperties(resource, dataField, fieldRule, controlFields, properties);
     return resource;
   }
 
-  private Resource addNewEdge(Resource resource, DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private Resource addNewEdge(Resource resource, DataField dataField, List<ControlField> controlFields,
+                              Marc2BibframeRules.FieldRule fieldRule) {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
-    var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, new HashMap<>());
+    var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, controlFields, new HashMap<>());
     setLabel(edgeResource, properties, fieldRule.getLabel());
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource, valueOf(fieldRule.getPredicate())));
