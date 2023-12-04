@@ -1,10 +1,14 @@
 package org.folio.marc2ld.mapper;
 
-
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
+import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
+import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
+import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
+import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
@@ -22,6 +26,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
@@ -36,7 +41,11 @@ import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
+import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
+import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
+import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
+import static org.folio.ld.dictionary.PropertyDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
@@ -49,6 +58,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
@@ -60,12 +71,7 @@ import static org.folio.marc2ld.mapper.test.TestUtil.loadResourceAsString;
 
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc2ld.configuration.ObjectMapperBackupConfig;
-import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
-import org.folio.marc2ld.configuration.property.YamlPropertySourceFactory;
-import org.folio.marc2ld.mapper.condition.ConditionCheckerImpl;
-import org.folio.marc2ld.mapper.field.FieldMapperImpl;
-import org.folio.marc2ld.mapper.field.property.PropertyMapperImpl;
+import org.folio.marc2ld.mapper.test.SpringTestConfig;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.junit.jupiter.api.Test;
@@ -76,8 +82,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @AutoConfigureMockMvc
 @EnableConfigurationProperties
-@SpringBootTest(classes = {Marc2BibframeMapperImpl.class, ConditionCheckerImpl.class, FieldMapperImpl.class,
-  PropertyMapperImpl.class, Marc2BibframeRules.class, ObjectMapperBackupConfig.class, YamlPropertySourceFactory.class})
+@SpringBootTest(classes = SpringTestConfig.class)
 class Marc2BibframeMapperIT {
 
   @Autowired
@@ -377,34 +382,78 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
-    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc()).hasSize(5);
+    assertThat(edge.getTarget().getDoc().has(LANGUAGE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LANGUAGE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LANGUAGE.getValue()).get(0).asText()).isEqualTo("eng");
     assertThat(edge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
       "Statement Of Responsibility");
+    assertThat(edge.getTarget().getDoc().has(SUMMARY.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(SUMMARY.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(SUMMARY.getValue()).get(0).asText()).isEqualTo("work summary");
+    assertThat(edge.getTarget().getDoc().has(TABLE_OF_CONTENTS.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(TABLE_OF_CONTENTS.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(TABLE_OF_CONTENTS.getValue()).get(0).asText()).isEqualTo(
+      "work table of contents");
+    assertThat(edge.getTarget().getDoc().has(TARGET_AUDIENCE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(TARGET_AUDIENCE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(TARGET_AUDIENCE.getValue()).get(0).asText()).isEqualTo("primary");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validatePerson(edgeIterator.next(), edge.getTarget().getResourceHash());
+    validateClassification(edgeIterator.next(), edge.getTarget().getResourceHash());
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), PERSON, CREATOR);
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), ORGANIZATION, CREATOR);
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), MEETING, CREATOR);
+    validateCategory(edgeIterator.next(), edge.getTarget().getResourceHash(), CONTENT);
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), PERSON, CONTRIBUTOR);
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), ORGANIZATION, CONTRIBUTOR);
+    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), MEETING, CONTRIBUTOR);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validatePerson(ResourceEdge edge, Long parentHash) {
+  private void validateContributor(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type,
+                                   PredicateDictionary predicate) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
     assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
-    assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.CREATOR.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.CREATOR.getUri());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Author name");
-    assertThat(edge.getTarget().getTypes()).containsExactly(PERSON);
+    assertThat(edge.getTarget().getLabel()).isEqualTo(predicate.name() + SPACE + type.name() + " name");
+    assertThat(edge.getTarget().getTypes()).containsExactly(type);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("Author name");
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(
+      predicate.name() + SPACE + type.name() + " name");
     assertThat(edge.getTarget().getDoc().has(LCNAF_ID.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue()).get(0).asText()).isEqualTo("LCNAF id");
+    assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue()).get(0).asText()).isEqualTo(
+      predicate.name() + SPACE + type.name() + " LCNAF id");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateClassification(ResourceEdge edge, Long parentHash) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(CLASSIFICATION.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(CLASSIFICATION.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getLabel()).isEqualTo("Dewey Decimal Classification value");
+    assertThat(edge.getTarget().getTypes()).containsExactly(CATEGORY);
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
+    assertThat(edge.getTarget().getDoc().has(CODE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(CODE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(CODE.getValue()).get(0).asText())
+      .isEqualTo("Dewey Decimal Classification value");
+    assertThat(edge.getTarget().getDoc().has(SOURCE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(SOURCE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo("ddc");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

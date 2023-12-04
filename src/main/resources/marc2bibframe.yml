@@ -1,4 +1,13 @@
 fieldRules:
+  '008':
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      controlFields:
+        '008':
+          LANGUAGE: 35,38
+          TARGET_AUDIENCE: 22,23
+      append: true
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
@@ -174,8 +183,36 @@ fieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '082':
+    - types: CATEGORY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CLASSIFICATION
+      subfields:
+        a: CODE
+      label: CODE
+      constants:
+        SOURCE: ddc
   100:
     - types: PERSON
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CREATOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+  110:
+    - types: ORGANIZATION
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CREATOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+  111:
+    - types: MEETING
       parent: WORK
       parentPredicate: INSTANTIATES
       predicate: CREATOR
@@ -426,6 +463,17 @@ fieldRules:
       condition:
         fields:
           a: presented
+  336:
+    - types: CATEGORY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CONTENT
+      subfields:
+        a: TERM
+        b: CODE
+      label: TERM
+      constants:
+        LINK: http://id.loc.gov/vocabulary/contentTypes/%CODE
   337:
     - types: CATEGORY
       parent: INSTANCE
@@ -446,6 +494,49 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE
+  505:
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: TABLE_OF_CONTENTS
+      append: true
+  520:
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: SUMMARY
+      condition:
+        ind1: #
+      append: true
+  700:
+    - types: PERSON
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CONTRIBUTOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+  710:
+    - types: ORGANIZATION
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CONTRIBUTOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+  711:
+    - types: MEETING
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CONTRIBUTOR
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
   865:
     - types: ANNOTATION
       parent: INSTANCE
