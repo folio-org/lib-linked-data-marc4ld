@@ -77,10 +77,8 @@ import org.folio.marc2ld.model.ResourceEdge;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@AutoConfigureMockMvc
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
 class Marc2BibframeMapperIT {

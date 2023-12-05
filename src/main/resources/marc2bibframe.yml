@@ -507,8 +507,6 @@ fieldRules:
       predicate: INSTANTIATES
       subfields:
         a: SUMMARY
-      condition:
-        ind1: #
       append: true
   700:
     - types: PERSON
