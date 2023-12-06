@@ -650,12 +650,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("©2018");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("2018");
     assertThat(edge.getTarget().getTypes()).containsExactly(COPYRIGHT_EVENT);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("©2018");
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2018");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
