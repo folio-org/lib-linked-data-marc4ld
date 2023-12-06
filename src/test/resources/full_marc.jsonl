@@ -85,15 +85,42 @@
       }
     },
     {
+      "082": {
+        "subfields": [
+          {
+            "a": "Dewey Decimal Classification value"
+          }
+        ]
+      }
+    },
+    {
       "100": {
         "subfields": [
           {
-            "a": "Author name",
-            "0": "LCNAF id"
+            "a": "CREATOR PERSON name",
+            "0": "CREATOR PERSON LCNAF id"
           }
-        ],
-        "ind1": " ",
-        "ind2": " "
+        ]
+      }
+    },
+    {
+      "110": {
+        "subfields": [
+          {
+            "a": "CREATOR ORGANIZATION name",
+            "0": "CREATOR ORGANIZATION LCNAF id"
+          }
+        ]
+      }
+    },
+    {
+      "111": {
+        "subfields": [
+          {
+            "a": "CREATOR MEETING name",
+            "0": "CREATOR MEETING LCNAF id"
+          }
+        ]
       }
     },
     {
@@ -353,6 +380,16 @@
       }
     },
     {
+      "336": {
+        "subfields": [
+          {
+            "a": "CONTENT term",
+            "b": "CONTENT code",
+          }
+        ]
+      }
+    },
+    {
       "337": {
         "subfields": [
           {
@@ -372,6 +409,55 @@
           },
           {
             "b": "CARRIER code"
+          }
+        ]
+      }
+    },
+    {
+      "505": {
+        "subfields": [
+          {
+            "a": "work table of contents"
+          }
+        ]
+      }
+    },
+    {
+      "520": {
+        "subfields": [
+          {
+            "a": "work summary"
+          }
+        ],
+        "ind1": "#"
+      }
+    },
+    {
+      "700": {
+        "subfields": [
+          {
+            "a": "CONTRIBUTOR PERSON name",
+            "0": "CONTRIBUTOR PERSON LCNAF id"
+          }
+        ]
+      }
+    },
+    {
+      "710": {
+        "subfields": [
+          {
+            "a": "CONTRIBUTOR ORGANIZATION name",
+            "0": "CONTRIBUTOR ORGANIZATION LCNAF id"
+          }
+        ]
+      }
+    },
+    {
+      "711": {
+        "subfields": [
+          {
+            "a": "CONTRIBUTOR MEETING name",
+            "0": "CONTRIBUTOR MEETING LCNAF id"
           }
         ]
       }

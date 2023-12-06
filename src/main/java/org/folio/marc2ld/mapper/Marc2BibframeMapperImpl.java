@@ -1,7 +1,10 @@
 package org.folio.marc2ld.mapper;
 
+import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -20,7 +23,9 @@ import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.mapper.field.FieldMapper;
 import org.folio.marc2ld.model.Resource;
 import org.marc4j.MarcJsonReader;
+import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
+import org.marc4j.marc.impl.DataFieldImpl;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -44,21 +49,26 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     while (reader.hasNext()) {
       var marcRecord = reader.next();
       marcRecord.getDataFields().forEach(dataField -> {
-        var fieldRules = rules.getFieldRules().get(dataField.getTag());
-        if (nonNull(fieldRules)) {
-          fieldRules.forEach(fieldRule -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(),
-            fieldRule));
-        } else if (FIELD_UUID.equals(dataField.getTag())) {
+        handleField(dataField.getTag(), instance, dataField, marcRecord);
+        if (FIELD_UUID.equals(dataField.getTag())) {
           instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
           instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
         }
       });
+      marcRecord.getControlFields().forEach(controlField -> handleField(controlField.getTag(), instance,
+        new DataFieldImpl(EMPTY, MIN_VALUE, MIN_VALUE), marcRecord));
     }
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
     instance.setResourceHash(hash(instance, objectMapper));
     setEdgesId(instance);
     return instance;
+  }
+
+  private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
+    ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs ->
+      frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr))
+    );
   }
 
   private UUID readUuid(Subfield subfield) {

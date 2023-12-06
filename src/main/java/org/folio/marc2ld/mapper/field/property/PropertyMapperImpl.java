@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class PropertyMapperImpl implements PropertyMapper {
   private static final String PERCENT = "%";
   private final ObjectMapper objectMapper;
+  private final DictionaryProcessor dictionaryProcessor;
 
   @Override
   public Map<String, List<String>> mapProperties(Resource resource, DataField dataField,
@@ -94,7 +95,9 @@ public class PropertyMapperImpl implements PropertyMapper {
 
   private void mapControlField(Map<String, List<String>> properties, String cfValue, List<Integer> range,
                                String property) {
-    properties.put(valueOf(property).getValue(), List.of(cfValue.strip().substring(range.get(0), range.get(1))));
+    var value = cfValue.strip().substring(range.get(0), range.get(1));
+    value = dictionaryProcessor.check(property, value);
+    properties.put(valueOf(property).getValue(), List.of(value));
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {
