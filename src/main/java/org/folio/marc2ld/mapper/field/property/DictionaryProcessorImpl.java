@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
@@ -31,7 +32,7 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
       dictionaries = stream(resources)
         .map(Resource::getFilename)
         .filter(Objects::nonNull)
-        .collect(toMap(fn -> fn, this::readDictionaryResource));
+        .collect(toMap(FilenameUtils::removeExtension, this::readDictionaryResource));
     } catch (IOException e) {
       log.error("IOException during dictionaries gathering");
     }
@@ -48,7 +49,7 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
 
   @Override
   public String check(String property, String value) {
-    return dictionaries.getOrDefault(property + ".yml", emptyMap()).getOrDefault(value, value);
+    return dictionaries.getOrDefault(property, emptyMap()).getOrDefault(value, value);
   }
 
 }
