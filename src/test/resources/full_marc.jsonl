@@ -414,10 +414,46 @@
       }
     },
     {
+      "500": {
+        "subfields": [
+          {
+            "a": "general note"
+          }
+        ]
+      }
+    },
+    {
+      "501": {
+        "subfields": [
+          {
+            "a": "with note"
+          }
+        ]
+      }
+    },
+    {
       "505": {
         "subfields": [
           {
             "a": "work table of contents"
+          }
+        ]
+      }
+    },
+    {
+      "508": {
+        "subfields": [
+          {
+            "a": "credits note"
+          }
+        ]
+      }
+    },
+    {
+      "515": {
+        "subfields": [
+          {
+            "a": "issuance note"
           }
         ]
       }
@@ -430,6 +466,33 @@
           }
         ],
         "ind1": "#"
+      }
+    },
+    {
+      "547": {
+        "subfields": [
+          {
+            "a": "former title note"
+          }
+        ]
+      }
+    },
+    {
+      "550": {
+        "subfields": [
+          {
+            "a": "issuing body note"
+          }
+        ]
+      }
+    },
+    {
+      "585": {
+        "subfields": [
+          {
+            "a": "exhibitions note"
+          }
+        ]
       }
     },
     {
