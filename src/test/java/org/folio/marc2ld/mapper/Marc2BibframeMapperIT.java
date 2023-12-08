@@ -18,15 +18,21 @@ import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
+import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
+import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
+import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
+import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
@@ -39,6 +45,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DATE;
@@ -75,6 +82,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc2ld.mapper.test.TestUtil.loadResourceAsString;
 
+import java.util.List;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.mapper.test.SpringTestConfig;
@@ -205,7 +213,8 @@ class Marc2BibframeMapperIT {
   private void validateInstance(Resource resource) {
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo("Instance MainTitle");
-    assertThat(resource.getDoc()).hasSize(12);
+    assertThat(resource.getDoc()).hasSize(19);
+    validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
@@ -219,27 +228,6 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(ISSUANCE.getValue())).isTrue();
     assertThat(resource.getDoc().get(ISSUANCE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(ISSUANCE.getValue()).get(0).asText()).isEqualTo("issuance");
-    assertThat(resource.getDoc().has(NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("general note");
-    assertThat(resource.getDoc().has(WITH_NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(WITH_NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(WITH_NOTE.getValue()).get(0).asText()).isEqualTo("with note");
-    assertThat(resource.getDoc().has(CREDITS_NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(CREDITS_NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CREDITS_NOTE.getValue()).get(0).asText()).isEqualTo("credits note");
-    assertThat(resource.getDoc().has(ISSUANCE_NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(ISSUANCE_NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(ISSUANCE_NOTE.getValue()).get(0).asText()).isEqualTo("issuance note");
-    assertThat(resource.getDoc().has(FORMER_TITLE_NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(FORMER_TITLE_NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(FORMER_TITLE_NOTE.getValue()).get(0).asText()).isEqualTo("former title note");
-    assertThat(resource.getDoc().has(ISSUING_BODY.getValue())).isTrue();
-    assertThat(resource.getDoc().get(ISSUING_BODY.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(ISSUING_BODY.getValue()).get(0).asText()).isEqualTo("issuing body note");
-    assertThat(resource.getDoc().has(EXHIBITIONS_NOTE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(EXHIBITIONS_NOTE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EXHIBITIONS_NOTE.getValue()).get(0).asText()).isEqualTo("exhibitions note");
     assertThat(resource.getDoc().has(PROJECTED_PROVISION_DATE.getValue())).isTrue();
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
@@ -265,6 +253,34 @@ class Marc2BibframeMapperIT {
     assertThat(work1opt).isPresent();
     assertThat(work2opt).isPresent();
     assertThat(work1opt.get().getTarget().getResourceHash()).isNotEqualTo(work2opt.get().getTarget().getResourceHash());
+  }
+
+  private void validateInstanceNotes(Resource resource) {
+    var doc = resource.getDoc();
+
+    List.of(NOTE, WITH_NOTE, CREDITS_NOTE, ISSUANCE_NOTE, FORMER_TITLE_NOTE, ISSUING_BODY, EXHIBITIONS_NOTE,
+        PARTICIPANT_NOTE, COMPUTER_DATA_NOTE, CITATION_COVERAGE, ADDITIONAL_PHYSICAL_FORM, ACCESSIBILITY_NOTE,
+        INFORMATION_ABOUT_DOCUMENTATION, DESCRIPTION_SOURCE_NOTE)
+      .forEach(p -> {
+        assertThat(doc.has(p.getValue())).isTrue();
+        assertThat(doc.get(p.getValue())).hasSize(1);
+      });
+
+    assertThat(doc.get(NOTE.getValue()).get(0).asText()).isEqualTo("general note");
+    assertThat(doc.get(WITH_NOTE.getValue()).get(0).asText()).isEqualTo("with note");
+    assertThat(doc.get(CREDITS_NOTE.getValue()).get(0).asText()).isEqualTo("credits note");
+    assertThat(doc.get(ISSUANCE_NOTE.getValue()).get(0).asText()).isEqualTo("issuance note");
+    assertThat(doc.get(FORMER_TITLE_NOTE.getValue()).get(0).asText()).isEqualTo("former title note");
+    assertThat(doc.get(ISSUING_BODY.getValue()).get(0).asText()).isEqualTo("issuing body note");
+    assertThat(doc.get(EXHIBITIONS_NOTE.getValue()).get(0).asText()).isEqualTo("exhibitions note");
+    assertThat(doc.get(PARTICIPANT_NOTE.getValue()).get(0).asText()).isEqualTo("participant note");
+    assertThat(doc.get(COMPUTER_DATA_NOTE.getValue()).get(0).asText()).isEqualTo("computer data note");
+    assertThat(doc.get(CITATION_COVERAGE.getValue()).get(0).asText()).isEqualTo("citation coverage note");
+    assertThat(doc.get(ADDITIONAL_PHYSICAL_FORM.getValue()).get(0).asText())
+      .isEqualTo("additional physical form note");
+    assertThat(doc.get(ACCESSIBILITY_NOTE.getValue()).get(0).asText()).isEqualTo("accessibility note");
+    assertThat(doc.get(INFORMATION_ABOUT_DOCUMENTATION.getValue()).get(0).asText()).isEqualTo("info about doc note");
+    assertThat(doc.get(DESCRIPTION_SOURCE_NOTE.getValue()).get(0).asText()).isEqualTo("description source note");
   }
 
   private void validateLccn(ResourceEdge edge, Long parentHash, String number, String status) {
