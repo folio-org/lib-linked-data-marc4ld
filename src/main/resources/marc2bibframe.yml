@@ -494,6 +494,16 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE
+  500:
+    - types: INSTANCE
+      subfields:
+        a: NOTE
+      append: true
+  501:
+    - types: INSTANCE
+      subfields:
+        a: WITH_NOTE
+      append: true
   505:
     - types: WORK
       parent: INSTANCE
@@ -501,12 +511,37 @@ fieldRules:
       subfields:
         a: TABLE_OF_CONTENTS
       append: true
+  508:
+    - types: INSTANCE
+      subfields:
+        a: CREDITS_NOTE
+      append: true
+  515:
+    - types: INSTANCE
+      subfields:
+        a: ISSUANCE_NOTE
+      append: true
   520:
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
       subfields:
         a: SUMMARY
+      append: true
+  547:
+    - types: INSTANCE
+      subfields:
+        a: FORMER_TITLE_NOTE
+      append: true
+  550:
+    - types: INSTANCE
+      subfields:
+        a: ISSUING_BODY
+      append: true
+  585:
+    - types: INSTANCE
+      subfields:
+        a: EXHIBITIONS_NOTE
       append: true
   700:
     - types: PERSON
