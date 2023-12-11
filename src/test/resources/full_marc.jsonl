@@ -450,10 +450,28 @@
       }
     },
     {
+      "511": {
+        "subfields": [
+          {
+            "a": "participant note"
+          }
+        ]
+      }
+    },
+    {
       "515": {
         "subfields": [
           {
             "a": "issuance note"
+          }
+        ]
+      }
+    },
+    {
+      "516": {
+        "subfields": [
+          {
+            "a": "computer data note"
           }
         ]
       }
@@ -466,6 +484,33 @@
           }
         ],
         "ind1": "#"
+      }
+    },
+    {
+      "524": {
+        "subfields": [
+          {
+            "a": "citation coverage note"
+          }
+        ]
+      }
+    },
+    {
+      "530": {
+        "subfields": [
+          {
+            "a": "additional physical form note"
+          }
+        ]
+      }
+    },
+    {
+      "532": {
+        "subfields": [
+          {
+            "a": "accessibility note"
+          }
+        ]
       }
     },
     {
@@ -487,10 +532,28 @@
       }
     },
     {
+      "556": {
+        "subfields": [
+          {
+            "a": "info about doc note"
+          }
+        ]
+      }
+    },
+    {
       "585": {
         "subfields": [
           {
             "a": "exhibitions note"
+          }
+        ]
+      }
+    },
+    {
+      "588": {
+        "subfields": [
+          {
+            "a": "description source note"
           }
         ]
       }

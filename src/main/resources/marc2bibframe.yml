@@ -516,10 +516,20 @@ fieldRules:
       subfields:
         a: CREDITS_NOTE
       append: true
+  511:
+    - types: INSTANCE
+      subfields:
+        a: PARTICIPANT_NOTE
+      append: true
   515:
     - types: INSTANCE
       subfields:
         a: ISSUANCE_NOTE
+      append: true
+  516:
+    - types: INSTANCE
+      subfields:
+        a: COMPUTER_DATA_NOTE
       append: true
   520:
     - types: WORK
@@ -527,6 +537,21 @@ fieldRules:
       predicate: INSTANTIATES
       subfields:
         a: SUMMARY
+      append: true
+  524:
+    - types: INSTANCE
+      subfields:
+        a: CITATION_COVERAGE
+      append: true
+  530:
+    - types: INSTANCE
+      subfields:
+        a: ADDITIONAL_PHYSICAL_FORM
+      append: true
+  532:
+    - types: INSTANCE
+      subfields:
+        a: ACCESSIBILITY_NOTE
       append: true
   547:
     - types: INSTANCE
@@ -538,10 +563,20 @@ fieldRules:
       subfields:
         a: ISSUING_BODY
       append: true
+  556:
+    - types: INSTANCE
+      subfields:
+        a: INFORMATION_ABOUT_DOCUMENTATION
+      append: true
   585:
     - types: INSTANCE
       subfields:
         a: EXHIBITIONS_NOTE
+      append: true
+  588:
+    - types: INSTANCE
+      subfields:
+        a: DESCRIPTION_SOURCE_NOTE
       append: true
   700:
     - types: PERSON
