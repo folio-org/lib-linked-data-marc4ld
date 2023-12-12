@@ -1,8 +1,7 @@
-package org.folio.marc2ld.mapper;
+package org.folio.marc2ld.mapper.marc2ld;
 
 import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -10,6 +9,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc2ld.util.BibframeUtil.getFirstValue;
 import static org.folio.marc2ld.util.BibframeUtil.hash;
+import static org.folio.marc2ld.util.BibframeUtil.isNotEmptyResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
-import org.folio.marc2ld.mapper.field.FieldMapper;
+import org.folio.marc2ld.mapper.marc2ld.field.FieldMapper;
 import org.folio.marc2ld.model.Resource;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.DataField;
@@ -42,6 +42,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   @Override
   public Resource map(String marc) {
     if (isEmpty(marc)) {
+      log.warn("Given marc is empty [{}]", marc);
       return null;
     }
     var reader = new MarcJsonReader(new ByteArrayInputStream(marc.getBytes(StandardCharsets.UTF_8)));
@@ -96,8 +97,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
         cleanEmptyEdges(re.getTarget());
         return re;
       })
-      .filter(re -> nonNull(re.getTarget().getDoc()) && !re.getTarget().getDoc().isEmpty()
-        || !re.getTarget().getOutgoingEdges().isEmpty())
+      .filter(re -> isNotEmptyResource(re.getTarget()))
       .collect(Collectors.toCollection(LinkedHashSet::new))
     );
   }

@@ -5,6 +5,7 @@ import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL_RDF;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,6 +60,10 @@ public class BibframeUtil {
       ((ArrayNode) node.get(predicate)).add(resourceToJson(mapper, edge.getTarget()));
     });
     return node;
+  }
+
+  public static boolean isNotEmptyResource(Resource r) {
+    return nonNull(r.getDoc()) && !r.getDoc().isEmpty() || !isEmpty(r.getOutgoingEdges());
   }
 
 }

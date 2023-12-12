@@ -1,4 +1,4 @@
-package org.folio.marc2ld.mapper.field;
+package org.folio.marc2ld.mapper.marc2ld.field;
 
 import java.util.List;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
@@ -9,6 +9,6 @@ import org.marc4j.marc.DataField;
 public interface FieldMapper {
 
   void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
-                     Marc2BibframeRules.FieldRule fieldRule);
+                   Marc2BibframeRules.FieldRule fieldRule);
 
 }

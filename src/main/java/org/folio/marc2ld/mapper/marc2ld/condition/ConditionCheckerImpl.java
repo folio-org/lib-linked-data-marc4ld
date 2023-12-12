@@ -1,4 +1,4 @@
-package org.folio.marc2ld.mapper.condition;
+package org.folio.marc2ld.mapper.marc2ld.condition;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;

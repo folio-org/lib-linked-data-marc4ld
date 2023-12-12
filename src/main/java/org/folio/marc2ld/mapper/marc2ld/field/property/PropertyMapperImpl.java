@@ -1,4 +1,4 @@
-package org.folio.marc2ld.mapper.field.property;
+package org.folio.marc2ld.mapper.marc2ld.field.property;
 
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
+import org.folio.marc2ld.mapper.dictionary.DictionaryProcessor;
 import org.folio.marc2ld.model.Resource;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;

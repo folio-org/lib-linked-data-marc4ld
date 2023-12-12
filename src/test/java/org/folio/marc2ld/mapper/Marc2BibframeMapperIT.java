@@ -119,6 +119,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.marc2ld.mapper.marc2ld.Marc2BibframeMapperImpl;
 import org.folio.marc2ld.mapper.test.SpringTestConfig;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;

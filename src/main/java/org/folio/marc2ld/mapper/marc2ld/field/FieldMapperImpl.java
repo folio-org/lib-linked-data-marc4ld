@@ -1,4 +1,4 @@
-package org.folio.marc2ld.mapper.field;
+package org.folio.marc2ld.mapper.marc2ld.field;
 
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
@@ -20,8 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
-import org.folio.marc2ld.mapper.condition.ConditionChecker;
-import org.folio.marc2ld.mapper.field.property.PropertyMapper;
+import org.folio.marc2ld.mapper.marc2ld.condition.ConditionChecker;
+import org.folio.marc2ld.mapper.marc2ld.field.property.PropertyMapper;
 import org.folio.marc2ld.mapper.field.relation.RelationProvider;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
