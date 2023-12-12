@@ -455,6 +455,19 @@ fieldRules:
       condition:
         fields:
           c: presented
+    - types: INSTANCE
+      subfields:
+        a: PHYSICAL_DESCRIPTION
+        b: PHYSICAL_DESCRIPTION
+      concat: ', '
+      append: true
+  310:
+    - types: INSTANCE
+      subfields:
+        a: PUBLICATION_FREQUENCY
+        b: PUBLICATION_FREQUENCY
+      concat: ', '
+      append: true
   334:
     - types: INSTANCE
       subfields:
@@ -494,6 +507,23 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE
+  362:
+    - types: INSTANCE
+      subfields:
+        a: DATES_OF_PUBLICATION_NOTE
+        z: DATES_OF_PUBLICATION_NOTE
+      concat: ', '
+      append: true
+  500:
+    - types: INSTANCE
+      subfields:
+        a: NOTE
+      append: true
+  501:
+    - types: INSTANCE
+      subfields:
+        a: WITH_NOTE
+      append: true
   505:
     - types: WORK
       parent: INSTANCE
@@ -501,12 +531,216 @@ fieldRules:
       subfields:
         a: TABLE_OF_CONTENTS
       append: true
+  506:
+    - types: INSTANCE
+      subfields:
+        a: GOVERNING_ACCESS_NOTE
+        b: GOVERNING_ACCESS_NOTE
+        c: GOVERNING_ACCESS_NOTE
+        d: GOVERNING_ACCESS_NOTE
+        e: GOVERNING_ACCESS_NOTE
+        f: GOVERNING_ACCESS_NOTE
+        g: GOVERNING_ACCESS_NOTE
+        q: GOVERNING_ACCESS_NOTE
+      concat: ', '
+      append: true
+  508:
+    - types: INSTANCE
+      subfields:
+        a: CREDITS_NOTE
+      append: true
+  511:
+    - types: INSTANCE
+      subfields:
+        a: PARTICIPANT_NOTE
+      append: true
+  513:
+    - types: INSTANCE
+      subfields:
+        a: TYPE_OF_REPORT
+        b: TYPE_OF_REPORT
+      concat: ', '
+      append: true
+  515:
+    - types: INSTANCE
+      subfields:
+        a: ISSUANCE_NOTE
+      append: true
+  516:
+    - types: INSTANCE
+      subfields:
+        a: COMPUTER_DATA_NOTE
+      append: true
   520:
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
       subfields:
         a: SUMMARY
+      append: true
+  524:
+    - types: INSTANCE
+      subfields:
+        a: CITATION_COVERAGE
+      append: true
+  530:
+    - types: INSTANCE
+      subfields:
+        a: ADDITIONAL_PHYSICAL_FORM
+      append: true
+  532:
+    - types: INSTANCE
+      subfields:
+        a: ACCESSIBILITY_NOTE
+      append: true
+  533:
+    - types: INSTANCE
+      subfields:
+        a: REPRODUCTION_NOTE
+        b: REPRODUCTION_NOTE
+        c: REPRODUCTION_NOTE
+        d: REPRODUCTION_NOTE
+        e: REPRODUCTION_NOTE
+        f: REPRODUCTION_NOTE
+        n: REPRODUCTION_NOTE
+      concat: ', '
+      append: true
+  534:
+    - types: INSTANCE
+      subfields:
+        a: ORIGINAL_VERSION_NOTE
+        b: ORIGINAL_VERSION_NOTE
+        c: ORIGINAL_VERSION_NOTE
+        e: ORIGINAL_VERSION_NOTE
+        f: ORIGINAL_VERSION_NOTE
+        k: ORIGINAL_VERSION_NOTE
+        m: ORIGINAL_VERSION_NOTE
+        n: ORIGINAL_VERSION_NOTE
+        t: ORIGINAL_VERSION_NOTE
+      concat: ', '
+      append: true
+  535:
+    - types: INSTANCE
+      subfields:
+        a: LOCATION_OF_ORIGINALS_DUPLICATES
+        b: LOCATION_OF_ORIGINALS_DUPLICATES
+        c: LOCATION_OF_ORIGINALS_DUPLICATES
+        d: LOCATION_OF_ORIGINALS_DUPLICATES
+        g: LOCATION_OF_ORIGINALS_DUPLICATES
+      concat: ', '
+      append: true
+  536:
+    - types: INSTANCE
+      subfields:
+        a: FUNDING_INFORMATION
+        b: FUNDING_INFORMATION
+        c: FUNDING_INFORMATION
+        d: FUNDING_INFORMATION
+        e: FUNDING_INFORMATION
+        f: FUNDING_INFORMATION
+        g: FUNDING_INFORMATION
+        h: FUNDING_INFORMATION
+      concat: ', '
+      append: true
+  538:
+    - types: INSTANCE
+      subfields:
+        a: SYSTEM_DETAILS
+        i: SYSTEM_DETAILS
+        u: SYSTEM_DETAILS
+      concat: ', '
+      append: true
+  542:
+    - types: INSTANCE
+      subfields:
+        a: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        b: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        c: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        d: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        e: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        f: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        g: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        h: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        i: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        j: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        k: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        l: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        m: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        n: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        o: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        p: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        q: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        r: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+        s: INFORMATION_RELATING_TO_COPYRIGHT_STATUS
+      concat: ', '
+      append: true
+  544:
+    - types: INSTANCE
+      subfields:
+        a: RELATED_PARTS
+        b: RELATED_PARTS
+        c: RELATED_PARTS
+        d: RELATED_PARTS
+        e: RELATED_PARTS
+        n: RELATED_PARTS
+      concat: ', '
+      append: true
+  547:
+    - types: INSTANCE
+      subfields:
+        a: FORMER_TITLE_NOTE
+      append: true
+  550:
+    - types: INSTANCE
+      subfields:
+        a: ISSUING_BODY
+      append: true
+  552:
+    - types: INSTANCE
+      subfields:
+        a: ENTITY_AND_ATTRIBUTE_INFORMATION
+        b: ENTITY_AND_ATTRIBUTE_INFORMATION
+        c: ENTITY_AND_ATTRIBUTE_INFORMATION
+        d: ENTITY_AND_ATTRIBUTE_INFORMATION
+        e: ENTITY_AND_ATTRIBUTE_INFORMATION
+        f: ENTITY_AND_ATTRIBUTE_INFORMATION
+        g: ENTITY_AND_ATTRIBUTE_INFORMATION
+        h: ENTITY_AND_ATTRIBUTE_INFORMATION
+        i: ENTITY_AND_ATTRIBUTE_INFORMATION
+        j: ENTITY_AND_ATTRIBUTE_INFORMATION
+        k: ENTITY_AND_ATTRIBUTE_INFORMATION
+        l: ENTITY_AND_ATTRIBUTE_INFORMATION
+        m: ENTITY_AND_ATTRIBUTE_INFORMATION
+        n: ENTITY_AND_ATTRIBUTE_INFORMATION
+        o: ENTITY_AND_ATTRIBUTE_INFORMATION
+        p: ENTITY_AND_ATTRIBUTE_INFORMATION
+        u: ENTITY_AND_ATTRIBUTE_INFORMATION
+        z: ENTITY_AND_ATTRIBUTE_INFORMATION
+      concat: ', '
+      append: true
+  555:
+    - types: INSTANCE
+      subfields:
+        a: LOCATION_OF_OTHER_ARCHIVAL_MATERIAL
+        b: LOCATION_OF_OTHER_ARCHIVAL_MATERIAL
+        c: LOCATION_OF_OTHER_ARCHIVAL_MATERIAL
+        d: LOCATION_OF_OTHER_ARCHIVAL_MATERIAL
+      concat: ', '
+      append: true
+  556:
+    - types: INSTANCE
+      subfields:
+        a: INFORMATION_ABOUT_DOCUMENTATION
+      append: true
+  585:
+    - types: INSTANCE
+      subfields:
+        a: EXHIBITIONS_NOTE
+      append: true
+  588:
+    - types: INSTANCE
+      subfields:
+        a: DESCRIPTION_SOURCE_NOTE
       append: true
   700:
     - types: PERSON
@@ -535,6 +769,14 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+  753:
+    - types: INSTANCE
+      subfields:
+        a: SYSTEM_DETAILS_ACCESS_NOTE
+        b: SYSTEM_DETAILS_ACCESS_NOTE
+        c: SYSTEM_DETAILS_ACCESS_NOTE
+      concat: ', '
+      append: true
   865:
     - types: ANNOTATION
       parent: INSTANCE

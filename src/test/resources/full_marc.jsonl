@@ -351,7 +351,7 @@
       "264": {
         "subfields": [
           {
-            "c": "©2018"
+            "c": "2018"
           }
         ],
         "ind1": " ",
@@ -365,7 +365,22 @@
             "a": "extent"
           },
           {
+            "b": "details"
+          },
+          {
             "c": "dimensions"
+          }
+        ]
+      }
+    },
+    {
+      "310": {
+        "subfields": [
+          {
+            "a": "frequency"
+          },
+          {
+            "b": "date"
           }
         ]
       }
@@ -414,10 +429,118 @@
       }
     },
     {
+      "362": {
+        "subfields": [
+          {
+            "a": "dates"
+          },
+          {
+            "z": "source"
+          }
+        ]
+      }
+    },
+    {
+      "500": {
+        "subfields": [
+          {
+            "a": "general note"
+          }
+        ]
+      }
+    },
+    {
+      "501": {
+        "subfields": [
+          {
+            "a": "with note"
+          }
+        ]
+      }
+    },
+    {
       "505": {
         "subfields": [
           {
             "a": "work table of contents"
+          }
+        ]
+      }
+    },
+    {
+      "506": {
+        "subfields": [
+          {
+            "a": "terms"
+          },
+          {
+            "b": "jurisdiction"
+          },
+          {
+            "c": "provisions"
+          },
+          {
+            "d": "users"
+          },
+          {
+            "e": "authorization"
+          },
+          {
+            "f": "terminology"
+          },
+          {
+            "g": "date"
+          },
+          {
+            "q": "agency"
+          }
+        ]
+      }
+    },
+    {
+      "508": {
+        "subfields": [
+          {
+            "a": "credits note"
+          }
+        ]
+      }
+    },
+    {
+      "511": {
+        "subfields": [
+          {
+            "a": "participant note"
+          }
+        ]
+      }
+    },
+    {
+      "513": {
+        "subfields": [
+          {
+            "a": "type"
+          },
+          {
+            "b": "period"
+          }
+        ]
+      }
+    },
+    {
+      "515": {
+        "subfields": [
+          {
+            "a": "issuance note"
+          }
+        ]
+      }
+    },
+    {
+      "516": {
+        "subfields": [
+          {
+            "a": "computer data note"
           }
         ]
       }
@@ -430,6 +553,366 @@
           }
         ],
         "ind1": "#"
+      }
+    },
+    {
+      "524": {
+        "subfields": [
+          {
+            "a": "citation coverage note"
+          }
+        ]
+      }
+    },
+    {
+      "530": {
+        "subfields": [
+          {
+            "a": "additional physical form note"
+          }
+        ]
+      }
+    },
+    {
+      "532": {
+        "subfields": [
+          {
+            "a": "accessibility note"
+          }
+        ]
+      }
+    },
+    {
+      "533": {
+        "subfields": [
+          {
+            "a": "type"
+          },
+          {
+            "b": "place"
+          },
+          {
+            "c": "agency"
+          },
+          {
+            "d": "date"
+          },
+          {
+            "e": "description"
+          },
+          {
+            "f": "statement"
+          },
+          {
+            "n": "note"
+          }
+        ]
+      }
+    },
+    {
+      "534": {
+        "subfields": [
+          {
+            "a": "entry"
+          },
+          {
+            "b": "statement"
+          },
+          {
+            "c": "publication"
+          },
+          {
+            "e": "description"
+          },
+          {
+            "f": "series statement"
+          },
+          {
+            "k": "key title"
+          },
+          {
+            "m": "details"
+          },
+          {
+            "n": "note"
+          },
+          {
+            "t": "title"
+          }
+        ]
+      }
+    },
+    {
+      "535": {
+        "subfields": [
+          {
+            "a": "custodian"
+          },
+          {
+            "b": "postal address"
+          },
+          {
+            "c": "country"
+          },
+          {
+            "d": "address"
+          },
+          {
+            "g": "code"
+          }
+        ]
+      }
+    },
+    {
+      "536": {
+        "subfields": [
+          {
+            "a": "text"
+          },
+          {
+            "b": "contact"
+          },
+          {
+            "c": "grant"
+          },
+          {
+            "d": "undifferentiated"
+          },
+          {
+            "e": "program element"
+          },
+          {
+            "f": "project"
+          },
+          {
+            "g": "task"
+          },
+          {
+            "h": "work unit"
+          }
+        ]
+      }
+    },
+    {
+      "538": {
+        "subfields": [
+          {
+            "a": "note"
+          },
+          {
+            "i": "text"
+          },
+          {
+            "u": "uri"
+          }
+        ]
+      }
+    },
+    {
+      "542": {
+        "subfields": [
+          {
+            "a": "creator"
+          },
+          {
+            "b": "date"
+          },
+          {
+            "c": "corporate creator"
+          },
+          {
+            "d": "holder"
+          },
+          {
+            "e": "information"
+          },
+          {
+            "f": "statement"
+          },
+          {
+            "g": "copyright date"
+          },
+          {
+            "h": "renewal date"
+          },
+          {
+            "i": "publication date"
+          },
+          {
+            "j": "creation date"
+          },
+          {
+            "k": "publisher"
+          },
+          {
+            "l": "status"
+          },
+          {
+            "m": "publication status"
+          },
+          {
+            "n": "note"
+          },
+          {
+            "o": "research date"
+          },
+          {
+            "p": "country"
+          },
+          {
+            "q": "agency"
+          },
+          {
+            "r": "jurisdiction"
+          }
+        ]
+      }
+    },
+    {
+      "544": {
+        "subfields": [
+          {
+            "a": "custodian"
+          },
+          {
+            "b": "address"
+          },
+          {
+            "c": "country"
+          },
+          {
+            "d": "title"
+          },
+          {
+            "e": "provenance"
+          },
+          {
+            "n": "note"
+          },
+        ]
+      }
+    },
+    {
+      "547": {
+        "subfields": [
+          {
+            "a": "former title note"
+          }
+        ]
+      }
+    },
+    {
+      "550": {
+        "subfields": [
+          {
+            "a": "issuing body note"
+          }
+        ]
+      }
+    },
+    {
+      "552": {
+        "subfields": [
+          {
+            "a": "label"
+          },
+          {
+            "b": "definition"
+          },
+          {
+            "c": "attribute label"
+          },
+          {
+            "d": "source"
+          },
+          {
+            "e": "value"
+          },
+          {
+            "f": "domain definition"
+          },
+          {
+            "g": "range"
+          },
+          {
+            "h": "codeset"
+          },
+          {
+            "i": "domain"
+          },
+          {
+            "j": "units"
+          },
+          {
+            "k": "date"
+          },
+          {
+            "l": "accuracy"
+          },
+          {
+            "m": "explanation"
+          },
+          {
+            "n": "frequency"
+          },
+          {
+            "o": "overview"
+          },
+          {
+            "p": "citation"
+          },
+          {
+            "u": "uri"
+          },
+          {
+            "z": "note"
+          }
+        ]
+      }
+    },
+    {
+      "555": {
+        "subfields": [
+          {
+            "a": "note"
+          },
+          {
+            "b": "source"
+          },
+          {
+            "c": "control"
+          },
+          {
+            "d": "reference"
+          }
+        ]
+      }
+    },
+    {
+      "556": {
+        "subfields": [
+          {
+            "a": "info about doc note"
+          }
+        ]
+      }
+    },
+    {
+      "585": {
+        "subfields": [
+          {
+            "a": "exhibitions note"
+          }
+        ]
+      }
+    },
+    {
+      "588": {
+        "subfields": [
+          {
+            "a": "description source note"
+          }
+        ]
       }
     },
     {
@@ -458,6 +941,21 @@
           {
             "a": "CONTRIBUTOR MEETING name",
             "0": "CONTRIBUTOR MEETING LCNAF id"
+          }
+        ]
+      }
+    },
+    {
+      "753": {
+        "subfields": [
+          {
+            "a": "model"
+          },
+          {
+            "b": "language"
+          },
+          {
+            "c": "system"
           }
         ]
       }
