@@ -202,6 +202,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   110:
     - types: ORGANIZATION
       parent: WORK
@@ -751,6 +754,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   710:
     - types: ORGANIZATION
       parent: WORK

@@ -3,6 +3,7 @@ package org.folio.marc2ld.mapper.field;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.marc2ld.util.BibframeUtil.hash;
@@ -13,10 +14,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
@@ -35,6 +38,7 @@ public class FieldMapperImpl implements FieldMapper {
   private final ConditionChecker conditionChecker;
   private final PropertyMapper propertyMapper;
   private final ObjectMapper objectMapper;
+  private final Map<String, String> agentEdges;
 
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
@@ -48,10 +52,37 @@ public class FieldMapperImpl implements FieldMapper {
           .orElseGet(() -> addNewEdge(parentResource, dataField, controlFields, fieldRule));
       } else {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
+        if (fieldRule.getRelation() != null) {
+          addRelationship(parentResource, mappedResource, dataField, fieldRule);
+        }
       }
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
     }
+  }
+
+  private void addRelationship(Resource source, Resource target, DataField dataField,
+                               Marc2BibframeRules.FieldRule fieldRule) {
+    getPredicate(dataField, fieldRule)
+      .ifPresent(p -> source.getOutgoingEdges().add(new ResourceEdge(source, target, p)));
+  }
+
+  private Optional<PredicateDictionary> getPredicate(DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+    String predicate = null;
+    var codeSubfield = dataField.getSubfield(fieldRule.getRelation().getCode());
+    var textSubfield = dataField.getSubfield(fieldRule.getRelation().getText());
+
+    if (codeSubfield != null) {
+      predicate = agentEdges.get(codeSubfield.getData());
+    } else if (textSubfield != null) {
+      predicate = agentEdges.get(clean(textSubfield.getData()));
+    }
+
+    return Optional.ofNullable(predicate != null ? valueOf(predicate) : null);
+  }
+
+  private String clean(String text) {
+    return text.replaceAll("[^a-zA-Z]", EMPTY).toLowerCase();
   }
 
   private Resource computeParentIfAbsent(Resource parent, Marc2BibframeRules.FieldRule fieldRule) {

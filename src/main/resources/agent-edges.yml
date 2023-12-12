@@ -1,0 +1,6 @@
+agent-edges:
+  aut: AUTHOR
+  author: AUTHOR
+  '070': AUTHOR
+  asg: ASSIGNEE
+  assignee: ASSIGNEE
