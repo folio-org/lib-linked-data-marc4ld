@@ -2,6 +2,7 @@ package org.folio.marc2ld.mapper.field.property;
 
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyMap;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.core.io.support.ResourcePatternUtils.getResourcePatternResolver;
 
@@ -35,7 +36,7 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
         .filter(Objects::nonNull)
         .collect(toMap(FilenameUtils::removeExtension, this::readDictionaryResource));
     } catch (IOException e) {
-      log.error("IOException during dictionaries gathering");
+      log.error("IOException during dictionaries gathering", e);
     }
   }
 
@@ -43,7 +44,7 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
     try (var is = getClass().getResourceAsStream("/dictionary/" + fileName)) {
       return new Yaml().loadAs(is, Map.class);
     } catch (IOException e) {
-      log.error("IOException during reading dictionary [{}]", fileName);
+      log.error("IOException during reading dictionary [{}]", fileName, e);
       return emptyMap();
     }
   }
@@ -51,6 +52,14 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
   @Override
   public Optional<String> getValue(String dictionary, String key) {
     return Optional.ofNullable(dictionaries.getOrDefault(dictionary, emptyMap()).get(key));
+  }
+
+  @Override
+  public Optional<String> getKey(String property, String value) {
+    return dictionaries.getOrDefault(property, emptyMap()).entrySet().stream()
+      .filter(e -> Objects.equals(e.getValue(), value))
+      .map(Map.Entry::getKey)
+      .findFirst();
   }
 
 }

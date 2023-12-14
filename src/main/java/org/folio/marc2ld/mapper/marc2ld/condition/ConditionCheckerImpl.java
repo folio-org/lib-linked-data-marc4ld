@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConditionCheckerImpl implements ConditionChecker {
 
-  private static final String NOT = "!";
-  private static final String PRESENTED = "presented";
+  public static final String NOT = "!";
+  public static final String PRESENTED = "presented";
 
   @Override
   public boolean isConditionSatisfied(Marc2BibframeRules.FieldRule fieldRule, DataField dataField) {

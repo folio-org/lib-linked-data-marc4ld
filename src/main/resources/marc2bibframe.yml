@@ -337,9 +337,6 @@ fieldRules:
       subfields:
         a: PROJECTED_PROVISION_DATE
       append: true
-      condition:
-        fields:
-          a: presented
   264:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -454,16 +451,10 @@ fieldRules:
       subfields:
         a: EXTENT
       append: true
-      condition:
-        fields:
-          a: presented
     - types: INSTANCE
       subfields:
         c: DIMENSIONS
       append: true
-      condition:
-        fields:
-          c: presented
     - types: INSTANCE
       subfields:
         a: PHYSICAL_DESCRIPTION
@@ -482,9 +473,6 @@ fieldRules:
       subfields:
         a: ISSUANCE
       append: true
-      condition:
-        fields:
-          a: presented
   336:
     - types: CATEGORY
       parent: WORK
@@ -795,7 +783,7 @@ fieldRules:
         c: SYSTEM_DETAILS_ACCESS_NOTE
       concat: ', '
       append: true
-  865:
+  856:
     - types: ANNOTATION
       parent: INSTANCE
       predicate: ACCESS_LOCATION

@@ -21,7 +21,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
-import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
@@ -65,6 +64,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
@@ -87,6 +87,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
@@ -119,47 +120,63 @@ public class MonographTestUtil {
   public static Resource getSampleInstanceResource() {
     var instanceTitle = createResource(
       Map.of(
-        PART_NAME, List.of("Instance: partName"),
-        PART_NUMBER, List.of("Instance: partNumber"),
-        MAIN_TITLE, List.of("Instance: mainTitle"),
-        NON_SORT_NUM, List.of("Instance: nonSortNum"),
-        SUBTITLE, List.of("Instance: subTitle")
+        PART_NAME, List.of("Instance PartName"),
+        PART_NUMBER, List.of("8"),
+        MAIN_TITLE, List.of("Instance MainTitle"),
+        NON_SORT_NUM, List.of("7"),
+        SUBTITLE, List.of("Instance SubTitle")
       ),
       Set.of(ResourceTypeDictionary.TITLE),
       emptyMap()
-    ).setLabel("Instance: label");
+    ).setLabel("Instance MainTitle");
+
+    var instanceTitle2 = createResource(
+      Map.of(
+        MAIN_TITLE, List.of("Instance Title empty")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("Instance Title empty");
+
+    var instanceTitle3 = createResource(
+      Map.of(
+        SUBTITLE, List.of("Instance Title empty label")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("Instance Title empty label");
 
     var parallelTitle = createResource(
       Map.of(
-        PART_NAME, List.of("Parallel: partName"),
-        PART_NUMBER, List.of("Parallel: partNumber"),
-        MAIN_TITLE, List.of("Parallel: mainTitle"),
-        DATE, List.of("Parallel: date"),
-        SUBTITLE, List.of("Parallel: subTitle"),
-        NOTE, List.of("Parallel: noteLabel")
+        PART_NAME, List.of("Parallel-PartName"),
+        PART_NUMBER, List.of("6"),
+        MAIN_TITLE, List.of("Parallel-MainTitle"),
+        DATE, List.of("2023-01-01"),
+        SUBTITLE, List.of("Parallel-SubTitle"),
+        NOTE, List.of("Parallel-Note")
       ),
       Set.of(PARALLEL_TITLE),
       emptyMap()
-    ).setLabel("Parallel: label");
+    ).setLabel("Parallel-MainTitle");
 
     var variantTitle = createResource(
       Map.of(
-        PART_NAME, List.of("Variant: partName"),
-        PART_NUMBER, List.of("Variant: partNumber"),
-        MAIN_TITLE, List.of("Variant: mainTitle"),
-        DATE, List.of("Variant: date"),
-        SUBTITLE, List.of("Variant: subTitle"),
-        VARIANT_TYPE, List.of("Variant: variantType"),
-        NOTE, List.of("Variant: noteLabel")
+        PART_NAME, List.of("Variant-PartName"),
+        PART_NUMBER, List.of("5"),
+        MAIN_TITLE, List.of("Variant-MainTitle"),
+        DATE, List.of("2023-02-02"),
+        SUBTITLE, List.of("Variant-SubTitle"),
+        VARIANT_TYPE, List.of("9"),
+        NOTE, List.of("Variant-Note")
       ),
       Set.of(VARIANT_TITLE),
       emptyMap()
-    ).setLabel("Variant: label");
+    ).setLabel("Variant-MainTitle");
 
-    var production = providerEvent("production");
-    var publication = providerEvent("publication");
-    var distribution = providerEvent("distribution");
-    var manufacture = providerEvent("manufacture");
+    var production = providerEvent("Production");
+    var publication = providerEvent("Publication");
+    var distribution = providerEvent("Distribution");
+    var manufacture = providerEvent("Manufacture");
 
     var supplementaryContent = createResource(
       Map.of(
@@ -172,92 +189,135 @@ public class MonographTestUtil {
 
     var accessLocation = createResource(
       Map.of(
-        LINK, List.of("accessLocation value"),
-        NOTE, List.of("accessLocation note")
+        LINK, List.of("access location URI"),
+        NOTE, List.of("access location note")
       ),
       Set.of(ANNOTATION),
       emptyMap()
-    ).setLabel("accessLocation label");
+    ).setLabel("access location URI");
 
     var lccn = createResource(
-      Map.of(NAME, List.of("lccn value")),
+      Map.of(NAME, List.of("2019493854")),
       Set.of(IDENTIFIER, ID_LCCN),
-      Map.of(STATUS, List.of(status("lccn")))
-    ).setLabel("lccn label");
+      Map.of(STATUS, List.of(status("current")))
+    ).setLabel("2019493854");
+
+    var lccnCancelled = createResource(
+      Map.of(NAME, List.of("88888888")),
+      Set.of(IDENTIFIER, ID_LCCN),
+      Map.of(STATUS, List.of(status("canceled or invalid")))
+    ).setLabel("88888888");
 
     var isbn = createResource(
       Map.of(
-        NAME, List.of("isbn value"),
-        QUALIFIER, List.of("isbn qualifier")
+        NAME, List.of("9780143789963"),
+        QUALIFIER, List.of("(paperback)")
       ),
       Set.of(IDENTIFIER, ID_ISBN),
-      Map.of(STATUS, List.of(status("isbn")))
-    ).setLabel("isbn label");
+      Map.of(STATUS, List.of(status("current")))
+    ).setLabel("9780143789963");
+
+    var isbnCancelled = createResource(
+      Map.of(
+        NAME, List.of("9999999"),
+        QUALIFIER, List.of("(paperback)")
+      ),
+      Set.of(IDENTIFIER, ID_ISBN),
+      Map.of(STATUS, List.of(status("canceled or invalid")))
+    ).setLabel("9999999");
 
     var ean = createResource(
       Map.of(
-        EAN_VALUE, List.of("ean value"),
-        QUALIFIER, List.of("ean qualifier")
+        EAN_VALUE, List.of("111222"),
+        QUALIFIER, List.of("eanIdQal")
       ),
       Set.of(IDENTIFIER, ID_EAN),
-      emptyMap()
-    ).setLabel("ean label");
+      Map.of(STATUS, List.of(status("current")))
+    ).setLabel("111222");
+
+    var eanCancelled = createResource(
+      Map.of(
+        EAN_VALUE, List.of("333"),
+        QUALIFIER, List.of("eanIdQal")
+      ),
+      Set.of(IDENTIFIER, ID_EAN),
+      Map.of(STATUS, List.of(status("canceled or invalid")))
+    ).setLabel("333");
 
     var localId = createResource(
       Map.of(
-        LOCAL_ID_VALUE, List.of("localId value"),
-        ASSIGNING_SOURCE, List.of("localId assigner")
+        LOCAL_ID_VALUE, List.of("19861509")
       ),
       Set.of(IDENTIFIER, ID_LOCAL),
-      emptyMap()
-    ).setLabel("localId label");
+      Map.of(STATUS, List.of(status("current")))
+    ).setLabel("19861509");
+
+    var localIdCancelled = createResource(
+      Map.of(
+        LOCAL_ID_VALUE, List.of("09151986")
+      ),
+      Set.of(IDENTIFIER, ID_LOCAL),
+      Map.of(STATUS, List.of(status("canceled or invalid")))
+    ).setLabel("09151986");
 
     var otherId = createResource(
       Map.of(
-        NAME, List.of("otherId value"),
-        QUALIFIER, List.of("otherId qualifier")
+        NAME, List.of("20232023"),
+        QUALIFIER, List.of("otherIdQal")
       ),
       Set.of(IDENTIFIER, ID_UNKNOWN),
-      emptyMap()
-    ).setLabel("otherId label");
+      Map.of(STATUS, List.of(status("current")))
+    ).setLabel("20232023");
+
+    var otherIdCancelled = createResource(
+      Map.of(
+        NAME, List.of("231123"),
+        QUALIFIER, List.of("otherIdQal")
+      ),
+      Set.of(IDENTIFIER, ID_UNKNOWN),
+      Map.of(STATUS, List.of(status("canceled or invalid")))
+    ).setLabel("231123");
 
     var media = createResource(
       Map.of(
-        CODE, List.of("media code"),
-        TERM, List.of("media term"),
-        LINK, List.of("media link")
+        CODE, List.of("MEDIA code"),
+        TERM, List.of("MEDIA term"),
+        LINK, List.of("http://id.loc.gov/vocabulary/mediaTypes/MEDIA code")
       ),
       Set.of(CATEGORY),
       emptyMap()
-    ).setLabel("media label");
+    ).setLabel("MEDIA term");
 
     var carrier = createResource(
       Map.of(
-        CODE, List.of("carrier code"),
-        TERM, List.of("carrier term"),
-        LINK, List.of("carrier link")
+        CODE, List.of("CARRIER code"),
+        TERM, List.of("CARRIER term"),
+        LINK, List.of("http://id.loc.gov/vocabulary/carrierTypes/CARRIER code")
       ),
       Set.of(CATEGORY),
       emptyMap()
-    ).setLabel("carrier label");
+    ).setLabel("CARRIER term");
 
     var copyrightEvent = createResource(
       Map.of(
-        DATE, List.of("copyright date value")
+        DATE, List.of("2018")
       ),
       Set.of(COPYRIGHT_EVENT),
       emptyMap()
-    ).setLabel("copyright date label");
+    ).setLabel("2018");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
-    pred2OutgoingResources.put(TITLE, List.of(instanceTitle, parallelTitle, variantTitle));
+    pred2OutgoingResources.put(TITLE,
+      List.of(instanceTitle, parallelTitle, variantTitle, instanceTitle2, instanceTitle3));
     pred2OutgoingResources.put(PE_PRODUCTION, List.of(production));
     pred2OutgoingResources.put(PE_PUBLICATION, List.of(publication));
     pred2OutgoingResources.put(PE_DISTRIBUTION, List.of(distribution));
     pred2OutgoingResources.put(PE_MANUFACTURE, List.of(manufacture));
-    pred2OutgoingResources.put(PredicateDictionary.SUPPLEMENTARY_CONTENT, List.of(supplementaryContent));
+    //pred2OutgoingResources.put(PredicateDictionary.SUPPLEMENTARY_CONTENT, List.of(supplementaryContent));
     pred2OutgoingResources.put(ACCESS_LOCATION, List.of(accessLocation));
-    pred2OutgoingResources.put(MAP, List.of(lccn, isbn, ean, localId, otherId));
+    pred2OutgoingResources.put(MAP,
+      List.of(lccn, lccnCancelled, isbn, isbnCancelled, ean, eanCancelled, localId, localIdCancelled, otherId,
+        otherIdCancelled));
     pred2OutgoingResources.put(MEDIA, List.of(media));
     pred2OutgoingResources.put(CARRIER, List.of(carrier));
     pred2OutgoingResources.put(COPYRIGHT, List.of(copyrightEvent));
@@ -265,39 +325,47 @@ public class MonographTestUtil {
 
     var instance = createResource(
       Map.ofEntries(
-        entry(EXTENT, List.of("extent info")),
-        entry(DIMENSIONS, List.of("20 cm")),
-        entry(EDITION_STATEMENT, List.of("edition statement")),
-        entry(PROJECTED_PROVISION_DATE, List.of("projected provision date")),
-        entry(ISSUANCE, List.of("single unit")),
+        entry(EXTENT, List.of("extent")),
+        entry(DIMENSIONS, List.of("dimensions")),
+        entry(EDITION_STATEMENT, List.of("Edition Statement Edition statement2")),
+        entry(PROJECTED_PROVISION_DATE, List.of("projectedProvisionDate")),
+        entry(ISSUANCE, List.of("issuance")),
         entry(ACCESSIBILITY_NOTE, List.of("accessibility note")),
-        entry(ADDITIONAL_PHYSICAL_FORM, List.of("additional physical form")),
-        entry(CITATION_COVERAGE, List.of("citation coverage")),
+        entry(ADDITIONAL_PHYSICAL_FORM, List.of("additional physical form note")),
+        entry(CITATION_COVERAGE, List.of("citation coverage note")),
         entry(COMPUTER_DATA_NOTE, List.of("computer data note")),
         entry(CREDITS_NOTE, List.of("credits note")),
-        entry(DATES_OF_PUBLICATION_NOTE, List.of("dates of publication note")),
+        entry(DATES_OF_PUBLICATION_NOTE, List.of("dates, source")),
         entry(DESCRIPTION_SOURCE_NOTE, List.of("description source note")),
-        entry(ENTITY_AND_ATTRIBUTE_INFORMATION, List.of("entity and attribute information")),
+        entry(ENTITY_AND_ATTRIBUTE_INFORMATION,
+          List.of("label, definition, attribute label, source, value, domain definition, range, codeset, domain, "
+            + "units, date, accuracy, explanation, frequency, overview, citation, uri, note")),
         entry(EXHIBITIONS_NOTE, List.of("exhibitions note")),
         entry(FORMER_TITLE_NOTE, List.of("former title note")),
-        entry(FUNDING_INFORMATION, List.of("funding information")),
-        entry(GOVERNING_ACCESS_NOTE, List.of("governing access note")),
-        entry(INFORMATION_ABOUT_DOCUMENTATION, List.of("information about documentation")),
-        entry(INFORMATION_RELATING_TO_COPYRIGHT_STATUS, List.of("information relating to copyright status")),
+        entry(FUNDING_INFORMATION,
+          List.of("text, contact, grant, undifferentiated, program element, project, task, work unit")),
+        entry(GOVERNING_ACCESS_NOTE,
+          List.of("terms, jurisdiction, provisions, users, authorization, terminology, date, agency")),
+        entry(INFORMATION_ABOUT_DOCUMENTATION, List.of("info about doc note")),
+        entry(INFORMATION_RELATING_TO_COPYRIGHT_STATUS,
+          List.of("creator, date, corporate creator, holder, information, statement, copyright date, renewal date, "
+            + "publication date, creation date, publisher, status, publication status, note, research date, country, "
+            + "agency, jurisdiction")),
         entry(ISSUANCE_NOTE, List.of("issuance note")),
-        entry(ISSUING_BODY, List.of("issuing body")),
-        entry(LOCATION_OF_ORIGINALS_DUPLICATES, List.of("location of originals duplicates")),
-        entry(LOCATION_OF_OTHER_ARCHIVAL_MATERIAL, List.of("location of other archival material")),
-        entry(NOTE, List.of("note")),
-        entry(ORIGINAL_VERSION_NOTE, List.of("original version note")),
+        entry(ISSUING_BODY, List.of("issuing body note")),
+        entry(LOCATION_OF_ORIGINALS_DUPLICATES, List.of("custodian, postal address, country, address, code")),
+        entry(LOCATION_OF_OTHER_ARCHIVAL_MATERIAL, List.of("note, source, control, reference")),
+        entry(NOTE, List.of("general note")),
+        entry(ORIGINAL_VERSION_NOTE,
+          List.of("entry, statement, publication, description, series statement, key title, details, note, title")),
         entry(PARTICIPANT_NOTE, List.of("participant note")),
-        entry(PHYSICAL_DESCRIPTION, List.of("physical description")),
-        entry(PUBLICATION_FREQUENCY, List.of("publication frequency")),
-        entry(RELATED_PARTS, List.of("related parts")),
-        entry(REPRODUCTION_NOTE, List.of("reproduction note")),
-        entry(SYSTEM_DETAILS, List.of("system details")),
-        entry(SYSTEM_DETAILS_ACCESS_NOTE, List.of("system details access note")),
-        entry(TYPE_OF_REPORT, List.of("type of report")),
+        entry(PHYSICAL_DESCRIPTION, List.of("extent, details")),
+        entry(PUBLICATION_FREQUENCY, List.of("frequency, date")),
+        entry(RELATED_PARTS, List.of("custodian, address, country, title, provenance, note")),
+        entry(REPRODUCTION_NOTE, List.of("type, place, agency, date, description, statement, note")),
+        entry(SYSTEM_DETAILS, List.of("note, text, uri")),
+        entry(SYSTEM_DETAILS_ACCESS_NOTE, List.of("model, language, system")),
+        entry(TYPE_OF_REPORT, List.of("type, period")),
         entry(WITH_NOTE, List.of("with note"))
       ),
       Set.of(INSTANCE),
@@ -312,93 +380,130 @@ public class MonographTestUtil {
   public static Resource createSampleWork() {
     var content = createResource(
       Map.of(
-        TERM, List.of("Content: term"),
-        LINK, List.of("Content: link"),
-        CODE, List.of("Content: code")
+        TERM, List.of("CONTENT term"),
+        LINK, List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
+        CODE, List.of("CONTENT code")
       ),
       Set.of(CATEGORY),
       emptyMap()
-    ).setLabel("content label");
+    ).setLabel("CONTENT term");
 
     var deweyClassification = createResource(
       Map.of(
-        CODE, List.of("Dewey: code"),
-        SOURCE, List.of("Dewey: source")
+        CODE, List.of("Dewey Decimal Classification value"),
+        SOURCE, List.of("ddc")
       ),
       Set.of(CATEGORY),
       emptyMap()
-    ).setLabel("Dewey: label");
+    ).setLabel("Dewey Decimal Classification value");
 
-    var person = createResource(
+    var meetingCreator = createResource(
       Map.of(
-        NAME, List.of("Person: name"),
-        LCNAF_ID, List.of("Person: lcnafId")
+        NAME, List.of("CREATOR MEETING name"),
+        LCNAF_ID, List.of("CREATOR MEETING LCNAF id")
+      ),
+      Set.of(MEETING),
+      emptyMap()
+    ).setLabel("CREATOR MEETING name");
+
+    var personCreator = createResource(
+      Map.of(
+        NAME, List.of("CREATOR PERSON name"),
+        LCNAF_ID, List.of("CREATOR PERSON LCNAF id")
       ),
       Set.of(PERSON),
       emptyMap()
-    );
+    ).setLabel("CREATOR PERSON name");
 
-    var organization = createResource(
+    var organizationCreator = createResource(
       Map.of(
-        NAME, List.of("Organization: name"),
-        LCNAF_ID, List.of("Organization: lcnafId")
+        NAME, List.of("CREATOR ORGANIZATION name"),
+        LCNAF_ID, List.of("CREATOR ORGANIZATION LCNAF id")
       ),
       Set.of(ORGANIZATION),
       emptyMap()
-    );
+    ).setLabel("CREATOR ORGANIZATION name");
+
+    var meetingContributor = createResource(
+      Map.of(
+        NAME, List.of("CONTRIBUTOR MEETING name"),
+        LCNAF_ID, List.of("CONTRIBUTOR MEETING LCNAF id")
+      ),
+      Set.of(MEETING),
+      emptyMap()
+    ).setLabel("CONTRIBUTOR MEETING name");
+
+    var personContributor = createResource(
+      Map.of(
+        NAME, List.of("CONTRIBUTOR PERSON name"),
+        LCNAF_ID, List.of("CONTRIBUTOR PERSON LCNAF id")
+      ),
+      Set.of(PERSON),
+      emptyMap()
+    ).setLabel("CONTRIBUTOR PERSON name");
+
+    var organizationContributor = createResource(
+      Map.of(
+        NAME, List.of("CONTRIBUTOR ORGANIZATION name"),
+        LCNAF_ID, List.of("CONTRIBUTOR ORGANIZATION LCNAF id")
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("CONTRIBUTOR ORGANIZATION name");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
-    pred2OutgoingResources.put(CREATOR, List.of(person));
-    pred2OutgoingResources.put(CONTRIBUTOR, List.of(organization));
+    pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator));
+    pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor));
     pred2OutgoingResources.put(CONTENT, List.of(content));
 
     return createResource(
       Map.of(
-        TARGET_AUDIENCE, List.of("Work: target audience"),
-        LANGUAGE, List.of("Work: language"),
-        SUMMARY, List.of("Work: summary"),
-        TABLE_OF_CONTENTS, List.of("Work: table of contents")
+        TARGET_AUDIENCE, List.of("primary"),
+        LANGUAGE, List.of("eng"),
+        SUMMARY, List.of("work summary"),
+        TABLE_OF_CONTENTS, List.of("work table of contents"),
+        RESPONSIBILITY_STATEMENT, List.of("Statement Of Responsibility")
       ),
       Set.of(WORK),
       pred2OutgoingResources
     ).setLabel("Work: label");
   }
 
-  private Resource status(String prefix) {
+  private Resource status(String value) {
     return createResource(
       Map.of(
-        LABEL, List.of(prefix + " status value"),
-        LINK, List.of(prefix + " status link")
+        LABEL, List.of(value),
+        LINK, List.of("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value))
       ),
       Set.of(ResourceTypeDictionary.STATUS),
       emptyMap()
-    ).setLabel(prefix + " status label");
+    ).setLabel(value);
   }
 
-  private Resource providerEvent(String type) {
+  private Resource providerEvent(String prefix) {
     return createResource(
       Map.of(
-        DATE, List.of(type + " date"),
-        NAME, List.of(type + " name"),
-        PROVIDER_DATE, List.of(type + " provider date"),
-        SIMPLE_PLACE, List.of(type + " simple place")
+        DATE, List.of(prefix + " Date"),
+        NAME, List.of(prefix + " Name"),
+        PROVIDER_DATE, List.of("1999"),
+        SIMPLE_PLACE, List.of(prefix + " Place")
       ),
       Set.of(PROVIDER_EVENT),
-      Map.of(PROVIDER_PLACE, List.of(providerPlace(type)))
-    ).setLabel(type + " label");
+      Map.of(PROVIDER_PLACE, List.of(providerPlace(prefix)))
+    ).setLabel(prefix + " label");
   }
 
   private Resource providerPlace(String providerEventType) {
     return createResource(
       Map.of(
-        CODE, List.of(providerEventType + " providerPlace code"),
-        LABEL, List.of(providerEventType + " providerPlace label"),
-        LINK, List.of(providerEventType + " providerPlace link")
+        CODE, List.of("ilu"),
+        LABEL, List.of(providerEventType + " Place"),
+        LINK, List.of("http://id.loc.gov/vocabulary/countries/ilu")
       ),
       Set.of(PLACE),
       emptyMap()
-    ).setLabel(providerEventType + " providerPlace label");
+    ).setLabel(providerEventType + " Place");
   }
 
   private Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,

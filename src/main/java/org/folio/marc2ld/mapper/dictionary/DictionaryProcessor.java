@@ -1,9 +1,9 @@
 package org.folio.marc2ld.mapper.dictionary;
 
+import java.util.Optional;
+
 public interface DictionaryProcessor {
 
-  String getValueIfExists(String property, String key);
-
-  String getKeyIfExists(String property, String value);
+  Optional<String> getValueIfExists(String dictionary, String key);
 
 }
