@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.folio</groupId>
-    <artifactId>lib-linked-data-marc2ld</artifactId>
+    <artifactId>lib-linked-data-marc4ld</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <parent>
