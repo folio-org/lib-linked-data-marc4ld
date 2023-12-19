@@ -3,20 +3,38 @@ package org.folio.marc2ld.mapper;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
+import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
+import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
+import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
+import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
+import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
+import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
+import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
+import static org.folio.ld.dictionary.PredicateDictionary.HOST;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
+import static org.folio.ld.dictionary.PredicateDictionary.JUDGE;
+import static org.folio.ld.dictionary.PredicateDictionary.LAB_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
+import static org.folio.ld.dictionary.PredicateDictionary.MEDIUM;
+import static org.folio.ld.dictionary.PredicateDictionary.NARRATOR;
+import static org.folio.ld.dictionary.PredicateDictionary.ONSCREEN_PRESENTER;
+import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
+import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
@@ -98,12 +116,16 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc2ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.List;
+import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.mapper.test.SpringTestConfig;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -268,6 +290,65 @@ class Marc2BibframeMapperIT {
     assertThat(work1opt).isPresent();
     assertThat(work2opt).isPresent();
     assertThat(work1opt.get().getTarget().getResourceHash()).isNotEqualTo(work2opt.get().getTarget().getResourceHash());
+  }
+
+  private static Stream<Arguments> provideMarcAndPredicates() {
+    return Stream.of(
+      Arguments.of(
+        loadResourceAsString("code_relations.jsonl"),
+        List.of(AUTHOR, BROADCASTER, CLIENT, DESIGNER, EDITOR, HOST)
+      ),
+      Arguments.of(
+        loadResourceAsString("text_relations.jsonl"),
+        List.of(FILMMAKER, GRAPHIC_TECHNICIAN, ILLUSTRATOR, LAB_DIRECTOR, HONOUREE, INSTRUCTOR)
+      ),
+      Arguments.of(
+        loadResourceAsString("code_and_text_relations.jsonl"),
+        List.of(JUDGE, MEDIUM, NARRATOR, ONSCREEN_PRESENTER, PATRON, RADIO_DIRECTOR)
+      )
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideMarcAndPredicates")
+  void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {
+    //when
+    var result = marc2BibframeMapper.map(marc);
+
+    //then
+    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    assertThat(work.getOutgoingEdges()).hasSize(12);
+
+    var workEdgesIterator = work.getOutgoingEdges().iterator();
+    var workCreatorPerson = workEdgesIterator.next().getTarget();
+    var creatorPersonRelation = workEdgesIterator.next();
+    assertThat(creatorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(0));
+    assertThat(creatorPersonRelation.getTarget()).isEqualTo(workCreatorPerson);
+
+    var workCreatorOrganization = workEdgesIterator.next().getTarget();
+    var creatorOrganizationRelation = workEdgesIterator.next();
+    assertThat(creatorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(1));
+    assertThat(creatorOrganizationRelation.getTarget()).isEqualTo(workCreatorOrganization);
+
+    var workCreatorMeeting = workEdgesIterator.next().getTarget();
+    var creatorMeetingRelation = workEdgesIterator.next();
+    assertThat(creatorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(2));
+    assertThat(creatorMeetingRelation.getTarget()).isEqualTo(workCreatorMeeting);
+
+    var workContributorPerson = workEdgesIterator.next().getTarget();
+    var contributorPersonRelation = workEdgesIterator.next();
+    assertThat(contributorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(3));
+    assertThat(contributorPersonRelation.getTarget()).isEqualTo(workContributorPerson);
+
+    var workContributorOrganization = workEdgesIterator.next().getTarget();
+    var contributorOrganizationRelation = workEdgesIterator.next();
+    assertThat(contributorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(4));
+    assertThat(contributorOrganizationRelation.getTarget()).isEqualTo(workContributorOrganization);
+
+    var workContributorMeeting = workEdgesIterator.next().getTarget();
+    var contributorMeetingRelation = workEdgesIterator.next();
+    assertThat(contributorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(5));
+    assertThat(contributorMeetingRelation.getTarget()).isEqualTo(workContributorMeeting);
   }
 
   private void validateInstanceNotes(Resource resource) {

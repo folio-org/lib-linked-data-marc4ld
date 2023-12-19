@@ -1,0 +1,86 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "100": {
+        "subfields": [
+          {
+            "a": "Work Creator Person"
+          },
+          {
+            "4": "aut"
+          }
+        ]
+      }
+    },
+    {
+      "110": {
+        "subfields": [
+          {
+            "a": "Work Creator Organization"
+          },
+          {
+            "4": "brd"
+          }
+        ]
+      }
+    },
+    {
+      "111": {
+        "subfields": [
+          {
+            "a": "Work Creator Meeting"
+          },
+          {
+            "4": "cli"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "a": "Instance Main Title"
+          }
+        ]
+      }
+    },
+    {
+      "700": {
+        "subfields": [
+          {
+            "a": "Work Contributor Person"
+          },
+          {
+            "4": "dsr"
+          }
+        ]
+      }
+    },
+    {
+      "710": {
+        "subfields": [
+          {
+            "a": "Work Contributor Organization"
+          },
+          {
+            "4": "340"
+          }
+        ]
+      }
+    },
+    {
+      "711": {
+        "subfields": [
+          {
+            "a": "Work Contributor Meeting"
+          },
+          {
+            "4": "hst"
+          }
+        ]
+      }
+    }
+  ]
+}
