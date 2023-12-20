@@ -63,7 +63,11 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         var jsonNode = doc.get(propertyUri);
         if (nonNull(jsonNode) && !jsonNode.isEmpty()) {
           jsonNode.elements().forEachRemaining(
-            e -> field.addSubfield(marcFactory.newSubfield(sfKey, e.asText()))
+            e -> {
+              if (field.getSubfields().stream().noneMatch(sf -> sf.getData().equals(e.asText()))) {
+                field.addSubfield(marcFactory.newSubfield(sfKey, e.asText()));
+              }
+            }
           );
         }
       }

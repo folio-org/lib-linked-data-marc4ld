@@ -152,6 +152,7 @@ fieldRules:
       predicate: MAP
       subfields:
         a: NAME
+        d: NAME
         q: QUALIFIER
       label: NAME
       condition:
@@ -450,9 +451,6 @@ fieldRules:
     - types: INSTANCE
       subfields:
         a: EXTENT
-      append: true
-    - types: INSTANCE
-      subfields:
         c: DIMENSIONS
       append: true
     - types: INSTANCE

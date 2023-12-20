@@ -6,8 +6,6 @@
     "250" : {
       "subfields" : [ {
         "a" : "Edition Statement Edition statement2"
-      }, {
-        "b" : "Edition Statement Edition statement2"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -24,13 +22,7 @@
     "300" : {
       "subfields" : [ {
         "a" : "extent"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "300" : {
-      "subfields" : [ {
+      }, {
         "c" : "dimensions"
       } ],
       "ind1" : " ",
@@ -40,8 +32,6 @@
     "300" : {
       "subfields" : [ {
         "a" : "extent, details"
-      }, {
-        "b" : "extent, details"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -50,8 +40,6 @@
     "310" : {
       "subfields" : [ {
         "a" : "frequency, date"
-      }, {
-        "b" : "frequency, date"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -68,8 +56,6 @@
     "362" : {
       "subfields" : [ {
         "a" : "dates, source"
-      }, {
-        "z" : "dates, source"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -94,20 +80,6 @@
     "506" : {
       "subfields" : [ {
         "a" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "b" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "c" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "d" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "e" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "f" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "g" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
-      }, {
-        "q" : "terms, jurisdiction, provisions, users, authorization, terminology, date, agency"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -132,8 +104,6 @@
     "513" : {
       "subfields" : [ {
         "a" : "type, period"
-      }, {
-        "b" : "type, period"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -182,18 +152,6 @@
     "533" : {
       "subfields" : [ {
         "a" : "type, place, agency, date, description, statement, note"
-      }, {
-        "b" : "type, place, agency, date, description, statement, note"
-      }, {
-        "c" : "type, place, agency, date, description, statement, note"
-      }, {
-        "d" : "type, place, agency, date, description, statement, note"
-      }, {
-        "e" : "type, place, agency, date, description, statement, note"
-      }, {
-        "f" : "type, place, agency, date, description, statement, note"
-      }, {
-        "n" : "type, place, agency, date, description, statement, note"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -202,22 +160,6 @@
     "534" : {
       "subfields" : [ {
         "a" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "b" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "c" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "e" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "f" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "k" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "m" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "n" : "entry, statement, publication, description, series statement, key title, details, note, title"
-      }, {
-        "t" : "entry, statement, publication, description, series statement, key title, details, note, title"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -226,14 +168,6 @@
     "535" : {
       "subfields" : [ {
         "a" : "custodian, postal address, country, address, code"
-      }, {
-        "b" : "custodian, postal address, country, address, code"
-      }, {
-        "c" : "custodian, postal address, country, address, code"
-      }, {
-        "d" : "custodian, postal address, country, address, code"
-      }, {
-        "g" : "custodian, postal address, country, address, code"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -242,20 +176,6 @@
     "536" : {
       "subfields" : [ {
         "a" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "b" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "c" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "d" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "e" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "f" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "g" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
-      }, {
-        "h" : "text, contact, grant, undifferentiated, program element, project, task, work unit"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -264,10 +184,6 @@
     "538" : {
       "subfields" : [ {
         "a" : "note, text, uri"
-      }, {
-        "i" : "note, text, uri"
-      }, {
-        "u" : "note, text, uri"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -276,42 +192,6 @@
     "542" : {
       "subfields" : [ {
         "a" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "b" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "c" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "d" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "e" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "f" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "g" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "h" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "i" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "j" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "k" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "l" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "m" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "n" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "o" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "p" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "q" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "r" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
-      }, {
-        "s" : "creator, date, corporate creator, holder, information, statement, copyright date, renewal date, publication date, creation date, publisher, status, publication status, note, research date, country, agency, jurisdiction"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -320,16 +200,6 @@
     "544" : {
       "subfields" : [ {
         "a" : "custodian, address, country, title, provenance, note"
-      }, {
-        "b" : "custodian, address, country, title, provenance, note"
-      }, {
-        "c" : "custodian, address, country, title, provenance, note"
-      }, {
-        "d" : "custodian, address, country, title, provenance, note"
-      }, {
-        "e" : "custodian, address, country, title, provenance, note"
-      }, {
-        "n" : "custodian, address, country, title, provenance, note"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -354,40 +224,6 @@
     "552" : {
       "subfields" : [ {
         "a" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "b" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "c" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "d" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "e" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "f" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "g" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "h" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "i" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "j" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "k" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "l" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "m" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "n" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "o" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "p" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "u" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
-      }, {
-        "z" : "label, definition, attribute label, source, value, domain definition, range, codeset, domain, units, date, accuracy, explanation, frequency, overview, citation, uri, note"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -396,12 +232,6 @@
     "555" : {
       "subfields" : [ {
         "a" : "note, source, control, reference"
-      }, {
-        "b" : "note, source, control, reference"
-      }, {
-        "c" : "note, source, control, reference"
-      }, {
-        "d" : "note, source, control, reference"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -434,10 +264,6 @@
     "753" : {
       "subfields" : [ {
         "a" : "model, language, system"
-      }, {
-        "b" : "model, language, system"
-      }, {
-        "c" : "model, language, system"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -667,8 +493,6 @@
       "subfields" : [ {
         "a" : "111222"
       }, {
-        "d" : "111222"
-      }, {
         "q" : "eanIdQal"
       } ],
       "ind1" : "3",
@@ -688,8 +512,6 @@
     "024" : {
       "subfields" : [ {
         "a" : "333"
-      }, {
-        "d" : "333"
       }, {
         "q" : "eanIdQal"
       } ],
