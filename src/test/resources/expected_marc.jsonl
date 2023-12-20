@@ -3,9 +3,291 @@
   "fields" : [ {
     "008" : "cfDataTbd"
   }, {
+    "010" : {
+      "subfields" : [ {
+        "a" : "2019493854"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "010" : {
+      "subfields" : [ {
+        "z" : "2019493854"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "010" : {
+      "subfields" : [ {
+        "a" : "88888888"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "010" : {
+      "subfields" : [ {
+        "z" : "88888888"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "019" : {
+      "subfields" : [ {
+        "a" : "19861509"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "019" : {
+      "subfields" : [ {
+        "z" : "19861509"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "019" : {
+      "subfields" : [ {
+        "a" : "09151986"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "019" : {
+      "subfields" : [ {
+        "z" : "09151986"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "020" : {
+      "subfields" : [ {
+        "a" : "9780143789963"
+      }, {
+        "q" : "(paperback)"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "020" : {
+      "subfields" : [ {
+        "q" : "(paperback)"
+      }, {
+        "z" : "9780143789963"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "020" : {
+      "subfields" : [ {
+        "a" : "9999999"
+      }, {
+        "q" : "(paperback)"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "020" : {
+      "subfields" : [ {
+        "q" : "(paperback)"
+      }, {
+        "z" : "9999999"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "a" : "111222"
+      }, {
+        "q" : "eanIdQal"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "q" : "eanIdQal"
+      }, {
+        "z" : "111222"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "a" : "333"
+      }, {
+        "q" : "eanIdQal"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "q" : "eanIdQal"
+      }, {
+        "z" : "333"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "a" : "20232023"
+      }, {
+        "q" : "otherIdQal"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "q" : "otherIdQal"
+      }, {
+        "z" : "20232023"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "a" : "231123"
+      }, {
+        "q" : "otherIdQal"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "024" : {
+      "subfields" : [ {
+        "q" : "otherIdQal"
+      }, {
+        "z" : "231123"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "245" : {
+      "subfields" : [ {
+        "a" : "Instance MainTitle"
+      }, {
+        "b" : "Instance SubTitle"
+      }, {
+        "n" : "8"
+      }, {
+        "p" : "Instance PartName"
+      } ],
+      "ind1" : " ",
+      "ind2" : "7"
+    }
+  }, {
+    "245" : {
+      "subfields" : [ {
+        "a" : "Instance Title empty"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "245" : {
+      "subfields" : [ {
+        "b" : "Instance Title empty label"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "245" : {
+      "subfields" : [ {
+        "c" : "Statement Of Responsibility"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "246" : {
+      "subfields" : [ {
+        "a" : "Parallel-MainTitle"
+      }, {
+        "b" : "Parallel-SubTitle"
+      }, {
+        "f" : "2023-01-01"
+      }, {
+        "i" : "Parallel-Note"
+      }, {
+        "n" : "6"
+      }, {
+        "p" : "Parallel-PartName"
+      } ],
+      "ind1" : " ",
+      "ind2" : "1"
+    }
+  }, {
+    "246" : {
+      "subfields" : [ {
+        "a" : "Variant-MainTitle"
+      }, {
+        "b" : "Variant-SubTitle"
+      }, {
+        "f" : "2023-02-02"
+      }, {
+        "i" : "Variant-Note"
+      }, {
+        "n" : "5"
+      }, {
+        "p" : "Variant-PartName"
+      } ],
+      "ind1" : " ",
+      "ind2" : "9"
+    }
+  }, {
     "250" : {
       "subfields" : [ {
         "a" : "Edition Statement Edition statement2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "261" : {
+      "subfields" : [ {
+        "b" : "Manufacture Name"
+      }, {
+        "d" : "Manufacture Date"
+      }, {
+        "f" : "Manufacture Place"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "262" : {
+      "subfields" : [ {
+        "a" : "Publication Place"
+      }, {
+        "b" : "Publication Name"
+      }, {
+        "c" : "Publication Date"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -17,6 +299,62 @@
       } ],
       "ind1" : " ",
       "ind2" : " "
+    }
+  }, {
+    "264" : {
+      "subfields" : [ {
+        "a" : "Production Place"
+      }, {
+        "b" : "Production Name"
+      }, {
+        "c" : "Production Date"
+      } ],
+      "ind1" : " ",
+      "ind2" : "0"
+    }
+  }, {
+    "264" : {
+      "subfields" : [ {
+        "a" : "Publication Place"
+      }, {
+        "b" : "Publication Name"
+      }, {
+        "c" : "Publication Date"
+      } ],
+      "ind1" : " ",
+      "ind2" : "1"
+    }
+  }, {
+    "264" : {
+      "subfields" : [ {
+        "a" : "Distribution Place"
+      }, {
+        "b" : "Distribution Name"
+      }, {
+        "c" : "Distribution Date"
+      } ],
+      "ind1" : " ",
+      "ind2" : "2"
+    }
+  }, {
+    "264" : {
+      "subfields" : [ {
+        "a" : "Manufacture Place"
+      }, {
+        "b" : "Manufacture Name"
+      }, {
+        "c" : "Manufacture Date"
+      } ],
+      "ind1" : " ",
+      "ind2" : "3"
+    }
+  }, {
+    "264" : {
+      "subfields" : [ {
+        "c" : "2018"
+      } ],
+      "ind1" : " ",
+      "ind2" : "4"
     }
   }, {
     "300" : {
@@ -53,6 +391,26 @@
       "ind2" : " "
     }
   }, {
+    "337" : {
+      "subfields" : [ {
+        "a" : "MEDIA term"
+      }, {
+        "b" : "MEDIA code"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "338" : {
+      "subfields" : [ {
+        "a" : "CARRIER term"
+      }, {
+        "b" : "CARRIER code"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "362" : {
       "subfields" : [ {
         "a" : "dates, source"
@@ -72,6 +430,14 @@
     "501" : {
       "subfields" : [ {
         "a" : "with note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "505" : {
+      "subfields" : [ {
+        "a" : "work table of contents"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -120,6 +486,14 @@
     "516" : {
       "subfields" : [ {
         "a" : "computer data note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "520" : {
+      "subfields" : [ {
+        "a" : "work summary"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -269,463 +643,11 @@
       "ind2" : " "
     }
   }, {
-    "245" : {
-      "subfields" : [ {
-        "a" : "Instance MainTitle"
-      }, {
-        "b" : "Instance SubTitle"
-      }, {
-        "n" : "8"
-      }, {
-        "p" : "Instance PartName"
-      } ],
-      "ind1" : " ",
-      "ind2" : "7"
-    }
-  }, {
-    "246" : {
-      "subfields" : [ {
-        "a" : "Parallel-MainTitle"
-      }, {
-        "b" : "Parallel-SubTitle"
-      }, {
-        "f" : "2023-01-01"
-      }, {
-        "i" : "Parallel-Note"
-      }, {
-        "n" : "6"
-      }, {
-        "p" : "Parallel-PartName"
-      } ],
-      "ind1" : " ",
-      "ind2" : "1"
-    }
-  }, {
-    "246" : {
-      "subfields" : [ {
-        "a" : "Variant-MainTitle"
-      }, {
-        "b" : "Variant-SubTitle"
-      }, {
-        "f" : "2023-02-02"
-      }, {
-        "i" : "Variant-Note"
-      }, {
-        "n" : "5"
-      }, {
-        "p" : "Variant-PartName"
-      } ],
-      "ind1" : " ",
-      "ind2" : "9"
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "a" : "Instance Title empty"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "b" : "Instance Title empty label"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "264" : {
-      "subfields" : [ {
-        "a" : "Production Place"
-      }, {
-        "b" : "Production Name"
-      }, {
-        "c" : "Production Date"
-      } ],
-      "ind1" : " ",
-      "ind2" : "0"
-    }
-  }, {
-    "262" : {
-      "subfields" : [ {
-        "a" : "Publication Place"
-      }, {
-        "b" : "Publication Name"
-      }, {
-        "c" : "Publication Date"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "264" : {
-      "subfields" : [ {
-        "a" : "Publication Place"
-      }, {
-        "b" : "Publication Name"
-      }, {
-        "c" : "Publication Date"
-      } ],
-      "ind1" : " ",
-      "ind2" : "1"
-    }
-  }, {
-    "264" : {
-      "subfields" : [ {
-        "a" : "Distribution Place"
-      }, {
-        "b" : "Distribution Name"
-      }, {
-        "c" : "Distribution Date"
-      } ],
-      "ind1" : " ",
-      "ind2" : "2"
-    }
-  }, {
-    "261" : {
-      "subfields" : [ {
-        "b" : "Manufacture Name"
-      }, {
-        "d" : "Manufacture Date"
-      }, {
-        "f" : "Manufacture Place"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "264" : {
-      "subfields" : [ {
-        "a" : "Manufacture Place"
-      }, {
-        "b" : "Manufacture Name"
-      }, {
-        "c" : "Manufacture Date"
-      } ],
-      "ind1" : " ",
-      "ind2" : "3"
-    }
-  }, {
     "856" : {
       "subfields" : [ {
         "u" : "access location URI"
       }, {
         "z" : "access location note"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "010" : {
-      "subfields" : [ {
-        "a" : "2019493854"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "010" : {
-      "subfields" : [ {
-        "z" : "2019493854"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "010" : {
-      "subfields" : [ {
-        "a" : "88888888"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "010" : {
-      "subfields" : [ {
-        "z" : "88888888"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "020" : {
-      "subfields" : [ {
-        "a" : "9780143789963"
-      }, {
-        "q" : "(paperback)"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "020" : {
-      "subfields" : [ {
-        "q" : "(paperback)"
-      }, {
-        "z" : "9780143789963"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "020" : {
-      "subfields" : [ {
-        "a" : "9999999"
-      }, {
-        "q" : "(paperback)"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "020" : {
-      "subfields" : [ {
-        "q" : "(paperback)"
-      }, {
-        "z" : "9999999"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "a" : "111222"
-      }, {
-        "q" : "eanIdQal"
-      } ],
-      "ind1" : "3",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "q" : "eanIdQal"
-      }, {
-        "z" : "111222"
-      } ],
-      "ind1" : "3",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "a" : "333"
-      }, {
-        "q" : "eanIdQal"
-      } ],
-      "ind1" : "3",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "q" : "eanIdQal"
-      }, {
-        "z" : "333"
-      } ],
-      "ind1" : "3",
-      "ind2" : " "
-    }
-  }, {
-    "019" : {
-      "subfields" : [ {
-        "a" : "19861509"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "019" : {
-      "subfields" : [ {
-        "z" : "19861509"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "019" : {
-      "subfields" : [ {
-        "a" : "09151986"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "019" : {
-      "subfields" : [ {
-        "z" : "09151986"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "a" : "20232023"
-      }, {
-        "q" : "otherIdQal"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "q" : "otherIdQal"
-      }, {
-        "z" : "20232023"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "a" : "231123"
-      }, {
-        "q" : "otherIdQal"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "024" : {
-      "subfields" : [ {
-        "q" : "otherIdQal"
-      }, {
-        "z" : "231123"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "337" : {
-      "subfields" : [ {
-        "a" : "MEDIA term"
-      }, {
-        "b" : "MEDIA code"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "338" : {
-      "subfields" : [ {
-        "a" : "CARRIER term"
-      }, {
-        "b" : "CARRIER code"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "264" : {
-      "subfields" : [ {
-        "c" : "2018"
-      } ],
-      "ind1" : " ",
-      "ind2" : "4"
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "c" : "Statement Of Responsibility"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "505" : {
-      "subfields" : [ {
-        "a" : "work table of contents"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "520" : {
-      "subfields" : [ {
-        "a" : "work summary"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "082" : {
-      "subfields" : [ {
-        "a" : "Dewey Decimal Classification value"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "111" : {
-      "subfields" : [ {
-        "0" : "CREATOR MEETING LCNAF id"
-      }, {
-        "a" : "CREATOR MEETING name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "100" : {
-      "subfields" : [ {
-        "0" : "CREATOR PERSON LCNAF id"
-      }, {
-        "a" : "CREATOR PERSON name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "110" : {
-      "subfields" : [ {
-        "0" : "CREATOR ORGANIZATION LCNAF id"
-      }, {
-        "a" : "CREATOR ORGANIZATION name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "711" : {
-      "subfields" : [ {
-        "0" : "CONTRIBUTOR MEETING LCNAF id"
-      }, {
-        "a" : "CONTRIBUTOR MEETING name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "700" : {
-      "subfields" : [ {
-        "0" : "CONTRIBUTOR PERSON LCNAF id"
-      }, {
-        "a" : "CONTRIBUTOR PERSON name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "710" : {
-      "subfields" : [ {
-        "0" : "CONTRIBUTOR ORGANIZATION LCNAF id"
-      }, {
-        "a" : "CONTRIBUTOR ORGANIZATION name"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "336" : {
-      "subfields" : [ {
-        "a" : "CONTENT term"
-      }, {
-        "b" : "CONTENT code"
       } ],
       "ind1" : " ",
       "ind2" : " "
