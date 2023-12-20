@@ -227,7 +227,7 @@ class Marc2BibframeMapperIT {
     validateIsbn(edgeIterator.next(), result.getResourceHash(), "9999999", "canceled or invalid");
     validateEan(edgeIterator.next(), result.getResourceHash(), "111222", "current");
     validateEan(edgeIterator.next(), result.getResourceHash(), "333", "canceled or invalid");
-    validateOtherId(edgeIterator.next(), result.getResourceHash(), "20232023", "current");
+    validateOtherId(edgeIterator.next(), result.getResourceHash(), "202320239999", "current");
     validateOtherId(edgeIterator.next(), result.getResourceHash(), "231123", "canceled or invalid");
     validateWork(edgeIterator.next(), result.getResourceHash());
     validateTitle(edgeIterator.next(), result.getResourceHash());
