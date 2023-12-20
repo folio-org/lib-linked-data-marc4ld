@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.mapper.marc2ld.field.FieldMapper;
 import org.folio.marc4ld.model.Resource;
 import org.marc4j.MarcJsonReader;
@@ -35,7 +35,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private static final String FIELD_UUID = "999";
   private static final char SUBFIELD_INVENTORY_ID = 'i';
   private static final char SUBFIELD_SRS_ID = 's';
-  private final Marc2BibframeRules rules;
+  private final Marc4BibframeRules rules;
   private final ObjectMapper objectMapper;
   private final FieldMapper fieldMapper;
 

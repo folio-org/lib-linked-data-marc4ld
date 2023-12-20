@@ -8,7 +8,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   public static final String PRESENTED = "presented";
 
   @Override
-  public boolean isConditionSatisfied(Marc2BibframeRules.FieldRule fieldRule, DataField dataField) {
+  public boolean isConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField) {
     var condition = fieldRule.getCondition();
     if (isNull(condition)) {
       return true;

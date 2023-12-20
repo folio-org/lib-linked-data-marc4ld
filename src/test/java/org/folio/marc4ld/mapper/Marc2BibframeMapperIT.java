@@ -314,7 +314,7 @@ class Marc2BibframeMapperIT {
   @MethodSource("provideMarcAndPredicates")
   void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {
     //when
-    var result = marc2BibframeMapper.map(marc);
+    var result = marc2BibframeMapper.fromMarcJson(marc);
 
     //then
     var work = result.getOutgoingEdges().iterator().next().getTarget();

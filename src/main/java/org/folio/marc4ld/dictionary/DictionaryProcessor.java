@@ -4,6 +4,6 @@ import java.util.Optional;
 
 public interface DictionaryProcessor {
 
-  Optional<String> getValueIfExists(String dictionary, String key);
+  Optional<String> getValue(String dictionary, String key);
 
 }

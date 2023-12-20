@@ -1,14 +1,14 @@
-package org.folio.marc2ld.mapper.field.relation;
+package org.folio.marc4ld.mapper.marc2ld.relation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
-import org.folio.marc2ld.mapper.field.property.DictionaryProcessor;
-import org.folio.marc2ld.model.Resource;
-import org.folio.marc2ld.model.ResourceEdge;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.model.Resource;
+import org.folio.marc4ld.model.ResourceEdge;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +23,11 @@ public class RelationProviderImpl implements RelationProvider {
 
   @Override
   public Optional<ResourceEdge> findRelation(Resource source, Resource target, DataField dataField,
-                                             Marc2BibframeRules.FieldRule fieldRule) {
+                                             Marc4BibframeRules.FieldRule fieldRule) {
     return getPredicate(dataField, fieldRule).map(predicate -> new ResourceEdge(source, target, valueOf(predicate)));
   }
 
-  private Optional<String> getPredicate(DataField dataField, Marc2BibframeRules.FieldRule fieldRule) {
+  private Optional<String> getPredicate(DataField dataField, Marc4BibframeRules.FieldRule fieldRule) {
     return Optional.ofNullable(dataField.getSubfield(fieldRule.getRelation().getCode()))
       .flatMap(codeSubfield -> dictionaryProcessor.getValue(CODE_TO_PREDICATE, codeSubfield.getData()))
       .or(() -> Optional.ofNullable(dataField.getSubfield(fieldRule.getRelation().getText()))

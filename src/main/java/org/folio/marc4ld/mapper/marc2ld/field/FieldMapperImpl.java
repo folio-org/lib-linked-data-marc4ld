@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.mapper.marc2ld.condition.ConditionChecker;
 import org.folio.marc4ld.mapper.marc2ld.field.property.PropertyMapper;
-import org.folio.marc2ld.mapper.field.relation.RelationProvider;
+import org.folio.marc4ld.mapper.marc2ld.relation.RelationProvider;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.model.ResourceEdge;
 import org.marc4j.marc.ControlField;
@@ -40,7 +40,7 @@ public class FieldMapperImpl implements FieldMapper {
 
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
-                          Marc2BibframeRules.FieldRule fieldRule) {
+                          Marc4BibframeRules.FieldRule fieldRule) {
     if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
       final var parentResource = computeParentIfAbsent(parent, fieldRule);
       Resource mappedResource;
@@ -57,7 +57,7 @@ public class FieldMapperImpl implements FieldMapper {
     }
   }
 
-  private Resource computeParentIfAbsent(Resource parent, Marc2BibframeRules.FieldRule fieldRule) {
+  private Resource computeParentIfAbsent(Resource parent, Marc4BibframeRules.FieldRule fieldRule) {
     if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceTypeDictionary::getUri).collect(
       Collectors.toSet()))) {
       return parent;
@@ -84,7 +84,7 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource appendResource(Resource resource, DataField dataField, List<ControlField> controlFields,
-                                  Marc2BibframeRules.FieldRule fieldRule) {
+                                  Marc4BibframeRules.FieldRule fieldRule) {
     var properties = isNull(resource.getDoc()) ? new HashMap<String, List<String>>() :
       objectMapper.convertValue(resource.getDoc(), HashMap.class);
     propertyMapper.mapProperties(resource, dataField, fieldRule, controlFields, properties);
@@ -92,7 +92,7 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource addNewEdge(Resource resource, DataField dataField, List<ControlField> controlFields,
-                              Marc2BibframeRules.FieldRule fieldRule) {
+                              Marc4BibframeRules.FieldRule fieldRule) {
     var edgeResource = new Resource();
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
     var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, controlFields, new HashMap<>());
@@ -103,7 +103,7 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private void addRelation(Resource source, Resource target, DataField dataField,
-                           Marc2BibframeRules.FieldRule fieldRule) {
+                           Marc4BibframeRules.FieldRule fieldRule) {
     if (fieldRule.getRelation() != null) {
       relationProvider.findRelation(source, target, dataField, fieldRule)
         .ifPresent(resourceEdge -> source.getOutgoingEdges().add(resourceEdge));

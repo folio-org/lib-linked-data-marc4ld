@@ -7,7 +7,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
-import static org.folio.marc4ld.configuration.property.Marc2BibframeRules.FieldCondition;
+import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldCondition;
 import static org.folio.marc4ld.mapper.marc2ld.condition.ConditionCheckerImpl.NOT;
 import static org.folio.marc4ld.mapper.marc2ld.condition.ConditionCheckerImpl.PRESENTED;
 
@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules.FieldRule;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
 import org.folio.marc4ld.model.Resource;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -34,7 +34,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private static final String CONTROL_FIELD_PREFIX = "00";
   private final MarcFactory marcFactory;
-  private final Marc2BibframeRules rules;
+  private final Marc4BibframeRules rules;
 
   @Override
   public void toMarcRecord(Resource resource, PredicateDictionary predicate, Record marcRecord) {

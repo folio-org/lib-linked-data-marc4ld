@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.marc4ld.configuration.property.Marc2BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.model.Resource;
 import org.marc4j.marc.ControlField;
@@ -30,7 +30,7 @@ public class PropertyMapperImpl implements PropertyMapper {
 
   @Override
   public Map<String, List<String>> mapProperties(Resource resource, DataField dataField,
-                                                 Marc2BibframeRules.FieldRule fieldRule,
+                                                 Marc4BibframeRules.FieldRule fieldRule,
                                                  List<ControlField> controlFields,
                                                  Map<String, List<String>> properties) {
     ofNullable(fieldRule.getSubfields()).ifPresent(sf -> sf.forEach((field, rule) -> {
