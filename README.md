@@ -1,2 +1,2 @@
-# lib-linked-data-marc2ld
-Marc to LinkedData transformation library
+# lib-linked-data-marc4ld
+Marc <-> LinkedData transformation library
