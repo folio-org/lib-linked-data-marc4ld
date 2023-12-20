@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.field.property;
+package org.folio.marc4ld.service.marc2ld.field.property;
 
 import java.util.List;
 import java.util.Map;

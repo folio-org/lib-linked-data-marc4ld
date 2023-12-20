@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.condition;
+package org.folio.marc4ld.service.marc2ld.condition;
 
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.marc4j.marc.DataField;

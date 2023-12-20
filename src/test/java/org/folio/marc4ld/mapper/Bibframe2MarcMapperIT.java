@@ -4,8 +4,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleInstanceResource;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
-import org.folio.marc4ld.mapper.ld2marc.Bibframe2MarcMapperImpl;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
+import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

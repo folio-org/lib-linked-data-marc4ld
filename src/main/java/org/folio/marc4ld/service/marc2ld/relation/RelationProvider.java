@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.relation;
+package org.folio.marc4ld.service.marc2ld.relation;
 
 import java.util.Optional;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;

@@ -1,4 +1,4 @@
-package org.folio.marc4ld.dictionary;
+package org.folio.marc4ld.service.dictionary;
 
 import java.util.Optional;
 

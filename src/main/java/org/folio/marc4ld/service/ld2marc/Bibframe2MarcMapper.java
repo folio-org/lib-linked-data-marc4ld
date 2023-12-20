@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.ld2marc;
+package org.folio.marc4ld.service.ld2marc;
 
 import org.folio.marc4ld.model.Resource;
 

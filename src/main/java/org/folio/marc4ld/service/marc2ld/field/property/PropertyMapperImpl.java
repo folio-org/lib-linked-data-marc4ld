@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.field.property;
+package org.folio.marc4ld.service.marc2ld.field.property;
 
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.model.Resource;
+import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;

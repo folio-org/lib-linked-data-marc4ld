@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.field;
+package org.folio.marc4ld.service.marc2ld.field;
 
 import java.util.List;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;

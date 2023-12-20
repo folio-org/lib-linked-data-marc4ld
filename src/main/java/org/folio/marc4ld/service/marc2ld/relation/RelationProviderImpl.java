@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld.relation;
+package org.folio.marc4ld.service.marc2ld.relation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
@@ -6,9 +6,9 @@ import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.model.ResourceEdge;
+import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
 

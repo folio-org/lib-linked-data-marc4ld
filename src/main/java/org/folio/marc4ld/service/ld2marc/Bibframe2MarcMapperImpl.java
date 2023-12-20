@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.ld2marc;
+package org.folio.marc4ld.service.ld2marc;
 
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmptyResource;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.folio.marc4ld.mapper.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.model.Resource;
+import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;

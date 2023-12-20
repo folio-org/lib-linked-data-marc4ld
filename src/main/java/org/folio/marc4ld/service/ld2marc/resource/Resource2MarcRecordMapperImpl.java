@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.ld2marc.resource;
+package org.folio.marc4ld.service.ld2marc.resource;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -8,8 +8,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldCondition;
-import static org.folio.marc4ld.mapper.marc2ld.condition.ConditionCheckerImpl.NOT;
-import static org.folio.marc4ld.mapper.marc2ld.condition.ConditionCheckerImpl.PRESENTED;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Objects;
@@ -21,6 +19,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
 import org.folio.marc4ld.model.Resource;
+import org.folio.marc4ld.service.marc2ld.condition.ConditionCheckerImpl;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -91,7 +90,8 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private Optional<Character> getIndicatorCondition(String indCondition) {
     return ofNullable(indCondition)
-      .filter(ic -> isNotBlank(ic) && !ic.startsWith(NOT) && !ic.equals(PRESENTED))
+      .filter(ic -> isNotBlank(ic) && !ic.startsWith(ConditionCheckerImpl.NOT) && !ic.equals(
+        ConditionCheckerImpl.PRESENTED))
       .map(c -> indCondition.charAt(0));
   }
 

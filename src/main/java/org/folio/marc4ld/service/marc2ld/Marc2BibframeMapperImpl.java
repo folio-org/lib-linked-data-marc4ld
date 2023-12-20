@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.marc2ld;
+package org.folio.marc4ld.service.marc2ld;
 
 import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.mapper.marc2ld.field.FieldMapper;
 import org.folio.marc4ld.model.Resource;
+import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
