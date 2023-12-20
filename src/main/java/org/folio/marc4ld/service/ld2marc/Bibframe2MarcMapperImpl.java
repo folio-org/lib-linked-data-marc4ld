@@ -38,8 +38,7 @@ public class Bibframe2MarcMapperImpl implements Bibframe2MarcMapper {
     }
     try (var os = new ByteArrayOutputStream()) {
       var writer = new MarcJsonWriter(os);
-      var marcRecord = marcFactory.newRecord();
-      resourceMapper.toMarcRecord(bibframe, null, marcRecord);
+      var marcRecord = resourceMapper.toMarcRecord(bibframe);
       setLeader(marcRecord);
       writer.write(marcRecord);
       writer.close();

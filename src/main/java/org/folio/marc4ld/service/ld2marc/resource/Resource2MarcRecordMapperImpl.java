@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
+import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -36,21 +38,23 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Marc4BibframeRules rules;
 
   @Override
-  public void toMarcRecord(Resource resource, PredicateDictionary predicate, Record marcRecord) {
+  public Record toMarcRecord(Resource resource) {
+    var marcRecord = marcFactory.newRecord();
+    Stream.concat(toFieldStream(resource, null),
+        resource.getOutgoingEdges().stream().flatMap(re -> toFieldStream(re.getTarget(), re.getPredicate())))
+      .sorted(comparing(VariableField::getTag))
+      .forEach(marcRecord::addVariableField);
+    return marcRecord;
+  }
+
+  private Stream<VariableField> toFieldStream(Resource resource, PredicateDictionary predicate) {
     var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
-    rules.getFieldRules().forEach((frKey, frValue) -> frValue.stream()
+    return rules.getFieldRules().entrySet().stream().flatMap(e -> e.getValue().stream()
       .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
         && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-      .forEach(fr -> {
-        VariableField field;
-        if (frKey.startsWith(CONTROL_FIELD_PREFIX)) {
-          field = getControlField(fr, frKey, resource.getDoc());
-        } else {
-          field = getDataField(fr, frKey, resource.getDoc());
-        }
-        marcRecord.addVariableField(field);
-      }));
-    resource.getOutgoingEdges().forEach(re -> toMarcRecord(re.getTarget(), re.getPredicate(), marcRecord));
+      .map(fr -> e.getKey().startsWith(CONTROL_FIELD_PREFIX)
+        ? getControlField(fr, e.getKey(), resource.getDoc())
+        : getDataField(fr, e.getKey(), resource.getDoc())));
   }
 
   private DataField getDataField(FieldRule fr, String tag, JsonNode doc) {
