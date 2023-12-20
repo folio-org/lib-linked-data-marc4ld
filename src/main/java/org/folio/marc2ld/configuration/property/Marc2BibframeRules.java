@@ -23,6 +23,7 @@ public class Marc2BibframeRules {
     private String parentPredicate;
     private String predicate;
     private FieldCondition condition;
+    private FieldRelation relation;
     private Map<Character, String> subfields;
     private String ind1;
     private String ind2;
@@ -39,5 +40,11 @@ public class Marc2BibframeRules {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+  }
+
+  @Data
+  public static class FieldRelation {
+    private char code;
+    private char text;
   }
 }

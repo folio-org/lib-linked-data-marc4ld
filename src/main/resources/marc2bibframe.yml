@@ -202,6 +202,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   110:
     - types: ORGANIZATION
       parent: WORK
@@ -211,6 +214,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   111:
     - types: MEETING
       parent: WORK
@@ -220,6 +226,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: j
   245:
     - types: TITLE
       parent: INSTANCE
@@ -751,6 +760,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   710:
     - types: ORGANIZATION
       parent: WORK
@@ -760,6 +772,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: e
   711:
     - types: MEETING
       parent: WORK
@@ -769,6 +784,9 @@ fieldRules:
         a: NAME
         '0': LCNAF_ID
       label: NAME
+      relation:
+        code: '4'
+        text: j
   753:
     - types: INSTANCE
       subfields:

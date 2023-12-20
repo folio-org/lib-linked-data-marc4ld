@@ -1,0 +1,86 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "100": {
+        "subfields": [
+          {
+            "a": "Work Creator Person"
+          },
+          {
+            "e": "filmmaker."
+          }
+        ]
+      }
+    },
+    {
+      "110": {
+        "subfields": [
+          {
+            "a": "Work Creator Organization"
+          },
+          {
+            "e": "GraphicTechnician"
+          }
+        ]
+      }
+    },
+    {
+      "111": {
+        "subfields": [
+          {
+            "a": "Work Creator Meeting"
+          },
+          {
+            "j": "(illustrator)"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "a": "Instance Main Title"
+          }
+        ]
+      }
+    },
+    {
+      "700": {
+        "subfields": [
+          {
+            "a": "Work Contributor Person"
+          },
+          {
+            "e": "lab-director"
+          }
+        ]
+      }
+    },
+    {
+      "710": {
+        "subfields": [
+          {
+            "a": "Work Contributor Organization"
+          },
+          {
+            "e": "honouree,"
+          }
+        ]
+      }
+    },
+    {
+      "711": {
+        "subfields": [
+          {
+            "a": "Work Contributor Meeting"
+          },
+          {
+            "j": "instructor;"
+          }
+        ]
+      }
+    }
+  ]
+}

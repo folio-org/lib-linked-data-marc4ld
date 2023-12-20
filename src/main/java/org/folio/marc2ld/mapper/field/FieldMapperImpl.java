@@ -22,6 +22,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc2ld.configuration.property.Marc2BibframeRules;
 import org.folio.marc2ld.mapper.condition.ConditionChecker;
 import org.folio.marc2ld.mapper.field.property.PropertyMapper;
+import org.folio.marc2ld.mapper.field.relation.RelationProvider;
 import org.folio.marc2ld.model.Resource;
 import org.folio.marc2ld.model.ResourceEdge;
 import org.marc4j.marc.ControlField;
@@ -35,6 +36,7 @@ public class FieldMapperImpl implements FieldMapper {
   private final ConditionChecker conditionChecker;
   private final PropertyMapper propertyMapper;
   private final ObjectMapper objectMapper;
+  private final RelationProvider relationProvider;
 
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
@@ -48,6 +50,7 @@ public class FieldMapperImpl implements FieldMapper {
           .orElseGet(() -> addNewEdge(parentResource, dataField, controlFields, fieldRule));
       } else {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
+        addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
@@ -97,6 +100,14 @@ public class FieldMapperImpl implements FieldMapper {
     edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource, valueOf(fieldRule.getPredicate())));
     return edgeResource;
+  }
+
+  private void addRelation(Resource source, Resource target, DataField dataField,
+                           Marc2BibframeRules.FieldRule fieldRule) {
+    if (fieldRule.getRelation() != null) {
+      relationProvider.findRelation(source, target, dataField, fieldRule)
+        .ifPresent(resourceEdge -> source.getOutgoingEdges().add(resourceEdge));
+    }
   }
 
   private void setLabel(Resource resource, Map<String, List<String>> properties, String labelProperty) {

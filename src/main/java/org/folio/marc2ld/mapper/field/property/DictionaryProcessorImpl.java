@@ -8,6 +8,7 @@ import static org.springframework.core.io.support.ResourcePatternUtils.getResour
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -48,8 +49,8 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
   }
 
   @Override
-  public String check(String property, String value) {
-    return dictionaries.getOrDefault(property, emptyMap()).getOrDefault(value, value);
+  public Optional<String> getValue(String dictionary, String key) {
+    return Optional.ofNullable(dictionaries.getOrDefault(dictionary, emptyMap()).get(key));
   }
 
 }

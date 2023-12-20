@@ -1,0 +1,104 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "100": {
+        "subfields": [
+          {
+            "a": "Work Creator Person"
+          },
+          {
+            "4": "jud"
+          },
+          {
+            "e": "judge"
+          }
+        ]
+      }
+    },
+    {
+      "110": {
+        "subfields": [
+          {
+            "a": "Work Creator Organization"
+          },
+          {
+            "4": "med"
+          },
+          {
+            "e": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "111": {
+        "subfields": [
+          {
+            "a": "Work Creator Meeting"
+          },
+          {
+            "4": "nrt"
+          },
+          {
+            "j": "narrator"
+          }
+        ]
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "a": "Instance Main Title"
+          }
+        ]
+      }
+    },
+    {
+      "700": {
+        "subfields": [
+          {
+            "a": "Work Contributor Person"
+          },
+          {
+            "4": "osp"
+          },
+          {
+            "e": "onscreenpresenter"
+          }
+        ]
+      }
+    },
+    {
+      "710": {
+        "subfields": [
+          {
+            "a": "Work Contributor Organization"
+          },
+          {
+            "4": "pat"
+          },
+          {
+            "e": "patron"
+          }
+        ]
+      }
+    },
+    {
+      "711": {
+        "subfields": [
+          {
+            "a": "Work Contributor Meeting"
+          },
+          {
+            "4": "rdd"
+          },
+          {
+            "j": "radiodirector"
+          }
+        ]
+      }
+    }
+  ]
+}

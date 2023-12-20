@@ -1,7 +1,9 @@
 package org.folio.marc2ld.mapper.field.property;
 
+import java.util.Optional;
+
 public interface DictionaryProcessor {
 
-  String check(String property, String value);
+  Optional<String> getValue(String dictionary, String key);
 
 }
