@@ -22,7 +22,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.model.ResourceEdge;
-import org.folio.marc4ld.service.marc2ld.condition.ConditionChecker;
+import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;

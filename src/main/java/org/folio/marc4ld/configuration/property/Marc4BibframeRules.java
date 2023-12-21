@@ -40,6 +40,7 @@ public class Marc4BibframeRules {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+    private String edge;
   }
 
   @Data
