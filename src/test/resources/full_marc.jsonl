@@ -459,6 +459,18 @@
       }
     },
     {
+      "504": {
+        "subfields": [
+          {
+            "a": "note"
+          },
+          {
+            "b": "references"
+          }
+        ]
+      }
+    },
+    {
       "505": {
         "subfields": [
           {
@@ -498,10 +510,43 @@
       }
     },
     {
+      "507": {
+        "subfields": [
+          {
+            "a": "fraction note"
+          },
+          {
+            "b": "remainder note"
+          }
+        ]
+      }
+    },
+    {
       "508": {
         "subfields": [
           {
             "a": "credits note"
+          }
+        ]
+      }
+    },
+    {
+      "510": {
+        "subfields": [
+          {
+            "a": "name"
+          },
+          {
+            "b": "coverage"
+          },
+          {
+            "c": "location"
+          },
+          {
+            "u": "uri"
+          },
+          {
+            "x": "issn"
           }
         ]
       }
@@ -528,6 +573,54 @@
       }
     },
     {
+      "514": {
+        "subfields": [
+          {
+            "a": "report"
+          },
+          {
+            "b": "value"
+          },
+          {
+            "c": "explanation"
+          },
+          {
+            "d": "consistency report"
+          },
+          {
+            "e": "completeness report"
+          },
+          {
+            "f": "horizontal report"
+          },
+          {
+            "g": "horizontal value"
+          },
+          {
+            "h": "horizontal explanation"
+          },
+          {
+            "i": "vertical report"
+          },
+          {
+            "j": "vertical value"
+          },
+          {
+            "k": "vertical explanation"
+          },
+          {
+            "m": "cover"
+          },
+          {
+            "u": "uri"
+          },
+          {
+            "z": "note"
+          }
+        ]
+      }
+    },
+    {
       "515": {
         "subfields": [
           {
@@ -546,6 +639,24 @@
       }
     },
     {
+      "518": {
+        "subfields": [
+          {
+            "a": "time"
+          },
+          {
+            "d": "date"
+          },
+          {
+            "o": "other"
+          },
+          {
+            "p": "place"
+          }
+        ]
+      }
+    },
+    {
       "520": {
         "subfields": [
           {
@@ -556,10 +667,55 @@
       }
     },
     {
+      "522": {
+        "subfields": [
+          {
+            "a": "geographic coverage note"
+          }
+        ]
+      }
+    },
+    {
       "524": {
         "subfields": [
           {
             "a": "citation coverage note"
+          }
+        ]
+      }
+    },
+    {
+      "525": {
+        "subfields": [
+          {
+            "a": "supplement note"
+          }
+        ]
+      }
+    },
+    {
+      "526": {
+        "subfields": [
+          {
+            "a": "program"
+          },
+          {
+            "b": "interest"
+          },
+          {
+            "c": "reading"
+          },
+          {
+            "d": "title"
+          },
+          {
+            "i": "text"
+          },
+          {
+            "x": "nonpublic"
+          },
+          {
+            "z": "public"
           }
         ]
       }
@@ -789,6 +945,15 @@
           {
             "n": "note"
           },
+        ]
+      }
+    },
+    {
+      "546": {
+        "subfields": [
+          {
+            "a": "language note"
+          }
         ]
       }
     },

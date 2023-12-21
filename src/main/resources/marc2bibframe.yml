@@ -519,6 +519,13 @@ fieldRules:
       subfields:
         a: WITH_NOTE
       append: true
+  504:
+    - types: WORK
+      subfields:
+        a: BIBLIOGRAPHY_NOTE
+        b: BIBLIOGRAPHY_NOTE
+      concat: ', '
+      append: true
   505:
     - types: WORK
       parent: INSTANCE
@@ -539,10 +546,27 @@ fieldRules:
         q: GOVERNING_ACCESS_NOTE
       concat: ', '
       append: true
+  507:
+    - types: WORK
+      subfields:
+        a: SCALE_NOTE
+        b: SCALE_NOTE
+      concat: ', '
+      append: true
   508:
     - types: INSTANCE
       subfields:
         a: CREDITS_NOTE
+      append: true
+  510:
+    - types: WORK
+      subfields:
+        a: REFERENCES
+        b: REFERENCES
+        c: REFERENCES
+        u: REFERENCES
+        x: REFERENCES
+      concat: ', '
       append: true
   511:
     - types: INSTANCE
@@ -556,6 +580,25 @@ fieldRules:
         b: TYPE_OF_REPORT
       concat: ', '
       append: true
+  514:
+    - types: WORK
+      subfields:
+        a: DATA_QUALITY
+        b: DATA_QUALITY
+        c: DATA_QUALITY
+        d: DATA_QUALITY
+        e: DATA_QUALITY
+        f: DATA_QUALITY
+        g: DATA_QUALITY
+        h: DATA_QUALITY
+        i: DATA_QUALITY
+        j: DATA_QUALITY
+        k: DATA_QUALITY
+        m: DATA_QUALITY
+        u: DATA_QUALITY
+        z: DATA_QUALITY
+      concat: ', '
+      append: true
   515:
     - types: INSTANCE
       subfields:
@@ -566,6 +609,15 @@ fieldRules:
       subfields:
         a: COMPUTER_DATA_NOTE
       append: true
+  518:
+    - types: WORK
+      subfields:
+        a: OTHER_EVENT_INFORMATION
+        d: OTHER_EVENT_INFORMATION
+        o: OTHER_EVENT_INFORMATION
+        p: OTHER_EVENT_INFORMATION
+      concat: ', '
+      append: true
   520:
     - types: WORK
       parent: INSTANCE
@@ -573,10 +625,32 @@ fieldRules:
       subfields:
         a: SUMMARY
       append: true
+  522:
+    - types: WORK
+      subfields:
+        a: GEOGRAPHIC_COVERAGE
+      append: true
   524:
     - types: INSTANCE
       subfields:
         a: CITATION_COVERAGE
+      append: true
+  525:
+    - types: WORK
+      subfields:
+        a: SUPPLEMENT
+      append: true
+  526:
+    - types: WORK
+      subfields:
+        a: STUDY_PROGRAM_NAME
+        b: STUDY_PROGRAM_NAME
+        c: STUDY_PROGRAM_NAME
+        d: STUDY_PROGRAM_NAME
+        i: STUDY_PROGRAM_NAME
+        x: STUDY_PROGRAM_NAME
+        z: STUDY_PROGRAM_NAME
+      concat: ', '
       append: true
   530:
     - types: INSTANCE
@@ -679,6 +753,11 @@ fieldRules:
         e: RELATED_PARTS
         n: RELATED_PARTS
       concat: ', '
+      append: true
+  546:
+    - types: WORK
+      subfields:
+        a: LANGUAGE_NOTE
       append: true
   547:
     - types: INSTANCE

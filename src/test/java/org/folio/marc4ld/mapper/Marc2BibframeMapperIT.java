@@ -38,10 +38,12 @@ import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
+import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.DATA_QUALITY;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATES_OF_PUBLICATION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
@@ -53,6 +55,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
@@ -61,6 +64,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
@@ -71,6 +75,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ORIGINAL_VERSION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.OTHER_EVENT_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
@@ -79,13 +84,17 @@ import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DAT
 import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
+import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
+import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
+import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
+import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
@@ -544,42 +553,69 @@ class Marc2BibframeMapperIT {
   private void validateWork(ResourceEdge edge, Long parentHash) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    var work = edge.getTarget();
+    assertThat(edge.getId().getTargetHash()).isEqualTo(work.getResourceHash());
     assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isNotEmpty();
-    assertThat(edge.getTarget().getTypes()).containsExactly(WORK);
-    assertThat(edge.getTarget().getDoc()).hasSize(5);
-    assertThat(edge.getTarget().getDoc().has(LANGUAGE.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(LANGUAGE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LANGUAGE.getValue()).get(0).asText()).isEqualTo("eng");
-    assertThat(edge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
+    assertThat(work.getResourceHash()).isNotNull();
+    assertThat(work.getLabel()).isNotEmpty();
+    assertThat(work.getTypes()).containsExactly(WORK);
+    assertThat(work.getDoc()).hasSize(14);
+    validateWorkNotes(work);
+    assertThat(work.getDoc().has(LANGUAGE.getValue())).isTrue();
+    assertThat(work.getDoc().get(LANGUAGE.getValue())).hasSize(1);
+    assertThat(work.getDoc().get(LANGUAGE.getValue()).get(0).asText()).isEqualTo("eng");
+    assertThat(work.getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
+    assertThat(work.getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
+    assertThat(work.getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
       "Statement Of Responsibility");
-    assertThat(edge.getTarget().getDoc().has(SUMMARY.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(SUMMARY.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUMMARY.getValue()).get(0).asText()).isEqualTo("work summary");
-    assertThat(edge.getTarget().getDoc().has(TABLE_OF_CONTENTS.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(TABLE_OF_CONTENTS.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(TABLE_OF_CONTENTS.getValue()).get(0).asText()).isEqualTo(
+    assertThat(work.getDoc().has(SUMMARY.getValue())).isTrue();
+    assertThat(work.getDoc().get(SUMMARY.getValue())).hasSize(1);
+    assertThat(work.getDoc().get(SUMMARY.getValue()).get(0).asText()).isEqualTo("work summary");
+    assertThat(work.getDoc().has(TABLE_OF_CONTENTS.getValue())).isTrue();
+    assertThat(work.getDoc().get(TABLE_OF_CONTENTS.getValue())).hasSize(1);
+    assertThat(work.getDoc().get(TABLE_OF_CONTENTS.getValue()).get(0).asText()).isEqualTo(
       "work table of contents");
-    assertThat(edge.getTarget().getDoc().has(TARGET_AUDIENCE.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(TARGET_AUDIENCE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(TARGET_AUDIENCE.getValue()).get(0).asText()).isEqualTo("primary");
-    assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateClassification(edgeIterator.next(), edge.getTarget().getResourceHash());
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), PERSON, CREATOR);
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), ORGANIZATION, CREATOR);
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), MEETING, CREATOR);
-    validateCategory(edgeIterator.next(), edge.getTarget().getResourceHash(), CONTENT);
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), PERSON, CONTRIBUTOR);
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), ORGANIZATION, CONTRIBUTOR);
-    validateContributor(edgeIterator.next(), edge.getTarget().getResourceHash(), MEETING, CONTRIBUTOR);
+    assertThat(work.getDoc().has(TARGET_AUDIENCE.getValue())).isTrue();
+    assertThat(work.getDoc().get(TARGET_AUDIENCE.getValue())).hasSize(1);
+    assertThat(work.getDoc().get(TARGET_AUDIENCE.getValue()).get(0).asText()).isEqualTo("primary");
+    assertThat(work.getOutgoingEdges()).isNotEmpty();
+    var edgeIterator = work.getOutgoingEdges().iterator();
+    validateClassification(edgeIterator.next(), work.getResourceHash());
+    validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
+    validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CREATOR);
+    validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
+    validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT);
+    validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CONTRIBUTOR);
+    validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
+    validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CONTRIBUTOR);
     assertThat(edgeIterator.hasNext()).isFalse();
+  }
+
+  private void validateWorkNotes(Resource resource) {
+    var doc = resource.getDoc();
+
+    List.of(BIBLIOGRAPHY_NOTE, DATA_QUALITY, GEOGRAPHIC_COVERAGE, LANGUAGE_NOTE, OTHER_EVENT_INFORMATION, REFERENCES,
+        SCALE_NOTE, STUDY_PROGRAM_NAME, SUPPLEMENT)
+      .forEach(p -> {
+        assertThat(doc.has(p.getValue())).isTrue();
+        assertThat(doc.get(p.getValue())).hasSize(1);
+      });
+
+    assertThat(doc.get(BIBLIOGRAPHY_NOTE.getValue()).get(0).asText()).isEqualTo("note, references");
+    assertThat(doc.get(DATA_QUALITY.getValue()).get(0).asText()).isEqualTo("report, value, explanation, "
+      + "consistency report, completeness report, horizontal report, horizontal value, horizontal explanation, "
+      + "vertical report, vertical value, vertical explanation, cover, uri, note");
+    assertThat(doc.get(GEOGRAPHIC_COVERAGE.getValue()).get(0).asText()).isEqualTo("geographic coverage note");
+    assertThat(doc.get(LANGUAGE_NOTE.getValue()).get(0).asText()).isEqualTo("language note");
+    assertThat(doc.get(OTHER_EVENT_INFORMATION.getValue()).get(0).asText()).isEqualTo("time, date, other, place");
+    assertThat(doc.get(REFERENCES.getValue()).get(0).asText()).isEqualTo("name, coverage, "
+      + "location, uri, issn");
+    assertThat(doc.get(SCALE_NOTE.getValue()).get(0).asText()).isEqualTo("fraction note, remainder note");
+    assertThat(doc.get(STUDY_PROGRAM_NAME.getValue()).get(0).asText()).isEqualTo("program, interest, "
+      + "reading, title, text, nonpublic, public");
+    assertThat(doc.get(SUPPLEMENT.getValue()).get(0).asText()).isEqualTo("supplement note");
   }
 
   private void validateContributor(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type,
