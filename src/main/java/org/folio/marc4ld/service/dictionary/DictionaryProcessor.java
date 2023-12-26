@@ -6,4 +6,6 @@ public interface DictionaryProcessor {
 
   Optional<String> getValue(String dictionary, String key);
 
+  Optional<String> getKey(String dictionary, String value);
+
 }
