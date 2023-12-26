@@ -41,6 +41,10 @@ public class Marc4BibframeRules {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+  }
+
+  @Data
+  public static class Ld2marcCondition {
     private String edge;
   }
 
