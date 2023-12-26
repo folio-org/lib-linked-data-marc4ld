@@ -69,14 +69,14 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
           collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
         }
         if (!e.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-          return getDataField(fr, e.getKey(), resource);
+          return getDataField(fr, e.getKey(), resource, cfb);
         }
         return null;
       })
       .filter(Objects::nonNull));
   }
 
-  private DataField getDataField(FieldRule fr, String tag, Resource resource) {
+  private DataField getDataField(FieldRule fr, String tag, Resource resource, ControlFieldsBuilder cfb) {
     var doc = resource.getDoc();
     var ind1 = getIndicator(fr.getInd1(), getIndCondition(fr, Marc2ldCondition::getInd1), doc);
     var ind2 = getIndicator(fr.getInd2(), getIndCondition(fr, Marc2ldCondition::getInd2), doc);
@@ -99,7 +99,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
   }
 
-  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
+  private static String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
     return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
   }
 
