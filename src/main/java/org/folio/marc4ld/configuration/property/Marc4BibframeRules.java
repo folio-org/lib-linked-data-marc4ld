@@ -22,7 +22,8 @@ public class Marc4BibframeRules {
     private String parent;
     private String parentPredicate;
     private String predicate;
-    private FieldCondition condition;
+    private Marc2ldCondition marc2ldCondition;
+    private Ld2marcCondition ld2marcCondition;
     private FieldRelation relation;
     private Map<Character, String> subfields;
     private String ind1;
@@ -36,10 +37,14 @@ public class Marc4BibframeRules {
   }
 
   @Data
-  public static class FieldCondition {
+  public static class Marc2ldCondition {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+  }
+
+  @Data
+  public static class Ld2marcCondition {
     private String edge;
   }
 

@@ -41,7 +41,7 @@ public class FieldMapperImpl implements FieldMapper {
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
                           Marc4BibframeRules.FieldRule fieldRule) {
-    if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
+    if (conditionChecker.isMarc2LdConditionSatisfied(fieldRule, dataField)) {
       final var parentResource = computeParentIfAbsent(parent, fieldRule);
       Resource mappedResource;
       if (fieldRule.isAppend()) {

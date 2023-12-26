@@ -27,8 +27,8 @@ public class ConditionCheckerImpl implements ConditionChecker {
   public static final String PRESENTED = "presented";
 
   @Override
-  public boolean isConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField) {
-    var condition = fieldRule.getCondition();
+  public boolean isMarc2LdConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField) {
+    var condition = fieldRule.getMarc2ldCondition();
     if (isNull(condition)) {
       return true;
     }
@@ -42,9 +42,9 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   @Override
-  public boolean isResourceConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
-    var condition = fieldRule.getCondition();
-    if (isNull(condition) || isNull(fieldRule.getCondition().getEdge())) {
+  public boolean isLd2MarcConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
+    var condition = fieldRule.getLd2marcCondition();
+    if (isNull(condition) || isNull(condition.getEdge())) {
       return true;
     }
     return isEdgeConditionSatisfied(fieldRule, resource);
@@ -69,7 +69,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
       return false;
     }
     return fieldRule.getEdges().stream()
-      .filter(edgeRule -> edgeRule.getTypes().contains(fieldRule.getCondition().getEdge()))
+      .filter(edgeRule -> edgeRule.getTypes().contains(fieldRule.getLd2marcCondition().getEdge()))
       .filter(edgeRule -> nonNull(edgeRule.getPredicate()))
       .findFirst()
       .map(edgeRule -> resource.getOutgoingEdges().stream()

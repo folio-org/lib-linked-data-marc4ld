@@ -6,8 +6,8 @@ import org.marc4j.marc.DataField;
 
 public interface ConditionChecker {
 
-  boolean isConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField);
+  boolean isMarc2LdConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField);
 
-  boolean isResourceConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource);
+  boolean isLd2MarcConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource);
 
 }
