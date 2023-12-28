@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @Configuration
 @ConfigurationProperties
-@PropertySource(value = "classpath:marc2bibframe.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class)
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> fieldRules;
@@ -22,7 +22,8 @@ public class Marc4BibframeRules {
     private String parent;
     private String parentPredicate;
     private String predicate;
-    private FieldCondition condition;
+    private Marc2ldCondition marc2ldCondition;
+    private Ld2marcCondition ld2marcCondition;
     private FieldRelation relation;
     private Map<Character, String> subfields;
     private String ind1;
@@ -36,10 +37,15 @@ public class Marc4BibframeRules {
   }
 
   @Data
-  public static class FieldCondition {
+  public static class Marc2ldCondition {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+  }
+
+  @Data
+  public static class Ld2marcCondition {
+    private String edge;
   }
 
   @Data

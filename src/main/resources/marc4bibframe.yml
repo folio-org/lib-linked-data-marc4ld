@@ -15,9 +15,11 @@ fieldRules:
       subfields:
         a: NAME
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           a: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -31,9 +33,11 @@ fieldRules:
       subfields:
         z: NAME
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           z: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -48,9 +52,11 @@ fieldRules:
       subfields:
         a: LOCAL_ID_VALUE
       label: LOCAL_ID_VALUE
-      condition:
+      marc2ldCondition:
         fields:
           a: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -64,9 +70,11 @@ fieldRules:
       subfields:
         z: LOCAL_ID_VALUE
       label: LOCAL_ID_VALUE
-      condition:
+      marc2ldCondition:
         fields:
           z: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -82,9 +90,11 @@ fieldRules:
         a: NAME
         q: QUALIFIER
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           a: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -99,9 +109,11 @@ fieldRules:
         z: NAME
         q: QUALIFIER
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           z: presented
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -118,10 +130,12 @@ fieldRules:
         d: EAN_VALUE
         q: QUALIFIER
       label: EAN_VALUE
-      condition:
+      marc2ldCondition:
         fields:
           a: presented
         ind1: '3'
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -136,10 +150,12 @@ fieldRules:
         z: EAN_VALUE
         q: QUALIFIER
       label: EAN_VALUE
-      condition:
+      marc2ldCondition:
         fields:
           z: presented
         ind1: '3'
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -155,10 +171,12 @@ fieldRules:
         d: NAME
         q: QUALIFIER
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           a: presented
         ind1: '!3'
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -173,10 +191,12 @@ fieldRules:
         z: NAME
         q: QUALIFIER
       label: NAME
-      condition:
+      marc2ldCondition:
         fields:
           z: presented
         ind1: '!3'
+      ld2marcCondition:
+        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -246,7 +266,7 @@ fieldRules:
       predicate: INSTANTIATES
       subfields:
         c: RESPONSIBILITY_STATEMENT
-      condition:
+      marc2ldCondition:
         fields:
           c: presented
       append: true
@@ -254,7 +274,7 @@ fieldRules:
     - types: PARALLEL_TITLE
       parent: INSTANCE
       predicate: TITLE
-      condition:
+      marc2ldCondition:
         ind2: '1'
       subfields:
         a: MAIN_TITLE
@@ -267,7 +287,7 @@ fieldRules:
     - types: VARIANT_TITLE
       parent: INSTANCE
       predicate: TITLE
-      condition:
+      marc2ldCondition:
         ind2: '!1'
       subfields:
         a: MAIN_TITLE
@@ -342,7 +362,7 @@ fieldRules:
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PRODUCTION
-      condition:
+      marc2ldCondition:
         ind2: '0'
       subfields:
         a: SIMPLE_PLACE
@@ -367,7 +387,7 @@ fieldRules:
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
-      condition:
+      marc2ldCondition:
         ind2: '1'
       subfields:
         a: SIMPLE_PLACE
@@ -392,7 +412,7 @@ fieldRules:
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_DISTRIBUTION
-      condition:
+      marc2ldCondition:
         ind2: '2'
       subfields:
         a: SIMPLE_PLACE
@@ -417,7 +437,7 @@ fieldRules:
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_MANUFACTURE
-      condition:
+      marc2ldCondition:
         ind2: '3'
       subfields:
         a: SIMPLE_PLACE
@@ -442,7 +462,7 @@ fieldRules:
     - types: COPYRIGHT_EVENT
       parent: INSTANCE
       predicate: COPYRIGHT
-      condition:
+      marc2ldCondition:
         ind2: '4'
       subfields:
         c: DATE

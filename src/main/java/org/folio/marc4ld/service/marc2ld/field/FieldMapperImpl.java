@@ -22,7 +22,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.model.ResourceEdge;
-import org.folio.marc4ld.service.marc2ld.condition.ConditionChecker;
+import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;
@@ -41,7 +41,7 @@ public class FieldMapperImpl implements FieldMapper {
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
                           Marc4BibframeRules.FieldRule fieldRule) {
-    if (conditionChecker.isConditionSatisfied(fieldRule, dataField)) {
+    if (conditionChecker.isMarc2LdConditionSatisfied(fieldRule, dataField)) {
       final var parentResource = computeParentIfAbsent(parent, fieldRule);
       Resource mappedResource;
       if (fieldRule.isAppend()) {

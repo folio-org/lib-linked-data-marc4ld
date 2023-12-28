@@ -8,11 +8,12 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
-import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldCondition;
+import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.Marc2ldCondition;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
 import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.service.marc2ld.condition.ConditionCheckerImpl;
+import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -36,6 +38,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private static final String CONTROL_FIELD_PREFIX = "00";
   private final MarcFactory marcFactory;
   private final Marc4BibframeRules rules;
+  private final ConditionChecker conditionChecker;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -50,16 +53,18 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private Stream<VariableField> toFieldStream(Resource resource, PredicateDictionary predicate) {
     var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
     return rules.getFieldRules().entrySet().stream().flatMap(e -> e.getValue().stream()
-      .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
-        && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-      .map(fr -> e.getKey().startsWith(CONTROL_FIELD_PREFIX)
-        ? getControlField(fr, e.getKey(), resource.getDoc())
-        : getDataField(fr, e.getKey(), resource.getDoc())));
+        .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+          && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
+        .map(fr -> e.getKey().startsWith(CONTROL_FIELD_PREFIX)
+          ? getControlField(fr, e.getKey(), resource.getDoc())
+          : getDataField(fr, e.getKey(), resource)))
+      .filter(Objects::nonNull);
   }
 
-  private DataField getDataField(FieldRule fr, String tag, JsonNode doc) {
-    var ind1 = getIndicator(fr.getInd1(), ofNullable(fr.getCondition()).map(FieldCondition::getInd1).orElse(null), doc);
-    var ind2 = getIndicator(fr.getInd2(), ofNullable(fr.getCondition()).map(FieldCondition::getInd2).orElse(null), doc);
+  private DataField getDataField(FieldRule fr, String tag, Resource resource) {
+    var doc = resource.getDoc();
+    var ind1 = getIndicator(fr.getInd1(), getIndCondition(fr, Marc2ldCondition::getInd1), doc);
+    var ind2 = getIndicator(fr.getInd2(), getIndCondition(fr, Marc2ldCondition::getInd2), doc);
     var field = marcFactory.newDataField(tag, ind1, ind2);
     fr.getSubfields().forEach(
       (sfKey, sfValue) -> {
@@ -76,7 +81,11 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         }
       }
     );
-    return field;
+    return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
+  }
+
+  private static String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
+    return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
   }
 
   private char getIndicator(String indProperty, String indCondition, JsonNode doc) {
