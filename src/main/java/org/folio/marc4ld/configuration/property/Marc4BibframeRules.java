@@ -49,11 +49,6 @@ public class Marc4BibframeRules {
   }
 
   @Data
-  public static class Ld2marcCondition {
-    private String edge;
-  }
-
-  @Data
   public static class FieldRelation {
     private char code;
     private char text;

@@ -7,11 +7,9 @@ import static org.apache.commons.lang3.StringUtils.rightPad;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import lombok.RequiredArgsConstructor;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.MarcFactory;
 
-@RequiredArgsConstructor
 public class ControlFieldsBuilder {
   private static final String EMPTY_CF = SPACE.repeat(39);
   private final Map<String, StringBuilder> storage = new LinkedHashMap<>();
