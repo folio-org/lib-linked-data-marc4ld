@@ -106,10 +106,6 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
   }
 
-  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
-    return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
-  }
-
   private char getIndicator(String indProperty, String indCondition, JsonNode doc) {
     return getIndicatorProperty(indProperty, doc)
       .or(() -> getIndicatorCondition(indCondition))

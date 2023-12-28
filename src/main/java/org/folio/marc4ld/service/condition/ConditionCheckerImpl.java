@@ -47,7 +47,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (isNull(condition)) {
       return true;
     }
-    if (condition.isSkipSubfields()) {
+    if (condition.isSkip()) {
       return false;
     }
     return isNull(condition.getEdge()) || isEdgeConditionSatisfied(fieldRule, resource);

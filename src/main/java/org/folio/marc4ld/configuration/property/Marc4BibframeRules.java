@@ -46,12 +46,7 @@ public class Marc4BibframeRules {
   @Data
   public static class Ld2marcCondition {
     private String edge;
-    private boolean skipSubfields;
-  }
-
-  @Data
-  public static class Ld2marcCondition {
-    private String edge;
+    private boolean skip;
   }
 
   @Data
