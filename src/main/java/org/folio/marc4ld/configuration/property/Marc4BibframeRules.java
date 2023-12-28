@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @Configuration
 @ConfigurationProperties
-@PropertySource(value = "classpath:marc2bibframe.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class)
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> fieldRules;
