@@ -1,7 +1,7 @@
 {
   "leader" : "00000naa2100000",
   "fields" : [ {
-    "008" : "      1999           b            eng  "
+    "008" : "      1999    ilu    b            eng  "
   }, {
     "010" : {
       "subfields" : [ {
@@ -90,6 +90,44 @@
         "q" : "otherIdQal"
       }, {
         "z" : "231123"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "082" : {
+      "subfields" : [ {
+        "a" : "Dewey Decimal Classification value"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "100" : {
+      "subfields" : [ {
+        "0" : "CREATOR PERSON LCNAF id"
+      }, {
+        "a" : "CREATOR PERSON name"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "110" : {
+      "subfields" : [ {
+        "0" : "CREATOR ORGANIZATION LCNAF id"
+      }, {
+        "a" : "CREATOR ORGANIZATION name"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "111" : {
+      "subfields" : [ {
+        "0" : "CREATOR MEETING LCNAF id"
+      }, {
+        "a" : "CREATOR MEETING name"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -294,6 +332,16 @@
     "334" : {
       "subfields" : [ {
         "a" : "issuance"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "336" : {
+      "subfields" : [ {
+        "a" : "CONTENT term"
+      }, {
+        "b" : "CONTENT code"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -538,6 +586,36 @@
     "588" : {
       "subfields" : [ {
         "a" : "description source note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "700" : {
+      "subfields" : [ {
+        "0" : "CONTRIBUTOR PERSON LCNAF id"
+      }, {
+        "a" : "CONTRIBUTOR PERSON name"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "710" : {
+      "subfields" : [ {
+        "0" : "CONTRIBUTOR ORGANIZATION LCNAF id"
+      }, {
+        "a" : "CONTRIBUTOR ORGANIZATION name"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "711" : {
+      "subfields" : [ {
+        "0" : "CONTRIBUTOR MEETING LCNAF id"
+      }, {
+        "a" : "CONTRIBUTOR MEETING name"
       } ],
       "ind1" : " ",
       "ind2" : " "

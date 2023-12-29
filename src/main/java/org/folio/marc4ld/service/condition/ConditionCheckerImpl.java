@@ -44,10 +44,13 @@ public class ConditionCheckerImpl implements ConditionChecker {
   @Override
   public boolean isLd2MarcConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
     var condition = fieldRule.getLd2marcCondition();
-    if (isNull(condition) || isNull(condition.getEdge())) {
+    if (isNull(condition)) {
       return true;
     }
-    return isEdgeConditionSatisfied(fieldRule, resource);
+    if (condition.isSkip()) {
+      return false;
+    }
+    return isNull(condition.getEdge()) || isEdgeConditionSatisfied(fieldRule, resource);
   }
 
   private boolean isSingleConditionSatisfied(String value, String condition) {

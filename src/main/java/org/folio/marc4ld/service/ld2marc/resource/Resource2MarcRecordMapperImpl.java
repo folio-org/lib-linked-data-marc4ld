@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
+import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -49,34 +50,40 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   public Record toMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
-    var dataFields = Stream.concat(toFieldStream(resource, null, cfb),
-        resource.getOutgoingEdges().stream().flatMap(re -> toFieldStream(re.getTarget(), re.getPredicate(), cfb)))
-      .toList();
+    var dataFields = getFields(resource, null, cfb);
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
 
-  private Stream<VariableField> toFieldStream(Resource resource, PredicateDictionary predicate,
-                                              ControlFieldsBuilder cfb) {
+  private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
+                                    ControlFieldsBuilder cfb) {
     var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
-    return rules.getFieldRules().entrySet().stream().flatMap(e -> e.getValue().stream()
-      .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
-        && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-      .map(fr -> {
-        if (nonNull(fr.getControlFields())) {
-          collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
-        }
-        if (!e.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-          return getDataField(fr, e.getKey(), resource);
-        }
-        return null;
-      })
-      .filter(Objects::nonNull));
+    var dataFields = rules.getFieldRules().entrySet().stream()
+      .flatMap(tagToRule -> tagToRule.getValue().stream()
+        .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
+        .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+          && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
+        .map(fr -> {
+          if (nonNull(fr.getControlFields())) {
+            collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
+          }
+          if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
+            return getDataField(fr, tagToRule.getKey(), resource);
+          }
+          return null;
+        })
+        .filter(Objects::nonNull));
+    return Stream.concat(dataFields,
+        resource.getOutgoingEdges().stream().flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
+      .toList();
   }
 
   private DataField getDataField(FieldRule fr, String tag, Resource resource) {
+    if (isNull(fr.getSubfields())) {
+      return null;
+    }
     var doc = resource.getDoc();
     var ind1 = getIndicator(fr.getInd1(), getIndCondition(fr, Marc2ldCondition::getInd1), doc);
     var ind2 = getIndicator(fr.getInd2(), getIndCondition(fr, Marc2ldCondition::getInd2), doc);
@@ -99,14 +106,14 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
   }
 
-  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
-    return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
-  }
-
   private char getIndicator(String indProperty, String indCondition, JsonNode doc) {
     return getIndicatorProperty(indProperty, doc)
       .or(() -> getIndicatorCondition(indCondition))
       .orElse(SPACE.charAt(0));
+  }
+
+  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
+    return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
   }
 
   private Optional<Character> getIndicatorProperty(String indProperty, JsonNode doc) {

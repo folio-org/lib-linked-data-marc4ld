@@ -329,6 +329,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
   262:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -353,6 +355,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
   263:
     - types: INSTANCE
       subfields:
@@ -384,6 +388,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_PUBLICATION
@@ -409,6 +415,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_DISTRIBUTION
@@ -434,6 +442,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
     - types: PROVIDER_EVENT
       parent: INSTANCE
       predicate: PE_MANUFACTURE
@@ -459,6 +469,8 @@ fieldRules:
               CODE: 15,18
           constants:
             LINK: http://id.loc.gov/vocabulary/countries/%CODE
+          ld2marcCondition:
+            skip: true
     - types: COPYRIGHT_EVENT
       parent: INSTANCE
       predicate: COPYRIGHT
