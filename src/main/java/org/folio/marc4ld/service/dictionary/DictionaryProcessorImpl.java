@@ -53,4 +53,12 @@ public class DictionaryProcessorImpl implements DictionaryProcessor, Application
     return Optional.ofNullable(dictionaries.getOrDefault(dictionary, emptyMap()).get(key));
   }
 
+  @Override
+  public Optional<String> getKey(String dictionary, String value) {
+    return dictionaries.getOrDefault(dictionary, emptyMap()).entrySet().stream()
+      .filter(e -> Objects.equals(e.getValue(), value))
+      .map(Map.Entry::getKey)
+      .findFirst();
+  }
+
 }

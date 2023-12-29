@@ -11,6 +11,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.Marc2ldCondition;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -18,13 +20,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
-import org.marc4j.marc.ControlField;
+import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -39,26 +43,37 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final MarcFactory marcFactory;
   private final Marc4BibframeRules rules;
   private final ConditionChecker conditionChecker;
+  private final DictionaryProcessor dictionaryProcessor;
 
   @Override
   public Record toMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
-    Stream.concat(toFieldStream(resource, null),
-        resource.getOutgoingEdges().stream().flatMap(re -> toFieldStream(re.getTarget(), re.getPredicate())))
+    var cfb = new ControlFieldsBuilder();
+    var dataFields = Stream.concat(toFieldStream(resource, null, cfb),
+        resource.getOutgoingEdges().stream().flatMap(re -> toFieldStream(re.getTarget(), re.getPredicate(), cfb)))
+      .toList();
+    Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
 
-  private Stream<VariableField> toFieldStream(Resource resource, PredicateDictionary predicate) {
+  private Stream<VariableField> toFieldStream(Resource resource, PredicateDictionary predicate,
+                                              ControlFieldsBuilder cfb) {
     var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
     return rules.getFieldRules().entrySet().stream().flatMap(e -> e.getValue().stream()
-        .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
-          && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-        .map(fr -> e.getKey().startsWith(CONTROL_FIELD_PREFIX)
-          ? getControlField(fr, e.getKey(), resource.getDoc())
-          : getDataField(fr, e.getKey(), resource)))
-      .filter(Objects::nonNull);
+      .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+        && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
+      .map(fr -> {
+        if (nonNull(fr.getControlFields())) {
+          collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
+        }
+        if (!e.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
+          return getDataField(fr, e.getKey(), resource);
+        }
+        return null;
+      })
+      .filter(Objects::nonNull));
   }
 
   private DataField getDataField(FieldRule fr, String tag, Resource resource) {
@@ -84,7 +99,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
   }
 
-  private static String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
+  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
     return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
   }
 
@@ -112,11 +127,16 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .map(c -> indCondition.charAt(0));
   }
 
-  private ControlField getControlField(FieldRule fr, String tag, JsonNode doc) {
-    var controlField = marcFactory.newControlField(tag);
-    //tbd
-    controlField.setData("cfDataTbd");
-    return controlField;
+  private void collectControlFields(ControlFieldsBuilder cfb, Map<String, Map<String, List<Integer>>> controlFieldsRule,
+                                    JsonNode doc) {
+    controlFieldsRule.forEach((tag, valueRules) -> valueRules.forEach((key, value) -> {
+      var property = PropertyDictionary.valueOf(key).getValue();
+      if (doc.has(property)) {
+        var propertyValue = doc.get(property).get(0).asText();
+        propertyValue = dictionaryProcessor.getKey(key, propertyValue).orElse(propertyValue);
+        cfb.addFieldValue(tag, propertyValue, value.get(0), value.get(1));
+      }
+    }));
   }
 
 }

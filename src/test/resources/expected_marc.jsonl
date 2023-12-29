@@ -1,7 +1,7 @@
 {
   "leader" : "00000naa2100000",
   "fields" : [ {
-    "008" : "cfDataTbd"
+    "008" : "      1999           b            eng  "
   }, {
     "010" : {
       "subfields" : [ {
