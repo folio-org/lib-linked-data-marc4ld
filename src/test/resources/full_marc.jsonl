@@ -400,6 +400,7 @@
           {
             "a": "CONTENT term",
             "b": "CONTENT code",
+            "2": "CONTENT source"
           }
         ]
       }
@@ -412,6 +413,9 @@
           },
           {
             "b": "MEDIA code"
+          },
+          {
+            "2": "MEDIA source"
           }
         ]
       }
@@ -424,6 +428,9 @@
           },
           {
             "b": "CARRIER code"
+          },
+          {
+            "2": "CARRIER source"
           }
         ]
       }

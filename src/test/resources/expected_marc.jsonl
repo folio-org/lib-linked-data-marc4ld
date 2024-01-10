@@ -339,6 +339,8 @@
   }, {
     "336" : {
       "subfields" : [ {
+        "2" : "CONTENT source"
+      }, {
         "a" : "CONTENT term"
       }, {
         "b" : "CONTENT code"
@@ -349,6 +351,8 @@
   }, {
     "337" : {
       "subfields" : [ {
+        "2" : "MEDIA source"
+      }, {
         "a" : "MEDIA term"
       }, {
         "b" : "MEDIA code"
@@ -359,6 +363,8 @@
   }, {
     "338" : {
       "subfields" : [ {
+        "2" : "CARRIER source"
+      }, {
         "a" : "CARRIER term"
       }, {
         "b" : "CARRIER code"
