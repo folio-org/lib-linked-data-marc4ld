@@ -113,6 +113,16 @@
       "ind2" : " "
     }
   }, {
+    "100" : {
+      "subfields" : [ {
+        "0" : "CREATOR FAMILY LCNAF id"
+      }, {
+        "a" : "CREATOR FAMILY name"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
     "110" : {
       "subfields" : [ {
         "0" : "CREATOR ORGANIZATION LCNAF id"
@@ -598,6 +608,16 @@
         "a" : "CONTRIBUTOR PERSON name"
       } ],
       "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "700" : {
+      "subfields" : [ {
+        "0" : "CONTRIBUTOR FAMILY LCNAF id"
+      }, {
+        "a" : "CONTRIBUTOR FAMILY name"
+      } ],
+      "ind1" : "3",
       "ind2" : " "
     }
   }, {

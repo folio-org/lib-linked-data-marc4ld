@@ -219,6 +219,21 @@ fieldRules:
       parent: WORK
       parentPredicate: INSTANTIATES
       predicate: CREATOR
+      marc2ldCondition:
+        ind1: '!3'
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+      relation:
+        code: '4'
+        text: e
+    - types: FAMILY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CREATOR
+      marc2ldCondition:
+        ind1: '3'
       subfields:
         a: NAME
         '0': LCNAF_ID
@@ -853,6 +868,21 @@ fieldRules:
       parent: WORK
       parentPredicate: INSTANTIATES
       predicate: CONTRIBUTOR
+      marc2ldCondition:
+        ind1: '!3'
+      subfields:
+        a: NAME
+        '0': LCNAF_ID
+      label: NAME
+      relation:
+        code: '4'
+        text: e
+    - types: FAMILY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CONTRIBUTOR
+      marc2ldCondition:
+        ind1: '3'
       subfields:
         a: NAME
         '0': LCNAF_ID
