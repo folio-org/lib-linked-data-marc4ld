@@ -511,6 +511,7 @@ fieldRules:
       subfields:
         a: TERM
         b: CODE
+        '2': SOURCE
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/contentTypes/%CODE
@@ -521,6 +522,7 @@ fieldRules:
       subfields:
         a: TERM
         b: CODE
+        '2': SOURCE
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
@@ -531,6 +533,7 @@ fieldRules:
       subfields:
         a: TERM
         b: CODE
+        '2': SOURCE
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE

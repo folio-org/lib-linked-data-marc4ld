@@ -282,7 +282,8 @@ public class MonographTestUtil {
       Map.of(
         CODE, List.of("MEDIA code"),
         TERM, List.of("MEDIA term"),
-        LINK, List.of("http://id.loc.gov/vocabulary/mediaTypes/MEDIA code")
+        LINK, List.of("http://id.loc.gov/vocabulary/mediaTypes/MEDIA code"),
+        SOURCE, List.of("MEDIA source")
       ),
       Set.of(CATEGORY),
       emptyMap()
@@ -292,7 +293,8 @@ public class MonographTestUtil {
       Map.of(
         CODE, List.of("CARRIER code"),
         TERM, List.of("CARRIER term"),
-        LINK, List.of("http://id.loc.gov/vocabulary/carrierTypes/CARRIER code")
+        LINK, List.of("http://id.loc.gov/vocabulary/carrierTypes/CARRIER code"),
+        SOURCE, List.of("CARRIER source")
       ),
       Set.of(CATEGORY),
       emptyMap()
@@ -382,7 +384,8 @@ public class MonographTestUtil {
       Map.of(
         TERM, List.of("CONTENT term"),
         LINK, List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
-        CODE, List.of("CONTENT code")
+        CODE, List.of("CONTENT code"),
+        SOURCE, List.of("CONTENT source")
       ),
       Set.of(CATEGORY),
       emptyMap()

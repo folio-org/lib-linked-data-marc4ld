@@ -877,7 +877,7 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(predicate.name() + " term");
     assertThat(resource.getTypes()).containsExactly(CATEGORY);
-    assertThat(resource.getDoc()).hasSize(3);
+    assertThat(resource.getDoc()).hasSize(4);
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
@@ -888,6 +888,9 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(TERM.getValue())).isTrue();
     assertThat(resource.getDoc().get(TERM.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
+    assertThat(resource.getDoc().has(SOURCE.getValue())).isTrue();
+    assertThat(resource.getDoc().get(SOURCE.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " source");
     assertThat(resource.getOutgoingEdges()).isEmpty();
   }
 
