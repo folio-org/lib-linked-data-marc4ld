@@ -80,6 +80,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
@@ -418,6 +419,15 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("CREATOR PERSON name");
 
+    var familyCreator = createResource(
+            Map.of(
+                    NAME, List.of("CREATOR FAMILY name"),
+                    LCNAF_ID, List.of("CREATOR FAMILY LCNAF id")
+            ),
+            Set.of(FAMILY),
+            emptyMap()
+    ).setLabel("CREATOR FAMILY name");
+
     var organizationCreator = createResource(
       Map.of(
         NAME, List.of("CREATOR ORGANIZATION name"),
@@ -445,6 +455,15 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("CONTRIBUTOR PERSON name");
 
+    var familyContributor = createResource(
+            Map.of(
+                    NAME, List.of("CONTRIBUTOR FAMILY name"),
+                    LCNAF_ID, List.of("CONTRIBUTOR FAMILY LCNAF id")
+            ),
+            Set.of(FAMILY),
+            emptyMap()
+    ).setLabel("CONTRIBUTOR FAMILY name");
+
     var organizationContributor = createResource(
       Map.of(
         NAME, List.of("CONTRIBUTOR ORGANIZATION name"),
@@ -456,8 +475,9 @@ public class MonographTestUtil {
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
-    pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator));
-    pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor));
+    pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
+    pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
+            familyContributor));
     pred2OutgoingResources.put(CONTENT, List.of(content));
 
     return createResource(
