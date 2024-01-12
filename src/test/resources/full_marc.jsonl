@@ -1102,6 +1102,66 @@
       }
     },
     {
+      "650": {
+        "subfields": [
+          {
+            "a": "name"
+          },
+          {
+            "b": "geographic coverage"
+          },
+          {
+            "c": "location of event"
+          },
+          {
+            "d": "date"
+          },
+          {
+            "g": "misc info"
+          },
+          {
+            "v": "form subdivision"
+          },
+          {
+            "x": "general subdivision"
+          },
+          {
+            "y": "chronological subdivision"
+          },
+          {
+            "z": "geographic subdivision"
+          },
+          {
+            "2": "source"
+          },
+          {
+            "3": "materials specified"
+          },
+          {
+            "e": "relator term"
+          },
+          {
+            "4": "relator code"
+          },
+          {
+            "0": "authority link"
+          },
+          {
+            "1": "equivalent"
+          },
+          {
+            "6": "linkage"
+          },
+          {
+            "7": "control field"
+          },
+          {
+            "8": "field link"
+          }
+        ]
+      }
+    },
+    {
       "700": {
         "subfields": [
           {

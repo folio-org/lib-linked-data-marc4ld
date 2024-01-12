@@ -866,6 +866,80 @@ fieldRules:
       subfields:
         a: DESCRIPTION_SOURCE_NOTE
       append: true
+  650:
+    - types: CONCEPT, TOPIC
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: GEOGRAPHIC_COVERAGE
+        c: LOCATION_OF_EVENT
+        d: DATE
+        g: MISC_INFO
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        e: RELATOR_TERM
+        '4': RELATOR_CODE
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      label: NAME
+      edges:
+        - types: TOPIC
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: GEOGRAPHIC_COVERAGE
+            c: LOCATION_OF_EVENT
+            d: DATE
+            g: MISC_INFO
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          label: NAME
+        - types: FORM
+          predicate: SUB_FOCUS
+          subfields:
+            v: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              v: presented
+        - types: TOPIC
+          predicate: SUB_FOCUS
+          subfields:
+            x: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              x: presented
+        - types: TEMPORAL
+          predicate: SUB_FOCUS
+          subfields:
+            y: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              y: presented
+        - types: PLACE
+          predicate: SUB_FOCUS
+          subfields:
+            z: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              z: presented
   700:
     - types: PERSON
       parent: WORK
