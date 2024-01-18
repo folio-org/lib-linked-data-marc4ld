@@ -1,5 +1,6 @@
 package org.folio.marc4ld.mapper;
 
+import static java.util.Map.entry;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
@@ -147,6 +148,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -610,7 +613,10 @@ class Marc2BibframeMapperIT {
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
     validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT);
-    validateSubject(edgeIterator.next(), work.getResourceHash());
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, TOPIC),
+      getTopicConceptExpectedProperties());
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PLACE),
+      getPlaceConceptExpectedProperties());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
@@ -919,95 +925,6 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getOutgoingEdges()).isEmpty();
   }
 
-  private void validateSubject(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
-    assertThat(edge.getPredicate().getHash()).isEqualTo(SUBJECT.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(SUBJECT.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
-    assertThat(resource.getTypes()).containsExactly(CONCEPT, TOPIC);
-    assertThat(resource.getLabel()).isEqualTo("name");
-    assertThat(resource.getDoc()).hasSize(18);
-    validateLiteral(resource, NAME.getValue(), "name");
-    validateLiteral(resource, GEOGRAPHIC_COVERAGE.getValue(), "geographic coverage");
-    validateLiteral(resource, LOCATION_OF_EVENT.getValue(), "location of event");
-    validateLiteral(resource, DATE.getValue(), "date");
-    validateLiteral(resource, MISC_INFO.getValue(), "misc info");
-    validateLiteral(resource, FORM_SUBDIVISION.getValue(), "form subdivision");
-    validateLiteral(resource, GENERAL_SUBDIVISION.getValue(), "general subdivision");
-    validateLiteral(resource, CHRONOLOGICAL_SUBDIVISION.getValue(), "chronological subdivision");
-    validateLiteral(resource, GEOGRAPHIC_SUBDIVISION.getValue(), "geographic subdivision");
-    validateLiteral(resource, SOURCE.getValue(), "source");
-    validateLiteral(resource, MATERIALS_SPECIFIED.getValue(), "materials specified");
-    validateLiteral(resource, RELATOR_TERM.getValue(), "relator term");
-    validateLiteral(resource, RELATOR_CODE.getValue(), "relator code");
-    validateLiteral(resource, AUTHORITY_LINK.getValue(), "authority link");
-    validateLiteral(resource, EQUIVALENT.getValue(), "equivalent");
-    validateLiteral(resource, LINKAGE.getValue(), "linkage");
-    validateLiteral(resource, CONTROL_FIELD.getValue(), "control field");
-    validateLiteral(resource, FIELD_LINK.getValue(), "field link");
-    assertThat(resource.getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = resource.getOutgoingEdges().iterator();
-    validateFocus(edgeIterator.next(), resource.getResourceHash());
-    validateSubFocus(edgeIterator.next(), resource.getResourceHash(), FORM, "form subdivision");
-    validateSubFocus(edgeIterator.next(), resource.getResourceHash(), TOPIC, "general subdivision");
-    validateSubFocus(edgeIterator.next(), resource.getResourceHash(), TEMPORAL, "chronological subdivision");
-    validateSubFocus(edgeIterator.next(), resource.getResourceHash(), PLACE, "geographic subdivision");
-    assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateLiteral(Resource resource, String field, String value) {
-    assertThat(resource.getDoc().has(field)).isTrue();
-    assertThat(resource.getDoc().get(field).size()).isEqualTo(1);
-    assertThat(resource.getDoc().get(field).get(0).asText()).isEqualTo(value);
-  }
-
-  private void validateFocus(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
-    assertThat(edge.getPredicate().getHash()).isEqualTo(FOCUS.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(FOCUS.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
-    assertThat(resource.getTypes()).containsExactly(TOPIC);
-    assertThat(resource.getLabel()).isEqualTo("name");
-    assertThat(resource.getDoc()).hasSize(12);
-    validateLiteral(resource, NAME.getValue(), "name");
-    validateLiteral(resource, GEOGRAPHIC_COVERAGE.getValue(), "geographic coverage");
-    validateLiteral(resource, LOCATION_OF_EVENT.getValue(), "location of event");
-    validateLiteral(resource, DATE.getValue(), "date");
-    validateLiteral(resource, MISC_INFO.getValue(), "misc info");
-    validateLiteral(resource, SOURCE.getValue(), "source");
-    validateLiteral(resource, MATERIALS_SPECIFIED.getValue(), "materials specified");
-    validateLiteral(resource, AUTHORITY_LINK.getValue(), "authority link");
-    validateLiteral(resource, EQUIVALENT.getValue(), "equivalent");
-    validateLiteral(resource, LINKAGE.getValue(), "linkage");
-    validateLiteral(resource, CONTROL_FIELD.getValue(), "control field");
-    validateLiteral(resource, FIELD_LINK.getValue(), "field link");
-    assertThat(resource.getOutgoingEdges()).isEmpty();
-  }
-
-  private void validateSubFocus(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type, String expectedValue) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
-    assertThat(edge.getPredicate().getHash()).isEqualTo(SUB_FOCUS.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(SUB_FOCUS.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
-    assertThat(resource.getTypes()).containsExactly(type);
-    assertThat(resource.getLabel()).isEqualTo(expectedValue);
-    assertThat(resource.getDoc()).hasSize(1);
-    validateLiteral(resource, NAME.getValue(), expectedValue);
-    assertThat(resource.getOutgoingEdges()).isEmpty();
-  }
-
   private void validateAccessLocation(ResourceEdge edge, Long parentHash) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
@@ -1026,6 +943,108 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("access location note");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private Map<String, String> getTopicConceptExpectedProperties() {
+    return Map.ofEntries(
+      entry(NAME.getValue(), "topic name"),
+      entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
+      entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
+      entry(DATE.getValue(), "topic date"),
+      entry(MISC_INFO.getValue(), "topic misc info"),
+      entry(FORM_SUBDIVISION.getValue(), "topic form subdivision"),
+      entry(GENERAL_SUBDIVISION.getValue(), "topic general subdivision"),
+      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), "topic chronological subdivision"),
+      entry(GEOGRAPHIC_SUBDIVISION.getValue(), "topic geographic subdivision"),
+      entry(SOURCE.getValue(), "topic source"),
+      entry(MATERIALS_SPECIFIED.getValue(), "topic materials specified"),
+      entry(RELATOR_TERM.getValue(), "topic relator term"),
+      entry(RELATOR_CODE.getValue(), "topic relator code"),
+      entry(AUTHORITY_LINK.getValue(), "topic authority link"),
+      entry(EQUIVALENT.getValue(), "topic equivalent"),
+      entry(LINKAGE.getValue(), "topic linkage"),
+      entry(CONTROL_FIELD.getValue(), "topic control field"),
+      entry(FIELD_LINK.getValue(), "topic field link")
+    );
+  }
+
+  private Map<String, String> getPlaceConceptExpectedProperties() {
+    return Map.ofEntries(
+      entry(NAME.getValue(), "place name"),
+      entry(MISC_INFO.getValue(), "place misc info"),
+      entry(FORM_SUBDIVISION.getValue(), "place form subdivision"),
+      entry(GENERAL_SUBDIVISION.getValue(), "place general subdivision"),
+      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), "place chronological subdivision"),
+      entry(GEOGRAPHIC_SUBDIVISION.getValue(), "place geographic subdivision"),
+      entry(SOURCE.getValue(), "place source"),
+      entry(MATERIALS_SPECIFIED.getValue(), "place materials specified"),
+      entry(RELATOR_TERM.getValue(), "place relator term"),
+      entry(RELATOR_CODE.getValue(), "place relator code"),
+      entry(AUTHORITY_LINK.getValue(), "place authority link"),
+      entry(EQUIVALENT.getValue(), "place equivalent"),
+      entry(LINKAGE.getValue(), "place linkage"),
+      entry(CONTROL_FIELD.getValue(), "place control field"),
+      entry(FIELD_LINK.getValue(), "place field link")
+    );
+  }
+
+  private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,
+                                   Map<String, String> conceptProperties) {
+    validateEdge(subjectEdge, workHash, SUBJECT, subjectTypes, conceptProperties);
+    assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
+    var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
+    var conceptHash = subjectEdge.getTarget().getResourceHash();
+    var focusEdge = edgeIterator.next();
+    validateEdge(focusEdge, conceptHash, FOCUS, List.of(subjectTypes.get(1)),
+      conceptProperties.entrySet().stream()
+        .filter(entry -> !List.of(
+          FORM_SUBDIVISION.getValue(),
+          GENERAL_SUBDIVISION.getValue(),
+          CHRONOLOGICAL_SUBDIVISION.getValue(),
+          GEOGRAPHIC_SUBDIVISION.getValue(),
+          RELATOR_TERM.getValue(),
+          RELATOR_CODE.getValue()
+        ).contains(entry.getKey()))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    var formEdge = edgeIterator.next();
+    validateEdge(formEdge, conceptHash, SUB_FOCUS, List.of(FORM),
+      Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())));
+    var topicEdge = edgeIterator.next();
+    validateEdge(topicEdge, conceptHash, SUB_FOCUS, List.of(TOPIC),
+      Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())));
+    var temporalEdge = edgeIterator.next();
+    validateEdge(temporalEdge, conceptHash, SUB_FOCUS, List.of(TEMPORAL),
+      Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())));
+    var placeEdge = edgeIterator.next();
+    validateEdge(placeEdge, conceptHash, SUB_FOCUS, List.of(PLACE),
+      Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())));
+    assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(formEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(topicEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(temporalEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(placeEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(edgeIterator.hasNext()).isFalse();
+  }
+
+  private void validateEdge(ResourceEdge edge, Long parentHash, PredicateDictionary predicate,
+                            List<ResourceTypeDictionary> types, Map<String, String> properties) {
+    assertThat(edge.getId()).isNotNull();
+    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
+    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
+    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getTypes()).containsExactly(types.toArray(new ResourceTypeDictionary[0]));
+    assertThat(edge.getTarget().getLabel()).isEqualTo(properties.get(NAME.getValue()));
+    assertThat(edge.getTarget().getDoc()).hasSize(properties.size());
+    properties.forEach((property, propertyValue) -> validateProperty(edge.getTarget(), property, propertyValue));
+  }
+
+  private void validateProperty(Resource resource, String propertyKey, String propertyValue) {
+    assertThat(resource.getDoc().has(propertyKey)).isTrue();
+    assertThat(resource.getDoc().get(propertyKey).size()).isEqualTo(1);
+    assertThat(resource.getDoc().get(propertyKey).get(0).asText()).isEqualTo(propertyValue);
   }
 
 }

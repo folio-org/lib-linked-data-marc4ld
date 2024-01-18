@@ -1105,58 +1105,109 @@
       "650": {
         "subfields": [
           {
-            "a": "name"
+            "a": "topic name"
           },
           {
-            "b": "geographic coverage"
+            "b": "topic geographic coverage"
           },
           {
-            "c": "location of event"
+            "c": "topic location of event"
           },
           {
-            "d": "date"
+            "d": "topic date"
           },
           {
-            "g": "misc info"
+            "g": "topic misc info"
           },
           {
-            "v": "form subdivision"
+            "v": "topic form subdivision"
           },
           {
-            "x": "general subdivision"
+            "x": "topic general subdivision"
           },
           {
-            "y": "chronological subdivision"
+            "y": "topic chronological subdivision"
           },
           {
-            "z": "geographic subdivision"
+            "z": "topic geographic subdivision"
           },
           {
-            "2": "source"
+            "2": "topic source"
           },
           {
-            "3": "materials specified"
+            "3": "topic materials specified"
           },
           {
-            "e": "relator term"
+            "e": "topic relator term"
           },
           {
-            "4": "relator code"
+            "4": "topic relator code"
           },
           {
-            "0": "authority link"
+            "0": "topic authority link"
           },
           {
-            "1": "equivalent"
+            "1": "topic equivalent"
           },
           {
-            "6": "linkage"
+            "6": "topic linkage"
           },
           {
-            "7": "control field"
+            "7": "topic control field"
           },
           {
-            "8": "field link"
+            "8": "topic field link"
+          }
+        ]
+      }
+    },
+    {
+      "651": {
+        "subfields": [
+          {
+            "a": "place name"
+          },
+          {
+            "g": "place misc info"
+          },
+          {
+            "v": "place form subdivision"
+          },
+          {
+            "x": "place general subdivision"
+          },
+          {
+            "y": "place chronological subdivision"
+          },
+          {
+            "z": "place geographic subdivision"
+          },
+          {
+            "2": "place source"
+          },
+          {
+            "3": "place materials specified"
+          },
+          {
+            "e": "place relator term"
+          },
+          {
+            "4": "place relator code"
+          },
+          {
+            "0": "place authority link"
+          },
+          {
+            "1": "place equivalent"
+          },
+          {
+            "6": "place linkage"
+          },
+          {
+            "7": "place control field"
+          },
+          {
+            "8": "place field link"
           }
         ]
       }
