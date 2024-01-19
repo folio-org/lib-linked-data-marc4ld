@@ -73,7 +73,7 @@ public class LeaderGeneratorImpl implements LeaderGenerator {
   }
 
   private int calculateBaseAddressOfData(Record marcRecord) {
-    int fieldsNumber = marcRecord.getVariableFields().size();
+    var fieldsNumber = marcRecord.getVariableFields().size();
     return LEADER_LENGTH + DIRECTORY_ENTRY_TERMINATOR + (DIR_RECORD_SIZE * fieldsNumber);
   }
 
