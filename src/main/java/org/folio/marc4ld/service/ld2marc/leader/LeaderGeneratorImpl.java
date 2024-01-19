@@ -58,7 +58,7 @@ public class LeaderGeneratorImpl implements LeaderGenerator {
     // 17-19
     leader.setImplDefined2(new char[] {
       EncodingLevel.UNKNOWN.value,
-      DescriptiveCatalogingForm.UNKNOWN.value,
+      DescriptiveCatalogingForm.ISBD_PUNCTUATION_OMITTED.value,
       MultipartResourceRecordLevel.NOT_SPECIFIED_OR_NOT_APPLICABLE.value
     });
     // 20-23
