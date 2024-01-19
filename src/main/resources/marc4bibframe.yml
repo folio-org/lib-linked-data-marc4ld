@@ -336,9 +336,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            f: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -362,9 +360,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            a: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -395,9 +391,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            a: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -422,9 +416,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            a: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -449,9 +441,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            a: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -476,9 +466,7 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: LABEL
-          subfields:
-            a: LABEL
+          label: CODE
           controlFields:
             '008':
               CODE: 15,18
