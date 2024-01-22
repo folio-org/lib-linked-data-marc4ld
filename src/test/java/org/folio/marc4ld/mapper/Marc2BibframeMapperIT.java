@@ -114,6 +114,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
 import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
@@ -139,6 +140,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
@@ -157,6 +159,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.model.Resource;
@@ -622,6 +625,10 @@ class Marc2BibframeMapperIT {
       getFamilyPersonConceptExpectedProperties("family"));
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PERSON),
       getFamilyPersonConceptExpectedProperties("person"));
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, JURISDICTION),
+      getJurisdictionOrganizationConceptExpectedProperties("jurisdiction"));
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, ORGANIZATION),
+      getJurisdictionOrganizationConceptExpectedProperties("organization"));
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, TOPIC),
       getTopicConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PLACE),
@@ -954,58 +961,9 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private Map<String, String> getTopicConceptExpectedProperties() {
-    return Map.ofEntries(
-      entry(NAME.getValue(), "topic name"),
-      entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
-      entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
-      entry(DATE.getValue(), "topic date"),
-      entry(MISC_INFO.getValue(), "topic misc info"),
-      entry(FORM_SUBDIVISION.getValue(), "topic form subdivision"),
-      entry(GENERAL_SUBDIVISION.getValue(), "topic general subdivision"),
-      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), "topic chronological subdivision"),
-      entry(GEOGRAPHIC_SUBDIVISION.getValue(), "topic geographic subdivision"),
-      entry(SOURCE.getValue(), "topic source"),
-      entry(MATERIALS_SPECIFIED.getValue(), "topic materials specified"),
-      entry(RELATOR_TERM.getValue(), "topic relator term"),
-      entry(RELATOR_CODE.getValue(), "topic relator code"),
-      entry(AUTHORITY_LINK.getValue(), "topic authority link"),
-      entry(EQUIVALENT.getValue(), "topic equivalent"),
-      entry(LINKAGE.getValue(), "topic linkage"),
-      entry(CONTROL_FIELD.getValue(), "topic control field"),
-      entry(FIELD_LINK.getValue(), "topic field link")
-    );
-  }
-
-  private Map<String, String> getPlaceConceptExpectedProperties() {
-    return Map.ofEntries(
-      entry(NAME.getValue(), "place name"),
-      entry(MISC_INFO.getValue(), "place misc info"),
-      entry(FORM_SUBDIVISION.getValue(), "place form subdivision"),
-      entry(GENERAL_SUBDIVISION.getValue(), "place general subdivision"),
-      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), "place chronological subdivision"),
-      entry(GEOGRAPHIC_SUBDIVISION.getValue(), "place geographic subdivision"),
-      entry(SOURCE.getValue(), "place source"),
-      entry(MATERIALS_SPECIFIED.getValue(), "place materials specified"),
-      entry(RELATOR_TERM.getValue(), "place relator term"),
-      entry(RELATOR_CODE.getValue(), "place relator code"),
-      entry(AUTHORITY_LINK.getValue(), "place authority link"),
-      entry(EQUIVALENT.getValue(), "place equivalent"),
-      entry(LINKAGE.getValue(), "place linkage"),
-      entry(CONTROL_FIELD.getValue(), "place control field"),
-      entry(FIELD_LINK.getValue(), "place field link")
-    );
-  }
-
-  private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
+  private Map<String, String> getCommonConceptExpectedProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME.getValue(), prefix + " name"),
-      entry(NUMERATION.getValue(), prefix + " numeration"),
-      entry(TITLES.getValue(), prefix + " titles"),
-      entry(DATE.getValue(), prefix + " date"),
-      entry(ATTRIBUTION.getValue(), prefix + " attribution"),
-      entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
-      entry(AFFILIATION.getValue(), prefix + " affiliation"),
       entry(FORM_SUBDIVISION.getValue(), prefix + " form subdivision"),
       entry(GENERAL_SUBDIVISION.getValue(), prefix + " general subdivision"),
       entry(CHRONOLOGICAL_SUBDIVISION.getValue(), prefix + " chronological subdivision"),
@@ -1020,6 +978,51 @@ class Marc2BibframeMapperIT {
       entry(CONTROL_FIELD.getValue(), prefix + " control field"),
       entry(FIELD_LINK.getValue(), prefix + " field link")
     );
+  }
+
+  private Map<String, String> getTopicConceptExpectedProperties() {
+    return Stream.concat(
+      getCommonConceptExpectedProperties("topic").entrySet().stream(),
+      Map.ofEntries(
+        entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
+        entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
+        entry(DATE.getValue(), "topic date"),
+        entry(MISC_INFO.getValue(), "topic misc info")
+      ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  private Map<String, String> getPlaceConceptExpectedProperties() {
+    return Stream.concat(
+      getCommonConceptExpectedProperties("place").entrySet().stream(),
+      Map.ofEntries(entry(MISC_INFO.getValue(), "place misc info")).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
+    return Stream.concat(
+      getCommonConceptExpectedProperties(prefix).entrySet().stream(),
+      Map.ofEntries(
+        entry(NUMERATION.getValue(), prefix + " numeration"),
+        entry(TITLES.getValue(), prefix + " titles"),
+        entry(DATE.getValue(), prefix + " date"),
+        entry(ATTRIBUTION.getValue(), prefix + " attribution"),
+        entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
+        entry(AFFILIATION.getValue(), prefix + " affiliation")
+      ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  private Map<String, String> getJurisdictionOrganizationConceptExpectedProperties(String prefix) {
+    return Stream.concat(
+      getCommonConceptExpectedProperties(prefix).entrySet().stream(),
+      Map.ofEntries(
+        entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
+        entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
+        entry(DATE.getValue(), prefix + " date"),
+        entry(AFFILIATION.getValue(), prefix + " affiliation")
+      ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,

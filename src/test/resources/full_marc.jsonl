@@ -1235,6 +1235,127 @@
       }
     },
     {
+      "610": {
+        "subfields": [
+          {
+            "a": "jurisdiction name"
+          },
+          {
+            "b": "jurisdiction subordinate unit"
+          },
+          {
+            "c": "jurisdiction place"
+          },
+          {
+            "d": "jurisdiction date"
+          },
+          {
+            "u": "jurisdiction affiliation"
+          },
+          {
+            "v": "jurisdiction form subdivision"
+          },
+          {
+            "x": "jurisdiction general subdivision"
+          },
+          {
+            "y": "jurisdiction chronological subdivision"
+          },
+          {
+            "z": "jurisdiction geographic subdivision"
+          },
+          {
+            "2": "jurisdiction source"
+          },
+          {
+            "3": "jurisdiction materials specified"
+          },
+          {
+            "e": "jurisdiction relator term"
+          },
+          {
+            "4": "jurisdiction relator code"
+          },
+          {
+            "0": "jurisdiction authority link"
+          },
+          {
+            "1": "jurisdiction equivalent"
+          },
+          {
+            "6": "jurisdiction linkage"
+          },
+          {
+            "7": "jurisdiction control field"
+          },
+          {
+            "8": "jurisdiction field link"
+          }
+        ],
+        "ind1": "1"
+      }
+    },
+    {
+      "610": {
+        "subfields": [
+          {
+            "a": "organization name"
+          },
+          {
+            "b": "organization subordinate unit"
+          },
+          {
+            "c": "organization place"
+          },
+          {
+            "d": "organization date"
+          },
+          {
+            "u": "organization affiliation"
+          },
+          {
+            "v": "organization form subdivision"
+          },
+          {
+            "x": "organization general subdivision"
+          },
+          {
+            "y": "organization chronological subdivision"
+          },
+          {
+            "z": "organization geographic subdivision"
+          },
+          {
+            "2": "organization source"
+          },
+          {
+            "3": "organization materials specified"
+          },
+          {
+            "e": "organization relator term"
+          },
+          {
+            "4": "organization relator code"
+          },
+          {
+            "0": "organization authority link"
+          },
+          {
+            "1": "organization equivalent"
+          },
+          {
+            "6": "organization linkage"
+          },
+          {
+            "7": "organization control field"
+          },
+          {
+            "8": "organization field link"
+          }
+        ]
+      }
+    },
+    {
       "650": {
         "subfields": [
           {

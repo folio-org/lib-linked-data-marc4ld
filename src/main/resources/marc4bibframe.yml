@@ -1025,6 +1025,157 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+  610:
+    - types: CONCEPT, JURISDICTION
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: SUBORDINATE_UNIT
+        c: PLACE
+        d: DATE
+        e: RELATOR_TERM
+        u: AFFILIATION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      label: NAME
+      marc2ldCondition:
+        ind1: '1'
+      edges:
+        - types: JURISDICTION
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: SUBORDINATE_UNIT
+            c: PLACE
+            d: DATE
+            u: AFFILIATION
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          label: NAME
+        - types: FORM
+          predicate: SUB_FOCUS
+          subfields:
+            v: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              v: presented
+        - types: TOPIC
+          predicate: SUB_FOCUS
+          subfields:
+            x: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              x: presented
+        - types: TEMPORAL
+          predicate: SUB_FOCUS
+          subfields:
+            y: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              y: presented
+        - types: PLACE
+          predicate: SUB_FOCUS
+          subfields:
+            z: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              z: presented
+    - types: CONCEPT, ORGANIZATION
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: SUBORDINATE_UNIT
+        c: PLACE
+        d: DATE
+        e: RELATOR_TERM
+        u: AFFILIATION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      label: NAME
+      marc2ldCondition:
+        ind1: '!1'
+      edges:
+        - types: ORGANIZATION
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: SUBORDINATE_UNIT
+            c: PLACE
+            d: DATE
+            u: AFFILIATION
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          label: NAME
+        - types: FORM
+          predicate: SUB_FOCUS
+          subfields:
+            v: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              v: presented
+        - types: TOPIC
+          predicate: SUB_FOCUS
+          subfields:
+            x: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              x: presented
+        - types: TEMPORAL
+          predicate: SUB_FOCUS
+          subfields:
+            y: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              y: presented
+        - types: PLACE
+          predicate: SUB_FOCUS
+          subfields:
+            z: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              z: presented
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
