@@ -10,6 +10,9 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.Marc2ldCondition;
+import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
@@ -54,6 +57,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
+    addInternalIds(marcRecord, resource);
     return marcRecord;
   }
 
@@ -144,6 +148,17 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         cfb.addFieldValue(tag, propertyValue, value.get(0), value.get(1));
       }
     }));
+  }
+
+  private void addInternalIds(Record marcRecord, Resource resource) {
+    if (nonNull(resource.getInventoryId()) || nonNull(resource.getSrsId())) {
+      var field999 = marcFactory.newDataField(FIELD_UUID, SPACE.charAt(0), SPACE.charAt(0));
+      ofNullable(resource.getInventoryId()).ifPresent(
+        id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id.toString())));
+      ofNullable(resource.getSrsId()).ifPresent(
+        id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_SRS_ID, id.toString())));
+      marcRecord.addVariableField(field999);
+    }
   }
 
 }

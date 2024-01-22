@@ -10,6 +10,9 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.getFirstValue;
 import static org.folio.marc4ld.util.BibframeUtil.hash;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmptyResource;
+import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -32,9 +35,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
-  private static final String FIELD_UUID = "999";
-  private static final char SUBFIELD_INVENTORY_ID = 'i';
-  private static final char SUBFIELD_SRS_ID = 's';
   private final Marc4BibframeRules rules;
   private final ObjectMapper objectMapper;
   private final FieldMapper fieldMapper;
