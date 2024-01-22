@@ -876,6 +876,7 @@ fieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        e: RELATOR_TERM
         j: ATTRIBUTION
         q: NAME_ALTERNATIVE
         u: AFFILIATION
@@ -883,12 +884,11 @@ fieldRules:
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -906,10 +906,10 @@ fieldRules:
             j: ATTRIBUTION
             q: NAME_ALTERNATIVE
             u: AFFILIATION
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
@@ -955,6 +955,7 @@ fieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        e: RELATOR_TERM
         j: ATTRIBUTION
         q: NAME_ALTERNATIVE
         u: AFFILIATION
@@ -962,12 +963,11 @@ fieldRules:
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -985,10 +985,10 @@ fieldRules:
             j: ATTRIBUTION
             q: NAME_ALTERNATIVE
             u: AFFILIATION
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
@@ -1035,17 +1035,17 @@ fieldRules:
         b: GEOGRAPHIC_COVERAGE
         c: LOCATION_OF_EVENT
         d: DATE
+        e: RELATOR_TERM
         g: MISC_INFO
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -1059,10 +1059,10 @@ fieldRules:
             c: LOCATION_OF_EVENT
             d: DATE
             g: MISC_INFO
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
@@ -1106,17 +1106,17 @@ fieldRules:
       predicate: SUBJECT
       subfields:
         a: NAME
+        e: RELATOR_TERM
         g: MISC_INFO
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -1127,10 +1127,10 @@ fieldRules:
           subfields:
             a: NAME
             g: MISC_INFO
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
