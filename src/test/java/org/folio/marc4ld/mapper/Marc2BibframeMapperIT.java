@@ -42,6 +42,8 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
+import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
+import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
@@ -88,8 +90,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
 import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ORIGINAL_VERSION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.OTHER_EVENT_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
@@ -118,6 +122,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_N
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
 import static org.folio.ld.dictionary.PropertyDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
+import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
@@ -613,6 +618,10 @@ class Marc2BibframeMapperIT {
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
     validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT);
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FAMILY),
+      getFamilyPersonConceptExpectedProperties("family"));
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PERSON),
+      getFamilyPersonConceptExpectedProperties("person"));
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, TOPIC),
       getTopicConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PLACE),
@@ -985,6 +994,31 @@ class Marc2BibframeMapperIT {
       entry(LINKAGE.getValue(), "place linkage"),
       entry(CONTROL_FIELD.getValue(), "place control field"),
       entry(FIELD_LINK.getValue(), "place field link")
+    );
+  }
+
+  private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
+    return Map.ofEntries(
+      entry(NAME.getValue(), prefix + " name"),
+      entry(NUMERATION.getValue(), prefix + " numeration"),
+      entry(TITLES.getValue(), prefix + " titles"),
+      entry(DATE.getValue(), prefix + " date"),
+      entry(ATTRIBUTION.getValue(), prefix + " attribution"),
+      entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
+      entry(AFFILIATION.getValue(), prefix + " affiliation"),
+      entry(FORM_SUBDIVISION.getValue(), prefix + " form subdivision"),
+      entry(GENERAL_SUBDIVISION.getValue(), prefix + " general subdivision"),
+      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), prefix + " chronological subdivision"),
+      entry(GEOGRAPHIC_SUBDIVISION.getValue(), prefix + " geographic subdivision"),
+      entry(SOURCE.getValue(), prefix + " source"),
+      entry(MATERIALS_SPECIFIED.getValue(), prefix + " materials specified"),
+      entry(RELATOR_TERM.getValue(), prefix + " relator term"),
+      entry(RELATOR_CODE.getValue(), prefix + " relator code"),
+      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
+      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
+      entry(LINKAGE.getValue(), prefix + " linkage"),
+      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
+      entry(FIELD_LINK.getValue(), prefix + " field link")
     );
   }
 

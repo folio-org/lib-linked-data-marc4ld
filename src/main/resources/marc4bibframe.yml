@@ -866,6 +866,165 @@ fieldRules:
       subfields:
         a: DESCRIPTION_SOURCE_NOTE
       append: true
+  600:
+    - types: CONCEPT, FAMILY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: NUMERATION
+        c: TITLES
+        d: DATE
+        e: RELATOR_TERM
+        j: ATTRIBUTION
+        q: NAME_ALTERNATIVE
+        u: AFFILIATION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      label: NAME
+      marc2ldCondition:
+        ind1: '3'
+      edges:
+        - types: FAMILY
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: NUMERATION
+            c: TITLES
+            d: DATE
+            j: ATTRIBUTION
+            q: NAME_ALTERNATIVE
+            u: AFFILIATION
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          label: NAME
+        - types: FORM
+          predicate: SUB_FOCUS
+          subfields:
+            v: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              v: presented
+        - types: TOPIC
+          predicate: SUB_FOCUS
+          subfields:
+            x: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              x: presented
+        - types: TEMPORAL
+          predicate: SUB_FOCUS
+          subfields:
+            y: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              y: presented
+        - types: PLACE
+          predicate: SUB_FOCUS
+          subfields:
+            z: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              z: presented
+    - types: CONCEPT, PERSON
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: NUMERATION
+        c: TITLES
+        d: DATE
+        e: RELATOR_TERM
+        j: ATTRIBUTION
+        q: NAME_ALTERNATIVE
+        u: AFFILIATION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      label: NAME
+      marc2ldCondition:
+        ind1: '!3'
+      edges:
+        - types: PERSON
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: NUMERATION
+            c: TITLES
+            d: DATE
+            j: ATTRIBUTION
+            q: NAME_ALTERNATIVE
+            u: AFFILIATION
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          label: NAME
+        - types: FORM
+          predicate: SUB_FOCUS
+          subfields:
+            v: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              v: presented
+        - types: TOPIC
+          predicate: SUB_FOCUS
+          subfields:
+            x: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              x: presented
+        - types: TEMPORAL
+          predicate: SUB_FOCUS
+          subfields:
+            y: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              y: presented
+        - types: PLACE
+          predicate: SUB_FOCUS
+          subfields:
+            z: NAME
+          label: NAME
+          marc2ldCondition:
+            fields:
+              z: presented
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
@@ -876,17 +1035,17 @@ fieldRules:
         b: GEOGRAPHIC_COVERAGE
         c: LOCATION_OF_EVENT
         d: DATE
+        e: RELATOR_TERM
         g: MISC_INFO
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -900,10 +1059,10 @@ fieldRules:
             c: LOCATION_OF_EVENT
             d: DATE
             g: MISC_INFO
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
@@ -947,17 +1106,17 @@ fieldRules:
       predicate: SUBJECT
       subfields:
         a: NAME
+        e: RELATOR_TERM
         g: MISC_INFO
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        e: RELATOR_TERM
-        '4': RELATOR_CODE
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
@@ -968,10 +1127,10 @@ fieldRules:
           subfields:
             a: NAME
             g: MISC_INFO
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
