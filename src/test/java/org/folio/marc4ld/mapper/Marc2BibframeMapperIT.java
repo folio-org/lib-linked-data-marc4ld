@@ -17,6 +17,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
+import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
@@ -633,6 +634,10 @@ class Marc2BibframeMapperIT {
       getTopicConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PLACE),
       getPlaceConceptExpectedProperties());
+    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FORM),
+      getFormConceptExpectedProperties());
+    validateEdge(edgeIterator.next(), work.getResourceHash(), GENRE, List.of(FORM),
+      removeNonFocusProperties(getFormConceptExpectedProperties()));
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
@@ -996,6 +1001,13 @@ class Marc2BibframeMapperIT {
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
+  private Map<String, String> getFormConceptExpectedProperties() {
+    return Stream.concat(
+        getCommonConceptExpectedProperties("form").entrySet().stream(),
+        Map.ofEntries(entry(GEOGRAPHIC_COVERAGE.getValue(), "form geographic coverage")).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
   private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
     return Stream.concat(
       getCommonConceptExpectedProperties(prefix).entrySet().stream(),
@@ -1022,6 +1034,19 @@ class Marc2BibframeMapperIT {
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
+  private Map<String, String> removeNonFocusProperties(Map<String, String> properties) {
+    return properties.entrySet().stream()
+      .filter(entry -> !List.of(
+        FORM_SUBDIVISION.getValue(),
+        GENERAL_SUBDIVISION.getValue(),
+        CHRONOLOGICAL_SUBDIVISION.getValue(),
+        GEOGRAPHIC_SUBDIVISION.getValue(),
+        RELATOR_TERM.getValue(),
+        RELATOR_CODE.getValue()
+      ).contains(entry.getKey()))
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
   private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,
                                    Map<String, String> conceptProperties) {
     validateEdge(subjectEdge, workHash, SUBJECT, subjectTypes, conceptProperties);
@@ -1030,16 +1055,7 @@ class Marc2BibframeMapperIT {
     var conceptHash = subjectEdge.getTarget().getResourceHash();
     var focusEdge = edgeIterator.next();
     validateEdge(focusEdge, conceptHash, FOCUS, List.of(subjectTypes.get(1)),
-      conceptProperties.entrySet().stream()
-        .filter(entry -> !List.of(
-          FORM_SUBDIVISION.getValue(),
-          GENERAL_SUBDIVISION.getValue(),
-          CHRONOLOGICAL_SUBDIVISION.getValue(),
-          GEOGRAPHIC_SUBDIVISION.getValue(),
-          RELATOR_TERM.getValue(),
-          RELATOR_CODE.getValue()
-        ).contains(entry.getKey()))
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+      removeNonFocusProperties(conceptProperties));
     var formEdge = edgeIterator.next();
     validateEdge(formEdge, conceptHash, SUB_FOCUS, List.of(FORM),
       Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())));

@@ -1467,6 +1467,57 @@
       }
     },
     {
+      "655": {
+        "subfields": [
+          {
+            "a": "form name"
+          },
+          {
+            "b": "form geographic coverage"
+          },
+          {
+            "e": "form relator term"
+          },
+          {
+            "v": "form form subdivision"
+          },
+          {
+            "x": "form general subdivision"
+          },
+          {
+            "y": "form chronological subdivision"
+          },
+          {
+            "z": "form geographic subdivision"
+          },
+          {
+            "0": "form authority link"
+          },
+          {
+            "1": "form equivalent"
+          },
+          {
+            "2": "form source"
+          },
+          {
+            "3": "form materials specified"
+          },
+          {
+            "4": "form relator code"
+          },
+          {
+            "6": "form linkage"
+          },
+          {
+            "7": "form control field"
+          },
+          {
+            "8": "form field link"
+          }
+        ]
+      }
+    },
+    {
       "700": {
         "subfields": [
           {
