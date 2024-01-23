@@ -867,11 +867,11 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().get(PROVIDER_DATE.getValue()).get(0).asText()).isEqualTo("1999");
     assertThat(resource.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = resource.getOutgoingEdges().iterator();
-    validateProviderPlace(edgeIterator.next(), resource.getResourceHash(), expectedPrefix + " Place");
+    validateProviderPlace(edgeIterator.next(), resource.getResourceHash());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateProviderPlace(ResourceEdge edge, Long parentHash, String expectedLabel) {
+  private void validateProviderPlace(ResourceEdge edge, Long parentHash) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     var resource = edge.getTarget();
@@ -880,19 +880,16 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
-    assertThat(resource.getLabel()).isEqualTo(expectedLabel);
+    assertThat(resource.getLabel()).isEqualTo("af");
     assertThat(resource.getTypes()).containsExactly(PLACE);
-    assertThat(resource.getDoc()).hasSize(3);
+    assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("ilu");
-    assertThat(resource.getDoc().has(LABEL.getValue())).isTrue();
-    assertThat(resource.getDoc().get(LABEL.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo(expectedLabel);
+    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("af");
     assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
     assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText())
-      .isEqualTo("http://id.loc.gov/vocabulary/countries/ilu");
+      .isEqualTo("http://id.loc.gov/vocabulary/countries/af");
     assertThat(resource.getOutgoingEdges()).isEmpty();
   }
 

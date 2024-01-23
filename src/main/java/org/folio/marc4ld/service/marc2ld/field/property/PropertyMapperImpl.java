@@ -96,10 +96,15 @@ public class PropertyMapperImpl implements PropertyMapper {
 
   private void mapControlField(Map<String, List<String>> properties, String cfValue, List<Integer> range,
                                String property) {
-    var value = cfValue.strip().substring(range.get(0), range.get(1));
-    dictionaryProcessor.getValue(property, value).ifPresentOrElse(
-      v -> properties.put(valueOf(property).getValue(), List.of(v)),
-      () -> properties.put(valueOf(property).getValue(), List.of(value)));
+    if (range.get(1) > cfValue.length()) {
+      return;
+    }
+    var value = cfValue.substring(range.get(0), range.get(1)).strip();
+    if (!value.isBlank()) {
+      dictionaryProcessor.getValue(property, value).ifPresentOrElse(
+              v -> properties.put(valueOf(property).getValue(), List.of(v)),
+              () -> properties.put(valueOf(property).getValue(), List.of(value)));
+    }
   }
 
   private JsonNode getJsonNode(Map<String, ?> map) {
