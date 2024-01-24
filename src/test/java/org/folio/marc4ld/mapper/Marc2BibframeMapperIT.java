@@ -56,6 +56,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATA_QUALITY;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATES_OF_PUBLICATION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.DATE_END;
+import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
@@ -595,25 +597,8 @@ class Marc2BibframeMapperIT {
     assertThat(work.getResourceHash()).isNotNull();
     assertThat(work.getLabel()).isNotEmpty();
     assertThat(work.getTypes()).containsExactly(WORK);
-    assertThat(work.getDoc()).hasSize(14);
-    validateWorkNotes(work);
-    assertThat(work.getDoc().has(LANGUAGE.getValue())).isTrue();
-    assertThat(work.getDoc().get(LANGUAGE.getValue())).hasSize(1);
-    assertThat(work.getDoc().get(LANGUAGE.getValue()).get(0).asText()).isEqualTo("eng");
-    assertThat(work.getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
-    assertThat(work.getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
-    assertThat(work.getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText()).isEqualTo(
-      "Statement Of Responsibility");
-    assertThat(work.getDoc().has(SUMMARY.getValue())).isTrue();
-    assertThat(work.getDoc().get(SUMMARY.getValue())).hasSize(1);
-    assertThat(work.getDoc().get(SUMMARY.getValue()).get(0).asText()).isEqualTo("work summary");
-    assertThat(work.getDoc().has(TABLE_OF_CONTENTS.getValue())).isTrue();
-    assertThat(work.getDoc().get(TABLE_OF_CONTENTS.getValue())).hasSize(1);
-    assertThat(work.getDoc().get(TABLE_OF_CONTENTS.getValue()).get(0).asText()).isEqualTo(
-      "work table of contents");
-    assertThat(work.getDoc().has(TARGET_AUDIENCE.getValue())).isTrue();
-    assertThat(work.getDoc().get(TARGET_AUDIENCE.getValue())).hasSize(1);
-    assertThat(work.getDoc().get(TARGET_AUDIENCE.getValue()).get(0).asText()).isEqualTo("primary");
+    assertThat(work.getDoc()).hasSize(16);
+    getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
     validateClassification(edgeIterator.next(), work.getResourceHash());
@@ -643,31 +628,6 @@ class Marc2BibframeMapperIT {
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CONTRIBUTOR);
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateWorkNotes(Resource resource) {
-    var doc = resource.getDoc();
-
-    List.of(BIBLIOGRAPHY_NOTE, DATA_QUALITY, GEOGRAPHIC_COVERAGE, LANGUAGE_NOTE, OTHER_EVENT_INFORMATION, REFERENCES,
-        SCALE_NOTE, STUDY_PROGRAM_NAME, SUPPLEMENT)
-      .forEach(p -> {
-        assertThat(doc.has(p.getValue())).isTrue();
-        assertThat(doc.get(p.getValue())).hasSize(1);
-      });
-
-    assertThat(doc.get(BIBLIOGRAPHY_NOTE.getValue()).get(0).asText()).isEqualTo("note, references");
-    assertThat(doc.get(DATA_QUALITY.getValue()).get(0).asText()).isEqualTo("report, value, explanation, "
-      + "consistency report, completeness report, horizontal report, horizontal value, horizontal explanation, "
-      + "vertical report, vertical value, vertical explanation, cover, uri, note");
-    assertThat(doc.get(GEOGRAPHIC_COVERAGE.getValue()).get(0).asText()).isEqualTo("geographic coverage note");
-    assertThat(doc.get(LANGUAGE_NOTE.getValue()).get(0).asText()).isEqualTo("language note");
-    assertThat(doc.get(OTHER_EVENT_INFORMATION.getValue()).get(0).asText()).isEqualTo("time, date, other, place");
-    assertThat(doc.get(REFERENCES.getValue()).get(0).asText()).isEqualTo("name, coverage, "
-      + "location, uri, issn");
-    assertThat(doc.get(SCALE_NOTE.getValue()).get(0).asText()).isEqualTo("fraction note, remainder note");
-    assertThat(doc.get(STUDY_PROGRAM_NAME.getValue()).get(0).asText()).isEqualTo("program, interest, "
-      + "reading, title, text, nonpublic, public");
-    assertThat(doc.get(SUPPLEMENT.getValue()).get(0).asText()).isEqualTo("supplement note");
   }
 
   private void validateContributor(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type,
@@ -961,6 +921,29 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("access location note");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private Map<String, String> getWorkExpectedProperties() {
+    return Map.ofEntries(
+      entry(LANGUAGE.getValue(), "eng"),
+      entry(RESPONSIBILITY_STATEMENT.getValue(), "Statement Of Responsibility"),
+      entry(SUMMARY.getValue(), "work summary"),
+      entry(TABLE_OF_CONTENTS.getValue(), "work table of contents"),
+      entry(TARGET_AUDIENCE.getValue(), "primary"),
+      entry(DATE_START.getValue(), "2022"),
+      entry(DATE_END.getValue(), "2023"),
+      entry(BIBLIOGRAPHY_NOTE.getValue(), "note, references"),
+      entry(DATA_QUALITY.getValue(), "report, value, explanation, consistency report, completeness report, "
+        + "horizontal report, horizontal value, horizontal explanation, vertical report, vertical value, "
+        + "vertical explanation, cover, uri, note"),
+      entry(GEOGRAPHIC_COVERAGE.getValue(), "geographic coverage note"),
+      entry(LANGUAGE_NOTE.getValue(), "language note"),
+      entry(OTHER_EVENT_INFORMATION.getValue(), "time, date, other, place"),
+      entry(REFERENCES.getValue(), "name, coverage, location, uri, issn"),
+      entry(SCALE_NOTE.getValue(), "fraction note, remainder note"),
+      entry(STUDY_PROGRAM_NAME.getValue(), "program, interest, reading, title, text, nonpublic, public"),
+      entry(SUPPLEMENT.getValue(), "supplement note")
+    );
   }
 
   private Map<String, String> getCommonConceptExpectedProperties(String prefix) {

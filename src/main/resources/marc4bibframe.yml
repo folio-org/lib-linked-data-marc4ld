@@ -204,6 +204,13 @@ fieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '046':
+    - types: WORK
+      predicate: INSTANTIATES
+      subfields:
+        k: DATE_START
+        l: DATE_END
+      append: true
   '082':
     - types: CATEGORY
       parent: WORK
