@@ -107,7 +107,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         }
       }
     );
-    return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) ? field : null;
+    return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) && !field.getSubfields().isEmpty() ? field : null;
   }
 
   private char getIndicator(String indProperty, String indCondition, JsonNode doc) {
