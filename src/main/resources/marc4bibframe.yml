@@ -339,6 +339,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT
@@ -363,6 +364,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT
@@ -394,6 +396,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT
@@ -419,6 +422,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT
@@ -444,6 +448,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT
@@ -469,6 +474,7 @@ fieldRules:
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
+          PROVIDER_PLACE: 15,18
       edges:
         - types: PLACE
           parent: PROVIDER_EVENT

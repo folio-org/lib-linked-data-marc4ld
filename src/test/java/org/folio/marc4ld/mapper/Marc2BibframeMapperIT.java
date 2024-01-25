@@ -817,7 +817,7 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(expectedPrefix + " Name");
     assertThat(resource.getTypes()).containsExactly(PROVIDER_EVENT);
-    assertThat(resource.getDoc()).hasSize(4);
+    assertThat(resource.getDoc()).hasSize(5);
     assertThat(resource.getDoc().has(SIMPLE_PLACE.getValue())).isTrue();
     assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Place");
@@ -830,6 +830,7 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(PROVIDER_DATE.getValue())).isTrue();
     assertThat(resource.getDoc().get(PROVIDER_DATE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(PROVIDER_DATE.getValue()).get(0).asText()).isEqualTo("1999");
+    validateProperty(resource, PROVIDER_PLACE.getUri(), "af");
     assertThat(resource.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = resource.getOutgoingEdges().iterator();
     validateProviderPlace(edgeIterator.next(), resource.getResourceHash());
