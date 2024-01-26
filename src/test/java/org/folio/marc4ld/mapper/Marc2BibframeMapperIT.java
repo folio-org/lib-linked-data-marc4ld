@@ -18,6 +18,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
+import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
@@ -622,11 +623,17 @@ class Marc2BibframeMapperIT {
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FORM),
       getFormConceptExpectedProperties());
     validateEdge(edgeIterator.next(), work.getResourceHash(), GENRE, List.of(FORM),
-      removeNonFocusProperties(getFormConceptExpectedProperties()));
+      removeNonFocusProperties(getFormConceptExpectedProperties()), "form name");
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CONTRIBUTOR);
+    validateEdge(edgeIterator.next(), work.getResourceHash(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
+      Map.of(
+        CODE.getValue(), "a",
+        LINK.getValue(), "http://id.loc.gov/vocabulary/mgovtpubtype/a",
+        TERM.getValue(), "Autonomous"
+      ), "Autonomous");
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -1032,25 +1039,30 @@ class Marc2BibframeMapperIT {
 
   private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,
                                    Map<String, String> conceptProperties) {
-    validateEdge(subjectEdge, workHash, SUBJECT, subjectTypes, conceptProperties);
+    validateEdge(subjectEdge, workHash, SUBJECT, subjectTypes, conceptProperties,
+      conceptProperties.get(NAME.getValue()));
     assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
     var conceptHash = subjectEdge.getTarget().getResourceHash();
     var focusEdge = edgeIterator.next();
     validateEdge(focusEdge, conceptHash, FOCUS, List.of(subjectTypes.get(1)),
-      removeNonFocusProperties(conceptProperties));
+      removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()));
     var formEdge = edgeIterator.next();
     validateEdge(formEdge, conceptHash, SUB_FOCUS, List.of(FORM),
-      Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())));
+      Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())),
+      conceptProperties.get(FORM_SUBDIVISION.getValue()));
     var topicEdge = edgeIterator.next();
     validateEdge(topicEdge, conceptHash, SUB_FOCUS, List.of(TOPIC),
-      Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())));
+      Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())),
+      conceptProperties.get(GENERAL_SUBDIVISION.getValue()));
     var temporalEdge = edgeIterator.next();
     validateEdge(temporalEdge, conceptHash, SUB_FOCUS, List.of(TEMPORAL),
-      Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())));
+      Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())),
+      conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()));
     var placeEdge = edgeIterator.next();
     validateEdge(placeEdge, conceptHash, SUB_FOCUS, List.of(PLACE),
-      Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())));
+      Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())),
+      conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()));
     assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(formEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(topicEdge.getTarget().getOutgoingEdges()).isEmpty();
@@ -1060,7 +1072,7 @@ class Marc2BibframeMapperIT {
   }
 
   private void validateEdge(ResourceEdge edge, Long parentHash, PredicateDictionary predicate,
-                            List<ResourceTypeDictionary> types, Map<String, String> properties) {
+                            List<ResourceTypeDictionary> types, Map<String, String> properties, String expectedLabel) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
@@ -1069,7 +1081,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getTypes()).containsExactly(types.toArray(new ResourceTypeDictionary[0]));
-    assertThat(edge.getTarget().getLabel()).isEqualTo(properties.get(NAME.getValue()));
+    assertThat(edge.getTarget().getLabel()).isEqualTo(expectedLabel);
     assertThat(edge.getTarget().getDoc()).hasSize(properties.size());
     properties.forEach((property, propertyValue) -> validateProperty(edge.getTarget(), property, propertyValue));
   }
