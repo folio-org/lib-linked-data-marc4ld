@@ -8,6 +8,23 @@ fieldRules:
           LANGUAGE: 35,38
           TARGET_AUDIENCE: 22,23
       append: true
+      edges:
+        - types: CATEGORY
+          parent: WORK
+          predicate: GOVERNMENT_PUBLICATION
+          label: TERM
+          controlFields:
+            '008':
+              CODE: 28,29
+              TERM: 28,29
+          constants:
+            LINK: http://id.loc.gov/vocabulary/mgovtpubtype/%CODE
+          marc2ldCondition:
+            controlFields:
+              - tag: 008
+                data:
+                expression: args.contains(data.substring(28, 29))
+                args: a, c, f, i, l, m, o, s, u, z
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE

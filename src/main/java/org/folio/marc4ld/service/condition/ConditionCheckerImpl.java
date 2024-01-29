@@ -9,25 +9,34 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class ConditionCheckerImpl implements ConditionChecker {
 
   public static final String NOT = "!";
   public static final String PRESENTED = "presented";
 
+  private final ExpressionParser expressionParser;
+
   @Override
-  public boolean isMarc2LdConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField) {
+  public boolean isMarc2LdConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField,
+                                             List<ControlField> controlFields) {
     var condition = fieldRule.getMarc2ldCondition();
     if (isNull(condition)) {
       return true;
@@ -38,7 +47,8 @@ public class ConditionCheckerImpl implements ConditionChecker {
       .allMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
         .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
         .orElse(false));
-    return ind1Condition && ind2Condition && fieldConditions;
+    var controlFieldConditions = isControlFieldConditionsSatisfied(controlFields, condition);
+    return ind1Condition && ind2Condition && fieldConditions && controlFieldConditions;
   }
 
   @Override
@@ -93,6 +103,19 @@ public class ConditionCheckerImpl implements ConditionChecker {
       return nonNull(doc) && doc.has(property) && !doc.get(property).isEmpty()
         && e.getValue().equals(doc.get(property).get(0).asText());
     });
+  }
+
+  private boolean isControlFieldConditionsSatisfied(List<ControlField> controlFields,
+                                                    Marc4BibframeRules.Marc2ldCondition condition) {
+    return isEmpty(condition.getControlFields()) || condition.getControlFields().stream()
+      .flatMap(cfc -> controlFields.stream()
+        .filter(cf -> cf.getTag().equals(cfc.getTag()))
+        .map(cf -> {
+          var expression = expressionParser.parseExpression(cfc.getExpression());
+          cfc.setData(cf.getData());
+          return expression.getValue(new StandardEvaluationContext(cfc), Boolean.class);
+        }))
+      .allMatch(b -> b);
   }
 
 }

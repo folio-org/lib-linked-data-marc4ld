@@ -41,6 +41,7 @@ public class Marc4BibframeRules {
     private Map<Character, String> fields;
     private String ind1;
     private String ind2;
+    private List<ControlFieldContext> controlFields;
   }
 
   @Data
@@ -53,5 +54,13 @@ public class Marc4BibframeRules {
   public static class FieldRelation {
     private char code;
     private char text;
+  }
+
+  @Data
+  public static class ControlFieldContext {
+    private String tag;
+    private String data;
+    private String expression;
+    private List<String> args;
   }
 }
