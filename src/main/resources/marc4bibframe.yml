@@ -563,7 +563,7 @@ fieldRules:
         '2': SOURCE
       label: TERM
       constants:
-        LINK: http://id.loc.gov/vocabulary/carrierTypes/%CODE
+        LINK: http://id.loc.gov/vocabulary/carriers/%CODE
   362:
     - types: INSTANCE
       subfields:
