@@ -288,8 +288,8 @@ class Marc2BibframeMapperIT {
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_DISTRIBUTION, "Distribution");
     validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture");
     validateCopyrightDate(edgeIterator.next(), result.getResourceHash());
-    validateCategory(edgeIterator.next(), result.getResourceHash(), MEDIA);
-    validateCategory(edgeIterator.next(), result.getResourceHash(), CARRIER);
+    validateCategory(edgeIterator.next(), result.getResourceHash(), MEDIA, "mediaTypes");
+    validateCategory(edgeIterator.next(), result.getResourceHash(), CARRIER, "carriers");
     validateAccessLocation(edgeIterator.next(), result.getResourceHash());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
@@ -607,7 +607,7 @@ class Marc2BibframeMapperIT {
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
-    validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT);
+    validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PERSON),
@@ -882,7 +882,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateCategory(ResourceEdge edge, Long parentHash, PredicateDictionary predicate) {
+  private void validateCategory(ResourceEdge edge, Long parentHash, PredicateDictionary predicate, String linkTerm) {
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     var resource = edge.getTarget();
@@ -899,8 +899,8 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
     assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
     assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo("http://id.loc.gov/vocabulary/"
-      + predicate.name().toLowerCase() + "Types/" + predicate.name() + " code");
+    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(
+            "http://id.loc.gov/vocabulary/" + linkTerm + "/" + predicate.name() + " code");
     assertThat(resource.getDoc().has(TERM.getValue())).isTrue();
     assertThat(resource.getDoc().get(TERM.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
