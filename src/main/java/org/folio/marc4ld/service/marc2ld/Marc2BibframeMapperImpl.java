@@ -10,6 +10,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.getFirstValue;
 import static org.folio.marc4ld.util.BibframeUtil.hash;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmptyResource;
+import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
@@ -18,26 +19,37 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
+import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.impl.DataFieldImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-@RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private final Marc4BibframeRules rules;
   private final ObjectMapper objectMapper;
   private final FieldMapper fieldMapper;
+  private final Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap;
+
+  public Marc2BibframeMapperImpl(Marc4BibframeRules rules, ObjectMapper objectMapper, FieldMapper fieldMapper,
+                                 @Qualifier(DATA_FIELD_PREPROCESSORS_MAP)
+                                 Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap) {
+    this.rules = rules;
+    this.objectMapper = objectMapper;
+    this.fieldMapper = fieldMapper;
+    this.dataFieldPreprocessorsMap = dataFieldPreprocessorsMap;
+  }
 
   @Override
   public Resource fromMarcJson(String marc) {
@@ -67,8 +79,10 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
-    ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs ->
-      frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr))
+    ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs -> {
+      ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag())).ifPresent(dfp -> dfp.preprocess(dataField));
+      frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+      }
     );
   }
 

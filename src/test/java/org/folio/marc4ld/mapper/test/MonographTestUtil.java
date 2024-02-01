@@ -36,6 +36,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
@@ -381,6 +383,26 @@ public class MonographTestUtil {
   }
 
   public static Resource createSampleWork() {
+    var place1 = createResource(
+      Map.of(
+        NAME, List.of("United States"),
+        GEOGRAPHIC_AREA_CODE, List.of("n-us"),
+        GEOGRAPHIC_COVERAGE, List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
+      ),
+      Set.of(PLACE),
+      emptyMap()
+    ).setLabel("United States");
+
+    var place2 = createResource(
+      Map.of(
+        NAME, List.of("Europe"),
+        GEOGRAPHIC_AREA_CODE, List.of("e"),
+        GEOGRAPHIC_COVERAGE, List.of("https://id.loc.gov/vocabulary/geographicAreas/e")
+      ),
+      Set.of(PLACE),
+      emptyMap()
+    ).setLabel("Europe");
+
     var content = createResource(
       Map.of(
         TERM, List.of("CONTENT term"),
@@ -474,6 +496,7 @@ public class MonographTestUtil {
     ).setLabel("CONTRIBUTOR ORGANIZATION name");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place1, place2));
     pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,

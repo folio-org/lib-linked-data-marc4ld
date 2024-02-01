@@ -221,6 +221,18 @@ fieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '043':
+    - types: PLACE
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: GEOGRAPHIC_COVERAGE
+      subfields:
+        a: GEOGRAPHIC_AREA_CODE
+      label: NAME
+      constants:
+        GEOGRAPHIC_COVERAGE: https://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
+      mappings:
+        NAME: a
   '046':
     - types: WORK
       predicate: INSTANTIATES

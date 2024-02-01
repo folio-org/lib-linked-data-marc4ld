@@ -6,6 +6,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.marc4ld.util.BibframeUtil.hash;
+import static org.folio.marc4ld.util.Constants.FIELDS_WITH_REPEATABLE_SUBFIELDS;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -54,6 +55,10 @@ public class FieldMapperImpl implements FieldMapper {
       }
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
+
+      if (FIELDS_WITH_REPEATABLE_SUBFIELDS.contains(dataField.getTag())) {
+        handleRepeatableSubfields(parent, dataField, controlFields, fieldRule);
+      }
     }
   }
 
@@ -116,6 +121,21 @@ public class FieldMapperImpl implements FieldMapper {
         .flatMap(lp -> ofNullable(properties.get(PropertyDictionary.valueOf(lp).getValue())).map(vs -> join(SPACE, vs)))
         .orElseGet(() -> UUID.randomUUID().toString())
     );
+  }
+
+  private void handleRepeatableSubfields(Resource parent, DataField dataField, List<ControlField> controlFields,
+                                         Marc4BibframeRules.FieldRule fieldRule) {
+    var initialSubfieldsCount = dataField.getSubfields().size();
+
+    for (var subfield : dataField.getSubfields()) {
+      if (dataField.getSubfields(subfield.getCode()).size() > 1) {
+        dataField.removeSubfield(subfield);
+      }
+    }
+
+    if (initialSubfieldsCount != dataField.getSubfields().size()) {
+      handleField(parent, dataField, controlFields, fieldRule);
+    }
   }
 
 }

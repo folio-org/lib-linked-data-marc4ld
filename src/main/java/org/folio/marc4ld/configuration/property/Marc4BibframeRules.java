@@ -34,6 +34,7 @@ public class Marc4BibframeRules {
     private Map<String, String> constants;
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
+    private Map<String, Character> mappings;
   }
 
   @Data

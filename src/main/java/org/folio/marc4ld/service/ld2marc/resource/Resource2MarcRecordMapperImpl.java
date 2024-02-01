@@ -10,6 +10,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.Marc2ldCondition;
+import static org.folio.marc4ld.util.Constants.FIELDS_WITH_REPEATABLE_SUBFIELDS;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
@@ -79,9 +80,26 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
           return null;
         })
         .filter(Objects::nonNull));
-    return Stream.concat(dataFields,
-        resource.getOutgoingEdges().stream().flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
+
+    var allDataFields = Stream.concat(dataFields,
+      resource.getOutgoingEdges()
+        .stream()
+        .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
       .toList();
+
+    return Stream.concat(
+      allDataFields.stream()
+        .filter(dataField -> !FIELDS_WITH_REPEATABLE_SUBFIELDS.contains(dataField.getTag())),
+      allDataFields.stream()
+        .filter(dataField -> FIELDS_WITH_REPEATABLE_SUBFIELDS.contains(dataField.getTag()))
+        .collect(Collectors.toMap(VariableField::getTag, Function.identity(),
+          (existing, next) -> {
+            next.getSubfields().forEach(existing::addSubfield);
+            return existing;
+          }))
+        .values()
+        .stream()
+    ).toList();
   }
 
   private DataField getDataField(FieldRule fr, String tag, Resource resource) {

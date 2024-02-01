@@ -72,6 +72,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
@@ -602,6 +603,10 @@ class Marc2BibframeMapperIT {
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
+    validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
+      getPlaceExpectedProperties("United States", "n-us"), "United States");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
+      getPlaceExpectedProperties("Europe", "e"), "Europe");
     validateClassification(edgeIterator.next(), work.getResourceHash());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);
@@ -950,6 +955,14 @@ class Marc2BibframeMapperIT {
       entry(SCALE_NOTE.getValue(), "fraction note, remainder note"),
       entry(STUDY_PROGRAM_NAME.getValue(), "program, interest, reading, title, text, nonpublic, public"),
       entry(SUPPLEMENT.getValue(), "supplement note")
+    );
+  }
+
+  private static Map<String, String> getPlaceExpectedProperties(String name, String code) {
+    return Map.of(
+      NAME.getValue(), name,
+      GEOGRAPHIC_AREA_CODE.getValue(), code,
+      GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/" + code
     );
   }
 
