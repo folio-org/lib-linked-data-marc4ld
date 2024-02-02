@@ -383,7 +383,7 @@ public class MonographTestUtil {
   }
 
   public static Resource createSampleWork() {
-    var place1 = createResource(
+    var place = createResource(
       Map.of(
         NAME, List.of("United States"),
         GEOGRAPHIC_AREA_CODE, List.of("n-us"),
@@ -392,16 +392,6 @@ public class MonographTestUtil {
       Set.of(PLACE),
       emptyMap()
     ).setLabel("United States");
-
-    var place2 = createResource(
-      Map.of(
-        NAME, List.of("Europe"),
-        GEOGRAPHIC_AREA_CODE, List.of("e"),
-        GEOGRAPHIC_COVERAGE, List.of("https://id.loc.gov/vocabulary/geographicAreas/e")
-      ),
-      Set.of(PLACE),
-      emptyMap()
-    ).setLabel("Europe");
 
     var content = createResource(
       Map.of(
@@ -496,7 +486,7 @@ public class MonographTestUtil {
     ).setLabel("CONTRIBUTOR ORGANIZATION name");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
-    pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place1, place2));
+    pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
     pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,

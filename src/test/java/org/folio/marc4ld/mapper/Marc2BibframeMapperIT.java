@@ -604,9 +604,11 @@ class Marc2BibframeMapperIT {
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
     validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
-      getPlaceExpectedProperties("United States", "n-us"), "United States");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
-      getPlaceExpectedProperties("Europe", "e"), "Europe");
+      Map.of(
+        NAME.getValue(), "United States",
+        GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
+        GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
+      ), "United States");
     validateClassification(edgeIterator.next(), work.getResourceHash());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);
@@ -955,14 +957,6 @@ class Marc2BibframeMapperIT {
       entry(SCALE_NOTE.getValue(), "fraction note, remainder note"),
       entry(STUDY_PROGRAM_NAME.getValue(), "program, interest, reading, title, text, nonpublic, public"),
       entry(SUPPLEMENT.getValue(), "supplement note")
-    );
-  }
-
-  private static Map<String, String> getPlaceExpectedProperties(String name, String code) {
-    return Map.of(
-      NAME.getValue(), name,
-      GEOGRAPHIC_AREA_CODE.getValue(), code,
-      GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/" + code
     );
   }
 
