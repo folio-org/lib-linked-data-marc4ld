@@ -79,8 +79,11 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
           return null;
         })
         .filter(Objects::nonNull));
+
     return Stream.concat(dataFields,
-        resource.getOutgoingEdges().stream().flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
+      resource.getOutgoingEdges()
+        .stream()
+        .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
       .toList();
   }
 

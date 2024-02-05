@@ -72,6 +72,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
@@ -602,6 +603,12 @@ class Marc2BibframeMapperIT {
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
+    validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
+      Map.of(
+        NAME.getValue(), "United States",
+        GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
+        GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
+      ), "United States");
     validateClassification(edgeIterator.next(), work.getResourceHash());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);

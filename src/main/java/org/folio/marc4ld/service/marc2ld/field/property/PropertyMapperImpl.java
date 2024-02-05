@@ -19,6 +19,7 @@ import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,8 +55,22 @@ public class PropertyMapperImpl implements PropertyMapper {
     ofNullable(fieldRule.getConstants()).ifPresent(
       c -> c.forEach((field, value) -> mapConstant(properties, field, value)));
 
+    ofNullable(fieldRule.getMappings()).ifPresent(
+      m -> m.forEach((property, field) -> mapMapping(properties, property, dataField.getSubfield(field)))
+    );
+
     resource.setDoc(getJsonNode(properties));
     return properties;
+  }
+
+  private void mapMapping(Map<String, List<String>> properties, String property, Subfield subfield) {
+    if (nonNull(subfield)) {
+      ofNullable(subfield.getData())
+        .map(String::trim)
+        .filter(StringUtils::isNotEmpty)
+        .flatMap(v -> dictionaryProcessor.getValue(property, v))
+        .ifPresent(value -> properties.put(valueOf(property).getValue(), List.of(value)));
+    }
   }
 
   private void mapProperty(Map<String, List<String>> properties, String rule, final String value, String concat) {
