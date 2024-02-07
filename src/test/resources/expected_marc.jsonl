@@ -1,7 +1,7 @@
 {
-  "leader" : "04055nam a2200913uc 4500",
+  "leader" : "07044nam a2201009uc 4500",
   "fields" : [ {
-    "008" : "      1999    ilu    b            eng  "
+    "008" : "      1999    ilu    b     a      eng  "
   }, {
     "010" : {
       "subfields" : [ {
@@ -98,6 +98,16 @@
     "043" : {
       "subfields" : [ {
         "a" : "n-us"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "046" : {
+      "subfields" : [ {
+        "k" : "2023"
+      }, {
+        "l" : "2024"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -610,6 +620,296 @@
     "588" : {
       "subfields" : [ {
         "a" : "description source note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "600" : {
+      "subfields" : [ {
+        "0" : "family authority link"
+      }, {
+        "1" : "family equivalent"
+      }, {
+        "2" : "family source"
+      }, {
+        "3" : "family materials specified"
+      }, {
+        "4" : "family relator code"
+      }, {
+        "6" : "family linkage"
+      }, {
+        "7" : "family control field"
+      }, {
+        "8" : "family field link"
+      }, {
+        "a" : "family name"
+      }, {
+        "b" : "family numeration"
+      }, {
+        "c" : "family titles"
+      }, {
+        "d" : "family date"
+      }, {
+        "e" : "family relator term"
+      }, {
+        "j" : "family attribution"
+      }, {
+        "q" : "family name alternative"
+      }, {
+        "u" : "family affiliation"
+      }, {
+        "v" : "family form subdivision"
+      }, {
+        "x" : "family general subdivision"
+      }, {
+        "y" : "family chronological subdivision"
+      }, {
+        "z" : "family geographic subdivision"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "600" : {
+      "subfields" : [ {
+        "0" : "person authority link"
+      }, {
+        "1" : "person equivalent"
+      }, {
+        "2" : "person source"
+      }, {
+        "3" : "person materials specified"
+      }, {
+        "4" : "person relator code"
+      }, {
+        "6" : "person linkage"
+      }, {
+        "7" : "person control field"
+      }, {
+        "8" : "person field link"
+      }, {
+        "a" : "person name"
+      }, {
+        "b" : "person numeration"
+      }, {
+        "c" : "person titles"
+      }, {
+        "d" : "person date"
+      }, {
+        "e" : "person relator term"
+      }, {
+        "j" : "person attribution"
+      }, {
+        "q" : "person name alternative"
+      }, {
+        "u" : "person affiliation"
+      }, {
+        "v" : "person form subdivision"
+      }, {
+        "x" : "person general subdivision"
+      }, {
+        "y" : "person chronological subdivision"
+      }, {
+        "z" : "person geographic subdivision"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "610" : {
+      "subfields" : [ {
+        "0" : "jurisdiction authority link"
+      }, {
+        "1" : "jurisdiction equivalent"
+      }, {
+        "2" : "jurisdiction source"
+      }, {
+        "3" : "jurisdiction materials specified"
+      }, {
+        "4" : "jurisdiction relator code"
+      }, {
+        "6" : "jurisdiction linkage"
+      }, {
+        "7" : "jurisdiction control field"
+      }, {
+        "8" : "jurisdiction field link"
+      }, {
+        "a" : "jurisdiction name"
+      }, {
+        "b" : "jurisdiction subordinate unit"
+      }, {
+        "c" : "jurisdiction place"
+      }, {
+        "d" : "jurisdiction date"
+      }, {
+        "e" : "jurisdiction relator term"
+      }, {
+        "u" : "jurisdiction affiliation"
+      }, {
+        "v" : "jurisdiction form subdivision"
+      }, {
+        "x" : "jurisdiction general subdivision"
+      }, {
+        "y" : "jurisdiction chronological subdivision"
+      }, {
+        "z" : "jurisdiction geographic subdivision"
+      } ],
+      "ind1" : "1",
+      "ind2" : " "
+    }
+  }, {
+    "610" : {
+      "subfields" : [ {
+        "0" : "organization authority link"
+      }, {
+        "1" : "organization equivalent"
+      }, {
+        "2" : "organization source"
+      }, {
+        "3" : "organization materials specified"
+      }, {
+        "4" : "organization relator code"
+      }, {
+        "6" : "organization linkage"
+      }, {
+        "7" : "organization control field"
+      }, {
+        "8" : "organization field link"
+      }, {
+        "a" : "organization name"
+      }, {
+        "b" : "organization subordinate unit"
+      }, {
+        "c" : "organization place"
+      }, {
+        "d" : "organization date"
+      }, {
+        "e" : "organization relator term"
+      }, {
+        "u" : "organization affiliation"
+      }, {
+        "v" : "organization form subdivision"
+      }, {
+        "x" : "organization general subdivision"
+      }, {
+        "y" : "organization chronological subdivision"
+      }, {
+        "z" : "organization geographic subdivision"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "650" : {
+      "subfields" : [ {
+        "0" : "topic authority link"
+      }, {
+        "1" : "topic equivalent"
+      }, {
+        "2" : "topic source"
+      }, {
+        "3" : "topic materials specified"
+      }, {
+        "4" : "topic relator code"
+      }, {
+        "6" : "topic linkage"
+      }, {
+        "7" : "topic control field"
+      }, {
+        "8" : "topic field link"
+      }, {
+        "a" : "topic name"
+      }, {
+        "b" : "topic geographic coverage"
+      }, {
+        "c" : "topic location of event"
+      }, {
+        "d" : "topic date"
+      }, {
+        "e" : "topic relator term"
+      }, {
+        "g" : "topic misc info"
+      }, {
+        "v" : "topic form subdivision"
+      }, {
+        "x" : "topic general subdivision"
+      }, {
+        "y" : "topic chronological subdivision"
+      }, {
+        "z" : "topic geographic subdivision"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "651" : {
+      "subfields" : [ {
+        "0" : "place authority link"
+      }, {
+        "1" : "place equivalent"
+      }, {
+        "2" : "place source"
+      }, {
+        "3" : "place materials specified"
+      }, {
+        "4" : "place relator code"
+      }, {
+        "6" : "place linkage"
+      }, {
+        "7" : "place control field"
+      }, {
+        "8" : "place field link"
+      }, {
+        "a" : "place name"
+      }, {
+        "e" : "place relator term"
+      }, {
+        "g" : "place misc info"
+      }, {
+        "v" : "place form subdivision"
+      }, {
+        "x" : "place general subdivision"
+      }, {
+        "y" : "place chronological subdivision"
+      }, {
+        "z" : "place geographic subdivision"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "655" : {
+      "subfields" : [ {
+        "0" : "form authority link"
+      }, {
+        "1" : "form equivalent"
+      }, {
+        "2" : "form source"
+      }, {
+        "3" : "form materials specified"
+      }, {
+        "4" : "form relator code"
+      }, {
+        "6" : "form linkage"
+      }, {
+        "7" : "form control field"
+      }, {
+        "8" : "form field link"
+      }, {
+        "a" : "form name"
+      }, {
+        "b" : "form geographic coverage"
+      }, {
+        "e" : "form relator term"
+      }, {
+        "v" : "form form subdivision"
+      }, {
+        "x" : "form general subdivision"
+      }, {
+        "y" : "form chronological subdivision"
+      }, {
+        "z" : "form geographic subdivision"
       } ],
       "ind1" : " ",
       "ind2" : " "

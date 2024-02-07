@@ -938,6 +938,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -946,6 +948,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -954,6 +958,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -962,6 +968,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -970,6 +978,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
     - types: CONCEPT, PERSON
       parent: WORK
       parentPredicate: INSTANTIATES
@@ -1017,6 +1027,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1025,6 +1037,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1033,6 +1047,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1041,6 +1057,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1049,6 +1067,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
   610:
     - types: CONCEPT, JURISDICTION
       parent: WORK
@@ -1093,6 +1113,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1101,6 +1123,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1109,6 +1133,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1117,6 +1143,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1125,6 +1153,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
     - types: CONCEPT, ORGANIZATION
       parent: WORK
       parentPredicate: INSTANTIATES
@@ -1168,6 +1198,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1176,6 +1208,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1184,6 +1218,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1192,6 +1228,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1200,6 +1238,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
@@ -1242,6 +1282,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1250,6 +1292,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1258,6 +1302,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1266,6 +1312,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1274,6 +1322,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
   651:
     - types: CONCEPT, PLACE
       parent: WORK
@@ -1310,6 +1360,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1318,6 +1370,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1326,6 +1380,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1334,6 +1390,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1342,6 +1400,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
   655:
     - types: CONCEPT, FORM
       parent: WORK
@@ -1378,6 +1438,8 @@ fieldRules:
             '7': CONTROL_FIELD
             '8': FIELD_LINK
           label: NAME
+          ld2marcCondition:
+            skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
@@ -1386,6 +1448,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               v: presented
+          ld2marcCondition:
+            skip: true
         - types: TOPIC
           predicate: SUB_FOCUS
           subfields:
@@ -1394,6 +1458,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               x: presented
+          ld2marcCondition:
+            skip: true
         - types: TEMPORAL
           predicate: SUB_FOCUS
           subfields:
@@ -1402,6 +1468,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               y: presented
+          ld2marcCondition:
+            skip: true
         - types: PLACE
           predicate: SUB_FOCUS
           subfields:
@@ -1410,6 +1478,8 @@ fieldRules:
           marc2ldCondition:
             fields:
               z: presented
+          ld2marcCondition:
+            skip: true
     - types: FORM
       parent: WORK
       parentPredicate: INSTANTIATES
@@ -1425,6 +1495,8 @@ fieldRules:
         '7': CONTROL_FIELD
         '8': FIELD_LINK
       label: NAME
+      ld2marcCondition:
+        skip: true
   700:
     - types: PERSON
       parent: WORK
