@@ -9,6 +9,9 @@ import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
+import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
+import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
+import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
@@ -18,26 +21,40 @@ import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
+import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
+import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
+import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
+import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
+import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
+import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATES_OF_PUBLICATION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.DATE_END;
+import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
+import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
+import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
+import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
@@ -48,13 +65,19 @@ import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
+import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
+import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_EVENT;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_DUPLICATES;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
+import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ORIGINAL_VERSION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
@@ -65,10 +88,13 @@ import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
+import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
+import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
+import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
@@ -76,13 +102,16 @@ import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_N
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
 import static org.folio.ld.dictionary.PropertyDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
+import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
@@ -90,6 +119,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
@@ -97,6 +127,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.SUPPLEMENTARY_CONTENT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
@@ -108,6 +140,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -485,6 +518,16 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("CONTRIBUTOR ORGANIZATION name");
 
+    var category = createResource(
+      Map.of(
+        CODE, List.of("a"),
+        LINK, List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
+        TERM, List.of("Autonomous")
+      ),
+      Set.of(CATEGORY),
+      emptyMap()
+    ).setLabel("Autonomous");
+
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
     pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
@@ -492,6 +535,14 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
             familyContributor));
     pred2OutgoingResources.put(CONTENT, List.of(content));
+    var formConcept = createFormConcept();
+    pred2OutgoingResources.put(SUBJECT, List.of(createFamilyPersonConcept("family", FAMILY),
+      createFamilyPersonConcept("person", PERSON),
+      createJurisdictionOrganizationConcept("jurisdiction", JURISDICTION),
+      createJurisdictionOrganizationConcept("organization", ORGANIZATION), createTopicConcept(),
+      createPlaceConcept(), formConcept));
+    pred2OutgoingResources.put(GENRE, List.of(formConcept.getOutgoingEdges().iterator().next().getTarget()));
+    pred2OutgoingResources.put(GOVERNMENT_PUBLICATION, List.of(category));
 
     return createResource(
       Map.of(
@@ -499,11 +550,162 @@ public class MonographTestUtil {
         LANGUAGE, List.of("eng"),
         SUMMARY, List.of("work summary"),
         TABLE_OF_CONTENTS, List.of("work table of contents"),
-        RESPONSIBILITY_STATEMENT, List.of("Statement Of Responsibility")
+        RESPONSIBILITY_STATEMENT, List.of("Statement Of Responsibility"),
+        DATE_START, List.of("2023"),
+        DATE_END, List.of("2024")
       ),
       Set.of(WORK),
       pred2OutgoingResources
     ).setLabel("Work: label");
+  }
+
+  private static Map<PropertyDictionary, List<String>> createCommonConceptProperties(String prefix) {
+    return Map.ofEntries(
+      entry(NAME, List.of(prefix + " name")),
+      entry(FORM_SUBDIVISION, List.of(prefix + " form subdivision")),
+      entry(GENERAL_SUBDIVISION, List.of(prefix + " general subdivision")),
+      entry(CHRONOLOGICAL_SUBDIVISION, List.of(prefix + " chronological subdivision")),
+      entry(GEOGRAPHIC_SUBDIVISION, List.of(prefix + " geographic subdivision")),
+      entry(SOURCE, List.of(prefix + " source")),
+      entry(MATERIALS_SPECIFIED, List.of(prefix + " materials specified")),
+      entry(RELATOR_TERM, List.of(prefix + " relator term")),
+      entry(RELATOR_CODE, List.of(prefix + " relator code")),
+      entry(AUTHORITY_LINK, List.of(prefix + " authority link")),
+      entry(EQUIVALENT, List.of(prefix + " equivalent")),
+      entry(LINKAGE, List.of(prefix + " linkage")),
+      entry(CONTROL_FIELD, List.of(prefix + " control field")),
+      entry(FIELD_LINK, List.of(prefix + " field link"))
+    );
+  }
+
+  private Map<PropertyDictionary, List<String>> removeNonFocusProperties(
+    Map<PropertyDictionary, List<String>> properties) {
+    return properties.entrySet().stream()
+      .filter(entry -> !List.of(
+        FORM_SUBDIVISION,
+        GENERAL_SUBDIVISION,
+        CHRONOLOGICAL_SUBDIVISION,
+        GEOGRAPHIC_SUBDIVISION,
+        RELATOR_TERM,
+        RELATOR_CODE
+      ).contains(entry.getKey()))
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  private static Resource createFamilyPersonConcept(String prefix, ResourceTypeDictionary type) {
+    var properties = Stream.concat(
+        createCommonConceptProperties(prefix).entrySet().stream(),
+        Map.ofEntries(
+          entry(NUMERATION, List.of(prefix + " numeration")),
+          entry(TITLES, List.of(prefix + " titles")),
+          entry(DATE, List.of(prefix + " date")),
+          entry(ATTRIBUTION, List.of(prefix + " attribution")),
+          entry(NAME_ALTERNATIVE, List.of(prefix + " name alternative")),
+          entry(AFFILIATION, List.of(prefix + " affiliation"))
+        ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    var familyPerson = createResource(removeNonFocusProperties(properties), Set.of(type), emptyMap())
+      .setLabel(properties.get(NAME).get(0));
+    var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
+    var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
+    var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
+      emptyMap());
+    var place = createResource(Map.of(NAME, properties.get(GEOGRAPHIC_SUBDIVISION)), Set.of(PLACE), emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(FOCUS, List.of(familyPerson));
+    pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, place));
+    return createResource(properties, Set.of(CONCEPT, type), pred2OutgoingResources)
+      .setLabel(properties.get(NAME).get(0));
+  }
+
+  private static Resource createJurisdictionOrganizationConcept(String prefix, ResourceTypeDictionary type) {
+    var properties = Stream.concat(
+        createCommonConceptProperties(prefix).entrySet().stream(),
+        Map.ofEntries(
+          entry(SUBORDINATE_UNIT, List.of(prefix + " subordinate unit")),
+          entry(PropertyDictionary.PLACE, List.of(prefix + " place")),
+          entry(DATE, List.of(prefix + " date")),
+          entry(AFFILIATION, List.of(prefix + " affiliation"))
+        ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    var jusdictionOrganization = createResource(removeNonFocusProperties(properties), Set.of(type), emptyMap())
+      .setLabel(properties.get(NAME).get(0));
+    var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
+    var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
+    var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
+      emptyMap());
+    var place = createResource(Map.of(NAME, properties.get(GEOGRAPHIC_SUBDIVISION)), Set.of(PLACE), emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(FOCUS, List.of(jusdictionOrganization));
+    pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, place));
+    return createResource(properties, Set.of(CONCEPT, type), pred2OutgoingResources)
+      .setLabel(properties.get(NAME).get(0));
+  }
+
+  private static Resource createTopicConcept() {
+    var properties = Stream.concat(
+        createCommonConceptProperties("topic").entrySet().stream(),
+        Map.ofEntries(
+          entry(GEOGRAPHIC_COVERAGE, List.of("topic geographic coverage")),
+          entry(LOCATION_OF_EVENT, List.of("topic location of event")),
+          entry(DATE, List.of("topic date")),
+          entry(MISC_INFO, List.of("topic misc info"))
+        ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    var topic = createResource(removeNonFocusProperties(properties), Set.of(TOPIC), emptyMap())
+      .setLabel(properties.get(NAME).get(0));
+    var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
+    var subTopic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
+    var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
+      emptyMap());
+    var place = createResource(Map.of(NAME, properties.get(GEOGRAPHIC_SUBDIVISION)), Set.of(PLACE), emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(FOCUS, List.of(topic));
+    pred2OutgoingResources.put(SUB_FOCUS, List.of(form, subTopic, temporal, place));
+    return createResource(properties, Set.of(CONCEPT, TOPIC), pred2OutgoingResources)
+      .setLabel(properties.get(NAME).get(0));
+  }
+
+  private static Resource createPlaceConcept() {
+    var properties = Stream.concat(
+        createCommonConceptProperties("place").entrySet().stream(),
+        Map.ofEntries(
+          entry(MISC_INFO, List.of("place misc info"))
+        ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    var place = createResource(removeNonFocusProperties(properties), Set.of(PLACE), emptyMap())
+      .setLabel(properties.get(NAME).get(0));
+    var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
+    var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
+    var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
+      emptyMap());
+    var subPlace = createResource(Map.of(NAME, properties.get(GEOGRAPHIC_SUBDIVISION)), Set.of(PLACE), emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(FOCUS, List.of(place));
+    pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, subPlace));
+    return createResource(properties, Set.of(CONCEPT, PLACE), pred2OutgoingResources)
+      .setLabel(properties.get(NAME).get(0));
+  }
+
+  private static Resource createFormConcept() {
+    var properties = Stream.concat(
+        createCommonConceptProperties("form").entrySet().stream(),
+        Map.ofEntries(
+          entry(GEOGRAPHIC_COVERAGE, List.of("form geographic coverage"))
+        ).entrySet().stream())
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    var form = createResource(removeNonFocusProperties(properties), Set.of(FORM), emptyMap())
+      .setLabel(properties.get(NAME).get(0));
+    var subForm = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
+    var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
+    var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
+      emptyMap());
+    var place = createResource(Map.of(NAME, properties.get(GEOGRAPHIC_SUBDIVISION)), Set.of(PLACE), emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(FOCUS, List.of(form));
+    pred2OutgoingResources.put(SUB_FOCUS, List.of(subForm, topic, temporal, place));
+    return createResource(properties, Set.of(CONCEPT, FORM), pred2OutgoingResources)
+      .setLabel(properties.get(NAME).get(0));
   }
 
   private Resource status(String value) {
@@ -541,6 +743,8 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel(providerEventType + " Place");
   }
+
+
 
   private Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,
                                   Set<ResourceTypeDictionary> types,
