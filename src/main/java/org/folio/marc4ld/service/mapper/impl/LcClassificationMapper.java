@@ -3,8 +3,9 @@ package org.folio.marc4ld.service.mapper.impl;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
+import static org.folio.ld.dictionary.PropertyDictionary.CODE;
+import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.STATUS;
-import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -37,7 +36,6 @@ public class LcClassificationMapper implements Marc4ldMapper {
   private static final char ZERO = '0';
   private static final char ONE = '1';
 
-  private final ConditionChecker conditionChecker;
   private final ObjectMapper objectMapper;
   private final MarcFactory marcFactory;
 
@@ -47,9 +45,8 @@ public class LcClassificationMapper implements Marc4ldMapper {
   }
 
   @Override
-  public boolean canMap(String tag, PredicateDictionary predicate, Resource resource) {
-    return TAG.equals(tag)
-      || predicate == CLASSIFICATION
+  public boolean canMap(PredicateDictionary predicate, Resource resource) {
+    return predicate == CLASSIFICATION
       && Objects.equals(resource.getTypes(), SUPPORTED_TYPES)
       && isLcClassification(resource);
   }
@@ -69,23 +66,13 @@ public class LcClassificationMapper implements Marc4ldMapper {
   }
 
   @Override
-  public DataField map2marc(String tag, Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
+  public List<DataField> map2marc(Resource resource) {
     DataField dataField = null;
-    if (shouldMap(tag, fieldRule, resource)) {
-      var ind2 = resource.getDoc().get(ASSIGNER.getValue()) != null ? ZERO : SPACE.charAt(0);
-      dataField = marcFactory.newDataField(TAG, getIndicator1(resource), ind2);
-      for (var entry : fieldRule.getSubfields().entrySet()) {
-        dataField.addSubfield(marcFactory.newSubfield(entry.getKey(),
-          resource.getDoc().get(valueOf(entry.getValue()).getValue()).get(0).asText()));
-      }
-    }
-    return dataField;
-  }
-
-  private boolean shouldMap(String tag, Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
-    return TAG.equals(tag)
-      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, resource)
-      && isLcClassification(resource);
+    var ind2 = resource.getDoc().get(ASSIGNER.getValue()) != null ? ZERO : SPACE.charAt(0);
+    dataField = marcFactory.newDataField(TAG, getIndicator1(resource), ind2);
+    dataField.addSubfield(marcFactory.newSubfield('a', resource.getDoc().get(CODE.getValue()).get(0).asText()));
+    dataField.addSubfield(marcFactory.newSubfield('b', resource.getDoc().get(ITEM_NUMBER.getValue()).get(0).asText()));
+    return List.of(dataField);
   }
 
   private boolean isLcClassification(Resource resource) {

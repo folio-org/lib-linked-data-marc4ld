@@ -251,6 +251,9 @@ fieldRules:
       label: CODE
       constants:
         SOURCE: lc
+      ld2marcCondition:
+        # ld2marc conversion is done by the LcClassificationMapper bean
+        skip: true
       edges:
         - types: CATEGORY_SET
           parent: CATEGORY
@@ -258,8 +261,6 @@ fieldRules:
           constants:
             LABEL: lc
           label: LABEL
-          ld2marcCondition:
-            skip: true
   '082':
     - types: CATEGORY
       parent: WORK
