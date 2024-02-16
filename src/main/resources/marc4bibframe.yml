@@ -240,6 +240,26 @@ fieldRules:
         k: DATE_START
         l: DATE_END
       append: true
+  '050':
+    - types: CATEGORY
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: CLASSIFICATION
+      subfields:
+        a: CODE
+        b: ITEM_NUMBER
+      label: CODE
+      constants:
+        SOURCE: lc
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          constants:
+            LABEL: lc
+          label: LABEL
+          ld2marcCondition:
+            skip: true
   '082':
     - types: CATEGORY
       parent: WORK

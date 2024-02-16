@@ -13,5 +13,6 @@ public class Constants {
   public static class DependencyInjection {
 
     public static final String DATA_FIELD_PREPROCESSORS_MAP = "dataFieldPreprocessorsMap";
+    public static final String MARC4LD_MAPPERS_MAP = "marc4ldMappersMap";
   }
 }

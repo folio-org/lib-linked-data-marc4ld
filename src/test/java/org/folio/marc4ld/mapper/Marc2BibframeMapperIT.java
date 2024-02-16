@@ -45,6 +45,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
+import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
@@ -81,6 +82,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
+import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
@@ -609,6 +611,14 @@ class Marc2BibframeMapperIT {
         GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
         GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
       ), "United States");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CLASSIFICATION, List.of(CATEGORY),
+      Map.of(
+        SOURCE.getValue(), "lc",
+        CODE.getValue(), "code",
+        ITEM_NUMBER.getValue(), "item number",
+        ASSIGNER.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc",
+        PropertyDictionary.STATUS.getValue(), "http://id.loc.gov/vocabulary/mstatus/uba"
+      ), "code");
     validateClassification(edgeIterator.next(), work.getResourceHash());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);

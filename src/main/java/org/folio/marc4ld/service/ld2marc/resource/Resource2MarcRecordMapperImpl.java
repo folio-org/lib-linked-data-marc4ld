@@ -33,6 +33,7 @@ import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
+import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -48,6 +49,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Marc4BibframeRules rules;
   private final ConditionChecker conditionChecker;
   private final DictionaryProcessor dictionaryProcessor;
+  private final List<Marc4ldMapper> marc4ldMappers;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -74,7 +76,12 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
             collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
           }
           if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-            return getDataField(fr, tagToRule.getKey(), resource);
+            var mapperOptional = marc4ldMappers.stream()
+              .filter(mapper -> mapper.canMap(tagToRule.getKey(), predicate, resource))
+              .findFirst();
+            return mapperOptional.isPresent()
+              ? mapperOptional.get().map2marc(tagToRule.getKey(), fr, resource)
+              : getDataField(fr, tagToRule.getKey(), resource);
           }
           return null;
         })
