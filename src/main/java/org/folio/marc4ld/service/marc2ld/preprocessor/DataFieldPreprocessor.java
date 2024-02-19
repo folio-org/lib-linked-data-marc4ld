@@ -7,4 +7,6 @@ public interface DataFieldPreprocessor {
   void preprocess(DataField dataField);
 
   String getTag();
+
+  boolean isValid(DataField dataField);
 }

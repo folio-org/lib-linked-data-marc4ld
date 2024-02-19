@@ -80,8 +80,16 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
     ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs -> {
-      ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag())).ifPresent(dfp -> dfp.preprocess(dataField));
-      frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+        var dataFieldPreprocessor = ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag()));
+        if (dataFieldPreprocessor.isPresent()) {
+          var preprocessor = dataFieldPreprocessor.get();
+          preprocessor.preprocess(dataField);
+          if (preprocessor.isValid(dataField)) {
+            frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+          }
+        } else {
+          frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+        }
       }
     );
   }
