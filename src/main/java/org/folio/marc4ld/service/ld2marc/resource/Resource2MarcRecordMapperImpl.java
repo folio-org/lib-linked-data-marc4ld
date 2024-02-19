@@ -65,33 +65,35 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
                                     ControlFieldsBuilder cfb) {
-    var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
-    var dataFields = rules.getFieldRules().entrySet().stream()
-      .flatMap(tagToRule -> tagToRule.getValue().stream()
-        .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
-        .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
-          && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-        .map(fr -> {
-          if (nonNull(fr.getControlFields())) {
-            collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
-          }
-          if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-            var mapperOptional = marc4ldMappers.stream()
-              .filter(mapper -> mapper.canMap(tagToRule.getKey(), predicate, resource))
-              .findFirst();
-            return mapperOptional.isPresent()
-              ? mapperOptional.get().map2marc(tagToRule.getKey(), fr, resource)
-              : getDataField(fr, tagToRule.getKey(), resource);
-          }
-          return null;
-        })
-        .filter(Objects::nonNull));
+    var mapperOptional = marc4ldMappers.stream()
+      .filter(mapper -> mapper.canMap(predicate, resource))
+      .findFirst();
+    if (mapperOptional.isPresent()) {
+      return mapperOptional.get().map2marc(resource);
+    } else {
+      var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
+      var dataFields = rules.getFieldRules().entrySet().stream()
+        .flatMap(tagToRule -> tagToRule.getValue().stream()
+          .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
+          .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+            && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
+          .map(fr -> {
+            if (nonNull(fr.getControlFields())) {
+              collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
+            }
+            if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
+              return getDataField(fr, tagToRule.getKey(), resource);
+            }
+            return null;
+          })
+          .filter(Objects::nonNull));
 
-    return Stream.concat(dataFields,
-      resource.getOutgoingEdges()
-        .stream()
-        .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
-      .toList();
+      return Stream.concat(dataFields,
+          resource.getOutgoingEdges()
+            .stream()
+            .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
+        .toList();
+    }
   }
 
   private DataField getDataField(FieldRule fr, String tag, Resource resource) {

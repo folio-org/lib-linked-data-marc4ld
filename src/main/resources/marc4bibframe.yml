@@ -251,6 +251,8 @@ fieldRules:
       label: CODE
       constants:
         SOURCE: lc
+      ld2marcCondition:
+        skip: true
       edges:
         - types: CATEGORY_SET
           parent: CATEGORY
@@ -258,8 +260,6 @@ fieldRules:
           constants:
             LABEL: lc
           label: LABEL
-          ld2marcCondition:
-            skip: true
   '082':
     - types: CATEGORY
       parent: WORK
