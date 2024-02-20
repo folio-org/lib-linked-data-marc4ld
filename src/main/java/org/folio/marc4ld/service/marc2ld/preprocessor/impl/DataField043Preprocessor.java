@@ -7,7 +7,6 @@ import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
-import org.marc4j.marc.impl.SubfieldImpl;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,7 +24,7 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
     dataField.getSubfields()
       .forEach(sf -> {
         if (sf.getCode() == CODE_A) {
-          result.addSubfield(new SubfieldImpl(CODE_A, sf.getData().replaceAll("-+$", EMPTY)));
+          result.addSubfield(marcFactory.newSubfield(CODE_A, sf.getData().replaceAll("-+$", EMPTY)));
         }
         result.addSubfield(sf);
       });
