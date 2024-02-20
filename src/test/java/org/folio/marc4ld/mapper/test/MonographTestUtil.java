@@ -761,7 +761,7 @@ public class MonographTestUtil {
     return createResource(
       Map.of(
         SOURCE, List.of("lc"),
-        CODE, List.of("code"),
+        CODE, List.of("code1", "code2"),
         ITEM_NUMBER, List.of("item number"),
         ASSIGNER, List.of("http://id.loc.gov/vocabulary/organizations/dlc"),
         PropertyDictionary.STATUS, List.of("http://id.loc.gov/vocabulary/mstatus/nuba")

@@ -1,5 +1,5 @@
 {
-  "leader" : "07078nam a2201021uc 4500",
+  "leader" : "07086nam a2201021uc 4500",
   "fields" : [ {
     "008" : "      1999    ilu    b     a      eng  "
   }, {
@@ -115,7 +115,9 @@
   }, {
     "050" : {
       "subfields" : [ {
-        "a" : "code"
+        "a" : "code1"
+      }, {
+        "a" : "code2"
       }, {
         "b" : "item number"
       } ],

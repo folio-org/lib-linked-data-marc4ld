@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -41,7 +41,6 @@ public class LcClassificationMapper implements Marc4ldMapper {
   private static final char A = 'a';
   private static final char B = 'b';
 
-  private final ConditionChecker conditionChecker;
   private final ObjectMapper objectMapper;
   private final MarcFactory marcFactory;
 
@@ -74,10 +73,10 @@ public class LcClassificationMapper implements Marc4ldMapper {
 
   @Override
   public List<DataField> map2marc(Resource resource) {
-    var ind2 = resource.getDoc().get(ASSIGNER.getValue()) != null ? ZERO : SPACE.charAt(0);
-    var dataField = marcFactory.newDataField(TAG, getIndicator1(resource), ind2);
-    dataField.addSubfield(marcFactory.newSubfield(A, resource.getDoc().get(CODE.getValue()).get(0).asText()));
-    dataField.addSubfield(marcFactory.newSubfield(B, resource.getDoc().get(ITEM_NUMBER.getValue()).get(0).asText()));
+    var dataField = marcFactory.newDataField(TAG, getIndicator1(resource), getIndicator2(resource));
+    getCodes(resource).ifPresent(codes -> codes
+      .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code))));
+    getItemNumber(resource).ifPresent(in -> dataField.addSubfield(marcFactory.newSubfield(B, in)));
     return List.of(dataField);
   }
 
@@ -88,13 +87,36 @@ public class LcClassificationMapper implements Marc4ldMapper {
   private char getIndicator1(Resource resource) {
     var ind1 = SPACE.charAt(0);
     if (resource.getDoc().get(STATUS.getValue()) != null) {
-      var status = resource.getDoc().get(STATUS.getValue()).get(0).asText();
-      if (UBA.equals(status)) {
+      var statuses = objectMapper.convertValue(resource.getDoc().get(STATUS.getValue()), List.class);
+      if (statuses.contains(UBA)) {
         ind1 = ZERO;
-      } else if (NUBA.equals(status)) {
+      } else if (statuses.contains(NUBA)) {
         ind1 = ONE;
       }
     }
     return ind1;
+  }
+
+  private char getIndicator2(Resource resource) {
+    var ind2 = SPACE.charAt(0);
+    if (resource.getDoc().get(ASSIGNER.getValue()) != null) {
+      var assigners = objectMapper.convertValue(resource.getDoc().get(ASSIGNER.getValue()), List.class);
+      if (assigners.contains(DLC)) {
+        ind2 = ZERO;
+      }
+    }
+    return ind2;
+  }
+
+  private Optional<List<String>> getCodes(Resource resource) {
+    return resource.getDoc().get(CODE.getValue()) != null
+      ? Optional.of(objectMapper.convertValue(resource.getDoc().get(CODE.getValue()), new TypeReference<>() {}))
+      : Optional.empty();
+  }
+
+  private Optional<String> getItemNumber(Resource resource) {
+    return resource.getDoc().get(ITEM_NUMBER.getValue()) != null
+      ? Optional.of(resource.getDoc().get(ITEM_NUMBER.getValue()).get(0).asText())
+      : Optional.empty();
   }
 }
