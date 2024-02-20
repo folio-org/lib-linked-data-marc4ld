@@ -4,7 +4,7 @@ import org.marc4j.marc.DataField;
 
 public interface DataFieldPreprocessor {
 
-  void preprocess(DataField dataField);
+  DataField preprocess(DataField dataField);
 
   String getTag();
 

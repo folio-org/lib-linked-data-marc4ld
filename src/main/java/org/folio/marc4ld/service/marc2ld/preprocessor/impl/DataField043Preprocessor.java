@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.impl.DataFieldImpl;
+import org.marc4j.marc.impl.SubfieldImpl;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,9 +15,16 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   private final DictionaryProcessor dictionaryProcessor;
 
   @Override
-  public void preprocess(DataField dataField) {
-    dataField.getSubfields('a')
-      .forEach(subfield -> subfield.setData(subfield.getData().replaceAll("-+$", "")));
+  public DataField preprocess(DataField dataField) {
+    var result = new DataFieldImpl(dataField.getTag(), dataField.getIndicator1(), dataField.getIndicator2());
+    dataField.getSubfields()
+      .forEach(sf -> {
+        if (sf.getCode() == 'a') {
+          result.addSubfield(new SubfieldImpl('a', sf.getData().replaceAll("-+$", "")));
+        }
+        result.addSubfield(sf);
+      });
+    return result;
   }
 
   @Override

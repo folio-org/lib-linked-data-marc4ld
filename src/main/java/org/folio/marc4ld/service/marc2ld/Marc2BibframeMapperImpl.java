@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
@@ -79,17 +80,17 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
+    var localDataField = new AtomicReference<>(dataField);
     ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs -> {
         var dataFieldPreprocessor = ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag()));
         if (dataFieldPreprocessor.isPresent()) {
           var preprocessor = dataFieldPreprocessor.get();
-          preprocessor.preprocess(dataField);
-          if (preprocessor.isValid(dataField)) {
-            frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+          localDataField.set(preprocessor.preprocess(dataField));
+          if (!preprocessor.isValid(localDataField.get())) {
+            return;
           }
-        } else {
-          frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
         }
+        frs.forEach(fr -> fieldMapper.handleField(instance, localDataField.get(), marcRecord.getControlFields(), fr));
       }
     );
   }
