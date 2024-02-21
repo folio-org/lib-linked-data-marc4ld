@@ -13,6 +13,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
@@ -27,6 +28,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
+import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
@@ -61,6 +63,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
+import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
@@ -108,6 +111,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
@@ -530,7 +534,7 @@ public class MonographTestUtil {
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
-    pred2OutgoingResources.put(CLASSIFICATION, List.of(deweyClassification));
+    pred2OutgoingResources.put(CLASSIFICATION, List.of(createLcClassification(), deweyClassification));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
             familyContributor));
@@ -559,7 +563,7 @@ public class MonographTestUtil {
     ).setLabel("Work: label");
   }
 
-  private static Map<PropertyDictionary, List<String>> createCommonConceptProperties(String prefix) {
+  private Map<PropertyDictionary, List<String>> createCommonConceptProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME, List.of(prefix + " name")),
       entry(FORM_SUBDIVISION, List.of(prefix + " form subdivision")),
@@ -592,7 +596,7 @@ public class MonographTestUtil {
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private static Resource createFamilyPersonConcept(String prefix, ResourceTypeDictionary type) {
+  private Resource createFamilyPersonConcept(String prefix, ResourceTypeDictionary type) {
     var properties = Stream.concat(
         createCommonConceptProperties(prefix).entrySet().stream(),
         Map.ofEntries(
@@ -618,7 +622,7 @@ public class MonographTestUtil {
       .setLabel(properties.get(NAME).get(0));
   }
 
-  private static Resource createJurisdictionOrganizationConcept(String prefix, ResourceTypeDictionary type) {
+  private Resource createJurisdictionOrganizationConcept(String prefix, ResourceTypeDictionary type) {
     var properties = Stream.concat(
         createCommonConceptProperties(prefix).entrySet().stream(),
         Map.ofEntries(
@@ -642,7 +646,7 @@ public class MonographTestUtil {
       .setLabel(properties.get(NAME).get(0));
   }
 
-  private static Resource createTopicConcept() {
+  private Resource createTopicConcept() {
     var properties = Stream.concat(
         createCommonConceptProperties("topic").entrySet().stream(),
         Map.ofEntries(
@@ -666,7 +670,7 @@ public class MonographTestUtil {
       .setLabel(properties.get(NAME).get(0));
   }
 
-  private static Resource createPlaceConcept() {
+  private Resource createPlaceConcept() {
     var properties = Stream.concat(
         createCommonConceptProperties("place").entrySet().stream(),
         Map.ofEntries(
@@ -687,7 +691,7 @@ public class MonographTestUtil {
       .setLabel(properties.get(NAME).get(0));
   }
 
-  private static Resource createFormConcept() {
+  private Resource createFormConcept() {
     var properties = Stream.concat(
         createCommonConceptProperties("form").entrySet().stream(),
         Map.ofEntries(
@@ -744,7 +748,28 @@ public class MonographTestUtil {
     ).setLabel(providerEventType + " Place");
   }
 
-
+  private Resource createLcClassification() {
+    var categorySet = createResource(
+      Map.of(
+        LABEL, List.of("lc")
+      ),
+      Set.of(CATEGORY_SET),
+      emptyMap()
+    ).setLabel("lc");
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
+    return createResource(
+      Map.of(
+        SOURCE, List.of("lc"),
+        CODE, List.of("code1", "code2"),
+        ITEM_NUMBER, List.of("item number"),
+        ASSIGNER, List.of("http://id.loc.gov/vocabulary/organizations/dlc"),
+        PropertyDictionary.STATUS, List.of("http://id.loc.gov/vocabulary/mstatus/nuba")
+      ),
+      Set.of(CATEGORY),
+      pred2OutgoingResources
+    ).setLabel("code");
+  }
 
   private Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,
                                   Set<ResourceTypeDictionary> types,

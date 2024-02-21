@@ -6,6 +6,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.marc4ld.util.BibframeUtil.hash;
+import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC4LD_MAPPERS_MAP;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -16,27 +17,38 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.model.ResourceEdge;
 import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class FieldMapperImpl implements FieldMapper {
 
   private final ConditionChecker conditionChecker;
   private final PropertyMapper propertyMapper;
   private final ObjectMapper objectMapper;
   private final RelationProvider relationProvider;
+  private final Map<String, Marc4ldMapper> marc4ldMappersMap;
+
+  public FieldMapperImpl(ConditionChecker conditionChecker, PropertyMapper propertyMapper, ObjectMapper objectMapper,
+                         RelationProvider relationProvider, @Qualifier(MARC4LD_MAPPERS_MAP)
+                         Map<String, Marc4ldMapper> marc4ldMappersMap) {
+    this.conditionChecker = conditionChecker;
+    this.propertyMapper = propertyMapper;
+    this.objectMapper = objectMapper;
+    this.relationProvider = relationProvider;
+    this.marc4ldMappersMap = marc4ldMappersMap;
+  }
 
   @Override
   public void handleField(Resource parent, DataField dataField, List<ControlField> controlFields,
@@ -52,6 +64,8 @@ public class FieldMapperImpl implements FieldMapper {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
         addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
+      ofNullable(marc4ldMappersMap.get(dataField.getTag()))
+        .ifPresent(mapper -> mapper.map2ld(dataField, mappedResource));
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
     }

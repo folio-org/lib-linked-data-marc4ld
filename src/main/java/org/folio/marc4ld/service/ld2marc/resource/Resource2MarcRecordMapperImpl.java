@@ -33,6 +33,7 @@ import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
+import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -48,6 +49,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Marc4BibframeRules rules;
   private final ConditionChecker conditionChecker;
   private final DictionaryProcessor dictionaryProcessor;
+  private final List<Marc4ldMapper> marc4ldMappers;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -63,28 +65,35 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
                                     ControlFieldsBuilder cfb) {
-    var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
-    var dataFields = rules.getFieldRules().entrySet().stream()
-      .flatMap(tagToRule -> tagToRule.getValue().stream()
-        .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
-        .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
-          && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-        .map(fr -> {
-          if (nonNull(fr.getControlFields())) {
-            collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
-          }
-          if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-            return getDataField(fr, tagToRule.getKey(), resource);
-          }
-          return null;
-        })
-        .filter(Objects::nonNull));
+    var mapperOptional = marc4ldMappers.stream()
+      .filter(mapper -> mapper.canMap(predicate, resource))
+      .findFirst();
+    if (mapperOptional.isPresent()) {
+      return mapperOptional.get().map2marc(resource);
+    } else {
+      var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
+      var dataFields = rules.getFieldRules().entrySet().stream()
+        .flatMap(tagToRule -> tagToRule.getValue().stream()
+          .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
+          .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+            && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
+          .map(fr -> {
+            if (nonNull(fr.getControlFields())) {
+              collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
+            }
+            if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
+              return getDataField(fr, tagToRule.getKey(), resource);
+            }
+            return null;
+          })
+          .filter(Objects::nonNull));
 
-    return Stream.concat(dataFields,
-      resource.getOutgoingEdges()
-        .stream()
-        .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
-      .toList();
+      return Stream.concat(dataFields,
+          resource.getOutgoingEdges()
+            .stream()
+            .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
+        .toList();
+    }
   }
 
   private DataField getDataField(FieldRule fr, String tag, Resource resource) {
