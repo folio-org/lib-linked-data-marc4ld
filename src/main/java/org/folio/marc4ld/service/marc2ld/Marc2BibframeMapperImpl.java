@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
@@ -29,8 +30,8 @@ import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
-import org.marc4j.marc.impl.DataFieldImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +42,17 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private final ObjectMapper objectMapper;
   private final FieldMapper fieldMapper;
   private final Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap;
+  private final MarcFactory marcFactory;
 
   public Marc2BibframeMapperImpl(Marc4BibframeRules rules, ObjectMapper objectMapper, FieldMapper fieldMapper,
                                  @Qualifier(DATA_FIELD_PREPROCESSORS_MAP)
-                                 Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap) {
+                                 Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap,
+                                 MarcFactory marcFactory) {
     this.rules = rules;
     this.objectMapper = objectMapper;
     this.fieldMapper = fieldMapper;
     this.dataFieldPreprocessorsMap = dataFieldPreprocessorsMap;
+    this.marcFactory = marcFactory;
   }
 
   @Override
@@ -69,7 +73,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
         }
       });
       marcRecord.getControlFields().forEach(controlField -> handleField(controlField.getTag(), instance,
-        new DataFieldImpl(EMPTY, MIN_VALUE, MIN_VALUE), marcRecord));
+        marcFactory.newDataField(EMPTY, MIN_VALUE, MIN_VALUE), marcRecord));
     }
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
@@ -79,9 +83,17 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
+    var localDataField = new AtomicReference<>(dataField);
     ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs -> {
-      ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag())).ifPresent(dfp -> dfp.preprocess(dataField));
-      frs.forEach(fr -> fieldMapper.handleField(instance, dataField, marcRecord.getControlFields(), fr));
+        var preprocessedOk = ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag()))
+          .map(preprocessor -> {
+            localDataField.set(preprocessor.preprocess(dataField));
+            return preprocessor.isValid(localDataField.get());
+          })
+          .orElse(true);
+        if (Boolean.TRUE.equals(preprocessedOk)) {
+          frs.forEach(fr -> fieldMapper.handleField(instance, localDataField.get(), marcRecord.getControlFields(), fr));
+        }
       }
     );
   }
