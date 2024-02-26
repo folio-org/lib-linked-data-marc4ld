@@ -25,6 +25,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.HOST;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.JUDGE;
 import static org.folio.ld.dictionary.PredicateDictionary.LAB_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -136,6 +137,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
@@ -611,14 +613,7 @@ class Marc2BibframeMapperIT {
         GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
         GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
       ), "United States");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CLASSIFICATION, List.of(CATEGORY),
-      Map.of(
-        SOURCE.getValue(), "lc",
-        CODE.getValue(), "code",
-        ITEM_NUMBER.getValue(), "item number",
-        ASSIGNER.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc",
-        PropertyDictionary.STATUS.getValue(), "http://id.loc.gov/vocabulary/mstatus/uba"
-      ), "code");
+    validateLcClassification(edgeIterator.next(), work.getResourceHash());
     validateClassification(edgeIterator.next(), work.getResourceHash());
     validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
     validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);
@@ -675,6 +670,23 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue()).get(0).asText()).isEqualTo(
       predicate.name() + SPACE + type.name() + " LCNAF id");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateLcClassification(ResourceEdge edge, Long parentHash) {
+    validateEdge(edge, parentHash, CLASSIFICATION, List.of(CATEGORY),
+      Map.of(
+        SOURCE.getValue(), "lc",
+        CODE.getValue(), "code",
+        ITEM_NUMBER.getValue(), "item number",
+        ASSIGNER.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc",
+        PropertyDictionary.STATUS.getValue(), "http://id.loc.gov/vocabulary/mstatus/uba"
+      ), "code");
+    var classification = edge.getTarget();
+    validateEdge(classification.getOutgoingEdges().iterator().next(), classification.getResourceHash(), IS_DEFINED_BY,
+      List.of(CATEGORY_SET),
+      Map.of(
+        LABEL.getValue(), "lc"
+      ), "lc");
   }
 
   private void validateClassification(ResourceEdge edge, Long parentHash) {
