@@ -1,5 +1,5 @@
 {
-  "leader" : "07086nam a2201021uc 4500",
+  "leader" : "08262nam a2201021uc 4500",
   "fields" : [ {
     "008" : "      1999    ilu    b     a      eng  "
   }, {
@@ -135,9 +135,29 @@
   }, {
     "100" : {
       "subfields" : [ {
-        "0" : "CREATOR PERSON LCNAF id"
+        "0" : "CREATOR PERSON authority link"
+      }, {
+        "1" : "CREATOR PERSON equivalent"
+      }, {
+        "6" : "CREATOR PERSON linkage"
+      }, {
+        "7" : "CREATOR PERSON control field"
+      }, {
+        "8" : "CREATOR PERSON field link"
       }, {
         "a" : "CREATOR PERSON name"
+      }, {
+        "b" : "CREATOR PERSON numeration"
+      }, {
+        "c" : "CREATOR PERSON titles"
+      }, {
+        "d" : "CREATOR PERSON date"
+      }, {
+        "j" : "CREATOR PERSON attribution"
+      }, {
+        "q" : "CREATOR PERSON name alternative"
+      }, {
+        "u" : "CREATOR PERSON affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -145,9 +165,29 @@
   }, {
     "100" : {
       "subfields" : [ {
-        "0" : "CREATOR FAMILY LCNAF id"
+        "0" : "CREATOR FAMILY authority link"
+      }, {
+        "1" : "CREATOR FAMILY equivalent"
+      }, {
+        "6" : "CREATOR FAMILY linkage"
+      }, {
+        "7" : "CREATOR FAMILY control field"
+      }, {
+        "8" : "CREATOR FAMILY field link"
       }, {
         "a" : "CREATOR FAMILY name"
+      }, {
+        "b" : "CREATOR FAMILY numeration"
+      }, {
+        "c" : "CREATOR FAMILY titles"
+      }, {
+        "d" : "CREATOR FAMILY date"
+      }, {
+        "j" : "CREATOR FAMILY attribution"
+      }, {
+        "q" : "CREATOR FAMILY name alternative"
+      }, {
+        "u" : "CREATOR FAMILY affiliation"
       } ],
       "ind1" : "3",
       "ind2" : " "
@@ -929,9 +969,29 @@
   }, {
     "700" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR PERSON LCNAF id"
+        "0" : "CONTRIBUTOR PERSON authority link"
+      }, {
+        "1" : "CONTRIBUTOR PERSON equivalent"
+      }, {
+        "6" : "CONTRIBUTOR PERSON linkage"
+      }, {
+        "7" : "CONTRIBUTOR PERSON control field"
+      }, {
+        "8" : "CONTRIBUTOR PERSON field link"
       }, {
         "a" : "CONTRIBUTOR PERSON name"
+      }, {
+        "b" : "CONTRIBUTOR PERSON numeration"
+      }, {
+        "c" : "CONTRIBUTOR PERSON titles"
+      }, {
+        "d" : "CONTRIBUTOR PERSON date"
+      }, {
+        "j" : "CONTRIBUTOR PERSON attribution"
+      }, {
+        "q" : "CONTRIBUTOR PERSON name alternative"
+      }, {
+        "u" : "CONTRIBUTOR PERSON affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -939,9 +999,29 @@
   }, {
     "700" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR FAMILY LCNAF id"
+        "0" : "CONTRIBUTOR FAMILY authority link"
+      }, {
+        "1" : "CONTRIBUTOR FAMILY equivalent"
+      }, {
+        "6" : "CONTRIBUTOR FAMILY linkage"
+      }, {
+        "7" : "CONTRIBUTOR FAMILY control field"
+      }, {
+        "8" : "CONTRIBUTOR FAMILY field link"
       }, {
         "a" : "CONTRIBUTOR FAMILY name"
+      }, {
+        "b" : "CONTRIBUTOR FAMILY numeration"
+      }, {
+        "c" : "CONTRIBUTOR FAMILY titles"
+      }, {
+        "d" : "CONTRIBUTOR FAMILY date"
+      }, {
+        "j" : "CONTRIBUTOR FAMILY attribution"
+      }, {
+        "q" : "CONTRIBUTOR FAMILY name alternative"
+      }, {
+        "u" : "CONTRIBUTOR FAMILY affiliation"
       } ],
       "ind1" : "3",
       "ind2" : " "

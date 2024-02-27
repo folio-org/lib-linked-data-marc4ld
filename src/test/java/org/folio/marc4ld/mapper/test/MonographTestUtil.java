@@ -460,21 +460,41 @@ public class MonographTestUtil {
     ).setLabel("CREATOR MEETING name");
 
     var personCreator = createResource(
-      Map.of(
-        NAME, List.of("CREATOR PERSON name"),
-        LCNAF_ID, List.of("CREATOR PERSON LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CREATOR PERSON authority link")),
+        entry(EQUIVALENT, List.of("CREATOR PERSON equivalent")),
+        entry(LINKAGE, List.of("CREATOR PERSON linkage")),
+        entry(CONTROL_FIELD, List.of("CREATOR PERSON control field")),
+        entry(FIELD_LINK, List.of("CREATOR PERSON field link")),
+        entry(NAME, List.of("CREATOR PERSON name")),
+        entry(NUMERATION, List.of("CREATOR PERSON numeration")),
+        entry(TITLES, List.of("CREATOR PERSON titles")),
+        entry(DATE, List.of("CREATOR PERSON date")),
+        entry(ATTRIBUTION, List.of("CREATOR PERSON attribution")),
+        entry(NAME_ALTERNATIVE, List.of("CREATOR PERSON name alternative")),
+        entry(AFFILIATION, List.of("CREATOR PERSON affiliation"))
       ),
       Set.of(PERSON),
       emptyMap()
     ).setLabel("CREATOR PERSON name");
 
     var familyCreator = createResource(
-            Map.of(
-                    NAME, List.of("CREATOR FAMILY name"),
-                    LCNAF_ID, List.of("CREATOR FAMILY LCNAF id")
-            ),
-            Set.of(FAMILY),
-            emptyMap()
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CREATOR FAMILY authority link")),
+        entry(EQUIVALENT, List.of("CREATOR FAMILY equivalent")),
+        entry(LINKAGE, List.of("CREATOR FAMILY linkage")),
+        entry(CONTROL_FIELD, List.of("CREATOR FAMILY control field")),
+        entry(FIELD_LINK, List.of("CREATOR FAMILY field link")),
+        entry(NAME, List.of("CREATOR FAMILY name")),
+        entry(NUMERATION, List.of("CREATOR FAMILY numeration")),
+        entry(TITLES, List.of("CREATOR FAMILY titles")),
+        entry(DATE, List.of("CREATOR FAMILY date")),
+        entry(ATTRIBUTION, List.of("CREATOR FAMILY attribution")),
+        entry(NAME_ALTERNATIVE, List.of("CREATOR FAMILY name alternative")),
+        entry(AFFILIATION, List.of("CREATOR FAMILY affiliation"))
+      ),
+      Set.of(FAMILY),
+      emptyMap()
     ).setLabel("CREATOR FAMILY name");
 
     var organizationCreator = createResource(
@@ -496,21 +516,41 @@ public class MonographTestUtil {
     ).setLabel("CONTRIBUTOR MEETING name");
 
     var personContributor = createResource(
-      Map.of(
-        NAME, List.of("CONTRIBUTOR PERSON name"),
-        LCNAF_ID, List.of("CONTRIBUTOR PERSON LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CONTRIBUTOR PERSON authority link")),
+        entry(EQUIVALENT, List.of("CONTRIBUTOR PERSON equivalent")),
+        entry(LINKAGE, List.of("CONTRIBUTOR PERSON linkage")),
+        entry(CONTROL_FIELD, List.of("CONTRIBUTOR PERSON control field")),
+        entry(FIELD_LINK, List.of("CONTRIBUTOR PERSON field link")),
+        entry(NAME, List.of("CONTRIBUTOR PERSON name")),
+        entry(NUMERATION, List.of("CONTRIBUTOR PERSON numeration")),
+        entry(TITLES, List.of("CONTRIBUTOR PERSON titles")),
+        entry(DATE, List.of("CONTRIBUTOR PERSON date")),
+        entry(ATTRIBUTION, List.of("CONTRIBUTOR PERSON attribution")),
+        entry(NAME_ALTERNATIVE, List.of("CONTRIBUTOR PERSON name alternative")),
+        entry(AFFILIATION, List.of("CONTRIBUTOR PERSON affiliation"))
       ),
       Set.of(PERSON),
       emptyMap()
     ).setLabel("CONTRIBUTOR PERSON name");
 
     var familyContributor = createResource(
-            Map.of(
-                    NAME, List.of("CONTRIBUTOR FAMILY name"),
-                    LCNAF_ID, List.of("CONTRIBUTOR FAMILY LCNAF id")
-            ),
-            Set.of(FAMILY),
-            emptyMap()
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CONTRIBUTOR FAMILY authority link")),
+        entry(EQUIVALENT, List.of("CONTRIBUTOR FAMILY equivalent")),
+        entry(LINKAGE, List.of("CONTRIBUTOR FAMILY linkage")),
+        entry(CONTROL_FIELD, List.of("CONTRIBUTOR FAMILY control field")),
+        entry(FIELD_LINK, List.of("CONTRIBUTOR FAMILY field link")),
+        entry(NAME, List.of("CONTRIBUTOR FAMILY name")),
+        entry(NUMERATION, List.of("CONTRIBUTOR FAMILY numeration")),
+        entry(TITLES, List.of("CONTRIBUTOR FAMILY titles")),
+        entry(DATE, List.of("CONTRIBUTOR FAMILY date")),
+        entry(ATTRIBUTION, List.of("CONTRIBUTOR FAMILY attribution")),
+        entry(NAME_ALTERNATIVE, List.of("CONTRIBUTOR FAMILY name alternative")),
+        entry(AFFILIATION, List.of("CONTRIBUTOR FAMILY affiliation"))
+      ),
+      Set.of(FAMILY),
+      emptyMap()
     ).setLabel("CONTRIBUTOR FAMILY name");
 
     var organizationContributor = createResource(
