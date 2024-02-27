@@ -58,17 +58,19 @@ public class LcClassificationMapper implements Marc4ldMapper {
 
   @Override
   public void map2ld(DataField dataField, Resource resource) {
-    var properties = objectMapper.convertValue(resource.getDoc(),
-      new TypeReference<HashMap<String, List<String>>>() {});
-    if (dataField.getIndicator1() == ZERO) {
-      properties.put(STATUS.getValue(), List.of(UBA));
-    } else if (dataField.getIndicator1() == ONE) {
-      properties.put(STATUS.getValue(), List.of(NUBA));
+    if (Objects.equals(resource.getTypes(), SUPPORTED_TYPES)) {
+      var properties = objectMapper.convertValue(resource.getDoc(),
+        new TypeReference<HashMap<String, List<String>>>() {});
+      if (dataField.getIndicator1() == ZERO) {
+        properties.put(STATUS.getValue(), List.of(UBA));
+      } else if (dataField.getIndicator1() == ONE) {
+        properties.put(STATUS.getValue(), List.of(NUBA));
+      }
+      if (dataField.getIndicator2() == ZERO) {
+        properties.put(ASSIGNER.getValue(), List.of(DLC));
+      }
+      resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
     }
-    if (dataField.getIndicator2() == ZERO) {
-      properties.put(ASSIGNER.getValue(), List.of(DLC));
-    }
-    resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
   }
 
   @Override
