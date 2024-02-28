@@ -651,6 +651,7 @@ class Marc2BibframeMapperIT {
 
   private void validateContributor(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type,
                                    PredicateDictionary predicate) {
+    var prefix = predicate.name() + SPACE + type.name();
     assertThat(edge.getId()).isNotNull();
     assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
     assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
@@ -658,17 +659,27 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo(predicate.name() + SPACE + type.name() + " name");
+    assertThat(edge.getTarget().getLabel()).isEqualTo(prefix + " name");
     assertThat(edge.getTarget().getTypes()).containsExactly(type);
-    assertThat(edge.getTarget().getDoc()).hasSize(2);
-    assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(
-      predicate.name() + SPACE + type.name() + " name");
-    assertThat(edge.getTarget().getDoc().has(LCNAF_ID.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LCNAF_ID.getValue()).get(0).asText()).isEqualTo(
-      predicate.name() + SPACE + type.name() + " LCNAF id");
+    //TODO remove the condition after MODLD-263 and MODLD-264
+    if (type == PERSON || type == FAMILY) {
+      assertThat(edge.getTarget().getDoc()).hasSize(12);
+      validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
+      validateProperty(edge.getTarget(), AUTHORITY_LINK.getValue(), prefix + " authority link");
+      validateProperty(edge.getTarget(), NUMERATION.getValue(), prefix + " numeration");
+      validateProperty(edge.getTarget(), TITLES.getValue(), prefix + " titles");
+      validateProperty(edge.getTarget(), DATE.getValue(), prefix + " date");
+      validateProperty(edge.getTarget(), ATTRIBUTION.getValue(), prefix + " attribution");
+      validateProperty(edge.getTarget(), NAME_ALTERNATIVE.getValue(), prefix + " name alternative");
+      validateProperty(edge.getTarget(), EQUIVALENT.getValue(), prefix + " equivalent");
+      validateProperty(edge.getTarget(), LINKAGE.getValue(), prefix + " linkage");
+      validateProperty(edge.getTarget(), CONTROL_FIELD.getValue(), prefix + " control field");
+      validateProperty(edge.getTarget(), FIELD_LINK.getValue(), prefix + " field link");
+    } else {
+      assertThat(edge.getTarget().getDoc()).hasSize(2);
+      validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
+      validateProperty(edge.getTarget(), LCNAF_ID.getValue(), prefix + " LCNAF id");
+    }
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
