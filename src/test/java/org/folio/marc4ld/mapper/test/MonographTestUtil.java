@@ -498,9 +498,17 @@ public class MonographTestUtil {
     ).setLabel("CREATOR FAMILY name");
 
     var organizationCreator = createResource(
-      Map.of(
-        NAME, List.of("CREATOR ORGANIZATION name"),
-        LCNAF_ID, List.of("CREATOR ORGANIZATION LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CREATOR ORGANIZATION authority link")),
+        entry(EQUIVALENT, List.of("CREATOR ORGANIZATION equivalent")),
+        entry(LINKAGE, List.of("CREATOR ORGANIZATION linkage")),
+        entry(CONTROL_FIELD, List.of("CREATOR ORGANIZATION control field")),
+        entry(FIELD_LINK, List.of("CREATOR ORGANIZATION field link")),
+        entry(NAME, List.of("CREATOR ORGANIZATION name")),
+        entry(NUMERATION, List.of("CREATOR ORGANIZATION numeration")),
+        entry(TITLES, List.of("CREATOR ORGANIZATION titles")),
+        entry(DATE, List.of("CREATOR ORGANIZATION date")),
+        entry(AFFILIATION, List.of("CREATOR ORGANIZATION affiliation"))
       ),
       Set.of(ORGANIZATION),
       emptyMap()
@@ -554,9 +562,17 @@ public class MonographTestUtil {
     ).setLabel("CONTRIBUTOR FAMILY name");
 
     var organizationContributor = createResource(
-      Map.of(
-        NAME, List.of("CONTRIBUTOR ORGANIZATION name"),
-        LCNAF_ID, List.of("CONTRIBUTOR ORGANIZATION LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CONTRIBUTOR ORGANIZATION authority link")),
+        entry(EQUIVALENT, List.of("CONTRIBUTOR ORGANIZATION equivalent")),
+        entry(LINKAGE, List.of("CONTRIBUTOR ORGANIZATION linkage")),
+        entry(CONTROL_FIELD, List.of("CONTRIBUTOR ORGANIZATION control field")),
+        entry(FIELD_LINK, List.of("CONTRIBUTOR ORGANIZATION field link")),
+        entry(NAME, List.of("CONTRIBUTOR ORGANIZATION name")),
+        entry(NUMERATION, List.of("CONTRIBUTOR ORGANIZATION numeration")),
+        entry(TITLES, List.of("CONTRIBUTOR ORGANIZATION titles")),
+        entry(DATE, List.of("CONTRIBUTOR ORGANIZATION date")),
+        entry(AFFILIATION, List.of("CONTRIBUTOR ORGANIZATION affiliation"))
       ),
       Set.of(ORGANIZATION),
       emptyMap()

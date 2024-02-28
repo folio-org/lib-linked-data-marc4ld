@@ -1,5 +1,5 @@
 {
-  "leader" : "08262nam a2201021uc 4500",
+  "leader" : "08816nam a2201021uc 4500",
   "fields" : [ {
     "008" : "      1999    ilu    b     a      eng  "
   }, {
@@ -195,9 +195,25 @@
   }, {
     "110" : {
       "subfields" : [ {
-        "0" : "CREATOR ORGANIZATION LCNAF id"
+        "0" : "CREATOR ORGANIZATION authority link"
+      }, {
+        "1" : "CREATOR ORGANIZATION equivalent"
+      }, {
+        "6" : "CREATOR ORGANIZATION linkage"
+      }, {
+        "7" : "CREATOR ORGANIZATION control field"
+      }, {
+        "8" : "CREATOR ORGANIZATION field link"
       }, {
         "a" : "CREATOR ORGANIZATION name"
+      }, {
+        "b" : "CREATOR ORGANIZATION numeration"
+      }, {
+        "c" : "CREATOR ORGANIZATION titles"
+      }, {
+        "d" : "CREATOR ORGANIZATION date"
+      }, {
+        "u" : "CREATOR ORGANIZATION affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -1029,9 +1045,25 @@
   }, {
     "710" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR ORGANIZATION LCNAF id"
+        "0" : "CONTRIBUTOR ORGANIZATION authority link"
+      }, {
+        "1" : "CONTRIBUTOR ORGANIZATION equivalent"
+      }, {
+        "6" : "CONTRIBUTOR ORGANIZATION linkage"
+      }, {
+        "7" : "CONTRIBUTOR ORGANIZATION control field"
+      }, {
+        "8" : "CONTRIBUTOR ORGANIZATION field link"
       }, {
         "a" : "CONTRIBUTOR ORGANIZATION name"
+      }, {
+        "b" : "CONTRIBUTOR ORGANIZATION numeration"
+      }, {
+        "c" : "CONTRIBUTOR ORGANIZATION titles"
+      }, {
+        "d" : "CONTRIBUTOR ORGANIZATION date"
+      }, {
+        "u" : "CONTRIBUTOR ORGANIZATION affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "

@@ -324,7 +324,15 @@ fieldRules:
       predicate: CREATOR
       subfields:
         a: NAME
-        '0': LCNAF_ID
+        b: NUMERATION
+        c: TITLES
+        d: DATE
+        u: AFFILIATION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
       label: NAME
       relation:
         code: '4'
@@ -1591,7 +1599,15 @@ fieldRules:
       predicate: CONTRIBUTOR
       subfields:
         a: NAME
-        '0': LCNAF_ID
+        b: NUMERATION
+        c: TITLES
+        d: DATE
+        u: AFFILIATION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
       label: NAME
       relation:
         code: '4'
