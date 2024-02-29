@@ -224,7 +224,15 @@
         "subfields": [
           {
             "a": "CREATOR MEETING name",
-            "0": "CREATOR MEETING LCNAF id"
+            "c": "CREATOR MEETING place",
+            "d": "CREATOR MEETING date",
+            "e": "CREATOR MEETING subordinate unit",
+            "u": "CREATOR MEETING affiliation",
+            "0": "CREATOR MEETING authority link",
+            "1": "CREATOR MEETING equivalent",
+            "6": "CREATOR MEETING linkage",
+            "7": "CREATOR MEETING control field",
+            "8": "CREATOR MEETING field link"
           }
         ]
       }
@@ -1696,7 +1704,15 @@
         "subfields": [
           {
             "a": "CONTRIBUTOR MEETING name",
-            "0": "CONTRIBUTOR MEETING LCNAF id"
+            "c": "CONTRIBUTOR MEETING place",
+            "d": "CONTRIBUTOR MEETING date",
+            "e": "CONTRIBUTOR MEETING subordinate unit",
+            "u": "CONTRIBUTOR MEETING affiliation",
+            "0": "CONTRIBUTOR MEETING authority link",
+            "1": "CONTRIBUTOR MEETING equivalent",
+            "6": "CONTRIBUTOR MEETING linkage",
+            "7": "CONTRIBUTOR MEETING control field",
+            "8": "CONTRIBUTOR MEETING field link"
           }
         ]
       }
