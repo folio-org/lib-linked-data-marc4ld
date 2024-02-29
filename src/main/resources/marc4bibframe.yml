@@ -324,8 +324,8 @@ fieldRules:
       predicate: CREATOR
       subfields:
         a: NAME
-        b: NUMERATION
-        c: TITLES
+        b: SUBORDINATE_UNIT
+        c: PLACE
         d: DATE
         u: AFFILIATION
         '0': AUTHORITY_LINK
@@ -1599,8 +1599,8 @@ fieldRules:
       predicate: CONTRIBUTOR
       subfields:
         a: NAME
-        b: NUMERATION
-        c: TITLES
+        b: SUBORDINATE_UNIT
+        c: PLACE
         d: DATE
         u: AFFILIATION
         '0': AUTHORITY_LINK

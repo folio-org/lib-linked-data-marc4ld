@@ -1,5 +1,5 @@
 {
-  "leader" : "08816nam a2201021uc 4500",
+  "leader" : "08826nam a2201021uc 4500",
   "fields" : [ {
     "008" : "      1999    ilu    b     a      eng  "
   }, {
@@ -207,9 +207,9 @@
       }, {
         "a" : "CREATOR ORGANIZATION name"
       }, {
-        "b" : "CREATOR ORGANIZATION numeration"
+        "b" : "CREATOR ORGANIZATION subordinate unit"
       }, {
-        "c" : "CREATOR ORGANIZATION titles"
+        "c" : "CREATOR ORGANIZATION place"
       }, {
         "d" : "CREATOR ORGANIZATION date"
       }, {
@@ -1057,9 +1057,9 @@
       }, {
         "a" : "CONTRIBUTOR ORGANIZATION name"
       }, {
-        "b" : "CONTRIBUTOR ORGANIZATION numeration"
+        "b" : "CONTRIBUTOR ORGANIZATION subordinate unit"
       }, {
-        "c" : "CONTRIBUTOR ORGANIZATION titles"
+        "c" : "CONTRIBUTOR ORGANIZATION place"
       }, {
         "d" : "CONTRIBUTOR ORGANIZATION date"
       }, {

@@ -505,8 +505,8 @@ public class MonographTestUtil {
         entry(CONTROL_FIELD, List.of("CREATOR ORGANIZATION control field")),
         entry(FIELD_LINK, List.of("CREATOR ORGANIZATION field link")),
         entry(NAME, List.of("CREATOR ORGANIZATION name")),
-        entry(NUMERATION, List.of("CREATOR ORGANIZATION numeration")),
-        entry(TITLES, List.of("CREATOR ORGANIZATION titles")),
+        entry(SUBORDINATE_UNIT, List.of("CREATOR ORGANIZATION subordinate unit")),
+        entry(PropertyDictionary.PLACE, List.of("CREATOR ORGANIZATION place")),
         entry(DATE, List.of("CREATOR ORGANIZATION date")),
         entry(AFFILIATION, List.of("CREATOR ORGANIZATION affiliation"))
       ),
@@ -569,8 +569,8 @@ public class MonographTestUtil {
         entry(CONTROL_FIELD, List.of("CONTRIBUTOR ORGANIZATION control field")),
         entry(FIELD_LINK, List.of("CONTRIBUTOR ORGANIZATION field link")),
         entry(NAME, List.of("CONTRIBUTOR ORGANIZATION name")),
-        entry(NUMERATION, List.of("CONTRIBUTOR ORGANIZATION numeration")),
-        entry(TITLES, List.of("CONTRIBUTOR ORGANIZATION titles")),
+        entry(SUBORDINATE_UNIT, List.of("CONTRIBUTOR ORGANIZATION subordinate unit")),
+        entry(PropertyDictionary.PLACE, List.of("CONTRIBUTOR ORGANIZATION place")),
         entry(DATE, List.of("CONTRIBUTOR ORGANIZATION date")),
         entry(AFFILIATION, List.of("CONTRIBUTOR ORGANIZATION affiliation"))
       ),

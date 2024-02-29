@@ -1087,8 +1087,8 @@ class Marc2BibframeMapperIT {
   private Map<String, String> getOrganizationContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME.getValue(), prefix + " name"),
-      entry(NUMERATION.getValue(), prefix + " numeration"),
-      entry(TITLES.getValue(), prefix + " titles"),
+      entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
+      entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
       entry(DATE.getValue(), prefix + " date"),
       entry(AFFILIATION.getValue(), prefix + " affiliation"),
       entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),

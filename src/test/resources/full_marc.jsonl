@@ -206,8 +206,8 @@
         "subfields": [
           {
             "a": "CREATOR ORGANIZATION name",
-            "b": "CREATOR ORGANIZATION numeration",
-            "c": "CREATOR ORGANIZATION titles",
+            "b": "CREATOR ORGANIZATION subordinate unit",
+            "c": "CREATOR ORGANIZATION place",
             "d": "CREATOR ORGANIZATION date",
             "u": "CREATOR ORGANIZATION affiliation",
             "0": "CREATOR ORGANIZATION authority link",
@@ -1678,8 +1678,8 @@
         "subfields": [
           {
             "a": "CONTRIBUTOR ORGANIZATION name",
-            "b": "CONTRIBUTOR ORGANIZATION numeration",
-            "c": "CONTRIBUTOR ORGANIZATION titles",
+            "b": "CONTRIBUTOR ORGANIZATION subordinate unit",
+            "c": "CONTRIBUTOR ORGANIZATION place",
             "d": "CONTRIBUTOR ORGANIZATION date",
             "u": "CONTRIBUTOR ORGANIZATION affiliation",
             "0": "CONTRIBUTOR ORGANIZATION authority link",
