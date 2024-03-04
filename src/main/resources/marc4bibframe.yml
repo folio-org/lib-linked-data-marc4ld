@@ -610,6 +610,13 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/contentTypes/%CODE
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          constants:
+            LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent
+            LABEL: rdacontent
   337:
     - types: CATEGORY
       parent: INSTANCE

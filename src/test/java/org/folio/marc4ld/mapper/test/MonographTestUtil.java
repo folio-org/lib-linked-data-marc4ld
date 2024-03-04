@@ -429,17 +429,6 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("United States");
 
-    var content = createResource(
-      Map.of(
-        TERM, List.of("CONTENT term"),
-        LINK, List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
-        CODE, List.of("CONTENT code"),
-        SOURCE, List.of("CONTENT source")
-      ),
-      Set.of(CATEGORY),
-      emptyMap()
-    ).setLabel("CONTENT term");
-
     var deweyClassification = createResource(
       Map.of(
         CODE, List.of("Dewey Decimal Classification value"),
@@ -609,7 +598,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
       familyContributor));
-    pred2OutgoingResources.put(CONTENT, List.of(content));
+    pred2OutgoingResources.put(CONTENT, List.of(createContent()));
     var formConcept = createFormConcept();
     pred2OutgoingResources.put(SUBJECT, List.of(createFamilyPersonConcept("family", FAMILY),
       createFamilyPersonConcept("person", PERSON),
@@ -841,6 +830,28 @@ public class MonographTestUtil {
       Set.of(CATEGORY),
       pred2OutgoingResources
     ).setLabel("code");
+  }
+
+  private static Resource createContent() {
+    var categorySet = createResource(
+      Map.of(
+        LINK, List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent"),
+        LABEL, List.of("rdacontent")
+      ),
+      Set.of(CATEGORY_SET),
+      emptyMap());
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
+    return createResource(
+      Map.of(
+        TERM, List.of("CONTENT term"),
+        LINK, List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
+        CODE, List.of("CONTENT code"),
+        SOURCE, List.of("CONTENT source")
+      ),
+      Set.of(CATEGORY),
+      pred2OutgoingResources
+    ).setLabel("CONTENT term");
   }
 
   private Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,
