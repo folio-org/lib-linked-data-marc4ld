@@ -170,9 +170,9 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.model.ResourceEdge;
 import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -216,7 +216,7 @@ class Marc2BibframeMapperIT {
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
     assertThat(result.getSrsId()).isNull();
-    assertThat(result.getTypes()).containsExactly(INSTANCE);
+    assertThat(result.getTypes()).containsOnly(INSTANCE);
     assertThat(result.getOutgoingEdges()).isEmpty();
   }
 
@@ -239,14 +239,14 @@ class Marc2BibframeMapperIT {
       .isEqualTo("Edition Statement Edition statement2");
     assertThat(resource.getInventoryId()).isNull();
     assertThat(resource.getSrsId()).isNull();
-    assertThat(resource.getTypes()).containsExactly(INSTANCE);
+    assertThat(resource.getTypes()).containsOnly(INSTANCE);
     assertThat(resource.getOutgoingEdges()).hasSize(1);
     var workEdge = resource.getOutgoingEdges().iterator().next();
     assertThat(workEdge.getSource()).isEqualTo(resource);
     assertThat(workEdge.getPredicate()).isEqualTo(INSTANTIATES);
     assertThat(workEdge.getTarget().getResourceHash()).isNotNull();
     assertThat(workEdge.getTarget().getLabel()).isNotNull();
-    assertThat(workEdge.getTarget().getTypes()).containsExactly(WORK);
+    assertThat(workEdge.getTarget().getTypes()).containsOnly(WORK);
     assertThat(workEdge.getTarget().getInventoryId()).isNull();
     assertThat(workEdge.getTarget().getSrsId()).isNull();
     assertThat(workEdge.getTarget().getDoc()).hasSize(1);
@@ -323,7 +323,7 @@ class Marc2BibframeMapperIT {
       "projectedProvisionDate");
     assertThat(resource.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
     assertThat(resource.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
-    assertThat(resource.getTypes()).containsExactly(INSTANCE);
+    assertThat(resource.getTypes()).containsOnly(INSTANCE);
   }
 
   @Test
@@ -471,7 +471,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_LCCN, IDENTIFIER);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ID_LCCN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
@@ -491,7 +491,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_LOCAL, IDENTIFIER);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ID_LOCAL, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(LOCAL_ID_VALUE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LOCAL_ID_VALUE.getValue())).hasSize(1);
@@ -511,7 +511,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_ISBN, IDENTIFIER);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ID_ISBN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
@@ -534,7 +534,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_EAN, IDENTIFIER);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ID_EAN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(EAN_VALUE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(EAN_VALUE.getValue())).hasSize(1);
@@ -557,7 +557,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ID_UNKNOWN, IDENTIFIER);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ID_UNKNOWN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
@@ -580,7 +580,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(STATUS.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(value);
-    assertThat(edge.getTarget().getTypes()).containsExactly(ResourceTypeDictionary.STATUS);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ResourceTypeDictionary.STATUS);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(LABEL.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LABEL.getValue())).hasSize(1);
@@ -602,7 +602,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     assertThat(work.getResourceHash()).isNotNull();
     assertThat(work.getLabel()).isNotEmpty();
-    assertThat(work.getTypes()).containsExactly(WORK);
+    assertThat(work.getTypes()).containsOnly(WORK);
     assertThat(work.getDoc()).hasSize(16);
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
@@ -660,7 +660,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(prefix + " name");
-    assertThat(edge.getTarget().getTypes()).containsExactly(type);
+    assertThat(edge.getTarget().getTypes()).containsOnly(type);
     //TODO remove the condition after MODLD-263 and MODLD-264
     if (type == PERSON || type == FAMILY) {
       assertThat(edge.getTarget().getDoc()).hasSize(12);
@@ -709,7 +709,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(CLASSIFICATION.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Dewey Decimal Classification value");
-    assertThat(edge.getTarget().getTypes()).containsExactly(CATEGORY);
+    assertThat(edge.getTarget().getTypes()).containsOnly(CATEGORY);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(CODE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(CODE.getValue())).hasSize(1);
@@ -730,7 +730,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Instance MainTitle");
-    assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
+    assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(5);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
@@ -759,7 +759,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Instance Title empty");
-    assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
+    assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
@@ -776,7 +776,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isNotEmpty();
-    assertThat(edge.getTarget().getTypes()).containsExactly(TITLE);
+    assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
@@ -794,7 +794,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Variant-MainTitle");
-    assertThat(edge.getTarget().getTypes()).containsExactly(VARIANT_TITLE);
+    assertThat(edge.getTarget().getTypes()).containsOnly(VARIANT_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(7);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
@@ -829,7 +829,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Parallel-MainTitle");
-    assertThat(edge.getTarget().getTypes()).containsExactly(PARALLEL_TITLE);
+    assertThat(edge.getTarget().getTypes()).containsOnly(PARALLEL_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(6);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
@@ -863,7 +863,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(expectedPredicate.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(expectedPrefix + " Name");
-    assertThat(resource.getTypes()).containsExactly(PROVIDER_EVENT);
+    assertThat(resource.getTypes()).containsOnly(PROVIDER_EVENT);
     assertThat(resource.getDoc()).hasSize(4);
     assertThat(resource.getDoc().has(SIMPLE_PLACE.getValue())).isTrue();
     assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue())).hasSize(1);
@@ -893,7 +893,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo("af");
-    assertThat(resource.getTypes()).containsExactly(PLACE);
+    assertThat(resource.getTypes()).containsOnly(PLACE);
     assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
@@ -914,7 +914,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("2018");
-    assertThat(edge.getTarget().getTypes()).containsExactly(COPYRIGHT_EVENT);
+    assertThat(edge.getTarget().getTypes()).containsOnly(COPYRIGHT_EVENT);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
@@ -932,7 +932,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(predicate.name() + " term");
-    assertThat(resource.getTypes()).containsExactly(CATEGORY);
+    assertThat(resource.getTypes()).containsOnly(CATEGORY);
     assertThat(resource.getDoc()).hasSize(4);
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
@@ -940,7 +940,7 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
     assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(
-            "http://id.loc.gov/vocabulary/" + linkTerm + "/" + predicate.name() + " code");
+      "http://id.loc.gov/vocabulary/" + linkTerm + "/" + predicate.name() + " code");
     assertThat(resource.getDoc().has(TERM.getValue())).isTrue();
     assertThat(resource.getDoc().get(TERM.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
@@ -959,7 +959,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getUri()).isEqualTo(ACCESS_LOCATION.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("access location URI");
-    assertThat(edge.getTarget().getTypes()).containsExactly(ANNOTATION);
+    assertThat(edge.getTarget().getTypes()).containsOnly(ANNOTATION);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
@@ -1014,20 +1014,20 @@ class Marc2BibframeMapperIT {
 
   private Map<String, String> getTopicConceptExpectedProperties() {
     return Stream.concat(
-      getCommonConceptExpectedProperties("topic").entrySet().stream(),
-      Map.ofEntries(
-        entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
-        entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
-        entry(DATE.getValue(), "topic date"),
-        entry(MISC_INFO.getValue(), "topic misc info")
-      ).entrySet().stream())
+        getCommonConceptExpectedProperties("topic").entrySet().stream(),
+        Map.ofEntries(
+          entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
+          entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
+          entry(DATE.getValue(), "topic date"),
+          entry(MISC_INFO.getValue(), "topic misc info")
+        ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private Map<String, String> getPlaceConceptExpectedProperties() {
     return Stream.concat(
-      getCommonConceptExpectedProperties("place").entrySet().stream(),
-      Map.ofEntries(entry(MISC_INFO.getValue(), "place misc info")).entrySet().stream())
+        getCommonConceptExpectedProperties("place").entrySet().stream(),
+        Map.ofEntries(entry(MISC_INFO.getValue(), "place misc info")).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
@@ -1040,27 +1040,27 @@ class Marc2BibframeMapperIT {
 
   private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
     return Stream.concat(
-      getCommonConceptExpectedProperties(prefix).entrySet().stream(),
-      Map.ofEntries(
-        entry(NUMERATION.getValue(), prefix + " numeration"),
-        entry(TITLES.getValue(), prefix + " titles"),
-        entry(DATE.getValue(), prefix + " date"),
-        entry(ATTRIBUTION.getValue(), prefix + " attribution"),
-        entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
-        entry(AFFILIATION.getValue(), prefix + " affiliation")
-      ).entrySet().stream())
+        getCommonConceptExpectedProperties(prefix).entrySet().stream(),
+        Map.ofEntries(
+          entry(NUMERATION.getValue(), prefix + " numeration"),
+          entry(TITLES.getValue(), prefix + " titles"),
+          entry(DATE.getValue(), prefix + " date"),
+          entry(ATTRIBUTION.getValue(), prefix + " attribution"),
+          entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
+          entry(AFFILIATION.getValue(), prefix + " affiliation")
+        ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private Map<String, String> getJurisdictionOrganizationConceptExpectedProperties(String prefix) {
     return Stream.concat(
-      getCommonConceptExpectedProperties(prefix).entrySet().stream(),
-      Map.ofEntries(
-        entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
-        entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
-        entry(DATE.getValue(), prefix + " date"),
-        entry(AFFILIATION.getValue(), prefix + " affiliation")
-      ).entrySet().stream())
+        getCommonConceptExpectedProperties(prefix).entrySet().stream(),
+        Map.ofEntries(
+          entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
+          entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
+          entry(DATE.getValue(), prefix + " date"),
+          entry(AFFILIATION.getValue(), prefix + " affiliation")
+        ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
@@ -1120,7 +1120,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getTypes()).containsExactly(types.toArray(new ResourceTypeDictionary[0]));
+    assertThat(edge.getTarget().getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
     assertThat(edge.getTarget().getLabel()).isEqualTo(expectedLabel);
     assertThat(edge.getTarget().getDoc()).hasSize(properties.size());
     properties.forEach((property, propertyValue) -> validateProperty(edge.getTarget(), property, propertyValue));

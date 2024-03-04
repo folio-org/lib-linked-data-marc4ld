@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.folio.marc4ld.model.Resource;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.marc4j.MarcJsonWriter;

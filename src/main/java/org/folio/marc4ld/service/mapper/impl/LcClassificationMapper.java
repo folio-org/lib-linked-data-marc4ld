@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.model.Resource;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -121,4 +121,5 @@ public class LcClassificationMapper implements Marc4ldMapper {
       ? Optional.of(resource.getDoc().get(ITEM_NUMBER.getValue()).get(0).asText())
       : Optional.empty();
   }
+
 }

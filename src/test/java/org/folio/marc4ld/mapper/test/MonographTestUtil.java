@@ -149,8 +149,8 @@ import lombok.experimental.UtilityClass;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.model.ResourceEdge;
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.util.BibframeUtil;
 
 
@@ -577,7 +577,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(CLASSIFICATION, List.of(createLcClassification(), deweyClassification));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
-            familyContributor));
+      familyContributor));
     pred2OutgoingResources.put(CONTENT, List.of(content));
     var formConcept = createFormConcept();
     pred2OutgoingResources.put(SUBJECT, List.of(createFamilyPersonConcept("family", FAMILY),
@@ -756,7 +756,8 @@ public class MonographTestUtil {
     return createResource(
       Map.of(
         LABEL, List.of(value),
-        LINK, List.of("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value))
+        LINK,
+        List.of("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value))
       ),
       Set.of(ResourceTypeDictionary.STATUS),
       emptyMap()

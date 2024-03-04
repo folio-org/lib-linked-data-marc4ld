@@ -2,8 +2,8 @@ package org.folio.marc4ld.service.marc2ld.field.property;
 
 import java.util.List;
 import java.util.Map;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.model.Resource;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 

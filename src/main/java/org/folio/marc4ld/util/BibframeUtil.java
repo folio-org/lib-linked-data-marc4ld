@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.marc4ld.model.Resource;
+import org.folio.ld.dictionary.model.Resource;
 
 @UtilityClass
 public class BibframeUtil {
