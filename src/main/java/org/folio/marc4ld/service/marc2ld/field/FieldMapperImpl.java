@@ -19,9 +19,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.dictionary.model.ResourceType;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.model.ResourceEdge;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
@@ -72,7 +73,7 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource computeParentIfAbsent(Resource parent, Marc4BibframeRules.FieldRule fieldRule) {
-    if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceTypeDictionary::getUri).collect(
+    if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceType::getUri).collect(
       Collectors.toSet()))) {
       return parent;
     }
@@ -90,7 +91,7 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource selectResourceFromEdges(Resource resource, Set<String> types) {
-    if (resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet()).containsAll(types)) {
+    if (resource.getTypeNames().containsAll(types)) {
       return resource;
     }
     return resource.getOutgoingEdges().stream().map(re -> selectResourceFromEdges(re.getTarget(), types))

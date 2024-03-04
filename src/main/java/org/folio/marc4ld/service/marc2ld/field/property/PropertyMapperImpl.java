@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -117,8 +117,8 @@ public class PropertyMapperImpl implements PropertyMapper {
     var value = cfValue.substring(range.get(0), range.get(1)).strip();
     if (!value.isBlank()) {
       dictionaryProcessor.getValue(property, value).ifPresentOrElse(
-              v -> properties.put(valueOf(property).getValue(), List.of(v)),
-              () -> properties.put(valueOf(property).getValue(), List.of(value)));
+        v -> properties.put(valueOf(property).getValue(), List.of(v)),
+        () -> properties.put(valueOf(property).getValue(), List.of(value)));
     }
   }
 

@@ -20,15 +20,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
-import org.folio.marc4ld.model.Resource;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -71,11 +69,10 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     if (mapperOptional.isPresent()) {
       return mapperOptional.get().map2marc(resource);
     } else {
-      var resourceTypes = resource.getTypes().stream().map(ResourceTypeDictionary::name).collect(Collectors.toSet());
       var dataFields = rules.getFieldRules().entrySet().stream()
         .flatMap(tagToRule -> tagToRule.getValue().stream()
           .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
-          .filter(fr -> Objects.equals(fr.getTypes(), resourceTypes)
+          .filter(fr -> Objects.equals(fr.getTypes(), resource.getTypeNames())
             && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
           .map(fr -> {
             if (nonNull(fr.getControlFields())) {

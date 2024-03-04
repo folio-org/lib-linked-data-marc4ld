@@ -5,9 +5,9 @@ import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.model.Resource;
-import org.folio.marc4ld.model.ResourceEdge;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Service;
@@ -37,4 +37,5 @@ public class RelationProviderImpl implements RelationProvider {
   private String adjust(String text) {
     return text.replaceAll("[^a-zA-Z]", EMPTY).toLowerCase();
   }
+
 }
