@@ -615,9 +615,12 @@ class Marc2BibframeMapperIT {
       ), "United States");
     validateLcClassification(edgeIterator.next(), work.getResourceHash());
     validateClassification(edgeIterator.next(), work.getResourceHash());
-    validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CREATOR);
-    validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CREATOR);
-    validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CREATOR);
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(PERSON),
+      getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(FAMILY),
+      getFamilyPersonContributorExpectedProperties("CREATOR FAMILY"), "CREATOR FAMILY name");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(ORGANIZATION),
+      getOrganizationContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
     validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FAMILY),
@@ -636,9 +639,12 @@ class Marc2BibframeMapperIT {
       getFormConceptExpectedProperties());
     validateEdge(edgeIterator.next(), work.getResourceHash(), GENRE, List.of(FORM),
       removeNonFocusProperties(getFormConceptExpectedProperties()), "form name");
-    validateContributor(edgeIterator.next(), work.getResourceHash(), PERSON, CONTRIBUTOR);
-    validateContributor(edgeIterator.next(), work.getResourceHash(), FAMILY, CONTRIBUTOR);
-    validateContributor(edgeIterator.next(), work.getResourceHash(), ORGANIZATION, CONTRIBUTOR);
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(PERSON),
+      getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(FAMILY),
+      getFamilyPersonContributorExpectedProperties("CONTRIBUTOR FAMILY"), "CONTRIBUTOR FAMILY name");
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(ORGANIZATION),
+      getOrganizationContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"), "CONTRIBUTOR ORGANIZATION name");
     validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CONTRIBUTOR);
     validateEdge(edgeIterator.next(), work.getResourceHash(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
       Map.of(
@@ -661,25 +667,9 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(prefix + " name");
     assertThat(edge.getTarget().getTypes()).containsOnly(type);
-    //TODO remove the condition after MODLD-263 and MODLD-264
-    if (type == PERSON || type == FAMILY) {
-      assertThat(edge.getTarget().getDoc()).hasSize(12);
-      validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
-      validateProperty(edge.getTarget(), AUTHORITY_LINK.getValue(), prefix + " authority link");
-      validateProperty(edge.getTarget(), NUMERATION.getValue(), prefix + " numeration");
-      validateProperty(edge.getTarget(), TITLES.getValue(), prefix + " titles");
-      validateProperty(edge.getTarget(), DATE.getValue(), prefix + " date");
-      validateProperty(edge.getTarget(), ATTRIBUTION.getValue(), prefix + " attribution");
-      validateProperty(edge.getTarget(), NAME_ALTERNATIVE.getValue(), prefix + " name alternative");
-      validateProperty(edge.getTarget(), EQUIVALENT.getValue(), prefix + " equivalent");
-      validateProperty(edge.getTarget(), LINKAGE.getValue(), prefix + " linkage");
-      validateProperty(edge.getTarget(), CONTROL_FIELD.getValue(), prefix + " control field");
-      validateProperty(edge.getTarget(), FIELD_LINK.getValue(), prefix + " field link");
-    } else {
-      assertThat(edge.getTarget().getDoc()).hasSize(2);
-      validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
-      validateProperty(edge.getTarget(), LCNAF_ID.getValue(), prefix + " LCNAF id");
-    }
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
+    validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
+    validateProperty(edge.getTarget(), LCNAF_ID.getValue(), prefix + " LCNAF id");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -1075,6 +1065,38 @@ class Marc2BibframeMapperIT {
         RELATOR_CODE.getValue()
       ).contains(entry.getKey()))
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+  }
+
+  private Map<String, String> getFamilyPersonContributorExpectedProperties(String prefix) {
+    return Map.ofEntries(
+      entry(NAME.getValue(), prefix + " name"),
+      entry(NUMERATION.getValue(), prefix + " numeration"),
+      entry(TITLES.getValue(), prefix + " titles"),
+      entry(DATE.getValue(), prefix + " date"),
+      entry(ATTRIBUTION.getValue(), prefix + " attribution"),
+      entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
+      entry(AFFILIATION.getValue(), prefix + " affiliation"),
+      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
+      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
+      entry(LINKAGE.getValue(), prefix + " linkage"),
+      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
+      entry(FIELD_LINK.getValue(), prefix + " field link")
+    );
+  }
+
+  private Map<String, String> getOrganizationContributorExpectedProperties(String prefix) {
+    return Map.ofEntries(
+      entry(NAME.getValue(), prefix + " name"),
+      entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
+      entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
+      entry(DATE.getValue(), prefix + " date"),
+      entry(AFFILIATION.getValue(), prefix + " affiliation"),
+      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
+      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
+      entry(LINKAGE.getValue(), prefix + " linkage"),
+      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
+      entry(FIELD_LINK.getValue(), prefix + " field link")
+    );
   }
 
   private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,

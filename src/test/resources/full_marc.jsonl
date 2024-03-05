@@ -206,7 +206,15 @@
         "subfields": [
           {
             "a": "CREATOR ORGANIZATION name",
-            "0": "CREATOR ORGANIZATION LCNAF id"
+            "b": "CREATOR ORGANIZATION subordinate unit",
+            "c": "CREATOR ORGANIZATION place",
+            "d": "CREATOR ORGANIZATION date",
+            "u": "CREATOR ORGANIZATION affiliation",
+            "0": "CREATOR ORGANIZATION authority link",
+            "1": "CREATOR ORGANIZATION equivalent",
+            "6": "CREATOR ORGANIZATION linkage",
+            "7": "CREATOR ORGANIZATION control field",
+            "8": "CREATOR ORGANIZATION field link"
           }
         ]
       }
@@ -1670,7 +1678,15 @@
         "subfields": [
           {
             "a": "CONTRIBUTOR ORGANIZATION name",
-            "0": "CONTRIBUTOR ORGANIZATION LCNAF id"
+            "b": "CONTRIBUTOR ORGANIZATION subordinate unit",
+            "c": "CONTRIBUTOR ORGANIZATION place",
+            "d": "CONTRIBUTOR ORGANIZATION date",
+            "u": "CONTRIBUTOR ORGANIZATION affiliation",
+            "0": "CONTRIBUTOR ORGANIZATION authority link",
+            "1": "CONTRIBUTOR ORGANIZATION equivalent",
+            "6": "CONTRIBUTOR ORGANIZATION linkage",
+            "7": "CONTRIBUTOR ORGANIZATION control field",
+            "8": "CONTRIBUTOR ORGANIZATION field link"
           }
         ]
       }
