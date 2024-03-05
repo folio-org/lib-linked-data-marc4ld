@@ -621,7 +621,8 @@ class Marc2BibframeMapperIT {
       getFamilyPersonContributorExpectedProperties("CREATOR FAMILY"), "CREATOR FAMILY name");
     validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(ORGANIZATION),
       getOrganizationContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
-    validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CREATOR);
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(MEETING),
+      getMeetingContributorExpectedProperties("CREATOR MEETING"), "CREATOR MEETING name");
     validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
@@ -645,7 +646,8 @@ class Marc2BibframeMapperIT {
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR FAMILY"), "CONTRIBUTOR FAMILY name");
     validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(ORGANIZATION),
       getOrganizationContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"), "CONTRIBUTOR ORGANIZATION name");
-    validateContributor(edgeIterator.next(), work.getResourceHash(), MEETING, CONTRIBUTOR);
+    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(MEETING),
+      getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
     validateEdge(edgeIterator.next(), work.getResourceHash(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
       Map.of(
         CODE.getValue(), "a",
@@ -1090,6 +1092,21 @@ class Marc2BibframeMapperIT {
       entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
       entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
       entry(DATE.getValue(), prefix + " date"),
+      entry(AFFILIATION.getValue(), prefix + " affiliation"),
+      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
+      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
+      entry(LINKAGE.getValue(), prefix + " linkage"),
+      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
+      entry(FIELD_LINK.getValue(), prefix + " field link")
+    );
+  }
+
+  private Map<String, String> getMeetingContributorExpectedProperties(String prefix) {
+    return Map.ofEntries(
+      entry(NAME.getValue(), prefix + " name"),
+      entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
+      entry(DATE.getValue(), prefix + " date"),
+      entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
       entry(AFFILIATION.getValue(), prefix + " affiliation"),
       entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
       entry(EQUIVALENT.getValue(), prefix + " equivalent"),

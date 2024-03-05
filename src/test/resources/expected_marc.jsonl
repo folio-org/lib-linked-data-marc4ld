@@ -1,5 +1,5 @@
 {
-  "leader" : "08826nam a2201021uc 4500",
+  "leader" : "09310nam a2201021uc 4500",
   "fields" : [ {
     "008" : "      1999    ilu    b     a      eng  "
   }, {
@@ -221,9 +221,25 @@
   }, {
     "111" : {
       "subfields" : [ {
-        "0" : "CREATOR MEETING LCNAF id"
+        "0" : "CREATOR MEETING authority link"
+      }, {
+        "1" : "CREATOR MEETING equivalent"
+      }, {
+        "6" : "CREATOR MEETING linkage"
+      }, {
+        "7" : "CREATOR MEETING control field"
+      }, {
+        "8" : "CREATOR MEETING field link"
       }, {
         "a" : "CREATOR MEETING name"
+      }, {
+        "c" : "CREATOR MEETING place"
+      }, {
+        "d" : "CREATOR MEETING date"
+      }, {
+        "e" : "CREATOR MEETING subordinate unit"
+      }, {
+        "u" : "CREATOR MEETING affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -1071,9 +1087,25 @@
   }, {
     "711" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR MEETING LCNAF id"
+        "0" : "CONTRIBUTOR MEETING authority link"
+      }, {
+        "1" : "CONTRIBUTOR MEETING equivalent"
+      }, {
+        "6" : "CONTRIBUTOR MEETING linkage"
+      }, {
+        "7" : "CONTRIBUTOR MEETING control field"
+      }, {
+        "8" : "CONTRIBUTOR MEETING field link"
       }, {
         "a" : "CONTRIBUTOR MEETING name"
+      }, {
+        "c" : "CONTRIBUTOR MEETING place"
+      }, {
+        "d" : "CONTRIBUTOR MEETING date"
+      }, {
+        "e" : "CONTRIBUTOR MEETING subordinate unit"
+      }, {
+        "u" : "CONTRIBUTOR MEETING affiliation"
       } ],
       "ind1" : " ",
       "ind2" : " "

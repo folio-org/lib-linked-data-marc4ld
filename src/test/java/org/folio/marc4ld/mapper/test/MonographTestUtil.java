@@ -66,7 +66,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
@@ -451,9 +450,17 @@ public class MonographTestUtil {
     ).setLabel("Dewey Decimal Classification value");
 
     var meetingCreator = createResource(
-      Map.of(
-        NAME, List.of("CREATOR MEETING name"),
-        LCNAF_ID, List.of("CREATOR MEETING LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CREATOR MEETING authority link")),
+        entry(EQUIVALENT, List.of("CREATOR MEETING equivalent")),
+        entry(LINKAGE, List.of("CREATOR MEETING linkage")),
+        entry(CONTROL_FIELD, List.of("CREATOR MEETING control field")),
+        entry(FIELD_LINK, List.of("CREATOR MEETING field link")),
+        entry(NAME, List.of("CREATOR MEETING name")),
+        entry(PropertyDictionary.PLACE, List.of("CREATOR MEETING place")),
+        entry(DATE, List.of("CREATOR MEETING date")),
+        entry(SUBORDINATE_UNIT, List.of("CREATOR MEETING subordinate unit")),
+        entry(AFFILIATION, List.of("CREATOR MEETING affiliation"))
       ),
       Set.of(MEETING),
       emptyMap()
@@ -515,9 +522,17 @@ public class MonographTestUtil {
     ).setLabel("CREATOR ORGANIZATION name");
 
     var meetingContributor = createResource(
-      Map.of(
-        NAME, List.of("CONTRIBUTOR MEETING name"),
-        LCNAF_ID, List.of("CONTRIBUTOR MEETING LCNAF id")
+      Map.ofEntries(
+        entry(AUTHORITY_LINK, List.of("CONTRIBUTOR MEETING authority link")),
+        entry(EQUIVALENT, List.of("CONTRIBUTOR MEETING equivalent")),
+        entry(LINKAGE, List.of("CONTRIBUTOR MEETING linkage")),
+        entry(CONTROL_FIELD, List.of("CONTRIBUTOR MEETING control field")),
+        entry(FIELD_LINK, List.of("CONTRIBUTOR MEETING field link")),
+        entry(NAME, List.of("CONTRIBUTOR MEETING name")),
+        entry(PropertyDictionary.PLACE, List.of("CONTRIBUTOR MEETING place")),
+        entry(DATE, List.of("CONTRIBUTOR MEETING date")),
+        entry(SUBORDINATE_UNIT, List.of("CONTRIBUTOR MEETING subordinate unit")),
+        entry(AFFILIATION, List.of("CONTRIBUTOR MEETING affiliation"))
       ),
       Set.of(MEETING),
       emptyMap()
