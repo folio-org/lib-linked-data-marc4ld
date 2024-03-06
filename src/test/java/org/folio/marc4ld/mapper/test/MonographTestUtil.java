@@ -102,7 +102,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
-import static org.folio.ld.dictionary.PropertyDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
@@ -607,10 +606,10 @@ public class MonographTestUtil {
       createPlaceConcept(), formConcept));
     pred2OutgoingResources.put(GENRE, List.of(formConcept.getOutgoingEdges().iterator().next().getTarget()));
     pred2OutgoingResources.put(GOVERNMENT_PUBLICATION, List.of(category));
+    pred2OutgoingResources.put(PredicateDictionary.TARGET_AUDIENCE, List.of(createTargetAudience()));
 
     return createResource(
       Map.of(
-        TARGET_AUDIENCE, List.of("primary"),
         LANGUAGE, List.of("eng"),
         SUMMARY, List.of("work summary"),
         TABLE_OF_CONTENTS, List.of("work table of contents"),
@@ -830,6 +829,28 @@ public class MonographTestUtil {
       Set.of(CATEGORY),
       pred2OutgoingResources
     ).setLabel("code");
+  }
+
+  private Resource createTargetAudience() {
+    var categorySet = createResource(
+      Map.of(
+        LINK, List.of("https://id.loc.gov/vocabulary/maudience"),
+        LABEL, List.of("Target audience")
+      ),
+      Set.of(CATEGORY_SET),
+      emptyMap()
+    );
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
+    return createResource(
+      Map.of(
+        CODE, List.of("b"),
+        LINK, List.of("http://id.loc.gov/vocabulary/maudience/pri"),
+        TERM, List.of("Primary")
+      ),
+      Set.of(CATEGORY),
+      pred2OutgoingResources
+    ).setLabel("Primary");
   }
 
   private static Resource createContent() {

@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.marc2ld.field;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.marc4ld.util.BibframeUtil.hash;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +25,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.dictionary.model.ResourceType;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
@@ -65,10 +68,23 @@ public class FieldMapperImpl implements FieldMapper {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
         addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
-      ofNullable(marc4ldMappersMap.get(dataField.getTag()))
-        .ifPresent(mapper -> mapper.map2ld(dataField, mappedResource));
+      Optional<Marc4ldMapper> mapper;
+      if (EMPTY.equals(dataField.getTag())) {
+        mapper = controlFields.stream()
+          .map(controlField -> marc4ldMappersMap.get(controlField.getTag()))
+          .filter(Objects::nonNull)
+          .findFirst();
+      } else {
+        mapper = ofNullable(marc4ldMappersMap.get(dataField.getTag()));
+      }
+      mapper.ifPresent(m -> {
+        if (m.canMap2ld(valueOf(fieldRule.getPredicate()))) {
+          m.map2ld(new MarcData(dataField, controlFields), mappedResource);
+        }
+      });
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
+      mappedResource.setResourceHash(hash(mappedResource, objectMapper));
     }
   }
 
@@ -112,7 +128,6 @@ public class FieldMapperImpl implements FieldMapper {
     fieldRule.getTypes().stream().map(ResourceTypeDictionary::valueOf).forEach(edgeResource::addType);
     var properties = propertyMapper.mapProperties(edgeResource, dataField, fieldRule, controlFields, new HashMap<>());
     setLabel(edgeResource, properties, fieldRule.getLabel());
-    edgeResource.setResourceHash(hash(edgeResource, objectMapper));
     resource.getOutgoingEdges().add(new ResourceEdge(resource, edgeResource, valueOf(fieldRule.getPredicate())));
     return edgeResource;
   }

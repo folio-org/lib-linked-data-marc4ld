@@ -6,7 +6,6 @@ fieldRules:
       controlFields:
         '008':
           LANGUAGE: 35,38
-          TARGET_AUDIENCE: 22,23
       append: true
       edges:
         - types: CATEGORY
@@ -25,6 +24,13 @@ fieldRules:
                 data:
                 expression: args.contains(data.substring(28, 29))
                 args: a, c, f, i, l, m, o, s, u, z
+        - types: CATEGORY
+          parent: WORK
+          predicate: TARGET_AUDIENCE
+          label: TERM
+          controlFields:
+            '008':
+              CODE: 22,23
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
