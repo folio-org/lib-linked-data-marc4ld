@@ -64,7 +64,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
                                     ControlFieldsBuilder cfb) {
     var mapperOptional = marc4ldMappers.stream()
-      .filter(mapper -> mapper.canMap(predicate, resource))
+      .filter(mapper -> mapper.canMap2Marc(predicate, resource))
       .findFirst();
     if (mapperOptional.isPresent()) {
       return mapperOptional.get().map2marc(resource);

@@ -21,6 +21,7 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -50,27 +51,31 @@ public class LcClassificationMapper implements Marc4ldMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate, Resource resource) {
+  public boolean canMap2ld(PredicateDictionary predicate) {
+    return predicate == CLASSIFICATION;
+  }
+
+  @Override
+  public boolean canMap2Marc(PredicateDictionary predicate, Resource resource) {
     return predicate == CLASSIFICATION
       && Objects.equals(resource.getTypes(), SUPPORTED_TYPES)
       && isLcClassification(resource);
   }
 
   @Override
-  public void map2ld(DataField dataField, Resource resource) {
-    if (Objects.equals(resource.getTypes(), SUPPORTED_TYPES)) {
-      var properties = objectMapper.convertValue(resource.getDoc(),
-        new TypeReference<HashMap<String, List<String>>>() {});
-      if (dataField.getIndicator1() == ZERO) {
-        properties.put(STATUS.getValue(), List.of(UBA));
-      } else if (dataField.getIndicator1() == ONE) {
-        properties.put(STATUS.getValue(), List.of(NUBA));
-      }
-      if (dataField.getIndicator2() == ZERO) {
-        properties.put(ASSIGNER.getValue(), List.of(DLC));
-      }
-      resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
+  public void map2ld(MarcData marcData, Resource resource) {
+    var dataField = marcData.getDataField();
+    var properties = objectMapper.convertValue(resource.getDoc(),
+      new TypeReference<HashMap<String, List<String>>>() {});
+    if (dataField.getIndicator1() == ZERO) {
+      properties.put(STATUS.getValue(), List.of(UBA));
+    } else if (dataField.getIndicator1() == ONE) {
+      properties.put(STATUS.getValue(), List.of(NUBA));
     }
+    if (dataField.getIndicator2() == ZERO) {
+      properties.put(ASSIGNER.getValue(), List.of(DLC));
+    }
+    resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
   }
 
   @Override

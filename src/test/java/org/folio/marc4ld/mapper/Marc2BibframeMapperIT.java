@@ -129,7 +129,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
-import static org.folio.ld.dictionary.PropertyDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
@@ -603,7 +602,7 @@ class Marc2BibframeMapperIT {
     assertThat(work.getResourceHash()).isNotNull();
     assertThat(work.getLabel()).isNotEmpty();
     assertThat(work.getTypes()).containsOnly(WORK);
-    assertThat(work.getDoc()).hasSize(16);
+    assertThat(work.getDoc()).hasSize(15);
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
@@ -654,6 +653,7 @@ class Marc2BibframeMapperIT {
         LINK.getValue(), "http://id.loc.gov/vocabulary/mgovtpubtype/a",
         TERM.getValue(), "Autonomous"
       ), "Autonomous");
+    validateTargetAudience(edgeIterator.next(), work.getResourceHash());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -690,6 +690,22 @@ class Marc2BibframeMapperIT {
       Map.of(
         LABEL.getValue(), "lc"
       ), "lc");
+  }
+
+  private void validateTargetAudience(ResourceEdge edge, Long parentHash) {
+    validateEdge(edge, parentHash, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
+      Map.of(
+        CODE.getValue(), "b",
+        LINK.getValue(), "http://id.loc.gov/vocabulary/maudience/pri",
+        TERM.getValue(), "Primary"
+      ), "Primary");
+    var targetAudience = edge.getTarget();
+    validateEdge(targetAudience.getOutgoingEdges().iterator().next(), targetAudience.getResourceHash(), IS_DEFINED_BY,
+      List.of(CATEGORY_SET),
+      Map.of(
+        LINK.getValue(), "https://id.loc.gov/vocabulary/maudience",
+        LABEL.getValue(), "Target audience"
+      ), null);
   }
 
   private void validateClassification(ResourceEdge edge, Long parentHash) {
@@ -989,7 +1005,6 @@ class Marc2BibframeMapperIT {
       entry(RESPONSIBILITY_STATEMENT.getValue(), "Statement Of Responsibility"),
       entry(SUMMARY.getValue(), "work summary"),
       entry(TABLE_OF_CONTENTS.getValue(), "work table of contents"),
-      entry(TARGET_AUDIENCE.getValue(), "primary"),
       entry(DATE_START.getValue(), "2022"),
       entry(DATE_END.getValue(), "2023"),
       entry(BIBLIOGRAPHY_NOTE.getValue(), "note, references"),
