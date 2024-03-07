@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class TargetAudienceMapper implements Marc4ldMapper {
 
   private static final String TAG = "008";
-  private static final Map<Character, String> CODE_TO_LINK_MAP = Map.of(
+  private static final Map<Character, String> MARC_CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'a', "pre",
     'b', "pri",
     'c', "pad",
@@ -41,7 +41,7 @@ public class TargetAudienceMapper implements Marc4ldMapper {
     'g', "gen",
     'j', "juv"
   );
-  private static final Map<Character, String> CODE_TO_TERM_MAP = Map.of(
+  private static final Map<Character, String> MARK_CODE_TO_TERM_MAP = Map.of(
     'a', "Preschool",
     'b', "Primary",
     'c', "Pre-adolescent",
@@ -76,8 +76,8 @@ public class TargetAudienceMapper implements Marc4ldMapper {
       .findFirst()
       .ifPresent(controlField -> {
         var code = controlField.getData().charAt(22);
-        var link = LINK_PREFIX + CODE_TO_LINK_MAP.get(code);
-        var term = CODE_TO_TERM_MAP.get(code);
+        var link = LINK_PREFIX + MARC_CODE_TO_LINK_SUFFIX_MAP.get(code);
+        var term = MARK_CODE_TO_TERM_MAP.get(code);
         var properties = objectMapper.convertValue(resource.getDoc(),
           new TypeReference<HashMap<String, List<String>>>() {
           });
@@ -91,6 +91,7 @@ public class TargetAudienceMapper implements Marc4ldMapper {
 
   @Override
   public boolean canMap2Marc(PredicateDictionary predicate, Resource resource) {
+    //corresponding marc field will be generated using the yaml based configuration
     return false;
   }
 

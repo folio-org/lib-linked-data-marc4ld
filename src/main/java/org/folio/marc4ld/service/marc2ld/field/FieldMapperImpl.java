@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -68,15 +67,13 @@ public class FieldMapperImpl implements FieldMapper {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
         addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
-      Optional<Marc4ldMapper> mapper;
-      if (EMPTY.equals(dataField.getTag())) {
-        mapper = controlFields.stream()
-          .map(controlField -> marc4ldMappersMap.get(controlField.getTag()))
-          .filter(Objects::nonNull)
-          .findFirst();
-      } else {
-        mapper = ofNullable(marc4ldMappersMap.get(dataField.getTag()));
-      }
+      var mapper = !EMPTY.equals(dataField.getTag())
+        ? ofNullable(marc4ldMappersMap.get(dataField.getTag()))
+        : controlFields.stream()
+        .map(controlField -> marc4ldMappersMap.get(controlField.getTag()))
+        .filter(Objects::nonNull)
+        .filter(m -> m.canMap2ld(valueOf(fieldRule.getPredicate())))
+        .findFirst();
       mapper.ifPresent(m -> {
         if (m.canMap2ld(valueOf(fieldRule.getPredicate()))) {
           m.map2ld(new MarcData(dataField, controlFields), mappedResource);
