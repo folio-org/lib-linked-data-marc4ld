@@ -6,7 +6,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
-import static org.folio.marc4ld.util.BibframeUtil.hash;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,6 +20,7 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
@@ -57,6 +57,7 @@ public class TargetAudienceMapper implements Marc4ldMapper {
   private static final List<String> CATEGORY_SET_LABEL = List.of("Target audience");
 
   private final ObjectMapper objectMapper;
+  private final FingerprintHashService hashService;
 
   @Override
   public String getTag() {
@@ -108,7 +109,7 @@ public class TargetAudienceMapper implements Marc4ldMapper {
       LABEL.getValue(), CATEGORY_SET_LABEL
     ), JsonNode.class));
     categorySet.setLabel(CATEGORY_SET_LABEL.get(0));
-    categorySet.setResourceHash(hash(categorySet, objectMapper));
+    categorySet.setResourceHash(hashService.hash(categorySet));
     return categorySet;
   }
 }
