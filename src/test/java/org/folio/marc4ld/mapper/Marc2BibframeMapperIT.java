@@ -705,7 +705,7 @@ class Marc2BibframeMapperIT {
       Map.of(
         LINK.getValue(), "https://id.loc.gov/vocabulary/maudience",
         LABEL.getValue(), "Target audience"
-      ), null);
+      ), "Target audience");
   }
 
   private void validateClassification(ResourceEdge edge, Long parentHash) {
