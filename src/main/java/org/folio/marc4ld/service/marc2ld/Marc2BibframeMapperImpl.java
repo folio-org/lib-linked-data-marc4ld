@@ -8,14 +8,12 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.getFirstValue;
-import static org.folio.marc4ld.util.BibframeUtil.hash;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmptyResource;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
@@ -25,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
@@ -39,17 +38,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private final Marc4BibframeRules rules;
-  private final ObjectMapper objectMapper;
   private final FieldMapper fieldMapper;
   private final Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap;
   private final MarcFactory marcFactory;
+  private final FingerprintHashService hashService;
 
-  public Marc2BibframeMapperImpl(Marc4BibframeRules rules, ObjectMapper objectMapper, FieldMapper fieldMapper,
+  public Marc2BibframeMapperImpl(Marc4BibframeRules rules, FingerprintHashService hashService, FieldMapper fieldMapper,
                                  @Qualifier(DATA_FIELD_PREPROCESSORS_MAP)
                                  Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap,
                                  MarcFactory marcFactory) {
     this.rules = rules;
-    this.objectMapper = objectMapper;
+    this.hashService = hashService;
     this.fieldMapper = fieldMapper;
     this.dataFieldPreprocessorsMap = dataFieldPreprocessorsMap;
     this.marcFactory = marcFactory;
@@ -77,7 +76,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     }
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
-    instance.setResourceHash(hash(instance, objectMapper));
+    instance.setResourceHash(hashService.hash(instance));
     setEdgesId(instance);
     return instance;
   }

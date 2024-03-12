@@ -6,7 +6,6 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
-import static org.folio.marc4ld.util.BibframeUtil.hash;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC4LD_MAPPERS_MAP;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +22,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.dictionary.model.ResourceType;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.condition.ConditionChecker;
@@ -42,15 +42,17 @@ public class FieldMapperImpl implements FieldMapper {
   private final ObjectMapper objectMapper;
   private final RelationProvider relationProvider;
   private final Map<String, Marc4ldMapper> marc4ldMappersMap;
+  private final FingerprintHashService hashService;
 
   public FieldMapperImpl(ConditionChecker conditionChecker, PropertyMapper propertyMapper, ObjectMapper objectMapper,
                          RelationProvider relationProvider, @Qualifier(MARC4LD_MAPPERS_MAP)
-                         Map<String, Marc4ldMapper> marc4ldMappersMap) {
+                         Map<String, Marc4ldMapper> marc4ldMappersMap, FingerprintHashService hashService) {
     this.conditionChecker = conditionChecker;
     this.propertyMapper = propertyMapper;
     this.objectMapper = objectMapper;
     this.relationProvider = relationProvider;
     this.marc4ldMappersMap = marc4ldMappersMap;
+    this.hashService = hashService;
   }
 
   @Override
@@ -81,7 +83,7 @@ public class FieldMapperImpl implements FieldMapper {
       });
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
-      mappedResource.setResourceHash(hash(mappedResource, objectMapper));
+      mappedResource.setResourceHash(hashService.hash(mappedResource));
     }
   }
 
@@ -98,7 +100,7 @@ public class FieldMapperImpl implements FieldMapper {
       parentResource.setLabel(UUID.randomUUID().toString());
       parent.getOutgoingEdges()
         .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
-      parentResource.setResourceHash(hash(parentResource, objectMapper));
+      parentResource.setResourceHash(hashService.hash(parentResource));
     }
     return parentResource;
   }

@@ -141,6 +141,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
@@ -149,7 +150,6 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.util.BibframeUtil;
 
 
 @UtilityClass
@@ -890,7 +890,7 @@ public class MonographTestUtil {
       .collect(Collectors.toMap(e -> e.getKey().getValue(), Map.Entry::getValue));
     resource.setDoc(getJsonNode(properties));
     types.forEach(resource::addType);
-    resource.setResourceHash(BibframeUtil.hash(resource, OBJECT_MAPPER));
+    resource.setResourceHash(ThreadLocalRandom.current().nextLong());
     return resource;
   }
 

@@ -30,6 +30,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <lib-linked-data-dictionary.version>1.0.0-SNAPSHOT</lib-linked-data-dictionary.version>
+        <lib-linked-data-fingerprint.version>1.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
         <marc4j.version>2.9.5</marc4j.version>
         <guava.version>33.0.0-jre</guava.version>
         <commons-io.version>2.15.1</commons-io.version>
@@ -44,6 +45,11 @@
             <artifactId>lib-linked-data-dictionary</artifactId>
             <version>${lib-linked-data-dictionary.version}</version>
         </dependency>
+      <dependency>
+        <groupId>org.folio</groupId>
+        <artifactId>lib-linked-data-fingerprint</artifactId>
+        <version>${lib-linked-data-fingerprint.version}</version>
+      </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
