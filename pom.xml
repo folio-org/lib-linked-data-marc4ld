@@ -36,7 +36,7 @@
         <commons-io.version>2.15.1</commons-io.version>
 
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-        <checkstyle.version>10.14.1</checkstyle.version>
+        <checkstyle.version>10.14.2</checkstyle.version>
     </properties>
 
     <dependencies>
