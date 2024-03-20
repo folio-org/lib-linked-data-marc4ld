@@ -77,7 +77,6 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
     instance.setResourceHash(hashService.hash(instance));
-    setEdgesId(instance);
     return instance;
   }
 
@@ -125,15 +124,6 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       .filter(re -> isNotEmptyResource(re.getTarget()))
       .collect(Collectors.toCollection(LinkedHashSet::new))
     );
-  }
-
-  private void setEdgesId(Resource resource) {
-    resource.getOutgoingEdges().forEach(edge -> {
-      edge.getId().setSourceHash(edge.getSource().getResourceHash());
-      edge.getId().setTargetHash(edge.getTarget().getResourceHash());
-      edge.getId().setPredicateHash(edge.getPredicate().getHash());
-      setEdgesId(edge.getTarget());
-    });
   }
 
 }

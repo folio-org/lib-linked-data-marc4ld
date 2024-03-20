@@ -1,7 +1,6 @@
 package org.folio.marc4ld.mapper;
 
 import static java.util.Map.entry;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
@@ -87,7 +86,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.LCNAF_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
@@ -269,32 +267,32 @@ class Marc2BibframeMapperIT {
     validateInstance(result);
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
-    validateLccn(edgeIterator.next(), result.getResourceHash(), "2019493854", "current");
-    validateLccn(edgeIterator.next(), result.getResourceHash(), "88888888", "canceled or invalid");
-    validateLocalId(edgeIterator.next(), result.getResourceHash(), "19861509", "current");
-    validateLocalId(edgeIterator.next(), result.getResourceHash(), "09151986", "canceled or invalid");
-    validateIsbn(edgeIterator.next(), result.getResourceHash(), "9780143789963", "current");
-    validateIsbn(edgeIterator.next(), result.getResourceHash(), "9999999", "canceled or invalid");
-    validateEan(edgeIterator.next(), result.getResourceHash(), "111222", "current");
-    validateEan(edgeIterator.next(), result.getResourceHash(), "333", "canceled or invalid");
-    validateOtherId(edgeIterator.next(), result.getResourceHash(), "202320239999", "current");
-    validateOtherId(edgeIterator.next(), result.getResourceHash(), "231123", "canceled or invalid");
-    validateWork(edgeIterator.next(), result.getResourceHash());
-    validateTitle(edgeIterator.next(), result.getResourceHash());
-    validateTitle2(edgeIterator.next(), result.getResourceHash());
-    validateTitle3(edgeIterator.next(), result.getResourceHash());
-    validateVariantTitle(edgeIterator.next(), result.getResourceHash());
-    validateParallelTitle(edgeIterator.next(), result.getResourceHash());
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture261");
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication262");
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PRODUCTION, "Production");
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_PUBLICATION, "Publication");
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_DISTRIBUTION, "Distribution");
-    validateProviderEvent(edgeIterator.next(), result.getResourceHash(), PE_MANUFACTURE, "Manufacture");
-    validateCopyrightDate(edgeIterator.next(), result.getResourceHash());
-    validateCategory(edgeIterator.next(), result.getResourceHash(), MEDIA, "mediaTypes");
-    validateCategory(edgeIterator.next(), result.getResourceHash(), CARRIER, "carriers");
-    validateAccessLocation(edgeIterator.next(), result.getResourceHash());
+    validateLccn(edgeIterator.next(), "2019493854", "current");
+    validateLccn(edgeIterator.next(), "88888888", "canceled or invalid");
+    validateLocalId(edgeIterator.next(), "19861509", "current");
+    validateLocalId(edgeIterator.next(), "09151986", "canceled or invalid");
+    validateIsbn(edgeIterator.next(), "9780143789963", "current");
+    validateIsbn(edgeIterator.next(), "9999999", "canceled or invalid");
+    validateEan(edgeIterator.next(), "111222", "current");
+    validateEan(edgeIterator.next(), "333", "canceled or invalid");
+    validateOtherId(edgeIterator.next(), "202320239999", "current");
+    validateOtherId(edgeIterator.next(), "231123", "canceled or invalid");
+    validateWork(edgeIterator.next());
+    validateTitle(edgeIterator.next());
+    validateTitle2(edgeIterator.next());
+    validateTitle3(edgeIterator.next());
+    validateVariantTitle(edgeIterator.next());
+    validateParallelTitle(edgeIterator.next());
+    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture261");
+    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication262");
+    validateProviderEvent(edgeIterator.next(), PE_PRODUCTION, "Production");
+    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication");
+    validateProviderEvent(edgeIterator.next(), PE_DISTRIBUTION, "Distribution");
+    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture");
+    validateCopyrightDate(edgeIterator.next());
+    validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
+    validateCategory(edgeIterator.next(), CARRIER, "carriers");
+    validateAccessLocation(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -461,11 +459,8 @@ class Marc2BibframeMapperIT {
     assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asText()).isEqualTo("extent, details");
   }
 
-  private void validateLccn(ResourceEdge edge, Long parentHash, String number, String status) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateLccn(ResourceEdge edge, String number, String status) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -477,15 +472,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    validateIdStatus(edgeIterator.next(), status);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateLocalId(ResourceEdge edge, Long parentHash, String number, String status) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateLocalId(ResourceEdge edge, String number, String status) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -497,15 +489,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(LOCAL_ID_VALUE.getValue()).get(0).asText()).isEqualTo(number);
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    validateIdStatus(edgeIterator.next(), status);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateIsbn(ResourceEdge edge, Long parentHash, String number, String status) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateIsbn(ResourceEdge edge, String number, String status) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -520,15 +509,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("(paperback)");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    validateIdStatus(edgeIterator.next(), status);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateEan(ResourceEdge edge, Long parentHash, String number, String status) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateEan(ResourceEdge edge, String number, String status) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -543,15 +529,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("eanIdQal");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    validateIdStatus(edgeIterator.next(), status);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateOtherId(ResourceEdge edge, Long parentHash, String number, String status) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateOtherId(ResourceEdge edge, String number, String status) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -566,15 +549,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("otherIdQal");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), edge.getTarget().getResourceHash(), status);
+    validateIdStatus(edgeIterator.next(), status);
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateIdStatus(ResourceEdge edge, Long parentHash, String value) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateIdStatus(ResourceEdge edge, String value) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(STATUS.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(STATUS.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -591,12 +571,9 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateWork(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+  private void validateWork(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     var work = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(work.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     assertThat(work.getResourceHash()).isNotNull();
@@ -606,77 +583,59 @@ class Marc2BibframeMapperIT {
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
-    validateEdge(edgeIterator.next(), work.getResourceHash(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
+    validateEdge(edgeIterator.next(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
       Map.of(
         NAME.getValue(), "United States",
         GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
         GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
       ), "United States");
-    validateLcClassification(edgeIterator.next(), work.getResourceHash());
-    validateClassification(edgeIterator.next(), work.getResourceHash());
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(PERSON),
+    validateLcClassification(edgeIterator.next());
+    validateClassification(edgeIterator.next());
+    validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(FAMILY),
+    validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
       getFamilyPersonContributorExpectedProperties("CREATOR FAMILY"), "CREATOR FAMILY name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(ORGANIZATION),
+    validateEdge(edgeIterator.next(), CREATOR, List.of(ORGANIZATION),
       getOrganizationContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CREATOR, List.of(MEETING),
+    validateEdge(edgeIterator.next(), CREATOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CREATOR MEETING"), "CREATOR MEETING name");
-    validateCategory(edgeIterator.next(), work.getResourceHash(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FAMILY),
+    validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PERSON),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PERSON),
       getFamilyPersonConceptExpectedProperties("person"));
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, JURISDICTION),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, JURISDICTION),
       getJurisdictionOrganizationConceptExpectedProperties("jurisdiction"));
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, ORGANIZATION),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, ORGANIZATION),
       getJurisdictionOrganizationConceptExpectedProperties("organization"));
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, TOPIC),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, TOPIC),
       getTopicConceptExpectedProperties());
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, PLACE),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PLACE),
       getPlaceConceptExpectedProperties());
-    validateSubjectEdge(edgeIterator.next(), work.getResourceHash(), List.of(CONCEPT, FORM),
+    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FORM),
       getFormConceptExpectedProperties());
-    validateEdge(edgeIterator.next(), work.getResourceHash(), GENRE, List.of(FORM),
+    validateEdge(edgeIterator.next(), GENRE, List.of(FORM),
       removeNonFocusProperties(getFormConceptExpectedProperties()), "form name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(PERSON),
+    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(FAMILY),
+    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR FAMILY"), "CONTRIBUTOR FAMILY name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(ORGANIZATION),
+    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(ORGANIZATION),
       getOrganizationContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"), "CONTRIBUTOR ORGANIZATION name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), CONTRIBUTOR, List.of(MEETING),
+    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
-    validateEdge(edgeIterator.next(), work.getResourceHash(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
+    validateEdge(edgeIterator.next(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
       Map.of(
         CODE.getValue(), "a",
         LINK.getValue(), "http://id.loc.gov/vocabulary/mgovtpubtype/a",
         TERM.getValue(), "Autonomous"
       ), "Autonomous");
-    validateTargetAudience(edgeIterator.next(), work.getResourceHash());
+    validateTargetAudience(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateContributor(ResourceEdge edge, Long parentHash, ResourceTypeDictionary type,
-                                   PredicateDictionary predicate) {
-    var prefix = predicate.name() + SPACE + type.name();
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
-    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo(prefix + " name");
-    assertThat(edge.getTarget().getTypes()).containsOnly(type);
-    assertThat(edge.getTarget().getDoc()).hasSize(2);
-    validateProperty(edge.getTarget(), NAME.getValue(), prefix + " name");
-    validateProperty(edge.getTarget(), LCNAF_ID.getValue(), prefix + " LCNAF id");
-    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
-  }
-
-  private void validateLcClassification(ResourceEdge edge, Long parentHash) {
-    validateEdge(edge, parentHash, CLASSIFICATION, List.of(CATEGORY),
+  private void validateLcClassification(ResourceEdge edge) {
+    validateEdge(edge, CLASSIFICATION, List.of(CATEGORY),
       Map.of(
         SOURCE.getValue(), "lc",
         CODE.getValue(), "code",
@@ -685,22 +644,22 @@ class Marc2BibframeMapperIT {
         PropertyDictionary.STATUS.getValue(), "http://id.loc.gov/vocabulary/mstatus/uba"
       ), "code");
     var classification = edge.getTarget();
-    validateEdge(classification.getOutgoingEdges().iterator().next(), classification.getResourceHash(), IS_DEFINED_BY,
+    validateEdge(classification.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
       List.of(CATEGORY_SET),
       Map.of(
         LABEL.getValue(), "lc"
       ), "lc");
   }
 
-  private void validateTargetAudience(ResourceEdge edge, Long parentHash) {
-    validateEdge(edge, parentHash, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
+  private void validateTargetAudience(ResourceEdge edge) {
+    validateEdge(edge, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
       Map.of(
         CODE.getValue(), "b",
         LINK.getValue(), "http://id.loc.gov/vocabulary/maudience/pri",
         TERM.getValue(), "Primary"
       ), "Primary");
     var targetAudience = edge.getTarget();
-    validateEdge(targetAudience.getOutgoingEdges().iterator().next(), targetAudience.getResourceHash(), IS_DEFINED_BY,
+    validateEdge(targetAudience.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
       List.of(CATEGORY_SET),
       Map.of(
         LINK.getValue(), "https://id.loc.gov/vocabulary/maudience",
@@ -708,11 +667,8 @@ class Marc2BibframeMapperIT {
       ), "Target audience");
   }
 
-  private void validateClassification(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateClassification(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(CLASSIFICATION.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(CLASSIFICATION.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -729,11 +685,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateTitle(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateTitle(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -758,11 +711,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateTitle2(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateTitle2(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -775,11 +725,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateTitle3(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateTitle3(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -793,11 +740,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateVariantTitle(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateVariantTitle(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -828,11 +772,8 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateParallelTitle(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateParallelTitle(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -860,13 +801,10 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateProviderEvent(ResourceEdge edge, Long parentHash, PredicateDictionary expectedPredicate,
+  private void validateProviderEvent(ResourceEdge edge, PredicateDictionary expectedPredicate,
                                      String expectedPrefix) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+    assertThat(edge.getId()).isNull();
     var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
     assertThat(edge.getPredicate().getHash()).isEqualTo(expectedPredicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(expectedPredicate.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
@@ -887,16 +825,13 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().get(PROVIDER_DATE.getValue()).get(0).asText()).isEqualTo("1999");
     assertThat(resource.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = resource.getOutgoingEdges().iterator();
-    validateProviderPlace(edgeIterator.next(), resource.getResourceHash());
+    validateProviderPlace(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateProviderPlace(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+  private void validateProviderPlace(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
     assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
@@ -913,11 +848,8 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getOutgoingEdges()).isEmpty();
   }
 
-  private void validateCopyrightDate(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateCopyrightDate(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -930,12 +862,9 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateCategory(ResourceEdge edge, Long parentHash, PredicateDictionary predicate, String linkTerm) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
+  private void validateCategory(ResourceEdge edge, PredicateDictionary predicate, String linkTerm) {
+    assertThat(edge.getId()).isNull();
     var resource = edge.getTarget();
-    assertThat(edge.getId().getTargetHash()).isEqualTo(resource.getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(resource.getResourceHash()).isNotNull();
@@ -959,10 +888,7 @@ class Marc2BibframeMapperIT {
     if ("contentTypes".equals(linkTerm)) {
       assertThat(resource.getOutgoingEdges()).isNotEmpty();
       var categorySetEdge = resource.getOutgoingEdges().iterator().next();
-      assertThat(categorySetEdge.getId()).isNotNull();
-      assertThat(categorySetEdge.getId().getSourceHash()).isEqualTo(resource.getResourceHash());
-      assertThat(categorySetEdge.getId().getTargetHash()).isEqualTo(categorySetEdge.getTarget().getResourceHash());
-      assertThat(categorySetEdge.getId().getPredicateHash()).isEqualTo(categorySetEdge.getPredicate().getHash());
+      assertThat(categorySetEdge.getId()).isNull();
       assertThat(categorySetEdge.getPredicate().getHash()).isEqualTo(IS_DEFINED_BY.getHash());
       assertThat(categorySetEdge.getPredicate().getUri()).isEqualTo(IS_DEFINED_BY.getUri());
       assertThat(categorySetEdge.getTarget().getResourceHash()).isNotNull();
@@ -979,11 +905,8 @@ class Marc2BibframeMapperIT {
     }
   }
 
-  private void validateAccessLocation(ResourceEdge edge, Long parentHash) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+  private void validateAccessLocation(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(ACCESS_LOCATION.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(ACCESS_LOCATION.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
@@ -1152,30 +1075,29 @@ class Marc2BibframeMapperIT {
     );
   }
 
-  private void validateSubjectEdge(ResourceEdge subjectEdge, Long workHash, List<ResourceTypeDictionary> subjectTypes,
+  private void validateSubjectEdge(ResourceEdge subjectEdge, List<ResourceTypeDictionary> subjectTypes,
                                    Map<String, String> conceptProperties) {
-    validateEdge(subjectEdge, workHash, SUBJECT, subjectTypes, conceptProperties,
+    validateEdge(subjectEdge, SUBJECT, subjectTypes, conceptProperties,
       conceptProperties.get(NAME.getValue()));
     assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
-    var conceptHash = subjectEdge.getTarget().getResourceHash();
     var focusEdge = edgeIterator.next();
-    validateEdge(focusEdge, conceptHash, FOCUS, List.of(subjectTypes.get(1)),
+    validateEdge(focusEdge, FOCUS, List.of(subjectTypes.get(1)),
       removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()));
     var formEdge = edgeIterator.next();
-    validateEdge(formEdge, conceptHash, SUB_FOCUS, List.of(FORM),
+    validateEdge(formEdge, SUB_FOCUS, List.of(FORM),
       Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())),
       conceptProperties.get(FORM_SUBDIVISION.getValue()));
     var topicEdge = edgeIterator.next();
-    validateEdge(topicEdge, conceptHash, SUB_FOCUS, List.of(TOPIC),
+    validateEdge(topicEdge, SUB_FOCUS, List.of(TOPIC),
       Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())),
       conceptProperties.get(GENERAL_SUBDIVISION.getValue()));
     var temporalEdge = edgeIterator.next();
-    validateEdge(temporalEdge, conceptHash, SUB_FOCUS, List.of(TEMPORAL),
+    validateEdge(temporalEdge, SUB_FOCUS, List.of(TEMPORAL),
       Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())),
       conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()));
     var placeEdge = edgeIterator.next();
-    validateEdge(placeEdge, conceptHash, SUB_FOCUS, List.of(PLACE),
+    validateEdge(placeEdge, SUB_FOCUS, List.of(PLACE),
       Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())),
       conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()));
     assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
@@ -1186,12 +1108,9 @@ class Marc2BibframeMapperIT {
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateEdge(ResourceEdge edge, Long parentHash, PredicateDictionary predicate,
+  private void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
                             List<ResourceTypeDictionary> types, Map<String, String> properties, String expectedLabel) {
-    assertThat(edge.getId()).isNotNull();
-    assertThat(edge.getId().getSourceHash()).isEqualTo(parentHash);
-    assertThat(edge.getId().getTargetHash()).isEqualTo(edge.getTarget().getResourceHash());
-    assertThat(edge.getId().getPredicateHash()).isEqualTo(edge.getPredicate().getHash());
+    assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
     assertThat(edge.getTarget().getResourceHash()).isNotNull();
