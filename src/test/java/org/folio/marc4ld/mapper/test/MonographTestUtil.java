@@ -888,7 +888,7 @@ public class MonographTestUtil {
       .collect(Collectors.toMap(e -> e.getKey().getValue(), Map.Entry::getValue));
     resource.setDoc(getJsonNode(properties));
     types.forEach(resource::addType);
-    resource.setResourceHash(ThreadLocalRandom.current().nextLong());
+    resource.setId(ThreadLocalRandom.current().nextLong());
     return resource;
   }
 

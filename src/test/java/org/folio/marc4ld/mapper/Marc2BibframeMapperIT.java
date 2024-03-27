@@ -208,7 +208,7 @@ class Marc2BibframeMapperIT {
 
     // then
     assertThat(result).isNotNull();
-    assertThat(result.getResourceHash()).isNotNull();
+    assertThat(result.getId()).isNotNull();
     assertThat(result.getLabel()).isNotEmpty();
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
@@ -227,7 +227,7 @@ class Marc2BibframeMapperIT {
 
     // then
     assertThat(resource).isNotNull();
-    assertThat(resource.getResourceHash()).isNotNull();
+    assertThat(resource.getId()).isNotNull();
     assertThat(resource.getLabel()).isNotEmpty();
     assertThat(resource.getDoc()).hasSize(1);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
@@ -241,7 +241,7 @@ class Marc2BibframeMapperIT {
     var workEdge = resource.getOutgoingEdges().iterator().next();
     assertThat(workEdge.getSource()).isEqualTo(resource);
     assertThat(workEdge.getPredicate()).isEqualTo(INSTANTIATES);
-    assertThat(workEdge.getTarget().getResourceHash()).isNotNull();
+    assertThat(workEdge.getTarget().getId()).isNotNull();
     assertThat(workEdge.getTarget().getLabel()).isNotNull();
     assertThat(workEdge.getTarget().getTypes()).containsOnly(WORK);
     assertThat(workEdge.getTarget().getInventoryId()).isNull();
@@ -297,7 +297,7 @@ class Marc2BibframeMapperIT {
   }
 
   private void validateInstance(Resource resource) {
-    assertThat(resource.getResourceHash()).isNotNull();
+    assertThat(resource.getId()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo("Instance MainTitle");
     assertThat(resource.getDoc()).hasSize(34);
     validateInstanceNotes(resource);
@@ -338,7 +338,7 @@ class Marc2BibframeMapperIT {
     var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
     assertThat(work1opt).isPresent();
     assertThat(work2opt).isPresent();
-    assertThat(work1opt.get().getTarget().getResourceHash()).isNotEqualTo(work2opt.get().getTarget().getResourceHash());
+    assertThat(work1opt.get().getTarget().getId()).isNotEqualTo(work2opt.get().getTarget().getId());
   }
 
   private static Stream<Arguments> provideMarcAndPredicates() {
@@ -463,7 +463,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_LCCN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
@@ -480,7 +480,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_LOCAL, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
@@ -497,7 +497,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_ISBN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -517,7 +517,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_EAN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -537,7 +537,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_UNKNOWN, IDENTIFIER);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -557,7 +557,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(STATUS.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(STATUS.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo(value);
     assertThat(edge.getTarget().getTypes()).containsOnly(ResourceTypeDictionary.STATUS);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -576,7 +576,7 @@ class Marc2BibframeMapperIT {
     var work = edge.getTarget();
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
-    assertThat(work.getResourceHash()).isNotNull();
+    assertThat(work.getId()).isNotNull();
     assertThat(work.getLabel()).isNotEmpty();
     assertThat(work.getTypes()).containsOnly(WORK);
     assertThat(work.getDoc()).hasSize(15);
@@ -671,7 +671,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(CLASSIFICATION.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(CLASSIFICATION.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Dewey Decimal Classification value");
     assertThat(edge.getTarget().getTypes()).containsOnly(CATEGORY);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -689,7 +689,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Instance MainTitle");
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(5);
@@ -715,7 +715,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Instance Title empty");
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
@@ -729,7 +729,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isNotEmpty();
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
@@ -744,7 +744,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Variant-MainTitle");
     assertThat(edge.getTarget().getTypes()).containsOnly(VARIANT_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(7);
@@ -776,7 +776,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("Parallel-MainTitle");
     assertThat(edge.getTarget().getTypes()).containsOnly(PARALLEL_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(6);
@@ -807,7 +807,7 @@ class Marc2BibframeMapperIT {
     var resource = edge.getTarget();
     assertThat(edge.getPredicate().getHash()).isEqualTo(expectedPredicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(expectedPredicate.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
+    assertThat(resource.getId()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(expectedPrefix + " Name");
     assertThat(resource.getTypes()).containsOnly(PROVIDER_EVENT);
     assertThat(resource.getDoc()).hasSize(4);
@@ -834,7 +834,7 @@ class Marc2BibframeMapperIT {
     var resource = edge.getTarget();
     assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
+    assertThat(resource.getId()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo("af");
     assertThat(resource.getTypes()).containsOnly(PLACE);
     assertThat(resource.getDoc()).hasSize(2);
@@ -852,7 +852,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(COPYRIGHT.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("2018");
     assertThat(edge.getTarget().getTypes()).containsOnly(COPYRIGHT_EVENT);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
@@ -867,7 +867,7 @@ class Marc2BibframeMapperIT {
     var resource = edge.getTarget();
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    assertThat(resource.getResourceHash()).isNotNull();
+    assertThat(resource.getId()).isNotNull();
     assertThat(resource.getLabel()).isEqualTo(predicate.name() + " term");
     assertThat(resource.getTypes()).containsOnly(CATEGORY);
     assertThat(resource.getDoc()).hasSize(4);
@@ -891,7 +891,7 @@ class Marc2BibframeMapperIT {
       assertThat(categorySetEdge.getId()).isNull();
       assertThat(categorySetEdge.getPredicate().getHash()).isEqualTo(IS_DEFINED_BY.getHash());
       assertThat(categorySetEdge.getPredicate().getUri()).isEqualTo(IS_DEFINED_BY.getUri());
-      assertThat(categorySetEdge.getTarget().getResourceHash()).isNotNull();
+      assertThat(categorySetEdge.getTarget().getId()).isNotNull();
       assertThat(categorySetEdge.getTarget().getTypes()).containsExactly(CATEGORY_SET);
       assertThat(categorySetEdge.getTarget().getLabel()).isNotEmpty();
       assertThat(categorySetEdge.getTarget().getDoc()).hasSize(2);
@@ -909,7 +909,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(ACCESS_LOCATION.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(ACCESS_LOCATION.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getLabel()).isEqualTo("access location URI");
     assertThat(edge.getTarget().getTypes()).containsOnly(ANNOTATION);
     assertThat(edge.getTarget().getDoc()).hasSize(2);
@@ -1113,7 +1113,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    assertThat(edge.getTarget().getResourceHash()).isNotNull();
+    assertThat(edge.getTarget().getId()).isNotNull();
     assertThat(edge.getTarget().getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
     assertThat(edge.getTarget().getLabel()).isEqualTo(expectedLabel);
     assertThat(edge.getTarget().getDoc()).hasSize(properties.size());

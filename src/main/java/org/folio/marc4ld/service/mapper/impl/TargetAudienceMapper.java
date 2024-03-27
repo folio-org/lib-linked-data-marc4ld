@@ -109,7 +109,7 @@ public class TargetAudienceMapper implements Marc4ldMapper {
       LABEL.getValue(), CATEGORY_SET_LABEL
     ), JsonNode.class));
     categorySet.setLabel(CATEGORY_SET_LABEL.get(0));
-    categorySet.setResourceHash(hashService.hash(categorySet));
+    categorySet.setId(hashService.hash(categorySet));
     return categorySet;
   }
 }

@@ -76,7 +76,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     }
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
-    instance.setResourceHash(hashService.hash(instance));
+    instance.setId(hashService.hash(instance));
     return instance;
   }
 
