@@ -412,8 +412,6 @@ public class MonographTestUtil {
       pred2OutgoingResources)
       .setInventoryId(UUID.fromString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1"))
       .setSrsId(UUID.fromString("43d58061-decf-4d74-9747-0e1c368e861b"));
-
-    setEdgesId(instance);
     return instance;
   }
 
@@ -890,21 +888,12 @@ public class MonographTestUtil {
       .collect(Collectors.toMap(e -> e.getKey().getValue(), Map.Entry::getValue));
     resource.setDoc(getJsonNode(properties));
     types.forEach(resource::addType);
-    resource.setResourceHash(ThreadLocalRandom.current().nextLong());
+    resource.setId(ThreadLocalRandom.current().nextLong());
     return resource;
   }
 
   public static JsonNode getJsonNode(Map<String, ?> map) {
     return OBJECT_MAPPER.convertValue(map, JsonNode.class);
-  }
-
-  private void setEdgesId(Resource resource) {
-    resource.getOutgoingEdges().forEach(edge -> {
-      edge.getId().setSourceHash(edge.getSource().getResourceHash());
-      edge.getId().setTargetHash(edge.getTarget().getResourceHash());
-      edge.getId().setPredicateHash(edge.getPredicate().getHash());
-      setEdgesId(edge.getTarget());
-    });
   }
 
 }

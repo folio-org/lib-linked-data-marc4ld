@@ -83,7 +83,7 @@ public class FieldMapperImpl implements FieldMapper {
       });
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
-      mappedResource.setResourceHash(hashService.hash(mappedResource));
+      mappedResource.setId(hashService.hash(mappedResource));
     }
   }
 
@@ -100,7 +100,7 @@ public class FieldMapperImpl implements FieldMapper {
       parentResource.setLabel(UUID.randomUUID().toString());
       parent.getOutgoingEdges()
         .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
-      parentResource.setResourceHash(hashService.hash(parentResource));
+      parentResource.setId(hashService.hash(parentResource));
     }
     return parentResource;
   }
