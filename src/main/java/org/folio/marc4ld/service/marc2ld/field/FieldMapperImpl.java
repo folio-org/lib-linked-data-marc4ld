@@ -6,7 +6,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
-import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC4LD_MAPPERS_MAP;
+import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC2LD_MAPPERS_MAP;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -26,8 +26,8 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.condition.ConditionChecker;
-import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -41,17 +41,17 @@ public class FieldMapperImpl implements FieldMapper {
   private final PropertyMapper propertyMapper;
   private final ObjectMapper objectMapper;
   private final RelationProvider relationProvider;
-  private final Map<String, Marc4ldMapper> marc4ldMappersMap;
+  private final Map<String, Marc2ldMapper> marc2ldMappersMap;
   private final FingerprintHashService hashService;
 
   public FieldMapperImpl(ConditionChecker conditionChecker, PropertyMapper propertyMapper, ObjectMapper objectMapper,
-                         RelationProvider relationProvider, @Qualifier(MARC4LD_MAPPERS_MAP)
-                         Map<String, Marc4ldMapper> marc4ldMappersMap, FingerprintHashService hashService) {
+                         RelationProvider relationProvider, @Qualifier(MARC2LD_MAPPERS_MAP)
+                         Map<String, Marc2ldMapper> marc2ldMappersMap, FingerprintHashService hashService) {
     this.conditionChecker = conditionChecker;
     this.propertyMapper = propertyMapper;
     this.objectMapper = objectMapper;
     this.relationProvider = relationProvider;
-    this.marc4ldMappersMap = marc4ldMappersMap;
+    this.marc2ldMappersMap = marc2ldMappersMap;
     this.hashService = hashService;
   }
 
@@ -70,15 +70,15 @@ public class FieldMapperImpl implements FieldMapper {
         addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
       var mapper = !EMPTY.equals(dataField.getTag())
-        ? ofNullable(marc4ldMappersMap.get(dataField.getTag()))
+        ? ofNullable(marc2ldMappersMap.get(dataField.getTag()))
         : controlFields.stream()
-        .map(controlField -> marc4ldMappersMap.get(controlField.getTag()))
+        .map(controlField -> marc2ldMappersMap.get(controlField.getTag()))
         .filter(Objects::nonNull)
-        .filter(m -> m.canMap2ld(valueOf(fieldRule.getPredicate())))
+        .filter(m -> m.canMap(valueOf(fieldRule.getPredicate())))
         .findFirst();
       mapper.ifPresent(m -> {
-        if (m.canMap2ld(valueOf(fieldRule.getPredicate()))) {
-          m.map2ld(new MarcData(dataField, controlFields), mappedResource);
+        if (m.canMap(valueOf(fieldRule.getPredicate()))) {
+          m.map(new MarcData(dataField, controlFields), mappedResource);
         }
       });
       ofNullable(fieldRule.getEdges()).ifPresent(

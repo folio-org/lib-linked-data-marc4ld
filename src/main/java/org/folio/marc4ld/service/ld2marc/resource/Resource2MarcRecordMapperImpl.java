@@ -30,8 +30,9 @@ import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
-import org.folio.marc4ld.service.mapper.Marc4ldMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -47,14 +48,16 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Marc4BibframeRules rules;
   private final ConditionChecker conditionChecker;
   private final DictionaryProcessor dictionaryProcessor;
-  private final List<Marc4ldMapper> marc4ldMappers;
+  private final List<Ld2MarcMapper> ld2MarcMappers;
+  private final DataFieldPostProcessor dataFieldPostProcessor;
 
   @Override
   public Record toMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
     var dataFields = getFields(resource, null, cfb);
-    Stream.concat(cfb.build(marcFactory), dataFields.stream())
+    var combinedFields = dataFieldPostProcessor.apply(dataFields);
+    Stream.concat(cfb.build(marcFactory), combinedFields.stream())
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     addInternalIds(marcRecord, resource);
@@ -63,11 +66,11 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
                                     ControlFieldsBuilder cfb) {
-    var mapperOptional = marc4ldMappers.stream()
-      .filter(mapper -> mapper.canMap2Marc(predicate, resource))
+    var mapperOptional = ld2MarcMappers.stream()
+      .filter(mapper -> mapper.canMap(predicate, resource))
       .findFirst();
     if (mapperOptional.isPresent()) {
-      return mapperOptional.get().map2marc(resource);
+      return mapperOptional.get().map(resource);
     } else {
       var dataFields = rules.getFieldRules().entrySet().stream()
         .flatMap(tagToRule -> tagToRule.getValue().stream()

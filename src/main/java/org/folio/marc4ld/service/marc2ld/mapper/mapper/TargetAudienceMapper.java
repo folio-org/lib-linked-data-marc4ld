@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.mapper.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
@@ -10,7 +10,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +21,12 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
-import org.folio.marc4ld.service.mapper.Marc4ldMapper;
-import org.marc4j.marc.DataField;
+import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TargetAudienceMapper implements Marc4ldMapper {
+public class TargetAudienceMapper implements Marc2ldMapper {
 
   private static final String TAG = "008";
   private static final Map<Character, String> MARC_CODE_TO_LINK_SUFFIX_MAP = Map.of(
@@ -65,12 +63,12 @@ public class TargetAudienceMapper implements Marc4ldMapper {
   }
 
   @Override
-  public boolean canMap2ld(PredicateDictionary predicate) {
+  public boolean canMap(PredicateDictionary predicate) {
     return predicate == TARGET_AUDIENCE;
   }
 
   @Override
-  public void map2ld(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource resource) {
     marcData.getControlFields()
       .stream()
       .filter(controlField -> TAG.equals(controlField.getTag()))
@@ -88,17 +86,6 @@ public class TargetAudienceMapper implements Marc4ldMapper {
         resource.setLabel(term);
         resource.getOutgoingEdges().add(new ResourceEdge(resource, getCategorySet(), IS_DEFINED_BY));
       });
-  }
-
-  @Override
-  public boolean canMap2Marc(PredicateDictionary predicate, Resource resource) {
-    //corresponding marc field will be generated using the yaml based configuration
-    return false;
-  }
-
-  @Override
-  public List<DataField> map2marc(Resource resource) {
-    return Collections.emptyList();
   }
 
   private Resource getCategorySet() {

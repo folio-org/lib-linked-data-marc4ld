@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.mapper.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.impl;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
@@ -9,9 +9,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.STATUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,15 +19,14 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.dto.MarcData;
-import org.folio.marc4ld.service.mapper.Marc4ldMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class LcClassificationMapper implements Marc4ldMapper {
+public class LcClassificationMapper implements Ld2MarcMapper {
 
   private static final String TAG = "050";
   private static final String SOURCE = "lc";
@@ -46,40 +43,14 @@ public class LcClassificationMapper implements Marc4ldMapper {
   private final MarcFactory marcFactory;
 
   @Override
-  public String getTag() {
-    return TAG;
-  }
-
-  @Override
-  public boolean canMap2ld(PredicateDictionary predicate) {
-    return predicate == CLASSIFICATION;
-  }
-
-  @Override
-  public boolean canMap2Marc(PredicateDictionary predicate, Resource resource) {
+  public boolean canMap(PredicateDictionary predicate, Resource resource) {
     return predicate == CLASSIFICATION
       && Objects.equals(resource.getTypes(), SUPPORTED_TYPES)
       && isLcClassification(resource);
   }
 
   @Override
-  public void map2ld(MarcData marcData, Resource resource) {
-    var dataField = marcData.getDataField();
-    var properties = objectMapper.convertValue(resource.getDoc(),
-      new TypeReference<HashMap<String, List<String>>>() {});
-    if (dataField.getIndicator1() == ZERO) {
-      properties.put(STATUS.getValue(), List.of(UBA));
-    } else if (dataField.getIndicator1() == ONE) {
-      properties.put(STATUS.getValue(), List.of(NUBA));
-    }
-    if (dataField.getIndicator2() == ZERO) {
-      properties.put(ASSIGNER.getValue(), List.of(DLC));
-    }
-    resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
-  }
-
-  @Override
-  public List<DataField> map2marc(Resource resource) {
+  public List<DataField> map(Resource resource) {
     var dataField = marcFactory.newDataField(TAG, getIndicator1(resource), getIndicator2(resource));
     getCodes(resource).ifPresent(codes -> codes
       .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code))));
@@ -126,5 +97,4 @@ public class LcClassificationMapper implements Marc4ldMapper {
       ? Optional.of(resource.getDoc().get(ITEM_NUMBER.getValue()).get(0).asText())
       : Optional.empty();
   }
-
 }

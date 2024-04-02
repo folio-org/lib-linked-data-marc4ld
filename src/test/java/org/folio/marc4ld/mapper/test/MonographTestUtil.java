@@ -873,7 +873,7 @@ public class MonographTestUtil {
     ).setLabel("CONTENT term");
   }
 
-  private Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,
+  public static Resource createResource(Map<PropertyDictionary, List<String>> propertiesDic,
                                   Set<ResourceTypeDictionary> types,
                                   Map<PredicateDictionary, List<Resource>> pred2OutgoingResources) {
     var resource = new Resource();

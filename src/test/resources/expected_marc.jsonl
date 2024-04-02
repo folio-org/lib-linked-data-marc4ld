@@ -1,5 +1,5 @@
 {
-  "leader" : "09310nam a2201021uc 4500",
+  "leader" : "09215nam a2200985uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -251,36 +251,14 @@
       }, {
         "b" : "Instance SubTitle"
       }, {
+        "c" : "Statement Of Responsibility"
+      }, {
         "n" : "8"
       }, {
         "p" : "Instance PartName"
       } ],
       "ind1" : " ",
       "ind2" : "7"
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "a" : "Instance Title empty"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "b" : "Instance Title empty label"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "245" : {
-      "subfields" : [ {
-        "c" : "Statement Of Responsibility"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
     }
   }, {
     "246" : {
