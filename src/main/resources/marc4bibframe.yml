@@ -389,6 +389,11 @@ fieldRules:
         fields:
           c: presented
       append: true
+    - include:
+        tag: 245
+        index: 0
+        substitutes:
+          parent: WORK
   246:
     - types: PARALLEL_TITLE
       parent: INSTANCE
