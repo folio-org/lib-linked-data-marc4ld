@@ -29,7 +29,7 @@ class GovernmentPublicationMapperTest {
 
   @BeforeEach
   void setup() {
-    mapper = new GovernmentPublicationMapper(OBJECT_MAPPER, new MapperHelper(OBJECT_MAPPER));
+    mapper = new GovernmentPublicationMapper(new MapperHelper(OBJECT_MAPPER));
   }
 
   @ParameterizedTest

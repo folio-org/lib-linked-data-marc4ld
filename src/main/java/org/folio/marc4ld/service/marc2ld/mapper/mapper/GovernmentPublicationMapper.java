@@ -4,7 +4,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -36,7 +35,6 @@ public class GovernmentPublicationMapper implements Marc2ldMapper {
   // Marc code 'o' is mapped to 'g' in the id.loc.gov
   private static final Function<Character, String> LINK_MAPPER = code -> LINK_PREFIX + (code == 'o' ? 'g' : code);
 
-  private final ObjectMapper objectMapper;
   private final MapperHelper mapperHelper;
 
   @Override

@@ -48,11 +48,15 @@ public class MapperHelper {
     resource.setDoc(objectMapper.convertValue(originalProperties, JsonNode.class));
   }
 
-  private Map<String, List<String>> getProperties(Resource resource) {
+  public Map<String, List<String>> getProperties(Resource resource) {
     if (isNull(resource.getDoc())) {
-      return Map.of();
+      return new HashMap<>();
     }
     return objectMapper.convertValue(resource.getDoc(), new TypeReference<>() {
     });
+  }
+
+  public JsonNode getJsonNode(Map<String, List<String>> map) {
+    return objectMapper.convertValue(map, JsonNode.class);
   }
 }

@@ -1,15 +1,16 @@
 package org.folio.marc4ld.service.marc2ld.relation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRule;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -22,20 +23,41 @@ public class RelationProviderImpl implements RelationProvider {
   private final DictionaryProcessor dictionaryProcessor;
 
   @Override
-  public Optional<ResourceEdge> findRelation(Resource source, Resource target, DataField dataField,
-                                             Marc4BibframeRules.FieldRule fieldRule) {
-    return getPredicate(dataField, fieldRule).map(predicate -> new ResourceEdge(source, target, valueOf(predicate)));
+  public void checkRelation(
+    Resource source,
+    Resource target,
+    DataField dataField,
+    Marc2ldFieldRule fieldRule
+  ) {
+    fieldRule.getRelation()
+      .flatMap(relation -> getPredicate(relation, dataField))
+      .map(PredicateDictionary::valueOf)
+      .map(predicate -> new ResourceEdge(source, target, predicate))
+      .ifPresent(resourceEdge -> source.getOutgoingEdges().add(resourceEdge));
   }
 
-  private Optional<String> getPredicate(DataField dataField, Marc4BibframeRules.FieldRule fieldRule) {
-    return Optional.ofNullable(dataField.getSubfield(fieldRule.getRelation().getCode()))
-      .flatMap(codeSubfield -> dictionaryProcessor.getValue(CODE_TO_PREDICATE, codeSubfield.getData()))
-      .or(() -> Optional.ofNullable(dataField.getSubfield(fieldRule.getRelation().getText()))
-        .flatMap(textSubfield -> dictionaryProcessor.getValue(TEXT_TO_PREDICATE, adjust(textSubfield.getData()))));
+  private Optional<String> getPredicate(Marc2ldFieldRule.Relation relation, DataField dataField) {
+    return getByCode(relation, dataField)
+      .or(() -> getByText(relation, dataField));
+  }
+
+  private Optional<String> getByCode(Marc2ldFieldRule.Relation relation, DataField dataField) {
+    return relation.getCode()
+      .map(dataField::getSubfield)
+      .map(Subfield::getData)
+      .flatMap(data -> dictionaryProcessor.getValue(CODE_TO_PREDICATE, data));
+  }
+
+  private Optional<String> getByText(Marc2ldFieldRule.Relation relation, DataField dataField) {
+    return relation.getText()
+      .map(dataField::getSubfield)
+      .map(Subfield::getData)
+      .map(this::adjust)
+      .flatMap(data -> dictionaryProcessor.getValue(TEXT_TO_PREDICATE, data));
   }
 
   private String adjust(String text) {
-    return text.replaceAll("[^a-zA-Z]", EMPTY).toLowerCase();
+    return text.replaceAll("[^a-zA-Z]", EMPTY)
+      .toLowerCase();
   }
-
 }

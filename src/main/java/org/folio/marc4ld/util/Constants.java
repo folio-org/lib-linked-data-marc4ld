@@ -13,8 +13,6 @@ public class Constants {
   @UtilityClass
   public static class DependencyInjection {
 
-    public static final String DATA_FIELD_PREPROCESSORS_MAP = "dataFieldPreprocessorsMap";
-    public static final String MARC2LD_MAPPERS_MAP = "marc4ldMappersMap";
     public static final String DICTIONARY_MAP = "dictionaryMap";
   }
 }

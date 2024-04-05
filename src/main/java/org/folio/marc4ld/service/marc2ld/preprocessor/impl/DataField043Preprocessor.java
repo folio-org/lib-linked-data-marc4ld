@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
@@ -19,7 +20,7 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   private final MarcFactory marcFactory;
 
   @Override
-  public DataField preprocess(DataField dataField) {
+  public Optional<DataField> preprocess(DataField dataField) {
     var result = marcFactory.newDataField(dataField.getTag(), dataField.getIndicator1(), dataField.getIndicator2());
     dataField.getSubfields()
       .forEach(sf -> {
@@ -28,7 +29,8 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
         }
         result.addSubfield(sf);
       });
-    return result;
+    return Optional.of(result)
+      .filter(this::isValid);
   }
 
   @Override
@@ -36,7 +38,6 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
     return "043";
   }
 
-  @Override
   public boolean isValid(DataField dataField) {
     return dictionaryProcessor.getValue("NAME", dataField.getSubfield(CODE_A).getData()).isPresent();
   }
