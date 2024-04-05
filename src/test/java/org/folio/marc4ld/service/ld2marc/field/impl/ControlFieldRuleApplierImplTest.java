@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ControlFieldRuleImplTest {
+class ControlFieldRuleApplierImplTest {
 
   private static final String TAG = "000";
 
@@ -44,8 +44,8 @@ class ControlFieldRuleImplTest {
       .doesNotThrowAnyException();
   }
 
-  private ControlFieldRuleImpl createControlFieldRule(Map<String, List<Integer>> rules) {
-    return new ControlFieldRuleImpl(
+  private ControlFieldRuleApplierImpl createControlFieldRule(Map<String, List<Integer>> rules) {
+    return new ControlFieldRuleApplierImpl(
       TAG, rules, dictionaryProcessor
     );
   }

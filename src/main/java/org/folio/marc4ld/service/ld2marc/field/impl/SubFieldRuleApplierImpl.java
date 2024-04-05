@@ -9,15 +9,15 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 import org.folio.ld.dictionary.PropertyDictionary;
-import org.folio.marc4ld.service.ld2marc.field.SubFieldRule;
+import org.folio.marc4ld.service.ld2marc.field.SubFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
 
-public class SubFieldRuleImpl implements SubFieldRule {
+public class SubFieldRuleApplierImpl implements SubFieldRuleApplier {
 
   private final char mainKey;
   private final String property;
 
-  public SubFieldRuleImpl(char mainKey, String propertyValue) {
+  public SubFieldRuleApplierImpl(char mainKey, String propertyValue) {
     this.mainKey = mainKey;
     this.property = PropertyDictionary.valueOf(propertyValue).getValue();
   }

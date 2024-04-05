@@ -4,10 +4,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.STATUS;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
@@ -27,7 +23,7 @@ public class ClassificationMapper implements Marc2ldMapper {
   private static final char ZERO = '0';
   private static final char ONE = '1';
 
-  private final ObjectMapper objectMapper;
+  private final MapperHelper mapperHelper;
 
   @Override
   public String getTag() {
@@ -42,9 +38,7 @@ public class ClassificationMapper implements Marc2ldMapper {
   @Override
   public void map(MarcData marcData, Resource resource) {
     var dataField = marcData.getDataField();
-    var properties = objectMapper.convertValue(resource.getDoc(),
-      new TypeReference<HashMap<String, List<String>>>() {
-      });
+    var properties = mapperHelper.getProperties(resource);
     if (dataField.getIndicator1() == ZERO) {
       properties.put(STATUS.getValue(), List.of(UBA));
     } else if (dataField.getIndicator1() == ONE) {
@@ -53,6 +47,6 @@ public class ClassificationMapper implements Marc2ldMapper {
     if (dataField.getIndicator2() == ZERO) {
       properties.put(ASSIGNER.getValue(), List.of(DLC));
     }
-    resource.setDoc(objectMapper.convertValue(properties, JsonNode.class));
+    resource.setDoc(mapperHelper.getJsonNode(properties));
   }
 }

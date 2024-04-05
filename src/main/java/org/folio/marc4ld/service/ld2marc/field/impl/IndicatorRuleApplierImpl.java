@@ -7,14 +7,14 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
-import org.folio.marc4ld.service.ld2marc.field.IndicatorRule;
+import org.folio.marc4ld.service.ld2marc.field.IndicatorRuleApplier;
 
-public class IndicatorRuleImpl implements IndicatorRule {
+public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
 
   private final String property;
   private final char defaultIndicator;
 
-  public IndicatorRuleImpl(String indProperty, String indCondition) {
+  public IndicatorRuleApplierImpl(String indProperty, String indCondition) {
     this.property = Optional.ofNullable(indProperty)
       .map(PropertyDictionary::valueOf)
       .map(PropertyDictionary::getValue)

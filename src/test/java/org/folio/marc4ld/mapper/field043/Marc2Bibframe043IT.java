@@ -1,13 +1,13 @@
-package org.folio.marc4ld.mapper;
+package org.folio.marc4ld.mapper.field043;
 
-import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
 import org.junit.jupiter.api.Test;
@@ -17,22 +17,34 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Marc2Bibframe257IT {
+class Marc2Bibframe043IT {
 
   @Autowired
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
-  void whenMarcField257WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
+  void whenMarcField043WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
     // given
-    var marc = loadResourceAsString("fields/marc_257_with_multiple_subfield_a.jsonl");
+    var marc = loadResourceAsString("fields/043/marc_043_with_multiple_subfield_a.jsonl");
 
     // when
     var result = marc2BibframeMapper.fromMarcJson(marc);
 
     // then
     var work = result.getOutgoingEdges().iterator().next().getTarget();
+    assertThat(work.getOutgoingEdges())
+      .hasSize(1);
     var resourceEdge = work.getOutgoingEdges().iterator().next();
-    validateEdge(resourceEdge, ORIGIN_PLACE, List.of(PLACE), Map.of(NAME.getValue(), "France"), "France");
+    validateEdge(
+      resourceEdge,
+      PredicateDictionary.GEOGRAPHIC_COVERAGE,
+      List.of(ResourceTypeDictionary.PLACE),
+      Map.of(
+        "http://bibfra.me/vocab/marc/geographicCoverage", "https://id.loc.gov/vocabulary/geographicAreas/n-us",
+        "http://bibfra.me/vocab/lite/name", "United States",
+        "http://bibfra.me/vocab/marc/geographicAreaCode", "n-us"
+      ),
+      "United States"
+    );
   }
 }

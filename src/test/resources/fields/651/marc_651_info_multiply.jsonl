@@ -1,0 +1,15 @@
+{
+  "fields" : [ {
+    "651" : {
+      "subfields" : [ {
+        "a" : "Italy"
+      }, {
+        "g" : "some info"
+      }, {
+        "g" : "some more info"
+      } ],
+      "ind1" : " ",
+      "ind2" : "0"
+    }
+  } ]
+}

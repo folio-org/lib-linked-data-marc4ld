@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
+import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
   private final MarcFactory marcFactory;
-  private final Collection<Bibframe2MarcFieldRule> rules;
+  private final Collection<Bibframe2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final DataFieldPostProcessor dataFieldPostProcessor;
 
@@ -76,10 +76,10 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private Stream<DataField> mapToDataFields(
     ResourceEdge edge,
     ControlFieldsBuilder cfb,
-    Bibframe2MarcFieldRule bibframe2MarcFieldRule
+    Bibframe2MarcFieldRuleApplier bibframe2MarcFieldRuleApplier
   ) {
     var resource = edge.getTarget();
-    return Optional.of(bibframe2MarcFieldRule)
+    return Optional.of(bibframe2MarcFieldRuleApplier)
       .filter(b2mRule -> b2mRule.isSuitable(edge))
       .map(b2mRule -> {
         addControlFieldsToBuilder(b2mRule, resource, cfb);
@@ -90,12 +90,12 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .stream();
   }
 
-  private void addControlFieldsToBuilder(Bibframe2MarcFieldRule rule, Resource res, ControlFieldsBuilder cfb) {
+  private void addControlFieldsToBuilder(Bibframe2MarcFieldRuleApplier rule, Resource res, ControlFieldsBuilder cfb) {
     rule.getControlFields(res)
       .forEach(field -> cfb.addFieldValue(field.tag(), field.value(), field.startPosition(), field.endPosition()));
   }
 
-  private Optional<DataField> getDataField(Bibframe2MarcFieldRule b2mRule, Resource resource) {
+  private Optional<DataField> getDataField(Bibframe2MarcFieldRuleApplier b2mRule, Resource resource) {
     var ind1 = b2mRule.getInd1(resource);
     var ind2 = b2mRule.getInd2(resource);
     var field = marcFactory.newDataField(b2mRule.getTag(), ind1, ind2);

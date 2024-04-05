@@ -8,18 +8,18 @@ import java.util.Map;
 import java.util.Optional;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
-import org.folio.marc4ld.service.ld2marc.field.ControlFieldRule;
+import org.folio.marc4ld.service.ld2marc.field.ControlFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
 
-public class ControlFieldRuleImpl implements ControlFieldRule {
+public class ControlFieldRuleApplierImpl implements ControlFieldRuleApplier {
 
   private final String tag;
   private final Collection<ControlFieldSettings> controlFieldSettings;
   private final DictionaryProcessor dictionaryProcessor;
 
-  public ControlFieldRuleImpl(String tag, Map<String, List<Integer>> rules, DictionaryProcessor dictionaryProcessor) {
+  public ControlFieldRuleApplierImpl(String tag, Map<String, List<Integer>> rules, DictionaryProcessor processor) {
     this.tag = tag;
-    this.dictionaryProcessor = dictionaryProcessor;
+    this.dictionaryProcessor = processor;
     this.controlFieldSettings = rules.entrySet()
       .stream()
       .map(entry -> new ControlFieldSettings(

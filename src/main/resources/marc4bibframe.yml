@@ -150,6 +150,7 @@ fieldRules:
         a: EAN_VALUE
         d: EAN_VALUE
         q: QUALIFIER
+      concat: ''
       label: EAN_VALUE
       marc2ldCondition:
         fields:
@@ -191,6 +192,7 @@ fieldRules:
         a: NAME
         d: NAME
         q: QUALIFIER
+      concat: ''
       label: NAME
       marc2ldCondition:
         fields:
@@ -1345,6 +1347,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             v: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:
@@ -1375,6 +1378,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:
@@ -1529,6 +1533,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:
