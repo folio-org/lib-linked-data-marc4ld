@@ -2,12 +2,12 @@ package org.folio.marc4ld.configuration;
 
 import static java.util.function.Function.identity;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
-import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC4LD_MAPPERS_MAP;
+import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC2LD_MAPPERS_MAP;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.folio.marc4ld.service.mapper.Marc4ldMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.MarcFactory;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +22,14 @@ public class Marc4jConfig {
   }
 
   @Bean(DATA_FIELD_PREPROCESSORS_MAP)
-  public Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap(
-    List<DataFieldPreprocessor> dataFieldPreprocessors) {
-    return dataFieldPreprocessors.stream().collect(Collectors.toMap(DataFieldPreprocessor::getTag, identity()));
+  public Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap(List<DataFieldPreprocessor> fieldPreprocessors) {
+    return fieldPreprocessors.stream()
+      .collect(Collectors.toMap(DataFieldPreprocessor::getTag, identity()));
   }
 
-  @Bean(MARC4LD_MAPPERS_MAP)
-  public Map<String, Marc4ldMapper> marc4ldMappersMap(List<Marc4ldMapper> marc4ldMappers) {
-    return marc4ldMappers.stream().collect(Collectors.toMap(Marc4ldMapper::getTag, identity()));
+  @Bean(MARC2LD_MAPPERS_MAP)
+  public Map<String, Marc2ldMapper> marc2ldMappersMap(List<Marc2ldMapper> marc2LdMappers) {
+    return marc2LdMappers.stream()
+      .collect(Collectors.toMap(Marc2ldMapper::getTag, identity()));
   }
 }

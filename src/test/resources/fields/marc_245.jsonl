@@ -1,0 +1,24 @@
+{
+  "leader" : "00159nam a2200037uc 4500",
+  "fields" : [ {
+    "245" : {
+      "subfields" : [ {
+        "a" : "Instance MainTitle"
+      }, {
+        "b" : "Instance SubTitle"
+      }, {
+        "c" : "Statement Of Responsibility"
+      }, {
+        "n" : "11"
+      }, {
+        "n" : "22"
+      }, {
+        "p" : "Instance PartName 1"
+      }, {
+        "p" : "Instance PartName 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : "7"
+    }
+  } ]
+}

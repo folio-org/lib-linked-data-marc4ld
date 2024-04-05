@@ -7,8 +7,8 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
-import static org.folio.marc4ld.util.BibframeUtil.getFirstValue;
-import static org.folio.marc4ld.util.BibframeUtil.isNotEmptyResource;
+import static org.folio.marc4ld.util.BibframeUtil.getFirst;
+import static org.folio.marc4ld.util.BibframeUtil.isNotEmpty;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.MarcJsonReader;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
@@ -60,24 +62,35 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       log.warn("Given marc is empty [{}]", marc);
       return null;
     }
-    var reader = new MarcJsonReader(new ByteArrayInputStream(marc.getBytes(StandardCharsets.UTF_8)));
+    var reader = getReader(marc);
     var instance = new Resource().addType(INSTANCE);
     while (reader.hasNext()) {
-      var marcRecord = reader.next();
-      marcRecord.getDataFields().forEach(dataField -> {
-        handleField(dataField.getTag(), instance, dataField, marcRecord);
-        if (FIELD_UUID.equals(dataField.getTag())) {
-          instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
-          instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
-        }
-      });
-      marcRecord.getControlFields().forEach(controlField -> handleField(controlField.getTag(), instance,
-        marcFactory.newDataField(EMPTY, MIN_VALUE, MIN_VALUE), marcRecord));
+      fillInstanceFields(reader.next(), instance);
     }
     instance.setLabel(selectInstanceLabel(instance));
     cleanEmptyEdges(instance);
     instance.setId(hashService.hash(instance));
     return instance;
+  }
+
+  private void fillInstanceFields(org.marc4j.marc.Record marcRecord, Resource instance) {
+    marcRecord.getDataFields()
+      .forEach(dataField -> fillData(marcRecord, instance, dataField));
+    marcRecord.getControlFields()
+      .forEach(controlField -> fillControl(marcRecord, instance, controlField));
+  }
+
+  private void fillControl(org.marc4j.marc.Record marcRecord, Resource instance, ControlField controlField) {
+    var dataField = marcFactory.newDataField(EMPTY, MIN_VALUE, MIN_VALUE);
+    handleField(controlField.getTag(), instance, dataField, marcRecord);
+  }
+
+  private void fillData(org.marc4j.marc.Record marcRecord, Resource instance, DataField dataField) {
+    handleField(dataField.getTag(), instance, dataField, marcRecord);
+    if (FIELD_UUID.equals(dataField.getTag())) {
+      instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
+      instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
+    }
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
@@ -110,9 +123,11 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private String selectInstanceLabel(Resource instance) {
-    return getFirstValue(() -> instance.getOutgoingEdges().stream()
-      .filter(e -> TITLE.getUri().equals(e.getPredicate().getUri()))
-      .map(re -> re.getTarget().getLabel()).toList());
+    var labels = instance.getOutgoingEdges().stream()
+      .filter(e -> Objects.equals(TITLE.getUri(), e.getPredicate().getUri()))
+      .map(re -> re.getTarget().getLabel())
+      .toList();
+    return getFirst(labels);
   }
 
   private void cleanEmptyEdges(Resource resource) {
@@ -121,9 +136,12 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
         cleanEmptyEdges(re.getTarget());
         return re;
       })
-      .filter(re -> isNotEmptyResource(re.getTarget()))
+      .filter(re -> isNotEmpty(re.getTarget()))
       .collect(Collectors.toCollection(LinkedHashSet::new))
     );
   }
 
+  private MarcJsonReader getReader(String marc) {
+    return new MarcJsonReader(new ByteArrayInputStream(marc.getBytes(StandardCharsets.UTF_8)));
+  }
 }
