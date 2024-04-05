@@ -1,5 +1,5 @@
 {
-  "leader" : "09201nam a2200985uc 4500",
+  "leader" : "09188nam a2200985uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -254,10 +254,6 @@
         "c" : "Statement Of Responsibility"
       }, {
         "n" : "8"
-      }, {
-        "n" : "8"
-      }, {
-        "p" : "PartName"
       }, {
         "p" : "PartName"
       } ],
