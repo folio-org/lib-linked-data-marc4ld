@@ -1,63 +1,107 @@
 package org.folio.marc4ld.configuration.property;
 
-import java.util.List;
-import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
-
-  private final ExpressionParser parser;
 
   @Override
   public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
     if (bean instanceof Marc4BibframeRules marc4BibframeRules) {
-      postProcess(marc4BibframeRules.getFieldRules());
+      postProcess(marc4BibframeRules);
       return bean;
     }
     return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
   }
 
-  private void postProcess(Map<String, List<Marc4BibframeRules.FieldRule>> fieldRules) {
-    fieldRules.forEach((tag, rules) ->
+  private void postProcess(Marc4BibframeRules marc4BibframeRules) {
+    marc4BibframeRules.getFieldRules().forEach((tag, rules) ->
       rules.forEach(rule -> {
         var include = rule.getInclude();
         if (include != null) {
-          var source = fieldRules.get(include.getTag()).get(include.getIndex());
-          copyRule(source, rule);
-          setSubstitutes(rule, include.getSubstitutes());
+          copyRule(marc4BibframeRules.getSharedRules().get(include), rule);
         }
       })
     );
   }
 
   private void copyRule(Marc4BibframeRules.FieldRule source, Marc4BibframeRules.FieldRule target) {
-    target.setTypes(source.getTypes());
-    target.setParent(source.getParent());
-    target.setParentPredicate(source.getParentPredicate());
-    target.setPredicate(source.getPredicate());
-    target.setMarc2ldCondition(source.getMarc2ldCondition());
-    target.setLd2marcCondition(source.getLd2marcCondition());
-    target.setRelation(source.getRelation());
-    target.setSubfields(source.getSubfields());
-    target.setInd2(source.getInd2());
-    target.setLabel(source.getLabel());
-    target.setConcat(source.getConcat());
-    target.setAppend(source.isAppend());
-    target.setConstants(source.getConstants());
-    target.setControlFields(source.getControlFields());
-    target.setEdges(source.getEdges());
-    target.setMappings(source.getMappings());
-  }
+    var types = source.getTypes();
+    if (types != null) {
+      target.setTypes(types);
+    }
 
-  private void setSubstitutes(Marc4BibframeRules.FieldRule rule, Map<String, String> substitutes) {
-    var context = new StandardEvaluationContext(rule);
-    substitutes.forEach((property, substitute) -> parser.parseExpression(property).setValue(context, substitute));
+    var parent = source.getParent();
+    if (parent != null) {
+      target.setParent(parent);
+    }
+
+    var parentPredicate = source.getParentPredicate();
+    if (parentPredicate != null) {
+      target.setParentPredicate(parentPredicate);
+    }
+
+    var predicate = source.getPredicate();
+    if (predicate != null) {
+      target.setPredicate(predicate);
+    }
+
+    var marc2ldCondition = source.getMarc2ldCondition();
+    if (marc2ldCondition != null) {
+      target.setMarc2ldCondition(marc2ldCondition);
+    }
+
+    var ld2marcCondition = source.getLd2marcCondition();
+    if (ld2marcCondition != null) {
+      target.setLd2marcCondition(ld2marcCondition);
+    }
+
+    var relation = source.getRelation();
+    if (relation != null) {
+      target.setRelation(relation);
+    }
+
+    var subfields = source.getSubfields();
+    if (subfields != null) {
+      target.setSubfields(subfields);
+    }
+
+    var ind2 = source.getInd2();
+    if (ind2 != null) {
+      target.setInd2(ind2);
+    }
+
+    var label = source.getLabel();
+    if (label != null) {
+      target.setLabel(label);
+    }
+
+    var concat = source.getConcat();
+    if (concat != null) {
+      target.setConcat(concat);
+    }
+
+    var append = source.isAppend();
+    if (append) {
+      target.setAppend(append);
+    }
+
+
+    var constants = source.getConstants();
+    if (constants != null) {
+      target.setConstants(constants);
+    }
+
+    var controlFields = source.getControlFields();
+    if (controlFields != null) {
+      target.setControlFields(controlFields);
+    }
+
+    var edges = source.getEdges();
+    if (edges != null) {
+      target.setEdges(edges);
+    }
   }
 }

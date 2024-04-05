@@ -15,6 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> fieldRules;
+  private Map<String, FieldRule> sharedRules;
 
   @Data
   public static class FieldRule {
@@ -35,7 +36,7 @@ public class Marc4BibframeRules {
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
     private Map<String, Character> mappings;
-    private Include include;
+    private String include;
   }
 
   @Data
@@ -64,12 +65,5 @@ public class Marc4BibframeRules {
     private String data;
     private String expression;
     private List<String> args;
-  }
-
-  @Data
-  public static class Include {
-    private String tag;
-    private int index;
-    private Map<String, String> substitutes;
   }
 }

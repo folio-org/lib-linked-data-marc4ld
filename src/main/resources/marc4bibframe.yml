@@ -370,16 +370,11 @@ fieldRules:
         code: '4'
         text: j
   245:
-    - types: TITLE
-      parent: INSTANCE
-      predicate: TITLE
-      subfields:
-        a: MAIN_TITLE
-        b: SUBTITLE
-        n: PART_NUMBER
-        p: PART_NAME
-      ind2: NON_SORT_NUM
-      label: MAIN_TITLE
+    - parent: INSTANCE
+      include: 245_mappings
+    - parent: WORK
+      parentPredicate: INSTANTIATES
+      include: 245_mappings
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
@@ -389,11 +384,6 @@ fieldRules:
         fields:
           c: presented
       append: true
-    - include:
-        tag: 245
-        index: 0
-        substitutes:
-          parent: WORK
   246:
     - types: PARALLEL_TITLE
       parent: INSTANCE
@@ -1680,3 +1670,15 @@ fieldRules:
         u: LINK
         z: NOTE
       label: LINK
+
+sharedRules:
+  245_mappings:
+    types: TITLE
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      n: PART_NUMBER
+      p: PART_NAME
+    ind2: NON_SORT_NUM
+    label: MAIN_TITLE

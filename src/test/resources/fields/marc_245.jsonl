@@ -1,5 +1,5 @@
 {
-  "leader" : "00159nam a2200037uc 4500",
+  "leader" : "00209nam a2200037uc 4500",
   "fields" : [ {
     "245" : {
       "subfields" : [ {
@@ -11,9 +11,17 @@
       }, {
         "n" : "11"
       }, {
+        "n" : "11"
+      }, {
+        "n" : "22"
+      }, {
         "n" : "22"
       }, {
         "p" : "Instance PartName 1"
+      }, {
+        "p" : "Instance PartName 1"
+      }, {
+        "p" : "Instance PartName 2"
       }, {
         "p" : "Instance PartName 2"
       } ],
