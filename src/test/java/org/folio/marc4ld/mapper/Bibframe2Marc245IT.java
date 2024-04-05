@@ -37,9 +37,9 @@ class Bibframe2Marc245IT {
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
 
   @Test
-  void map_shouldReturnCorrectlyMappedMarcJson() {
+  void whenCombine_map_shouldReturnCorrectlyMappedMarcJson() {
     // given
-    var expectedMarc = loadResourceAsString("fields/marc_245.jsonl");
+    var expectedMarc = loadResourceAsString("fields/marc_245_combine.jsonl");
     var resource = createResourceWithWorkWith245();
 
     // when
@@ -48,6 +48,41 @@ class Bibframe2Marc245IT {
     // then
     assertThat(result)
       .isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void whenSameValues_map_shouldReturnCorrectlyMappedMarcJson() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/marc_245_similar.jsonl");
+    var resource = createResourceWithSimilarFields245();
+
+    // when
+    var result = bibframe2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result)
+      .isEqualTo(expectedMarc);
+  }
+
+  private Resource createResourceWithSimilarFields245() {
+    var instanceTitle = MonographTestUtil.createResource(
+      Map.of(
+        PART_NAME, List.of("Test string"),
+        MAIN_TITLE, List.of("Test string"),
+        SUBTITLE, List.of("Test string")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("Instance MainTitle");
+
+    var outgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    outgoingResources.put(PredicateDictionary.TITLE, List.of(instanceTitle));
+
+    return createResource(
+      Collections.emptyMap(),
+      Set.of(INSTANCE),
+      outgoingResources
+    );
   }
 
   private Resource createResourceWithWorkWith245() {

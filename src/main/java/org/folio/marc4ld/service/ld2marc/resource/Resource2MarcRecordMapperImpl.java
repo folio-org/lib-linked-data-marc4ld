@@ -1,41 +1,30 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
-import static java.util.Collections.emptyList;
 import static java.util.Comparator.comparing;
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.folio.ld.dictionary.PropertyDictionary.valueOf;
-import static org.folio.marc4ld.configuration.property.Marc4BibframeRules.Marc2ldCondition;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules.FieldRule;
-import org.folio.marc4ld.service.condition.ConditionChecker;
-import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
-import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +32,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
-  private static final String CONTROL_FIELD_PREFIX = "00";
   private final MarcFactory marcFactory;
-  private final Marc4BibframeRules rules;
-  private final ConditionChecker conditionChecker;
-  private final DictionaryProcessor dictionaryProcessor;
+  private final Collection<Bibframe2MarcFieldRule> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final DataFieldPostProcessor dataFieldPostProcessor;
 
@@ -64,29 +50,15 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return marcRecord;
   }
 
-  private List<DataField> getFields(Resource resource, PredicateDictionary predicate,
-                                    ControlFieldsBuilder cfb) {
+  private List<DataField> getFields(Resource resource, PredicateDictionary predicate, ControlFieldsBuilder cfb) {
     var mapperOptional = ld2MarcMappers.stream()
       .filter(mapper -> mapper.canMap(predicate, resource))
       .findFirst();
     if (mapperOptional.isPresent()) {
       return mapperOptional.get().map(resource);
     } else {
-      var dataFields = rules.getFieldRules().entrySet().stream()
-        .flatMap(tagToRule -> tagToRule.getValue().stream()
-          .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
-          .filter(fr -> Objects.equals(fr.getTypes(), resource.getTypeNames())
-            && (isNull(predicate) || predicate.name().equals(fr.getPredicate())))
-          .map(fr -> {
-            if (nonNull(fr.getControlFields())) {
-              collectControlFields(cfb, fr.getControlFields(), resource.getDoc());
-            }
-            if (!tagToRule.getKey().startsWith(CONTROL_FIELD_PREFIX)) {
-              return getDataField(fr, tagToRule.getKey(), resource);
-            }
-            return null;
-          })
-          .filter(Objects::nonNull));
+      var dataFields = rules.stream()
+        .flatMap(tagToRule -> mapToDataFields(resource, predicate, cfb, tagToRule));
 
       return Stream.concat(dataFields,
           resource.getOutgoingEdges()
@@ -96,70 +68,40 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     }
   }
 
-  private DataField getDataField(FieldRule fr, String tag, Resource resource) {
-    if (isNull(fr.getSubfields())) {
-      return null;
-    }
-    var doc = resource.getDoc();
-    var ind1 = getIndicator(fr.getInd1(), getIndCondition(fr, Marc2ldCondition::getInd1), doc);
-    var ind2 = getIndicator(fr.getInd2(), getIndCondition(fr, Marc2ldCondition::getInd2), doc);
-    var field = marcFactory.newDataField(tag, ind1, ind2);
-    fr.getSubfields().forEach(
-      (sfKey, sfValue) -> {
-        var propertyUri = valueOf(sfValue).getValue();
-        var jsonNode = doc.get(propertyUri);
-        if (nonNull(jsonNode) && !jsonNode.isEmpty()) {
-          jsonNode.elements().forEachRemaining(
-            e -> {
-              if (field.getSubfields().stream().noneMatch(sf -> sf.getData().equals(e.asText()))) {
-                field.addSubfield(marcFactory.newSubfield(sfKey, e.asText()));
-              }
-            }
-          );
-        }
-      }
-    );
-    return conditionChecker.isLd2MarcConditionSatisfied(fr, resource) && !field.getSubfields().isEmpty() ? field : null;
+  private Stream<DataField> mapToDataFields(
+    Resource resource,
+    PredicateDictionary predicate,
+    ControlFieldsBuilder cfb,
+    Bibframe2MarcFieldRule bibframe2MarcFieldRule
+  ) {
+    return Optional.of(bibframe2MarcFieldRule)
+      .filter(b2mRule -> b2mRule.isSuitable(resource, predicate))
+      .map(b2mRule -> {
+        addControlFieldsToBuilder(b2mRule, resource, cfb);
+        return b2mRule;
+      })
+      .filter(b2mRule -> b2mRule.isDataFieldCreatable(resource))
+      .flatMap(b2mRule -> getDataField(b2mRule, resource))
+      .stream();
   }
 
-  private char getIndicator(String indProperty, String indCondition, JsonNode doc) {
-    return getIndicatorProperty(indProperty, doc)
-      .or(() -> getIndicatorCondition(indCondition))
-      .orElse(SPACE.charAt(0));
+  private void addControlFieldsToBuilder(Bibframe2MarcFieldRule rule, Resource res, ControlFieldsBuilder cfb) {
+    rule.getControlFields(res)
+      .forEach(field -> cfb.addFieldValue(field.tag(), field.value(), field.startPosition(), field.endPosition()));
   }
 
-  private String getIndCondition(FieldRule fr, Function<Marc2ldCondition, String> indGetter) {
-    return ofNullable(fr.getMarc2ldCondition()).map(indGetter).orElse(null);
-  }
+  private Optional<DataField> getDataField(Bibframe2MarcFieldRule b2mRule, Resource resource) {
+    var ind1 = b2mRule.getInd1(resource);
+    var ind2 = b2mRule.getInd2(resource);
+    var field = marcFactory.newDataField(b2mRule.getTag(), ind1, ind2);
 
-  private Optional<Character> getIndicatorProperty(String indProperty, JsonNode doc) {
-    if (isNotEmpty(indProperty)) {
-      var property = valueOf(indProperty).getValue();
-      var jsonNode = doc.get(property);
-      if (nonNull(jsonNode) && !jsonNode.isEmpty()) {
-        return Optional.of(jsonNode.get(0).asText().charAt(0));
-      }
-    }
-    return Optional.empty();
-  }
-
-  private Optional<Character> getIndicatorCondition(String indCondition) {
-    return ofNullable(indCondition)
-      .filter(ic -> isNotBlank(ic) && !ic.startsWith(ConditionCheckerImpl.NOT) && !ic.equals(
-        ConditionCheckerImpl.PRESENTED))
-      .map(c -> indCondition.charAt(0));
-  }
-
-  private void collectControlFields(ControlFieldsBuilder cfb, Map<String, Map<String, List<Integer>>> controlFieldsRule,
-                                    JsonNode doc) {
-    controlFieldsRule.forEach((tag, valueRules) -> valueRules.forEach((key, value) -> {
-      var property = PropertyDictionary.valueOf(key).getValue();
-      if (doc.has(property)) {
-        var propertyValue = doc.get(property).get(0).asText();
-        propertyValue = dictionaryProcessor.getKey(key, propertyValue).orElse(propertyValue);
-        cfb.addFieldValue(tag, propertyValue, value.get(0), value.get(1));
-      }
-    }));
+    var subFields = b2mRule.getSubFields(resource);
+    subFields.stream()
+      .map(subField -> marcFactory.newSubfield(subField.tag(), subField.value()))
+      .sorted(Comparator.comparingInt(Subfield::getCode))
+      .forEach(field::addSubfield);
+    return Optional.of(field)
+      .filter(f -> CollectionUtils.isNotEmpty(field.getSubfields()));
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
@@ -172,5 +114,4 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       marcRecord.addVariableField(field999);
     }
   }
-
 }
