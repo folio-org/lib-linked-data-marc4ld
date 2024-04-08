@@ -28,9 +28,14 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
   }
 
   private void copyRule(Marc4BibframeRules.FieldRule source, Marc4BibframeRules.FieldRule target) {
-    var types = source.getTypes();
-    if (types != null) {
-      target.setTypes(types);
+    var sourceTypes = source.getTypes();
+    if (sourceTypes != null) {
+      var targetTypes = target.getTypes();
+      if (targetTypes == null) {
+        target.setTypes(sourceTypes);
+      } else {
+        targetTypes.addAll(sourceTypes);
+      }
     }
 
     var parent = source.getParent();
@@ -63,9 +68,14 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
       target.setRelation(relation);
     }
 
-    var subfields = source.getSubfields();
-    if (subfields != null) {
-      target.setSubfields(subfields);
+    var sourceSubfields = source.getSubfields();
+    if (sourceSubfields != null) {
+      var targetSubfields = target.getSubfields();
+      if (targetSubfields == null) {
+        target.setSubfields(sourceSubfields);
+      } else {
+        targetSubfields.putAll(sourceSubfields);
+      }
     }
 
     var ind2 = source.getInd2();
@@ -89,19 +99,44 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
     }
 
 
-    var constants = source.getConstants();
-    if (constants != null) {
-      target.setConstants(constants);
+    var sourceConstants = source.getConstants();
+    if (sourceConstants != null) {
+      var targetConstants = target.getConstants();
+      if (targetConstants == null) {
+        target.setConstants(sourceConstants);
+      } else {
+        targetConstants.putAll(sourceConstants);
+      }
     }
 
-    var controlFields = source.getControlFields();
-    if (controlFields != null) {
-      target.setControlFields(controlFields);
+    var sourceControlFields = source.getControlFields();
+    if (sourceControlFields != null) {
+      var targetControlFields = target.getControlFields();
+      if (targetControlFields == null) {
+        target.setControlFields(sourceControlFields);
+      } else {
+        targetControlFields.putAll(sourceControlFields);
+      }
     }
 
-    var edges = source.getEdges();
-    if (edges != null) {
-      target.setEdges(edges);
+    var sourceEdges = source.getEdges();
+    if (sourceEdges != null) {
+      var targetEdges = target.getEdges();
+      if (targetEdges == null) {
+        target.setEdges(sourceEdges);
+      } else {
+        targetEdges.addAll(sourceEdges);
+      }
+    }
+
+    var sourceMappings = source.getMappings();
+    if (sourceMappings != null) {
+      var targetMappings = target.getMappings();
+      if (targetMappings == null) {
+        target.setMappings(sourceMappings);
+      } else {
+        targetMappings.putAll(sourceMappings);
+      }
     }
   }
 }
