@@ -1,5 +1,5 @@
 {
-  "leader" : "09215nam a2200985uc 4500",
+  "leader" : "09188nam a2200985uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -247,15 +247,15 @@
   }, {
     "245" : {
       "subfields" : [ {
-        "a" : "Instance MainTitle"
+        "a" : "MainTitle"
       }, {
-        "b" : "Instance SubTitle"
+        "b" : "SubTitle"
       }, {
         "c" : "Statement Of Responsibility"
       }, {
         "n" : "8"
       }, {
-        "p" : "Instance PartName"
+        "p" : "PartName"
       } ],
       "ind1" : " ",
       "ind2" : "7"

@@ -158,31 +158,31 @@ public class MonographTestUtil {
   public static Resource getSampleInstanceResource() {
     var instanceTitle = createResource(
       Map.of(
-        PART_NAME, List.of("Instance PartName"),
+        PART_NAME, List.of("PartName"),
         PART_NUMBER, List.of("8"),
-        MAIN_TITLE, List.of("Instance MainTitle"),
+        MAIN_TITLE, List.of("MainTitle"),
         NON_SORT_NUM, List.of("7"),
-        SUBTITLE, List.of("Instance SubTitle")
+        SUBTITLE, List.of("SubTitle")
       ),
       Set.of(ResourceTypeDictionary.TITLE),
       emptyMap()
-    ).setLabel("Instance MainTitle");
+    ).setLabel("MainTitle");
 
     var instanceTitle2 = createResource(
       Map.of(
-        MAIN_TITLE, List.of("Instance Title empty")
+        MAIN_TITLE, List.of("Title empty")
       ),
       Set.of(ResourceTypeDictionary.TITLE),
       emptyMap()
-    ).setLabel("Instance Title empty");
+    ).setLabel("Title empty");
 
     var instanceTitle3 = createResource(
       Map.of(
-        SUBTITLE, List.of("Instance Title empty label")
+        SUBTITLE, List.of("Title empty label")
       ),
       Set.of(ResourceTypeDictionary.TITLE),
       emptyMap()
-    ).setLabel("Instance Title empty label");
+    ).setLabel("Title empty label");
 
     var parallelTitle = createResource(
       Map.of(

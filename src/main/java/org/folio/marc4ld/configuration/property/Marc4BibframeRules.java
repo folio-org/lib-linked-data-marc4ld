@@ -1,5 +1,7 @@
 package org.folio.marc4ld.configuration.property;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> fieldRules;
+  private Map<String, FieldRule> sharedRules;
 
   @Data
   public static class FieldRule {
@@ -35,6 +38,32 @@ public class Marc4BibframeRules {
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
     private Map<String, Character> mappings;
+    private String include;
+
+    public void addTypes(Set<String> types) {
+      ofNullable(this.types).ifPresentOrElse(t -> t.addAll(types), () -> this.setTypes(types));
+    }
+
+    public void putSubfields(Map<Character, String> subfields) {
+      ofNullable(this.subfields).ifPresentOrElse(s -> s.putAll(subfields), () -> this.setSubfields(subfields));
+    }
+
+    public void putConstants(Map<String, String> constants) {
+      ofNullable(this.constants).ifPresentOrElse(c -> c.putAll(constants), () -> this.setConstants(constants));
+    }
+
+    public void putControlFields(Map<String, Map<String, List<Integer>>> controlFields) {
+      ofNullable(this.controlFields)
+        .ifPresentOrElse(c -> c.putAll(controlFields), () -> this.setControlFields(controlFields));
+    }
+
+    public void addEdges(List<FieldRule> edges) {
+      ofNullable(this.edges).ifPresentOrElse(e -> e.addAll(edges), () -> this.setEdges(edges));
+    }
+
+    public void putMappings(Map<String, Character> mappings) {
+      ofNullable(this.mappings).ifPresentOrElse(m -> m.putAll(mappings), () -> this.setMappings(mappings));
+    }
   }
 
   @Data

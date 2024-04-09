@@ -298,7 +298,7 @@ class Marc2BibframeMapperIT {
 
   private void validateInstance(Resource resource) {
     assertThat(resource.getId()).isNotNull();
-    assertThat(resource.getLabel()).isEqualTo("Instance MainTitle");
+    assertThat(resource.getLabel()).isEqualTo("MainTitle");
     assertThat(resource.getDoc()).hasSize(34);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
@@ -599,6 +599,9 @@ class Marc2BibframeMapperIT {
       getOrganizationContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CREATOR MEETING"), "CREATOR MEETING name");
+    validateTitle(edgeIterator.next());
+    validateTitle2(edgeIterator.next());
+    validateTitle3(edgeIterator.next());
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
@@ -690,21 +693,21 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getId()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Instance MainTitle");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("MainTitle");
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(5);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Instance MainTitle");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("MainTitle");
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText()).isEqualTo("Instance SubTitle");
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText()).isEqualTo("SubTitle");
     assertThat(edge.getTarget().getDoc().has(PART_NUMBER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asText()).isEqualTo("8");
     assertThat(edge.getTarget().getDoc().has(PART_NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asText()).isEqualTo("Instance PartName");
+    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asText()).isEqualTo("PartName");
     assertThat(edge.getTarget().getDoc().has(NON_SORT_NUM.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue()).get(0).asText()).isEqualTo("7");
@@ -716,12 +719,12 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     assertThat(edge.getTarget().getId()).isNotNull();
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Instance Title empty");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("Title empty");
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Instance Title empty");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Title empty");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -736,7 +739,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText())
-      .isEqualTo("Instance Title empty label");
+      .isEqualTo("Title empty label");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

@@ -370,16 +370,13 @@ fieldRules:
         code: '4'
         text: j
   245:
-    - types: TITLE
-      parent: INSTANCE
-      predicate: TITLE
-      subfields:
-        a: MAIN_TITLE
-        b: SUBTITLE
-        n: PART_NUMBER
-        p: PART_NAME
-      ind2: NON_SORT_NUM
-      label: MAIN_TITLE
+    - parent: INSTANCE
+      include: 245_mappings
+    - parent: WORK
+      parentPredicate: INSTANTIATES
+      include: 245_mappings
+      ld2marcCondition:
+        skip: true
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
@@ -1675,3 +1672,15 @@ fieldRules:
         u: LINK
         z: NOTE
       label: LINK
+
+sharedRules:
+  245_mappings:
+    types: TITLE
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      n: PART_NUMBER
+      p: PART_NAME
+    ind2: NON_SORT_NUM
+    label: MAIN_TITLE

@@ -241,16 +241,16 @@
       "245": {
         "subfields": [
           {
-            "a": "Instance MainTitle"
+            "a": "MainTitle"
           },
           {
             "n": "8"
           },
           {
-            "p": "Instance PartName"
+            "p": "PartName"
           },
           {
-            "b": "Instance SubTitle"
+            "b": "SubTitle"
           },
           {
             "c": "Statement Of Responsibility"
@@ -264,7 +264,7 @@
       "245": {
         "subfields": [
           {
-            "a": "Instance Title empty"
+            "a": "Title empty"
           }
         ]
       }
@@ -273,7 +273,7 @@
       "245": {
         "subfields": [
           {
-            "b": "Instance Title empty label"
+            "b": "Title empty label"
           }
         ]
       }
