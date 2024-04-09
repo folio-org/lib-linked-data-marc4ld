@@ -33,7 +33,7 @@
         <lib-linked-data-fingerprint.version>1.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
         <marc4j.version>2.9.5</marc4j.version>
         <guava.version>33.1.0-jre</guava.version>
-        <commons-io.version>2.16.0</commons-io.version>
+        <commons-io.version>2.16.1</commons-io.version>
 
         <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
         <checkstyle.version>10.15.0</checkstyle.version>
