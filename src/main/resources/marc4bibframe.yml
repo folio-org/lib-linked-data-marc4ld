@@ -389,31 +389,30 @@ fieldRules:
   246:
     - types: PARALLEL_TITLE
       parent: INSTANCE
-      predicate: TITLE
       marc2ldCondition:
         ind2: '1'
-      subfields:
-        a: MAIN_TITLE
-        b: SUBTITLE
-        f: DATE
-        i: NOTE
-        n: PART_NUMBER
-        p: PART_NAME
-      label: MAIN_TITLE
+      include: 246_mappings
     - types: VARIANT_TITLE
       parent: INSTANCE
-      predicate: TITLE
       marc2ldCondition:
         ind2: '!1'
-      subfields:
-        a: MAIN_TITLE
-        b: SUBTITLE
-        f: DATE
-        i: NOTE
-        n: PART_NUMBER
-        p: PART_NAME
       ind2: VARIANT_TYPE
-      label: MAIN_TITLE
+      include: 246_mappings
+    - types: PARALLEL_TITLE
+      parent: WORK
+      marc2ldCondition:
+        ind2: '1'
+      include: 246_mappings
+      ld2marcCondition:
+        skip: true
+    - types: VARIANT_TITLE
+      parent: WORK
+      marc2ldCondition:
+        ind2: '!1'
+      ind2: VARIANT_TYPE
+      include: 246_mappings
+      ld2marcCondition:
+        skip: true
   250:
     - types: INSTANCE
       subfields:
@@ -1683,4 +1682,14 @@ sharedRules:
       n: PART_NUMBER
       p: PART_NAME
     ind2: NON_SORT_NUM
+    label: MAIN_TITLE
+  246_mappings:
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      f: DATE
+      i: NOTE
+      n: PART_NUMBER
+      p: PART_NAME
     label: MAIN_TITLE

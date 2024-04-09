@@ -602,6 +602,8 @@ class Marc2BibframeMapperIT {
     validateTitle(edgeIterator.next());
     validateTitle2(edgeIterator.next());
     validateTitle3(edgeIterator.next());
+    validateVariantTitle(edgeIterator.next());
+    validateParallelTitle(edgeIterator.next());
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
