@@ -1,5 +1,7 @@
 package org.folio.marc4ld.configuration.property;
 
+import static java.util.Optional.ofNullable;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -28,115 +30,26 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
   }
 
   private void copyRule(Marc4BibframeRules.FieldRule source, Marc4BibframeRules.FieldRule target) {
-    var sourceTypes = source.getTypes();
-    if (sourceTypes != null) {
-      var targetTypes = target.getTypes();
-      if (targetTypes == null) {
-        target.setTypes(sourceTypes);
-      } else {
-        targetTypes.addAll(sourceTypes);
-      }
-    }
-
-    var parent = source.getParent();
-    if (parent != null) {
-      target.setParent(parent);
-    }
-
-    var parentPredicate = source.getParentPredicate();
-    if (parentPredicate != null) {
-      target.setParentPredicate(parentPredicate);
-    }
-
-    var predicate = source.getPredicate();
-    if (predicate != null) {
-      target.setPredicate(predicate);
-    }
-
-    var marc2ldCondition = source.getMarc2ldCondition();
-    if (marc2ldCondition != null) {
-      target.setMarc2ldCondition(marc2ldCondition);
-    }
-
-    var ld2marcCondition = source.getLd2marcCondition();
-    if (ld2marcCondition != null) {
-      target.setLd2marcCondition(ld2marcCondition);
-    }
-
-    var relation = source.getRelation();
-    if (relation != null) {
-      target.setRelation(relation);
-    }
-
-    var sourceSubfields = source.getSubfields();
-    if (sourceSubfields != null) {
-      var targetSubfields = target.getSubfields();
-      if (targetSubfields == null) {
-        target.setSubfields(sourceSubfields);
-      } else {
-        targetSubfields.putAll(sourceSubfields);
-      }
-    }
-
-    var ind2 = source.getInd2();
-    if (ind2 != null) {
-      target.setInd2(ind2);
-    }
-
-    var label = source.getLabel();
-    if (label != null) {
-      target.setLabel(label);
-    }
-
-    var concat = source.getConcat();
-    if (concat != null) {
-      target.setConcat(concat);
-    }
+    ofNullable(source.getTypes()).ifPresent(target::addTypes);
+    ofNullable(source.getParent()).ifPresent(target::setParent);
+    ofNullable(source.getParentPredicate()).ifPresent(target::setParentPredicate);
+    ofNullable(source.getPredicate()).ifPresent(target::setPredicate);
+    ofNullable(source.getMarc2ldCondition()).ifPresent(target::setMarc2ldCondition);
+    ofNullable(source.getLd2marcCondition()).ifPresent(target::setLd2marcCondition);
+    ofNullable(source.getRelation()).ifPresent(target::setRelation);
+    ofNullable(source.getSubfields()).ifPresent(target::putSubfields);
+    ofNullable(source.getInd1()).ifPresent(target::setInd1);
+    ofNullable(source.getInd2()).ifPresent(target::setInd2);
+    ofNullable(source.getLabel()).ifPresent(target::setLabel);
+    ofNullable(source.getConcat()).ifPresent(target::setConcat);
+    ofNullable(source.getConstants()).ifPresent(target::putConstants);
+    ofNullable(source.getControlFields()).ifPresent(target::putControlFields);
+    ofNullable(source.getEdges()).ifPresent(target::addEdges);
+    ofNullable(source.getMappings()).ifPresent(target::putMappings);
 
     var append = source.isAppend();
     if (append) {
       target.setAppend(append);
-    }
-
-
-    var sourceConstants = source.getConstants();
-    if (sourceConstants != null) {
-      var targetConstants = target.getConstants();
-      if (targetConstants == null) {
-        target.setConstants(sourceConstants);
-      } else {
-        targetConstants.putAll(sourceConstants);
-      }
-    }
-
-    var sourceControlFields = source.getControlFields();
-    if (sourceControlFields != null) {
-      var targetControlFields = target.getControlFields();
-      if (targetControlFields == null) {
-        target.setControlFields(sourceControlFields);
-      } else {
-        targetControlFields.putAll(sourceControlFields);
-      }
-    }
-
-    var sourceEdges = source.getEdges();
-    if (sourceEdges != null) {
-      var targetEdges = target.getEdges();
-      if (targetEdges == null) {
-        target.setEdges(sourceEdges);
-      } else {
-        targetEdges.addAll(sourceEdges);
-      }
-    }
-
-    var sourceMappings = source.getMappings();
-    if (sourceMappings != null) {
-      var targetMappings = target.getMappings();
-      if (targetMappings == null) {
-        target.setMappings(sourceMappings);
-      } else {
-        targetMappings.putAll(sourceMappings);
-      }
     }
   }
 }
