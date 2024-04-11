@@ -5,6 +5,7 @@ import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
@@ -68,9 +69,18 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       fillInstanceFields(reader.next(), instance);
     }
     instance.setLabel(selectInstanceLabel(instance));
+    setWorkLabel(instance);
     cleanEmptyEdges(instance);
     instance.setId(hashService.hash(instance));
     return instance;
+  }
+
+  private void setWorkLabel(Resource instance) {
+    instance.getOutgoingEdges()
+      .stream()
+      .filter(re -> INSTANTIATES.equals(re.getPredicate()))
+      .findFirst()
+      .ifPresent(re -> re.getTarget().setLabel(instance.getLabel()));
   }
 
   private void fillInstanceFields(org.marc4j.marc.Record marcRecord, Resource instance) {

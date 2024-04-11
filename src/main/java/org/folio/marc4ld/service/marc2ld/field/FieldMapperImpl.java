@@ -97,7 +97,6 @@ public class FieldMapperImpl implements FieldMapper {
     if (isNull(parentResource)) {
       parentResource = new Resource();
       parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
-      parentResource.setLabel(UUID.randomUUID().toString());
       parent.getOutgoingEdges()
         .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
       parentResource.setId(hashService.hash(parentResource));
