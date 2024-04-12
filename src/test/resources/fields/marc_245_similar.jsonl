@@ -1,0 +1,16 @@
+{
+  "leader" : "00080nam a2200037uc 4500",
+  "fields" : [ {
+    "245" : {
+      "subfields" : [ {
+        "a" : "Test string"
+      }, {
+        "b" : "Test string"
+      }, {
+        "p" : "Test string"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
