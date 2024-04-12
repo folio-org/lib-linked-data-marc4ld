@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
@@ -73,14 +74,6 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     cleanEmptyEdges(instance);
     instance.setId(hashService.hash(instance));
     return instance;
-  }
-
-  private void setWorkLabel(Resource instance) {
-    instance.getOutgoingEdges()
-      .stream()
-      .filter(re -> INSTANTIATES.equals(re.getPredicate()))
-      .findFirst()
-      .ifPresent(re -> re.getTarget().setLabel(instance.getLabel()));
   }
 
   private void fillInstanceFields(org.marc4j.marc.Record marcRecord, Resource instance) {
@@ -138,6 +131,15 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       .map(re -> re.getTarget().getLabel())
       .toList();
     return getFirst(labels);
+  }
+
+  private void setWorkLabel(Resource instance) {
+    instance.getOutgoingEdges()
+      .stream()
+      .filter(re -> INSTANTIATES.equals(re.getPredicate()))
+      .findFirst()
+      .map(ResourceEdge::getTarget)
+      .ifPresent(work -> work.setLabel(instance.getLabel()));
   }
 
   private void cleanEmptyEdges(Resource resource) {
