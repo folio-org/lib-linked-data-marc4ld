@@ -577,7 +577,7 @@ class Marc2BibframeMapperIT {
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     assertThat(work.getId()).isNotNull();
-    assertThat(work.getLabel()).isNotEmpty();
+    assertThat(work.getLabel()).isEqualTo("MainTitle");
     assertThat(work.getTypes()).containsOnly(WORK);
     assertThat(work.getDoc()).hasSize(15);
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));

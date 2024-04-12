@@ -5,6 +5,7 @@ import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
@@ -24,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
@@ -68,6 +70,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       fillInstanceFields(reader.next(), instance);
     }
     instance.setLabel(selectInstanceLabel(instance));
+    setWorkLabel(instance);
     cleanEmptyEdges(instance);
     instance.setId(hashService.hash(instance));
     return instance;
@@ -128,6 +131,15 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       .map(re -> re.getTarget().getLabel())
       .toList();
     return getFirst(labels);
+  }
+
+  private void setWorkLabel(Resource instance) {
+    instance.getOutgoingEdges()
+      .stream()
+      .filter(re -> INSTANTIATES.equals(re.getPredicate()))
+      .findFirst()
+      .map(ResourceEdge::getTarget)
+      .ifPresent(work -> work.setLabel(instance.getLabel()));
   }
 
   private void cleanEmptyEdges(Resource resource) {
