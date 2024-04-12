@@ -16,6 +16,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
+import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
@@ -416,6 +417,12 @@ public class MonographTestUtil {
   }
 
   public static Resource createSampleWork() {
+    var originPlace = createResource(
+      Map.of(NAME, List.of("France")),
+      Set.of(PLACE),
+      emptyMap()
+    ).setLabel("France");
+
     var place = createResource(
       Map.of(
         NAME, List.of("United States"),
@@ -590,6 +597,7 @@ public class MonographTestUtil {
     ).setLabel("Autonomous");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(ORIGIN_PLACE, List.of(originPlace));
     pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
     pred2OutgoingResources.put(CLASSIFICATION, List.of(createLcClassification(), deweyClassification));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));

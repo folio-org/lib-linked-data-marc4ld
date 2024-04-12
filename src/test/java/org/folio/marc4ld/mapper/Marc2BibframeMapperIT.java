@@ -32,6 +32,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PredicateDictionary.NARRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.ONSCREEN_PRESENTER;
+import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
@@ -604,6 +605,7 @@ class Marc2BibframeMapperIT {
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
+    validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE), Map.of(NAME.getValue(), "France"), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
