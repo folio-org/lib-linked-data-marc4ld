@@ -160,6 +160,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
 
 import java.util.List;
 import java.util.Map;
@@ -1113,24 +1115,6 @@ class Marc2BibframeMapperIT {
     assertThat(temporalEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(placeEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
-                            List<ResourceTypeDictionary> types, Map<String, String> properties, String expectedLabel) {
-    assertThat(edge.getId()).isNull();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    assertThat(edge.getTarget().getId()).isNotNull();
-    assertThat(edge.getTarget().getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
-    assertThat(edge.getTarget().getLabel()).isEqualTo(expectedLabel);
-    assertThat(edge.getTarget().getDoc()).hasSize(properties.size());
-    properties.forEach((property, propertyValue) -> validateProperty(edge.getTarget(), property, propertyValue));
-  }
-
-  private void validateProperty(Resource resource, String propertyKey, String propertyValue) {
-    assertThat(resource.getDoc().has(propertyKey)).isTrue();
-    assertThat(resource.getDoc().get(propertyKey).size()).isEqualTo(1);
-    assertThat(resource.getDoc().get(propertyKey).get(0).asText()).isEqualTo(propertyValue);
   }
 
 }

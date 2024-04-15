@@ -423,6 +423,7 @@ fieldRules:
   257:
     - types: PLACE
       parent: WORK
+      parentPredicate: INSTANTIATES
       predicate: ORIGIN_PLACE
       subfields:
         a: NAME
