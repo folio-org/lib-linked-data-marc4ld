@@ -2,8 +2,10 @@ package org.folio.marc4ld.service.ld2marc.field.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.field.ControlFieldRule;
@@ -31,6 +33,12 @@ public class ControlFieldRuleImpl implements ControlFieldRule {
 
   @Override
   public Collection<ControlFieldParameter> map(JsonNode node) {
+    return Optional.ofNullable(node)
+      .map(this::getParameters)
+      .orElseGet(Collections::emptyList);
+  }
+
+  private Collection<ControlFieldParameter> getParameters(JsonNode node) {
     return controlFieldSettings.stream()
       .filter(setting -> node.has(setting.property))
       .map(setting -> parseControlField(node, setting))
