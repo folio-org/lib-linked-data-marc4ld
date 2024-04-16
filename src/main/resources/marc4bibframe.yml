@@ -420,6 +420,14 @@ fieldRules:
         b: EDITION_STATEMENT
       concat: ' '
       append: true
+  257:
+    - types: PLACE
+      parent: WORK
+      parentPredicate: INSTANTIATES
+      predicate: ORIGIN_PLACE
+      subfields:
+        a: NAME
+      label: NAME
   261:
     - types: PROVIDER_EVENT
       parent: INSTANCE

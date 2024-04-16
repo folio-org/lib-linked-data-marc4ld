@@ -1,5 +1,5 @@
 {
-  "leader" : "09188nam a2200985uc 4500",
+  "leader" : "09211nam a2200997uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -300,6 +300,14 @@
     "250" : {
       "subfields" : [ {
         "a" : "Edition Statement Edition statement2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "257" : {
+      "subfields" : [ {
+        "a" : "France"
       } ],
       "ind1" : " ",
       "ind2" : " "
