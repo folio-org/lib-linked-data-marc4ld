@@ -1,10 +1,11 @@
 package org.folio.marc4ld.service.marc2ld.field;
 
 import static java.lang.String.join;
+import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.valueOf;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC2LD_MAPPERS_MAP;
 
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,12 +43,12 @@ public class FieldMapperImpl implements FieldMapper {
   private final PropertyMapper propertyMapper;
   private final ObjectMapper objectMapper;
   private final RelationProvider relationProvider;
-  private final Map<String, Marc2ldMapper> marc2ldMappersMap;
+  private final Map<String, List<Marc2ldMapper>> marc2ldMappersMap;
   private final FingerprintHashService hashService;
 
   public FieldMapperImpl(ConditionChecker conditionChecker, PropertyMapper propertyMapper, ObjectMapper objectMapper,
                          RelationProvider relationProvider, @Qualifier(MARC2LD_MAPPERS_MAP)
-                         Map<String, Marc2ldMapper> marc2ldMappersMap, FingerprintHashService hashService) {
+                         Map<String, List<Marc2ldMapper>> marc2ldMappersMap, FingerprintHashService hashService) {
     this.conditionChecker = conditionChecker;
     this.propertyMapper = propertyMapper;
     this.objectMapper = objectMapper;
@@ -69,22 +71,32 @@ public class FieldMapperImpl implements FieldMapper {
         mappedResource = addNewEdge(parentResource, dataField, controlFields, fieldRule);
         addRelation(parentResource, mappedResource, dataField, fieldRule);
       }
-      var mapper = !EMPTY.equals(dataField.getTag())
-        ? ofNullable(marc2ldMappersMap.get(dataField.getTag()))
-        : controlFields.stream()
-        .map(controlField -> marc2ldMappersMap.get(controlField.getTag()))
-        .filter(Objects::nonNull)
-        .filter(m -> m.canMap(valueOf(fieldRule.getPredicate())))
-        .findFirst();
-      mapper.ifPresent(m -> {
-        if (m.canMap(valueOf(fieldRule.getPredicate()))) {
-          m.map(new MarcData(dataField, controlFields), mappedResource);
-        }
-      });
+
+      findMapper(dataField.getTag(), fieldRule)
+        .or(() -> findMapper(controlFields, fieldRule))
+        .ifPresent(m -> m.map(new MarcData(dataField, controlFields), mappedResource));
+
       ofNullable(fieldRule.getEdges()).ifPresent(
         sr -> sr.forEach(subResource -> handleField(mappedResource, dataField, controlFields, subResource)));
       mappedResource.setId(hashService.hash(mappedResource));
     }
+  }
+
+  private Optional<Marc2ldMapper> findMapper(List<ControlField> controlFields, Marc4BibframeRules.FieldRule fieldRule) {
+    return controlFields.stream()
+      .map(ControlField::getTag)
+      .flatMap(tag -> findMapper(tag, fieldRule).stream())
+      .findFirst();
+  }
+
+  private Optional<Marc2ldMapper> findMapper(String tag, Marc4BibframeRules.FieldRule fieldRule) {
+    if (isEmpty(tag) || isNull(fieldRule.getPredicate())) {
+      return Optional.empty();
+    }
+    return marc2ldMappersMap.getOrDefault(tag, emptyList())
+      .stream()
+      .filter(mapper -> mapper.canMap(valueOf(fieldRule.getPredicate())))
+      .findFirst();
   }
 
   private Resource computeParentIfAbsent(Resource parent, Marc4BibframeRules.FieldRule fieldRule) {

@@ -28,8 +28,8 @@ public class Marc4jConfig {
   }
 
   @Bean(MARC2LD_MAPPERS_MAP)
-  public Map<String, Marc2ldMapper> marc2ldMappersMap(List<Marc2ldMapper> marc2LdMappers) {
+  public Map<String, List<Marc2ldMapper>> marc2ldMappersMap(List<Marc2ldMapper> marc2LdMappers) {
     return marc2LdMappers.stream()
-      .collect(Collectors.toMap(Marc2ldMapper::getTag, identity()));
+      .collect(Collectors.groupingBy(Marc2ldMapper::getTag));
   }
 }
