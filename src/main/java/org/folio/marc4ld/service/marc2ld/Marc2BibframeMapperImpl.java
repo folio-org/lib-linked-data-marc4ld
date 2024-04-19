@@ -70,7 +70,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       fillInstanceFields(reader.next(), instance);
     }
     instance.setLabel(selectInstanceLabel(instance));
-    setWorkLabel(instance);
+    setWorkLabelAndId(instance);
     cleanEmptyEdges(instance);
     instance.setId(hashService.hash(instance));
     return instance;
@@ -133,13 +133,17 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     return getFirst(labels);
   }
 
-  private void setWorkLabel(Resource instance) {
+  private void setWorkLabelAndId(Resource instance) {
     instance.getOutgoingEdges()
       .stream()
       .filter(re -> INSTANTIATES.equals(re.getPredicate()))
       .findFirst()
       .map(ResourceEdge::getTarget)
-      .ifPresent(work -> work.setLabel(instance.getLabel()));
+      .ifPresent(
+        work -> work
+          .setLabel(instance.getLabel())
+          .setId(hashService.hash(work))
+      );
   }
 
   private void cleanEmptyEdges(Resource resource) {
