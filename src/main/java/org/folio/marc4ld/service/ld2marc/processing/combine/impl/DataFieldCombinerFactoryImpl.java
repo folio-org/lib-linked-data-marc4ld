@@ -15,6 +15,7 @@ public class DataFieldCombinerFactoryImpl implements DataFieldCombinerFactory {
   public DataFieldCombiner create(String tag) {
     return  switch (tag) {
       case "245" -> new TitleCombiner();
+      case "010" -> new LccnCombiner();
       default -> new DefaultDataFieldCombiner();
     };
   }

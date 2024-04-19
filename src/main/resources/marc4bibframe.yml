@@ -43,8 +43,6 @@ fieldRules:
       marc2ldCondition:
         fields:
           a: presented
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -61,8 +59,6 @@ fieldRules:
       marc2ldCondition:
         fields:
           z: presented
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
