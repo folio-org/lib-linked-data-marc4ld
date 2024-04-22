@@ -228,7 +228,6 @@ fieldRules:
   '043':
     - types: PLACE
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: GEOGRAPHIC_COVERAGE
       subfields:
         a: GEOGRAPHIC_AREA_CODE
@@ -247,7 +246,6 @@ fieldRules:
   '050':
     - types: CATEGORY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CLASSIFICATION
       subfields:
         a: CODE
@@ -267,7 +265,6 @@ fieldRules:
   '082':
     - types: CATEGORY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CLASSIFICATION
       subfields:
         a: CODE
@@ -277,7 +274,6 @@ fieldRules:
   100:
     - types: PERSON
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CREATOR
       marc2ldCondition:
         ind1: '!3'
@@ -300,7 +296,6 @@ fieldRules:
         text: e
     - types: FAMILY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CREATOR
       marc2ldCondition:
         ind1: '3'
@@ -324,7 +319,6 @@ fieldRules:
   110:
     - types: ORGANIZATION
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CREATOR
       subfields:
         a: NAME
@@ -344,7 +338,6 @@ fieldRules:
   111:
     - types: MEETING
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CREATOR
       subfields:
         a: NAME
@@ -365,7 +358,6 @@ fieldRules:
     - parent: INSTANCE
       include: 245_mappings
     - parent: WORK
-      parentPredicate: INSTANTIATES
       include: 245_mappings
       ld2marcCondition:
         skip: true
@@ -415,7 +407,6 @@ fieldRules:
   257:
     - types: PLACE
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: ORIGIN_PLACE
       subfields:
         a: NAME
@@ -609,7 +600,6 @@ fieldRules:
   336:
     - types: CATEGORY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CONTENT
       subfields:
         a: TERM
@@ -964,7 +954,6 @@ fieldRules:
   600:
     - types: CONCEPT, FAMILY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1053,7 +1042,6 @@ fieldRules:
             skip: true
     - types: CONCEPT, PERSON
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1143,7 +1131,6 @@ fieldRules:
   610:
     - types: CONCEPT, JURISDICTION
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1228,7 +1215,6 @@ fieldRules:
             skip: true
     - types: CONCEPT, ORGANIZATION
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1314,7 +1300,6 @@ fieldRules:
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1398,7 +1383,6 @@ fieldRules:
   651:
     - types: CONCEPT, PLACE
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1476,7 +1460,6 @@ fieldRules:
   655:
     - types: CONCEPT, FORM
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: SUBJECT
       subfields:
         a: NAME
@@ -1553,7 +1536,6 @@ fieldRules:
             skip: true
     - types: FORM
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: GENRE
       subfields:
         a: NAME
@@ -1571,7 +1553,6 @@ fieldRules:
   700:
     - types: PERSON
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CONTRIBUTOR
       marc2ldCondition:
         ind1: '!3'
@@ -1594,7 +1575,6 @@ fieldRules:
         text: e
     - types: FAMILY
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CONTRIBUTOR
       marc2ldCondition:
         ind1: '3'
@@ -1618,7 +1598,6 @@ fieldRules:
   710:
     - types: ORGANIZATION
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CONTRIBUTOR
       subfields:
         a: NAME
@@ -1638,7 +1617,6 @@ fieldRules:
   711:
     - types: MEETING
       parent: WORK
-      parentPredicate: INSTANTIATES
       predicate: CONTRIBUTOR
       subfields:
         a: NAME

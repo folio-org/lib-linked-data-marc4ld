@@ -11,7 +11,6 @@ import static org.folio.marc4ld.util.Constants.DependencyInjection.MARC2LD_MAPPE
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -100,20 +99,12 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource computeParentIfAbsent(Resource parent, Marc4BibframeRules.FieldRule fieldRule) {
-    if (fieldRule.getTypes().containsAll(parent.getTypes().stream().map(ResourceType::getUri).collect(
-      Collectors.toSet()))) {
+    var parentTypes = parent.getTypes().stream().map(ResourceType::getUri).collect(Collectors.toSet());
+    if (fieldRule.getTypes().containsAll(parentTypes)) {
       return parent;
     }
-    var parentResource =
-      selectResourceFromEdges(parent, ofNullable(fieldRule.getParent()).map(Set::of).orElse(new HashSet<>()));
-    if (isNull(parentResource)) {
-      parentResource = new Resource();
-      parentResource.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
-      parent.getOutgoingEdges()
-        .add(new ResourceEdge(parent, parentResource, valueOf(fieldRule.getParentPredicate())));
-      parentResource.setId(hashService.hash(parentResource));
-    }
-    return parentResource;
+
+    return selectResourceFromEdges(parent, ofNullable(fieldRule.getParent()).map(Set::of).orElse(Set.of()));
   }
 
   private Resource selectResourceFromEdges(Resource resource, Set<String> types) {

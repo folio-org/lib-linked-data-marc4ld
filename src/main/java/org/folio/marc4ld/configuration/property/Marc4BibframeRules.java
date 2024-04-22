@@ -23,7 +23,6 @@ public class Marc4BibframeRules {
   public static class FieldRule {
     private Set<String> types;
     private String parent;
-    private String parentPredicate;
     private String predicate;
     private Marc2ldCondition marc2ldCondition;
     private Ld2marcCondition ld2marcCondition;

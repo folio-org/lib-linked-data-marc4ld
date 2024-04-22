@@ -2,7 +2,7 @@ package org.folio.marc4ld.service.ld2marc.processing.combine.impl;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
-import static org.folio.marc4ld.util.Constants.EMPTY;
+import static org.folio.marc4ld.util.Constants.SPACE;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,10 +69,10 @@ public abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
   }
 
   private void setIndicators(DataField dataField) {
-    if (Objects.equals(combinedField.getIndicator1(), EMPTY) && notEqual(dataField.getIndicator1(), EMPTY)) {
+    if (Objects.equals(combinedField.getIndicator1(), SPACE) && notEqual(dataField.getIndicator1(), SPACE)) {
       combinedField.setIndicator1(dataField.getIndicator1());
     }
-    if (Objects.equals(combinedField.getIndicator2(), EMPTY) && notEqual(dataField.getIndicator2(), EMPTY)) {
+    if (Objects.equals(combinedField.getIndicator2(), SPACE) && notEqual(dataField.getIndicator2(), SPACE)) {
       combinedField.setIndicator2(dataField.getIndicator2());
     }
   }
