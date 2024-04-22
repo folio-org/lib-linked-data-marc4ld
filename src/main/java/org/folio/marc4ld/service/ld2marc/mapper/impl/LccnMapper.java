@@ -6,13 +6,15 @@ import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.marc4ld.util.Constants.EMPTY;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -28,7 +30,6 @@ public class LccnMapper implements Ld2MarcMapper {
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(ID_LCCN, IDENTIFIER);
   private static final String TAG = "010";
-  private static final char EMPTY = ' ';
   private static final String CURRENT = "http://id.loc.gov/vocabulary/mstatus/current";
   private static final String CANCINV = "http://id.loc.gov/vocabulary/mstatus/cancinv";
   private static final char A = 'a';
@@ -50,23 +51,25 @@ public class LccnMapper implements Ld2MarcMapper {
   }
 
   private Optional<Character> getSubfield(Resource resource) {
-    final var subfield = new AtomicReference<Character>();
-    resource.getOutgoingEdges()
+    return resource.getOutgoingEdges()
       .stream()
       .filter(resourceEdge -> resourceEdge.getPredicate() == STATUS)
       .findFirst()
-      .ifPresentOrElse(resourceEdge -> {
-        var link = getPropertyValue(LINK, resourceEdge.getTarget());
-        if (link.equals(CURRENT)) {
-          subfield.set(A);
-        } else if (link.equals(CANCINV)) {
-          subfield.set(Z);
-        }
-      }, () -> subfield.set(A));
-    return subfield.get() != null ? Optional.of(subfield.get()) : Optional.empty();
+      .map(e -> getPropertyValue(LINK, e.getTarget()))
+      .map(link -> switch (link) {
+        case CURRENT -> Optional.of(A);
+        case CANCINV -> Optional.of(Z);
+        default -> Optional.<Character>empty();
+      })
+      .orElse(Optional.of(A));
   }
 
   private String getPropertyValue(PropertyDictionary property, Resource resource) {
-    return resource.getDoc().get(property.getValue()).get(0).asText();
+    return Optional.of(resource)
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(property.getValue()))
+      .map(node -> node.get(0))
+      .map(JsonNode::asText)
+      .orElse(StringUtils.EMPTY);
   }
 }

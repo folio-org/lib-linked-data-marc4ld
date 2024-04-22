@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.processing.combine.impl;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
+import static org.folio.marc4ld.util.Constants.EMPTY;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,8 +17,6 @@ import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
 
 public abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
-
-  private static final char EMPTY = ' ';
 
   private DataField combinedField;
 
