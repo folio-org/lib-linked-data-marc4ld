@@ -39,7 +39,7 @@ class Bibframe2Marc245IT {
   @Test
   void whenCombine_map_shouldReturnCorrectlyMappedMarcJson() {
     // given
-    var expectedMarc = loadResourceAsString("fields/marc_245_combine.jsonl");
+    var expectedMarc = loadResourceAsString("fields/245/marc_245_combine.jsonl");
     var resource = createResourceWithWorkWith245();
 
     // when
@@ -53,7 +53,7 @@ class Bibframe2Marc245IT {
   @Test
   void whenSameValues_map_shouldReturnCorrectlyMappedMarcJson() {
     // given
-    var expectedMarc = loadResourceAsString("fields/marc_245_similar.jsonl");
+    var expectedMarc = loadResourceAsString("fields/245/marc_245_similar.jsonl");
     var resource = createResourceWithSimilarFields245();
 
     // when

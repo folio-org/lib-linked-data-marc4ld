@@ -8,6 +8,7 @@ public class Constants {
   public static final String FIELD_UUID = "999";
   public static final char SUBFIELD_INVENTORY_ID = 'i';
   public static final char SUBFIELD_SRS_ID = 's';
+  public static final char EMPTY = ' ';
 
   @UtilityClass
   public static class DependencyInjection {

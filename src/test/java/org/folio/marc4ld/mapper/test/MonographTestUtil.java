@@ -235,17 +235,9 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("access location URI");
 
-    var lccn = createResource(
-      Map.of(NAME, List.of("2019493854")),
-      Set.of(IDENTIFIER, ID_LCCN),
-      Map.of(STATUS, List.of(status("current")))
-    ).setLabel("2019493854");
+    var lccn = lccn("2019493854", "current");
 
-    var lccnCancelled = createResource(
-      Map.of(NAME, List.of("88888888")),
-      Set.of(IDENTIFIER, ID_LCCN),
-      Map.of(STATUS, List.of(status("canceled or invalid")))
-    ).setLabel("88888888");
+    var lccnCancelled = lccn("88888888", "canceled or invalid");
 
     var isbn = createResource(
       Map.of(
@@ -628,6 +620,26 @@ public class MonographTestUtil {
     ).setLabel("Work: label");
   }
 
+  public static Resource status(String value) {
+    return createResource(
+      Map.of(
+        LABEL, List.of(value),
+        LINK,
+        List.of("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value))
+      ),
+      Set.of(ResourceTypeDictionary.STATUS),
+      emptyMap()
+    ).setLabel(value);
+  }
+
+  public static Resource lccn(String name, String status) {
+    return createResource(
+      Map.of(NAME, List.of(name)),
+      Set.of(IDENTIFIER, ID_LCCN),
+      Map.of(STATUS, List.of(status(status)))
+    ).setLabel(name);
+  }
+
   private Map<PropertyDictionary, List<String>> createCommonConceptProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME, List.of(prefix + " name")),
@@ -775,18 +787,6 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(SUB_FOCUS, List.of(subForm, topic, temporal, place));
     return createResource(properties, Set.of(CONCEPT, FORM), pred2OutgoingResources)
       .setLabel(properties.get(NAME).get(0));
-  }
-
-  private Resource status(String value) {
-    return createResource(
-      Map.of(
-        LABEL, List.of(value),
-        LINK,
-        List.of("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value))
-      ),
-      Set.of(ResourceTypeDictionary.STATUS),
-      emptyMap()
-    ).setLabel(value);
   }
 
   private Resource providerEvent(String prefix) {
