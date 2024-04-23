@@ -273,6 +273,7 @@ class Marc2BibframeMapperIT {
     validateInstance(result);
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
+    validateWork(edgeIterator.next());
     validateLccn(edgeIterator.next(), "2019493854", "current");
     validateLccn(edgeIterator.next(), "88888888", "canceled or invalid");
     validateLocalId(edgeIterator.next(), "19861509", "current");
@@ -283,7 +284,6 @@ class Marc2BibframeMapperIT {
     validateEan(edgeIterator.next(), "333", "canceled or invalid");
     validateOtherId(edgeIterator.next(), "202320239999", "current");
     validateOtherId(edgeIterator.next(), "231123", "canceled or invalid");
-    validateWork(edgeIterator.next());
     validateTitle(edgeIterator.next());
     validateTitle2(edgeIterator.next());
     validateTitle3(edgeIterator.next());

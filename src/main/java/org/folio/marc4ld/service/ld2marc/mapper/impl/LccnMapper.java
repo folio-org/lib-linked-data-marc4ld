@@ -6,7 +6,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
-import static org.folio.marc4ld.util.Constants.EMPTY;
+import static org.folio.marc4ld.util.Constants.SPACE;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
@@ -44,7 +44,7 @@ public class LccnMapper implements Ld2MarcMapper {
 
   @Override
   public List<DataField> map(Resource resource) {
-    var dataField = marcFactory.newDataField(TAG, EMPTY, EMPTY);
+    var dataField = marcFactory.newDataField(TAG, SPACE, SPACE);
     getSubfield(resource)
       .ifPresent(s -> dataField.addSubfield(marcFactory.newSubfield(s, getPropertyValue(NAME, resource))));
     return List.of(dataField);

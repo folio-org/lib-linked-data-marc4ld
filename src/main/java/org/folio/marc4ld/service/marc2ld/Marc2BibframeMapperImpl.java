@@ -8,6 +8,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmpty;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
@@ -65,15 +66,13 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       return null;
     }
     var reader = getReader(marc);
-    var instance = new Resource().addType(INSTANCE);
+    var instanceAndWork = createInstanceAndWork();
     while (reader.hasNext()) {
-      fillInstanceFields(reader.next(), instance);
+      fillInstanceFields(reader.next(), instanceAndWork.instance);
     }
-    instance.setLabel(selectInstanceLabel(instance));
-    setWorkLabelAndId(instance);
-    cleanEmptyEdges(instance);
-    instance.setId(hashService.hash(instance));
-    return instance;
+    setAdditionInfo(instanceAndWork);
+    cleanEmptyEdges(instanceAndWork.instance);
+    return instanceAndWork.instance;
   }
 
   private void fillInstanceFields(org.marc4j.marc.Record marcRecord, Resource instance) {
@@ -125,27 +124,6 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
     }
   }
 
-  private String selectInstanceLabel(Resource instance) {
-    var labels = instance.getOutgoingEdges().stream()
-      .filter(e -> Objects.equals(TITLE.getUri(), e.getPredicate().getUri()))
-      .map(re -> re.getTarget().getLabel())
-      .toList();
-    return getFirst(labels);
-  }
-
-  private void setWorkLabelAndId(Resource instance) {
-    instance.getOutgoingEdges()
-      .stream()
-      .filter(re -> INSTANTIATES.equals(re.getPredicate()))
-      .findFirst()
-      .map(ResourceEdge::getTarget)
-      .ifPresent(
-        work -> work
-          .setLabel(instance.getLabel())
-          .setId(hashService.hash(work))
-      );
-  }
-
   private void cleanEmptyEdges(Resource resource) {
     resource.setOutgoingEdges(resource.getOutgoingEdges().stream()
       .map(re -> {
@@ -159,5 +137,33 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
 
   private MarcJsonReader getReader(String marc) {
     return new MarcJsonReader(new ByteArrayInputStream(marc.getBytes(StandardCharsets.UTF_8)));
+  }
+
+  private InstanceAndWork createInstanceAndWork() {
+    var work = new Resource().addType(WORK);
+    var instance = new Resource().addType(INSTANCE);
+    instance.getOutgoingEdges().add(new ResourceEdge(instance, work, INSTANTIATES));
+    return new InstanceAndWork(instance, work);
+  }
+
+  private void setAdditionInfo(InstanceAndWork instanceAndWork) {
+    setLabelAndId(instanceAndWork.instance);
+    setLabelAndId(instanceAndWork.work);
+  }
+
+  private void setLabelAndId(Resource resource) {
+    resource.setLabel(selectLabelFromTitle(resource));
+    resource.setId(hashService.hash(resource));
+  }
+
+  private String selectLabelFromTitle(Resource resource) {
+    var labels = resource.getOutgoingEdges().stream()
+      .filter(e -> Objects.equals(TITLE.getUri(), e.getPredicate().getUri()))
+      .map(re -> re.getTarget().getLabel())
+      .toList();
+    return getFirst(labels);
+  }
+
+  private record InstanceAndWork(Resource instance, Resource work) {
   }
 }

@@ -32,7 +32,6 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
   private void copyRule(Marc4BibframeRules.FieldRule source, Marc4BibframeRules.FieldRule target) {
     ofNullable(source.getTypes()).ifPresent(target::addTypes);
     ofNullable(source.getParent()).ifPresent(target::setParent);
-    ofNullable(source.getParentPredicate()).ifPresent(target::setParentPredicate);
     ofNullable(source.getPredicate()).ifPresent(target::setPredicate);
     ofNullable(source.getMarc2ldCondition()).ifPresent(target::setMarc2ldCondition);
     ofNullable(source.getLd2marcCondition()).ifPresent(target::setLd2marcCondition);
