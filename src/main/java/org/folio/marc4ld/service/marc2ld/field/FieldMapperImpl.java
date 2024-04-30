@@ -148,7 +148,8 @@ public class FieldMapperImpl implements FieldMapper {
       ofNullable(labelProperty)
         .flatMap(lp -> ofNullable(properties.get(PropertyDictionary.valueOf(lp).getValue())).map(vs -> join(SPACE, vs)))
         .orElseGet(() -> {
-          log.warn("Setting random label to resource of type {}", resource.getTypes());
+          log.warn("Setting random label to resource with types: {}, properties: {}, and labelProperty: {}",
+            resource.getTypes(), properties, labelProperty);
           return UUID.randomUUID().toString();
         })
     );
