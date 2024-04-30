@@ -15,8 +15,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
@@ -41,7 +41,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   public Record toMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
-    var dataFields = getFields(resource, null, cfb);
+    var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
     var combinedFields = dataFieldPostProcessor.apply(dataFields);
     Stream.concat(cfb.build(marcFactory), combinedFields.stream())
       .sorted(comparing(VariableField::getTag))
@@ -50,32 +50,37 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return marcRecord;
   }
 
-  private List<DataField> getFields(Resource resource, PredicateDictionary predicate, ControlFieldsBuilder cfb) {
-    var mapperOptional = ld2MarcMappers.stream()
-      .filter(mapper -> mapper.canMap(predicate, resource))
-      .findFirst();
-    if (mapperOptional.isPresent()) {
-      return mapperOptional.get().map(resource);
-    } else {
-      var dataFields = rules.stream()
-        .flatMap(tagToRule -> mapToDataFields(resource, predicate, cfb, tagToRule));
+  private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
+    return ld2MarcMappers.stream()
+      .filter(mapper -> mapper.canMap(edge.getPredicate(), edge.getTarget()))
+      .findFirst()
+      .map(mapper -> mapper.map(edge.getTarget()))
+      .map(List::of)
+      .orElseGet(() -> getFields(cfb, edge));
+  }
 
-      return Stream.concat(dataFields,
-          resource.getOutgoingEdges()
-            .stream()
-            .flatMap(re -> getFields(re.getTarget(), re.getPredicate(), cfb).stream()))
-        .toList();
-    }
+  private List<DataField> getFields(ControlFieldsBuilder cfb, ResourceEdge edge) {
+    var resource = edge.getTarget();
+    var dataFields = rules.stream()
+      .flatMap(tagToRule -> mapToDataFields(edge, cfb, tagToRule));
+    return Stream.concat(dataFields, getOutgoingEdges(cfb, resource))
+      .toList();
+  }
+
+  private Stream<DataField> getOutgoingEdges(ControlFieldsBuilder cfb, Resource resource) {
+    return resource.getOutgoingEdges()
+      .stream()
+      .flatMap(re -> getFields(re, cfb).stream());
   }
 
   private Stream<DataField> mapToDataFields(
-    Resource resource,
-    PredicateDictionary predicate,
+    ResourceEdge edge,
     ControlFieldsBuilder cfb,
     Bibframe2MarcFieldRule bibframe2MarcFieldRule
   ) {
+    var resource = edge.getTarget();
     return Optional.of(bibframe2MarcFieldRule)
-      .filter(b2mRule -> b2mRule.isSuitable(resource, predicate))
+      .filter(b2mRule -> b2mRule.isSuitable(edge))
       .map(b2mRule -> {
         addControlFieldsToBuilder(b2mRule, resource, cfb);
         return b2mRule;
