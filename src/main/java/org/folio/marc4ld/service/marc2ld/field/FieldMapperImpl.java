@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -35,6 +36,7 @@ import org.marc4j.marc.DataField;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class FieldMapperImpl implements FieldMapper {
 
@@ -145,7 +147,10 @@ public class FieldMapperImpl implements FieldMapper {
     resource.setLabel(
       ofNullable(labelProperty)
         .flatMap(lp -> ofNullable(properties.get(PropertyDictionary.valueOf(lp).getValue())).map(vs -> join(SPACE, vs)))
-        .orElseGet(() -> UUID.randomUUID().toString())
+        .orElseGet(() -> {
+          log.warn("Setting random label to resource of type {}", resource.getTypes());
+          return UUID.randomUUID().toString();
+        })
     );
   }
 
