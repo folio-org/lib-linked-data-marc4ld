@@ -39,6 +39,8 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   }
 
   public boolean isValid(DataField dataField) {
-    return dictionaryProcessor.getValue("NAME", dataField.getSubfield(CODE_A).getData()).isPresent();
+    return Optional.ofNullable(dataField.getSubfield(CODE_A))
+      .map(subfield -> dictionaryProcessor.getValue("NAME", subfield.getData()).isPresent())
+      .orElse(false);
   }
 }
