@@ -1,8 +1,8 @@
 package org.folio.marc4ld.service.ld2marc.field;
 
 import java.util.Collection;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
 
@@ -10,7 +10,7 @@ public interface Bibframe2MarcFieldRule {
 
   String getTag();
 
-  boolean isSuitable(Resource resource, PredicateDictionary predicate);
+  boolean isSuitable(ResourceEdge edge);
 
   boolean isDataFieldCreatable(Resource resource);
 

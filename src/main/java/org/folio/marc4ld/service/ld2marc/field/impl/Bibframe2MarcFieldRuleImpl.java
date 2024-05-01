@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
-import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 
 import java.util.Collection;
@@ -12,8 +11,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -30,6 +29,7 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
   private final IndicatorRule indProperty1;
   private final IndicatorRule indProperty2;
   private final String tag;
+  private final String parent;
   private final Marc4BibframeRules.FieldRule fieldRule;
   private final Collection<ControlFieldRule> controlFieldRules;
   private final Collection<SubFieldRule> subFieldRules;
@@ -54,12 +54,15 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
       Marc4BibframeRules.FieldRule::getInd2,
       Marc4BibframeRules.Marc2ldCondition::getInd2
     );
+    this.parent = Optional.ofNullable(fieldRule.getParent())
+      .orElse(StringUtils.EMPTY);
   }
 
   @Override
-  public boolean isSuitable(Resource resource, PredicateDictionary predicate) {
-    return Objects.equals(fieldRule.getTypes(), resource.getTypeNames())
-      && (isNull(predicate) || predicate.name().equals(fieldRule.getPredicate()));
+  public boolean isSuitable(ResourceEdge edge) {
+    return isSuitableTypes(edge)
+      && isSuitablePredicate(edge)
+      && isTypeLikeRuleParent(edge);
   }
 
   @Override
@@ -135,5 +138,26 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
       .map(entry -> new SubFieldRuleImpl(entry.getValue(), entry.getKey()))
       .map(SubFieldRule.class::cast)
       .toList();
+  }
+
+  private boolean isSuitablePredicate(ResourceEdge edge) {
+    return Optional.of(edge)
+      .map(ResourceEdge::getPredicate)
+      .map(predicate -> predicate.name().equals(fieldRule.getPredicate()))
+      .orElse(true);
+  }
+
+  private boolean isSuitableTypes(ResourceEdge edge) {
+    return Objects.equals(fieldRule.getTypes(), edge.getTarget().getTypeNames());
+  }
+
+  private boolean isTypeLikeRuleParent(ResourceEdge resourceEdge) {
+    if (parent.isEmpty()) {
+      return true;
+    }
+    return Optional.of(resourceEdge)
+      .map(ResourceEdge::getSource)
+      .map(resource -> resource.getTypeNames().contains(parent))
+      .orElse(true);
   }
 }
