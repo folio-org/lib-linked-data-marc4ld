@@ -9,7 +9,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.marc4ld.util.Constants.SPACE;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -43,11 +42,11 @@ public class LccnMapper implements Ld2MarcMapper {
   }
 
   @Override
-  public List<DataField> map(Resource resource) {
+  public DataField map(Resource resource) {
     var dataField = marcFactory.newDataField(TAG, SPACE, SPACE);
     getSubfield(resource)
       .ifPresent(s -> dataField.addSubfield(marcFactory.newSubfield(s, getPropertyValue(NAME, resource))));
-    return List.of(dataField);
+    return dataField;
   }
 
   private Optional<Character> getSubfield(Resource resource) {

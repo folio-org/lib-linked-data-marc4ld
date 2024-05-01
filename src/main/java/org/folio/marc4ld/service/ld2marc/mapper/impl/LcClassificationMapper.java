@@ -50,12 +50,12 @@ public class LcClassificationMapper implements Ld2MarcMapper {
   }
 
   @Override
-  public List<DataField> map(Resource resource) {
+  public DataField map(Resource resource) {
     var dataField = marcFactory.newDataField(TAG, getIndicator1(resource), getIndicator2(resource));
     getCodes(resource).ifPresent(codes -> codes
       .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code))));
     getItemNumber(resource).ifPresent(in -> dataField.addSubfield(marcFactory.newSubfield(B, in)));
-    return List.of(dataField);
+    return dataField;
   }
 
   private boolean isLcClassification(Resource resource) {

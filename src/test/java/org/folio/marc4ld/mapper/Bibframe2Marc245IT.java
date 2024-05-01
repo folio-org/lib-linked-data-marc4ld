@@ -64,6 +64,20 @@ class Bibframe2Marc245IT {
       .isEqualTo(expectedMarc);
   }
 
+  @Test
+  void whenTitleInBothInstanceAndWork_andMapOnlyInstance() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/245/marc_245_title_conflict.jsonl");
+    var resource = createResourceWithWorkAndInstanceSimilarTitleTypes();
+
+    // when
+    var result = bibframe2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result)
+      .isEqualTo(expectedMarc);
+  }
+
   private Resource createResourceWithSimilarFields245() {
     var instanceTitle = MonographTestUtil.createResource(
       Map.of(
@@ -118,6 +132,44 @@ class Bibframe2Marc245IT {
 
     var outgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     outgoingResources.put(PredicateDictionary.TITLE, List.of(instanceTitle, instanceTitle2));
+    outgoingResources.put(PredicateDictionary.INSTANTIATES, List.of(work));
+
+    return createResource(
+      Collections.emptyMap(),
+      Set.of(INSTANCE),
+      outgoingResources
+    );
+  }
+
+  private Resource createResourceWithWorkAndInstanceSimilarTitleTypes() {
+    var workTitle = MonographTestUtil.createResource(
+      Map.of(
+        SUBTITLE, List.of("Work subtitle")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("Work MainTitle");
+
+    var outgoingWorkResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    outgoingWorkResources.put(PredicateDictionary.TITLE, List.of(workTitle));
+
+    var work = MonographTestUtil.createResource(
+      Collections.emptyMap(),
+      Set.of(WORK),
+      outgoingWorkResources
+    ).setLabel("Work: label");
+
+
+    var instanceTitle = MonographTestUtil.createResource(
+      Map.of(
+        MAIN_TITLE, List.of("Instance title")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("Instance MainTitle");
+
+    var outgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    outgoingResources.put(PredicateDictionary.TITLE, List.of(instanceTitle));
     outgoingResources.put(PredicateDictionary.INSTANTIATES, List.of(work));
 
     return createResource(
