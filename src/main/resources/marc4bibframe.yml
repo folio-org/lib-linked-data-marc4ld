@@ -612,6 +612,7 @@ fieldRules:
         - types: CATEGORY_SET
           parent: CATEGORY
           predicate: IS_DEFINED_BY
+          label: LABEL
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent
             LABEL: rdacontent
