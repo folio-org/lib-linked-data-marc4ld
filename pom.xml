@@ -6,7 +6,7 @@
 
     <groupId>org.folio</groupId>
     <artifactId>lib-linked-data-marc4ld</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0-alpha</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,8 +29,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <lib-linked-data-dictionary.version>1.0.0-SNAPSHOT</lib-linked-data-dictionary.version>
-        <lib-linked-data-fingerprint.version>1.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
+        <lib-linked-data-dictionary.version>1.0.0-alpha</lib-linked-data-dictionary.version>
+        <lib-linked-data-fingerprint.version>1.0.0-alpha</lib-linked-data-fingerprint.version>
         <marc4j.version>2.9.5</marc4j.version>
         <guava.version>33.1.0-jre</guava.version>
         <commons-io.version>2.16.1</commons-io.version>
