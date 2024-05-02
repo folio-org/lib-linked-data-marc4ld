@@ -845,7 +845,7 @@ public class MonographTestUtil {
       ),
       Set.of(CATEGORY_SET),
       emptyMap()
-    );
+    ).setLabel("Target audience");
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
     return createResource(
@@ -866,7 +866,8 @@ public class MonographTestUtil {
         LABEL, List.of("rdacontent")
       ),
       Set.of(CATEGORY_SET),
-      emptyMap());
+      emptyMap()
+    ).setLabel("rdacontent");
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
     return createResource(

@@ -905,7 +905,7 @@ class Marc2BibframeMapperIT {
       assertThat(categorySetEdge.getPredicate().getUri()).isEqualTo(IS_DEFINED_BY.getUri());
       validateId(categorySetEdge.getTarget());
       assertThat(categorySetEdge.getTarget().getTypes()).containsExactly(CATEGORY_SET);
-      assertThat(categorySetEdge.getTarget().getLabel()).isNotEmpty();
+      assertThat(categorySetEdge.getTarget().getLabel()).isEqualTo("rdacontent");
       assertThat(categorySetEdge.getTarget().getDoc()).hasSize(2);
       Map.of(
         LINK.getValue(), "http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent",
