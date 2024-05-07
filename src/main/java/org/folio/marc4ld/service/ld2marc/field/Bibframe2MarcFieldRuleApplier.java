@@ -6,7 +6,7 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
 
-public interface Bibframe2MarcFieldRule {
+public interface Bibframe2MarcFieldRuleApplier {
 
   String getTag();
 

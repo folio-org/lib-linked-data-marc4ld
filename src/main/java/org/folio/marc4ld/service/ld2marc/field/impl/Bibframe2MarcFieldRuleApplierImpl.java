@@ -16,26 +16,26 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
-import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
-import org.folio.marc4ld.service.ld2marc.field.ControlFieldRule;
-import org.folio.marc4ld.service.ld2marc.field.IndicatorRule;
-import org.folio.marc4ld.service.ld2marc.field.SubFieldRule;
+import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
+import org.folio.marc4ld.service.ld2marc.field.ControlFieldRuleApplier;
+import org.folio.marc4ld.service.ld2marc.field.IndicatorRuleApplier;
+import org.folio.marc4ld.service.ld2marc.field.SubFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
 
-public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
+public class Bibframe2MarcFieldRuleApplierImpl implements Bibframe2MarcFieldRuleApplier {
 
   private static final String CONTROL_FIELD_PREFIX = "00";
-  private final IndicatorRule indProperty1;
-  private final IndicatorRule indProperty2;
+  private final IndicatorRuleApplier indProperty1;
+  private final IndicatorRuleApplier indProperty2;
   private final String tag;
   private final String parent;
   private final Marc4BibframeRules.FieldRule fieldRule;
-  private final Collection<ControlFieldRule> controlFieldRules;
-  private final Collection<SubFieldRule> subFieldRules;
+  private final Collection<ControlFieldRuleApplier> controlFieldRuleAppliers;
+  private final Collection<SubFieldRuleApplier> subFieldRuleAppliers;
   private final ConditionChecker conditionChecker;
 
-  public Bibframe2MarcFieldRuleImpl(
+  public Bibframe2MarcFieldRuleApplierImpl(
     String tag,
     Marc4BibframeRules.FieldRule fieldRule,
     ConditionChecker conditionChecker,
@@ -44,8 +44,8 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
     this.tag = tag;
     this.fieldRule = fieldRule;
     this.conditionChecker = conditionChecker;
-    this.controlFieldRules = mapToControlFieldRules(dictionaryProcessor);
-    this.subFieldRules = mapToSubFieldRules();
+    this.controlFieldRuleAppliers = mapToControlFieldRules(dictionaryProcessor);
+    this.subFieldRuleAppliers = mapToSubFieldRules();
     this.indProperty1 = mapToIndicator(
       Marc4BibframeRules.FieldRule::getInd1,
       Marc4BibframeRules.Marc2ldCondition::getInd1
@@ -68,7 +68,7 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
   @Override
   public boolean isDataFieldCreatable(Resource resource) {
     return !StringUtils.startsWith(tag, CONTROL_FIELD_PREFIX)
-      && CollectionUtils.isNotEmpty(subFieldRules)
+      && CollectionUtils.isNotEmpty(subFieldRuleAppliers)
       && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, resource);
   }
 
@@ -84,7 +84,7 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
 
   @Override
   public Collection<SubFieldParameter> getSubFields(Resource resource) {
-    return subFieldRules.stream()
+    return subFieldRuleAppliers.stream()
       .map(rule -> rule.map(resource.getDoc()))
       .flatMap(Collection::stream)
       .toList();
@@ -92,7 +92,7 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
 
   @Override
   public Collection<ControlFieldParameter> getControlFields(Resource resource) {
-    return controlFieldRules.stream()
+    return controlFieldRuleAppliers.stream()
       .map(rule -> rule.map(resource.getDoc()))
       .flatMap(Collection::stream)
       .toList();
@@ -103,22 +103,22 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
     return tag;
   }
 
-  private Collection<ControlFieldRule> mapToControlFieldRules(DictionaryProcessor dictionaryProcessor) {
+  private Collection<ControlFieldRuleApplier> mapToControlFieldRules(DictionaryProcessor dictionaryProcessor) {
     var controlFields = Optional.ofNullable(fieldRule.getControlFields())
       .orElse(Collections.emptyMap());
 
     return controlFields.entrySet()
       .stream()
-      .map(entry -> new ControlFieldRuleImpl(entry.getKey(), entry.getValue(), dictionaryProcessor))
-      .map(ControlFieldRule.class::cast)
+      .map(entry -> new ControlFieldRuleApplierImpl(entry.getKey(), entry.getValue(), dictionaryProcessor))
+      .map(ControlFieldRuleApplier.class::cast)
       .toList();
   }
 
-  private IndicatorRule mapToIndicator(
+  private IndicatorRuleApplier mapToIndicator(
     Function<Marc4BibframeRules.FieldRule, String> propertyGetter,
     Function<Marc4BibframeRules.Marc2ldCondition, String> defaultGetter
   ) {
-    return new IndicatorRuleImpl(
+    return new IndicatorRuleApplierImpl(
       propertyGetter.apply(fieldRule),
       ofNullable(fieldRule.getMarc2ldCondition())
         .map(defaultGetter)
@@ -126,7 +126,7 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
     );
   }
 
-  private Collection<SubFieldRule> mapToSubFieldRules() {
+  private Collection<SubFieldRuleApplier> mapToSubFieldRules() {
     var subFields = Optional.ofNullable(fieldRule.getSubfields())
       .orElse(Collections.emptyMap());
     return subFields.entrySet()
@@ -135,8 +135,8 @@ public class Bibframe2MarcFieldRuleImpl implements Bibframe2MarcFieldRule {
       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (oldValue, newValue) -> oldValue))
       .entrySet()
       .stream()
-      .map(entry -> new SubFieldRuleImpl(entry.getValue(), entry.getKey()))
-      .map(SubFieldRule.class::cast)
+      .map(entry -> new SubFieldRuleApplierImpl(entry.getValue(), entry.getKey()))
+      .map(SubFieldRuleApplier.class::cast)
       .toList();
   }
 
