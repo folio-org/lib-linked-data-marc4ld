@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.ld2marc.resource;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
@@ -56,7 +56,10 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .findFirst()
       .map(mapper -> mapper.map(edge.getTarget()))
       .map(List::of)
-      .orElseGet(() -> getFields(cfb, edge));
+      .orElseGet(() -> getFields(cfb, edge))
+      .stream()
+      .filter(df -> isNotEmpty(df.getSubfields()))
+      .toList();
   }
 
   private List<DataField> getFields(ControlFieldsBuilder cfb, ResourceEdge edge) {
@@ -86,7 +89,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         return b2mRule;
       })
       .filter(b2mRule -> b2mRule.isDataFieldCreatable(resource))
-      .flatMap(b2mRule -> getDataField(b2mRule, resource))
+      .map(b2mRule -> getDataField(b2mRule, resource))
       .stream();
   }
 
@@ -95,7 +98,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .forEach(field -> cfb.addFieldValue(field.tag(), field.value(), field.startPosition(), field.endPosition()));
   }
 
-  private Optional<DataField> getDataField(Bibframe2MarcFieldRuleApplier b2mRule, Resource resource) {
+  private DataField getDataField(Bibframe2MarcFieldRuleApplier b2mRule, Resource resource) {
     var ind1 = b2mRule.getInd1(resource);
     var ind2 = b2mRule.getInd2(resource);
     var field = marcFactory.newDataField(b2mRule.getTag(), ind1, ind2);
@@ -105,8 +108,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .map(subField -> marcFactory.newSubfield(subField.tag(), subField.value()))
       .sorted(Comparator.comparingInt(Subfield::getCode))
       .forEach(field::addSubfield);
-    return Optional.of(field)
-      .filter(f -> CollectionUtils.isNotEmpty(field.getSubfields()));
+    return field;
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {

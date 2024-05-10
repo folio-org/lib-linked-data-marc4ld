@@ -1,7 +1,7 @@
 package org.folio.marc4ld.mapper;
 
 import static java.util.Collections.emptyMap;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -11,6 +11,9 @@ import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.lccn;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +31,9 @@ class Bibframe2Marc010IT {
 
   @Autowired
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
   @Test
   void should_map_only_one_subfield_a() {
@@ -67,6 +73,22 @@ class Bibframe2Marc010IT {
     // then
     assertThat(result)
       .isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void should_ignore_lccn_with_invalid_status() throws JsonProcessingException {
+    // given
+    var resource = createInstanceWithLccn(
+      lccn("11111111", "invalid_status")
+    );
+
+    // when
+    var result = bibframe2MarcMapper.toMarcJson(resource);
+
+    // then
+    Map<String, Object> resultAsMap = objectMapper.readValue(result, new TypeReference<>() {
+    });
+    assertThat((List) resultAsMap.get("fields")).isEmpty();
   }
 
   private Resource createInstanceWithLccn(Resource... lccns) {
