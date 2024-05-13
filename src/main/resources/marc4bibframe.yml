@@ -33,6 +33,13 @@ fieldRules:
                 data:
                 expression: args.contains(data.substring(22, 23))
                 args: a, b, c, d, e, f, g, j
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/mgovtpubtype
+            LABEL: Government Publication Type
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
@@ -629,6 +636,14 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia
+            LABEL: rdamedia
   338:
     - types: CATEGORY
       parent: INSTANCE
@@ -640,6 +655,14 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carriers/%CODE
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier
+            LABEL: rdacarrier
   362:
     - types: INSTANCE
       subfields:

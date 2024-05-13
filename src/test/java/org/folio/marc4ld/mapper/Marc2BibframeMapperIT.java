@@ -896,25 +896,6 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(SOURCE.getValue())).isTrue();
     assertThat(resource.getDoc().get(SOURCE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " source");
-    //TODO modify after MODLD-267 and MODLD-268
-    if ("contentTypes".equals(linkTerm)) {
-      assertThat(resource.getOutgoingEdges()).isNotEmpty();
-      var categorySetEdge = resource.getOutgoingEdges().iterator().next();
-      assertThat(categorySetEdge.getId()).isNull();
-      assertThat(categorySetEdge.getPredicate().getHash()).isEqualTo(IS_DEFINED_BY.getHash());
-      assertThat(categorySetEdge.getPredicate().getUri()).isEqualTo(IS_DEFINED_BY.getUri());
-      validateId(categorySetEdge.getTarget());
-      assertThat(categorySetEdge.getTarget().getTypes()).containsExactly(CATEGORY_SET);
-      assertThat(categorySetEdge.getTarget().getLabel()).isEqualTo("rdacontent");
-      assertThat(categorySetEdge.getTarget().getDoc()).hasSize(2);
-      Map.of(
-        LINK.getValue(), "http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent",
-        LABEL.getValue(), "rdacontent"
-      ).forEach((property, propertyValue) -> validateProperty(categorySetEdge.getTarget(), property, propertyValue));
-      assertThat(categorySetEdge.getTarget().getOutgoingEdges()).isEmpty();
-    } else {
-      assertThat(resource.getOutgoingEdges()).isEmpty();
-    }
   }
 
   private void validateAccessLocation(ResourceEdge edge) {

@@ -129,16 +129,6 @@
   }, {
     "100" : {
       "subfields" : [ {
-        "0" : "CREATOR PERSON authority link"
-      }, {
-        "1" : "CREATOR PERSON equivalent"
-      }, {
-        "6" : "CREATOR PERSON linkage"
-      }, {
-        "7" : "CREATOR PERSON control field"
-      }, {
-        "8" : "CREATOR PERSON field link"
-      }, {
         "a" : "CREATOR PERSON name"
       }, {
         "b" : "CREATOR PERSON numeration"
@@ -152,6 +142,16 @@
         "q" : "CREATOR PERSON name alternative"
       }, {
         "u" : "CREATOR PERSON affiliation"
+      }, {
+        "0" : "CREATOR PERSON authority link"
+      }, {
+        "1" : "CREATOR PERSON equivalent"
+      }, {
+        "6" : "CREATOR PERSON linkage"
+      }, {
+        "7" : "CREATOR PERSON control field"
+      }, {
+        "8" : "CREATOR PERSON field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -159,16 +159,6 @@
   }, {
     "100" : {
       "subfields" : [ {
-        "0" : "CREATOR FAMILY authority link"
-      }, {
-        "1" : "CREATOR FAMILY equivalent"
-      }, {
-        "6" : "CREATOR FAMILY linkage"
-      }, {
-        "7" : "CREATOR FAMILY control field"
-      }, {
-        "8" : "CREATOR FAMILY field link"
-      }, {
         "a" : "CREATOR FAMILY name"
       }, {
         "b" : "CREATOR FAMILY numeration"
@@ -182,6 +172,16 @@
         "q" : "CREATOR FAMILY name alternative"
       }, {
         "u" : "CREATOR FAMILY affiliation"
+      }, {
+        "0" : "CREATOR FAMILY authority link"
+      }, {
+        "1" : "CREATOR FAMILY equivalent"
+      }, {
+        "6" : "CREATOR FAMILY linkage"
+      }, {
+        "7" : "CREATOR FAMILY control field"
+      }, {
+        "8" : "CREATOR FAMILY field link"
       } ],
       "ind1" : "3",
       "ind2" : " "
@@ -189,16 +189,6 @@
   }, {
     "110" : {
       "subfields" : [ {
-        "0" : "CREATOR ORGANIZATION authority link"
-      }, {
-        "1" : "CREATOR ORGANIZATION equivalent"
-      }, {
-        "6" : "CREATOR ORGANIZATION linkage"
-      }, {
-        "7" : "CREATOR ORGANIZATION control field"
-      }, {
-        "8" : "CREATOR ORGANIZATION field link"
-      }, {
         "a" : "CREATOR ORGANIZATION name"
       }, {
         "b" : "CREATOR ORGANIZATION subordinate unit"
@@ -208,6 +198,16 @@
         "d" : "CREATOR ORGANIZATION date"
       }, {
         "u" : "CREATOR ORGANIZATION affiliation"
+      }, {
+        "0" : "CREATOR ORGANIZATION authority link"
+      }, {
+        "1" : "CREATOR ORGANIZATION equivalent"
+      }, {
+        "6" : "CREATOR ORGANIZATION linkage"
+      }, {
+        "7" : "CREATOR ORGANIZATION control field"
+      }, {
+        "8" : "CREATOR ORGANIZATION field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -215,16 +215,6 @@
   }, {
     "111" : {
       "subfields" : [ {
-        "0" : "CREATOR MEETING authority link"
-      }, {
-        "1" : "CREATOR MEETING equivalent"
-      }, {
-        "6" : "CREATOR MEETING linkage"
-      }, {
-        "7" : "CREATOR MEETING control field"
-      }, {
-        "8" : "CREATOR MEETING field link"
-      }, {
         "a" : "CREATOR MEETING name"
       }, {
         "c" : "CREATOR MEETING place"
@@ -234,6 +224,16 @@
         "e" : "CREATOR MEETING subordinate unit"
       }, {
         "u" : "CREATOR MEETING affiliation"
+      }, {
+        "0" : "CREATOR MEETING authority link"
+      }, {
+        "1" : "CREATOR MEETING equivalent"
+      }, {
+        "6" : "CREATOR MEETING linkage"
+      }, {
+        "7" : "CREATOR MEETING control field"
+      }, {
+        "8" : "CREATOR MEETING field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -431,11 +431,11 @@
   }, {
     "336" : {
       "subfields" : [ {
-        "2" : "CONTENT source"
-      }, {
         "a" : "CONTENT term"
       }, {
         "b" : "CONTENT code"
+      }, {
+        "2" : "CONTENT source"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -443,11 +443,11 @@
   }, {
     "337" : {
       "subfields" : [ {
-        "2" : "MEDIA source"
-      }, {
         "a" : "MEDIA term"
       }, {
         "b" : "MEDIA code"
+      }, {
+        "2" : "MEDIA source"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -455,11 +455,11 @@
   }, {
     "338" : {
       "subfields" : [ {
-        "2" : "CARRIER source"
-      }, {
         "a" : "CARRIER term"
       }, {
         "b" : "CARRIER code"
+      }, {
+        "2" : "CARRIER source"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -691,22 +691,6 @@
   }, {
     "600" : {
       "subfields" : [ {
-        "0" : "family authority link"
-      }, {
-        "1" : "family equivalent"
-      }, {
-        "2" : "family source"
-      }, {
-        "3" : "family materials specified"
-      }, {
-        "4" : "family relator code"
-      }, {
-        "6" : "family linkage"
-      }, {
-        "7" : "family control field"
-      }, {
-        "8" : "family field link"
-      }, {
         "a" : "family name"
       }, {
         "b" : "family numeration"
@@ -730,6 +714,22 @@
         "y" : "family chronological subdivision"
       }, {
         "z" : "family geographic subdivision"
+      }, {
+        "0" : "family authority link"
+      }, {
+        "1" : "family equivalent"
+      }, {
+        "2" : "family source"
+      }, {
+        "3" : "family materials specified"
+      }, {
+        "4" : "family relator code"
+      }, {
+        "6" : "family linkage"
+      }, {
+        "7" : "family control field"
+      }, {
+        "8" : "family field link"
       } ],
       "ind1" : "3",
       "ind2" : " "
@@ -737,22 +737,6 @@
   }, {
     "600" : {
       "subfields" : [ {
-        "0" : "person authority link"
-      }, {
-        "1" : "person equivalent"
-      }, {
-        "2" : "person source"
-      }, {
-        "3" : "person materials specified"
-      }, {
-        "4" : "person relator code"
-      }, {
-        "6" : "person linkage"
-      }, {
-        "7" : "person control field"
-      }, {
-        "8" : "person field link"
-      }, {
         "a" : "person name"
       }, {
         "b" : "person numeration"
@@ -776,6 +760,22 @@
         "y" : "person chronological subdivision"
       }, {
         "z" : "person geographic subdivision"
+      }, {
+        "0" : "person authority link"
+      }, {
+        "1" : "person equivalent"
+      }, {
+        "2" : "person source"
+      }, {
+        "3" : "person materials specified"
+      }, {
+        "4" : "person relator code"
+      }, {
+        "6" : "person linkage"
+      }, {
+        "7" : "person control field"
+      }, {
+        "8" : "person field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -783,22 +783,6 @@
   }, {
     "610" : {
       "subfields" : [ {
-        "0" : "jurisdiction authority link"
-      }, {
-        "1" : "jurisdiction equivalent"
-      }, {
-        "2" : "jurisdiction source"
-      }, {
-        "3" : "jurisdiction materials specified"
-      }, {
-        "4" : "jurisdiction relator code"
-      }, {
-        "6" : "jurisdiction linkage"
-      }, {
-        "7" : "jurisdiction control field"
-      }, {
-        "8" : "jurisdiction field link"
-      }, {
         "a" : "jurisdiction name"
       }, {
         "b" : "jurisdiction subordinate unit"
@@ -818,6 +802,22 @@
         "y" : "jurisdiction chronological subdivision"
       }, {
         "z" : "jurisdiction geographic subdivision"
+      }, {
+        "0" : "jurisdiction authority link"
+      }, {
+        "1" : "jurisdiction equivalent"
+      }, {
+        "2" : "jurisdiction source"
+      }, {
+        "3" : "jurisdiction materials specified"
+      }, {
+        "4" : "jurisdiction relator code"
+      }, {
+        "6" : "jurisdiction linkage"
+      }, {
+        "7" : "jurisdiction control field"
+      }, {
+        "8" : "jurisdiction field link"
       } ],
       "ind1" : "1",
       "ind2" : " "
@@ -825,22 +825,6 @@
   }, {
     "610" : {
       "subfields" : [ {
-        "0" : "organization authority link"
-      }, {
-        "1" : "organization equivalent"
-      }, {
-        "2" : "organization source"
-      }, {
-        "3" : "organization materials specified"
-      }, {
-        "4" : "organization relator code"
-      }, {
-        "6" : "organization linkage"
-      }, {
-        "7" : "organization control field"
-      }, {
-        "8" : "organization field link"
-      }, {
         "a" : "organization name"
       }, {
         "b" : "organization subordinate unit"
@@ -860,6 +844,22 @@
         "y" : "organization chronological subdivision"
       }, {
         "z" : "organization geographic subdivision"
+      }, {
+        "0" : "organization authority link"
+      }, {
+        "1" : "organization equivalent"
+      }, {
+        "2" : "organization source"
+      }, {
+        "3" : "organization materials specified"
+      }, {
+        "4" : "organization relator code"
+      }, {
+        "6" : "organization linkage"
+      }, {
+        "7" : "organization control field"
+      }, {
+        "8" : "organization field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -867,22 +867,6 @@
   }, {
     "650" : {
       "subfields" : [ {
-        "0" : "topic authority link"
-      }, {
-        "1" : "topic equivalent"
-      }, {
-        "2" : "topic source"
-      }, {
-        "3" : "topic materials specified"
-      }, {
-        "4" : "topic relator code"
-      }, {
-        "6" : "topic linkage"
-      }, {
-        "7" : "topic control field"
-      }, {
-        "8" : "topic field link"
-      }, {
         "a" : "topic name"
       }, {
         "b" : "topic geographic coverage"
@@ -902,6 +886,22 @@
         "y" : "topic chronological subdivision"
       }, {
         "z" : "topic geographic subdivision"
+      }, {
+        "0" : "topic authority link"
+      }, {
+        "1" : "topic equivalent"
+      }, {
+        "2" : "topic source"
+      }, {
+        "3" : "topic materials specified"
+      }, {
+        "4" : "topic relator code"
+      }, {
+        "6" : "topic linkage"
+      }, {
+        "7" : "topic control field"
+      }, {
+        "8" : "topic field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -909,6 +909,20 @@
   }, {
     "651" : {
       "subfields" : [ {
+        "a" : "place name"
+      }, {
+        "e" : "place relator term"
+      }, {
+        "g" : "place misc info"
+      }, {
+        "v" : "place form subdivision"
+      }, {
+        "x" : "place general subdivision"
+      }, {
+        "y" : "place chronological subdivision"
+      }, {
+        "z" : "place geographic subdivision"
+      }, {
         "0" : "place authority link"
       }, {
         "1" : "place equivalent"
@@ -924,20 +938,6 @@
         "7" : "place control field"
       }, {
         "8" : "place field link"
-      }, {
-        "a" : "place name"
-      }, {
-        "e" : "place relator term"
-      }, {
-        "g" : "place misc info"
-      }, {
-        "v" : "place form subdivision"
-      }, {
-        "x" : "place general subdivision"
-      }, {
-        "y" : "place chronological subdivision"
-      }, {
-        "z" : "place geographic subdivision"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -945,6 +945,20 @@
   }, {
     "655" : {
       "subfields" : [ {
+        "a" : "form name"
+      }, {
+        "b" : "form geographic coverage"
+      }, {
+        "e" : "form relator term"
+      }, {
+        "v" : "form form subdivision"
+      }, {
+        "x" : "form general subdivision"
+      }, {
+        "y" : "form chronological subdivision"
+      }, {
+        "z" : "form geographic subdivision"
+      }, {
         "0" : "form authority link"
       }, {
         "1" : "form equivalent"
@@ -960,20 +974,6 @@
         "7" : "form control field"
       }, {
         "8" : "form field link"
-      }, {
-        "a" : "form name"
-      }, {
-        "b" : "form geographic coverage"
-      }, {
-        "e" : "form relator term"
-      }, {
-        "v" : "form form subdivision"
-      }, {
-        "x" : "form general subdivision"
-      }, {
-        "y" : "form chronological subdivision"
-      }, {
-        "z" : "form geographic subdivision"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -981,16 +981,6 @@
   }, {
     "700" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR PERSON authority link"
-      }, {
-        "1" : "CONTRIBUTOR PERSON equivalent"
-      }, {
-        "6" : "CONTRIBUTOR PERSON linkage"
-      }, {
-        "7" : "CONTRIBUTOR PERSON control field"
-      }, {
-        "8" : "CONTRIBUTOR PERSON field link"
-      }, {
         "a" : "CONTRIBUTOR PERSON name"
       }, {
         "b" : "CONTRIBUTOR PERSON numeration"
@@ -1004,6 +994,16 @@
         "q" : "CONTRIBUTOR PERSON name alternative"
       }, {
         "u" : "CONTRIBUTOR PERSON affiliation"
+      }, {
+        "0" : "CONTRIBUTOR PERSON authority link"
+      }, {
+        "1" : "CONTRIBUTOR PERSON equivalent"
+      }, {
+        "6" : "CONTRIBUTOR PERSON linkage"
+      }, {
+        "7" : "CONTRIBUTOR PERSON control field"
+      }, {
+        "8" : "CONTRIBUTOR PERSON field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -1011,16 +1011,6 @@
   }, {
     "700" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR FAMILY authority link"
-      }, {
-        "1" : "CONTRIBUTOR FAMILY equivalent"
-      }, {
-        "6" : "CONTRIBUTOR FAMILY linkage"
-      }, {
-        "7" : "CONTRIBUTOR FAMILY control field"
-      }, {
-        "8" : "CONTRIBUTOR FAMILY field link"
-      }, {
         "a" : "CONTRIBUTOR FAMILY name"
       }, {
         "b" : "CONTRIBUTOR FAMILY numeration"
@@ -1034,6 +1024,16 @@
         "q" : "CONTRIBUTOR FAMILY name alternative"
       }, {
         "u" : "CONTRIBUTOR FAMILY affiliation"
+      }, {
+        "0" : "CONTRIBUTOR FAMILY authority link"
+      }, {
+        "1" : "CONTRIBUTOR FAMILY equivalent"
+      }, {
+        "6" : "CONTRIBUTOR FAMILY linkage"
+      }, {
+        "7" : "CONTRIBUTOR FAMILY control field"
+      }, {
+        "8" : "CONTRIBUTOR FAMILY field link"
       } ],
       "ind1" : "3",
       "ind2" : " "
@@ -1041,16 +1041,6 @@
   }, {
     "710" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR ORGANIZATION authority link"
-      }, {
-        "1" : "CONTRIBUTOR ORGANIZATION equivalent"
-      }, {
-        "6" : "CONTRIBUTOR ORGANIZATION linkage"
-      }, {
-        "7" : "CONTRIBUTOR ORGANIZATION control field"
-      }, {
-        "8" : "CONTRIBUTOR ORGANIZATION field link"
-      }, {
         "a" : "CONTRIBUTOR ORGANIZATION name"
       }, {
         "b" : "CONTRIBUTOR ORGANIZATION subordinate unit"
@@ -1060,6 +1050,16 @@
         "d" : "CONTRIBUTOR ORGANIZATION date"
       }, {
         "u" : "CONTRIBUTOR ORGANIZATION affiliation"
+      }, {
+        "0" : "CONTRIBUTOR ORGANIZATION authority link"
+      }, {
+        "1" : "CONTRIBUTOR ORGANIZATION equivalent"
+      }, {
+        "6" : "CONTRIBUTOR ORGANIZATION linkage"
+      }, {
+        "7" : "CONTRIBUTOR ORGANIZATION control field"
+      }, {
+        "8" : "CONTRIBUTOR ORGANIZATION field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -1067,16 +1067,6 @@
   }, {
     "711" : {
       "subfields" : [ {
-        "0" : "CONTRIBUTOR MEETING authority link"
-      }, {
-        "1" : "CONTRIBUTOR MEETING equivalent"
-      }, {
-        "6" : "CONTRIBUTOR MEETING linkage"
-      }, {
-        "7" : "CONTRIBUTOR MEETING control field"
-      }, {
-        "8" : "CONTRIBUTOR MEETING field link"
-      }, {
         "a" : "CONTRIBUTOR MEETING name"
       }, {
         "c" : "CONTRIBUTOR MEETING place"
@@ -1086,6 +1076,16 @@
         "e" : "CONTRIBUTOR MEETING subordinate unit"
       }, {
         "u" : "CONTRIBUTOR MEETING affiliation"
+      }, {
+        "0" : "CONTRIBUTOR MEETING authority link"
+      }, {
+        "1" : "CONTRIBUTOR MEETING equivalent"
+      }, {
+        "6" : "CONTRIBUTOR MEETING linkage"
+      }, {
+        "7" : "CONTRIBUTOR MEETING control field"
+      }, {
+        "8" : "CONTRIBUTOR MEETING field link"
       } ],
       "ind1" : " ",
       "ind2" : " "

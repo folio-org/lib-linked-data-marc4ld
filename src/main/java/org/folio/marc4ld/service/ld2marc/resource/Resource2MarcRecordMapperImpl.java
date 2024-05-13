@@ -36,6 +36,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Collection<Bibframe2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final DataFieldPostProcessor dataFieldPostProcessor;
+  private final Comparator<Subfield> subfieldComparator;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -106,7 +107,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var subFields = b2mRule.getSubFields(resource);
     subFields.stream()
       .map(subField -> marcFactory.newSubfield(subField.tag(), subField.value()))
-      .sorted(Comparator.comparingInt(Subfield::getCode))
+      .sorted(subfieldComparator)
       .forEach(field::addSubfield);
     return field;
   }
