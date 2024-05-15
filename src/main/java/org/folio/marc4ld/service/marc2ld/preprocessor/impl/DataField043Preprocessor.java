@@ -8,6 +8,7 @@ import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class DataField043Preprocessor implements DataFieldPreprocessor {
 
   private static final char CODE_A = 'a';
+  private static final String NAME = "NAME";
 
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
@@ -26,8 +28,9 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
       .forEach(sf -> {
         if (sf.getCode() == CODE_A) {
           result.addSubfield(marcFactory.newSubfield(CODE_A, sf.getData().replaceAll("-+$", EMPTY)));
+        } else {
+          result.addSubfield(sf);
         }
-        result.addSubfield(sf);
       });
     return Optional.of(result)
       .filter(this::isValid);
@@ -39,6 +42,9 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   }
 
   public boolean isValid(DataField dataField) {
-    return dictionaryProcessor.getValue("NAME", dataField.getSubfield(CODE_A).getData()).isPresent();
+    return Optional.ofNullable(dataField.getSubfield(CODE_A))
+      .map(Subfield::getData)
+      .flatMap(data -> dictionaryProcessor.getValue(NAME, data))
+      .isPresent();
   }
 }
