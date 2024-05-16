@@ -2,7 +2,9 @@ package org.folio.marc4ld.service.marc2ld.relation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -28,15 +30,18 @@ public class RelationProviderImpl implements RelationProvider {
                             DataField dataField,
                             Marc2ldFieldRuleApplier fieldRule) {
     fieldRule.getRelation()
-      .flatMap(relation -> getPredicate(relation, dataField))
-      .map(PredicateDictionary::valueOf)
-      .map(predicate -> new ResourceEdge(source, target, predicate))
-      .ifPresent(resourceEdge -> source.getOutgoingEdges().add(resourceEdge));
+      .ifPresent(relation -> getPredicates(relation, dataField)
+        .stream()
+        .map(PredicateDictionary::valueOf)
+        .forEach(predicate -> source.getOutgoingEdges().add(new ResourceEdge(source, target, predicate)))
+      );
   }
 
-  private Optional<String> getPredicate(Relation relation, DataField dataField) {
-    return getByCode(relation, dataField)
-      .or(() -> getByText(relation, dataField));
+  private List<String> getPredicates(Relation relation, DataField dataField) {
+    return Stream.of(getByCode(relation, dataField), getByText(relation, dataField))
+      .filter(Optional::isPresent)
+      .flatMap(Optional::stream)
+      .toList();
   }
 
   private Optional<String> getByCode(Relation relation, DataField dataField) {
