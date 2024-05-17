@@ -125,7 +125,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private InstanceAndWork createInstanceAndWork() {
     var work = new Resource().addType(WORK);
     var instance = new Resource().addType(INSTANCE);
-    instance.getOutgoingEdges().add(new ResourceEdge(instance, work, INSTANTIATES));
+    instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));
     return new InstanceAndWork(instance, work);
   }
 

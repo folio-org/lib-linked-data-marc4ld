@@ -84,7 +84,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
       )
     );
     resource.setLabel(term);
-    resource.getOutgoingEdges().add(new ResourceEdge(resource, getCategorySet(), IS_DEFINED_BY));
+    resource.addOutgoingEdge(new ResourceEdge(resource, getCategorySet(), IS_DEFINED_BY));
   }
 
   private Resource getCategorySet() {
