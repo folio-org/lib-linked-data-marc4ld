@@ -112,41 +112,8 @@ class RelationProviderImplTest {
   }
 
   private static Subfield getSubfield(String data) {
-    return new Subfield() {
-      @Override
-      public void setId(Long id) {
-
-      }
-
-      @Override
-      public Long getId() {
-        return null;
-      }
-
-      @Override
-      public char getCode() {
-        return 0;
-      }
-
-      @Override
-      public void setCode(char code) {
-
-      }
-
-      @Override
-      public String getData() {
-        return data;
-      }
-
-      @Override
-      public void setData(String data) {
-
-      }
-
-      @Override
-      public boolean find(String pattern) {
-        return false;
-      }
-    };
+    var subfield = mock(Subfield.class);
+    when(subfield.getData()).thenReturn(data);
+    return subfield;
   }
 }

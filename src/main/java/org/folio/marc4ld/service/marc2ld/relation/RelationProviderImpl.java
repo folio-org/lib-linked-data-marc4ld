@@ -33,13 +33,13 @@ public class RelationProviderImpl implements RelationProvider {
       .ifPresent(relation -> getPredicates(relation, dataField)
         .stream()
         .map(PredicateDictionary::valueOf)
-        .forEach(predicate -> source.getOutgoingEdges().add(new ResourceEdge(source, target, predicate)))
+        .map(predicate -> new ResourceEdge(source, target, predicate))
+        .forEach(source::addOutgoingEdge)
       );
   }
 
   private List<String> getPredicates(Relation relation, DataField dataField) {
     return Stream.of(getByCode(relation, dataField), getByText(relation, dataField))
-      .filter(Optional::isPresent)
       .flatMap(Optional::stream)
       .toList();
   }
