@@ -46,6 +46,7 @@ class DataField043PreprocessorTest {
     var expectedDataField = createDataField(List.of(createSubfield('a', "n-us"), createSubfield('k', "a---")));
     when(factory.newDataField("043", ' ', ' ')).thenReturn(createDataField(List.of()));
     when(factory.newSubfield('a', "n-us")).thenReturn(createSubfield('a', "n-us"));
+    when(dictionaryProcessor.getValue("NAME", "n-us")).thenReturn(Optional.of("United States"));
 
     //when
     var preprocessed = dataField043Preprocessor.preprocess(dataField);
@@ -53,7 +54,7 @@ class DataField043PreprocessorTest {
     //then
     assertThat(preprocessed)
       .usingRecursiveComparison()
-      .isEqualTo(expectedDataField);
+      .isEqualTo(Optional.of(expectedDataField));
   }
 
   @Test
