@@ -1,0 +1,16 @@
+{
+  "leader" : "00085nam a2200037uc 4500",
+  "fields" : [ {
+    "338" : {
+      "subfields" : [ {
+        "a" : "CARRIER term"
+      }, {
+        "b" : "CARRIER code"
+      }, {
+        "2" : "CARRIER source"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
