@@ -370,11 +370,9 @@ fieldRules:
       include: 245_mappings
       ld2marcCondition:
         skip: true
-    - types: WORK
-      parent: INSTANCE
-      predicate: INSTANTIATES
+    - types: INSTANCE
       subfields:
-        c: RESPONSIBILITY_STATEMENT
+        c: STATEMENT_OF_RESPONSIBILITY
       marc2ldCondition:
         fields:
           c: presented

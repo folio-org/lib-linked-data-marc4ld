@@ -94,9 +94,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
+import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
@@ -396,6 +396,7 @@ public class MonographTestUtil {
         entry(PUBLICATION_FREQUENCY, List.of("frequency, date")),
         entry(RELATED_PARTS, List.of("custodian, address, country, title, provenance, note")),
         entry(REPRODUCTION_NOTE, List.of("type, place, agency, date, description, statement, note")),
+        entry(STATEMENT_OF_RESPONSIBILITY, List.of("Statement Of Responsibility")),
         entry(SYSTEM_DETAILS, List.of("note, text, uri")),
         entry(SYSTEM_DETAILS_ACCESS_NOTE, List.of("model, language, system")),
         entry(TYPE_OF_REPORT, List.of("type, period")),
@@ -611,7 +612,6 @@ public class MonographTestUtil {
         LANGUAGE, List.of("eng"),
         SUMMARY, List.of("work summary"),
         TABLE_OF_CONTENTS, List.of("work table of contents"),
-        RESPONSIBILITY_STATEMENT, List.of("Statement Of Responsibility"),
         DATE_START, List.of("2023"),
         DATE_END, List.of("2024")
       ),

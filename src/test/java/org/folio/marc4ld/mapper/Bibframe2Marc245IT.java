@@ -6,7 +6,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
-import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
+import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -122,20 +122,13 @@ class Bibframe2Marc245IT {
       emptyMap()
     ).setLabel("Instance Title empty");
 
-    var work = MonographTestUtil.createResource(
-      Map.of(
-        RESPONSIBILITY_STATEMENT, List.of("Statement Of Responsibility")
-      ),
-      Set.of(WORK),
-      Collections.emptyMap()
-    ).setLabel("Work: label");
-
     var outgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     outgoingResources.put(PredicateDictionary.TITLE, List.of(instanceTitle, instanceTitle2));
-    outgoingResources.put(PredicateDictionary.INSTANTIATES, List.of(work));
 
     return createResource(
-      Collections.emptyMap(),
+      Map.of(
+        STATEMENT_OF_RESPONSIBILITY, List.of("Statement Of Responsibility")
+      ),
       Set.of(INSTANCE),
       outgoingResources
     );
