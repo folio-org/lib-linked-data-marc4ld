@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
@@ -74,7 +75,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
   private void processControlField(Resource resource, ControlField controlField) {
     var code = controlField.getData().charAt(TARGET_AUD_CHAR_INDEX);
     var link = LINK_PREFIX + MARC_CODE_TO_LINK_SUFFIX_MAP.get(code);
-    var term = MARC_CODE_TO_TERM_MAP.get(code);
+    var term = MARC_CODE_TO_TERM_MAP.getOrDefault(code, EMPTY);
     mapperHelper.addPropertiesToResource(
       resource,
       Map.of(
@@ -83,7 +84,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
       )
     );
     resource.setLabel(term);
-    resource.getOutgoingEdges().add(new ResourceEdge(resource, getCategorySet(), IS_DEFINED_BY));
+    resource.addOutgoingEdge(new ResourceEdge(resource, getCategorySet(), IS_DEFINED_BY));
   }
 
   private Resource getCategorySet() {

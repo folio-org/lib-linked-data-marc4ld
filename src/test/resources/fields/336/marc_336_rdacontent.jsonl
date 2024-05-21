@@ -1,0 +1,16 @@
+{
+  "leader" : "00085nam a2200037uc 4500",
+  "fields" : [ {
+    "336" : {
+      "subfields" : [ {
+        "a" : "CONTENT term"
+      }, {
+        "b" : "CONTENT code"
+      }, {
+        "2" : "CONTENT source"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

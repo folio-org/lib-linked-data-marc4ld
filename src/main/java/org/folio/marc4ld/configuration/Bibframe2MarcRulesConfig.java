@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
-import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
-import org.folio.marc4ld.service.ld2marc.field.impl.Bibframe2MarcFieldRuleImpl;
+import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
+import org.folio.marc4ld.service.ld2marc.field.impl.Bibframe2MarcFieldRuleApplierImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class Bibframe2MarcRulesConfig {
 
   @Bean
-  public Collection<Bibframe2MarcFieldRule> getRules(
+  public Collection<Bibframe2MarcFieldRuleApplier> getRules(
     ConditionChecker conditionChecker,
     DictionaryProcessor dictionaryProcessor,
     Marc4BibframeRules marc4BibframeRules
@@ -41,7 +41,7 @@ public class Bibframe2MarcRulesConfig {
       .toList();
   }
 
-  private Collection<Bibframe2MarcFieldRule> generateFieldRules(
+  private Collection<Bibframe2MarcFieldRuleApplier> generateFieldRules(
     Map.Entry<String, List<Marc4BibframeRules.FieldRule>> frs,
     ConditionChecker conditionChecker,
     DictionaryProcessor dictionaryProcessor
@@ -49,8 +49,8 @@ public class Bibframe2MarcRulesConfig {
     var tag = frs.getKey();
     return frs.getValue()
       .stream()
-      .map(fr -> new Bibframe2MarcFieldRuleImpl(tag, fr, conditionChecker, dictionaryProcessor))
-      .map(Bibframe2MarcFieldRule.class::cast)
+      .map(fr -> new Bibframe2MarcFieldRuleApplierImpl(tag, fr, conditionChecker, dictionaryProcessor))
+      .map(Bibframe2MarcFieldRuleApplier.class::cast)
       .toList();
   }
 }

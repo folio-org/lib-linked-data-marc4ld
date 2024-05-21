@@ -2,7 +2,6 @@ package org.folio.marc4ld.service.marc2ld;
 
 import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
-import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
@@ -11,7 +10,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.BibframeUtil.isNotEmpty;
-import static org.folio.marc4ld.util.Constants.DependencyInjection.DATA_FIELD_PREPROCESSORS_MAP;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
@@ -19,45 +17,35 @@ import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
-import org.folio.marc4ld.service.marc2ld.field.FieldMapper;
-import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
+import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.marc2ld.field.FieldController;
+import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.marc4j.MarcJsonReader;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
-  private final Marc4BibframeRules rules;
-  private final FieldMapper fieldMapper;
-  private final Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap;
+
+  private final Marc2ldRules rules;
+  private final FieldController fieldController;
+  private final FieldPreprocessor fieldPreprocessor;
   private final MarcFactory marcFactory;
   private final FingerprintHashService hashService;
-
-  public Marc2BibframeMapperImpl(Marc4BibframeRules rules, FingerprintHashService hashService, FieldMapper fieldMapper,
-                                 @Qualifier(DATA_FIELD_PREPROCESSORS_MAP)
-                                 Map<String, DataFieldPreprocessor> dataFieldPreprocessorsMap,
-                                 MarcFactory marcFactory) {
-    this.rules = rules;
-    this.hashService = hashService;
-    this.fieldMapper = fieldMapper;
-    this.dataFieldPreprocessorsMap = dataFieldPreprocessorsMap;
-    this.marcFactory = marcFactory;
-  }
+  private final ConditionChecker conditionChecker;
 
   @Override
   public Resource fromMarcJson(String marc) {
@@ -96,19 +84,14 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
-    var localDataField = new AtomicReference<>(dataField);
-    ofNullable(rules.getFieldRules().get(tag)).ifPresent(frs -> {
-        var preprocessedOk = ofNullable(dataFieldPreprocessorsMap.get(dataField.getTag()))
-          .map(preprocessor -> {
-            localDataField.set(preprocessor.preprocess(dataField));
-            return preprocessor.isValid(localDataField.get());
-          })
-          .orElse(true);
-        if (Boolean.TRUE.equals(preprocessedOk)) {
-          frs.forEach(fr -> fieldMapper.handleField(instance, localDataField.get(), marcRecord.getControlFields(), fr));
-        }
-      }
-    );
+    fieldPreprocessor.apply(dataField)
+      .ifPresent(field ->
+        rules.findFiledRules(tag)
+          .stream()
+          .filter(rule -> conditionChecker
+            .isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord.getControlFields()))
+          .forEach(fr -> fieldController.handleField(instance, field, marcRecord.getControlFields(), fr))
+      );
   }
 
   private UUID readUuid(Subfield subfield) {
@@ -125,14 +108,14 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   }
 
   private void cleanEmptyEdges(Resource resource) {
-    resource.setOutgoingEdges(resource.getOutgoingEdges().stream()
+    var outEdges = resource.getOutgoingEdges().stream()
       .map(re -> {
         cleanEmptyEdges(re.getTarget());
         return re;
       })
       .filter(re -> isNotEmpty(re.getTarget()))
-      .collect(Collectors.toCollection(LinkedHashSet::new))
-    );
+      .collect(Collectors.toCollection(LinkedHashSet::new));
+    resource.setOutgoingEdges(outEdges);
   }
 
   private MarcJsonReader getReader(String marc) {
@@ -142,7 +125,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private InstanceAndWork createInstanceAndWork() {
     var work = new Resource().addType(WORK);
     var instance = new Resource().addType(INSTANCE);
-    instance.getOutgoingEdges().add(new ResourceEdge(instance, work, INSTANTIATES));
+    instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));
     return new InstanceAndWork(instance, work);
   }
 

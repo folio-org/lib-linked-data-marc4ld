@@ -33,6 +33,13 @@ fieldRules:
                 data:
                 expression: args.contains(data.substring(22, 23))
                 args: a, b, c, d, e, f, g, j
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/mgovtpubtype
+            LABEL: Government Publication Type
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
@@ -150,6 +157,7 @@ fieldRules:
         a: EAN_VALUE
         d: EAN_VALUE
         q: QUALIFIER
+      concat: ''
       label: EAN_VALUE
       marc2ldCondition:
         fields:
@@ -191,6 +199,7 @@ fieldRules:
         a: NAME
         d: NAME
         q: QUALIFIER
+      concat: ''
       label: NAME
       marc2ldCondition:
         fields:
@@ -361,11 +370,9 @@ fieldRules:
       include: 245_mappings
       ld2marcCondition:
         skip: true
-    - types: WORK
-      parent: INSTANCE
-      predicate: INSTANTIATES
+    - types: INSTANCE
       subfields:
-        c: RESPONSIBILITY_STATEMENT
+        c: STATEMENT_OF_RESPONSIBILITY
       marc2ldCondition:
         fields:
           c: presented
@@ -627,6 +634,14 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia
+            LABEL: rdamedia
   338:
     - types: CATEGORY
       parent: INSTANCE
@@ -638,6 +653,14 @@ fieldRules:
       label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carriers/%CODE
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          label: LABEL
+          constants:
+            LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier
+            LABEL: rdacarrier
   362:
     - types: INSTANCE
       subfields:
@@ -1345,6 +1368,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             v: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:
@@ -1375,6 +1399,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:
@@ -1529,6 +1554,7 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
+          multiply: true
           label: NAME
           marc2ldCondition:
             fields:

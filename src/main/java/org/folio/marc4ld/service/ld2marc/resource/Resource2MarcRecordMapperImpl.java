@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.ld2marc.resource;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
@@ -14,10 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRule;
+import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
@@ -33,9 +33,10 @@ import org.springframework.stereotype.Service;
 public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
   private final MarcFactory marcFactory;
-  private final Collection<Bibframe2MarcFieldRule> rules;
+  private final Collection<Bibframe2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final DataFieldPostProcessor dataFieldPostProcessor;
+  private final Comparator<Subfield> subfieldComparator;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -56,7 +57,10 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .findFirst()
       .map(mapper -> mapper.map(edge.getTarget()))
       .map(List::of)
-      .orElseGet(() -> getFields(cfb, edge));
+      .orElseGet(() -> getFields(cfb, edge))
+      .stream()
+      .filter(df -> isNotEmpty(df.getSubfields()))
+      .toList();
   }
 
   private List<DataField> getFields(ControlFieldsBuilder cfb, ResourceEdge edge) {
@@ -76,26 +80,26 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private Stream<DataField> mapToDataFields(
     ResourceEdge edge,
     ControlFieldsBuilder cfb,
-    Bibframe2MarcFieldRule bibframe2MarcFieldRule
+    Bibframe2MarcFieldRuleApplier bibframe2MarcFieldRuleApplier
   ) {
     var resource = edge.getTarget();
-    return Optional.of(bibframe2MarcFieldRule)
+    return Optional.of(bibframe2MarcFieldRuleApplier)
       .filter(b2mRule -> b2mRule.isSuitable(edge))
       .map(b2mRule -> {
         addControlFieldsToBuilder(b2mRule, resource, cfb);
         return b2mRule;
       })
       .filter(b2mRule -> b2mRule.isDataFieldCreatable(resource))
-      .flatMap(b2mRule -> getDataField(b2mRule, resource))
+      .map(b2mRule -> getDataField(b2mRule, resource))
       .stream();
   }
 
-  private void addControlFieldsToBuilder(Bibframe2MarcFieldRule rule, Resource res, ControlFieldsBuilder cfb) {
+  private void addControlFieldsToBuilder(Bibframe2MarcFieldRuleApplier rule, Resource res, ControlFieldsBuilder cfb) {
     rule.getControlFields(res)
       .forEach(field -> cfb.addFieldValue(field.tag(), field.value(), field.startPosition(), field.endPosition()));
   }
 
-  private Optional<DataField> getDataField(Bibframe2MarcFieldRule b2mRule, Resource resource) {
+  private DataField getDataField(Bibframe2MarcFieldRuleApplier b2mRule, Resource resource) {
     var ind1 = b2mRule.getInd1(resource);
     var ind2 = b2mRule.getInd2(resource);
     var field = marcFactory.newDataField(b2mRule.getTag(), ind1, ind2);
@@ -103,10 +107,9 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var subFields = b2mRule.getSubFields(resource);
     subFields.stream()
       .map(subField -> marcFactory.newSubfield(subField.tag(), subField.value()))
-      .sorted(Comparator.comparingInt(Subfield::getCode))
+      .sorted(subfieldComparator)
       .forEach(field::addSubfield);
-    return Optional.of(field)
-      .filter(f -> CollectionUtils.isNotEmpty(field.getSubfields()));
+    return field;
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {

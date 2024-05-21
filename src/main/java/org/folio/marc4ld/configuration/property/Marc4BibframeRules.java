@@ -33,6 +33,7 @@ public class Marc4BibframeRules {
     private String label;
     private String concat;
     private boolean append;
+    private boolean multiply;
     private Map<String, String> constants;
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;

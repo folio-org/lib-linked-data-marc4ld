@@ -116,10 +116,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.RESPONSIBILITY_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
+import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
@@ -235,29 +235,19 @@ class Marc2BibframeMapperIT {
     assertThat(resource).isNotNull();
     validateId(resource);
     assertThat(resource.getLabel()).isNotEmpty();
-    assertThat(resource.getDoc()).hasSize(1);
+    assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
+    assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
+      .isEqualTo("Statement Of Responsibility");
     assertThat(resource.getInventoryId()).isNull();
     assertThat(resource.getSrsId()).isNull();
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
-    assertThat(resource.getOutgoingEdges()).hasSize(1);
-    var workEdge = resource.getOutgoingEdges().iterator().next();
-    assertThat(workEdge.getSource()).isEqualTo(resource);
-    assertThat(workEdge.getPredicate()).isEqualTo(INSTANTIATES);
-    validateId(workEdge.getTarget());
-    assertThat(workEdge.getTarget().getLabel()).isNotNull();
-    assertThat(workEdge.getTarget().getTypes()).containsOnly(WORK);
-    assertThat(workEdge.getTarget().getInventoryId()).isNull();
-    assertThat(workEdge.getTarget().getSrsId()).isNull();
-    assertThat(workEdge.getTarget().getDoc()).hasSize(1);
-    assertThat(workEdge.getTarget().getDoc().has(RESPONSIBILITY_STATEMENT.getValue())).isTrue();
-    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue())).hasSize(1);
-    assertThat(workEdge.getTarget().getDoc().get(RESPONSIBILITY_STATEMENT.getValue()).get(0).asText())
-      .isEqualTo("Statement Of Responsibility");
-    assertThat(workEdge.getTarget().getOutgoingEdges()).isEmpty();
+    assertThat(resource.getOutgoingEdges()).isEmpty();
   }
 
   @Test
@@ -305,12 +295,16 @@ class Marc2BibframeMapperIT {
   private void validateInstance(Resource resource) {
     validateId(resource);
     assertThat(resource.getLabel()).isEqualTo("MainTitle");
-    assertThat(resource.getDoc()).hasSize(34);
+    assertThat(resource.getDoc()).hasSize(35);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
+    assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
+      .isEqualTo("Statement Of Responsibility");
     assertThat(resource.getDoc().has(EXTENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EXTENT.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(EXTENT.getValue()).get(0).asText()).isEqualTo("extent");
@@ -585,7 +579,7 @@ class Marc2BibframeMapperIT {
     validateId(work);
     assertThat(work.getLabel()).isEqualTo("MainTitle");
     assertThat(work.getTypes()).containsOnly(WORK);
-    assertThat(work.getDoc()).hasSize(15);
+    assertThat(work.getDoc()).hasSize(14);
     getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
@@ -896,25 +890,6 @@ class Marc2BibframeMapperIT {
     assertThat(resource.getDoc().has(SOURCE.getValue())).isTrue();
     assertThat(resource.getDoc().get(SOURCE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " source");
-    //TODO modify after MODLD-267 and MODLD-268
-    if ("contentTypes".equals(linkTerm)) {
-      assertThat(resource.getOutgoingEdges()).isNotEmpty();
-      var categorySetEdge = resource.getOutgoingEdges().iterator().next();
-      assertThat(categorySetEdge.getId()).isNull();
-      assertThat(categorySetEdge.getPredicate().getHash()).isEqualTo(IS_DEFINED_BY.getHash());
-      assertThat(categorySetEdge.getPredicate().getUri()).isEqualTo(IS_DEFINED_BY.getUri());
-      validateId(categorySetEdge.getTarget());
-      assertThat(categorySetEdge.getTarget().getTypes()).containsExactly(CATEGORY_SET);
-      assertThat(categorySetEdge.getTarget().getLabel()).isEqualTo("rdacontent");
-      assertThat(categorySetEdge.getTarget().getDoc()).hasSize(2);
-      Map.of(
-        LINK.getValue(), "http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent",
-        LABEL.getValue(), "rdacontent"
-      ).forEach((property, propertyValue) -> validateProperty(categorySetEdge.getTarget(), property, propertyValue));
-      assertThat(categorySetEdge.getTarget().getOutgoingEdges()).isEmpty();
-    } else {
-      assertThat(resource.getOutgoingEdges()).isEmpty();
-    }
   }
 
   private void validateAccessLocation(ResourceEdge edge) {
@@ -937,7 +912,6 @@ class Marc2BibframeMapperIT {
   private Map<String, String> getWorkExpectedProperties() {
     return Map.ofEntries(
       entry(LANGUAGE.getValue(), "eng"),
-      entry(RESPONSIBILITY_STATEMENT.getValue(), "Statement Of Responsibility"),
       entry(SUMMARY.getValue(), "work summary"),
       entry(TABLE_OF_CONTENTS.getValue(), "work table of contents"),
       entry(DATE_START.getValue(), "2022"),
