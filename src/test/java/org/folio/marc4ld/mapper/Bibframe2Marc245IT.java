@@ -122,15 +122,8 @@ class Bibframe2Marc245IT {
       emptyMap()
     ).setLabel("Instance Title empty");
 
-    var work = MonographTestUtil.createResource(
-      Collections.emptyMap(),
-      Set.of(WORK),
-      Collections.emptyMap()
-    ).setLabel("Work: label");
-
     var outgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     outgoingResources.put(PredicateDictionary.TITLE, List.of(instanceTitle, instanceTitle2));
-    outgoingResources.put(PredicateDictionary.INSTANTIATES, List.of(work));
 
     return createResource(
       Map.of(
