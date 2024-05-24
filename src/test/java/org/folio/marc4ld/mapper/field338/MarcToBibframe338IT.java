@@ -14,7 +14,7 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MarcToBibframe338IT {
 
   @Autowired
-  private Marc2BibframeMapperImpl marc2BibframeMapper;
+  private MarcBib2LdMapperImpl marc2BibframeMapper;
 
   @Test
   void shouldMapField337() {

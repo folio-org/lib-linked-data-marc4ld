@@ -5,5 +5,7 @@ import org.folio.ld.dictionary.model.Resource;
 
 public interface FieldMapper {
 
+  Collection<Resource> createResources();
+
   Collection<Resource> createResources(Resource parent);
 }

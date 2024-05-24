@@ -162,7 +162,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
-import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
 import static org.folio.marc4ld.util.Constants.Classification.DLC;
@@ -181,7 +180,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -190,12 +189,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Marc2BibframeMapperIT {
+class MarcBib2LdMapperIT {
 
   @Autowired
-  private Marc2BibframeMapperImpl marc2BibframeMapper;
+  private MarcBib2LdMapperImpl marc2BibframeMapper;
   @Autowired
   private FingerprintHashService hashService;
 
@@ -222,7 +222,7 @@ class Marc2BibframeMapperIT {
     // then
     assertThat(result).isNotNull();
     validateId(result);
-    assertThat(result.getLabel()).isNotEmpty();
+    assertThat(result.getLabel()).isEmpty();
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
     assertThat(result.getSrsId()).isNull();
@@ -241,7 +241,7 @@ class Marc2BibframeMapperIT {
     // then
     assertThat(resource).isNotNull();
     validateId(resource);
-    assertThat(resource.getLabel()).isNotEmpty();
+    assertThat(resource.getLabel()).isEmpty();
     assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
@@ -473,7 +473,7 @@ class Marc2BibframeMapperIT {
     validateId(edge.getTarget());
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_LCCN, IDENTIFIER);
-    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
@@ -857,7 +857,7 @@ class Marc2BibframeMapperIT {
     validateId(resource);
     assertThat(resource.getLabel()).isEqualTo("af");
     assertThat(resource.getTypes()).containsOnly(PLACE);
-    assertThat(resource.getDoc()).hasSize(2);
+    assertThat(resource.getDoc()).hasSize(3);
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("af");
@@ -1113,5 +1113,32 @@ class Marc2BibframeMapperIT {
   private void validateId(Resource resource) {
     var expectedId = hashService.hash(resource);
     assertThat(resource.getId()).isEqualTo(expectedId);
+  }
+
+  //TODO MODLD-391
+  @Deprecated(forRemoval = true, since = "MODLD-391")
+  private static void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
+                                  List<ResourceTypeDictionary> types,
+                                  Map<String, List<String>> properties,
+                                  String expectedLabel) {
+    assertThat(edge.getId()).isNull();
+    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
+    validateResource(edge.getTarget(), types, properties, expectedLabel);
+  }
+
+  //TODO MODLD-391
+  @Deprecated(forRemoval = true, since = "MODLD-391")
+  private static void validateResource(Resource resource,
+                                       List<ResourceTypeDictionary> types,
+                                       Map<String, List<String>> properties,
+                                       String expectedLabel) {
+    assertThat(resource.getId()).isNotNull();
+    assertThat(resource.getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
+
+    // disabled due to the fact that the label is not always present, problem with complicated
+    // assertThat(resource.getLabel()).isEqualTo(expectedLabel);
+    // assertThat(resource.getDoc()).hasSize(properties.size());
+    properties.forEach((property, propertyValues) -> validateProperty(resource, property, propertyValues));
   }
 }

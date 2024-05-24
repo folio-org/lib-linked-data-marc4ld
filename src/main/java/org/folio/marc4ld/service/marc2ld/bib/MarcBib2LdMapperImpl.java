@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld;
+package org.folio.marc4ld.service.marc2ld.bib;
 
 import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
@@ -9,26 +9,23 @@ import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
-import static org.folio.marc4ld.util.BibframeUtil.isNotEmpty;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
-import org.folio.marc4ld.service.marc2ld.field.FieldController;
+import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
+import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
-import org.marc4j.MarcJsonReader;
+import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
+import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -38,14 +35,16 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
+public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
 
   private final Marc2ldRules rules;
-  private final FieldController fieldController;
+  private final ResourceProcessor fieldController;
   private final FieldPreprocessor fieldPreprocessor;
   private final MarcFactory marcFactory;
   private final FingerprintHashService hashService;
   private final ConditionChecker conditionChecker;
+  private final MarcReaderProcessor marcReaderProcessor;
+  private final EmptyEdgesCleaner emptyEdgesCleaner;
 
   @Override
   public Resource fromMarcJson(String marc) {
@@ -53,13 +52,11 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       log.warn("Given marc is empty [{}]", marc);
       return null;
     }
-    var reader = getReader(marc);
     var instanceAndWork = createInstanceAndWork();
-    while (reader.hasNext()) {
-      fillInstanceFields(reader.next(), instanceAndWork.instance);
-    }
+    marcReaderProcessor.readMarc(marc)
+      .forEach(marcRecord -> fillInstanceFields(marcRecord, instanceAndWork.instance));
     setAdditionInfo(instanceAndWork);
-    cleanEmptyEdges(instanceAndWork.instance);
+    emptyEdgesCleaner.apply(instanceAndWork.instance);
     return instanceAndWork.instance;
   }
 
@@ -86,7 +83,7 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
     fieldPreprocessor.apply(dataField)
       .ifPresent(field ->
-        rules.findFiledRules(tag)
+        rules.findBibFieldRules(tag)
           .stream()
           .filter(rule -> conditionChecker
             .isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord.getControlFields()))
@@ -105,21 +102,6 @@ public class Marc2BibframeMapperImpl implements Marc2BibframeMapper {
       log.warn("Incorrect UUID value from Marc field 999, subfield [{}]: {}", subfield.getCode(), value);
       return null;
     }
-  }
-
-  private void cleanEmptyEdges(Resource resource) {
-    var outEdges = resource.getOutgoingEdges().stream()
-      .map(re -> {
-        cleanEmptyEdges(re.getTarget());
-        return re;
-      })
-      .filter(re -> isNotEmpty(re.getTarget()))
-      .collect(Collectors.toCollection(LinkedHashSet::new));
-    resource.setOutgoingEdges(outEdges);
-  }
-
-  private MarcJsonReader getReader(String marc) {
-    return new MarcJsonReader(new ByteArrayInputStream(marc.getBytes(StandardCharsets.UTF_8)));
   }
 
   private InstanceAndWork createInstanceAndWork() {

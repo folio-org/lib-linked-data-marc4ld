@@ -1,0 +1,43 @@
+{
+  "fields" : [ {
+    "001":"sh85121033"
+  }, {
+    "100" : {
+      "subfields" : [ {
+        "a" : "aValue"
+      }, {
+        "b" : "bValue"
+      }, {
+        "c" : "cValue1"
+      }, {
+        "c" : "cValue2"
+      }, {
+        "d" : "dValue"
+      }, {
+        "j" : "jValue1"
+      }, {
+        "j" : "jValue2"
+      }, {
+        "q" : "qValue"
+      } , {
+        "v" : "vValue1"
+      } , {
+        "v" : "vValue2"
+      } , {
+        "x" : "xValue1"
+      } , {
+        "x" : "xValue2"
+      } , {
+        "y" : "yValue1"
+      } , {
+        "y" : "yValue2"
+      } , {
+        "z" : "zValue1"
+      } , {
+        "z" : "zValue2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

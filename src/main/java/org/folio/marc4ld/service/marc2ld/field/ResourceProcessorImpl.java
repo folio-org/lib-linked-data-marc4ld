@@ -9,6 +9,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapperController;
@@ -20,13 +21,25 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FieldControllerImpl implements FieldController {
+public class ResourceProcessorImpl implements ResourceProcessor {
 
   private final RelationProvider relationProvider;
   private final Marc2ldMapperController marc2ldMapperController;
   private final FingerprintHashService hashService;
   private final MapperHelper mapperHelper;
   private final ConditionChecker conditionChecker;
+  private final LabelService labelService;
+
+  @Override
+  public Collection<Resource> create(DataField dataField,
+                                     List<ControlField> controlFields,
+                                     Marc2ldFieldRuleApplier rule) {
+    var fieldMapper = getMapper(dataField, controlFields, rule);
+    var mappedResources = fieldMapper.createResources();
+    mappedResources
+      .forEach(resource -> additionalMapping(resource, rule, dataField, controlFields));
+    return mappedResources;
+  }
 
   @Override
   public void handleField(Resource parent,
@@ -71,6 +84,7 @@ public class FieldControllerImpl implements FieldController {
       .relationProvider(relationProvider)
       .mapperHelper(mapperHelper)
       .hashService(hashService)
+      .labelService(labelService)
       .dataField(field)
       .controlFields(controlFields)
       .fieldRule(rule)

@@ -1,4 +1,4 @@
-fieldRules:
+bibFieldRules:
   '008':
     - types: WORK
       parent: INSTANCE
@@ -24,14 +24,12 @@ fieldRules:
             - types: CATEGORY_SET
               parent: CATEGORY
               predicate: IS_DEFINED_BY
-              label: LABEL
               constants:
                 LINK: http://id.loc.gov/vocabulary/mgovtpubtype
                 LABEL: Government Publication Type
         - types: CATEGORY
           parent: WORK
           predicate: TARGET_AUDIENCE
-          label: TERM
           controlFields:
             '008':
               CODE: 22,23
@@ -47,14 +45,12 @@ fieldRules:
       predicate: MAP
       subfields:
         a: NAME
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           a: presented
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
@@ -63,14 +59,12 @@ fieldRules:
       predicate: MAP
       subfields:
         z: NAME
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           z: presented
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
@@ -80,16 +74,14 @@ fieldRules:
       predicate: MAP
       subfields:
         a: LOCAL_ID_VALUE
-      label: LOCAL_ID_VALUE
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           a: presented
       ld2marcCondition:
         edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
@@ -98,16 +90,14 @@ fieldRules:
       predicate: MAP
       subfields:
         z: LOCAL_ID_VALUE
-      label: LOCAL_ID_VALUE
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           z: presented
       ld2marcCondition:
         edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
@@ -118,16 +108,14 @@ fieldRules:
       subfields:
         a: NAME
         q: QUALIFIER
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           a: presented
       ld2marcCondition:
         edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
@@ -137,16 +125,14 @@ fieldRules:
       subfields:
         z: NAME
         q: QUALIFIER
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           z: presented
       ld2marcCondition:
         edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
@@ -159,9 +145,8 @@ fieldRules:
         d: EAN_VALUE
         q: QUALIFIER
       concat: ''
-      label: EAN_VALUE
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           a: presented
         ind1: '3'
       ld2marcCondition:
@@ -169,7 +154,6 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
@@ -179,9 +163,8 @@ fieldRules:
       subfields:
         z: EAN_VALUE
         q: QUALIFIER
-      label: EAN_VALUE
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           z: presented
         ind1: '3'
       ld2marcCondition:
@@ -189,7 +172,6 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
@@ -201,9 +183,8 @@ fieldRules:
         d: NAME
         q: QUALIFIER
       concat: ''
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           a: presented
         ind1: '!3'
       ld2marcCondition:
@@ -211,7 +192,6 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
@@ -221,9 +201,8 @@ fieldRules:
       subfields:
         z: NAME
         q: QUALIFIER
-      label: NAME
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           z: presented
         ind1: '!3'
       ld2marcCondition:
@@ -231,7 +210,6 @@ fieldRules:
       edges:
         - types: STATUS
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
@@ -241,7 +219,6 @@ fieldRules:
       predicate: GEOGRAPHIC_COVERAGE
       subfields:
         a: GEOGRAPHIC_AREA_CODE
-      label: NAME
       constants:
         GEOGRAPHIC_COVERAGE: https://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
       mappings:
@@ -261,7 +238,6 @@ fieldRules:
         - types: STATUS
           parent: CLASSIFICATION
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: used by assigner
             LINK: http://id.loc.gov/vocabulary/mstatus/uba
@@ -270,7 +246,6 @@ fieldRules:
         - types: STATUS
           parent: CLASSIFICATION
           predicate: STATUS
-          label: LABEL
           constants:
             LABEL: not used by assigner
             LINK: http://id.loc.gov/vocabulary/mstatus/nuba
@@ -286,11 +261,10 @@ fieldRules:
         - types: ORGANIZATION
           parent: CLASSIFICATION
           predicate: ASSIGNING_SOURCE
-          label: NAME
           subfields:
             q: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               q: presented
   100:
     - types: PERSON
@@ -311,7 +285,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -333,7 +306,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -352,7 +324,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -371,7 +342,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: j
@@ -386,7 +356,7 @@ fieldRules:
       subfields:
         c: STATEMENT_OF_RESPONSIBILITY
       marc2ldCondition:
-        fields:
+        fieldsAllOf:
           c: presented
       append: true
   246:
@@ -429,7 +399,6 @@ fieldRules:
       predicate: ORIGIN_PLACE
       subfields:
         a: NAME
-      label: NAME
   261:
     - types: PROVIDER_EVENT
       parent: INSTANCE
@@ -438,7 +407,6 @@ fieldRules:
         f: SIMPLE_PLACE
         b: NAME
         d: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -446,7 +414,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -462,7 +429,6 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -470,7 +436,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -493,7 +458,6 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -501,7 +465,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -518,7 +481,6 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -526,7 +488,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -543,7 +504,6 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -551,7 +511,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -568,7 +527,6 @@ fieldRules:
         a: SIMPLE_PLACE
         b: NAME
         c: DATE
-      label: NAME
       controlFields:
         '008':
           PROVIDER_DATE: 7,11
@@ -576,7 +534,6 @@ fieldRules:
         - types: PLACE
           parent: PROVIDER_EVENT
           predicate: PROVIDER_PLACE
-          label: CODE
           controlFields:
             '008':
               CODE: 15,18
@@ -591,7 +548,6 @@ fieldRules:
         ind2: '4'
       subfields:
         c: DATE
-      label: DATE
   300:
     - types: INSTANCE
       subfields:
@@ -624,14 +580,12 @@ fieldRules:
         a: TERM
         b: CODE
         '2': SOURCE
-      label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/contentTypes/%CODE
       edges:
         - types: CATEGORY_SET
           parent: CATEGORY
           predicate: IS_DEFINED_BY
-          label: LABEL
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent
             LABEL: rdacontent
@@ -643,14 +597,12 @@ fieldRules:
         a: TERM
         b: CODE
         '2': SOURCE
-      label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
       edges:
         - types: CATEGORY_SET
           parent: CATEGORY
           predicate: IS_DEFINED_BY
-          label: LABEL
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia
             LABEL: rdamedia
@@ -662,14 +614,12 @@ fieldRules:
         a: TERM
         b: CODE
         '2': SOURCE
-      label: TERM
       constants:
         LINK: http://id.loc.gov/vocabulary/carriers/%CODE
       edges:
         - types: CATEGORY_SET
           parent: CATEGORY
           predicate: IS_DEFINED_BY
-          label: LABEL
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier
             LABEL: rdacarrier
@@ -700,16 +650,14 @@ fieldRules:
         d: DISSERTATION_YEAR
         g: DISSERTATION_NOTE
         o: DISSERTATION_ID
-      label: LABEL
       edges:
         - types: ORGANIZATION
           parent: DISSERTATION
           predicate: GRANTING_INSTITUTION
-          label: NAME
           subfields:
             c: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               c: presented
   504:
     - types: WORK
@@ -1033,7 +981,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       marc2ldCondition:
         ind1: '3'
       edges:
@@ -1054,16 +1001,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1071,9 +1016,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1081,9 +1025,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1091,9 +1034,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1121,7 +1063,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       marc2ldCondition:
         ind1: '!3'
       edges:
@@ -1142,16 +1083,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1159,9 +1098,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1169,9 +1107,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1179,9 +1116,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1208,7 +1144,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       marc2ldCondition:
         ind1: '1'
       edges:
@@ -1227,16 +1162,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1244,9 +1177,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1254,9 +1186,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1264,9 +1195,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1292,7 +1222,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       marc2ldCondition:
         ind1: '!1'
       edges:
@@ -1311,16 +1240,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1328,9 +1255,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1338,9 +1264,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1348,9 +1273,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1377,7 +1301,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       edges:
         - types: TOPIC
           predicate: FOCUS
@@ -1394,7 +1317,6 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
@@ -1402,9 +1324,8 @@ fieldRules:
           subfields:
             v: NAME
           multiply: true
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1412,9 +1333,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1422,9 +1342,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1433,9 +1352,8 @@ fieldRules:
           subfields:
             z: NAME
           multiply: true
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1459,7 +1377,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       edges:
         - types: PLACE
           predicate: FOCUS
@@ -1473,16 +1390,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1490,9 +1405,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1500,9 +1414,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1510,9 +1423,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             z: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1536,7 +1448,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       edges:
         - types: FORM
           predicate: FOCUS
@@ -1550,16 +1461,14 @@ fieldRules:
             '6': LINKAGE
             '7': CONTROL_FIELD
             '8': FIELD_LINK
-          label: NAME
           ld2marcCondition:
             skip: true
         - types: FORM
           predicate: SUB_FOCUS
           subfields:
             v: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               v: presented
           ld2marcCondition:
             skip: true
@@ -1567,9 +1476,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             x: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               x: presented
           ld2marcCondition:
             skip: true
@@ -1577,9 +1485,8 @@ fieldRules:
           predicate: SUB_FOCUS
           subfields:
             y: NAME
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               y: presented
           ld2marcCondition:
             skip: true
@@ -1588,9 +1495,8 @@ fieldRules:
           subfields:
             z: NAME
           multiply: true
-          label: NAME
           marc2ldCondition:
-            fields:
+            fieldsAllOf:
               z: presented
           ld2marcCondition:
             skip: true
@@ -1607,7 +1513,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       ld2marcCondition:
         skip: true
   700:
@@ -1629,7 +1534,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -1651,7 +1555,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -1670,7 +1573,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: e
@@ -1689,7 +1591,6 @@ fieldRules:
         '6': LINKAGE
         '7': CONTROL_FIELD
         '8': FIELD_LINK
-      label: NAME
       relation:
         code: '4'
         text: j
@@ -1708,9 +1609,8 @@ fieldRules:
       subfields:
         u: LINK
         z: NOTE
-      label: LINK
 
-sharedRules:
+bibSharedRules:
   245_mappings:
     types: TITLE
     predicate: TITLE
@@ -1720,7 +1620,6 @@ sharedRules:
       n: PART_NUMBER
       p: PART_NAME
     ind2: NON_SORT_NUM
-    label: MAIN_TITLE
   246_mappings:
     predicate: TITLE
     subfields:
@@ -1730,7 +1629,6 @@ sharedRules:
       i: NOTE
       n: PART_NUMBER
       p: PART_NAME
-    label: MAIN_TITLE
   050_mappings:
     types: CLASSIFICATION
     parent: WORK
@@ -1738,14 +1636,12 @@ sharedRules:
     subfields:
       a: CODE
       b: ITEM_NUMBER
-    label: CODE
     ld2marcCondition:
       skip: true
     edges:
       - types: ORGANIZATION
         parent: CLASSIFICATION
         predicate: ASSIGNING_SOURCE
-        label: NAME
         constants:
           NAME: United States, Library of Congress
           LINK: http://id.loc.gov/vocabulary/organizations/dlc

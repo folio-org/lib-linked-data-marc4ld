@@ -20,11 +20,11 @@ public interface Marc2ldFieldRuleApplier {
 
   Collection<Marc2ldFieldRuleApplier> getEdgeRules();
 
+  Resource createResource();
+
   Optional<Resource> selectResourceFromEdges(Resource resource);
 
   boolean isAppend();
-
-  String getLabel(Map<String, List<String>> properties);
 
   Optional<Relation> getRelation();
 
