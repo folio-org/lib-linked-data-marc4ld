@@ -1,15 +1,11 @@
 package org.folio.marc4ld.service.marc2ld;
 
-import static java.lang.String.join;
-import static org.apache.commons.lang3.StringUtils.SPACE;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
@@ -18,6 +14,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
+import org.folio.marc4ld.service.marc2ld.label.LabelProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -26,7 +23,6 @@ import org.marc4j.marc.DataField;
 @AllArgsConstructor
 public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
 
-  private final String label;
   private final Relation relation;
   @NonNull
   private final Marc4BibframeRules.FieldRule fieldRule;
@@ -38,6 +34,8 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   private final Collection<ResourceTypeDictionary> types;
   @NonNull
   private final PredicateDictionary predicate;
+  @NonNull
+  private final LabelProcessor labelProcessor;
 
   @Override
   public Marc4BibframeRules.FieldRule getOriginal() {
@@ -80,10 +78,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
 
   @Override
   public String getLabel(Map<String, List<String>> properties) {
-    return Optional.ofNullable(label)
-      .map(properties::get)
-      .map(vs -> join(SPACE, vs))
-      .orElseGet(UUID.randomUUID()::toString);
+    return labelProcessor.apply(properties);
   }
 
   @Override

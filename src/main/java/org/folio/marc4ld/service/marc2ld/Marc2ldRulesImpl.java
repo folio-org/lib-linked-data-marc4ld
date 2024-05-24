@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -25,6 +24,8 @@ import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMergerFactory;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformer;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformerFactory;
+import org.folio.marc4ld.service.marc2ld.label.LabelProcessor;
+import org.folio.marc4ld.service.marc2ld.label.LabelProcessorFactory;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.folio.marc4ld.service.marc2ld.relation.RelationImpl;
 import org.marc4j.marc.ControlField;
@@ -40,15 +41,18 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
   private final PropertyMergerFactory propertyMergerFactory;
+  private final LabelProcessorFactory labelProcessorFactory;
 
   @Autowired
   public Marc2ldRulesImpl(Marc4BibframeRules marc4BibframeRules,
                           DictionaryProcessor dictionaryProcessor,
                           PropertyTransformerFactory propertyTransformerFactory,
-                          PropertyMergerFactory propertyMergerFactory) {
+                          PropertyMergerFactory propertyMergerFactory,
+                          LabelProcessorFactory labelProcessorFactory) {
     this.dictionaryProcessor = dictionaryProcessor;
     this.propertyTransformerFactory = propertyTransformerFactory;
     this.propertyMergerFactory = propertyMergerFactory;
+    this.labelProcessorFactory = labelProcessorFactory;
 
     this.rules = initRules(marc4BibframeRules);
   }
@@ -77,19 +81,11 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .edgeRules(getEdges(rule))
       .propertyRule(getPropertyRule(rule))
       .types(getTypes(rule))
-      .predicate(getPredicate(rule));
-    getLabel(rule)
-      .ifPresent(builder::label);
+      .predicate(getPredicate(rule))
+      .labelProcessor(getLabelProcessor(rule));
     getRelation(rule)
       .ifPresent(builder::relation);
     return builder.build();
-  }
-
-  private Optional<String> getLabel(Marc4BibframeRules.FieldRule rule) {
-    return Optional.of(rule)
-      .map(Marc4BibframeRules.FieldRule::getLabel)
-      .map(PropertyDictionary::valueOf)
-      .map(PropertyDictionary::getValue);
   }
 
   private Optional<Relation> getRelation(Marc4BibframeRules.FieldRule rule) {
@@ -119,6 +115,10 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .map(Marc4BibframeRules.FieldRule::getPredicate)
       .map(PredicateDictionary::valueOf)
       .orElse(PredicateDictionary.NULL);
+  }
+
+  private LabelProcessor getLabelProcessor(Marc4BibframeRules.FieldRule rule) {
+    return labelProcessorFactory.get(rule);
   }
 
   private PropertyRule getPropertyRule(Marc4BibframeRules.FieldRule rule) {
