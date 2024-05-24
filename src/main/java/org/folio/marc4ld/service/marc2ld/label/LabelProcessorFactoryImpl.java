@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.label;
 
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.springframework.stereotype.Component;
@@ -12,19 +13,18 @@ public class LabelProcessorFactoryImpl implements LabelProcessorFactory {
 
   @Override
   public LabelProcessor get(Marc4BibframeRules.FieldRule rule) {
-    return getLabel(rule)
-      .map(this::createSinglePropertyProcessor)
+    return Optional.of(rule)
+      .map(Marc4BibframeRules.FieldRule::getLabel)
+      .filter(StringUtils::isNotBlank)
+      .map(this::createProcessor)
       .orElse(defaultLabelProcessor);
   }
 
-  private Optional<String> getLabel(Marc4BibframeRules.FieldRule rule) {
-    return Optional.of(rule)
-      .map(Marc4BibframeRules.FieldRule::getLabel)
-      .map(PropertyDictionary::valueOf)
-      .map(PropertyDictionary::getValue);
-  }
-
-  private LabelProcessor createSinglePropertyProcessor(String label) {
-    return new SinglePropertyLabelProcessor(label, defaultLabelProcessor);
+  private LabelProcessor createProcessor(String label) {
+    if (label.contains("${")) {
+      return new TemplateLabelProcessor(label);
+    }
+    var property = PropertyDictionary.valueOf(label).getValue();
+    return new SinglePropertyLabelProcessor(property, defaultLabelProcessor);
   }
 }
