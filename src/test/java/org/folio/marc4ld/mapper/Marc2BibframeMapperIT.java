@@ -676,11 +676,6 @@ class Marc2BibframeMapperIT {
         NAME.getValue(), "United States, Library of Congress",
         LINK.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc"
       ), "United States, Library of Congress");
-    validateEdge(iterator.next(), ASSIGNING_SOURCE,
-      List.of(ORGANIZATION),
-      Map.of(
-        NAME.getValue(), "assigning agency"
-      ), "assigning agency");
   }
 
   private void validateTargetAudience(ResourceEdge edge) {

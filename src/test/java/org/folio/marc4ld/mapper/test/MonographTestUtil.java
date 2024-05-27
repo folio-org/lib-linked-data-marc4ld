@@ -831,15 +831,7 @@ public class MonographTestUtil {
   }
 
   private static Resource createDdcClassification() {
-    var subResource1 = createResource(
-      Map.of(
-        NAME, List.of("United States, Library of Congress"),
-        LINK, List.of("http://id.loc.gov/vocabulary/organizations/dlc")
-      ),
-      Set.of(ORGANIZATION),
-      emptyMap()
-    ).setLabel("United States, Library of Congress");
-    var subResource2 = createResource(
+    var subResource = createResource(
       Map.of(
         NAME, List.of("assigning agency")
       ),
@@ -847,7 +839,7 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("assigning agency");
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
-    pred2OutgoingResources.put(ASSIGNING_SOURCE, List.of(subResource1, subResource2));
+    pred2OutgoingResources.put(ASSIGNING_SOURCE, List.of(subResource));
     return createResource(
       Map.of(
         CODE, List.of("Dewey Decimal Classification value"),
