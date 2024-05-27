@@ -39,7 +39,6 @@ public class Marc4BibframeRulesPostProcessor implements BeanPostProcessor {
     ofNullable(source.getSubfields()).ifPresent(target::putSubfields);
     ofNullable(source.getInd1()).ifPresent(target::setInd1);
     ofNullable(source.getInd2()).ifPresent(target::setInd2);
-    ofNullable(source.getLabel()).ifPresent(target::setLabel);
     ofNullable(source.getConcat()).ifPresent(target::setConcat);
     ofNullable(source.getConstants()).ifPresent(target::putConstants);
     ofNullable(source.getControlFields()).ifPresent(target::putControlFields);

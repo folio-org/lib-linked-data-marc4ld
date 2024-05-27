@@ -24,8 +24,8 @@ import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMergerFactory;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformer;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformerFactory;
-import org.folio.marc4ld.service.marc2ld.label.LabelProcessor;
-import org.folio.marc4ld.service.marc2ld.label.LabelProcessorFactory;
+import org.folio.marc4ld.service.label.processor.LabelProcessor;
+import org.folio.marc4ld.service.label.LabelProcessorFactory;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.folio.marc4ld.service.marc2ld.relation.RelationImpl;
 import org.marc4j.marc.ControlField;
@@ -81,8 +81,7 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .edgeRules(getEdges(rule))
       .propertyRule(getPropertyRule(rule))
       .types(getTypes(rule))
-      .predicate(getPredicate(rule))
-      .labelProcessor(getLabelProcessor(rule));
+      .predicate(getPredicate(rule));
     getRelation(rule)
       .ifPresent(builder::relation);
     return builder.build();
@@ -115,10 +114,6 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .map(Marc4BibframeRules.FieldRule::getPredicate)
       .map(PredicateDictionary::valueOf)
       .orElse(PredicateDictionary.NULL);
-  }
-
-  private LabelProcessor getLabelProcessor(Marc4BibframeRules.FieldRule rule) {
-    return labelProcessorFactory.get(rule);
   }
 
   private PropertyRule getPropertyRule(Marc4BibframeRules.FieldRule rule) {

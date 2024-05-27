@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.label;
+package org.folio.marc4ld.service.label.processor;
 
 import java.util.List;
 import java.util.Map;

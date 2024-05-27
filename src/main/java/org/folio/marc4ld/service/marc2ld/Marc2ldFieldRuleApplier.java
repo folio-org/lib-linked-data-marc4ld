@@ -24,8 +24,6 @@ public interface Marc2ldFieldRuleApplier {
 
   boolean isAppend();
 
-  String getLabel(Map<String, List<String>> properties);
-
   Optional<Relation> getRelation();
 
   Collection<Map<String, List<String>>> createProperties(DataField dataField,

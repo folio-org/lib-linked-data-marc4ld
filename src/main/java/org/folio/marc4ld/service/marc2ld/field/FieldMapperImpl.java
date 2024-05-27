@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
@@ -26,6 +27,7 @@ public class FieldMapperImpl implements FieldMapper {
   private final DataField dataField;
   private final Collection<ControlField> controlFields;
   private final Marc2ldFieldRuleApplier fieldRule;
+  private final LabelService labelService;
 
   @Override
   public Collection<Resource> createResources(Resource parent) {
@@ -62,7 +64,7 @@ public class FieldMapperImpl implements FieldMapper {
     fieldRule.getTypes()
       .forEach(edgeResource::addType);
     edgeResource.setDoc(mapperHelper.getJsonNode(properties));
-    edgeResource.setLabel(fieldRule.getLabel(properties));
+    labelService.setLabel(edgeResource, properties);
     edgeResource.setId(hashService.hash(edgeResource));
     parentResource.addOutgoingEdge(new ResourceEdge(parentResource, edgeResource, fieldRule.getPredicate()));
     return edgeResource;

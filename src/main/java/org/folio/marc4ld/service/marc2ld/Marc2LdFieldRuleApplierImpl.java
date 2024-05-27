@@ -14,7 +14,6 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
-import org.folio.marc4ld.service.marc2ld.label.LabelProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -34,8 +33,6 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   private final Collection<ResourceTypeDictionary> types;
   @NonNull
   private final PredicateDictionary predicate;
-  @NonNull
-  private final LabelProcessor labelProcessor;
 
   @Override
   public Marc4BibframeRules.FieldRule getOriginal() {
@@ -74,11 +71,6 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   @Override
   public boolean isAppend() {
     return fieldRule.isAppend();
-  }
-
-  @Override
-  public String getLabel(Map<String, List<String>> properties) {
-    return labelProcessor.apply(properties);
   }
 
   @Override

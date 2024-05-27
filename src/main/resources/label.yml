@@ -1,0 +1,136 @@
+rules:
+  - types:
+      - CATEGORY
+    properties:
+      - TERM
+      - CODE
+  - types:
+      - CATEGORY_SET
+    properties:
+      - LABEL
+  - types:
+      - STATUS
+    properties:
+      - LABEL
+  - types:
+      - ID_LCCN
+      - IDENTIFIER
+    properties:
+      - NAME
+  - types:
+      - ID_LOCAL
+      - IDENTIFIER
+    properties:
+      - LOCAL_ID_VALUE
+  - types:
+      - ID_ISBN
+      - IDENTIFIER
+    properties:
+      - NAME
+  - types:
+      - ID_EAN
+      - IDENTIFIER
+    properties:
+      - EAN_VALUE
+  - types:
+      - ID_UNKNOWN
+      - IDENTIFIER
+    properties:
+      - NAME
+  - types:
+      - PLACE
+    properties:
+      - NAME
+      - CODE
+  - types:
+      - PERSON
+    properties:
+      - NAME
+  - types:
+      - FAMILY
+    properties:
+      - NAME
+  - types:
+      - ORGANIZATION
+    properties:
+      - NAME
+  - types:
+      - MEETING
+    properties:
+      - NAME
+  - types:
+      - PROVIDER_EVENT
+    properties:
+      - NAME
+  - types:
+      - COPYRIGHT_EVENT
+    properties:
+      - DATE
+  - types:
+      - CONCEPT
+      - FAMILY
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - PERSON
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - JURISDICTION
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - ORGANIZATION
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - TOPIC
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - PLACE
+    properties:
+      - NAME
+  - types:
+      - CONCEPT
+      - FORM
+    properties:
+      - NAME
+  - types:
+      - FORM
+    properties:
+      - NAME
+  - types:
+      - TOPIC
+    properties:
+      - NAME
+  - types:
+      - TEMPORAL
+    properties:
+      - NAME
+  - types:
+      - JURISDICTION
+    properties:
+      - NAME
+  - types:
+      - ANNOTATION
+    properties:
+      - NAME
+      - LINK
+  - types:
+      - TITLE
+    properties:
+      - MAIN_TITLE
+  - types:
+      - VARIANT_TITLE
+    properties:
+      - MAIN_TITLE
+  - types:
+      - PARALLEL_TITLE
+    properties:
+      - MAIN_TITLE

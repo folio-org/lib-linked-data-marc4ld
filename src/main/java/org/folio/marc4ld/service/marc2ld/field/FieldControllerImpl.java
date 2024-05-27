@@ -8,6 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
+import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
@@ -27,6 +28,7 @@ public class FieldControllerImpl implements FieldController {
   private final FingerprintHashService hashService;
   private final MapperHelper mapperHelper;
   private final ConditionChecker conditionChecker;
+  private final LabelService labelService;
 
   @Override
   public void handleField(Resource parent,
@@ -71,6 +73,7 @@ public class FieldControllerImpl implements FieldController {
       .relationProvider(relationProvider)
       .mapperHelper(mapperHelper)
       .hashService(hashService)
+      .labelService(labelService)
       .dataField(field)
       .controlFields(controlFields)
       .fieldRule(rule)

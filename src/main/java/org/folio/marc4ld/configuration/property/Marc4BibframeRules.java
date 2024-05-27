@@ -30,7 +30,6 @@ public class Marc4BibframeRules {
     private Map<Character, String> subfields;
     private String ind1;
     private String ind2;
-    private String label;
     private String concat;
     private boolean append;
     private boolean multiply;
