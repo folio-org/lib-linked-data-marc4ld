@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 
-import static org.apache.logging.log4j.util.Strings.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
@@ -57,7 +56,7 @@ public class GovernmentPublicationMapper implements Marc2ldMapper {
   private void processControlField(Resource resource, ControlField controlField) {
     var code = controlField.getData().charAt(GOVT_PUB_CHAR_INDEX);
     var link = LINK_MAPPER.apply(code);
-    var term = MARC_CODE_TO_TERM_MAP.getOrDefault(code, EMPTY);
+    var term = MARC_CODE_TO_TERM_MAP.get(code);
     mapperHelper.addPropertiesToResource(
       resource,
       Map.of(
