@@ -13,6 +13,7 @@ import static org.folio.marc4ld.util.Constants.Classification.TAG_082;
 import static org.folio.marc4ld.util.Constants.FOUR;
 import static org.folio.marc4ld.util.Constants.ONE;
 import static org.folio.marc4ld.util.Constants.Q;
+import static org.folio.marc4ld.util.Constants.SEVEN;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TWO;
 import static org.folio.marc4ld.util.Constants.ZERO;
@@ -59,7 +60,7 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
 
   @Override
   protected char getIndicator1(Resource resource) {
-    var ind1 = SPACE;
+    var ind1 = SEVEN;
     if (resource.getDoc().get(EDITION.getValue()) != null) {
       var editions = objectMapper.convertValue(resource.getDoc().get(EDITION.getValue()), List.class);
       if (editions.contains(FULL)) {
@@ -89,7 +90,7 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
       .filter(resourceEdge -> ASSIGNING_SOURCE.equals(resourceEdge.getPredicate()))
       .map(ResourceEdge::getTarget)
       .filter(r -> r.getDoc().get(LINK.getValue()) != null)
-      .anyMatch(r -> DLC.equals(r.getDoc().get(LINK.getValue()).asText()));
+      .anyMatch(r -> DLC.equals(r.getDoc().get(LINK.getValue()).get(0).asText()));
   }
 
   private boolean isAssignedByOtherOrg(Resource resource) {
@@ -97,7 +98,9 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
       .stream()
       .filter(resourceEdge -> ASSIGNING_SOURCE.equals(resourceEdge.getPredicate()))
       .map(ResourceEdge::getTarget)
-      .anyMatch(r -> r.getDoc().get(LINK.getValue()) == null);
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(LINK.getValue()))
+      .anyMatch(ln -> ln == null || !DLC.equals(ln.get(0).asText()));
   }
 
   private void addSubfieldQ(DataField dataField, Resource resource) {

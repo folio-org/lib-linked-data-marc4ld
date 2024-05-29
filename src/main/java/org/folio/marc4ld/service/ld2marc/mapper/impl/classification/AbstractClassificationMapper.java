@@ -43,8 +43,8 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
   @Override
   public DataField map(Resource resource) {
     var dataField = marcFactory.newDataField(getTag(), getIndicator1(resource), getIndicator2(resource));
-    getPropertyValues(resource, CODE.getValue()).ifPresent(codes -> codes
-      .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code))));
+    getPropertyValues(resource, CODE.getValue())
+      .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code)));
     getPropertyValue(resource, ITEM_NUMBER.getValue())
       .ifPresent(itemNumber -> dataField.addSubfield(marcFactory.newSubfield(B, itemNumber)));
     return dataField;
@@ -56,9 +56,9 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
       : Optional.empty();
   }
 
-  private Optional<List<String>> getPropertyValues(Resource resource, String property) {
+  private List<String> getPropertyValues(Resource resource, String property) {
     return resource.getDoc().get(property) != null
-      ? Optional.of(objectMapper.convertValue(resource.getDoc().get(property), new TypeReference<>() {}))
-      : Optional.empty();
+      ? objectMapper.convertValue(resource.getDoc().get(property), new TypeReference<>() {})
+      : List.of();
   }
 }
