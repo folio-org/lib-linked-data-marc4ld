@@ -24,8 +24,6 @@ import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMergerFactory;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformer;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformerFactory;
-import org.folio.marc4ld.service.label.processor.LabelProcessor;
-import org.folio.marc4ld.service.label.LabelProcessorFactory;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.folio.marc4ld.service.marc2ld.relation.RelationImpl;
 import org.marc4j.marc.ControlField;
@@ -41,18 +39,15 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
   private final PropertyMergerFactory propertyMergerFactory;
-  private final LabelProcessorFactory labelProcessorFactory;
 
   @Autowired
   public Marc2ldRulesImpl(Marc4BibframeRules marc4BibframeRules,
                           DictionaryProcessor dictionaryProcessor,
                           PropertyTransformerFactory propertyTransformerFactory,
-                          PropertyMergerFactory propertyMergerFactory,
-                          LabelProcessorFactory labelProcessorFactory) {
+                          PropertyMergerFactory propertyMergerFactory) {
     this.dictionaryProcessor = dictionaryProcessor;
     this.propertyTransformerFactory = propertyTransformerFactory;
     this.propertyMergerFactory = propertyMergerFactory;
-    this.labelProcessorFactory = labelProcessorFactory;
 
     this.rules = initRules(marc4BibframeRules);
   }

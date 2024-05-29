@@ -1,4 +1,4 @@
-rules:
+labelRules:
   - types:
       - CATEGORY
     properties:

@@ -6,18 +6,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @Data
 @Configuration
 @ConfigurationProperties
-@PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class)
+@PropertySources({
+  @PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class),
+  @PropertySource(value = "classpath:label.yml", factory = YamlPropertySourceFactory.class)
+})
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> fieldRules;
   private Map<String, FieldRule> sharedRules;
+  private List<LabelRule> labelRules;
 
   @Data
   public static class FieldRule {
@@ -91,5 +97,14 @@ public class Marc4BibframeRules {
     private String data;
     private String expression;
     private List<String> args;
+  }
+
+  @Data
+  @NoArgsConstructor
+  public static class LabelRule {
+    private List<String> types;
+    private List<String> properties;
+    private String predicate;
+    private String pattern;
   }
 }
