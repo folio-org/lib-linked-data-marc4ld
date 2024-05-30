@@ -1,7 +1,6 @@
 package org.folio.marc4ld.service.label.processor;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,21 +73,24 @@ public class TemplateLabelProcessor implements LabelProcessor {
   private String processConditionalPart(String part, Map<String, List<String>> parameters) {
     var result = new StringBuilder();
     var variableMatcher = VARIABLE_PATTERN.matcher(part);
-    var lastIndex = 0;
-
-    while (variableMatcher.find()) {
-      var key = getPropertyKey(variableMatcher);
-      var values = parameters.getOrDefault(key, Collections.emptyList());
-
-      if (values.isEmpty()) {
-        return EMPTY;
-      }
-
-      result.append(part, lastIndex, variableMatcher.start());
-      result.append(String.join(SPACE, values));
-      lastIndex = variableMatcher.end();
+    if (!variableMatcher.find()) {
+      return EMPTY;
     }
-    result.append(part.substring(lastIndex));
+    var key = getPropertyKey(variableMatcher);
+    var values = parameters.getOrDefault(key, Collections.emptyList());
+
+    if (values.isEmpty()) {
+      return EMPTY;
+    }
+    var firstIndex = variableMatcher.start();
+    var lastIndex = variableMatcher.end();
+    var endString = part.substring(lastIndex);
+
+    for (var v : values) {
+      result.append(part, 0, firstIndex);
+      result.append(v);
+      result.append(endString);
+    }
 
     return result.toString();
   }

@@ -39,7 +39,7 @@ class TemplateLabelProcessorTest {
         Map.of("http://bibfra.me/vocab/marc/titles", List.of("moon")
         )),
       Arguments.of("bVal, aVal, cVal, qVal, dVal -- vVal -- xVal -- yVal -- zVal1 zVal2",
-        "{$LINK}, {$AFFILIATION}, {$CODE}, {$TERM}, {$DATE} -- {$NOTE} -- {$SUMMARY} -- {$TITLES} -- {$WITH_NOTE}",
+        "{$LINK}, {$AFFILIATION}, {$CODE}, {$TERM}, {$DATE} -- {$NOTE} -- {$SUMMARY} -- {$TITLES} --{ $WITH_NOTE}",
         Map.of(
           "http://bibfra.me/vocab/scholar/affiliation", List.of("aVal"),
           "http://bibfra.me/vocab/lite/link", List.of("bVal"),
@@ -51,7 +51,7 @@ class TemplateLabelProcessorTest {
           "http://bibfra.me/vocab/marc/titles", List.of("yVal"),
           "http://bibfra.me/vocab/marc/withNote", List.of("zVal1", "zVal2")
         )),
-      Arguments.of("bVal, aVal, cVal, qVal, dVal -- vVal -- xVal, -- yVal -- zVal1 zVal2",
+      Arguments.of("bVal, aVal, cVal, qVal, dVal -- vVal -- xVal, -- yVal -- zVal1 -- zVal2",
         "{$LINK}{, $AFFILIATION}{, $CODE}{, $TERM, }{$DATE}{ -- $NOTE}{ -- $SUMMARY,}{ -- $TITLES}{ -- $WITH_NOTE}",
         Map.of(
           "http://bibfra.me/vocab/scholar/affiliation", List.of("aVal"),
@@ -80,6 +80,16 @@ class TemplateLabelProcessorTest {
         "{$TERM,,,,,,,,,,   ,,,,,--,,,}{: $TITLES}",
         Map.of(
           "http://bibfra.me/vocab/marc/term", List.of("trimmed")
+        )),
+      Arguments.of("Prelude to the wedding, Batgirl vs. Riddler",
+        "{, $TERM}",
+        Map.of(
+          "http://bibfra.me/vocab/marc/term", List.of("Prelude to the wedding", "Batgirl vs. Riddler")
+        )),
+      Arguments.of("f1--, f2--, f3",
+        "{, $LINK--}",
+        Map.of(
+          "http://bibfra.me/vocab/lite/link", List.of("f1", "f2", "f3")
         ))
     );
   }
