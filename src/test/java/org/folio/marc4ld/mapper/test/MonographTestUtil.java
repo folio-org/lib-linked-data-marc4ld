@@ -3,6 +3,7 @@ package org.folio.marc4ld.mapper.test;
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
@@ -45,6 +46,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
+import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
+import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
@@ -356,7 +359,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(COPYRIGHT, List.of(copyrightEvent));
     pred2OutgoingResources.put(INSTANTIATES, List.of(createSampleWork()));
 
-    var instance = createResource(
+    return createResource(
       Map.ofEntries(
         entry(EXTENT, List.of("extent")),
         entry(DIMENSIONS, List.of("dimensions")),
@@ -406,7 +409,6 @@ public class MonographTestUtil {
       pred2OutgoingResources)
       .setInventoryId(UUID.fromString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1"))
       .setSrsId(UUID.fromString("43d58061-decf-4d74-9747-0e1c368e861b"));
-    return instance;
   }
 
   public static Resource createSampleWork() {
@@ -425,15 +427,6 @@ public class MonographTestUtil {
       Set.of(PLACE),
       emptyMap()
     ).setLabel("United States");
-
-    var deweyClassification = createResource(
-      Map.of(
-        CODE, List.of("Dewey Decimal Classification value"),
-        SOURCE, List.of("ddc")
-      ),
-      Set.of(CATEGORY),
-      emptyMap()
-    ).setLabel("Dewey Decimal Classification value");
 
     var meetingCreator = createResource(
       Map.ofEntries(
@@ -592,7 +585,7 @@ public class MonographTestUtil {
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(ORIGIN_PLACE, List.of(originPlace));
     pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
-    pred2OutgoingResources.put(CLASSIFICATION, List.of(createLcClassification(), deweyClassification));
+    pred2OutgoingResources.put(CLASSIFICATION, List.of(createLcClassification(), createDdcClassification()));
     pred2OutgoingResources.put(CREATOR, List.of(meetingCreator, personCreator, organizationCreator, familyCreator));
     pred2OutgoingResources.put(CONTRIBUTOR, List.of(meetingContributor, personContributor, organizationContributor,
       familyContributor));
@@ -835,6 +828,29 @@ public class MonographTestUtil {
       Set.of(CATEGORY),
       pred2OutgoingResources
     ).setLabel("code");
+  }
+
+  private static Resource createDdcClassification() {
+    var subResource = createResource(
+      Map.of(
+        NAME, List.of("assigning agency")
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("assigning agency");
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(ASSIGNING_SOURCE, List.of(subResource));
+    return createResource(
+      Map.of(
+        CODE, List.of("Dewey Decimal Classification value"),
+        SOURCE, List.of("ddc"),
+        ITEM_NUMBER, List.of("item number"),
+        EDITION_NUMBER, List.of("edition number"),
+        EDITION, List.of("Full")
+      ),
+      Set.of(ResourceTypeDictionary.CLASSIFICATION),
+      pred2OutgoingResources
+    ).setLabel("Dewey Decimal Classification value");
   }
 
   private Resource createTargetAudience() {

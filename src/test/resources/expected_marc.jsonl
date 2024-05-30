@@ -1,5 +1,5 @@
 {
-  "leader" : "09196nam a2200985uc 4500",
+  "leader" : "09243nam a2200985uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -122,9 +122,15 @@
     "082" : {
       "subfields" : [ {
         "a" : "Dewey Decimal Classification value"
+      }, {
+        "b" : "item number"
+      }, {
+        "2" : "edition number"
+      }, {
+        "q" : "assigning agency"
       } ],
-      "ind1" : " ",
-      "ind2" : " "
+      "ind1" : "0",
+      "ind2" : "4"
     }
   }, {
     "100" : {

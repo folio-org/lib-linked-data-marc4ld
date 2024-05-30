@@ -1,0 +1,16 @@
+{
+  "leader" : "00076nam a2200037uc 4500",
+  "fields" : [ {
+    "082" : {
+      "subfields" : [ {
+        "a" : "code"
+      }, {
+        "b" : "item number"
+      }, {
+        "2" : "edition number"
+      } ],
+      "ind1" : "7",
+      "ind2" : " "
+    }
+  } ]
+}

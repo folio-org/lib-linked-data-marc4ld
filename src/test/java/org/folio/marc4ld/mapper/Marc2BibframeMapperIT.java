@@ -3,6 +3,7 @@ package org.folio.marc4ld.mapper;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
@@ -64,6 +65,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
+import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
+import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
@@ -590,7 +593,7 @@ class Marc2BibframeMapperIT {
         GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
       ), "United States");
     validateLcClassification(edgeIterator.next());
-    validateClassification(edgeIterator.next());
+    validateDdcClassification(edgeIterator.next());
     validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
@@ -657,6 +660,24 @@ class Marc2BibframeMapperIT {
       ), "lc");
   }
 
+  private void validateDdcClassification(ResourceEdge edge) {
+    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
+      Map.of(
+        SOURCE.getValue(), "ddc",
+        CODE.getValue(), "Dewey Decimal Classification value",
+        ITEM_NUMBER.getValue(), "item number",
+        EDITION_NUMBER.getValue(), "edition number",
+        EDITION.getValue(), "Full"
+      ), "Dewey Decimal Classification value");
+    var iterator = edge.getTarget().getOutgoingEdges().iterator();
+    validateEdge(iterator.next(), ASSIGNING_SOURCE,
+      List.of(ORGANIZATION),
+      Map.of(
+        NAME.getValue(), "United States, Library of Congress",
+        LINK.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc"
+      ), "United States, Library of Congress");
+  }
+
   private void validateTargetAudience(ResourceEdge edge) {
     validateEdge(edge, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
       Map.of(
@@ -671,24 +692,6 @@ class Marc2BibframeMapperIT {
         LINK.getValue(), "https://id.loc.gov/vocabulary/maudience",
         LABEL.getValue(), "Target audience"
       ), "Target audience");
-  }
-
-  private void validateClassification(ResourceEdge edge) {
-    assertThat(edge.getId()).isNull();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(CLASSIFICATION.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(CLASSIFICATION.getUri());
-    validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Dewey Decimal Classification value");
-    assertThat(edge.getTarget().getTypes()).containsOnly(CATEGORY);
-    assertThat(edge.getTarget().getDoc()).hasSize(2);
-    assertThat(edge.getTarget().getDoc().has(CODE.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(CODE.getValue()).get(0).asText())
-      .isEqualTo("Dewey Decimal Classification value");
-    assertThat(edge.getTarget().getDoc().has(SOURCE.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(SOURCE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo("ddc");
-    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
   private void validateTitle(ResourceEdge edge) {

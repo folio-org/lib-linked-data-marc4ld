@@ -1,6 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
-import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.folio.marc4ld.util.Constants.SPACE;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
       .filter(ic -> !ic.startsWith(ConditionCheckerImpl.NOT))
       .filter(ic -> !ic.equals(ConditionCheckerImpl.PRESENTED))
       .map(c -> c.charAt(0))
-      .orElse(SPACE.charAt(0));
+      .orElse(SPACE);
   }
 
   @Override

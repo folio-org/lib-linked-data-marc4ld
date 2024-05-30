@@ -1,0 +1,18 @@
+{
+  "leader" : "00112nam a2200037uc 4500",
+  "fields" : [ {
+    "082" : {
+      "subfields" : [ {
+        "a" : "code"
+      }, {
+        "b" : "item number"
+      }, {
+        "2" : "edition number"
+      }, {
+        "q" : "United States, Library of Congress"
+      } ],
+      "ind1" : "1",
+      "ind2" : "4"
+    }
+  } ]
+}

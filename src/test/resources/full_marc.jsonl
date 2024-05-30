@@ -142,8 +142,16 @@
         "subfields": [
           {
             "a": "Dewey Decimal Classification value"
+          },
+          {
+            "b": "item number"
+          },
+          {
+            "2": "edition number"
           }
-        ]
+        ],
+        "ind1": "0",
+        "ind2": "0"
       }
     },
     {

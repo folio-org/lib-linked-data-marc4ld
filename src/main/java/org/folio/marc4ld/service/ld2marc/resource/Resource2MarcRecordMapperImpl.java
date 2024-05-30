@@ -4,8 +4,8 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
@@ -114,7 +114,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private void addInternalIds(Record marcRecord, Resource resource) {
     if (nonNull(resource.getInventoryId()) || nonNull(resource.getSrsId())) {
-      var field999 = marcFactory.newDataField(FIELD_UUID, SPACE.charAt(0), SPACE.charAt(0));
+      var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
       ofNullable(resource.getInventoryId()).ifPresent(
         id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id.toString())));
       ofNullable(resource.getSrsId()).ifPresent(

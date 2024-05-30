@@ -1,38 +1,28 @@
-package org.folio.marc4ld.service.marc2ld.mapper.mapper;
+package org.folio.marc4ld.service.marc2ld.mapper.mapper.classification;
 
-import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.STATUS;
+import static org.folio.marc4ld.util.Constants.Classification.DLC;
+import static org.folio.marc4ld.util.Constants.Classification.NUBA;
+import static org.folio.marc4ld.util.Constants.Classification.TAG_050;
+import static org.folio.marc4ld.util.Constants.Classification.UBA;
+import static org.folio.marc4ld.util.Constants.ONE;
+import static org.folio.marc4ld.util.Constants.ZERO;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.dto.MarcData;
-import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class ClassificationMapper implements Marc2ldMapper {
-
-  private static final String TAG = "050";
-  private static final String UBA = "http://id.loc.gov/vocabulary/mstatus/uba";
-  private static final String NUBA = "http://id.loc.gov/vocabulary/mstatus/nuba";
-  private static final String DLC = "http://id.loc.gov/vocabulary/organizations/dlc";
-  private static final char ZERO = '0';
-  private static final char ONE = '1';
+public class Marc2LdLcClassificationMapper extends AbstractClassificationMapper {
 
   private final MapperHelper mapperHelper;
 
-  @Override
-  public String getTag() {
-    return TAG;
-  }
-
-  @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == CLASSIFICATION;
+  protected Marc2LdLcClassificationMapper(MapperHelper mapperHelper) {
+    super(TAG_050);
+    this.mapperHelper = mapperHelper;
   }
 
   @Override

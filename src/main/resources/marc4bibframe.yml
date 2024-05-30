@@ -272,14 +272,35 @@ fieldRules:
             LABEL: lc
           label: LABEL
   '082':
-    - types: CATEGORY
+    - types: CLASSIFICATION
       parent: WORK
       predicate: CLASSIFICATION
       subfields:
         a: CODE
+        b: ITEM_NUMBER
+        '2': EDITION_NUMBER
       label: CODE
       constants:
         SOURCE: ddc
+      edges:
+        - types: ORGANIZATION
+          parent: CLASSIFICATION
+          predicate: ASSIGNING_SOURCE
+          label: NAME
+          constants:
+            NAME: United States, Library of Congress
+            LINK: http://id.loc.gov/vocabulary/organizations/dlc
+          marc2ldCondition:
+            ind2: '0'
+        - types: ORGANIZATION
+          parent: CLASSIFICATION
+          predicate: ASSIGNING_SOURCE
+          label: NAME
+          subfields:
+            q: NAME
+          marc2ldCondition:
+            fields:
+              q: presented
   100:
     - types: PERSON
       parent: WORK
