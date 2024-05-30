@@ -36,6 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MarcToBibframeAuthority100IT {
 
   @Autowired
+  //TODO: new method (0r mapper) return several resources, check that's correct
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
@@ -163,18 +164,17 @@ class MarcToBibframeAuthority100IT {
       "zValue1, zValue2");
   }
 
-  //TODO ask what is 001
   private void validateIdentifier(Resource resource) {
     var edge = getEdge(resource, ID_LCCN, IDENTIFIER);
     assertThat(edge)
       .isPresent();
     validateEdge(edge.get(), SUB_FOCUS, List.of(ID_LCCN, IDENTIFIER),
       Map.of(
-        "http://bibfra.me/vocab/lite/name", "001",
-        "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/authorities/001",
-        "http://bibfra.me/vocab/lite/label", "001"
+        "http://bibfra.me/vocab/lite/name", "sh85121033",
+        "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/authorities/sh85121033",
+        "http://bibfra.me/vocab/lite/label", "sh85121033"
       ),
-      "001");
+      "sh85121033");
   }
 
   private Optional<ResourceEdge> getEdge(Resource resource, ResourceTypeDictionary... resourceTypes) {

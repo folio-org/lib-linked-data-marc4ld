@@ -30,6 +30,7 @@ labelRules:
       - CODE
   - types: PERSON
     properties:
+#      - TODO change for all persons
       - NAME
   - types: FAMILY
     properties:
@@ -48,9 +49,11 @@ labelRules:
       - DATE
   - types: CONCEPT, FAMILY
     properties:
+#     - TODO change for all from resource 1
       - NAME
   - types: CONCEPT, PERSON
     properties:
+#      - TODO change for all from resource 1
       - NAME
   - types: CONCEPT, JURISDICTION
     properties:
