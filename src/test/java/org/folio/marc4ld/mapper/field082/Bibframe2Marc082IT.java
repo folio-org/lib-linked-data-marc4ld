@@ -51,6 +51,12 @@ class Bibframe2Marc082IT {
         createResource(
           createDdcClassification(null, null)
         )
+      ),
+      Arguments.of(
+        "fields/082/abridged_edition_with_changed_assigner_link.jsonl",
+        createResource(
+          createDdcClassification("Abridged", createAssigningSource("http://id.loc.gov/vocabulary/organizations/dlcvhp"))
+        )
       )
     );
   }
