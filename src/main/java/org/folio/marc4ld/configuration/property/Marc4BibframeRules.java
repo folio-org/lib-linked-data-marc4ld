@@ -17,6 +17,7 @@ import org.springframework.context.annotation.PropertySources;
 @ConfigurationProperties
 @PropertySources({
   @PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class),
+  @PropertySource(value = "classpath:marc4bibframeAutority.yml", factory = YamlPropertySourceFactory.class),
   @PropertySource(value = "classpath:label.yml", factory = YamlPropertySourceFactory.class)
 })
 public class Marc4BibframeRules {
@@ -24,6 +25,7 @@ public class Marc4BibframeRules {
   private Map<String, List<FieldRule>> fieldRules;
   private Map<String, FieldRule> sharedRules;
   private List<LabelRule> labelRules;
+  private Map<String, List<FieldRule>> authorityFieldRules;
 
   @Data
   public static class FieldRule {
