@@ -3,7 +3,6 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.classification;
 import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
-import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CLASSIFICATION;
 import static org.folio.marc4ld.util.Constants.Classification.ABRIDGED;
@@ -19,7 +18,7 @@ import static org.folio.marc4ld.util.Constants.TWO;
 import static org.folio.marc4ld.util.Constants.ZERO;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -43,7 +42,7 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
     getPropertyValue(resource, EDITION_NUMBER.getValue())
       .ifPresent(editionNumber -> dataField.addSubfield(marcFactory.newSubfield(TWO, editionNumber)));
     if (dataField.getIndicator2() == FOUR) {
-      addSubfieldQ(dataField, resource);
+      getAssignerName(resource).ifPresent(name -> dataField.addSubfield(marcFactory.newSubfield(Q, name)));
     }
     return dataField;
   }
@@ -61,11 +60,11 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
   @Override
   protected char getIndicator1(Resource resource) {
     var ind1 = SEVEN;
-    if (resource.getDoc().get(EDITION.getValue()) != null) {
-      var editions = objectMapper.convertValue(resource.getDoc().get(EDITION.getValue()), List.class);
-      if (editions.contains(FULL)) {
+    var edition = getPropertyValue(resource, EDITION.getValue());
+    if (edition.isPresent()) {
+      if (FULL.equals(edition.get())) {
         ind1 = ZERO;
-      } else if (editions.contains(ABRIDGED)) {
+      } else if (ABRIDGED.equals(edition.get())) {
         ind1 = ONE;
       }
     }
@@ -75,41 +74,21 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
   @Override
   protected char getIndicator2(Resource resource) {
     var ind2 = SPACE;
-    if (isAssignedByLc(resource)) {
+    if (hasLinkInEdge(resource, ASSIGNING_SOURCE, DLC)) {
       ind2 = ZERO;
-    }
-    if (isAssignedByOtherOrg(resource)) {
+    } else if (getAssignerName(resource).isPresent()) {
       ind2 = FOUR;
     }
     return ind2;
   }
 
-  private boolean isAssignedByLc(Resource resource) {
+  private Optional<String> getAssignerName(Resource resource) {
     return resource.getOutgoingEdges()
       .stream()
       .filter(resourceEdge -> ASSIGNING_SOURCE.equals(resourceEdge.getPredicate()))
       .map(ResourceEdge::getTarget)
-      .filter(r -> r.getDoc().get(LINK.getValue()) != null)
-      .anyMatch(r -> DLC.equals(r.getDoc().get(LINK.getValue()).get(0).asText()));
-  }
-
-  private boolean isAssignedByOtherOrg(Resource resource) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(resourceEdge -> ASSIGNING_SOURCE.equals(resourceEdge.getPredicate()))
-      .map(ResourceEdge::getTarget)
-      .map(Resource::getDoc)
-      .map(doc -> doc.get(LINK.getValue()))
-      .anyMatch(ln -> ln == null || !DLC.equals(ln.get(0).asText()));
-  }
-
-  private void addSubfieldQ(DataField dataField, Resource resource) {
-    resource.getOutgoingEdges()
-      .stream()
-      .filter(resourceEdge -> ASSIGNING_SOURCE.equals(resourceEdge.getPredicate()))
-      .map(ResourceEdge::getTarget)
-      .findFirst()
-      .flatMap(r -> getPropertyValue(r, NAME.getValue()))
-      .ifPresent(name -> dataField.addSubfield(marcFactory.newSubfield(Q, name)));
+      .map(r -> getPropertyValue(r, NAME.getValue()))
+      .flatMap(Optional::stream)
+      .findFirst();
   }
 }

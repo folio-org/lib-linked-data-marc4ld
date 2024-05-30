@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.classification;
 
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
+import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.B;
 
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -48,6 +50,16 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
     getPropertyValue(resource, ITEM_NUMBER.getValue())
       .ifPresent(itemNumber -> dataField.addSubfield(marcFactory.newSubfield(B, itemNumber)));
     return dataField;
+  }
+
+  protected boolean hasLinkInEdge(Resource resource, PredicateDictionary predicate, String linkValue) {
+    return resource.getOutgoingEdges()
+      .stream()
+      .filter(resourceEdge -> predicate.equals(resourceEdge.getPredicate()))
+      .map(ResourceEdge::getTarget)
+      .map(r -> getPropertyValue(r, LINK.getValue()))
+      .flatMap(Optional::stream)
+      .anyMatch(linkValue::equals);
   }
 
   protected Optional<String> getPropertyValue(Resource resource, String property) {
