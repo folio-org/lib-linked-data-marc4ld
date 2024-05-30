@@ -106,7 +106,5 @@ public class Marc4BibframeRules {
   public static class LabelRule {
     private List<String> types;
     private List<String> properties;
-    private String predicate;
-    private String pattern;
   }
 }

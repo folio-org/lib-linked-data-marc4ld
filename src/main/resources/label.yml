@@ -1,61 +1,94 @@
 labelRules:
   - types: CATEGORY
-    properties: TERM, CODE
+    properties:
+      - TERM
+      - CODE
   - types: CATEGORY_SET
-    properties: LABEL
+    properties:
+      - LABEL
   - types: STATUS
-    properties: LABEL
+    properties:
+      - LABEL
   - types: ID_LCCN, IDENTIFIER
-    properties: NAME
+    properties:
+      - NAME
   - types: ID_LOCAL, IDENTIFIER
-    properties: LOCAL_ID_VALUE
+    properties:
+      - LOCAL_ID_VALUE
   - types: ID_ISBN, IDENTIFIER
-    properties: NAME
+    properties:
+      - NAME
   - types: ID_EAN, IDENTIFIER
-    properties: EAN_VALUE
+    properties:
+      - EAN_VALUE
   - types: ID_UNKNOWN, IDENTIFIER
-    properties: NAME
+    properties:
+      - NAME
   - types: PLACE
-    properties: NAME, CODE
+    properties:
+      - NAME
+      - CODE
   - types: PERSON
-    properties: NAME
+    properties:
+      - NAME
   - types: FAMILY
-    properties: NAME
+    properties:
+      - NAME
   - types: ORGANIZATION
-    properties: NAME
+    properties:
+      - NAME
   - types: MEETING
-    properties: NAME
+    properties:
+      - NAME
   - types: PROVIDER_EVENT
-    properties: NAME
+    properties:
+      - NAME
   - types: COPYRIGHT_EVENT
-    properties: DATE
+    properties:
+      - DATE
   - types: CONCEPT, FAMILY
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, PERSON
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, JURISDICTION
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, ORGANIZATION
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, TOPIC
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, PLACE
-    properties: NAME
+    properties:
+      - NAME
   - types: CONCEPT, FORM
-    properties: NAME
+    properties:
+      - NAME
   - types: FORM
-    properties: NAME
+    properties:
+      - NAME
   - types: TOPIC
-    properties: NAME
+    properties:
+      - NAME
   - types: TEMPORAL
-    properties: NAME
+    properties:
+      - NAME
   - types: JURISDICTION
-    properties: NAME
+    properties:
+      - NAME
   - types: ANNOTATION
-    properties: NAME, LINK
+    properties:
+      - NAME
+      - LINK
   - types: TITLE
-    properties: MAIN_TITLE
+    properties:
+      - MAIN_TITLE
   - types: VARIANT_TITLE
-    properties: MAIN_TITLE
+    properties:
+      - MAIN_TITLE
   - types: PARALLEL_TITLE
-    properties: MAIN_TITLE
+    properties:
+      - MAIN_TITLE
