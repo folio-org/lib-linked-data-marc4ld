@@ -83,14 +83,14 @@ class MarcToBibframeAuthority100IT {
       Map.ofEntries(
         Map.entry("http://bibfra.me/vocab/lite/name", "aValue"),
         Map.entry("http://bibfra.me/vocab/marc/numeration", "bValue"),
-        Map.entry("http://bibfra.me/vocab/marc/titles", "cValue1, cValue2"), //TODO add array opportunities to test util
+        Map.entry("http://bibfra.me/vocab/marc/titles", "[cValue1, cValue2]"),
         Map.entry("http://bibfra.me/vocab/lite/date", "dValue"),
-        Map.entry("http://bibfra.me/vocab/marc/attribution", "jValue1, jValue2"),
+        Map.entry("http://bibfra.me/vocab/marc/attribution", "[jValue1, jValue2]"),
         Map.entry("http://bibfra.me/vocab/lite/nameAlternative", "qValue"),
-        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", "vValue1, vValue2"),
-        Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", "xValue1, xValue2"),
-        Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", "yValue1, yValue2"),
-        Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", "zValue1, zValue2"),
+        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", "[vValue1, vValue2]"),
+        Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", "[xValue1, xValue2]"),
+        Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", "[yValue1, yValue2]"),
+        Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", "[zValue1, zValue2]"),
         Map.entry("http://library.link/vocab/resourcePreferred", "true"),
         Map.entry("http://bibfra.me/vocab/lite/label", "bValue, aValue, cValue1, cValue2, qValue, dValue" +
           " -- vValue1 -- vValue2, -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2")
@@ -121,8 +121,8 @@ class MarcToBibframeAuthority100IT {
       .isPresent();
     validateEdge(edge.get(), SUB_FOCUS, List.of(FORM),
       Map.of(
-        "http://bibfra.me/vocab/marc/formSubdivision", "vValue1, vValue2",
-        "http://bibfra.me/vocab/lite/label ", "vValue1, vValue2"
+        "http://bibfra.me/vocab/marc/formSubdivision", "[vValue1, vValue2]",
+        "http://bibfra.me/vocab/lite/label ", "[vValue1, vValue2]"
       ),
       "vValue1, vValue2");
   }
@@ -133,8 +133,8 @@ class MarcToBibframeAuthority100IT {
       .isPresent();
     validateEdge(edge.get(), SUB_FOCUS, List.of(TOPIC),
       Map.of(
-        "http://bibfra.me/vocab/lite/name", "xValue1, xValue2",
-        "http://bibfra.me/vocab/lite/label ", "xValue1, xValue2"
+        "http://bibfra.me/vocab/lite/name", "[xValue1, xValue2]",
+        "http://bibfra.me/vocab/lite/label ", "[xValue1, xValue2]"
       ),
       "xValue1, xValue2");
   }
@@ -145,8 +145,8 @@ class MarcToBibframeAuthority100IT {
       .isPresent();
     validateEdge(edge.get(), SUB_FOCUS, List.of(TEMPORAL),
       Map.of(
-        "http://bibfra.me/vocab/lite/name", "yValue1, yValue2",
-        "http://bibfra.me/vocab/lite/label ", "yValue1, yValue2"
+        "http://bibfra.me/vocab/lite/name", "[yValue1, yValue2]",
+        "http://bibfra.me/vocab/lite/label ", "[yValue1, yValue2]"
       ),
       "yValue1, yValue2");
   }
@@ -157,14 +157,13 @@ class MarcToBibframeAuthority100IT {
       .isPresent();
     validateEdge(edge.get(), SUB_FOCUS, List.of(PLACE),
       Map.of(
-        "http://bibfra.me/vocab/lite/name", "zValue1, zValue2",
-        "http://bibfra.me/vocab/lite/label ", "zValue1, zValue2"
+        "http://bibfra.me/vocab/lite/name", "[zValue1, zValue2]",
+        "http://bibfra.me/vocab/lite/label ", "[zValue1, zValue2]"
       ),
       "zValue1, zValue2");
   }
 
-
-  //TODO asc what is 001
+  //TODO ask what is 001
   private void validateIdentifier(Resource resource) {
     var edge = getEdge(resource, ID_LCCN, IDENTIFIER);
     assertThat(edge)
