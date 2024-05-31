@@ -1,7 +1,8 @@
 package org.folio.marc4ld.service.label;
 
+import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,32 +20,38 @@ import org.springframework.stereotype.Service;
 @Service
 public class LabelServiceImpl implements LabelService {
 
-  private final Map<Set<ResourceTypeDictionary>, Collection<LabelProcessor>> typesProcessors;
+  private final Map<Set<ResourceTypeDictionary>, LabelController> typesProcessors;
   private final LabelProcessor defaultProcessor = new UuidLabelProcessor();
+  private final LabelController defaultController = new LabelController(List.of(defaultProcessor), false);
 
   public LabelServiceImpl(Marc4BibframeRules rules, LabelProcessorFactory labelProcessorFactory) {
     this.typesProcessors = rules.getLabelRules()
       .stream()
-      .collect(Collectors.toMap(this::getTypes, labelProcessorFactory::get));
+      .collect(Collectors.toMap(this::getTypes,
+        rule -> new LabelController(labelProcessorFactory.get(rule), rule.isAddLabelProperty())));
   }
 
   @Override
   public void setLabel(Resource resource, Map<String, List<String>> properties) {
-    var label = getProcessors(resource)
+    var controller = getController(resource);
+    var label = controller.labelProcessors
       .stream()
       .map(p -> p.apply(properties))
       .filter(StringUtils::isNotBlank)
       .findFirst()
       .orElseGet(() -> defaultProcessor.apply(properties));
     resource.setLabel(label);
+    if (controller.addLabelProperty) {
+      properties.put(LABEL.getValue(), List.of(label));
+    }
   }
 
-  private Collection<LabelProcessor> getProcessors(Resource resource) {
+  private LabelController getController(Resource resource) {
     return Optional.of(resource)
       .map(Resource::getTypes)
       .filter(CollectionUtils::isNotEmpty)
       .map(typesProcessors::get)
-      .orElseGet(Collections::emptyList);
+      .orElse(defaultController);
   }
 
   private Set<ResourceTypeDictionary> getTypes(Marc4BibframeRules.LabelRule rule) {
@@ -52,5 +59,8 @@ public class LabelServiceImpl implements LabelService {
       .stream()
       .map(ResourceTypeDictionary::valueOf)
       .collect(Collectors.toSet());
+  }
+
+  private record LabelController(Collection<LabelProcessor> labelProcessors, boolean addLabelProperty) {
   }
 }

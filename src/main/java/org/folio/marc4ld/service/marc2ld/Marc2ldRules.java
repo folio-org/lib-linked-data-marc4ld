@@ -4,4 +4,7 @@ import java.util.Collection;
 
 public interface Marc2ldRules {
   Collection<Marc2ldFieldRuleApplier> findFiledRules(String tag);
+
+  //todo TEMPORARY ??
+  Collection<Marc2ldFieldRuleApplier> findAuthorityFiledRules(String tag);
 }

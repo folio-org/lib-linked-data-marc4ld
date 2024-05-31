@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
 public class Marc2ldRulesImpl implements Marc2ldRules {
 
   private final Map<String, Collection<Marc2ldFieldRuleApplier>> instanceRules;
-  private final Map<String, Collection<Marc2ldFieldRuleApplier>> autorityRules;
+  private final Map<String, Collection<Marc2ldFieldRuleApplier>> authorityRules;
 
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
@@ -51,12 +51,17 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
     this.propertyMergerFactory = propertyMergerFactory;
 
     this.instanceRules = initRules(marc4BibframeRules.getFieldRules());
-    this.autorityRules = initRules(marc4BibframeRules.getAuthorityFieldRules());
+    this.authorityRules = initRules(marc4BibframeRules.getAuthorityFieldRules());
   }
 
   @Override
   public Collection<Marc2ldFieldRuleApplier> findFiledRules(String tag) {
     return instanceRules.getOrDefault(tag, Collections.emptyList());
+  }
+
+  @Override
+  public Collection<Marc2ldFieldRuleApplier> findAuthorityFiledRules(String tag) {
+    return authorityRules.getOrDefault(tag, Collections.emptyList());
   }
 
   private Map<String, Collection<Marc2ldFieldRuleApplier>> initRules(

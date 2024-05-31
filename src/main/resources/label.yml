@@ -25,13 +25,14 @@ labelRules:
     properties:
       - NAME
   - types: PLACE
+    addLabelProperty: true
     properties:
       - NAME
       - CODE
   - types: PERSON
     properties:
 #      - TODO change for all persons
-      - NAME
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: FAMILY
     properties:
       - NAME
@@ -71,12 +72,15 @@ labelRules:
     properties:
       - NAME
   - types: FORM
+    addLabelProperty: true
     properties:
       - NAME
   - types: TOPIC
+    addLabelProperty: true
     properties:
       - NAME
   - types: TEMPORAL
+    addLabelProperty: true
     properties:
       - NAME
   - types: JURISDICTION

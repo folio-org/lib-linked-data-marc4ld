@@ -63,8 +63,8 @@ public class FieldMapperImpl implements FieldMapper {
     var edgeResource = new Resource();
     fieldRule.getTypes()
       .forEach(edgeResource::addType);
-    edgeResource.setDoc(mapperHelper.getJsonNode(properties));
     labelService.setLabel(edgeResource, properties);
+    edgeResource.setDoc(mapperHelper.getJsonNode(properties));
     edgeResource.setId(hashService.hash(edgeResource));
     parentResource.addOutgoingEdge(new ResourceEdge(parentResource, edgeResource, fieldRule.getPredicate()));
     return edgeResource;

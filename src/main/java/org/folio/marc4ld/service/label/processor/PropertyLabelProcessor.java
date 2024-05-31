@@ -2,7 +2,6 @@ package org.folio.marc4ld.service.label.processor;
 
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.folio.ld.dictionary.PropertyDictionary;
 
 public class PropertyLabelProcessor implements LabelProcessor {
 
+  public static final String PROPERTY_DELIMITER = ", ";
   private final String basicProperty;
 
   public PropertyLabelProcessor(String property) {
@@ -24,7 +24,7 @@ public class PropertyLabelProcessor implements LabelProcessor {
   public String apply(Map<String, List<String>> properties) {
     return Optional.of(basicProperty)
       .map(properties::get)
-      .map(vs -> join(SPACE, vs))
+      .map(vs -> join(PROPERTY_DELIMITER, vs))
       .orElse(EMPTY);
   }
 }
