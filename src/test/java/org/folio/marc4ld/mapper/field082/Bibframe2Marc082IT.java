@@ -8,6 +8,9 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.field082.Marc2Bibframe082IT.createAssigningSource;
 import static org.folio.marc4ld.mapper.field082.Marc2Bibframe082IT.createDdcClassification;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.util.Constants.Classification.ABRIDGED;
+import static org.folio.marc4ld.util.Constants.Classification.DLC;
+import static org.folio.marc4ld.util.Constants.Classification.FULL;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +30,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Bibframe2Marc082IT {
+public class Bibframe2Marc082IT {
 
   @Autowired
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
@@ -37,13 +40,13 @@ class Bibframe2Marc082IT {
       Arguments.of(
         "fields/082/full_edition_with_lc_source.jsonl",
         createResource(
-          createDdcClassification("Full", createAssigningSource("http://id.loc.gov/vocabulary/organizations/dlc"))
+          createDdcClassification(FULL, createAssigningSource(DLC))
         )
       ),
       Arguments.of(
         "fields/082/abridged_edition_with_other_source.jsonl",
         createResource(
-          createDdcClassification("Abridged", createAssigningSource(null))
+          createDdcClassification(ABRIDGED, createAssigningSource(null))
         )
       ),
       Arguments.of(
@@ -55,7 +58,7 @@ class Bibframe2Marc082IT {
       Arguments.of(
         "fields/082/abridged_edition_with_changed_assigner_link.jsonl",
         createResource(
-          createDdcClassification("Abridged", createAssigningSource("http://id.loc.gov/vocabulary/organizations/dlcvhp"))
+          createDdcClassification(ABRIDGED, createAssigningSource("http://id.loc.gov/vocabulary/organizations/dlcvhp"))
         )
       )
     );
@@ -74,11 +77,11 @@ class Bibframe2Marc082IT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
-  private static Resource createResource(Resource ddcClassification) {
+  public static Resource createResource(Resource classification) {
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
-      Map.of(CLASSIFICATION, List.of(ddcClassification))
+      Map.of(CLASSIFICATION, List.of(classification))
     );
 
     return MonographTestUtil.createResource(

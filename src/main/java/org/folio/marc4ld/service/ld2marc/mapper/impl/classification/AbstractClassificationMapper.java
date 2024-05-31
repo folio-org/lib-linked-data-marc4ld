@@ -3,6 +3,8 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.classification;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
+import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CLASSIFICATION;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.B;
 
@@ -24,27 +26,28 @@ import org.marc4j.marc.MarcFactory;
 @RequiredArgsConstructor
 public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
 
+  private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(CLASSIFICATION);
+
   protected final ObjectMapper objectMapper;
   protected final MarcFactory marcFactory;
 
-  protected abstract Set<ResourceTypeDictionary> getSupportedTypes();
-
-  protected abstract String getTag();
+  private final String tag;
+  private final String source;
 
   protected abstract char getIndicator1(Resource resource);
 
   protected abstract char getIndicator2(Resource resource);
 
-
   @Override
   public boolean canMap(PredicateDictionary predicate, Resource resource) {
     return predicate == PredicateDictionary.CLASSIFICATION
-      && Objects.equals(resource.getTypes(), getSupportedTypes());
+      && Objects.equals(resource.getTypes(), SUPPORTED_TYPES)
+      && hasCorrespondingSource(resource);
   }
 
   @Override
   public DataField map(Resource resource) {
-    var dataField = marcFactory.newDataField(getTag(), getIndicator1(resource), getIndicator2(resource));
+    var dataField = marcFactory.newDataField(tag, getIndicator1(resource), getIndicator2(resource));
     getPropertyValues(resource, CODE.getValue())
       .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code)));
     getPropertyValue(resource, ITEM_NUMBER.getValue())
@@ -72,5 +75,11 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
     return resource.getDoc().get(property) != null
       ? objectMapper.convertValue(resource.getDoc().get(property), new TypeReference<>() {})
       : List.of();
+  }
+
+  private boolean hasCorrespondingSource(Resource resource) {
+    return getPropertyValue(resource, SOURCE.getValue())
+      .stream()
+      .anyMatch(this.source::equals);
   }
 }

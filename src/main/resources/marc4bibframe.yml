@@ -20,6 +20,14 @@ fieldRules:
                 data:
                 expression: args.contains(data.substring(28, 29))
                 args: a, c, f, i, l, m, o, s
+          edges:
+            - types: CATEGORY_SET
+              parent: CATEGORY
+              predicate: IS_DEFINED_BY
+              label: LABEL
+              constants:
+                LINK: http://id.loc.gov/vocabulary/mgovtpubtype
+                LABEL: Government Publication Type
         - types: CATEGORY
           parent: WORK
           predicate: TARGET_AUDIENCE
@@ -33,13 +41,6 @@ fieldRules:
                 data:
                 expression: args.contains(data.substring(22, 23))
                 args: a, b, c, d, e, f, g, j
-        - types: CATEGORY_SET
-          parent: CATEGORY
-          predicate: IS_DEFINED_BY
-          label: LABEL
-          constants:
-            LINK: http://id.loc.gov/vocabulary/mgovtpubtype
-            LABEL: Government Publication Type
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
@@ -253,45 +254,35 @@ fieldRules:
         l: DATE_END
       append: true
   '050':
-    - types: CATEGORY
-      parent: WORK
-      predicate: CLASSIFICATION
-      subfields:
-        a: CODE
-        b: ITEM_NUMBER
-      label: CODE
+    - include: 050_mappings
       constants:
         SOURCE: lc
-      ld2marcCondition:
-        skip: true
       edges:
-        - types: CATEGORY_SET
-          parent: CATEGORY
-          predicate: IS_DEFINED_BY
-          constants:
-            LABEL: lc
+        - types: STATUS
+          parent: CLASSIFICATION
+          predicate: STATUS
           label: LABEL
+          constants:
+            LABEL: used by assigner
+            LINK: http://id.loc.gov/vocabulary/mstatus/uba
+          marc2ldCondition:
+            ind1: '0'
+        - types: STATUS
+          parent: CLASSIFICATION
+          predicate: STATUS
+          label: LABEL
+          constants:
+            LABEL: not used by assigner
+            LINK: http://id.loc.gov/vocabulary/mstatus/nuba
+          marc2ldCondition:
+            ind1: '1'
   '082':
-    - types: CLASSIFICATION
-      parent: WORK
-      predicate: CLASSIFICATION
+    - include: 050_mappings
       subfields:
-        a: CODE
-        b: ITEM_NUMBER
         '2': EDITION_NUMBER
-      label: CODE
       constants:
         SOURCE: ddc
       edges:
-        - types: ORGANIZATION
-          parent: CLASSIFICATION
-          predicate: ASSIGNING_SOURCE
-          label: NAME
-          constants:
-            NAME: United States, Library of Congress
-            LINK: http://id.loc.gov/vocabulary/organizations/dlc
-          marc2ldCondition:
-            ind2: '0'
         - types: ORGANIZATION
           parent: CLASSIFICATION
           predicate: ASSIGNING_SOURCE
@@ -1719,3 +1710,23 @@ sharedRules:
       n: PART_NUMBER
       p: PART_NAME
     label: MAIN_TITLE
+  050_mappings:
+    types: CLASSIFICATION
+    parent: WORK
+    predicate: CLASSIFICATION
+    subfields:
+      a: CODE
+      b: ITEM_NUMBER
+    label: CODE
+    ld2marcCondition:
+      skip: true
+    edges:
+      - types: ORGANIZATION
+        parent: CLASSIFICATION
+        predicate: ASSIGNING_SOURCE
+        label: NAME
+        constants:
+          NAME: United States, Library of Congress
+          LINK: http://id.loc.gov/vocabulary/organizations/dlc
+        marc2ldCondition:
+          ind2: '0'
