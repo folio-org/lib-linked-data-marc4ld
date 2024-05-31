@@ -23,9 +23,9 @@ class Marc2Bibframe655IT {
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
-  void whenMarcField655WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
+  void whenMarcField655() {
     // given
-    var marc = loadResourceAsString("fields/655/marc_655_with_multiple_subfield_a.jsonl");
+    var marc = loadResourceAsString("fields/655/marc_655.jsonl");
 
     // when
     var result = marc2BibframeMapper.fromMarcJson(marc);
@@ -42,11 +42,11 @@ class Marc2Bibframe655IT {
       PredicateDictionary.SUBJECT,
       List.of(ResourceTypeDictionary.CONCEPT, ResourceTypeDictionary.FORM),
       Map.of(
-        "http://bibfra.me/vocab/marc/chronologicalSubdivision", "form chronological subdivision",
-        "http://bibfra.me/vocab/marc/generalSubdivision", "form general subdivision",
-        "http://bibfra.me/vocab/marc/geographicCoverage", "form geographic coverage",
-        "http://bibfra.me/vocab/lite/name", "form name",
-        "http://bibfra.me/vocab/marc/formSubdivision", "form form subdivision"
+        "http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("form chronological subdivision"),
+        "http://bibfra.me/vocab/marc/generalSubdivision", List.of("form general subdivision"),
+        "http://bibfra.me/vocab/marc/geographicCoverage", List.of("form geographic coverage"),
+        "http://bibfra.me/vocab/lite/name", List.of("form name"),
+        "http://bibfra.me/vocab/marc/formSubdivision", List.of("form form subdivision")
       ),
       "form name"
     );
@@ -56,8 +56,8 @@ class Marc2Bibframe655IT {
       PredicateDictionary.GENRE,
       List.of(ResourceTypeDictionary.FORM),
       Map.of(
-        "http://bibfra.me/vocab/marc/geographicCoverage", "form geographic coverage",
-        "http://bibfra.me/vocab/lite/name", "form name"
+        "http://bibfra.me/vocab/marc/geographicCoverage", List.of("form geographic coverage"),
+        "http://bibfra.me/vocab/lite/name", List.of("form name")
       ),
       "form name"
     );

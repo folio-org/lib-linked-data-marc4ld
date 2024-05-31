@@ -23,7 +23,7 @@ class Marc2Bibframe257IT {
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
-  void whenMarcField257WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
+  void whenMarcField257WithMultipleSubfield_a_map_shouldConvertAll() {
     // given
     var marc = loadResourceAsString("fields/257/marc_257_with_multiple_subfield_a.jsonl");
 
@@ -33,6 +33,12 @@ class Marc2Bibframe257IT {
     // then
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     var resourceEdge = work.getOutgoingEdges().iterator().next();
-    validateEdge(resourceEdge, ORIGIN_PLACE, List.of(PLACE), Map.of(NAME.getValue(), "France"), "France");
+    validateEdge(
+      resourceEdge,
+      ORIGIN_PLACE,
+      List.of(PLACE),
+      Map.of(NAME.getValue(), List.of("France", "United States")),
+      "France United States"
+    );
   }
 }

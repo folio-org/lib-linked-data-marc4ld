@@ -10,6 +10,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -40,21 +41,21 @@ class MarcToBibframe338IT {
       .extracting(this::getCarrierEdge)
       .satisfies(e -> validateEdge(e, CARRIER, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", "CARRIER code",
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/carriers/CARRIER code",
-          "http://bibfra.me/vocab/marc/term", "CARRIER term",
-          "http://bibfra.me/vocab/marc/source", "CARRIER source"
+          "http://bibfra.me/vocab/marc/code", List.of("CARRIER code"),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/carriers/CARRIER code"),
+          "http://bibfra.me/vocab/marc/term", List.of("CARRIER term"),
+          "http://bibfra.me/vocab/marc/source", List.of("CARRIER source")
         ),
         "CARRIER term"))
       .extracting(this::getFirstTargetOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier",
-          "http://bibfra.me/vocab/lite/label", "rdacarrier"
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier"),
+          "http://bibfra.me/vocab/lite/label", List.of("rdacarrier")
         ),
         "rdacarrier"))
       .extracting(this::getOutgoingEdges)
-      .asList()
+      .asInstanceOf(InstanceOfAssertFactories. LIST)
       .isEmpty();
   }
 
