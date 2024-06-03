@@ -15,7 +15,6 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.field.FieldController;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.marc4j.MarcJsonReader;
@@ -38,13 +38,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthorityMapperImpl implements AuthorityMapper {
 
-
   private final MarcFactory marcFactory;
   private final FieldPreprocessor fieldPreprocessor;
   private final Marc2ldRules rules;
   private final ConditionChecker conditionChecker;
   private final FieldController fieldController;
   private final FingerprintHashService hashService;
+  private final LabelService labelService;
 
   @Override
   public Collection<Resource> fromAuthorityMarcJson(String marc) {
@@ -61,11 +61,13 @@ public class AuthorityMapperImpl implements AuthorityMapper {
         .addType(CONCEPT).addType(PERSON)
         ;
       fillInstanceFields(reader.next(), resource);
+
       resource.setId(hashService.hash(resource));
 //      cleanEmptyEdges(resource);
 
       topLevelResources.add(resource);
     }
+
 
     return topLevelResources;
   }
@@ -89,10 +91,12 @@ public class AuthorityMapperImpl implements AuthorityMapper {
   //TODO duplicate from original mapper
   private void fillData(org.marc4j.marc.Record marcRecord, Resource instance, DataField dataField) {
     handleField(dataField.getTag(), instance, dataField, marcRecord);
-    if (FIELD_UUID.equals(dataField.getTag())) {
-      instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
-      instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
-    }
+
+    //TODO remove inventory?
+//    if (FIELD_UUID.equals(dataField.getTag())) {
+//      instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
+//      instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
+//    }
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {

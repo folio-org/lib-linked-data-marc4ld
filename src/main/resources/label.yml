@@ -31,7 +31,6 @@ labelRules:
       - CODE
   - types: PERSON
     properties:
-#      - TODO change for all persons
       - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: FAMILY
     properties:
@@ -49,13 +48,13 @@ labelRules:
     properties:
       - DATE
   - types: CONCEPT, FAMILY
+    addLabelProperty: true
     properties:
-#     - TODO change for all from resource 1
-      - NAME
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, PERSON
+    addLabelProperty: true
     properties:
-#      - TODO change for all from resource 1
-      - NAME
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, JURISDICTION
     properties:
       - NAME

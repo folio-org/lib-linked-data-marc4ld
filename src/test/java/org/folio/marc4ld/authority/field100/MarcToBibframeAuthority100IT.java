@@ -52,7 +52,7 @@ class MarcToBibframeAuthority100IT {
       .isNotNull()
       .isNotEmpty()
       .singleElement()
-//      .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, PERSON))) //TODO enable
+      .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, PERSON)))
       .satisfies(resource -> validateFocus(resource, PERSON))
       .satisfies(this::validateForm)
       .satisfies(this::validateTopic)
@@ -101,11 +101,11 @@ class MarcToBibframeAuthority100IT {
         Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("yValue1", "yValue2")),
         Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("zValue1", "zValue2")),
         Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
-        Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue1, cValue2, qValue, dValue" +
-          " -- vValue1 -- vValue2, -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2"))
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue1, cValue2, qValue, " +
+          "dValue -- vValue1 -- vValue2 -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2"))
       ),
       "bValue, aValue, cValue1, cValue2, qValue, dValue" +
-        " -- vValue1 -- vValue2, -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2");
+        " -- vValue1 -- vValue2 -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2");
   }
 
   private void validateFocus(Resource resource, ResourceTypeDictionary resourceType) {

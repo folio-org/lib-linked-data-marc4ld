@@ -45,6 +45,7 @@ public class FieldMapperImpl implements FieldMapper {
   private Resource setProperties(Resource resource) {
     var existProp = mapperHelper.getProperties(resource);
     var properties = fieldRule.mergeProperties(dataField, controlFields, existProp);
+    labelService.setLabel(resource, properties);
     resource.setDoc(mapperHelper.getJsonNode(properties));
     return resource;
   }
