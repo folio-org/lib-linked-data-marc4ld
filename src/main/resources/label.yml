@@ -99,3 +99,6 @@ labelRules:
   - types: PARALLEL_TITLE
     properties:
       - MAIN_TITLE
+  - types: CLASSIFICATION
+    properties:
+      - CODE

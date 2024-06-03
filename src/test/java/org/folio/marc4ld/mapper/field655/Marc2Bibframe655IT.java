@@ -57,7 +57,8 @@ class Marc2Bibframe655IT {
       List.of(ResourceTypeDictionary.FORM),
       Map.of(
         "http://bibfra.me/vocab/marc/geographicCoverage", List.of("form geographic coverage"),
-        "http://bibfra.me/vocab/lite/name", List.of("form name")
+        "http://bibfra.me/vocab/lite/name", List.of("form name"),
+        "http://bibfra.me/vocab/lite/label", List.of("form name")
       ),
       "form name"
     );

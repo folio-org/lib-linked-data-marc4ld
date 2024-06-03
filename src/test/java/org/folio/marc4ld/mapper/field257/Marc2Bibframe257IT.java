@@ -37,8 +37,11 @@ class Marc2Bibframe257IT {
       resourceEdge,
       ORIGIN_PLACE,
       List.of(PLACE),
-      Map.of(NAME.getValue(), List.of("France", "United States")),
-      "France United States"
+      Map.of(
+        "http://bibfra.me/vocab/lite/name", List.of("France", "United States"),
+        "http://bibfra.me/vocab/lite/label", List.of("France, United States")
+      ),
+      "France, United States"
     );
   }
 }

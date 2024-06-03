@@ -44,6 +44,7 @@ class Marc2Bibframe043IT {
         List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us",
           "https://id.loc.gov/vocabulary/geographicAreas/n-us-non-skip"),
         "http://bibfra.me/vocab/lite/name", List.of("United States"),
+        "http://bibfra.me/vocab/lite/label", List.of("United States"),
         "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("n-us", "n-us-non-skip")
       ),
       "United States"
