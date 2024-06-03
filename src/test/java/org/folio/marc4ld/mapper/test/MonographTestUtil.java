@@ -30,7 +30,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
-import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
@@ -138,6 +137,11 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.util.Constants.Classification.DDC;
+import static org.folio.marc4ld.util.Constants.Classification.DLC;
+import static org.folio.marc4ld.util.Constants.Classification.FULL;
+import static org.folio.marc4ld.util.Constants.Classification.LC;
+import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.LinkedHashMap;
@@ -808,24 +812,32 @@ public class MonographTestUtil {
   }
 
   private Resource createLcClassification() {
-    var categorySet = createResource(
+    var assigningSource = createResource(
       Map.of(
-        LABEL, List.of("lc")
+        NAME, List.of("United States, Library of Congress"),
+        LINK, List.of(DLC)
       ),
-      Set.of(CATEGORY_SET),
+      Set.of(ORGANIZATION),
       emptyMap()
-    ).setLabel("lc");
+    ).setLabel("United States, Library of Congress");
+    var status = createResource(
+      Map.of(
+        LABEL, List.of("used by assigner"),
+        LINK, List.of(UBA)
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("used by assigner");
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
-    pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
+    pred2OutgoingResources.put(ASSIGNING_SOURCE, List.of(assigningSource));
+    pred2OutgoingResources.put(STATUS, List.of(status));
     return createResource(
       Map.of(
-        SOURCE, List.of("lc"),
+        SOURCE, List.of(LC),
         CODE, List.of("code1", "code2"),
-        ITEM_NUMBER, List.of("item number"),
-        ASSIGNER, List.of("http://id.loc.gov/vocabulary/organizations/dlc"),
-        PropertyDictionary.STATUS, List.of("http://id.loc.gov/vocabulary/mstatus/nuba")
+        ITEM_NUMBER, List.of("item number")
       ),
-      Set.of(CATEGORY),
+      Set.of(ResourceTypeDictionary.CLASSIFICATION),
       pred2OutgoingResources
     ).setLabel("code");
   }
@@ -843,10 +855,10 @@ public class MonographTestUtil {
     return createResource(
       Map.of(
         CODE, List.of("Dewey Decimal Classification value"),
-        SOURCE, List.of("ddc"),
+        SOURCE, List.of(DDC),
         ITEM_NUMBER, List.of("item number"),
         EDITION_NUMBER, List.of("edition number"),
-        EDITION, List.of("Full")
+        EDITION, List.of(FULL)
       ),
       Set.of(ResourceTypeDictionary.CLASSIFICATION),
       pred2OutgoingResources

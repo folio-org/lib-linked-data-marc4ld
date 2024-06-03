@@ -34,5 +34,7 @@ public class Constants {
     public static final String NUBA = "http://id.loc.gov/vocabulary/mstatus/nuba";
     public static final String FULL = "Full";
     public static final String ABRIDGED = "Abridged";
+    public static final String DDC = "ddc";
+    public static final String LC = "lc";
   }
 }

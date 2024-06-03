@@ -47,7 +47,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
-import static org.folio.ld.dictionary.PropertyDictionary.ASSIGNER;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
@@ -165,6 +164,11 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
+import static org.folio.marc4ld.util.Constants.Classification.DDC;
+import static org.folio.marc4ld.util.Constants.Classification.DLC;
+import static org.folio.marc4ld.util.Constants.Classification.FULL;
+import static org.folio.marc4ld.util.Constants.Classification.LC;
+import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import java.util.List;
 import java.util.Map;
@@ -644,37 +648,42 @@ class Marc2BibframeMapperIT {
   }
 
   private void validateLcClassification(ResourceEdge edge) {
-    validateEdge(edge, CLASSIFICATION, List.of(CATEGORY),
+    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
       Map.of(
-        SOURCE.getValue(), "lc",
+        SOURCE.getValue(), LC,
         CODE.getValue(), "code",
-        ITEM_NUMBER.getValue(), "item number",
-        ASSIGNER.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc",
-        PropertyDictionary.STATUS.getValue(), "http://id.loc.gov/vocabulary/mstatus/uba"
+        ITEM_NUMBER.getValue(), "item number"
       ), "code");
-    var classification = edge.getTarget();
-    validateEdge(classification.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
-      List.of(CATEGORY_SET),
+    var iterator = edge.getTarget().getOutgoingEdges().iterator();
+    validateEdge(iterator.next(), STATUS,
+      List.of(ResourceTypeDictionary.STATUS),
       Map.of(
-        LABEL.getValue(), "lc"
-      ), "lc");
+        LABEL.getValue(), "used by assigner",
+        LINK.getValue(), UBA
+      ), "used by assigner");
+    validateEdge(iterator.next(), ASSIGNING_SOURCE,
+      List.of(ORGANIZATION),
+      Map.of(
+        NAME.getValue(), "United States, Library of Congress",
+        LINK.getValue(), DLC
+      ), "United States, Library of Congress");
   }
 
   private void validateDdcClassification(ResourceEdge edge) {
     validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
       Map.of(
-        SOURCE.getValue(), "ddc",
+        SOURCE.getValue(), DDC,
         CODE.getValue(), "Dewey Decimal Classification value",
         ITEM_NUMBER.getValue(), "item number",
         EDITION_NUMBER.getValue(), "edition number",
-        EDITION.getValue(), "Full"
+        EDITION.getValue(), FULL
       ), "Dewey Decimal Classification value");
     var iterator = edge.getTarget().getOutgoingEdges().iterator();
     validateEdge(iterator.next(), ASSIGNING_SOURCE,
       List.of(ORGANIZATION),
       Map.of(
         NAME.getValue(), "United States, Library of Congress",
-        LINK.getValue(), "http://id.loc.gov/vocabulary/organizations/dlc"
+        LINK.getValue(), DLC
       ), "United States, Library of Congress");
   }
 

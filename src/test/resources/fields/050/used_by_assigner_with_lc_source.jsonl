@@ -1,0 +1,14 @@
+{
+  "leader" : "00060nam a2200037uc 4500",
+  "fields" : [ {
+    "050" : {
+      "subfields" : [ {
+        "a" : "code"
+      }, {
+        "b" : "item number"
+      } ],
+      "ind1" : "0",
+      "ind2" : "0"
+    }
+  } ]
+}
