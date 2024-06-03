@@ -22,7 +22,7 @@ class Marc2Bibframe651IT {
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
-  void whenMarcField257WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
+  void whenMarcField257WithMultipleSubfield_a_map_shouldConvertAll() {
     // given
     var marc = loadResourceAsString("fields/651/marc_651_info_multiply.jsonl");
 
@@ -38,8 +38,8 @@ class Marc2Bibframe651IT {
       PredicateDictionary.SUBJECT,
       List.of(ResourceTypeDictionary.CONCEPT, ResourceTypeDictionary.PLACE),
       Map.of(
-        "http://bibfra.me/vocab/marc/miscInfo", "some info",
-        "http://bibfra.me/vocab/lite/name", "Italy"
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("some info", "some more info"),
+        "http://bibfra.me/vocab/lite/name", List.of("Italy")
       ),
       "Italy"
     );

@@ -6,6 +6,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -40,7 +41,7 @@ class Marc2Bibframe650IT {
       .extracting(Resource::getDoc)
       .extracting(node -> node.get("http://bibfra.me/vocab/marc/formSubdivision"))
       .extracting(this::getValues)
-      .asList()
+      .asInstanceOf(InstanceOfAssertFactories. LIST)
       .containsOnly("form 1", "form 2");
   }
 
@@ -83,7 +84,7 @@ class Marc2Bibframe650IT {
       .extracting(Resource::getDoc)
       .extracting(node -> node.get("http://bibfra.me/vocab/marc/geographicSubdivision"))
       .extracting(this::getValues)
-      .asList()
+      .asInstanceOf(InstanceOfAssertFactories. LIST)
       .containsOnly("Italy", "Florence");
   }
 

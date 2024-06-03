@@ -11,13 +11,11 @@ import org.folio.marc4ld.service.marc2ld.field.property.merger.function.MergeFun
 @RequiredArgsConstructor
 public class PropertyMergerImpl implements PropertyMerger {
 
-  private final MergeFunction defaultMergeFunction;
-  private final Map<String, MergeFunction> functions;
+  private final MergeFunction mergeFunction;
 
   @Override
   public void merge(Map<String, List<String>> values, Property property) {
     var key = PropertyDictionary.valueOf(property.field()).getValue();
-    var function = functions.getOrDefault(property.field(), defaultMergeFunction);
-    values.merge(key, new ArrayList<>(List.of(property.value())), function);
+    values.merge(key, new ArrayList<>(List.of(property.value())), mergeFunction);
   }
 }

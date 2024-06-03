@@ -2,11 +2,13 @@ package org.folio.marc4ld.mapper.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.StreamSupport;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
@@ -29,20 +31,35 @@ public class TestUtil {
   }
 
   public static void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
-                            List<ResourceTypeDictionary> types, Map<String, String> properties, String expectedLabel) {
+                                  List<ResourceTypeDictionary> types,
+                                  Map<String, List<String>> properties,
+                                  String expectedLabel) {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    assertThat(edge.getTarget().getId()).isNotNull();
-    assertThat(edge.getTarget().getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
-    assertThat(edge.getTarget().getLabel()).isEqualTo(expectedLabel);
-    assertThat(edge.getTarget().getDoc()).hasSize(properties.size());
-    properties.forEach((property, propertyValue) -> validateProperty(edge.getTarget(), property, propertyValue));
+    validateResource(edge.getTarget(), types, properties, expectedLabel);
   }
 
-  public static void validateProperty(Resource resource, String propertyKey, String propertyValue) {
-    assertThat(resource.getDoc().has(propertyKey)).isTrue();
-    assertThat(resource.getDoc().get(propertyKey).size()).isEqualTo(1);
-    assertThat(resource.getDoc().get(propertyKey).get(0).asText()).isEqualTo(propertyValue);
+  public static void validateResource(Resource resource,
+                                      List<ResourceTypeDictionary> types,
+                                      Map<String, List<String>> properties,
+                                      String expectedLabel) {
+    assertThat(resource.getId()).isNotNull();
+    assertThat(resource.getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
+    assertThat(resource.getLabel()).isEqualTo(expectedLabel);
+    assertThat(resource.getDoc()).hasSize(properties.size());
+    properties.forEach((property, propertyValues) -> validateProperty(resource, property, propertyValues));
+  }
+
+  public static void validateProperty(Resource resource, String propertyKey, List<String> propertyValues) {
+    assertThat(resource.getDoc().has(propertyKey))
+      .as("Property %s is not found in resource", propertyKey)
+      .isTrue();
+    var values = resource.getDoc().get(propertyKey);
+    var actualValues = StreamSupport.stream(values.spliterator(), false)
+      .map(JsonNode::asText)
+      .toList();
+    assertThat(actualValues)
+      .containsOnlyOnceElementsOf(propertyValues);
   }
 }

@@ -10,6 +10,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -40,20 +41,20 @@ class MarcToBibframe008IT {
       .extracting(this::getGovernmentPublicationEdge)
       .satisfies(e -> validateEdge(e, GOVERNMENT_PUBLICATION, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", "a",
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/mgovtpubtype/a",
-          "http://bibfra.me/vocab/marc/term", "Autonomous"
+          "http://bibfra.me/vocab/marc/code", List.of("a"),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
+          "http://bibfra.me/vocab/marc/term", List.of("Autonomous")
         ),
         "Autonomous"))
       .extracting(this::getFirstTargetOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/mgovtpubtype",
-          "http://bibfra.me/vocab/lite/label", "Government Publication Type"
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mgovtpubtype"),
+          "http://bibfra.me/vocab/lite/label", List.of("Government Publication Type")
         ),
         "Government Publication Type"))
       .extracting(this::getOutgoingEdges)
-      .asList()
+      .asInstanceOf(InstanceOfAssertFactories. LIST)
       .isEmpty();
   }
 

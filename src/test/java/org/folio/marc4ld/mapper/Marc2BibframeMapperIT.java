@@ -587,14 +587,15 @@ class Marc2BibframeMapperIT {
     assertThat(work.getLabel()).isEqualTo("MainTitle");
     assertThat(work.getTypes()).containsOnly(WORK);
     assertThat(work.getDoc()).hasSize(14);
-    getWorkExpectedProperties().forEach((property, propertyValue) -> validateProperty(work, property, propertyValue));
+    getWorkExpectedProperties()
+      .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
     validateEdge(edgeIterator.next(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
       Map.of(
-        NAME.getValue(), "United States",
-        GEOGRAPHIC_AREA_CODE.getValue(), "n-us",
-        GEOGRAPHIC_COVERAGE.getValue(), "https://id.loc.gov/vocabulary/geographicAreas/n-us"
+        NAME.getValue(), List.of("United States"),
+        GEOGRAPHIC_AREA_CODE.getValue(), List.of("n-us"),
+        GEOGRAPHIC_COVERAGE.getValue(), List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
       ), "United States");
     validateLcClassification(edgeIterator.next());
     validateDdcClassification(edgeIterator.next());
@@ -611,7 +612,8 @@ class Marc2BibframeMapperIT {
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
-    validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE), Map.of(NAME.getValue(), "France"), "France");
+    validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
+      Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
       getFamilyPersonConceptExpectedProperties("family"));
@@ -639,9 +641,9 @@ class Marc2BibframeMapperIT {
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
     validateEdge(edgeIterator.next(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
       Map.of(
-        CODE.getValue(), "a",
-        LINK.getValue(), "http://id.loc.gov/vocabulary/mgovtpubtype/a",
-        TERM.getValue(), "Autonomous"
+        CODE.getValue(), List.of("a"),
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
+        TERM.getValue(), List.of("Autonomous")
       ), "Autonomous");
     validateTargetAudience(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
@@ -650,56 +652,56 @@ class Marc2BibframeMapperIT {
   private void validateLcClassification(ResourceEdge edge) {
     validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
       Map.of(
-        SOURCE.getValue(), LC,
-        CODE.getValue(), "code",
-        ITEM_NUMBER.getValue(), "item number"
+        SOURCE.getValue(), List.of(LC),
+        CODE.getValue(), List.of("code"),
+        ITEM_NUMBER.getValue(), List.of("item number")
       ), "code");
     var iterator = edge.getTarget().getOutgoingEdges().iterator();
     validateEdge(iterator.next(), STATUS,
       List.of(ResourceTypeDictionary.STATUS),
       Map.of(
-        LABEL.getValue(), "used by assigner",
-        LINK.getValue(), UBA
+        LABEL.getValue(), List.of("used by assigner"),
+        LINK.getValue(), List.of(UBA)
       ), "used by assigner");
     validateEdge(iterator.next(), ASSIGNING_SOURCE,
       List.of(ORGANIZATION),
       Map.of(
-        NAME.getValue(), "United States, Library of Congress",
-        LINK.getValue(), DLC
+        NAME.getValue(), List.of("United States, Library of Congress"),
+        LINK.getValue(), List.of(DLC)
       ), "United States, Library of Congress");
   }
 
   private void validateDdcClassification(ResourceEdge edge) {
     validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
       Map.of(
-        SOURCE.getValue(), DDC,
-        CODE.getValue(), "Dewey Decimal Classification value",
-        ITEM_NUMBER.getValue(), "item number",
-        EDITION_NUMBER.getValue(), "edition number",
-        EDITION.getValue(), FULL
+        SOURCE.getValue(), List.of(DDC),
+        CODE.getValue(), List.of("Dewey Decimal Classification value"),
+        ITEM_NUMBER.getValue(), List.of("item number"),
+        EDITION_NUMBER.getValue(), List.of("edition number"),
+        EDITION.getValue(), List.of(FULL)
       ), "Dewey Decimal Classification value");
     var iterator = edge.getTarget().getOutgoingEdges().iterator();
     validateEdge(iterator.next(), ASSIGNING_SOURCE,
       List.of(ORGANIZATION),
       Map.of(
-        NAME.getValue(), "United States, Library of Congress",
-        LINK.getValue(), DLC
+        NAME.getValue(), List.of("United States, Library of Congress"),
+        LINK.getValue(), List.of(DLC)
       ), "United States, Library of Congress");
   }
 
   private void validateTargetAudience(ResourceEdge edge) {
     validateEdge(edge, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
       Map.of(
-        CODE.getValue(), "b",
-        LINK.getValue(), "http://id.loc.gov/vocabulary/maudience/pri",
-        TERM.getValue(), "Primary"
+        CODE.getValue(), List.of("b"),
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/maudience/pri"),
+        TERM.getValue(), List.of("Primary")
       ), "Primary");
     var targetAudience = edge.getTarget();
     validateEdge(targetAudience.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
       List.of(CATEGORY_SET),
       Map.of(
-        LINK.getValue(), "https://id.loc.gov/vocabulary/maudience",
-        LABEL.getValue(), "Target audience"
+        LINK.getValue(), List.of("https://id.loc.gov/vocabulary/maudience"),
+        LABEL.getValue(), List.of("Target audience")
       ), "Target audience");
   }
 
@@ -942,78 +944,80 @@ class Marc2BibframeMapperIT {
     );
   }
 
-  private Map<String, String> getCommonConceptExpectedProperties(String prefix) {
+  private Map<String, List<String>> getCommonConceptExpectedProperties(String prefix) {
     return Map.ofEntries(
-      entry(NAME.getValue(), prefix + " name"),
-      entry(FORM_SUBDIVISION.getValue(), prefix + " form subdivision"),
-      entry(GENERAL_SUBDIVISION.getValue(), prefix + " general subdivision"),
-      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), prefix + " chronological subdivision"),
-      entry(GEOGRAPHIC_SUBDIVISION.getValue(), prefix + " geographic subdivision"),
-      entry(SOURCE.getValue(), prefix + " source"),
-      entry(MATERIALS_SPECIFIED.getValue(), prefix + " materials specified"),
-      entry(RELATOR_TERM.getValue(), prefix + " relator term"),
-      entry(RELATOR_CODE.getValue(), prefix + " relator code"),
-      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
-      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
-      entry(LINKAGE.getValue(), prefix + " linkage"),
-      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
-      entry(FIELD_LINK.getValue(), prefix + " field link")
+      entry(NAME.getValue(), List.of(prefix + " name")),
+      entry(FORM_SUBDIVISION.getValue(), List.of(prefix + " form subdivision")),
+      entry(GENERAL_SUBDIVISION.getValue(), List.of(prefix + " general subdivision")),
+      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), List.of(prefix + " chronological subdivision")),
+      entry(GEOGRAPHIC_SUBDIVISION.getValue(), List.of(prefix + " geographic subdivision")),
+      entry(SOURCE.getValue(), List.of(prefix + " source")),
+      entry(MATERIALS_SPECIFIED.getValue(), List.of(prefix + " materials specified")),
+      entry(RELATOR_TERM.getValue(), List.of(prefix + " relator term")),
+      entry(RELATOR_CODE.getValue(), List.of(prefix + " relator code")),
+      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
+      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
+      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
+      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
+      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
   }
 
-  private Map<String, String> getTopicConceptExpectedProperties() {
+  private Map<String, List<String>> getTopicConceptExpectedProperties() {
     return Stream.concat(
         getCommonConceptExpectedProperties("topic").entrySet().stream(),
         Map.ofEntries(
-          entry(GEOGRAPHIC_COVERAGE.getValue(), "topic geographic coverage"),
-          entry(LOCATION_OF_EVENT.getValue(), "topic location of event"),
-          entry(DATE.getValue(), "topic date"),
-          entry(MISC_INFO.getValue(), "topic misc info")
+          entry(GEOGRAPHIC_COVERAGE.getValue(), List.of("topic geographic coverage")),
+          entry(LOCATION_OF_EVENT.getValue(), List.of("topic location of event")),
+          entry(DATE.getValue(), List.of("topic date")),
+          entry(MISC_INFO.getValue(), List.of("topic misc info"))
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> getPlaceConceptExpectedProperties() {
+  private Map<String, List<String>> getPlaceConceptExpectedProperties() {
     return Stream.concat(
         getCommonConceptExpectedProperties("place").entrySet().stream(),
-        Map.ofEntries(entry(MISC_INFO.getValue(), "place misc info")).entrySet().stream())
+        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("place misc info")))
+          .entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> getFormConceptExpectedProperties() {
+  private Map<String, List<String>> getFormConceptExpectedProperties() {
     return Stream.concat(
         getCommonConceptExpectedProperties("form").entrySet().stream(),
-        Map.ofEntries(entry(GEOGRAPHIC_COVERAGE.getValue(), "form geographic coverage")).entrySet().stream())
+        Map.ofEntries(entry(GEOGRAPHIC_COVERAGE.getValue(), List.of("form geographic coverage")))
+          .entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> getFamilyPersonConceptExpectedProperties(String prefix) {
+  private Map<String, List<String>> getFamilyPersonConceptExpectedProperties(String prefix) {
     return Stream.concat(
         getCommonConceptExpectedProperties(prefix).entrySet().stream(),
         Map.ofEntries(
-          entry(NUMERATION.getValue(), prefix + " numeration"),
-          entry(TITLES.getValue(), prefix + " titles"),
-          entry(DATE.getValue(), prefix + " date"),
-          entry(ATTRIBUTION.getValue(), prefix + " attribution"),
-          entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
-          entry(AFFILIATION.getValue(), prefix + " affiliation")
+          entry(NUMERATION.getValue(), List.of(prefix + " numeration")),
+          entry(TITLES.getValue(), List.of(prefix + " titles")),
+          entry(DATE.getValue(), List.of(prefix + " date")),
+          entry(ATTRIBUTION.getValue(), List.of(prefix + " attribution")),
+          entry(NAME_ALTERNATIVE.getValue(), List.of(prefix + " name alternative")),
+          entry(AFFILIATION.getValue(), List.of(prefix + " affiliation"))
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> getJurisdictionOrganizationConceptExpectedProperties(String prefix) {
+  private Map<String, List<String>> getJurisdictionOrganizationConceptExpectedProperties(String prefix) {
     return Stream.concat(
         getCommonConceptExpectedProperties(prefix).entrySet().stream(),
         Map.ofEntries(
-          entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
-          entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
-          entry(DATE.getValue(), prefix + " date"),
-          entry(AFFILIATION.getValue(), prefix + " affiliation")
+          entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
+          entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
+          entry(DATE.getValue(), List.of(prefix + " date")),
+          entry(AFFILIATION.getValue(), List.of(prefix + " affiliation"))
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> removeNonFocusProperties(Map<String, String> properties) {
+  private Map<String, List<String>> removeNonFocusProperties(Map<String, List<String>> properties) {
     return properties.entrySet().stream()
       .filter(entry -> !List.of(
         FORM_SUBDIVISION.getValue(),
@@ -1026,78 +1030,78 @@ class Marc2BibframeMapperIT {
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private Map<String, String> getFamilyPersonContributorExpectedProperties(String prefix) {
+  private Map<String, List<String>> getFamilyPersonContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
-      entry(NAME.getValue(), prefix + " name"),
-      entry(NUMERATION.getValue(), prefix + " numeration"),
-      entry(TITLES.getValue(), prefix + " titles"),
-      entry(DATE.getValue(), prefix + " date"),
-      entry(ATTRIBUTION.getValue(), prefix + " attribution"),
-      entry(NAME_ALTERNATIVE.getValue(), prefix + " name alternative"),
-      entry(AFFILIATION.getValue(), prefix + " affiliation"),
-      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
-      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
-      entry(LINKAGE.getValue(), prefix + " linkage"),
-      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
-      entry(FIELD_LINK.getValue(), prefix + " field link")
+      entry(NAME.getValue(), List.of(prefix + " name")),
+      entry(NUMERATION.getValue(), List.of(prefix + " numeration")),
+      entry(TITLES.getValue(), List.of(prefix + " titles")),
+      entry(DATE.getValue(), List.of(prefix + " date")),
+      entry(ATTRIBUTION.getValue(), List.of(prefix + " attribution")),
+      entry(NAME_ALTERNATIVE.getValue(), List.of(prefix + " name alternative")),
+      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
+      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
+      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
+      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
+      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
+      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
   }
 
-  private Map<String, String> getOrganizationContributorExpectedProperties(String prefix) {
+  private Map<String, List<String>> getOrganizationContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
-      entry(NAME.getValue(), prefix + " name"),
-      entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
-      entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
-      entry(DATE.getValue(), prefix + " date"),
-      entry(AFFILIATION.getValue(), prefix + " affiliation"),
-      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
-      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
-      entry(LINKAGE.getValue(), prefix + " linkage"),
-      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
-      entry(FIELD_LINK.getValue(), prefix + " field link")
+      entry(NAME.getValue(), List.of(prefix + " name")),
+      entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
+      entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
+      entry(DATE.getValue(), List.of(prefix + " date")),
+      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
+      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
+      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
+      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
+      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
+      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
   }
 
-  private Map<String, String> getMeetingContributorExpectedProperties(String prefix) {
+  private Map<String, List<String>> getMeetingContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
-      entry(NAME.getValue(), prefix + " name"),
-      entry(PropertyDictionary.PLACE.getValue(), prefix + " place"),
-      entry(DATE.getValue(), prefix + " date"),
-      entry(SUBORDINATE_UNIT.getValue(), prefix + " subordinate unit"),
-      entry(AFFILIATION.getValue(), prefix + " affiliation"),
-      entry(AUTHORITY_LINK.getValue(), prefix + " authority link"),
-      entry(EQUIVALENT.getValue(), prefix + " equivalent"),
-      entry(LINKAGE.getValue(), prefix + " linkage"),
-      entry(CONTROL_FIELD.getValue(), prefix + " control field"),
-      entry(FIELD_LINK.getValue(), prefix + " field link")
+      entry(NAME.getValue(), List.of(prefix + " name")),
+      entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
+      entry(DATE.getValue(), List.of(prefix + " date")),
+      entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
+      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
+      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
+      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
+      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
+      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
+      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
   }
 
   private void validateSubjectEdge(ResourceEdge subjectEdge, List<ResourceTypeDictionary> subjectTypes,
-                                   Map<String, String> conceptProperties) {
+                                   Map<String, List<String>> conceptProperties) {
     validateEdge(subjectEdge, SUBJECT, subjectTypes, conceptProperties,
-      conceptProperties.get(NAME.getValue()));
+      conceptProperties.get(NAME.getValue()).get(0));
     assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
     var focusEdge = edgeIterator.next();
     validateEdge(focusEdge, FOCUS, List.of(subjectTypes.get(1)),
-      removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()));
+      removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()).get(0));
     var formEdge = edgeIterator.next();
     validateEdge(formEdge, SUB_FOCUS, List.of(FORM),
       Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())),
-      conceptProperties.get(FORM_SUBDIVISION.getValue()));
+      conceptProperties.get(FORM_SUBDIVISION.getValue()).get(0));
     var topicEdge = edgeIterator.next();
     validateEdge(topicEdge, SUB_FOCUS, List.of(TOPIC),
       Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())),
-      conceptProperties.get(GENERAL_SUBDIVISION.getValue()));
+      conceptProperties.get(GENERAL_SUBDIVISION.getValue()).get(0));
     var temporalEdge = edgeIterator.next();
     validateEdge(temporalEdge, SUB_FOCUS, List.of(TEMPORAL),
       Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())),
-      conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()));
+      conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()).get(0));
     var placeEdge = edgeIterator.next();
     validateEdge(placeEdge, SUB_FOCUS, List.of(PLACE),
       Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())),
-      conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()));
+      conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()).get(0));
     assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(formEdge.getTarget().getOutgoingEdges()).isEmpty();
     assertThat(topicEdge.getTarget().getOutgoingEdges()).isEmpty();

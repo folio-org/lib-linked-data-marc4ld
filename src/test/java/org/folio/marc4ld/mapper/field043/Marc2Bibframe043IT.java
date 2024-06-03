@@ -23,7 +23,7 @@ class Marc2Bibframe043IT {
   private Marc2BibframeMapperImpl marc2BibframeMapper;
 
   @Test
-  void whenMarcField043WithMultipleSubfield_a_map_shouldConvertOnlyTheFirstOne() {
+  void whenMarcField043WithMultipleSubfield_a_map_shouldConvertBoth() {
     // given
     var marc = loadResourceAsString("fields/043/marc_043_with_multiple_subfield_a.jsonl");
 
@@ -40,9 +40,11 @@ class Marc2Bibframe043IT {
       PredicateDictionary.GEOGRAPHIC_COVERAGE,
       List.of(ResourceTypeDictionary.PLACE),
       Map.of(
-        "http://bibfra.me/vocab/marc/geographicCoverage", "https://id.loc.gov/vocabulary/geographicAreas/n-us",
-        "http://bibfra.me/vocab/lite/name", "United States",
-        "http://bibfra.me/vocab/marc/geographicAreaCode", "n-us"
+        "http://bibfra.me/vocab/marc/geographicCoverage",
+        List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us",
+          "https://id.loc.gov/vocabulary/geographicAreas/n-us-non-skip"),
+        "http://bibfra.me/vocab/lite/name", List.of("United States"),
+        "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("n-us", "n-us-non-skip")
       ),
       "United States"
     );

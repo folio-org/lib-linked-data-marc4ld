@@ -10,6 +10,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -40,21 +41,21 @@ class MarcToBibframe336IT {
       .extracting(this::getContentEdge)
       .satisfies(e -> validateEdge(e, CONTENT, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", "CONTENT code",
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/contentTypes/CONTENT code",
-          "http://bibfra.me/vocab/marc/term", "CONTENT term",
-          "http://bibfra.me/vocab/marc/source", "CONTENT source"
+          "http://bibfra.me/vocab/marc/code", List.of("CONTENT code"),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
+          "http://bibfra.me/vocab/marc/term", List.of("CONTENT term"),
+          "http://bibfra.me/vocab/marc/source", List.of("CONTENT source")
         ),
         "CONTENT term"))
       .extracting(this::getFirstTargetOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
-          "http://bibfra.me/vocab/lite/link", "http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent",
-          "http://bibfra.me/vocab/lite/label", "rdacontent"
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent"),
+          "http://bibfra.me/vocab/lite/label", List.of("rdacontent")
         ),
         "rdacontent"))
       .extracting(this::getOutgoingEdges)
-      .asList()
+      .asInstanceOf(InstanceOfAssertFactories. LIST)
       .isEmpty();
   }
 
