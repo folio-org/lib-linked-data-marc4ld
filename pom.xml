@@ -32,7 +32,7 @@
         <lib-linked-data-dictionary.version>1.0.1-SNAPSHOT</lib-linked-data-dictionary.version>
         <lib-linked-data-fingerprint.version>1.0.1-SNAPSHOT</lib-linked-data-fingerprint.version>
         <marc4j.version>2.9.5</marc4j.version>
-        <guava.version>33.2.0-jre</guava.version>
+        <guava.version>33.2.1-jre</guava.version>
         <commons-io.version>2.16.1</commons-io.version>
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
 
