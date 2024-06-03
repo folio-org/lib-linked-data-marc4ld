@@ -26,13 +26,12 @@ public class Ld2MarcLcClassificationMapper extends AbstractClassificationMapper 
 
   @Override
   protected char getIndicator1(Resource resource) {
-    var ind1 = SPACE;
     if (hasLinkInEdge(resource, STATUS, UBA)) {
-      ind1 = ZERO;
+      return ZERO;
     } else if (hasLinkInEdge(resource, STATUS, NUBA)) {
-      ind1 = ONE;
+      return ONE;
     }
-    return ind1;
+    return SPACE;
   }
 
   @Override
