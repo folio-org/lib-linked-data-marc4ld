@@ -13,6 +13,8 @@ authorityFieldRules:
         x: GENERAL_SUBDIVISION
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
+      constants:
+        RESOURCE_PREFERRED: true
       edges:
         - types: PERSON
           predicate: FOCUS
