@@ -690,6 +690,27 @@ fieldRules:
       subfields:
         a: WITH_NOTE
       append: true
+  502:
+    - types: DISSERTATION
+      parent: WORK
+      predicate: DISSERTATION
+      subfields:
+        a: LABEL
+        b: DEGREE
+        d: DISSERTATION_YEAR
+        g: DISSERTATION_NOTE
+        o: DISSERTATION_ID
+      label: LABEL
+      edges:
+        - types: ORGANIZATION
+          parent: DISSERTATION
+          predicate: GRANTING_INSTITUTION
+          label: NAME
+          subfields:
+            c: NAME
+          marc2ldCondition:
+            fields:
+              c: presented
   504:
     - types: WORK
       subfields:
