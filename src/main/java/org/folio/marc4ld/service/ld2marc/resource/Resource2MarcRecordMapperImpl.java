@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
@@ -35,16 +36,15 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final MarcFactory marcFactory;
   private final Collection<Bibframe2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
-  private final DataFieldPostProcessor dataFieldPostProcessor;
   private final Comparator<Subfield> subfieldComparator;
+  private final Supplier<DataFieldPostProcessor> dataFieldPostProcessorSupplier;
 
   @Override
   public Record toMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
     var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
-    var combinedFields = dataFieldPostProcessor.apply(dataFields);
-    Stream.concat(cfb.build(marcFactory), combinedFields.stream())
+    Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     addInternalIds(marcRecord, resource);
@@ -65,10 +65,14 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> getFields(ControlFieldsBuilder cfb, ResourceEdge edge) {
     var resource = edge.getTarget();
-    var dataFields = rules.stream()
+    var fieldsFromResource = rules.stream()
       .flatMap(tagToRule -> mapToDataFields(edge, cfb, tagToRule));
-    return Stream.concat(dataFields, getOutgoingEdges(cfb, resource))
-      .toList();
+    var fieldsFromEdges = getOutgoingEdges(cfb, resource);
+    var combinedFields = Stream.concat(fieldsFromResource, fieldsFromEdges).toList();
+
+    return dataFieldPostProcessorSupplier.get()
+      .apply(combinedFields, resource.getTypes())
+      .stream().toList();
   }
 
   private Stream<DataField> getOutgoingEdges(ControlFieldsBuilder cfb, Resource resource) {

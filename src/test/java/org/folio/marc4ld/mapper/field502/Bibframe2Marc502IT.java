@@ -21,7 +21,6 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,10 +34,9 @@ class Bibframe2Marc502IT {
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
 
   @Test
-  @Disabled // TODO - Discuss with team tomorrow
   void shouldMapField502() {
     // given
-    var expectedMarc = loadResourceAsString("fields/502/marc_502.jsonl");
+    var expectedMarc = loadResourceAsString("fields/502/marc_502_multiple.jsonl");
     var resource = createResourceWith502();
 
     //when
@@ -50,36 +48,41 @@ class Bibframe2Marc502IT {
   }
 
   private Resource createResourceWith502() {
-    var grantingInstitution = MonographTestUtil.createResource(
-      Map.of(
-        PropertyDictionary.NAME, List.of("dissertation granting institution")
-      ),
-      Set.of(ResourceTypeDictionary.ORGANIZATION),
-      Map.of()
-    );
-
-    var dissertation = MonographTestUtil.createResource(
-      Map.of(
-        LABEL, List.of("dissertation label"),
-        DEGREE, List.of("dissertation degree"),
-        DISSERTATION_YEAR, List.of("dissertation year"),
-        DISSERTATION_NOTE, List.of("dissertation note 1", "dissertation note 2"),
-        DISSERTATION_ID, List.of("dissertation ID 1", "dissertation ID 2")
-      ),
-      Set.of(ResourceTypeDictionary.DISSERTATION),
-      Map.of(PredicateDictionary.GRANTING_INSTITUTION, List.of(grantingInstitution))
-    );
+    Resource dissertation1 = createDissertation("1");
+    Resource dissertation2 = createDissertation("2");
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
-      Map.of(PredicateDictionary.DISSERTATION, List.of(dissertation))
+      Map.of(PredicateDictionary.DISSERTATION, List.of(dissertation1, dissertation2))
     ).setLabel("Work: label");
 
     return MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(INSTANCE),
       Map.of(PredicateDictionary.INSTANTIATES, List.of(work))
+    );
+  }
+
+  private static Resource createDissertation(String dataSuffix) {
+    var organization = MonographTestUtil.createResource(
+      Map.of(
+        PropertyDictionary.NAME, List.of("dissertation granting institution " + dataSuffix)
+      ),
+      Set.of(ResourceTypeDictionary.ORGANIZATION),
+      Map.of()
+    );
+
+    return MonographTestUtil.createResource(
+      Map.of(
+        LABEL, List.of("dissertation label " + dataSuffix),
+        DEGREE, List.of("dissertation degree " + dataSuffix),
+        DISSERTATION_YEAR, List.of("dissertation year " + dataSuffix),
+        DISSERTATION_NOTE, List.of("dissertation note 1 " + dataSuffix, "dissertation note 2 " + dataSuffix),
+        DISSERTATION_ID, List.of("dissertation ID 1 " + dataSuffix, "dissertation ID 2 " + dataSuffix)
+      ),
+      Set.of(ResourceTypeDictionary.DISSERTATION),
+      Map.of(PredicateDictionary.GRANTING_INSTITUTION, List.of(organization))
     );
   }
 }
