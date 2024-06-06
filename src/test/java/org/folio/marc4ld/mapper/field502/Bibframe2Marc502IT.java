@@ -48,8 +48,8 @@ class Bibframe2Marc502IT {
   }
 
   private Resource createResourceWith502() {
-    Resource dissertation1 = createDissertation("1");
-    Resource dissertation2 = createDissertation("2");
+    var dissertation1 = createDissertation("1");
+    var dissertation2 = createDissertation("2");
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
