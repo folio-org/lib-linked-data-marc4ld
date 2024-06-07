@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.processing.combine.impl;
+package org.folio.marc4ld.service.ld2marc.processing.combine.factory;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
@@ -16,7 +16,7 @@ import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
 
-public abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
+abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
 
   private DataField combinedField;
 

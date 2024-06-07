@@ -1,13 +1,13 @@
-package org.folio.marc4ld.service.ld2marc.processing.impl;
+package org.folio.marc4ld.service.ld2marc.processing;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner.Context;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombinerFactory;
@@ -19,7 +19,7 @@ public class DataFieldPostProcessorImpl implements DataFieldPostProcessor {
   private final DataFieldCombinerFactory combinerFactory;
 
   @Override
-  public Collection<DataField> apply(Collection<DataField> dataFields, Set<ResourceTypeDictionary> resourceTypes) {
+  public List<DataField> apply(Collection<DataField> dataFields, Set<ResourceTypeDictionary> resourceTypes) {
     var combiners = new ConcurrentHashMap<Context, DataFieldCombiner>();
 
     for (var dataField : dataFields) {
