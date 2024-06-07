@@ -10,7 +10,7 @@ import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DissertionCombinerFactory implements CombinerFactory {
+public class DissertationCombinerFactory implements CombinerFactory {
 
   private static final String TAG = "502";
 
