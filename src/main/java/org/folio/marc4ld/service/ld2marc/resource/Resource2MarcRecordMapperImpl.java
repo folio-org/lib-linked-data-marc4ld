@@ -13,14 +13,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
-import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
+import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessorFactory;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -37,7 +36,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private final Collection<Bibframe2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final Comparator<Subfield> subfieldComparator;
-  private final Supplier<DataFieldPostProcessor> dataFieldPostProcessorSupplier;
+  private final DataFieldPostProcessorFactory dataFieldPostProcessorFactory;
 
   @Override
   public Record toMarcRecord(Resource resource) {
@@ -70,9 +69,8 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var fieldsFromEdges = getOutgoingEdges(cfb, resource);
     var combinedFields = Stream.concat(fieldsFromResource, fieldsFromEdges).toList();
 
-    return dataFieldPostProcessorSupplier.get()
-      .apply(combinedFields, resource.getTypes())
-      .stream().toList();
+    return dataFieldPostProcessorFactory.get()
+      .apply(combinedFields, resource.getTypes());
   }
 
   private Stream<DataField> getOutgoingEdges(ControlFieldsBuilder cfb, Resource resource) {
