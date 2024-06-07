@@ -1,29 +1,31 @@
-package org.folio.marc4ld.service.ld2marc.processing.impl;
+package org.folio.marc4ld.service.ld2marc.processing;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
-import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessor;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner;
+import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner.Context;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombinerFactory;
 import org.marc4j.marc.DataField;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class DataFieldPostProcessorImpl implements DataFieldPostProcessor {
 
   private final DataFieldCombinerFactory combinerFactory;
 
   @Override
-  public Collection<DataField> apply(Collection<DataField> dataFields) {
-    var combiners = new ConcurrentHashMap<String, DataFieldCombiner>();
+  public List<DataField> apply(Collection<DataField> dataFields, Set<ResourceTypeDictionary> resourceTypes) {
+    var combiners = new ConcurrentHashMap<Context, DataFieldCombiner>();
 
     for (var dataField : dataFields) {
       var tag = dataField.getTag();
-      var combiner = getCombiner(tag, combiners);
+      var context = new Context(tag, resourceTypes);
+      var combiner = getCombiner(context, combiners);
       combiner.add(dataField);
     }
 
@@ -34,11 +36,11 @@ public class DataFieldPostProcessorImpl implements DataFieldPostProcessor {
       .toList();
   }
 
-  private DataFieldCombiner getCombiner(String tag, Map<String, DataFieldCombiner> combiners) {
-    return Optional.ofNullable(combiners.get(tag))
+  private DataFieldCombiner getCombiner(Context context, Map<Context, DataFieldCombiner> combiners) {
+    return Optional.ofNullable(combiners.get(context))
       .orElseGet(() -> {
-        var combiner = combinerFactory.create(tag);
-        combiners.put(tag, combiner);
+        var combiner = combinerFactory.create(context);
+        combiners.put(context, combiner);
         return combiner;
       });
   }

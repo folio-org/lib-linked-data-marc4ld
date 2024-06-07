@@ -1,0 +1,48 @@
+{
+  "leader" : "00438nam a2200049uc 4500",
+  "fields" : [ {
+    "502" : {
+      "subfields" : [ {
+        "a" : "dissertation label 1"
+      }, {
+        "b" : "dissertation degree 1"
+      }, {
+        "c" : "dissertation granting institution 1"
+      }, {
+        "d" : "dissertation year 1"
+      }, {
+        "g" : "dissertation note 1 1"
+      }, {
+        "g" : "dissertation note 2 1"
+      }, {
+        "o" : "dissertation ID 1 1"
+      }, {
+        "o" : "dissertation ID 2 1"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "502" : {
+      "subfields" : [ {
+        "a" : "dissertation label 2"
+      }, {
+        "b" : "dissertation degree 2"
+      }, {
+        "c" : "dissertation granting institution 2"
+      }, {
+        "d" : "dissertation year 2"
+      }, {
+        "g" : "dissertation note 1 2"
+      }, {
+        "g" : "dissertation note 2 2"
+      }, {
+        "o" : "dissertation ID 1 2"
+      }, {
+        "o" : "dissertation ID 2 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

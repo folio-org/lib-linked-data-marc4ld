@@ -1,0 +1,26 @@
+{
+  "leader" : "00216nam a2200037uc 4500",
+  "fields" : [ {
+    "502" : {
+      "subfields" : [ {
+        "a" : "dissertation label"
+      }, {
+        "b" : "dissertation degree"
+      }, {
+        "c" : "dissertation granting institution"
+      }, {
+        "d" : "dissertation year"
+      }, {
+        "g" : "dissertation note 1"
+      }, {
+        "g" : "dissertation note 2"
+      }, {
+        "o" : "dissertation ID 1"
+      }, {
+        "o" : "dissertation ID 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
