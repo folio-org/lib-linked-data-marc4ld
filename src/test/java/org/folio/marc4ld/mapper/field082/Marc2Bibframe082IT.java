@@ -29,8 +29,10 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -40,10 +42,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-public class Marc2Bibframe082IT {
+public class Marc2Bibframe082IT extends Marc2LdTestBase {
+
+  private final MarcBib2ldMapper marc2BibframeMapper;
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  Marc2Bibframe082IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
+    super(hashService);
+    this.marc2BibframeMapper = mapper;
+  }
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
@@ -72,6 +79,7 @@ public class Marc2Bibframe082IT {
     var result = marc2BibframeMapper.fromMarcJson(marc);
 
     //then
+    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     assertThat(work.getOutgoingEdges()).hasSize(1);
     var resourceEdge = work.getOutgoingEdges().iterator().next();

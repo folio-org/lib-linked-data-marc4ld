@@ -10,8 +10,10 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,10 +21,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Marc2Bibframe650IT {
+class Marc2Bibframe650IT extends Marc2LdTestBase {
+
+
+  private final MarcBib2ldMapper marc2BibframeMapper;
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  Marc2Bibframe650IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
+    super(hashService);
+    this.marc2BibframeMapper = mapper;
+  }
 
   @Test
   void map_shouldContains_severalForms() {
@@ -33,7 +41,8 @@ class Marc2Bibframe650IT {
     var resource = marc2BibframeMapper.fromMarcJson(marc);
 
     assertThat(resource)
-      .isNotNull();
+      .isNotNull()
+      .satisfies(this::validateAllIds);
 
     var subject = geSubject(resource);
     assertThat(subject)

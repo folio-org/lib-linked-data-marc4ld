@@ -11,8 +11,10 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,10 +22,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Marc2Bibframe502IT {
+class Marc2Bibframe502IT extends Marc2LdTestBase {
+
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  Marc2Bibframe502IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
+    super(hashService);
+    this.marc2BibframeMapper = mapper;
+  }
 
   @Test
   void shouldMapField502() {
@@ -36,6 +43,7 @@ class Marc2Bibframe502IT {
     // then
     assertThat(result)
       .isNotNull()
+      .satisfies(this::validateAllIds)
       .extracting(this::getDissertationEdge)
       .satisfies(e -> validateEdge(e, PredicateDictionary.DISSERTATION,
         List.of(ResourceTypeDictionary.DISSERTATION),

@@ -179,8 +179,9 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -192,12 +193,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class MarcBib2LdMapperIT {
+class MarcBib2LdMapperIT extends Marc2LdTestBase {
+
+  private final MarcBib2ldMapper marc2BibframeMapper;
+  private final FingerprintHashService hashService;
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
-  @Autowired
-  private FingerprintHashService hashService;
+  MarcBib2LdMapperIT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
+    super(hashService);
+    this.marc2BibframeMapper = mapper;
+    this.hashService = hashService;
+  }
 
   @Test
   void map_shouldReturnNull_ifGivenMarcIsNull() {
@@ -221,7 +227,7 @@ class MarcBib2LdMapperIT {
 
     // then
     assertThat(result).isNotNull();
-    validateId(result);
+    validateAllIds(result);
     assertThat(result.getLabel()).isEmpty();
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getInventoryId()).isNull();
@@ -240,7 +246,7 @@ class MarcBib2LdMapperIT {
 
     // then
     assertThat(resource).isNotNull();
-    validateId(resource);
+    validateAllIds(resource);
     assertThat(resource.getLabel()).isEmpty();
     assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
@@ -267,6 +273,7 @@ class MarcBib2LdMapperIT {
 
     // then
     assertThat(result).isNotNull();
+    validateAllIds(result);
     validateInstance(result);
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
@@ -341,6 +348,8 @@ class MarcBib2LdMapperIT {
     var result2 = marc2BibframeMapper.fromMarcJson(marc2);
 
     // then
+    validateAllIds(result1);
+    validateAllIds(result2);
     var work1opt = result1.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
     var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
     assertThat(work1opt).isPresent();
@@ -372,6 +381,7 @@ class MarcBib2LdMapperIT {
     var result = marc2BibframeMapper.fromMarcJson(marc);
 
     //then
+    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     assertThat(work.getOutgoingEdges()).hasSize(12);
 

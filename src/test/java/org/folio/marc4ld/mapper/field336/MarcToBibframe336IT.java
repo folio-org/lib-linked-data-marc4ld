@@ -13,8 +13,10 @@ import java.util.Map;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,10 +24,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class MarcToBibframe336IT {
+class MarcToBibframe336IT extends Marc2LdTestBase {
+
+  private final MarcBib2ldMapper marc2BibframeMapper;
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  MarcToBibframe336IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
+    super(hashService);
+    this.marc2BibframeMapper = mapper;
+  }
 
   @Test
   void shouldMapField336() {
@@ -38,6 +45,7 @@ class MarcToBibframe336IT {
     //then
     assertThat(result)
       .isNotNull()
+      .satisfies(this::validateAllIds)
       .extracting(this::getContentEdge)
       .satisfies(e -> validateEdge(e, CONTENT, List.of(CATEGORY),
         Map.of(
