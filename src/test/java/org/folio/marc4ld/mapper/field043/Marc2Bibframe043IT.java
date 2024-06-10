@@ -9,7 +9,7 @@ import java.util.Map;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Marc2Bibframe043IT {
 
   @Autowired
-  private Marc2BibframeMapperImpl marc2BibframeMapper;
+  private MarcBib2LdMapperImpl marc2BibframeMapper;
 
   @Test
   void whenMarcField043WithMultipleSubfield_a_map_shouldConvertBoth() {
@@ -44,6 +44,7 @@ class Marc2Bibframe043IT {
         List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us",
           "https://id.loc.gov/vocabulary/geographicAreas/n-us-non-skip"),
         "http://bibfra.me/vocab/lite/name", List.of("United States"),
+        "http://bibfra.me/vocab/lite/label", List.of("United States"),
         "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("n-us", "n-us-non-skip")
       ),
       "United States"

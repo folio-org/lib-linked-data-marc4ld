@@ -29,7 +29,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapperImpl;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,7 +42,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Marc2Bibframe050IT {
 
   @Autowired
-  private Marc2BibframeMapperImpl marc2BibframeMapper;
+  private MarcBib2LdMapperImpl marc2BibframeMapper;
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(

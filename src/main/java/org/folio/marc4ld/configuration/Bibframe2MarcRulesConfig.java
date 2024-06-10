@@ -25,7 +25,7 @@ public class Bibframe2MarcRulesConfig {
     DictionaryProcessor dictionaryProcessor,
     Marc4BibframeRules marc4BibframeRules
   ) {
-    var fieldRules = new HashMap<>(marc4BibframeRules.getFieldRules());
+    var fieldRules = new HashMap<>(marc4BibframeRules.getBibFieldRules());
     fieldRules.replaceAll((key, value) -> extractAdditionalFieldRules(value));
 
     return fieldRules.entrySet()

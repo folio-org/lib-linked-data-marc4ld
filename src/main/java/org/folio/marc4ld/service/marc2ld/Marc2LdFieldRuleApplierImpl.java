@@ -1,15 +1,11 @@
 package org.folio.marc4ld.service.marc2ld;
 
-import static java.lang.String.join;
-import static org.apache.commons.lang3.StringUtils.SPACE;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
@@ -26,7 +22,6 @@ import org.marc4j.marc.DataField;
 @AllArgsConstructor
 public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
 
-  private final String label;
   private final Relation relation;
   @NonNull
   private final Marc4BibframeRules.FieldRule fieldRule;
@@ -53,12 +48,24 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
       .map(Set::of)
       .orElse(new HashSet<>());
     return selectResourceByTypes(resource, resourceTypes)
-      .orElseGet(this::createResource);
+      .orElseGet(this::createResourceByParent);
   }
 
   @Override
   public Collection<Marc2ldFieldRuleApplier> getEdgeRules() {
     return edgeRules;
+  }
+
+  @Override
+  public Resource createResource() {
+    var res = new Resource();
+    Optional.of(fieldRule)
+      .map(Marc4BibframeRules.FieldRule::getTypes)
+      .stream()
+      .flatMap(Collection::stream)
+      .map(ResourceTypeDictionary::valueOf)
+      .forEach(res::addType);
+    return res;
   }
 
   @Override
@@ -76,14 +83,6 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   @Override
   public boolean isAppend() {
     return fieldRule.isAppend();
-  }
-
-  @Override
-  public String getLabel(Map<String, List<String>> properties) {
-    return Optional.ofNullable(label)
-      .map(properties::get)
-      .map(vs -> join(SPACE, vs))
-      .orElseGet(UUID.randomUUID()::toString);
   }
 
   @Override
@@ -114,9 +113,12 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
     return predicate;
   }
 
-  private Resource createResource() {
+  private Resource createResourceByParent() {
     var res = new Resource();
-    res.addType(ResourceTypeDictionary.valueOf(fieldRule.getParent()));
+    Optional.of(fieldRule)
+      .map(Marc4BibframeRules.FieldRule::getParent)
+      .map(ResourceTypeDictionary::valueOf)
+      .ifPresent(res::addType);
     return res;
   }
 

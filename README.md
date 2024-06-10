@@ -13,20 +13,21 @@ lib-linked-data-marc4ld is a Java Spring library for converting MARC Bibliograph
 
 ```java
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.marc2ld.Marc2BibframeMapper;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class YourService {
 
-  private final Marc2BibframeMapper mapper;
+  private final MarcBib2ldMapper mapper;
 
-  public YourService(Marc2BibframeMapper mapper) {
+  public YourService(MarcBib2ldMapper mapper) {
     this.mapper = mapper;
   }
 
   public void yourMethod(String marcJson) {
-    Resource resource =  mapper.fromMarcJson(marcJson);
+    Resource resource = mapper.fromMarcJson(marcJson);
     // ...
     // ...
   }

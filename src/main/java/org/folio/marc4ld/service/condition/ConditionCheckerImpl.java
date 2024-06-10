@@ -43,12 +43,16 @@ public class ConditionCheckerImpl implements ConditionChecker {
     }
     var ind1Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
     var ind2Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
-    var fieldConditions = isEmpty(condition.getFields()) || condition.getFields().entrySet().stream()
+    var fieldConditions = isEmpty(condition.getFieldsAllOf()) || condition.getFieldsAllOf().entrySet().stream()
       .allMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
         .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
         .orElse(false));
+    var fieldAnyOfConditions = isEmpty(condition.getFieldsAnyOf()) || condition.getFieldsAnyOf().entrySet().stream()
+      .anyMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
+        .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
+        .orElse(false));
     var controlFieldConditions = isControlFieldConditionsSatisfied(controlFields, condition);
-    return ind1Condition && ind2Condition && fieldConditions && controlFieldConditions;
+    return ind1Condition && ind2Condition && fieldConditions && fieldAnyOfConditions && controlFieldConditions;
   }
 
   @Override

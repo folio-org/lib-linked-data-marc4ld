@@ -1,0 +1,21 @@
+{
+  "fields" : [ {
+    "100" : {
+      "subfields" : [ {
+        "a" : "aValue"
+      }, {
+        "b" : "bValue"
+      }, {
+        "c" : "cValue"
+      }, {
+        "d" : "dValue"
+      }, {
+        "j" : "jValue"
+      }, {
+        "q" : "qValue"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

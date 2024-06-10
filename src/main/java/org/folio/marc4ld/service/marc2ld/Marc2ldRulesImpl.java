@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -35,7 +34,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Marc2ldRulesImpl implements Marc2ldRules {
 
-  private final Map<String, Collection<Marc2ldFieldRuleApplier>> rules;
+  private final Map<String, Collection<Marc2ldFieldRuleApplier>> bibRules;
+  private final Map<String, Collection<Marc2ldFieldRuleApplier>> authorityRules;
 
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
@@ -50,16 +50,23 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
     this.propertyTransformerFactory = propertyTransformerFactory;
     this.propertyMergerFactory = propertyMergerFactory;
 
-    this.rules = initRules(marc4BibframeRules);
+    this.bibRules = initRules(marc4BibframeRules.getBibFieldRules());
+    this.authorityRules = initRules(marc4BibframeRules.getAuthorityFieldRules());
   }
 
   @Override
-  public Collection<Marc2ldFieldRuleApplier> findFiledRules(String tag) {
-    return rules.getOrDefault(tag, Collections.emptyList());
+  public Collection<Marc2ldFieldRuleApplier> findBibFieldRules(String tag) {
+    return bibRules.getOrDefault(tag, Collections.emptyList());
   }
 
-  private Map<String, Collection<Marc2ldFieldRuleApplier>> initRules(Marc4BibframeRules marc4BibframeRules) {
-    return marc4BibframeRules.getFieldRules()
+  @Override
+  public Collection<Marc2ldFieldRuleApplier> findAuthorityFieldRules(String tag) {
+    return authorityRules.getOrDefault(tag, Collections.emptyList());
+  }
+
+  private Map<String, Collection<Marc2ldFieldRuleApplier>> initRules(
+    Map<String, List<Marc4BibframeRules.FieldRule>> rules) {
+    return rules
       .entrySet()
       .stream()
       .collect(Collectors.toMap(Map.Entry::getKey, entry -> createRules(entry.getValue())));
@@ -78,18 +85,9 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .propertyRule(getPropertyRule(rule))
       .types(getTypes(rule))
       .predicate(getPredicate(rule));
-    getLabel(rule)
-      .ifPresent(builder::label);
     getRelation(rule)
       .ifPresent(builder::relation);
     return builder.build();
-  }
-
-  private Optional<String> getLabel(Marc4BibframeRules.FieldRule rule) {
-    return Optional.of(rule)
-      .map(Marc4BibframeRules.FieldRule::getLabel)
-      .map(PropertyDictionary::valueOf)
-      .map(PropertyDictionary::getValue);
   }
 
   private Optional<Relation> getRelation(Marc4BibframeRules.FieldRule rule) {
