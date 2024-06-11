@@ -13,19 +13,15 @@ import java.util.Map;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
-class MarcToBibframe008IT {
+class MarcToBibframe008IT extends Marc2LdTestBase {
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void shouldMapField008() {
@@ -38,6 +34,7 @@ class MarcToBibframe008IT {
     //then
     assertThat(result)
       .isNotNull()
+      .satisfies(this::validateAllIds)
       .extracting(this::getGovernmentPublicationEdge)
       .satisfies(e -> validateEdge(e, GOVERNMENT_PUBLICATION, List.of(CATEGORY),
         Map.of(
@@ -54,7 +51,7 @@ class MarcToBibframe008IT {
         ),
         "Government Publication Type"))
       .extracting(this::getOutgoingEdges)
-      .asInstanceOf(InstanceOfAssertFactories. LIST)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
   }
 

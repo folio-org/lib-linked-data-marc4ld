@@ -61,7 +61,6 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .stream()
       .filter(rule -> conditionChecker.isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, controlFields))
       .forEach(rule -> handleField(resource, dataField, controlFields, rule));
-    resource.setId(hashService.hash(resource));
 
     Optional.of(marc2ldMapperController.findAll(dataField.getTag()))
       .filter(CollectionUtils::isNotEmpty)
@@ -70,6 +69,8 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .filter(mapper -> isMapping(fieldRule, mapper))
       .findFirst()
       .ifPresent(m -> m.map(new MarcData(dataField, controlFields), resource));
+
+    resource.setId(hashService.hash(resource));
   }
 
   private static boolean isMapping(Marc2ldFieldRuleApplier fieldRule, Marc2ldMapper mapper) {

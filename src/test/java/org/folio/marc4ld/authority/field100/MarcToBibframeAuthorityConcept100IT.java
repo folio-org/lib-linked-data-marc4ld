@@ -15,7 +15,6 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,25 +22,17 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
+import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
 import org.folio.marc4ld.service.marc2ld.authority.MarcAuthority2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
-class MarcToBibframeAuthorityConcept100IT {
+class MarcToBibframeAuthorityConcept100IT extends Marc2LdTestBase {
 
   @Autowired
   private MarcAuthority2ldMapper marcAuthority2ldMapper;
-
-  @Autowired
-  private FingerprintHashService hashService;
 
   @ParameterizedTest
   @CsvSource(value = {
@@ -60,6 +51,7 @@ class MarcToBibframeAuthorityConcept100IT {
       .isNotNull()
       .isNotEmpty()
       .singleElement()
+      .satisfies(this::validateAllIds)
       .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, resourceType)))
       .satisfies(resource -> validateFocus(resource, resourceType))
       .satisfies(this::validateForm)
@@ -88,7 +80,6 @@ class MarcToBibframeAuthorityConcept100IT {
       ),
       "bValue, aValue, cValue1, cValue2, qValue, dValue"
         + " -- vValue1 -- vValue2 -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2");
-    validateId(resource);
   }
 
   private void validateFocus(Resource resource, ResourceTypeDictionary resourceType) {
@@ -105,7 +96,6 @@ class MarcToBibframeAuthorityConcept100IT {
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
       ),
       "bValue, aValue, cValue1, cValue2, qValue, dValue");
-    validateId(resourceEdges);
   }
 
   private void validateForm(Resource resource) {
@@ -125,7 +115,6 @@ class MarcToBibframeAuthorityConcept100IT {
             "http://bibfra.me/vocab/lite/label", List.of("vValue2")
           ),
           "vValue2"));
-    validateId(resourceEdges);
   }
 
   private void validateTopic(Resource resource) {
@@ -145,7 +134,6 @@ class MarcToBibframeAuthorityConcept100IT {
             "http://bibfra.me/vocab/lite/label", List.of("xValue2")
           ),
           "xValue2"));
-    validateId(resourceEdges);
   }
 
   private void validateTemporal(Resource resource) {
@@ -165,7 +153,6 @@ class MarcToBibframeAuthorityConcept100IT {
             "http://bibfra.me/vocab/lite/label", List.of("yValue2")
           ),
           "yValue2"));
-    validateId(resourceEdges);
   }
 
   private void validatePlace(Resource resource) {
@@ -185,7 +172,6 @@ class MarcToBibframeAuthorityConcept100IT {
             "http://bibfra.me/vocab/lite/label", List.of("zValue2")
           ),
           "zValue2"));
-    validateId(resourceEdges);
   }
 
   private void validateIdentifier(Resource resource) {
@@ -200,7 +186,6 @@ class MarcToBibframeAuthorityConcept100IT {
             "http://bibfra.me/vocab/lite/label", List.of("sh85121033")
           ),
           "sh85121033"));
-    validateId(resourceEdges);
   }
 
   private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
@@ -211,16 +196,5 @@ class MarcToBibframeAuthorityConcept100IT {
         .filter(types -> CollectionUtils.containsAll(types, Arrays.asList(resourceTypes)))
         .isPresent())
       .toList();
-  }
-
-  private void validateId(Collection<ResourceEdge> resourceEdges) {
-    resourceEdges.stream()
-      .map(ResourceEdge::getTarget)
-      .forEach(this::validateId);
-  }
-
-  private void validateId(Resource resource) {
-    var expectedId = hashService.hash(resource);
-    assertThat(resource.getId()).isEqualTo(expectedId);
   }
 }

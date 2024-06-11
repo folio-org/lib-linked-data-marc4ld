@@ -29,21 +29,17 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
-public class Marc2Bibframe082IT {
+public class Marc2Bibframe082IT extends Marc2LdTestBase {
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
@@ -72,6 +68,7 @@ public class Marc2Bibframe082IT {
     var result = marc2BibframeMapper.fromMarcJson(marc);
 
     //then
+    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     assertThat(work.getOutgoingEdges()).hasSize(1);
     var resourceEdge = work.getOutgoingEdges().iterator().next();
@@ -101,19 +98,19 @@ public class Marc2Bibframe082IT {
   public static Resource createAssigningSource(String link) {
     return link == null
       ? createResource(
-          Map.of(
-            NAME, List.of("assigning agency")
-          ),
-          Set.of(ORGANIZATION),
-          emptyMap()
-        ).setLabel("assigning agency")
+      Map.of(
+        NAME, List.of("assigning agency")
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("assigning agency")
       : createResource(
-          Map.of(
-            NAME, List.of("United States, Library of Congress"),
-            LINK, List.of(link)
-          ),
-          Set.of(ORGANIZATION),
-          emptyMap()
-        ).setLabel("United States, Library of Congress");
+      Map.of(
+        NAME, List.of("United States, Library of Congress"),
+        LINK, List.of(link)
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("United States, Library of Congress");
   }
 }

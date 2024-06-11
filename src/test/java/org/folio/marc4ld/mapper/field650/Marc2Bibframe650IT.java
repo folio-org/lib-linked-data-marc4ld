@@ -10,19 +10,15 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
+import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
-class Marc2Bibframe650IT {
+class Marc2Bibframe650IT extends Marc2LdTestBase {
 
   @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void map_shouldContains_severalForms() {
@@ -33,7 +29,8 @@ class Marc2Bibframe650IT {
     var resource = marc2BibframeMapper.fromMarcJson(marc);
 
     assertThat(resource)
-      .isNotNull();
+      .isNotNull()
+      .satisfies(this::validateAllIds);
 
     var subject = geSubject(resource);
     assertThat(subject)
@@ -41,7 +38,7 @@ class Marc2Bibframe650IT {
       .extracting(Resource::getDoc)
       .extracting(node -> node.get("http://bibfra.me/vocab/marc/formSubdivision"))
       .extracting(this::getValues)
-      .asInstanceOf(InstanceOfAssertFactories. LIST)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
       .containsOnly("form 1", "form 2");
   }
 
@@ -84,7 +81,7 @@ class Marc2Bibframe650IT {
       .extracting(Resource::getDoc)
       .extracting(node -> node.get("http://bibfra.me/vocab/marc/geographicSubdivision"))
       .extracting(this::getValues)
-      .asInstanceOf(InstanceOfAssertFactories. LIST)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
       .containsOnly("Italy", "Florence");
   }
 
