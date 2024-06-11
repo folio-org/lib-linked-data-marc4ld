@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.ld2marc.resource.field;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -39,7 +40,7 @@ class ControlFieldsBuilderTest {
     //then
     assertThat(actualElements)
       .size()
-      .isEqualTo(1);
+      .isEqualTo(2);
 
     assertThat(tagCaptor.getValue())
       .isEqualTo(tag);
@@ -133,7 +134,7 @@ class ControlFieldsBuilderTest {
     builder.addFieldValue(tag, value, startPos, endPos);
     var transformFields = builder.build(factory)
       .toList();
-    verify(factory)
+    verify(factory, times(2))
       .newControlField(tagCaptor.capture(), dataCaptor.capture());
     return transformFields;
   }

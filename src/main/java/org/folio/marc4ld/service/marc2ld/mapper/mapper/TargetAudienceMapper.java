@@ -6,6 +6,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
+import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TargetAudienceMapper implements Marc2ldMapper {
 
-  private static final String TAG = "008";
   private static final int TARGET_AUD_CHAR_INDEX = 22;
   private static final Map<Character, String> MARC_CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'a', "pre",
@@ -57,7 +57,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
 
   @Override
   public String getTag() {
-    return TAG;
+    return TAG_008;
   }
 
   @Override
@@ -67,7 +67,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
 
   @Override
   public void map(MarcData marcData, Resource resource) {
-    mapperHelper.getControlField(marcData.getControlFields(), TAG, TARGET_AUD_CHAR_INDEX + 1)
+    mapperHelper.getControlField(marcData.getControlFields(), TAG_008, TARGET_AUD_CHAR_INDEX + 1)
       .ifPresent(controlField -> processControlField(resource, controlField));
   }
 

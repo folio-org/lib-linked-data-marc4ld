@@ -1,6 +1,8 @@
 {
-  "leader" : "00057nam a2200037uc 4500",
+  "leader" : "00109nam a2200049uc 4500",
   "fields" : [ {
+    "008" : "                                       "
+  }, {
     "245" : {
       "subfields" : [ {
         "a" : "Instance title"

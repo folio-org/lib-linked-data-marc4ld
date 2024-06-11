@@ -1,6 +1,8 @@
 {
-  "leader" : "00079nam a2200037uc 4500",
+  "leader" : "00131nam a2200049uc 4500",
   "fields" : [ {
+    "008" : "                                       "
+  }, {
     "337" : {
       "subfields" : [ {
         "a" : "MEDIA term"

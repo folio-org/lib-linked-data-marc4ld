@@ -88,7 +88,9 @@ class Bibframe2Marc010IT {
     // then
     Map<String, Object> resultAsMap = objectMapper.readValue(result, new TypeReference<>() {
     });
-    assertThat((List) resultAsMap.get("fields")).isEmpty();
+    assertThat((List) resultAsMap.get("fields")).isEqualTo(List.of(
+      Map.of("008", "                                       ")
+    ));
   }
 
   private Resource createInstanceWithLccn(Resource... lccns) {

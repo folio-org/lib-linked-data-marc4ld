@@ -1,6 +1,8 @@
 {
-  "leader" : "00438nam a2200049uc 4500",
+  "leader" : "00490nam a2200061uc 4500",
   "fields" : [ {
+    "008" : "                                       "
+  }, {
     "502" : {
       "subfields" : [ {
         "a" : "dissertation label 1"
