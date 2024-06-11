@@ -29,28 +29,17 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
 public class Marc2Bibframe082IT extends Marc2LdTestBase {
 
-  private final MarcBib2ldMapper marc2BibframeMapper;
-
   @Autowired
-  Marc2Bibframe082IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
-    super(hashService);
-    this.marc2BibframeMapper = mapper;
-  }
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
@@ -109,19 +98,19 @@ public class Marc2Bibframe082IT extends Marc2LdTestBase {
   public static Resource createAssigningSource(String link) {
     return link == null
       ? createResource(
-          Map.of(
-            NAME, List.of("assigning agency")
-          ),
-          Set.of(ORGANIZATION),
-          emptyMap()
-        ).setLabel("assigning agency")
+      Map.of(
+        NAME, List.of("assigning agency")
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("assigning agency")
       : createResource(
-          Map.of(
-            NAME, List.of("United States, Library of Congress"),
-            LINK, List.of(link)
-          ),
-          Set.of(ORGANIZATION),
-          emptyMap()
-        ).setLabel("United States, Library of Congress");
+      Map.of(
+        NAME, List.of("United States, Library of Congress"),
+        LINK, List.of(link)
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("United States, Library of Congress");
   }
 }
