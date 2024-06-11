@@ -8,26 +8,15 @@ import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
 class Marc2Bibframe043IT extends Marc2LdTestBase {
 
-  private final MarcBib2ldMapper marc2BibframeMapper;
-
   @Autowired
-  Marc2Bibframe043IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
-    super(hashService);
-    this.marc2BibframeMapper = mapper;
-  }
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void whenMarcField043WithMultipleSubfield_a_map_shouldConvertBoth() {

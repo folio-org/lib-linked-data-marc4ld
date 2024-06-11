@@ -178,32 +178,18 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
 class MarcBib2LdMapperIT extends Marc2LdTestBase {
 
-  private final MarcBib2ldMapper marc2BibframeMapper;
-  private final FingerprintHashService hashService;
-
   @Autowired
-  MarcBib2LdMapperIT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
-    super(hashService);
-    this.marc2BibframeMapper = mapper;
-    this.hashService = hashService;
-  }
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void map_shouldReturnNull_ifGivenMarcIsNull() {
@@ -1120,17 +1106,12 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
-  private void validateId(Resource resource) {
-    var expectedId = hashService.hash(resource);
-    assertThat(resource.getId()).isEqualTo(expectedId);
-  }
-
   //TODO MODLD-391
   @Deprecated(forRemoval = true, since = "MODLD-391")
   private static void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
-                                  List<ResourceTypeDictionary> types,
-                                  Map<String, List<String>> properties,
-                                  String expectedLabel) {
+                                   List<ResourceTypeDictionary> types,
+                                   Map<String, List<String>> properties,
+                                   String expectedLabel) {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());

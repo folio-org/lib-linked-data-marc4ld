@@ -27,29 +27,18 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
 class Marc2Bibframe050IT extends Marc2LdTestBase {
 
-  private final MarcBib2ldMapper marc2BibframeMapper;
-
   @Autowired
-  Marc2Bibframe050IT(MarcBib2ldMapper mapper, FingerprintHashService hashService) {
-    super(hashService);
-    this.marc2BibframeMapper = mapper;
-  }
+  private MarcBib2ldMapper marc2BibframeMapper;
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(

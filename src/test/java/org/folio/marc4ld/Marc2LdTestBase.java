@@ -5,13 +5,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.mapper.test.SpringTestConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@EnableConfigurationProperties
+@SpringBootTest(classes = SpringTestConfig.class)
 public class Marc2LdTestBase {
-  private final FingerprintHashService hashService;
 
-  public Marc2LdTestBase(FingerprintHashService hashService) {
-    this.hashService = hashService;
-  }
+  @Autowired
+  private FingerprintHashService hashService;
 
   protected void validateAllIds(Resource resource) {
     validateId(resource);
@@ -20,7 +24,7 @@ public class Marc2LdTestBase {
       .forEach(this::validateAllIds);
   }
 
-  private void validateId(Resource resource) {
+  protected void validateId(Resource resource) {
     var expectedId = hashService.hash(resource);
     assertThat(resource.getId()).isEqualTo(expectedId);
   }
