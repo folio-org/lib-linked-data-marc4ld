@@ -14,13 +14,11 @@ import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @RequiredArgsConstructor
 public class GeographicCoverageMapper implements Marc2ldMapper {
 
   private static final String TAG_043 = "043";
-
 
   private final DictionaryProcessor dictionaryProcessor;
   private final MapperHelper mapperHelper;

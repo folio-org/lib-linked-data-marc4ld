@@ -29,8 +29,6 @@ public class PropertyRuleImpl implements PropertyRule {
   @NonNull
   private final Collection<PropertyBuilder<DataField>> indicatorBuilders;
   @NonNull
-  private final Collection<PropertyBuilder<DataField>> mappingsBuilders;
-  @NonNull
   private final Collection<PropertyBuilder<Collection<ControlField>>> controlFieldBuilders;
   @NonNull
   private final Collection<Property> constants;
@@ -61,8 +59,7 @@ public class PropertyRuleImpl implements PropertyRule {
   private Collection<Property> getDataFieldProperties(DataField dataField) {
     return Stream.of(
         subFieldBuilders,
-        indicatorBuilders,
-        mappingsBuilders
+        indicatorBuilders
       )
       .flatMap(Collection::stream)
       .map(propertyBuilder -> propertyBuilder.apply(dataField))

@@ -27,6 +27,7 @@ public class Constants {
 
   @UtilityClass
   public static class Classification {
+
     public static final String TAG_050 = "050";
     public static final String TAG_082 = "082";
     public static final String DLC = "http://id.loc.gov/vocabulary/organizations/dlc";

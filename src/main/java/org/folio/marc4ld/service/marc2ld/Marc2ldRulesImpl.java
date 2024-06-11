@@ -17,7 +17,6 @@ import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRuleImpl;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.ControlFieldsPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.IndicatorPropertyBuilder;
-import org.folio.marc4ld.service.marc2ld.field.property.builder.MappingPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.PropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.SubfieldPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
@@ -126,7 +125,6 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .constantMerger(getConstantPropertyMerger(rule))
       .subFieldBuilders(getSubfieldBuilders(rule))
       .indicatorBuilders(getIndicatorBuilders(rule))
-      .mappingsBuilders(getMappingsBuilders(rule))
       .controlFieldBuilders(getControlBuilders(rule))
       .constants(getConstants(rule))
       .build();
@@ -161,17 +159,6 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       return Collections.emptyList();
     }
     return Collections.singleton(new IndicatorPropertyBuilder(rule));
-  }
-
-  private Collection<PropertyBuilder<DataField>> getMappingsBuilders(Marc4BibframeRules.FieldRule rule) {
-    if (Objects.isNull(rule.getMappings())) {
-      return Collections.emptyList();
-    }
-    return rule.getMappings()
-      .entrySet()
-      .stream()
-      .map(entry -> new MappingPropertyBuilder(entry.getKey(), entry.getValue(), dictionaryProcessor))
-      .collect(Collectors.toList());
   }
 
   private Collection<PropertyBuilder<Collection<ControlField>>> getControlBuilders(Marc4BibframeRules.FieldRule rule) {

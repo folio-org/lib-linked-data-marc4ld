@@ -70,8 +70,11 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .findFirst()
       .ifPresent(m -> m.map(new MarcData(dataField, controlFields), resource));
 
+    setLabel(resource);
     resource.setId(hashService.hash(resource));
+  }
 
+  private void setLabel(Resource resource) {
     var properties = mapperHelper.getProperties(resource);
     labelService.setLabel(resource, properties);
     resource.setDoc(mapperHelper.getJsonNode(properties));
