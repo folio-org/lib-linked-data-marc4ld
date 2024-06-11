@@ -71,6 +71,10 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .ifPresent(m -> m.map(new MarcData(dataField, controlFields), resource));
 
     resource.setId(hashService.hash(resource));
+
+    var properties = mapperHelper.getProperties(resource);
+    labelService.setLabel(resource, properties);
+    resource.setDoc(mapperHelper.getJsonNode(properties));
   }
 
   private static boolean isMapping(Marc2ldFieldRuleApplier fieldRule, Marc2ldMapper mapper) {
