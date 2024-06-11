@@ -38,9 +38,38 @@ authorityFieldRules:
             d: DATE
             j: ATTRIBUTION
             q: NAME_ALTERNATIVE
+    - types: PERSON
+      include: 100_mappings_short
+      marc2ldCondition:
+        ind1: '!3'
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
+    - types: FAMILY
+      include: 100_mappings_short
+      marc2ldCondition:
+        ind1: '3'
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
 
 
 sharedAuthorityRules:
+  100_mappings_short:
+    subfields:
+      a: NAME
+      b: NUMERATION
+      c: TITLES
+      d: DATE
+      j: ATTRIBUTION
+      q: NAME_ALTERNATIVE
+    constants:
+      RESOURCE_PREFERRED: true
+
   100_mappings:
     subfields:
       a: NAME
