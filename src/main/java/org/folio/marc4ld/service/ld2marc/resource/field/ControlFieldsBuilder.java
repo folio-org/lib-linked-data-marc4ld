@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.ld2marc.resource.field;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.rightPad;
+import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,6 +14,10 @@ import org.marc4j.marc.MarcFactory;
 public class ControlFieldsBuilder {
   private static final String EMPTY_CF = SPACE.repeat(39);
   private final Map<String, StringBuilder> storage = new LinkedHashMap<>();
+
+  public ControlFieldsBuilder() {
+    storage.put(TAG_008, new StringBuilder(EMPTY_CF));
+  }
 
   public void addFieldValue(String tag, String newValue, Integer startPos, Integer endPos) {
     if (isNotEmpty(newValue)) {

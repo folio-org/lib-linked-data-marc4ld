@@ -17,6 +17,7 @@ public class Constants {
   public static final char A = 'a';
   public static final char B = 'b';
   public static final char Q = 'q';
+  public static final String TAG_008 = "008";
 
   @UtilityClass
   public static class DependencyInjection {

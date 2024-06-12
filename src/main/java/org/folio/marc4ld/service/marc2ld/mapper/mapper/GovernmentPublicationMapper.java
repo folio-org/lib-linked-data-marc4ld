@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
+import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class GovernmentPublicationMapper implements Marc2ldMapper {
-  private static final String TAG = "008";
   private static final int GOVT_PUB_CHAR_INDEX = 28;
 
   private static final Map<Character, String> MARC_CODE_TO_TERM_MAP = Map.of(
@@ -39,7 +39,7 @@ public class GovernmentPublicationMapper implements Marc2ldMapper {
 
   @Override
   public String getTag() {
-    return TAG;
+    return TAG_008;
   }
 
   @Override
@@ -49,7 +49,7 @@ public class GovernmentPublicationMapper implements Marc2ldMapper {
 
   @Override
   public void map(MarcData marcData, Resource resource) {
-    mapperHelper.getControlField(marcData.getControlFields(), TAG, GOVT_PUB_CHAR_INDEX + 1)
+    mapperHelper.getControlField(marcData.getControlFields(), TAG_008, GOVT_PUB_CHAR_INDEX + 1)
       .ifPresent(cf -> processControlField(resource, cf));
   }
 
