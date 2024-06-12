@@ -21,6 +21,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
 
   public static final String NOT = "!";
   public static final String PRESENTED = "presented";
+  public static final String NOT_PRESENTED = "not_presented";
 
   private final ExpressionParser expressionParser;
 
@@ -41,18 +43,11 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (isNull(condition)) {
       return true;
     }
-    var ind1Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
-    var ind2Condition = isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
-    var fieldConditions = isEmpty(condition.getFieldsAllOf()) || condition.getFieldsAllOf().entrySet().stream()
-      .allMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
-        .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
-        .orElse(false));
-    var fieldAnyOfConditions = isEmpty(condition.getFieldsAnyOf()) || condition.getFieldsAnyOf().entrySet().stream()
-      .anyMatch(fieldCondition -> ofNullable(dataField.getSubfield(fieldCondition.getKey()))
-        .map(sf -> isSingleConditionSatisfied(sf.getData(), fieldCondition.getValue()))
-        .orElse(false));
-    var controlFieldConditions = isControlFieldConditionsSatisfied(controlFields, condition);
-    return ind1Condition && ind2Condition && fieldConditions && fieldAnyOfConditions && controlFieldConditions;
+    return isInd1Condition(dataField, condition)
+      && isInd2Condition(dataField, condition)
+      && isControlFieldConditions(controlFields, condition)
+      && isAllOfFieldConditions(dataField, condition)
+      && isFieldAnyOfConditions(dataField, condition);
   }
 
   @Override
@@ -67,6 +62,35 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return isNull(condition.getEdge()) || isEdgeConditionSatisfied(fieldRule, resource);
   }
 
+  private boolean isAllOfFieldConditions(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+    return isEmpty(condition.getFieldsAllOf())
+      || condition.getFieldsAllOf().entrySet()
+      .stream()
+      .allMatch(fieldCondition -> isValueSatisfied(dataField, fieldCondition));
+  }
+
+  private boolean isFieldAnyOfConditions(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+    return isEmpty(condition.getFieldsAnyOf())
+      || condition.getFieldsAnyOf().entrySet()
+      .stream()
+      .anyMatch(fieldCondition -> isValueSatisfied(dataField, fieldCondition));
+  }
+
+  private boolean isValueSatisfied(DataField dataField, Map.Entry<Character, String> fieldCondition) {
+    var value = ofNullable(dataField.getSubfield(fieldCondition.getKey()))
+      .map(Subfield::getData)
+      .orElse(EMPTY);
+    return isSingleConditionSatisfied(value, fieldCondition.getValue());
+  }
+
+  private boolean isInd2Condition(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+    return isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
+  }
+
+  private boolean isInd1Condition(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+    return isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
+  }
+
   private boolean isSingleConditionSatisfied(String value, String condition) {
     if (StringUtils.isEmpty(condition)) {
       return true;
@@ -75,8 +99,11 @@ public class ConditionCheckerImpl implements ConditionChecker {
       condition = condition.replace(NOT, EMPTY);
       return !Objects.equals(value, condition);
     }
-    if (condition.contains(PRESENTED)) {
+    if (condition.equals(PRESENTED)) {
       return isNotEmpty(value);
+    }
+    if (condition.equals(NOT_PRESENTED)) {
+      return StringUtils.isEmpty(value);
     }
     return Objects.equals(value, condition);
   }
@@ -109,8 +136,8 @@ public class ConditionCheckerImpl implements ConditionChecker {
     });
   }
 
-  private boolean isControlFieldConditionsSatisfied(List<ControlField> controlFields,
-                                                    Marc4BibframeRules.Marc2ldCondition condition) {
+  private boolean isControlFieldConditions(List<ControlField> controlFields,
+                                           Marc4BibframeRules.Marc2ldCondition condition) {
     return isEmpty(condition.getControlFields()) || condition.getControlFields().stream()
       .flatMap(cfc -> controlFields.stream()
         .filter(cf -> cf.getTag().equals(cfc.getTag()))
