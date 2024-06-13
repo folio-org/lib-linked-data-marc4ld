@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PlaceMapper implements Marc2ldMapper {
+public class ProviderPlaceMapper implements Marc2ldMapper {
   private static final String TAG_261 = "261";
   private static final String TAG_262 = "262";
   private static final String TAG_264 = "264";
