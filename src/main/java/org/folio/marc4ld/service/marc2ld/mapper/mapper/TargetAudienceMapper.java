@@ -56,8 +56,8 @@ public class TargetAudienceMapper implements Marc2ldMapper {
   private final MapperHelper mapperHelper;
 
   @Override
-  public String getTag() {
-    return TAG_008;
+  public List<String> getTags() {
+    return List.of(TAG_008);
   }
 
   @Override

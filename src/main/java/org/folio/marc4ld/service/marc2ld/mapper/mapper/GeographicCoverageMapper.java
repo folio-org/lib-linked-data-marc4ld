@@ -24,8 +24,8 @@ public class GeographicCoverageMapper implements Marc2ldMapper {
   private final MapperHelper mapperHelper;
 
   @Override
-  public String getTag() {
-    return TAG_043;
+  public List<String> getTags() {
+    return List.of(TAG_043);
   }
 
   @Override
