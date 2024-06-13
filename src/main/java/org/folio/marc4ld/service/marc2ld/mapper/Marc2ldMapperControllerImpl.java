@@ -20,15 +20,6 @@ public class Marc2ldMapperControllerImpl implements Marc2ldMapperController {
     marc2ldMappersMap = getMarc2LdMappersMap(marc2LdMappers);
   }
 
-  private Map<String, List<Marc2ldMapper>> getMarc2LdMappersMap(Collection<Marc2ldMapper> marc2LdMappers) {
-    record TagAndMapper(String tag, Marc2ldMapper mapper) {
-    }
-
-    return marc2LdMappers.stream()
-      .flatMap(mapper -> mapper.getTags().stream().map(tag -> new TagAndMapper(tag, mapper)))
-      .collect(groupingBy(TagAndMapper::tag, mapping(TagAndMapper::mapper, toList())));
-  }
-
   @Override
   public Collection<Marc2ldMapper> findAll(String tag) {
     return marc2ldMappersMap.getOrDefault(tag, Collections.emptyList());
@@ -41,5 +32,14 @@ public class Marc2ldMapperControllerImpl implements Marc2ldMapperController {
       .map(this::findAll)
       .flatMap(Collection::stream)
       .toList();
+  }
+
+  private Map<String, List<Marc2ldMapper>> getMarc2LdMappersMap(Collection<Marc2ldMapper> marc2LdMappers) {
+    record TagAndMapper(String tag, Marc2ldMapper mapper) {
+    }
+
+    return marc2LdMappers.stream()
+      .flatMap(mapper -> mapper.getTags().stream().map(tag -> new TagAndMapper(tag, mapper)))
+      .collect(groupingBy(TagAndMapper::tag, mapping(TagAndMapper::mapper, toList())));
   }
 }

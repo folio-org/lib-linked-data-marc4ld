@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.dictionary;
 import static java.util.Objects.isNull;
 import static org.folio.marc4ld.util.Constants.DependencyInjection.DICTIONARY_MAP;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,6 +33,14 @@ public class DictionaryProcessorImpl implements DictionaryProcessor {
     return Optional.ofNullable(dictionary)
       .map(dictionaries::get)
       .map(dic -> dic.get(key));
+  }
+
+  @Override
+  public List<String> getValues(String dictionary, List<String> keys) {
+    return keys.stream()
+      .map(code -> getValue(dictionary, code))
+      .flatMap(Optional::stream)
+      .toList();
   }
 
   @Override
