@@ -45,7 +45,6 @@ public class Marc4BibframeRules {
     private Map<String, String> constants;
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
-    private Map<String, Character> mappings;
     private String include;
 
     public void addTypes(Set<String> types) {
@@ -67,10 +66,6 @@ public class Marc4BibframeRules {
 
     public void addEdges(List<FieldRule> edges) {
       ofNullable(this.edges).ifPresentOrElse(e -> e.addAll(edges), () -> this.setEdges(edges));
-    }
-
-    public void putMappings(Map<String, Character> mappings) {
-      ofNullable(this.mappings).ifPresentOrElse(m -> m.putAll(mappings), () -> this.setMappings(mappings));
     }
   }
 

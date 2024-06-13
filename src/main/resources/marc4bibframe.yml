@@ -221,8 +221,6 @@ bibFieldRules:
         a: GEOGRAPHIC_AREA_CODE
       constants:
         GEOGRAPHIC_COVERAGE: https://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
-      mappings:
-        NAME: a
   '046':
     - types: WORK
       predicate: INSTANTIATES

@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.folio.marc4ld.util.Constants.GEOGRAPHIC_CODE_TO_NAME_DICTIONARY;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 public class DataField043Preprocessor implements DataFieldPreprocessor {
 
   private static final char CODE_A = 'a';
-  private static final String NAME = "NAME";
 
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
@@ -44,7 +44,7 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   public boolean isValid(DataField dataField) {
     return Optional.ofNullable(dataField.getSubfield(CODE_A))
       .map(Subfield::getData)
-      .flatMap(data -> dictionaryProcessor.getValue(NAME, data))
+      .flatMap(data -> dictionaryProcessor.getValue(GEOGRAPHIC_CODE_TO_NAME_DICTIONARY, data))
       .isPresent();
   }
 }
