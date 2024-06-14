@@ -1,8 +1,11 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.GEOGRAPHIC_CODE_TO_NAME_DICTIONARY;
+import static org.folio.marc4ld.util.Constants.TAG_043;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -14,20 +17,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DataField043Preprocessor implements DataFieldPreprocessor {
+public class Bib043Preprocessor implements DataFieldPreprocessor {
 
-  private static final char CODE_A = 'a';
+  private static final List<String> TAGS = List.of(TAG_043);
 
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
 
   @Override
-  public Optional<DataField> preprocess(DataField dataField) {
+  public Optional<DataField> preprocess(PreprocessorContext context) {
+    var dataField = context.dataField();
     var result = marcFactory.newDataField(dataField.getTag(), dataField.getIndicator1(), dataField.getIndicator2());
     dataField.getSubfields()
       .forEach(sf -> {
-        if (sf.getCode() == CODE_A) {
-          result.addSubfield(marcFactory.newSubfield(CODE_A, sf.getData().replaceAll("-+$", EMPTY)));
+        if (sf.getCode() == A) {
+          result.addSubfield(marcFactory.newSubfield(A, sf.getData().replaceAll("-+$", EMPTY)));
         } else {
           result.addSubfield(sf);
         }
@@ -37,12 +41,12 @@ public class DataField043Preprocessor implements DataFieldPreprocessor {
   }
 
   @Override
-  public String getTag() {
-    return "043";
+  public List<String> getTags() {
+    return TAGS;
   }
 
   public boolean isValid(DataField dataField) {
-    return Optional.ofNullable(dataField.getSubfield(CODE_A))
+    return Optional.ofNullable(dataField.getSubfield(A))
       .map(Subfield::getData)
       .flatMap(data -> dictionaryProcessor.getValue(GEOGRAPHIC_CODE_TO_NAME_DICTIONARY, data))
       .isPresent();

@@ -1,5 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.field;
 
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +72,9 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .findFirst()
       .ifPresent(m -> m.map(new MarcData(dataField, controlFields), resource));
 
-    setLabel(resource);
+    if (!resource.getTypes().contains(WORK)) {
+      setLabel(resource);
+    }
     resource.setId(hashService.hash(resource));
   }
 

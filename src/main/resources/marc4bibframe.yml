@@ -1600,6 +1600,88 @@ bibFieldRules:
         c: SYSTEM_DETAILS_ACCESS_NOTE
       concat: ', '
       append: true
+  776:
+    - types: WORK
+      parent: WORK
+      predicate: OTHER_VERSION
+      edges:
+        - types: AGENT
+          parent: WORK
+          predicate: CREATOR
+          multiply: true
+          subfields:
+            a: NAME
+        - types: ID_ISSN, IDENTIFIER
+          parent: WORK
+          predicate: MAP
+          subfields:
+            x: NAME
+        - types: TITLE
+          parent: WORK
+          predicate: TITLE
+          subfields:
+            c: QUALIFIER
+            s: MAIN_TITLE
+        - types: INSTANCE
+          parent: WORK
+          predicate: INSTANTIATES
+          subfields:
+            b: EDITION
+            d: PUBLICATION_INFORMATION
+            m: MATERIALS
+            n: NOTE
+            k: SERIES_STATEMENT
+            r: REPORT_NUMBER
+          ld2marcCondition:
+            skip: true
+          edges:
+            - types: EXTENT
+              parent: INSTANCE
+              predicate: EXTENT
+              subfields:
+                h: EXTENT
+              marc2ldCondition:
+                fieldsAllOf:
+                  h: presented
+            - types: ID_LOCAL, IDENTIFIER
+              parent: INSTANCE
+              predicate: MAP
+              multiply: true
+              subfields:
+                o: LOCAL_ID_VALUE
+            - types: ID_STRN, IDENTIFIER
+              parent: INSTANCE
+              predicate: MAP
+              subfields:
+                u: NAME
+              marc2ldCondition:
+                fieldsAllOf:
+                  u: presented
+            - types: ID_CODEN, IDENTIFIER
+              parent: INSTANCE
+              predicate: MAP
+              subfields:
+                y: NAME
+              marc2ldCondition:
+                fieldsAllOf:
+                  y: presented
+            - types: ID_ISBN, IDENTIFIER
+              parent: INSTANCE
+              predicate: MAP
+              multiply: true
+              subfields:
+                z: NAME
+            - types: IDENTIFIER
+              parent: INSTANCE
+              predicate: MAP
+              multiply: true
+              subfields:
+                w: NAME
+            - types: TITLE
+              parent: INSTANCE
+              predicate: TITLE
+              subfields:
+                t: MAIN_TITLE
   856:
     - types: ANNOTATION
       parent: INSTANCE

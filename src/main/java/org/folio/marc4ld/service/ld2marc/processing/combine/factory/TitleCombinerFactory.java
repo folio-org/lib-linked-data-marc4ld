@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.ld2marc.processing.combine.factory;
 
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.marc4ld.util.Constants.TAG_245;
 
 import java.util.Collection;
 import java.util.Set;
@@ -11,11 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class TitleCombinerFactory implements CombinerFactory {
 
-  private static final String TAG = "245";
-
   @Override
   public String getTag() {
-    return TAG;
+    return TAG_245;
   }
 
   @Override

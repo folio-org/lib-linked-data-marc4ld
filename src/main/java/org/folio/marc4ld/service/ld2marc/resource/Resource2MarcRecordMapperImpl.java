@@ -5,9 +5,9 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -120,7 +120,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       ofNullable(resource.getInventoryId()).ifPresent(
         id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id.toString())));
       ofNullable(resource.getSrsId()).ifPresent(
-        id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_SRS_ID, id.toString())));
+        id -> field999.addSubfield(marcFactory.newSubfield(S, id.toString())));
       marcRecord.addVariableField(field999);
     }
   }
