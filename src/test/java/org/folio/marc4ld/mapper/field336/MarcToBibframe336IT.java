@@ -49,7 +49,7 @@ class MarcToBibframe336IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("CONTENT source")
         ),
         "CONTENT term"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent"),
@@ -65,21 +65,7 @@ class MarcToBibframe336IT extends Marc2LdTestBase {
     return result.getOutgoingEdges()
       .stream()
       .findFirst()
-      .map(this::getFirstTargetOutgoingEdge)
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
+      .map(this::getFirstOutgoingEdge)
       .orElseThrow();
   }
 }

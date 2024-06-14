@@ -44,7 +44,7 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/dissertationID", List.of("dissertation ID 1", "dissertation ID 2")
         ),
         "dissertation label"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, PredicateDictionary.GRANTING_INSTITUTION,
         List.of(ResourceTypeDictionary.ORGANIZATION),
         Map.of(
@@ -60,21 +60,7 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
     return workResource.getOutgoingEdges().stream()
       .filter(e -> e.getPredicate().equals(PredicateDictionary.INSTANTIATES))
       .findFirst()
-      .map(this::getFirstTargetOutgoingEdge)
+      .map(this::getFirstOutgoingEdge)
       .orElseThrow();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
   }
 }

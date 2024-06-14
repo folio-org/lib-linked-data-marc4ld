@@ -43,7 +43,7 @@ class MarcToBibframe008IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/term", List.of("Autonomous")
         ),
         "Autonomous"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mgovtpubtype"),
@@ -59,21 +59,7 @@ class MarcToBibframe008IT extends Marc2LdTestBase {
     return result.getOutgoingEdges()
       .stream()
       .findFirst()
-      .map(this::getFirstTargetOutgoingEdge)
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
+      .map(this::getFirstOutgoingEdge)
       .orElseThrow();
   }
 }

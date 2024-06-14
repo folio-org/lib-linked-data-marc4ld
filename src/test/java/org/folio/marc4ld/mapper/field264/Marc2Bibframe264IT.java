@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +40,7 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
     assertThat(result)
       .isNotNull()
       .satisfies(this::validateAllIds)
-      .extracting(this::getManufactureEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, predicate, List.of(PROVIDER_EVENT),
         Map.of(
           "http://bibfra.me/vocab/lite/name", List.of("Name of provision activity"),
@@ -51,7 +49,7 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/providerDate", List.of("2009")
         ),
         "Name of provision activity"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/nyu"),
@@ -64,26 +62,5 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
       .extracting(this::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
-  }
-
-  private ResourceEdge getManufactureEdge(Resource result) {
-    return result.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
-      .orElseThrow();
   }
 }

@@ -35,7 +35,7 @@ class Marc2Bibframe262IT extends Marc2LdTestBase {
     assertThat(result)
       .isNotNull()
       .satisfies(this::validateAllIds)
-      .extracting(this::getManufactureEdge)
+      .extracting(this::getPublicationEdge)
       .satisfies(e -> validateEdge(e, PE_PUBLICATION, List.of(PROVIDER_EVENT),
         Map.of(
           "http://bibfra.me/vocab/lite/name", List.of("Publisher or trade name"),
@@ -44,7 +44,7 @@ class Marc2Bibframe262IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/providerDate", List.of("1995")
         ),
         "Publisher or trade name"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/xxc"),
@@ -59,24 +59,7 @@ class Marc2Bibframe262IT extends Marc2LdTestBase {
       .isEmpty();
   }
 
-  private ResourceEdge getManufactureEdge(Resource result) {
-    return result.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
-      .orElseThrow();
+  private ResourceEdge getPublicationEdge(Resource result) {
+    return getFirstOutgoingEdge(result);
   }
 }

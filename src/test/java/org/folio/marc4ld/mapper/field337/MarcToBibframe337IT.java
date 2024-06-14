@@ -44,7 +44,7 @@ class MarcToBibframe337IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("MEDIA source")
         ),
         "MEDIA term"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getFirstOutgoingEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia"),
@@ -57,23 +57,6 @@ class MarcToBibframe337IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getMediaEdge(Resource result) {
-    return result.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .orElseThrow();
-  }
-
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
-      .orElseThrow();
+    return getFirstOutgoingEdge(result);
   }
 }
