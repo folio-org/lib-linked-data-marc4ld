@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class GovernmentPublicationMapper implements Marc2ldMapper {
   private static final int GOVT_PUB_CHAR_INDEX = 28;
+  private static final List<String> TAGS = List.of(TAG_008);
 
   private static final Map<Character, String> MARC_CODE_TO_TERM_MAP = Map.of(
     'a', "Autonomous",
@@ -39,7 +40,7 @@ public class GovernmentPublicationMapper implements Marc2ldMapper {
 
   @Override
   public List<String> getTags() {
-    return List.of(TAG_008);
+    return TAGS;
   }
 
   @Override

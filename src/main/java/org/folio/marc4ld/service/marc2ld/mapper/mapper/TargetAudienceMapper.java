@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 public class TargetAudienceMapper implements Marc2ldMapper {
 
   private static final int TARGET_AUD_CHAR_INDEX = 22;
+  private static final List<String> TAGS = List.of(TAG_008);
   private static final Map<Character, String> MARC_CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'a', "pre",
     'b', "pri",
@@ -57,7 +58,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
 
   @Override
   public List<String> getTags() {
-    return List.of(TAG_008);
+    return TAGS;
   }
 
   @Override

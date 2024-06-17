@@ -44,7 +44,7 @@ class Marc2Bibframe261IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/providerDate", List.of("1999")
         ),
         "Releasing company"))
-      .extracting(this::getFirstOutgoingEdge)
+      .extracting(this::getProviderPlaceEdge)
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/ch"),
@@ -60,6 +60,10 @@ class Marc2Bibframe261IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getManufactureEdge(Resource result) {
-    return getFirstOutgoingEdge(result);
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/manufacture"));
+  }
+
+  private ResourceEdge getProviderPlaceEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/providerPlace"));
   }
 }

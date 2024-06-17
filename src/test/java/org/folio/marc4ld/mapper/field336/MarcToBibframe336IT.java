@@ -10,6 +10,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -49,7 +50,7 @@ class MarcToBibframe336IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("CONTENT source")
         ),
         "CONTENT term"))
-      .extracting(this::getFirstOutgoingEdge)
+      .extracting(this::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent"),
@@ -62,10 +63,16 @@ class MarcToBibframe336IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getContentEdge(Resource result) {
-    return result.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .map(this::getFirstOutgoingEdge)
+    return Optional.of(getWorkEdge(result))
+      .map(this::getContentEdge)
       .orElseThrow();
+  }
+
+  private ResourceEdge getContentEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/marc/content"));
+  }
+
+  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
   }
 }

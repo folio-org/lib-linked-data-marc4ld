@@ -6,6 +6,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -44,7 +45,7 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/dissertationID", List.of("dissertation ID 1", "dissertation ID 2")
         ),
         "dissertation label"))
-      .extracting(this::getFirstOutgoingEdge)
+      .extracting(this::getGrantingInstitutionEdge)
       .satisfies(e -> validateEdge(e, PredicateDictionary.GRANTING_INSTITUTION,
         List.of(ResourceTypeDictionary.ORGANIZATION),
         Map.of(
@@ -56,11 +57,17 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
       .isEmpty();
   }
 
-  private ResourceEdge getDissertationEdge(Resource workResource) {
-    return workResource.getOutgoingEdges().stream()
-      .filter(e -> e.getPredicate().equals(PredicateDictionary.INSTANTIATES))
-      .findFirst()
-      .map(this::getFirstOutgoingEdge)
+  private ResourceEdge getDissertationEdge(Resource result) {
+    return Optional.of(getWorkEdge(result))
+      .map(this::getDissertationEdge)
       .orElseThrow();
+  }
+
+  private ResourceEdge getDissertationEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/scholar/dissertation"));
+  }
+
+  private ResourceEdge getGrantingInstitutionEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/marc/grantingInstitution"));
   }
 }

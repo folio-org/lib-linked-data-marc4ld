@@ -44,7 +44,7 @@ class MarcToBibframe338IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("CARRIER source")
         ),
         "CARRIER term"))
-      .extracting(this::getFirstOutgoingEdge)
+      .extracting(this::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier"),
@@ -57,6 +57,10 @@ class MarcToBibframe338IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getCarrierEdge(Resource result) {
-    return getFirstOutgoingEdge(result);
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/carrier"));
+  }
+
+  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
   }
 }
