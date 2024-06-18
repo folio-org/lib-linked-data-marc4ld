@@ -20,11 +20,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DdcClassificationMapper implements Marc2ldMapper {
 
+  private static final List<String> TAGS = List.of(TAG_082);
+
   private final MapperHelper mapperHelper;
 
   @Override
-  public String getTag() {
-    return TAG_082;
+  public List<String> getTags() {
+    return TAGS;
   }
 
   @Override

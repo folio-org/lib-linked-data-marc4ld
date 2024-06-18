@@ -10,6 +10,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -43,7 +44,7 @@ class MarcToBibframe008IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/term", List.of("Autonomous")
         ),
         "Autonomous"))
-      .extracting(this::getFirstTargetOutgoingEdge)
+      .extracting(this::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mgovtpubtype"),
@@ -56,24 +57,16 @@ class MarcToBibframe008IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getGovernmentPublicationEdge(Resource result) {
-    return result.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .map(this::getFirstTargetOutgoingEdge)
+    return Optional.of(getWorkEdge(result))
+      .map(this::getGovernmentPublicationEdge)
       .orElseThrow();
   }
 
-  private List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
+  private ResourceEdge getGovernmentPublicationEdge(ResourceEdge result) {
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/governmentPublication"));
   }
 
-  private ResourceEdge getFirstTargetOutgoingEdge(ResourceEdge resourceEdge) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .findFirst()
-      .orElseThrow();
+  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
   }
 }

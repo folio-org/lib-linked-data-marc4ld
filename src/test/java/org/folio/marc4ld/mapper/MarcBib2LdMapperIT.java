@@ -851,9 +851,12 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
     validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo("af");
+    assertThat(resource.getLabel()).isEqualTo("Afghanistan");
     assertThat(resource.getTypes()).containsOnly(PLACE);
-    assertThat(resource.getDoc()).hasSize(3);
+    assertThat(resource.getDoc()).hasSize(4);
+    assertThat(resource.getDoc().has(NAME.getValue())).isTrue();
+    assertThat(resource.getDoc().get(NAME.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("Afghanistan");
     assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
     assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("af");

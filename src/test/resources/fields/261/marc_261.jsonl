@@ -1,0 +1,18 @@
+{
+  "leader" : "00131nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "       1999    ch                      "
+  }, {
+    "261" : {
+      "subfields" : [ {
+        "b" : "Releasing company"
+      }, {
+        "f" : "Place of production"
+      }, {
+        "d" : "2000"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
