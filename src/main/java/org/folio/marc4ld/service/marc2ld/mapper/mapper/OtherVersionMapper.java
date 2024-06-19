@@ -22,7 +22,6 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
-import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
 import org.springframework.stereotype.Component;
 
@@ -30,16 +29,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OtherVersionMapper implements Marc2ldMapper {
 
+  private static final List<String> TAGS = List.of(TAG_776);
   private static final Set<ResourceTypeDictionary> IDENTIFIER_TYPE = Set.of(IDENTIFIER);
   private static final String DLC_PREFIX = "(DLC)";
 
   private final MapperHelper mapperHelper;
-  private final LabelService labelService;
   private final FingerprintHashService hashService;
 
   @Override
-  public String getTag() {
-    return TAG_776;
+  public List<String> getTags() {
+    return TAGS;
   }
 
   @Override
