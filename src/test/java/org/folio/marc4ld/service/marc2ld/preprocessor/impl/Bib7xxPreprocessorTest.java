@@ -55,7 +55,10 @@ class Bib7xxPreprocessorTest {
         "tValue", "tValue"
       ),
       Arguments.of(
-        getMarcRecord(),
+        getMarcRecord(
+          createSubfield('a', "MainTitle"),
+          createSubfield('b', "SubTitle")
+        ),
         getMarcFactory("MainTitle SubTitle", 't'),
         List.of(
           createSubfield('a', "aValue"),
@@ -64,12 +67,14 @@ class Bib7xxPreprocessorTest {
         "sValue", "MainTitle SubTitle"
       ),
       Arguments.of(
-        getMarcRecord(),
-        getMarcFactory("MainTitle SubTitle", 's', 't'),
+        getMarcRecord(
+          createSubfield('a', "MainTitle")
+        ),
+        getMarcFactory("MainTitle", 's', 't'),
         List.of(
           createSubfield('a', "aValue")
         ),
-        "MainTitle SubTitle", "MainTitle SubTitle"
+        "MainTitle", "MainTitle"
       )
     );
   }
@@ -114,12 +119,10 @@ class Bib7xxPreprocessorTest {
     return new SubfieldImpl(subfieldCode, subfieldData);
   }
 
-  private static Record getMarcRecord() {
+  private static Record getMarcRecord(Subfield... subfields) {
     var marcRecord = mock(Record.class);
     when(marcRecord.getDataFields())
-      .thenReturn(List.of(createDataField("245", List.of(
-        createSubfield('a', "MainTitle"),
-        createSubfield('b', "SubTitle")))));
+      .thenReturn(List.of(createDataField("245", List.of(subfields))));
     return marcRecord;
   }
 

@@ -71,7 +71,9 @@ public class Bib7xxPreprocessor implements DataFieldPreprocessor {
       .stream()
       .filter(dataField -> TAG_245.equals(dataField.getTag()))
       .findFirst()
-      .map(dataField -> getSubfieldValue(A, dataField) + " " + getSubfieldValue(B, dataField))
+      .map(dataField -> isSubfieldPresent(B, dataField)
+        ? getSubfieldValue(A, dataField) + " " + getSubfieldValue(B, dataField)
+        : getSubfieldValue(A, dataField))
       .orElseThrow();
   }
 }
