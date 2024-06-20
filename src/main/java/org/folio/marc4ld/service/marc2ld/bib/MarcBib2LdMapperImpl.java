@@ -10,8 +10,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.Constants.SUBFIELD_SRS_ID;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -23,6 +23,7 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
+import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
@@ -76,12 +77,12 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     handleField(dataField.getTag(), instance, dataField, marcRecord);
     if (FIELD_UUID.equals(dataField.getTag())) {
       instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
-      instance.setSrsId(readUuid(dataField.getSubfield(SUBFIELD_SRS_ID)));
+      instance.setSrsId(readUuid(dataField.getSubfield(S)));
     }
   }
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
-    fieldPreprocessor.apply(dataField)
+    fieldPreprocessor.apply(new PreprocessorContext(marcRecord, dataField))
       .ifPresent(field ->
         rules.findBibFieldRules(tag)
           .stream()

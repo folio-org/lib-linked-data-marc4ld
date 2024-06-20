@@ -9,6 +9,10 @@ labelRules:
   - types: STATUS
     properties:
       - LABEL
+  - types: IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
   - types: ID_LCCN, IDENTIFIER
     addLabelProperty: true
     properties:
@@ -17,6 +21,15 @@ labelRules:
     properties:
       - LOCAL_ID_VALUE
   - types: ID_ISBN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_ISSN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_STRN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_CODEN, IDENTIFIER
     properties:
       - NAME
   - types: ID_EAN, IDENTIFIER
@@ -105,3 +118,10 @@ labelRules:
   - types: DISSERTATION
     properties:
       - LABEL
+  - types: AGENT
+    properties:
+      - NAME
+  - types: EXTENT
+    properties:
+      - EXTENT
+

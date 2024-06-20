@@ -1,0 +1,42 @@
+{
+  "leader" : "01767cam a22003977i 4500",
+  "fields" : [ {
+    "776" : {
+      "subfields" : [ {
+        "a" : "agent name"
+      }, {
+        "b" : "instance edition"
+      }, {
+        "c" : "work title qualifier"
+      }, {
+        "d" : "instance publication information"
+      }, {
+        "k" : "instance series statement"
+      }, {
+        "m" : "instance materials"
+      }, {
+        "n" : "instance note"
+      }, {
+        "o" : "local ID identifier name"
+      }, {
+        "r" : "instance report number"
+      }, {
+        "t" : "work/instance title main title"
+      }, {
+        "w" : "unknown identifier name"
+      }, {
+        "z" : "ISBN identifier name"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "245": {
+      "subfields": [ {
+        "a": "main title",
+      }, {
+        "b": "sub title"
+      } ]
+    }
+  } ]
+}

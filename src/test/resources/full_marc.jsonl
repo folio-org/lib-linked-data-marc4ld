@@ -1759,6 +1759,60 @@
       }
     },
     {
+      "776": {
+        "subfields": [
+          {
+            "a" : "agent name"
+          },
+          {
+            "b" : "instance edition"
+          },
+          {
+            "c" : "work title qualifier"
+          },
+          {
+            "d" : "instance publication information"
+          },
+          {
+            "h" : "extent"
+          },
+          {
+            "k" : "instance series statement"
+          },
+          {
+            "m" : "instance materials"
+          },
+          {
+            "n" : "instance note"
+          },
+          {
+            "o" : "local ID identifier name"
+          },
+          {
+            "r" : "instance report number"
+          },
+          {
+            "s" : "work title main title"
+          },
+          {
+            "u" : "STRN identifier name"
+          },
+          {
+            "w" : "unknown identifier name"
+          },
+          {
+            "x" : "ISSN identifier name"
+          },
+          {
+            "y" : "CODEN identifier name"
+          },
+          {
+            "z" : "ISBN identifier name"
+          }
+        ]
+      }
+    },
+    {
       "856": {
         "subfields": [
           {
