@@ -3,9 +3,6 @@ bibFieldRules:
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
-      controlFields:
-        '008':
-          LANGUAGE: 35,38
       append: true
       edges:
         - types: CATEGORY
@@ -17,7 +14,6 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                data:
                 expression: args.contains(data.substring(28, 29))
                 args: a, c, f, i, l, m, o, s
           edges:
@@ -36,9 +32,21 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                data:
                 expression: args.contains(data.substring(22, 23))
                 args: a, b, c, d, e, f, g, j
+        - types: LANGUAGE_CATEGORY
+          parent: WORK
+          predicate: LANGUAGE
+          controlFields:
+            '008':
+              CODE: 35,38
+          marc2ldCondition:
+            controlFields:
+              - tag: 008
+                expression: data.substring(35, 38).trim().isEmpty() == false
+          constants:
+            LINK: http://id.loc.gov/vocabulary/languages/%CODE
+            TERM:
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE

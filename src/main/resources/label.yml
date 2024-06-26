@@ -124,4 +124,6 @@ labelRules:
   - types: EXTENT
     properties:
       - EXTENT
+  - types: LANGUAGE_CATEGORY
+    properties: CODE
 

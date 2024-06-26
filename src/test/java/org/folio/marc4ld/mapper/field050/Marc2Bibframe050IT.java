@@ -59,7 +59,7 @@ class Marc2Bibframe050IT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @MethodSource("provideArguments")
-  void shouldMapField082Correctly(String marcFile, Resource expectedResource) {
+  void shouldMapField050Correctly(String marcFile, Resource expectedResource) {
     //given
     var marc = loadResourceAsString(marcFile);
 

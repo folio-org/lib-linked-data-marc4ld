@@ -88,7 +88,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
@@ -155,6 +154,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
@@ -587,7 +587,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateId(work);
     assertThat(work.getLabel()).isEqualTo("MainTitle");
     assertThat(work.getTypes()).containsOnly(WORK);
-    assertThat(work.getDoc()).hasSize(14);
+    assertThat(work.getDoc()).hasSize(13);
     getWorkExpectedProperties()
       .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
@@ -648,6 +648,12 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         TERM.getValue(), List.of("Autonomous")
       ), "Autonomous");
     validateTargetAudience(edgeIterator.next());
+    validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
+      Map.of(
+        CODE.getValue(), List.of("eng"),
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng"),
+        TERM.getValue(), List.of("")
+      ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -1019,7 +1025,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
 
   private Map<String, String> getWorkExpectedProperties() {
     return Map.ofEntries(
-      entry(LANGUAGE.getValue(), "eng"),
       entry(SUMMARY.getValue(), "work summary"),
       entry(TABLE_OF_CONTENTS.getValue(), "work table of contents"),
       entry(DATE_START.getValue(), "2022"),
