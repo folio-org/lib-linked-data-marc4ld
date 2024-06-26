@@ -46,7 +46,6 @@ bibFieldRules:
                 expression: data.substring(35, 38).trim().isEmpty() == false
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
-            TERM:
   '010':
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE

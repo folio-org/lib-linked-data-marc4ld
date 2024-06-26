@@ -651,8 +651,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
       Map.of(
         CODE.getValue(), List.of("eng"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng"),
-        TERM.getValue(), List.of("")
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
   }

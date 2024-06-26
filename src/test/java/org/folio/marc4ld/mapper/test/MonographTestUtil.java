@@ -590,8 +590,7 @@ public class MonographTestUtil {
     var languageCategory = createResource(
       Map.of(
         CODE, List.of("eng"),
-        LINK, List.of("http://id.loc.gov/vocabulary/languages/eng"),
-        TERM, List.of("")
+        LINK, List.of("http://id.loc.gov/vocabulary/languages/eng")
       ),
       Set.of(LANGUAGE_CATEGORY),
       emptyMap()
