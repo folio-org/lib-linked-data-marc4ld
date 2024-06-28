@@ -16,9 +16,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,21 +24,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = SpringTestConfig.class)
 class MarcToBibframe336IT extends Marc2LdTestBase {
 
-  @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
-
   @Test
   void shouldMapField336() {
     // given
     var marc = loadResourceAsString("fields/336/marc_336_rdacontent.jsonl");
 
     //when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     //then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .extracting(this::getContentEdge)
       .satisfies(e -> validateEdge(e, CONTENT, List.of(CATEGORY),
         Map.of(

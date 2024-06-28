@@ -14,14 +14,9 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class Marc2Bibframe261IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marcBib2ldMapper;
 
   @Test
   void shouldMapField261() {
@@ -29,12 +24,10 @@ class Marc2Bibframe261IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/261/marc_261.jsonl");
 
     //when
-    var result = marcBib2ldMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .extracting(this::getManufactureEdge)
       .satisfies(e -> validateEdge(e, PE_MANUFACTURE, List.of(PROVIDER_EVENT),
         Map.of(

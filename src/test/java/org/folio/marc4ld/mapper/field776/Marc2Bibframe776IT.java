@@ -32,9 +32,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2LdMapperImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -42,21 +40,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = SpringTestConfig.class)
 class Marc2Bibframe776IT extends Marc2LdTestBase {
 
-  @Autowired
-  private MarcBib2LdMapperImpl marc2BibframeMapper;
-
   @Test
   void shouldMapField776Correctly() {
     //given
     var marc = loadResourceAsString("fields/776/marc_776.jsonl");
 
     //when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     //then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .satisfies(resource -> validateLiteWork(resource, "work title main title"))
       .satisfies(resource -> validateAgent(resource, "agent name", "agent name 2"))
       .satisfies(this::validateIssn)
@@ -78,12 +71,10 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/776/marc_776_with_missing_subfields.jsonl");
 
     //when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     //then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .satisfies(resource -> validateLiteWork(resource, "work/instance title main title"))
       .satisfies(resource -> validateAgent(resource, "agent name"))
       .satisfies(resource -> validateLiteWorkTitle(resource, "work/instance title main title"))

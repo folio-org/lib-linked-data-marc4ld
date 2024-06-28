@@ -14,15 +14,10 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class Marc2Bibframe264IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marcBib2ldMapper;
 
   @ParameterizedTest
   @CsvSource(value = {
@@ -36,12 +31,10 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
     var marc = loadResourceAsString(file);
 
     //when
-    var result = marcBib2ldMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .extracting(r -> getFirstOutgoingEdge(r, predicate))
       .satisfies(e -> validateEdge(e, predicate, List.of(PROVIDER_EVENT),
         Map.of(

@@ -24,15 +24,10 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
-import org.folio.marc4ld.service.marc2ld.authority.MarcAuthority2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class MarcToBibframeAuthorityConcept100IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcAuthority2ldMapper marcAuthority2ldMapper;
 
   @ParameterizedTest
   @CsvSource(value = {
@@ -44,14 +39,13 @@ class MarcToBibframeAuthorityConcept100IT extends Marc2LdTestBase {
     var marc = loadResourceAsString(file);
 
     //when
-    var result = marcAuthority2ldMapper.fromMarcJson(marc);
+    var result = marcAuthorityToResources(marc);
 
     //then
     assertThat(result)
       .isNotNull()
       .isNotEmpty()
       .singleElement()
-      .satisfies(this::validateAllIds)
       .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, resourceType)))
       .satisfies(resource -> validateFocus(resource, resourceType))
       .satisfies(this::validateForm)

@@ -11,14 +11,9 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class Marc2Bibframe650IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void map_shouldContains_severalForms() {
@@ -26,11 +21,7 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/650/marc_650_several_forms.jsonl");
 
     // when
-    var resource = marc2BibframeMapper.fromMarcJson(marc);
-
-    assertThat(resource)
-      .isNotNull()
-      .satisfies(this::validateAllIds);
+    var resource = marcBibToResource(marc);
 
     var subject = geSubject(resource);
     assertThat(subject)
@@ -48,10 +39,7 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/650/marc_650_several_forms.jsonl");
 
     // when
-    var resource = marc2BibframeMapper.fromMarcJson(marc);
-
-    assertThat(resource)
-      .isNotNull();
+    var resource = marcBibToResource(marc);
 
     var subject = geSubject(resource);
 
@@ -70,11 +58,7 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/650/marc_650_several_places.jsonl");
 
     // when
-    var resource = marc2BibframeMapper.fromMarcJson(marc);
-
-    assertThat(resource)
-      .isNotNull();
-
+    var resource = marcBibToResource(marc);
     var subject = geSubject(resource);
     assertThat(subject)
       .hasFieldOrPropertyWithValue("label", "Private libraries")
@@ -91,11 +75,7 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/650/marc_650_several_places.jsonl");
 
     // when
-    var resource = marc2BibframeMapper.fromMarcJson(marc);
-
-    assertThat(resource)
-      .isNotNull();
-
+    var resource = marcBibToResource(marc);
     var subject = geSubject(resource);
 
     var geographicNodes = getNodes(subject, ResourceTypeDictionary.PLACE);

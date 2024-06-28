@@ -13,14 +13,9 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class Marc2Bibframe502IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void shouldMapField502() {
@@ -28,12 +23,10 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/502/marc_502.jsonl");
 
     // when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
     assertThat(result)
-      .isNotNull()
-      .satisfies(this::validateAllIds)
       .extracting(this::getDissertationEdge)
       .satisfies(e -> validateEdge(e, PredicateDictionary.DISSERTATION,
         List.of(ResourceTypeDictionary.DISSERTATION),

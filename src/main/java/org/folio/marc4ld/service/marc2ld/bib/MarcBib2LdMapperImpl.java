@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.folio.ld.dictionary.model.InstanceMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -76,8 +78,9 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private void fillData(org.marc4j.marc.Record marcRecord, Resource instance, DataField dataField) {
     handleField(dataField.getTag(), instance, dataField, marcRecord);
     if (FIELD_UUID.equals(dataField.getTag())) {
-      instance.setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)));
-      instance.setSrsId(readUuid(dataField.getSubfield(S)));
+      instance.getInstanceMetadata()
+        .setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)))
+        .setSrsId(readUuid(dataField.getSubfield(S)));
     }
   }
 
@@ -108,6 +111,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private InstanceAndWork createInstanceAndWork() {
     var work = new Resource().addType(WORK);
     var instance = new Resource().addType(INSTANCE);
+    instance.setInstanceMetadata(new InstanceMetadata().setSource(MARC));
     instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));
     return new InstanceAndWork(instance, work);
   }

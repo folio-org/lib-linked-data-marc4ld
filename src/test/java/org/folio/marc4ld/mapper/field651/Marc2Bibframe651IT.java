@@ -8,14 +8,9 @@ import java.util.Map;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 class Marc2Bibframe651IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
   void whenMarcField257WithMultipleSubfield_a_map_shouldConvertAll() {
@@ -23,10 +18,9 @@ class Marc2Bibframe651IT extends Marc2LdTestBase {
     var marc = loadResourceAsString("fields/651/marc_651_info_multiply.jsonl");
 
     // when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
-    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     var resourceEdge = work.getOutgoingEdges().iterator().next();
 
