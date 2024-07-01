@@ -166,7 +166,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
-import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
@@ -226,7 +225,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var instanceMetadata = result.getInstanceMetadata();
     assertThat(instanceMetadata.getInventoryId()).isNull();
     assertThat(instanceMetadata.getSrsId()).isNull();
-    assertThat(instanceMetadata.getSource()).isEqualTo(MARC);
   }
 
   @Test
@@ -325,7 +323,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var instanceMetadata = resource.getInstanceMetadata();
     assertThat(instanceMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
     assertThat(instanceMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
-    assertThat(instanceMetadata.getSource()).isEqualTo(MARC);
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
   }
 

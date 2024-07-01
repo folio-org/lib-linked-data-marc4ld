@@ -30,7 +30,7 @@ public class Marc2LdTestBase {
   private MarcAuthority2ldMapper marcAuthority2ldMapper;
 
   protected Resource marcBibToResource(String marc) {
-    Resource resource = marc2BibframeMapper.fromMarcJson(marc);
+    var resource = marc2BibframeMapper.fromMarcJson(marc);
     assertThat(resource).isNotNull();
     validateSource(resource);
     validateAllIds(resource);

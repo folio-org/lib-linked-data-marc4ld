@@ -15,7 +15,6 @@ import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 
 import java.util.Objects;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.InstanceMetadata;
@@ -79,8 +78,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     handleField(dataField.getTag(), instance, dataField, marcRecord);
     if (FIELD_UUID.equals(dataField.getTag())) {
       instance.getInstanceMetadata()
-        .setInventoryId(readUuid(dataField.getSubfield(SUBFIELD_INVENTORY_ID)))
-        .setSrsId(readUuid(dataField.getSubfield(S)));
+        .setInventoryId(readSubfieldValue(dataField.getSubfield(SUBFIELD_INVENTORY_ID)))
+        .setSrsId(readSubfieldValue(dataField.getSubfield(S)));
     }
   }
 
@@ -95,17 +94,11 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
       );
   }
 
-  private UUID readUuid(Subfield subfield) {
+  private String readSubfieldValue(Subfield subfield) {
     if (isNull(subfield) || isNull(subfield.getData())) {
       return null;
     }
-    var value = subfield.getData().strip();
-    try {
-      return UUID.fromString(value);
-    } catch (Exception e) {
-      log.warn("Incorrect UUID value from Marc field 999, subfield [{}]: {}", subfield.getCode(), value);
-      return null;
-    }
+    return subfield.getData().strip();
   }
 
   private InstanceAndWork createInstanceAndWork() {
