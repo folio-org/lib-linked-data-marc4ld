@@ -43,19 +43,28 @@ class BibframeToMarc257IT {
   }
 
   private Resource createResourceWithWorkWith257() {
-    var originPlace = MonographTestUtil.createResource(
+    var originPlace1 = MonographTestUtil.createResource(
       Map.of(
-        PropertyDictionary.NAME, List.of("France", "United States"),
-        PropertyDictionary.LABEL, List.of("France, United States")
+        PropertyDictionary.NAME, List.of("France"),
+        PropertyDictionary.LABEL, List.of("France")
       ),
       Set.of(PLACE),
       Collections.emptyMap()
-    ).setLabel("France, United States");
+    ).setLabel("France");
+
+    var originPlace2 = MonographTestUtil.createResource(
+      Map.of(
+        PropertyDictionary.NAME, List.of("United States"),
+        PropertyDictionary.LABEL, List.of("United States")
+      ),
+      Set.of(PLACE),
+      Collections.emptyMap()
+    ).setLabel("United States");
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
-      Map.of(PredicateDictionary.ORIGIN_PLACE, List.of(originPlace))
+      Map.of(PredicateDictionary.ORIGIN_PLACE, List.of(originPlace1, originPlace2))
     ).setLabel("Work: label");
 
     return MonographTestUtil.createResource(
