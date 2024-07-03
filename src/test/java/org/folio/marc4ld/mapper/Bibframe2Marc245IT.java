@@ -81,7 +81,7 @@ class Bibframe2Marc245IT {
   private Resource createResourceWithSimilarFields245() {
     var instanceTitle = MonographTestUtil.createResource(
       Map.of(
-        PART_NAME, List.of("Test string"),
+        PART_NAME, List.of("Test string", "Another test string"),
         MAIN_TITLE, List.of("Test string"),
         SUBTITLE, List.of("Test string")
       ),

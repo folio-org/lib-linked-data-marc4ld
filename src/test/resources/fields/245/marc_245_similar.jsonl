@@ -1,5 +1,5 @@
 {
-  "leader" : "00132nam a2200049uc 4500",
+  "leader" : "00153nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -10,6 +10,8 @@
         "b" : "Test string"
       }, {
         "p" : "Test string"
+      }, {
+        "p" : "Another test string"
       } ],
       "ind1" : " ",
       "ind2" : " "
