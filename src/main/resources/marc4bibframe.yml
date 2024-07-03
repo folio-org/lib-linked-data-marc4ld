@@ -404,6 +404,7 @@ bibFieldRules:
       predicate: ORIGIN_PLACE
       subfields:
         a: NAME
+      multiply: true
   261:
     - types: PROVIDER_EVENT
       parent: INSTANCE
