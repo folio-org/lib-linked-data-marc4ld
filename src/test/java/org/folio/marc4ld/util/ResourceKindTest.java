@@ -6,7 +6,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-class IdentifierTypesTest {
+class ResourceKindTest {
 
   @ParameterizedTest
   @EnumSource(value = ResourceTypeDictionary.class,
@@ -14,7 +14,7 @@ class IdentifierTypesTest {
     names = {"INSTANCE", "WORK"})
   void containsBibliographicTypes(ResourceTypeDictionary type) {
     //when
-    var expectedInstanceTypes = IdentifierTypes.BIBLIOGRAPHIC_TYPES;
+    var expectedInstanceTypes = ResourceKind.BIBLIOGRAPHIC;
 
     //then
     assertThat(expectedInstanceTypes)
@@ -28,7 +28,7 @@ class IdentifierTypesTest {
     names = {"INSTANCE", "WORK"})
   void notContainsBibliographicTypes(ResourceTypeDictionary type) {
     //when
-    var expectedInstanceTypes = IdentifierTypes.BIBLIOGRAPHIC_TYPES;
+    var expectedInstanceTypes = ResourceKind.BIBLIOGRAPHIC;
 
     //then
     assertThat(expectedInstanceTypes)
@@ -42,7 +42,7 @@ class IdentifierTypesTest {
     names = {"CONCEPT", "PERSON", "FAMILY"})
   void containsAuthorityTypes(ResourceTypeDictionary type) {
     //when
-    var expectedAuthorityTypes = IdentifierTypes.AUTHORITY_TYPES;
+    var expectedAuthorityTypes = ResourceKind.AUTHORITY;
 
     //then
     assertThat(expectedAuthorityTypes)
@@ -56,7 +56,7 @@ class IdentifierTypesTest {
     names = {"CONCEPT", "PERSON", "FAMILY"})
   void notContainsAuthorityTypes(ResourceTypeDictionary type) {
     //when
-    var expectedAuthorityTypes = IdentifierTypes.AUTHORITY_TYPES;
+    var expectedAuthorityTypes = ResourceKind.AUTHORITY;
     //then
     assertThat(expectedAuthorityTypes)
       .isNotEmpty()
