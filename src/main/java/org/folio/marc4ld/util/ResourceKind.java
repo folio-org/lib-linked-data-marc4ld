@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 
 @UtilityClass
-public class IdentifierTypes {
-  public static final Set<ResourceTypeDictionary> BIBLIOGRAPHIC_TYPES = Set.of(INSTANCE, WORK);
-  public static final Set<ResourceTypeDictionary> AUTHORITY_TYPES = Set.of(CONCEPT, PERSON, FAMILY);
+public class ResourceKind {
+  public static final Set<ResourceTypeDictionary> BIBLIOGRAPHIC = Set.of(INSTANCE, WORK);
+  public static final Set<ResourceTypeDictionary> AUTHORITY = Set.of(CONCEPT, PERSON, FAMILY);
 }
