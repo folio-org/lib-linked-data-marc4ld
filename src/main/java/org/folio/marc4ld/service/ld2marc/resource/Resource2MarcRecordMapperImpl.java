@@ -115,11 +115,12 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
-    if (nonNull(resource.getInventoryId()) || nonNull(resource.getSrsId())) {
+    if (nonNull(resource.getInstanceMetadata())) {
+      var metaData = resource.getInstanceMetadata();
       var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
-      ofNullable(resource.getInventoryId()).ifPresent(
+      ofNullable(metaData.getInventoryId()).ifPresent(
         id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id.toString())));
-      ofNullable(resource.getSrsId()).ifPresent(
+      ofNullable(metaData.getSrsId()).ifPresent(
         id -> field999.addSubfield(marcFactory.newSubfield(S, id.toString())));
       marcRecord.addVariableField(field999);
     }

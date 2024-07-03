@@ -149,7 +149,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -157,6 +156,7 @@ import lombok.experimental.UtilityClass;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.InstanceMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 
@@ -364,6 +364,9 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(COPYRIGHT, List.of(copyrightEvent));
     pred2OutgoingResources.put(INSTANTIATES, List.of(createSampleWork()));
 
+    var instanceMetadata = new InstanceMetadata()
+      .setInventoryId("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1")
+      .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b");
     return createResource(
       Map.ofEntries(
         entry(EXTENT, List.of("extent")),
@@ -412,8 +415,7 @@ public class MonographTestUtil {
       ),
       Set.of(INSTANCE),
       pred2OutgoingResources)
-      .setInventoryId(UUID.fromString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1"))
-      .setSrsId(UUID.fromString("43d58061-decf-4d74-9747-0e1c368e861b"));
+      .setInstanceMetadata(instanceMetadata);
   }
 
   public static Resource createSampleWork() {

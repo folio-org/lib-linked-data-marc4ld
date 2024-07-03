@@ -30,16 +30,11 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Marc2Bibframe082IT extends Marc2LdTestBase {
-
-  @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
@@ -65,10 +60,9 @@ public class Marc2Bibframe082IT extends Marc2LdTestBase {
     var marc = loadResourceAsString(marcFile);
 
     //when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     //then
-    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     assertThat(work.getOutgoingEdges()).hasSize(1);
     var resourceEdge = work.getOutgoingEdges().iterator().next();

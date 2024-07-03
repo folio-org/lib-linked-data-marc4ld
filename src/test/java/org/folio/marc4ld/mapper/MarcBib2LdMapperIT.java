@@ -214,17 +214,17 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var marc = loadResourceAsString("empty_marc.jsonl");
 
     // when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
     assertThat(result).isNotNull();
-    validateAllIds(result);
     assertThat(result.getLabel()).isEmpty();
     assertThat(result.getDoc()).isEmpty();
-    assertThat(result.getInventoryId()).isNull();
-    assertThat(result.getSrsId()).isNull();
     assertThat(result.getTypes()).containsOnly(INSTANCE);
     assertThat(result.getOutgoingEdges()).isEmpty();
+    var instanceMetadata = result.getInstanceMetadata();
+    assertThat(instanceMetadata.getInventoryId()).isNull();
+    assertThat(instanceMetadata.getSrsId()).isNull();
   }
 
   @Test
@@ -233,11 +233,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var marc = loadResourceAsString("marc_appendable_only.jsonl");
 
     // when
-    var resource = marc2BibframeMapper.fromMarcJson(marc);
+    var resource = marcBibToResource(marc);
 
     // then
-    assertThat(resource).isNotNull();
-    validateAllIds(resource);
     assertThat(resource.getLabel()).isEmpty();
     assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
@@ -248,10 +246,11 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
       .isEqualTo("Statement Of Responsibility");
-    assertThat(resource.getInventoryId()).isNull();
-    assertThat(resource.getSrsId()).isNull();
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
     assertThat(resource.getOutgoingEdges()).isEmpty();
+    var instanceMetadata = resource.getInstanceMetadata();
+    assertThat(instanceMetadata.getInventoryId()).isNull();
+    assertThat(instanceMetadata.getSrsId()).isNull();
   }
 
   @Test
@@ -260,11 +259,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var marc = loadResourceAsString("full_marc.jsonl");
 
     // when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     // then
-    assertThat(result).isNotNull();
-    validateAllIds(result);
     validateInstance(result);
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
@@ -323,8 +320,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
       "projectedProvisionDate");
-    assertThat(resource.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
-    assertThat(resource.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
+    var instanceMetadata = resource.getInstanceMetadata();
+    assertThat(instanceMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
+    assertThat(instanceMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
   }
 
@@ -335,12 +333,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var marc2 = loadResourceAsString("short_marc.jsonl");
 
     // when
-    var result1 = marc2BibframeMapper.fromMarcJson(marc1);
-    var result2 = marc2BibframeMapper.fromMarcJson(marc2);
+    var result1 = marcBibToResource(marc1);
+    var result2 = marcBibToResource(marc2);
 
     // then
-    validateAllIds(result1);
-    validateAllIds(result2);
     var work1opt = result1.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
     var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
     assertThat(work1opt).isPresent();
@@ -369,10 +365,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   @MethodSource("provideMarcAndPredicates")
   void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {
     //when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBibToResource(marc);
 
     //then
-    validateAllIds(result);
     var work = result.getOutgoingEdges().iterator().next().getTarget();
     assertThat(work.getOutgoingEdges()).hasSize(12);
 
