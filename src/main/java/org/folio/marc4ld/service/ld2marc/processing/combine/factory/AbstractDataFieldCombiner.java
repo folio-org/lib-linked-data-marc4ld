@@ -64,8 +64,8 @@ abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
   }
 
   private void putFieldIfPresent(char fieldTag, DataField dataField) {
-    Optional.ofNullable(dataField.getSubfield(fieldTag))
-      .ifPresent(newField -> combinedField.addSubfield(newField));
+    dataField.getSubfields(fieldTag)
+      .forEach(combinedField::addSubfield);
   }
 
   private void setIndicators(DataField dataField) {
