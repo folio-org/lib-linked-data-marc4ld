@@ -1,0 +1,17 @@
+{
+  "fields" : [ {
+    "650" : {
+      "subfields" : [ {
+        "a" : "Private libraries"
+      }, {
+        "b" : "19th century."
+      }, {
+        "x" : "topic 1"
+      }, {
+        "x" : "topic 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : "0"
+    }
+  } ]
+}

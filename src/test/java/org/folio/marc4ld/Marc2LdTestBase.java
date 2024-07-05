@@ -55,6 +55,14 @@ public class Marc2LdTestBase {
       .toList();
   }
 
+  protected List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
+    return resourceEdge.getTarget()
+      .getOutgoingEdges()
+      .stream()
+      .filter(predicate)
+      .toList();
+  }
+
   protected ResourceEdge getFirstOutgoingEdge(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
     return getOutgoingEdges(resourceEdge)
       .stream()
@@ -71,8 +79,8 @@ public class Marc2LdTestBase {
       .orElseThrow();
   }
 
-  protected ResourceEdge getWorkEdge(Resource instanceEdge) {
-    return getFirstOutgoingEdge(instanceEdge, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"));
+  protected ResourceEdge getWorkEdge(Resource resource) {
+    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"));
   }
 
   protected Predicate<ResourceEdge> withPredicateUri(String uri) {
