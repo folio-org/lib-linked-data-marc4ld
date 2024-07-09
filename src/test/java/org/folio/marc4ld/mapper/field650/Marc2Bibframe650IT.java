@@ -87,6 +87,41 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
     ;
   }
 
+  @Test
+  void map_shouldContains_severalTopics() {
+    // given
+    var marc = loadResourceAsString("fields/650/marc_650_several_topics.jsonl");
+
+    // when
+    var resource = marcBibToResource(marc);
+    var subject = geSubject(resource);
+    assertThat(subject)
+      .hasFieldOrPropertyWithValue("label", "Private libraries")
+      .extracting(Resource::getDoc)
+      .extracting(node -> node.get("http://bibfra.me/vocab/marc/generalSubdivision"))
+      .extracting(this::getValues)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
+      .containsOnly("topic 1", "topic 2");
+  }
+
+  @Test
+  void map_shouldReturn_severalTopicNodes() {
+    // given
+    var marc = loadResourceAsString("fields/650/marc_650_several_topics.jsonl");
+
+    // when
+    var resource = marcBibToResource(marc);
+    var subject = geSubject(resource);
+
+    var topicNodes = getNodes(subject, ResourceTypeDictionary.TOPIC);
+
+    assertThat(topicNodes)
+      .hasSize(3)
+      .extracting(Resource::getLabel)
+      .containsOnly("Private libraries", "topic 1", "topic 2")
+    ;
+  }
+
   private List<String> getValues(JsonNode node) {
     return StreamSupport.stream(node.spliterator(), false)
       .map(JsonNode::asText)
