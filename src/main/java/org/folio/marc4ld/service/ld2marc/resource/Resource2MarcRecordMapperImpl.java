@@ -1,9 +1,10 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
 import static java.util.Comparator.comparing;
-import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SPACE;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.folio.ld.dictionary.model.InstanceMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
@@ -115,14 +117,19 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
-    if (nonNull(resource.getInstanceMetadata())) {
-      var metaData = resource.getInstanceMetadata();
-      var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
-      ofNullable(metaData.getInventoryId()).ifPresent(
-        id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id.toString())));
-      ofNullable(metaData.getSrsId()).ifPresent(
-        id -> field999.addSubfield(marcFactory.newSubfield(S, id.toString())));
-      marcRecord.addVariableField(field999);
+    var instanceMetadata = resource.getInstanceMetadata();
+    if (notContainsMetadata(instanceMetadata)) {
+      return;
     }
+    var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
+    ofNullable(instanceMetadata.getInventoryId()).ifPresent(
+      id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id)));
+    ofNullable(instanceMetadata.getSrsId()).ifPresent(
+      id -> field999.addSubfield(marcFactory.newSubfield(S, id)));
+    marcRecord.addVariableField(field999);
+  }
+
+  private boolean notContainsMetadata(InstanceMetadata instanceMetadata) {
+    return isNull(instanceMetadata) || allNull(instanceMetadata.getInventoryId(), instanceMetadata.getSrsId());
   }
 }

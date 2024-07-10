@@ -164,6 +164,34 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 @UtilityClass
 public class MonographTestUtil {
 
+  public static Resource getLightWeightInstanceResource() {
+    var instanceTitle = createResource(
+      Map.of(
+        PART_NAME, List.of("PartName"),
+        PART_NUMBER, List.of("8"),
+        MAIN_TITLE, List.of("MainTitle"),
+        NON_SORT_NUM, List.of("7"),
+        SUBTITLE, List.of("SubTitle")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("MainTitle");
+
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(TITLE, List.of(instanceTitle));
+    var instanceMetadata = new InstanceMetadata()
+      .setInventoryId("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1")
+      .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b");
+    return createResource(
+      Map.ofEntries(
+        entry(EXTENT, List.of("extent")),
+        entry(DIMENSIONS, List.of("dimensions"))
+      ),
+      Set.of(INSTANCE),
+      pred2OutgoingResources)
+      .setInstanceMetadata(instanceMetadata);
+  }
+
   public static Resource getSampleInstanceResource() {
     var instanceTitle = createResource(
       Map.of(
