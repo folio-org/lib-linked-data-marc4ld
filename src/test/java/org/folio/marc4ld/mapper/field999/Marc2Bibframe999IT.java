@@ -36,14 +36,18 @@ public class Marc2Bibframe999IT extends Marc2LdTestBase {
 
   static Stream<Arguments> provide999FieldArguments() {
     return Stream.of(
-      Arguments.of(new InstanceMetadata().setSource(ResourceSource.MARC), "fields/999/marc_field999_empty.jsonl"),
-      Arguments.of(new InstanceMetadata().setSource(ResourceSource.LINKED_DATA), "fields/999/marc_field999_empty.jsonl"),
+      Arguments.of(new InstanceMetadata().setSource(ResourceSource.MARC),
+        "fields/999/marc_field999_empty.jsonl"),
+      Arguments.of(new InstanceMetadata().setSource(ResourceSource.LINKED_DATA),
+        "fields/999/marc_field999_empty.jsonl"),
       Arguments.of(new InstanceMetadata()
           .setSource(ResourceSource.MARC)
-          .setInventoryId("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1"), "fields/999/marc_field999_inventory.jsonl"),
+          .setInventoryId("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1"),
+        "fields/999/marc_field999_inventory.jsonl"),
       Arguments.of(new InstanceMetadata()
           .setSource(ResourceSource.MARC)
-          .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b"), "fields/999/marc_field999_srs.jsonl")
+          .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b"),
+        "fields/999/marc_field999_srs.jsonl")
     );
   }
 }
