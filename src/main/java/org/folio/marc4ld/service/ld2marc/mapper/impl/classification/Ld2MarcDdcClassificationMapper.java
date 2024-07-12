@@ -4,6 +4,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
 import static org.folio.marc4ld.util.Constants.Classification.ABRIDGED;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
 import static org.folio.marc4ld.util.Constants.Classification.DLC;
@@ -33,8 +34,9 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
   }
 
   @Override
-  public DataField map(Resource resource) {
-    var dataField = super.map(resource);
+  public DataField map(ResourceEdge resourceEdge) {
+    var dataField = super.map(resourceEdge);
+    var resource = resourceEdge.getTarget();
     getPropertyValue(resource, EDITION_NUMBER.getValue())
       .ifPresent(editionNumber -> dataField.addSubfield(marcFactory.newSubfield(TWO, editionNumber)));
     if (dataField.getIndicator2() == FOUR) {

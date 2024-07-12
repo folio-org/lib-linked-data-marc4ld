@@ -3,11 +3,10 @@ package org.folio.marc4ld.service.ld2marc.processing.combine.factory;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
 import static org.folio.marc4ld.util.Constants.SPACE;
+import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,7 +28,7 @@ abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
     if (isNull(combinedField)) {
       return Collections.emptyList();
     }
-    orderFields();
+    orderSubfields(combinedField);
     return List.of(combinedField);
   }
 
@@ -75,15 +74,5 @@ abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
     if (Objects.equals(combinedField.getIndicator2(), SPACE) && notEqual(dataField.getIndicator2(), SPACE)) {
       combinedField.setIndicator2(dataField.getIndicator2());
     }
-  }
-
-  private void orderFields() {
-    var newFields = new ArrayList<>(combinedField.getSubfields());
-    newFields
-      .forEach(combinedField::removeSubfield);
-    newFields
-      .sort(Comparator.comparingInt(Subfield::getCode));
-    newFields
-      .forEach(combinedField::addSubfield);
   }
 }

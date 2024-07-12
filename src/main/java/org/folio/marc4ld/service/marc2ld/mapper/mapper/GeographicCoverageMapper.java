@@ -2,7 +2,7 @@ package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.marc4ld.util.Constants.GEOGRAPHIC_CODE_TO_NAME_DICTIONARY;
+import static org.folio.marc4ld.util.Constants.Dictionary.GEOGRAPHIC_CODE_TO_NAME;
 import static org.folio.marc4ld.util.Constants.TAG_043;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class GeographicCoverageMapper extends DictionaryBasedMarc2LdMapper {
 
   private static final List<String> TAGS = List.of(TAG_043);
-  private static final MappingConfig CONFIG = new MappingConfig(GEOGRAPHIC_CODE_TO_NAME_DICTIONARY,
+  private static final MappingConfig CONFIG = new MappingConfig(GEOGRAPHIC_CODE_TO_NAME,
     GEOGRAPHIC_AREA_CODE, NAME);
 
   GeographicCoverageMapper(DictionaryProcessor dictionaryProcessor, MapperHelper mapperHelper) {

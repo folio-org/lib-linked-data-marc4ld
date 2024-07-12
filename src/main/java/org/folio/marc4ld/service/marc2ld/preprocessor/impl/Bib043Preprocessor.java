@@ -2,7 +2,7 @@ package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.marc4ld.util.Constants.A;
-import static org.folio.marc4ld.util.Constants.GEOGRAPHIC_CODE_TO_NAME_DICTIONARY;
+import static org.folio.marc4ld.util.Constants.Dictionary.GEOGRAPHIC_CODE_TO_NAME;
 import static org.folio.marc4ld.util.Constants.TAG_043;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
   public boolean isValid(DataField dataField) {
     return Optional.ofNullable(dataField.getSubfield(A))
       .map(Subfield::getData)
-      .flatMap(data -> dictionaryProcessor.getValue(GEOGRAPHIC_CODE_TO_NAME_DICTIONARY, data))
+      .flatMap(data -> dictionaryProcessor.getValue(GEOGRAPHIC_CODE_TO_NAME, data))
       .isPresent();
   }
 }

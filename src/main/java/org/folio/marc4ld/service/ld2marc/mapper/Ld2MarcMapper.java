@@ -1,12 +1,11 @@
 package org.folio.marc4ld.service.ld2marc.mapper;
 
-import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.marc4j.marc.DataField;
 
 public interface Ld2MarcMapper {
 
-  boolean canMap(PredicateDictionary predicate, Resource resource);
+  boolean canMap(ResourceEdge resourceEdge);
 
-  DataField map(Resource resource);
+  DataField map(ResourceEdge resourceEdge);
 }
