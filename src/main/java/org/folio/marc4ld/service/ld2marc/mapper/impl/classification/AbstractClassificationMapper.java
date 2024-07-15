@@ -5,12 +5,13 @@ import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CLASSIFICATION;
+import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
+import static org.folio.marc4ld.util.BibframeUtil.getPropertyValues;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.B;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -39,19 +40,23 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
   protected abstract char getIndicator2(Resource resource);
 
   @Override
-  public boolean canMap(PredicateDictionary predicate, Resource resource) {
-    return predicate == PredicateDictionary.CLASSIFICATION
-      && Objects.equals(resource.getTypes(), SUPPORTED_TYPES)
-      && hasCorrespondingSource(resource);
+  public boolean test(ResourceEdge resourceEdge) {
+    return resourceEdge.getPredicate() == PredicateDictionary.CLASSIFICATION
+      && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES)
+      && hasCorrespondingSource(resourceEdge.getTarget());
   }
 
   @Override
-  public DataField map(Resource resource) {
+  public DataField apply(ResourceEdge resourceEdge) {
+    var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(tag, getIndicator1(resource), getIndicator2(resource));
-    getPropertyValues(resource, CODE.getValue())
-      .forEach(code -> dataField.addSubfield(marcFactory.newSubfield(A, code)));
+    getPropertyValues(resource, CODE.getValue(), node -> objectMapper.convertValue(node, new TypeReference<>() {}))
+      .stream()
+      .map(code -> marcFactory.newSubfield(A, code))
+      .forEach(dataField::addSubfield);
     getPropertyValue(resource, ITEM_NUMBER.getValue())
-      .ifPresent(itemNumber -> dataField.addSubfield(marcFactory.newSubfield(B, itemNumber)));
+      .map(itemNumber -> marcFactory.newSubfield(B, itemNumber))
+      .ifPresent(dataField::addSubfield);
     return dataField;
   }
 
@@ -63,18 +68,6 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
       .map(r -> getPropertyValue(r, LINK.getValue()))
       .flatMap(Optional::stream)
       .anyMatch(linkValue::equals);
-  }
-
-  protected Optional<String> getPropertyValue(Resource resource, String property) {
-    return resource.getDoc().get(property) != null
-      ? Optional.of(resource.getDoc().get(property).get(0).asText())
-      : Optional.empty();
-  }
-
-  private List<String> getPropertyValues(Resource resource, String property) {
-    return resource.getDoc().get(property) != null
-      ? objectMapper.convertValue(resource.getDoc().get(property), new TypeReference<>() {})
-      : List.of();
   }
 
   private boolean hasCorrespondingSource(Resource resource) {

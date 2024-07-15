@@ -1,0 +1,60 @@
+{
+  "leader" : "00415nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "100" : {
+      "subfields" : [ {
+        "a" : "name"
+      }, {
+        "b" : "numeration"
+      }, {
+        "c" : "titles"
+      }, {
+        "c" : "another titles"
+      }, {
+        "d" : "date"
+      }, {
+        "e" : "author"
+      }, {
+        "e" : "designer"
+      }, {
+        "j" : "attribution"
+      }, {
+        "j" : "another attribution"
+      }, {
+        "q" : "name alternative"
+      }, {
+        "u" : "affiliation"
+      }, {
+        "0" : "authority link"
+      }, {
+        "0" : "another authority link"
+      }, {
+        "0" : "lccn link"
+      }, {
+        "0" : "another lccn link"
+      }, {
+        "1" : "equivalent"
+      }, {
+        "1" : "another equivalent"
+      }, {
+        "4" : "aut"
+      }, {
+        "4" : "dsr"
+      }, {
+        "6" : "linkage"
+      }, {
+        "7" : "control field"
+      }, {
+        "7" : "another control field"
+      }, {
+        "8" : "field link"
+      }, {
+        "8" : "another field link"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  } ]
+}

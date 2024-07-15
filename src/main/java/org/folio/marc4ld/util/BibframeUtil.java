@@ -5,6 +5,9 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.model.Resource;
@@ -27,6 +30,24 @@ public class BibframeUtil {
 
   public static boolean isNotEmpty(Resource r) {
     return !isEmpty(r);
+  }
+
+  public static Optional<String> getPropertyValue(Resource resource, String property) {
+    return Optional.of(resource)
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(property))
+      .map(node -> node.get(0))
+      .map(JsonNode::asText);
+  }
+
+  public static List<String> getPropertyValues(Resource resource, String property,
+                                               Function<JsonNode, List<String>> propertiesConversionFunction) {
+    return Optional.of(resource)
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(property))
+      .map(propertiesConversionFunction)
+      .orElse(List.of());
+
   }
 
   private static boolean isEmptyDoc(JsonNode doc) {

@@ -1,6 +1,8 @@
 package org.folio.marc4ld.service.marc2ld.relation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.folio.marc4ld.util.Constants.Dictionary.AGENT_CODE_TO_PREDICATE;
+import static org.folio.marc4ld.util.Constants.Dictionary.AGENT_TEXT_TO_PREDICATE;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +20,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class RelationProviderImpl implements RelationProvider {
-
-  private static final String CODE_TO_PREDICATE = "AGENT_CODE_TO_PREDICATE";
-  private static final String TEXT_TO_PREDICATE = "AGENT_TEXT_TO_PREDICATE";
 
   private final DictionaryProcessor dictionaryProcessor;
 
@@ -48,7 +47,7 @@ public class RelationProviderImpl implements RelationProvider {
     return relation.getCode()
       .map(dataField::getSubfield)
       .map(Subfield::getData)
-      .flatMap(data -> dictionaryProcessor.getValue(CODE_TO_PREDICATE, data));
+      .flatMap(data -> dictionaryProcessor.getValue(AGENT_CODE_TO_PREDICATE, data));
   }
 
   private Optional<String> getByText(Relation relation, DataField dataField) {
@@ -56,7 +55,7 @@ public class RelationProviderImpl implements RelationProvider {
       .map(dataField::getSubfield)
       .map(Subfield::getData)
       .map(this::adjust)
-      .flatMap(data -> dictionaryProcessor.getValue(TEXT_TO_PREDICATE, data));
+      .flatMap(data -> dictionaryProcessor.getValue(AGENT_TEXT_TO_PREDICATE, data));
   }
 
   private String adjust(String text) {

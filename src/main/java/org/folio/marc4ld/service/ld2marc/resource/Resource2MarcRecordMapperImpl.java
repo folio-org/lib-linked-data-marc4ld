@@ -54,9 +54,9 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
     return ld2MarcMappers.stream()
-      .filter(mapper -> mapper.canMap(edge.getPredicate(), edge.getTarget()))
+      .map(mapper -> mapper.map(edge))
+      .flatMap(Optional::stream)
       .findFirst()
-      .map(mapper -> mapper.map(edge.getTarget()))
       .map(List::of)
       .orElseGet(() -> getFields(cfb, edge))
       .stream()

@@ -14,10 +14,10 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -37,12 +37,13 @@ public class LccnMapper implements Ld2MarcMapper {
   private final MarcFactory marcFactory;
 
   @Override
-  public boolean canMap(PredicateDictionary predicate, Resource resource) {
-    return predicate == MAP && Objects.equals(resource.getTypes(), SUPPORTED_TYPES);
+  public boolean test(ResourceEdge resourceEdge) {
+    return resourceEdge.getPredicate() == MAP && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
   }
 
   @Override
-  public DataField map(Resource resource) {
+  public DataField apply(ResourceEdge resourceEdge) {
+    var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(TAG, SPACE, SPACE);
     getSubfield(resource)
       .ifPresent(s -> dataField.addSubfield(marcFactory.newSubfield(s, getPropertyValue(NAME, resource))));

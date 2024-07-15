@@ -1,7 +1,10 @@
 package org.folio.marc4ld.util;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import lombok.experimental.UtilityClass;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
 
 @UtilityClass
 public class MarcUtil {
@@ -12,5 +15,12 @@ public class MarcUtil {
 
   public static String getSubfieldValue(char subfield, DataField dataField) {
     return dataField.getSubfield(subfield).getData();
+  }
+
+  public static void orderSubfields(DataField dataField, Comparator<Subfield> comparator) {
+    var subfields = new ArrayList<>(dataField.getSubfields());
+    subfields.forEach(dataField::removeSubfield);
+    subfields.sort(comparator);
+    subfields.forEach(dataField::addSubfield);
   }
 }
