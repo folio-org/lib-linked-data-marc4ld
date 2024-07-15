@@ -40,14 +40,14 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
   protected abstract char getIndicator2(Resource resource);
 
   @Override
-  public boolean canMap(ResourceEdge resourceEdge) {
+  public boolean test(ResourceEdge resourceEdge) {
     return resourceEdge.getPredicate() == PredicateDictionary.CLASSIFICATION
       && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES)
       && hasCorrespondingSource(resourceEdge.getTarget());
   }
 
   @Override
-  public DataField map(ResourceEdge resourceEdge) {
+  public DataField apply(ResourceEdge resourceEdge) {
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(tag, getIndicator1(resource), getIndicator2(resource));
     getPropertyValues(resource, CODE.getValue(), node -> objectMapper.convertValue(node, new TypeReference<>() {}))

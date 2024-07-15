@@ -18,6 +18,7 @@ import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +33,7 @@ import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Subfield;
 
 @RequiredArgsConstructor
 public abstract class AgentMapper implements Ld2MarcMapper {
@@ -42,6 +44,7 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   private final ObjectMapper objectMapper;
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
+  private final Comparator<Subfield> comparator;
 
   protected abstract Set<ResourceTypeDictionary> getSupportedTypes();
 
@@ -60,14 +63,14 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   }
 
   @Override
-  public boolean canMap(ResourceEdge resourceEdge) {
+  public boolean test(ResourceEdge resourceEdge) {
     return resourceEdge.getPredicate() != null
       && SUPPORTED_PREDICATES.contains(resourceEdge.getPredicate())
       && getSupportedTypes().containsAll(resourceEdge.getTarget().getTypes());
   }
 
   @Override
-  public DataField map(ResourceEdge resourceEdge) {
+  public DataField apply(ResourceEdge resourceEdge) {
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(getTag(resourceEdge), getIndicator1(resource), SPACE);
     addRepeatableSubfields(dataField, resource);
@@ -76,7 +79,7 @@ public abstract class AgentMapper implements Ld2MarcMapper {
     addRelationNames(dataField, resource);
     addAuthorityLinks(dataField, resource);
     addIdentifierLinks(dataField, resource);
-    orderSubfields(dataField);
+    orderSubfields(dataField, comparator);
     return dataField;
   }
 

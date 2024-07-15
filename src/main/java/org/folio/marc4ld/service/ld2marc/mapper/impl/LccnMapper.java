@@ -37,12 +37,12 @@ public class LccnMapper implements Ld2MarcMapper {
   private final MarcFactory marcFactory;
 
   @Override
-  public boolean canMap(ResourceEdge resourceEdge) {
+  public boolean test(ResourceEdge resourceEdge) {
     return resourceEdge.getPredicate() == MAP && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
   }
 
   @Override
-  public DataField map(ResourceEdge resourceEdge) {
+  public DataField apply(ResourceEdge resourceEdge) {
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(TAG, SPACE, SPACE);
     getSubfield(resource)

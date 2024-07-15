@@ -17,10 +17,10 @@ public class MarcUtil {
     return dataField.getSubfield(subfield).getData();
   }
 
-  public static void orderSubfields(DataField dataField) {
+  public static void orderSubfields(DataField dataField, Comparator<Subfield> comparator) {
     var subfields = new ArrayList<>(dataField.getSubfields());
     subfields.forEach(dataField::removeSubfield);
-    subfields.sort(Comparator.comparingInt(Subfield::getCode));
+    subfields.sort(comparator);
     subfields.forEach(dataField::addSubfield);
   }
 }

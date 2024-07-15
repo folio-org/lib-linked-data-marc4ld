@@ -33,16 +33,21 @@ public class BibframeUtil {
   }
 
   public static Optional<String> getPropertyValue(Resource resource, String property) {
-    return resource.getDoc().get(property) != null
-      ? Optional.of(resource.getDoc().get(property).get(0).asText())
-      : Optional.empty();
+    return Optional.of(resource)
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(property))
+      .map(node -> node.get(0))
+      .map(JsonNode::asText);
   }
 
   public static List<String> getPropertyValues(Resource resource, String property,
                                                Function<JsonNode, List<String>> propertiesConversionFunction) {
-    return Optional.ofNullable(resource.getDoc().get(property))
+    return Optional.of(resource)
+      .map(Resource::getDoc)
+      .map(doc -> doc.get(property))
       .map(propertiesConversionFunction)
       .orElse(List.of());
+
   }
 
   private static boolean isEmptyDoc(JsonNode doc) {

@@ -48,18 +48,18 @@ class BibframeToMarc100IT {
 
   @ParameterizedTest
   @CsvSource(value = {
-    "fields/100/marc_100_person.jsonl, PERSON",
-    "fields/100/marc_100_family.jsonl, FAMILY"
+    "PERSON, fields/100/marc_100_person.jsonl",
+    "FAMILY, fields/100/marc_100_family.jsonl"
   })
-  void shouldMapField100(String marcFile, ResourceTypeDictionary type) {
-    // given
-    var expectedMarc = loadResourceAsString(marcFile);
+  void shouldMapField100(ResourceTypeDictionary type, String marcFile) {
+    //given
     var resource = createResourceWithWorkWith100(type);
+    var expectedMarc = loadResourceAsString(marcFile);
 
     //when
     var result = bibframe2MarcMapper.toMarcJson(resource);
 
-    // then
+    //then
     AssertionsForClassTypes.assertThat(result)
       .isEqualTo(expectedMarc);
   }

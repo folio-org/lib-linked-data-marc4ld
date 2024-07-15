@@ -12,7 +12,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.marc4ld.util.Constants.SPACE;
@@ -21,6 +20,7 @@ import static org.folio.marc4ld.util.Constants.TAG_700;
 import static org.folio.marc4ld.util.Constants.THREE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -28,12 +28,13 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PersonFamilyMapper extends AgentMapper {
 
-  private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(CONCEPT, PERSON, FAMILY);
+  private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(PERSON, FAMILY);
   private static final Map<Character, String> REPEATABLE_SUBFIELD_PROPERTY_MAP = Map.of(
     'c', TITLES.getValue(),
     'j', ATTRIBUTION.getValue(),
@@ -51,8 +52,8 @@ public class PersonFamilyMapper extends AgentMapper {
   );
 
   protected PersonFamilyMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor,
-                               MarcFactory marcFactory) {
-    super(objectMapper, dictionaryProcessor, marcFactory);
+                               MarcFactory marcFactory, Comparator<Subfield> comparator) {
+    super(objectMapper, dictionaryProcessor, marcFactory, comparator);
   }
 
   @Override

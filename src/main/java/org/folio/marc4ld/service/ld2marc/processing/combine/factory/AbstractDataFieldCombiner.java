@@ -7,15 +7,20 @@ import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.service.ld2marc.processing.combine.DataFieldCombiner;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
 
+@RequiredArgsConstructor
 abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
+
+  private final Comparator<Subfield> comparator;
 
   private DataField combinedField;
 
@@ -28,7 +33,7 @@ abstract class AbstractDataFieldCombiner implements DataFieldCombiner {
     if (isNull(combinedField)) {
       return Collections.emptyList();
     }
-    orderSubfields(combinedField);
+    orderSubfields(combinedField, comparator);
     return List.of(combinedField);
   }
 

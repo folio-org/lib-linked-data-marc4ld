@@ -34,8 +34,8 @@ public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper
   }
 
   @Override
-  public DataField map(ResourceEdge resourceEdge) {
-    var dataField = super.map(resourceEdge);
+  public DataField apply(ResourceEdge resourceEdge) {
+    var dataField = super.apply(resourceEdge);
     var resource = resourceEdge.getTarget();
     getPropertyValue(resource, EDITION_NUMBER.getValue())
       .ifPresent(editionNumber -> dataField.addSubfield(marcFactory.newSubfield(TWO, editionNumber)));

@@ -5,6 +5,28 @@
   }, {
     "100" : {
       "subfields" : [ {
+        "a" : "name"
+      }, {
+        "b" : "numeration"
+      }, {
+        "c" : "titles"
+      }, {
+        "c" : "another titles"
+      }, {
+        "d" : "date"
+      }, {
+        "e" : "author"
+      }, {
+        "e" : "designer"
+      }, {
+        "j" : "attribution"
+      }, {
+        "j" : "another attribution"
+      }, {
+        "q" : "name alternative"
+      }, {
+        "u" : "affiliation"
+      }, {
         "0" : "authority link"
       }, {
         "0" : "another authority link"
@@ -30,28 +52,6 @@
         "8" : "field link"
       }, {
         "8" : "another field link"
-      }, {
-        "a" : "name"
-      }, {
-        "b" : "numeration"
-      }, {
-        "c" : "titles"
-      }, {
-        "c" : "another titles"
-      }, {
-        "d" : "date"
-      }, {
-        "e" : "author"
-      }, {
-        "e" : "designer"
-      }, {
-        "j" : "attribution"
-      }, {
-        "j" : "another attribution"
-      }, {
-        "q" : "name alternative"
-      }, {
-        "u" : "affiliation"
       } ],
       "ind1" : "3",
       "ind2" : " "
