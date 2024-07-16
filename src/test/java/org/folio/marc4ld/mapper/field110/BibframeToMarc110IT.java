@@ -26,7 +26,6 @@ import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
@@ -93,12 +92,10 @@ class BibframeToMarc110IT {
       Collections.emptyMap(),
       Set.of(WORK),
       Map.of(
-        PredicateDictionary.CREATOR, List.of(creator)
+        PredicateDictionary.CREATOR, List.of(creator),
+        PredicateDictionary.AUTHOR, List.of(creator)
       )
     ).setLabel("Work: label");
-
-    creator.getIncomingEdges().add(new ResourceEdge(work, creator, PredicateDictionary.AUTHOR));
-    creator.getIncomingEdges().add(new ResourceEdge(work, creator, PredicateDictionary.DESIGNER));
 
     return MonographTestUtil.createResource(
       Collections.emptyMap(),

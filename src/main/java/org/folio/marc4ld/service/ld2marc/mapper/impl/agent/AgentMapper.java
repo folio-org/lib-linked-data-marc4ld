@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -34,12 +35,14 @@ import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
+import org.marc4j.marc.impl.DataFieldImpl;
 
 @RequiredArgsConstructor
 public abstract class AgentMapper implements Ld2MarcMapper {
 
   private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(CREATOR, CONTRIBUTOR);
   private static final String RELATION_PREFIX = "http://bibfra.me/vocab/relation/";
+  private static final DataField EMPTY_DATA_FIELD = new DataFieldImpl(EMPTY, SPACE, SPACE);
 
   private final ObjectMapper objectMapper;
   private final DictionaryProcessor dictionaryProcessor;
@@ -65,22 +68,33 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   @Override
   public boolean test(ResourceEdge resourceEdge) {
     return resourceEdge.getPredicate() != null
-      && SUPPORTED_PREDICATES.contains(resourceEdge.getPredicate())
-      && getSupportedTypes().containsAll(resourceEdge.getTarget().getTypes());
+      && (isAgentEdge(resourceEdge) || isRelationEdge(resourceEdge));
   }
 
   @Override
   public DataField apply(ResourceEdge resourceEdge) {
+    if (isRelationEdge(resourceEdge)) {
+      return EMPTY_DATA_FIELD;
+    }
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(getTag(resourceEdge), getIndicator1(resource), SPACE);
     addRepeatableSubfields(dataField, resource);
     addNonRepeatableSubfields(dataField, resource);
-    addRelationCodes(dataField, resource);
-    addRelationNames(dataField, resource);
+    addRelationCodes(dataField, resourceEdge.getSource());
+    addRelationNames(dataField, resourceEdge.getSource());
     addAuthorityLinks(dataField, resource);
     addIdentifierLinks(dataField, resource);
     orderSubfields(dataField, comparator);
     return dataField;
+  }
+
+  private boolean isRelationEdge(ResourceEdge resourceEdge) {
+    return resourceEdge.getPredicate().getUri().startsWith(RELATION_PREFIX);
+  }
+
+  private boolean isAgentEdge(ResourceEdge resourceEdge) {
+    return SUPPORTED_PREDICATES.contains(resourceEdge.getPredicate())
+      && getSupportedTypes().containsAll(resourceEdge.getTarget().getTypes());
   }
 
   private void addRepeatableSubfields(DataField dataField, Resource resource) {
@@ -103,7 +117,7 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   }
 
   private void addRelationCodes(DataField dataField, Resource resource) {
-    resource.getIncomingEdges()
+    resource.getOutgoingEdges()
       .stream()
       .map(ResourceEdge::getPredicate)
       .map(Enum::name)
@@ -114,7 +128,7 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   }
 
   private void addRelationNames(DataField dataField, Resource resource) {
-    resource.getIncomingEdges()
+    resource.getOutgoingEdges()
       .stream()
       .map(ResourceEdge::getPredicate)
       .map(PredicateDictionary::getUri)

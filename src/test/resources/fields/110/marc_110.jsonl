@@ -1,5 +1,5 @@
 {
-  "leader" : "00367nam a2200049uc 4500",
+  "leader" : "00352nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -21,8 +21,6 @@
       }, {
         "e" : "author"
       }, {
-        "e" : "designer"
-      }, {
         "u" : "affiliation"
       }, {
         "0" : "lccn link"
@@ -34,8 +32,6 @@
         "1" : "another equivalent"
       }, {
         "4" : "aut"
-      }, {
-        "4" : "dsr"
       }, {
         "6" : "linkage"
       }, {
