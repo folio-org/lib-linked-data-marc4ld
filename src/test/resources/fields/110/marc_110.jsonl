@@ -1,11 +1,11 @@
 {
-  "leader" : "00352nam a2200049uc 4500",
+  "leader" : "00416nam a2200061uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
     "110" : {
       "subfields" : [ {
-        "a" : "name"
+        "a" : "author organization"
       }, {
         "b" : "subordinate unit"
       }, {
@@ -42,6 +42,18 @@
         "8" : "field link"
       }, {
         "8" : "another field link"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "110" : {
+      "subfields" : [ {
+        "a" : "editor organization"
+      }, {
+        "e" : "editor"
+      }, {
+        "4" : "edt"
       } ],
       "ind1" : " ",
       "ind2" : " "

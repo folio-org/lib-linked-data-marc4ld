@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -25,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -35,19 +33,26 @@ import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
-import org.marc4j.marc.impl.DataFieldImpl;
 
-@RequiredArgsConstructor
 public abstract class AgentMapper implements Ld2MarcMapper {
 
   private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(CREATOR, CONTRIBUTOR);
   private static final String RELATION_PREFIX = "http://bibfra.me/vocab/relation/";
-  private static final DataField EMPTY_DATA_FIELD = new DataFieldImpl(EMPTY, SPACE, SPACE);
 
   private final ObjectMapper objectMapper;
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
   private final Comparator<Subfield> comparator;
+  private final DataField emptyDataField;
+
+  protected AgentMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
+                        Comparator<Subfield> comparator) {
+    this.objectMapper = objectMapper;
+    this.dictionaryProcessor = dictionaryProcessor;
+    this.marcFactory = marcFactory;
+    this.comparator = comparator;
+    emptyDataField = marcFactory.newDataField();
+  }
 
   protected abstract Set<ResourceTypeDictionary> getSupportedTypes();
 
@@ -74,14 +79,14 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   @Override
   public DataField apply(ResourceEdge resourceEdge) {
     if (isRelationEdge(resourceEdge)) {
-      return EMPTY_DATA_FIELD;
+      return emptyDataField;
     }
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(getTag(resourceEdge), getIndicator1(resource), SPACE);
     addRepeatableSubfields(dataField, resource);
     addNonRepeatableSubfields(dataField, resource);
-    addRelationCodes(dataField, resourceEdge.getSource());
-    addRelationNames(dataField, resourceEdge.getSource());
+    addRelationCodes(dataField, resourceEdge);
+    addRelationNames(dataField, resourceEdge);
     addAuthorityLinks(dataField, resource);
     addIdentifierLinks(dataField, resource);
     orderSubfields(dataField, comparator);
@@ -116,9 +121,11 @@ public abstract class AgentMapper implements Ld2MarcMapper {
         .ifPresent(dataField::addSubfield));
   }
 
-  private void addRelationCodes(DataField dataField, Resource resource) {
-    resource.getOutgoingEdges()
+  private void addRelationCodes(DataField dataField, ResourceEdge resourceEdge) {
+    var agent = resourceEdge.getTarget();
+    resourceEdge.getSource().getOutgoingEdges()
       .stream()
+      .filter(re -> agent.equals(re.getTarget()))
       .map(ResourceEdge::getPredicate)
       .map(Enum::name)
       .map(predicate -> dictionaryProcessor.getKey(AGENT_CODE_TO_PREDICATE, predicate))
@@ -127,9 +134,11 @@ public abstract class AgentMapper implements Ld2MarcMapper {
       .forEach(dataField::addSubfield);
   }
 
-  private void addRelationNames(DataField dataField, Resource resource) {
-    resource.getOutgoingEdges()
+  private void addRelationNames(DataField dataField, ResourceEdge resourceEdge) {
+    var agent = resourceEdge.getTarget();
+    resourceEdge.getSource().getOutgoingEdges()
       .stream()
+      .filter(re -> agent.equals(re.getTarget()))
       .map(ResourceEdge::getPredicate)
       .map(PredicateDictionary::getUri)
       .filter(uri -> uri.startsWith(RELATION_PREFIX))

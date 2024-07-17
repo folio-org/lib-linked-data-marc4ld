@@ -72,9 +72,9 @@ class BibframeToMarc110IT {
       emptyMap()
     ).setLabel("another lccn");
 
-    var creator = MonographTestUtil.createResource(
+    var authorOrganization = MonographTestUtil.createResource(
       Map.ofEntries(
-        entry(NAME, List.of("name")),
+        entry(NAME, List.of("author organization")),
         entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
         entry(PLACE, List.of("place", "another place")),
         entry(DATE, List.of("date", "another date")),
@@ -86,14 +86,23 @@ class BibframeToMarc110IT {
       ),
       Set.of(ORGANIZATION),
       Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
-    ).setLabel("name");
+    ).setLabel("author organization");
+
+    var editorOrganization = MonographTestUtil.createResource(
+      Map.of(
+        NAME, List.of("editor organization")
+      ),
+      Set.of(ORGANIZATION),
+      emptyMap()
+    ).setLabel("editor organization");
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
       Map.of(
-        PredicateDictionary.CREATOR, List.of(creator),
-        PredicateDictionary.AUTHOR, List.of(creator)
+        PredicateDictionary.CREATOR, List.of(authorOrganization, editorOrganization),
+        PredicateDictionary.AUTHOR, List.of(authorOrganization),
+        PredicateDictionary.EDITOR, List.of(editorOrganization)
       )
     ).setLabel("Work: label");
 
