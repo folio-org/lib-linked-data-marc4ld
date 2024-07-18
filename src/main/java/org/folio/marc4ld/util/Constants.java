@@ -23,9 +23,11 @@ public class Constants {
   public static final String TAG_008 = "008";
   public static final String TAG_043 = "043";
   public static final String TAG_100 = "100";
+  public static final String TAG_110 = "110";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";
   public static final String TAG_700 = "700";
+  public static final String TAG_710 = "710";
   public static final String TAG_776 = "776";
 
   @UtilityClass

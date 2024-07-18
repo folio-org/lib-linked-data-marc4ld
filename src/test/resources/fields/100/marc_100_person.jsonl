@@ -1,5 +1,5 @@
 {
-  "leader" : "00415nam a2200049uc 4500",
+  "leader" : "00400nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -16,8 +16,6 @@
         "d" : "date"
       }, {
         "e" : "author"
-      }, {
-        "e" : "designer"
       }, {
         "j" : "attribution"
       }, {
@@ -40,8 +38,6 @@
         "1" : "another equivalent"
       }, {
         "4" : "aut"
-      }, {
-        "4" : "dsr"
       }, {
         "6" : "linkage"
       }, {

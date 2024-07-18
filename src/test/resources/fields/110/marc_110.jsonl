@@ -1,33 +1,27 @@
 {
-  "leader" : "00400nam a2200049uc 4500",
+  "leader" : "00416nam a2200061uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
-    "100" : {
+    "110" : {
       "subfields" : [ {
-        "a" : "name"
+        "a" : "author organization"
       }, {
-        "b" : "numeration"
+        "b" : "subordinate unit"
       }, {
-        "c" : "titles"
+        "b" : "another subordinate unit"
       }, {
-        "c" : "another titles"
+        "c" : "place"
+      }, {
+        "c" : "another place"
       }, {
         "d" : "date"
       }, {
+        "d" : "another date"
+      }, {
         "e" : "author"
       }, {
-        "j" : "attribution"
-      }, {
-        "j" : "another attribution"
-      }, {
-        "q" : "name alternative"
-      }, {
         "u" : "affiliation"
-      }, {
-        "0" : "authority link"
-      }, {
-        "0" : "another authority link"
       }, {
         "0" : "lccn link"
       }, {
@@ -49,7 +43,19 @@
       }, {
         "8" : "another field link"
       } ],
-      "ind1" : "3",
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "110" : {
+      "subfields" : [ {
+        "a" : "editor organization"
+      }, {
+        "e" : "editor"
+      }, {
+        "4" : "edt"
+      } ],
+      "ind1" : " ",
       "ind2" : " "
     }
   } ]
