@@ -17,6 +17,7 @@ public class Constants {
   public static final char A = 'a';
   public static final char B = 'b';
   public static final char E = 'e';
+  public static final char J = 'j';
   public static final char Q = 'q';
   public static final char S = 's';
   public static final char T = 't';
@@ -24,10 +25,12 @@ public class Constants {
   public static final String TAG_043 = "043";
   public static final String TAG_100 = "100";
   public static final String TAG_110 = "110";
+  public static final String TAG_111 = "111";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";
   public static final String TAG_700 = "700";
   public static final String TAG_710 = "710";
+  public static final String TAG_711 = "711";
   public static final String TAG_776 = "776";
 
   @UtilityClass

@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
 
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
+import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
@@ -33,6 +34,7 @@ public class OrganizationMapper extends AgentMapper {
     'b', SUBORDINATE_UNIT.getValue(),
     'c', PLACE.getValue(),
     'd', DATE.getValue(),
+    '0', AUTHORITY_LINK.getValue(),
     '1', EQUIVALENT.getValue(),
     '7', CONTROL_FIELD.getValue(),
     '8', FIELD_LINK.getValue()
