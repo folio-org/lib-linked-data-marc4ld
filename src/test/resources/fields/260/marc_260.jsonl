@@ -1,0 +1,18 @@
+{
+  "leader" : "00131nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "       2020    ncu                      "
+  }, {
+    "260" : {
+      "subfields" : [ {
+        "a" : "Place of publication"
+      },{
+        "b" : "publisher name"
+      }, {
+        "c" : "2021"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

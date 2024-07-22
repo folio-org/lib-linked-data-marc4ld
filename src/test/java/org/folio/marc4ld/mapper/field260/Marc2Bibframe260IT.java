@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field262;
+package org.folio.marc4ld.mapper.field260;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
@@ -16,12 +16,12 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
 
-class Marc2Bibframe262IT extends Marc2LdTestBase {
+class Marc2Bibframe260IT extends Marc2LdTestBase {
 
   @Test
-  void shouldMapField262() {
+  void shouldMapField260() {
     // given
-    var marc = loadResourceAsString("fields/262/marc_262.jsonl");
+    var marc = loadResourceAsString("fields/260/marc_260.jsonl");
 
     //when
     var result = marcBibToResource(marc);
@@ -31,22 +31,22 @@ class Marc2Bibframe262IT extends Marc2LdTestBase {
       .extracting(this::getPublicationEdge)
       .satisfies(e -> validateEdge(e, PE_PUBLICATION, List.of(PROVIDER_EVENT),
         Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of("Publisher or trade name"),
-          "http://bibfra.me/vocab/lite/place", List.of("Place of production"),
-          "http://bibfra.me/vocab/lite/date", List.of("2001"),
-          "http://bibfra.me/vocab/lite/providerDate", List.of("1995")
+          "http://bibfra.me/vocab/lite/name", List.of("publisher name"),
+          "http://bibfra.me/vocab/lite/place", List.of("Place of publication"),
+          "http://bibfra.me/vocab/lite/date", List.of("2021"),
+          "http://bibfra.me/vocab/lite/providerDate", List.of("2020")
         ),
-        "Publisher or trade name"))
+        "publisher name"))
       .extracting(this::getProviderPlaceEdge)
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
-          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/xxc"),
-          "http://bibfra.me/vocab/marc/code", List.of("xxc"),
-          "http://bibfra.me/vocab/lite/label", List.of("Canada"),
-          "http://bibfra.me/vocab/lite/name", List.of("Canada")
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/ncu"),
+          "http://bibfra.me/vocab/marc/code", List.of("ncu"),
+          "http://bibfra.me/vocab/lite/label", List.of("North Carolina"),
+          "http://bibfra.me/vocab/lite/name", List.of("North Carolina")
 
         ),
-        "Canada"))
+        "North Carolina"))
       .extracting(this::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();

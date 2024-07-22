@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProviderPlaceMapper extends DictionaryBasedMarc2LdMapper {
 
-  private static final List<String> TAGS = List.of("261", "262", "264");
+  private static final List<String> TAGS = List.of("260", "261", "262", "264");
   private static final String PLACE_CODE_TO_NAME_DICTIONARY = "PLACE_CODE_TO_NAME";
   private static final MappingConfig MAPPING_CONFIG = new MappingConfig(PLACE_CODE_TO_NAME_DICTIONARY, CODE, NAME);
 
