@@ -405,148 +405,60 @@ bibFieldRules:
       subfields:
         a: NAME
       multiply: true
-  261:
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
-      predicate: PE_MANUFACTURE
-      subfields:
-        f: SIMPLE_PLACE
-        b: NAME
-        d: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
-  262:
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
+  260:
+    - include: 26X_mappings
       predicate: PE_PUBLICATION
       subfields:
         a: SIMPLE_PLACE
-        b: NAME
         c: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
+      ld2marcCondition:
+        skip: true
+  261:
+    - include: 26X_mappings
+      predicate: PE_MANUFACTURE
+      subfields:
+        f: SIMPLE_PLACE
+        d: DATE
+  262:
+    - include: 26X_mappings
+      predicate: PE_PUBLICATION
+      subfields:
+        a: SIMPLE_PLACE
+        c: DATE
   263:
     - types: INSTANCE
       subfields:
         a: PROJECTED_PROVISION_DATE
       append: true
   264:
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
+    - include: 26X_mappings
       predicate: PE_PRODUCTION
       marc2ldCondition:
         ind2: '0'
       subfields:
         a: SIMPLE_PLACE
-        b: NAME
         c: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
+    - include: 26X_mappings
       predicate: PE_PUBLICATION
       marc2ldCondition:
         ind2: '1'
       subfields:
         a: SIMPLE_PLACE
-        b: NAME
         c: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
+    - include: 26X_mappings
       predicate: PE_DISTRIBUTION
       marc2ldCondition:
         ind2: '2'
       subfields:
         a: SIMPLE_PLACE
-        b: NAME
         c: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
-    - types: PROVIDER_EVENT
-      parent: INSTANCE
+    - include: 26X_mappings
       predicate: PE_MANUFACTURE
       marc2ldCondition:
         ind2: '3'
       subfields:
         a: SIMPLE_PLACE
-        b: NAME
         c: DATE
-      controlFields:
-        '008':
-          PROVIDER_DATE: 7,11
-      edges:
-        - types: PLACE
-          parent: PROVIDER_EVENT
-          predicate: PROVIDER_PLACE
-          controlFields:
-            '008':
-              CODE: 15,18
-          constants:
-            LINK: http://id.loc.gov/vocabulary/countries/%CODE
-          ld2marcCondition:
-            skip: true
     - types: COPYRIGHT_EVENT
       parent: INSTANCE
       predicate: COPYRIGHT
@@ -1760,3 +1672,20 @@ bibSharedRules:
           LINK: http://id.loc.gov/vocabulary/organizations/dlc
         marc2ldCondition:
           ind2: '0'
+  26X_mappings:
+    types: PROVIDER_EVENT
+    parent: INSTANCE
+    subfields:
+      b: NAME
+    controlFields:
+      '008':
+        PROVIDER_DATE: 7,11
+    edges:
+      - types: PLACE
+        parent: PROVIDER_EVENT
+        predicate: PROVIDER_PLACE
+        controlFields:
+          '008':
+            CODE: 15,18
+        constants:
+          LINK: http://id.loc.gov/vocabulary/countries/%CODE
