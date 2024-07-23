@@ -419,12 +419,16 @@ bibFieldRules:
       subfields:
         f: SIMPLE_PLACE
         d: DATE
+      ld2marcCondition:
+        skip: true
   262:
     - include: 26X_mappings
       predicate: PE_PUBLICATION
       subfields:
         a: SIMPLE_PLACE
         c: DATE
+      ld2marcCondition:
+        skip: true
   263:
     - types: INSTANCE
       subfields:
