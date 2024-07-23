@@ -3,7 +3,6 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
-import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
@@ -87,19 +86,18 @@ public abstract class AgentMapper implements Ld2MarcMapper {
     addNonRepeatableSubfields(dataField, resource);
     addRelationCodes(dataField, resourceEdge);
     addRelationNames(dataField, resourceEdge);
-    addAuthorityLinks(dataField, resource);
     addIdentifierLinks(dataField, resource);
     orderSubfields(dataField, comparator);
     return dataField;
   }
 
-  private boolean isRelationEdge(ResourceEdge resourceEdge) {
-    return resourceEdge.getPredicate().getUri().startsWith(RELATION_PREFIX);
-  }
-
   private boolean isAgentEdge(ResourceEdge resourceEdge) {
     return SUPPORTED_PREDICATES.contains(resourceEdge.getPredicate())
       && getSupportedTypes().containsAll(resourceEdge.getTarget().getTypes());
+  }
+
+  private boolean isRelationEdge(ResourceEdge resourceEdge) {
+    return resourceEdge.getPredicate().getUri().startsWith(RELATION_PREFIX);
   }
 
   private void addRepeatableSubfields(DataField dataField, Resource resource) {
@@ -144,13 +142,6 @@ public abstract class AgentMapper implements Ld2MarcMapper {
       .filter(uri -> uri.startsWith(RELATION_PREFIX))
       .map(uri -> uri.substring(RELATION_PREFIX.length()))
       .map(role -> marcFactory.newSubfield(getRelationTextSubfield(), role))
-      .forEach(dataField::addSubfield);
-  }
-
-  private void addAuthorityLinks(DataField dataField, Resource resource) {
-    getPropertyValues(resource, AUTHORITY_LINK.getValue(), getPropertiesConversionFunction())
-      .stream()
-      .map(value -> marcFactory.newSubfield(ZERO, value))
       .forEach(dataField::addSubfield);
   }
 
