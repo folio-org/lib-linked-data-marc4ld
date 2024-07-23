@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper;
+package org.folio.marc4ld.mapper.field245;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

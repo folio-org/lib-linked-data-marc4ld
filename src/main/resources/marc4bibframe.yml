@@ -1556,17 +1556,23 @@ bibFieldRules:
           multiply: true
           subfields:
             a: NAME
+          ld2marcCondition:
+            skip: true
         - types: ID_ISSN, IDENTIFIER
           parent: WORK
           predicate: MAP
           subfields:
             x: NAME
+          ld2marcCondition:
+            skip: true
         - types: TITLE
           parent: WORK
           predicate: TITLE
           subfields:
             c: QUALIFIER
             s: MAIN_TITLE
+          ld2marcCondition:
+            skip: true
         - types: INSTANCE
           parent: WORK
           predicate: INSTANTIATES
