@@ -1,5 +1,5 @@
 {
-  "leader" : "09243nam a2200985uc 4500",
+  "leader" : "09103nam a2200961uc 4500",
   "fields" : [ {
     "008" : "       1999    ilu    b     a      eng "
   }, {
@@ -308,30 +308,6 @@
     "257" : {
       "subfields" : [ {
         "a" : "France"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "261" : {
-      "subfields" : [ {
-        "b" : "Manufacture Name"
-      }, {
-        "d" : "Manufacture Date"
-      }, {
-        "f" : "Manufacture Place"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "262" : {
-      "subfields" : [ {
-        "a" : "Publication Place"
-      }, {
-        "b" : "Publication Name"
-      }, {
-        "c" : "Publication Date"
       } ],
       "ind1" : " ",
       "ind2" : " "

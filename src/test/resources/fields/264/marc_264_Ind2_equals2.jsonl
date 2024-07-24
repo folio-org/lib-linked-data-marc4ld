@@ -1,12 +1,12 @@
 {
-  "leader" : "00131nam a2200049uc 4500",
+  "leader" : "00156nam a2200049uc 4500",
   "fields" : [ {
-    "008" : "       2009    nyu                      "
+    "008" : "       2009    nyu                     "
   }, {
     "264" : {
       "subfields" : [ {
         "a" : "Place of provision activity"
-      },{
+      }, {
         "b" : "Name of provision activity"
       }, {
         "c" : "2010"
