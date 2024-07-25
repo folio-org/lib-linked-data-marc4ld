@@ -72,8 +72,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     if (isNull(leader)) {
       return false;
     }
-    char typeOfRecord = leader.getTypeOfRecord();
-    char bibliographicLevel = leader.getImplDefined1()[0];
+    var typeOfRecord = leader.getTypeOfRecord();
+    var bibliographicLevel = leader.getImplDefined1()[0];
     return isLanguageMaterial(typeOfRecord) && isMonographicComponentPartOrItem(bibliographicLevel);
   }
 
