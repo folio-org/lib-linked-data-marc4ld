@@ -23,9 +23,9 @@ import org.folio.ld.dictionary.model.InstanceMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.enums.BibliographLevel;
+import org.folio.marc4ld.enums.RecordType;
 import org.folio.marc4ld.service.condition.ConditionChecker;
-import org.folio.marc4ld.service.ld2marc.leader.enums.BibliographLevel;
-import org.folio.marc4ld.service.ld2marc.leader.enums.RecordType;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
@@ -69,7 +69,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
 
   private boolean isMonograph(Record record) {
     var leader = record.getLeader();
-    if (leader == null) {
+    if (isNull(leader)) {
       return false;
     }
     char typeOfRecord = leader.getTypeOfRecord();

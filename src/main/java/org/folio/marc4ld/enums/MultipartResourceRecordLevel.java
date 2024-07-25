@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.leader.enums;
+package org.folio.marc4ld.enums;
 
 public enum MultipartResourceRecordLevel {
   NOT_SPECIFIED_OR_NOT_APPLICABLE(' '),

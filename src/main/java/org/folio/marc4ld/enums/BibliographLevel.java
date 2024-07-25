@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.leader.enums;
+package org.folio.marc4ld.enums;
 
 public enum BibliographLevel {
   MONOGRAPHIC_COMPONENT_PART('a'),

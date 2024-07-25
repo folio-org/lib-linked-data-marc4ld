@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.leader.enums;
+package org.folio.marc4ld.enums;
 
 public enum EncodingLevel {
   FULL_LEVEL(' '),
