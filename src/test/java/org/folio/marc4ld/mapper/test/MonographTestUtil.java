@@ -275,23 +275,19 @@ public class MonographTestUtil {
 
     var lccnCancelled = lccn("88888888", "canceled or invalid");
 
-    var isbn = createResource(
+    var isbn = isbn(
       Map.of(
         NAME, List.of("9780143789963"),
         QUALIFIER, List.of("(paperback)")
-      ),
-      Set.of(IDENTIFIER, ID_ISBN),
-      Map.of(STATUS, List.of(status("current")))
-    ).setLabel("9780143789963");
+      ), "current", "9780143789963"
+    );
 
-    var isbnCancelled = createResource(
+    var isbnCancelled = isbn(
       Map.of(
         NAME, List.of("9999999"),
         QUALIFIER, List.of("(paperback)")
-      ),
-      Set.of(IDENTIFIER, ID_ISBN),
-      Map.of(STATUS, List.of(status("canceled or invalid")))
-    ).setLabel("9999999");
+      ), "canceled or invalid", "9999999"
+    );
 
     var ean = createResource(
       Map.of(
@@ -675,6 +671,14 @@ public class MonographTestUtil {
       Set.of(IDENTIFIER, ID_LCCN),
       Map.of(STATUS, List.of(status(status)))
     ).setLabel(name);
+  }
+
+  public static Resource isbn(Map<PropertyDictionary, List<String>> properties, String status, String label) {
+    return createResource(
+      properties,
+      Set.of(IDENTIFIER, ID_ISBN),
+      Map.of(STATUS, List.of(status(status)))
+    ).setLabel(label);
   }
 
   private Map<PropertyDictionary, List<String>> createCommonConceptProperties(String prefix) {
