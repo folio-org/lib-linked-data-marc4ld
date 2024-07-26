@@ -197,7 +197,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private MarcBib2ldMapper marc2BibframeMapper;
 
   @Test
-  void map_shouldReturnNull_ifGivenMarcIsNull() {
+  void map_shouldReturnEmptyOptional_ifGivenMarcIsNull() {
     // given
     String marc = null;
 
@@ -205,7 +205,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var result = marc2BibframeMapper.fromMarcJson(marc);
 
     // then
-    assertThat(result).isNull();
+    assertThat(result).isEmpty();
   }
 
   @Test

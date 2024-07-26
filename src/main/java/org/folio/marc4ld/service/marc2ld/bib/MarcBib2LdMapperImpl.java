@@ -14,13 +14,17 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.InstanceMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.enums.BibliographLevel;
+import org.folio.marc4ld.enums.RecordType;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
@@ -31,6 +35,7 @@ import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 
@@ -49,14 +54,41 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final EmptyEdgesCleaner emptyEdgesCleaner;
 
   @Override
-  public Resource fromMarcJson(String marc) {
+  public Optional<Resource> fromMarcJson(String marc) {
     if (isEmpty(marc)) {
       log.warn("Given marc is empty [{}]", marc);
-      return null;
+      return Optional.empty();
     }
+    var records = marcReaderProcessor.readMarc(marc).filter(this::isMonograph).toList();
+    if (records.isEmpty()) {
+      log.warn("Given marc is not monograph, skipping: [{}]", marc);
+      return Optional.empty();
+    }
+    return Optional.of(createInstanceAndWorkResource(records));
+  }
+
+  private boolean isMonograph(Record record) {
+    var leader = record.getLeader();
+    if (isNull(leader)) {
+      return false;
+    }
+    var typeOfRecord = leader.getTypeOfRecord();
+    var bibliographicLevel = leader.getImplDefined1()[0];
+    return isLanguageMaterial(typeOfRecord) && isMonographicComponentPartOrItem(bibliographicLevel);
+  }
+
+  private boolean isLanguageMaterial(char typeOfRecord) {
+    return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value;
+  }
+
+  private boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
+    return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
+      || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
+  }
+
+  private Resource createInstanceAndWorkResource(List<Record> records) {
     var instanceAndWork = createInstanceAndWork();
-    marcReaderProcessor.readMarc(marc)
-      .forEach(marcRecord -> fillInstanceFields(marcRecord, instanceAndWork.instance));
+    records.forEach(marcRecord -> fillInstanceFields(marcRecord, instanceAndWork.instance));
     setAdditionInfo(instanceAndWork);
     emptyEdgesCleaner.apply(instanceAndWork.instance);
     return instanceAndWork.instance;
