@@ -41,9 +41,9 @@
   }, {
     "020" : {
       "subfields" : [ {
-        "q" : "(paperback)"
-      }, {
         "z" : "9999999"
+      }, {
+        "q" : "(paperback)"
       } ],
       "ind1" : " ",
       "ind2" : " "

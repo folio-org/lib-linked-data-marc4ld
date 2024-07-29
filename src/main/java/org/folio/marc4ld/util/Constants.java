@@ -21,7 +21,10 @@ public class Constants {
   public static final char Q = 'q';
   public static final char S = 's';
   public static final char T = 't';
+  public static final char Z = 'z';
   public static final String TAG_008 = "008";
+  public static final String TAG_010 = "010";
+  public static final String TAG_020 = "020";
   public static final String TAG_043 = "043";
   public static final String TAG_100 = "100";
   public static final String TAG_110 = "110";

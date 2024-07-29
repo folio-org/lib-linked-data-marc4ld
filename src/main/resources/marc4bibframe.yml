@@ -118,8 +118,6 @@ bibFieldRules:
       marc2ldCondition:
         fieldsAllOf:
           a: presented
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -135,8 +133,6 @@ bibFieldRules:
       marc2ldCondition:
         fieldsAllOf:
           z: presented
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
