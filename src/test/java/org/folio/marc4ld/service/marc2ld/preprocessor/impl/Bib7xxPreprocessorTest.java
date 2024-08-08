@@ -1,6 +1,9 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.marc4ld.TestUtil.createDataField;
+import static org.folio.marc4ld.TestUtil.createSubfield;
+import static org.folio.marc4ld.TestUtil.validateSubfield;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -115,24 +117,10 @@ class Bib7xxPreprocessorTest {
     return factory;
   }
 
-  private static Subfield createSubfield(char subfieldCode, String subfieldData) {
-    return new SubfieldImpl(subfieldCode, subfieldData);
-  }
-
   private static Record getMarcRecord(Subfield... subfields) {
     var marcRecord = mock(Record.class);
     when(marcRecord.getDataFields())
       .thenReturn(List.of(createDataField("245", List.of(subfields))));
     return marcRecord;
-  }
-
-  private static DataField createDataField(String tag, List<Subfield> subfields) {
-    var dataField = new DataFieldImpl(tag, ' ', ' ');
-    subfields.forEach(dataField::addSubfield);
-    return dataField;
-  }
-
-  private void validateSubfield(DataField dataField, char subfield, String expectedValue) {
-    assertEquals(expectedValue, dataField.getSubfield(subfield).getData());
   }
 }

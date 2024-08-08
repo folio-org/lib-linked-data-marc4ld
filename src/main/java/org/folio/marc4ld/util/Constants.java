@@ -31,6 +31,10 @@ public class Constants {
   public static final String TAG_111 = "111";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";
+  public static final String TAG_260 = "260";
+  public static final String TAG_262 = "262";
+  public static final String TAG_264 = "264";
+  public static final String TAG_300 = "300";
   public static final String TAG_700 = "700";
   public static final String TAG_710 = "710";
   public static final String TAG_711 = "711";
