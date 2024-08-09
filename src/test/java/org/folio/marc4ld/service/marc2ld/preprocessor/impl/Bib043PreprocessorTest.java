@@ -1,6 +1,8 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.marc4ld.TestUtil.createDataField;
+import static org.folio.marc4ld.TestUtil.createSubfield;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -16,12 +18,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.Subfield;
-import org.marc4j.marc.impl.DataFieldImpl;
-import org.marc4j.marc.impl.SubfieldImpl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,9 +43,9 @@ class Bib043PreprocessorTest {
   @Test
   void preprocessShouldPreprocessSubfieldA() {
     //given
-    var dataField = createDataField(List.of(createSubfield('a', "n-us---"), createSubfield('k', "a---")));
-    var expectedDataField = createDataField(List.of(createSubfield('a', "n-us"), createSubfield('k', "a---")));
-    when(factory.newDataField("043", ' ', ' ')).thenReturn(createDataField(List.of()));
+    var dataField = createDataField("043", List.of(createSubfield('a', "n-us---"), createSubfield('k', "a---")));
+    var expectedDataField = createDataField("043", List.of(createSubfield('a', "n-us"), createSubfield('k', "a---")));
+    when(factory.newDataField("043", ' ', ' ')).thenReturn(createDataField("043", List.of()));
     when(factory.newSubfield('a', "n-us")).thenReturn(createSubfield('a', "n-us"));
     when(dictionaryProcessor.getValue("GEOGRAPHIC_CODE_TO_NAME", "n-us")).thenReturn(Optional.of("United States"));
 
@@ -63,7 +61,7 @@ class Bib043PreprocessorTest {
   @Test
   void isValidShouldReturnFalse_whenSubfieldA_isNotPresent() {
     //given
-    var dataField = createDataField(List.of(createSubfield('k', "data")));
+    var dataField = createDataField("043", List.of(createSubfield('k', "data")));
 
     //expect
     assertFalse(preprocessor.isValid(dataField));
@@ -88,7 +86,7 @@ class Bib043PreprocessorTest {
   @MethodSource("provideArguments")
   void isValid(String testName, Optional optional, boolean expectedResult) {
     //given
-    var dataField = createDataField(List.of(createSubfield('a', "data")));
+    var dataField = createDataField("043", List.of(createSubfield('a', "data")));
     when(dictionaryProcessor.getValue("GEOGRAPHIC_CODE_TO_NAME", "data")).thenReturn(optional);
 
     //when
@@ -96,15 +94,5 @@ class Bib043PreprocessorTest {
 
     //then
     assertEquals(expectedResult, result);
-  }
-
-  private Subfield createSubfield(char subfieldCode, String subfieldData) {
-    return new SubfieldImpl(subfieldCode, subfieldData);
-  }
-
-  private DataField createDataField(List<Subfield> subfields) {
-    var dataField = new DataFieldImpl("043", ' ', ' ');
-    subfields.forEach(dataField::addSubfield);
-    return dataField;
   }
 }

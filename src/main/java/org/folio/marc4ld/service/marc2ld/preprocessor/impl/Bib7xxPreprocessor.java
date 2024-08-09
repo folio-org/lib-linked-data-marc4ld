@@ -29,7 +29,7 @@ public class Bib7xxPreprocessor implements DataFieldPreprocessor {
   @Override
   public Optional<DataField> preprocess(PreprocessorContext context) {
     var originalDataField = context.dataField();
-    var preprocessedDataField = duplicateDataField(originalDataField);
+    var preprocessedDataField = duplicateDataField(originalDataField, marcFactory);
     addSubfieldsRelatedToTitle(context.marcRecord(), preprocessedDataField);
     return Optional.of(preprocessedDataField);
   }
@@ -37,13 +37,6 @@ public class Bib7xxPreprocessor implements DataFieldPreprocessor {
   @Override
   public List<String> getTags() {
     return TAGS;
-  }
-
-  private DataField duplicateDataField(DataField originalDataField) {
-    var dataField = marcFactory.newDataField(originalDataField.getTag(), originalDataField.getIndicator1(),
-      originalDataField.getIndicator2());
-    originalDataField.getSubfields().forEach(dataField::addSubfield);
-    return dataField;
   }
 
   private void addSubfieldsRelatedToTitle(Record marcRecord, DataField dataField) {
