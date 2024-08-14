@@ -96,6 +96,6 @@ public class Marc2LdTestBase {
   }
 
   private void validateSource(Resource resource) {
-    assertThat(resource.getInstanceMetadata().getSource()).isEqualTo(MARC);
+    assertThat(resource.getFolioMetadata().getSource()).isEqualTo(MARC);
   }
 }

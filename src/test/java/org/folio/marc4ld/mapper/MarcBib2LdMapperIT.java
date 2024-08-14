@@ -222,9 +222,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(result.getDoc()).isEmpty();
     assertThat(result.getTypes()).containsOnly(INSTANCE);
     assertThat(result.getOutgoingEdges()).isEmpty();
-    var instanceMetadata = result.getInstanceMetadata();
-    assertThat(instanceMetadata.getInventoryId()).isNull();
-    assertThat(instanceMetadata.getSrsId()).isNull();
+    var folioMetadata = result.getFolioMetadata();
+    assertThat(folioMetadata.getInventoryId()).isNull();
+    assertThat(folioMetadata.getSrsId()).isNull();
   }
 
   @Test
@@ -248,9 +248,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       .isEqualTo("Statement Of Responsibility");
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
     assertThat(resource.getOutgoingEdges()).isEmpty();
-    var instanceMetadata = resource.getInstanceMetadata();
-    assertThat(instanceMetadata.getInventoryId()).isNull();
-    assertThat(instanceMetadata.getSrsId()).isNull();
+    var folioMetadata = resource.getFolioMetadata();
+    assertThat(folioMetadata.getInventoryId()).isNull();
+    assertThat(folioMetadata.getSrsId()).isNull();
   }
 
   @Test
@@ -320,9 +320,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
       "projectedProvisionDate");
-    var instanceMetadata = resource.getInstanceMetadata();
-    assertThat(instanceMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
-    assertThat(instanceMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
+    var folioMetadata = resource.getFolioMetadata();
+    assertThat(folioMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
+    assertThat(folioMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
   }
 
