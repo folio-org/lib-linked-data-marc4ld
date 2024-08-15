@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field999;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class Marc2Authority999IT extends Marc2LdTestBase {
     var actualResource = resources.stream().findFirst();
     assertThat(actualResource).isPresent();
     var folioMetadata = actualResource.get().getFolioMetadata();
-    assertThat(folioMetadata.getInventoryId()).isEqualTo("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
-    assertThat(folioMetadata.getSrsId()).isEqualTo("43d58061-decf-4d74-9747-0e1c368e861b");
+    assertEquals(folioMetadata.getInventoryId(), "2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
+    assertEquals(folioMetadata.getSrsId(), "43d58061-decf-4d74-9747-0e1c368e861b");
   }
 }

@@ -1,12 +1,11 @@
 package org.folio.marc4ld.service.marc2ld.authority;
 
-import static java.util.Objects.isNull;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueWithoutSpaces;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -81,16 +80,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
       .findFirst().map(
         metadata -> new FolioMetadata()
           .setSource(MARC)
-          .setInventoryId(getSubfieldValue(metadata, SUBFIELD_INVENTORY_ID))
-          .setSrsId(getSubfieldValue(metadata, S))
+          .setInventoryId(getSubfieldValueWithoutSpaces(metadata, SUBFIELD_INVENTORY_ID))
+          .setSrsId(getSubfieldValueWithoutSpaces(metadata, S))
       );
-  }
-
-  private String getSubfieldValue(DataField dataField, char code) {
-    var subfield = dataField.getSubfield(code);
-    if (isNull(subfield) || isBlank(subfield.getData())) {
-      return null;
-    }
-    return subfield.getData().strip();
   }
 }
