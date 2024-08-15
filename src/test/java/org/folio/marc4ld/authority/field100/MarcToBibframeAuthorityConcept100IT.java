@@ -175,11 +175,11 @@ class MarcToBibframeAuthorityConcept100IT extends Marc2LdTestBase {
       .satisfies(edges ->
         validateEdge(resourceEdges.get(0), MAP, List.of(ID_LCCN, IDENTIFIER),
           Map.of(
-            "http://bibfra.me/vocab/lite/name", List.of("sh85121033"),
-            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/sh85121033"),
-            "http://bibfra.me/vocab/lite/label", List.of("sh85121033")
+            "http://bibfra.me/vocab/lite/name", List.of("010fieldvalue"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/010fieldvalue"),
+            "http://bibfra.me/vocab/lite/label", List.of("010fieldvalue")
           ),
-          "sh85121033"));
+          "010fieldvalue"));
   }
 
   private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {

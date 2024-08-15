@@ -17,6 +17,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -44,6 +45,22 @@ class MarcToBibframeAuthorityWithoutConcept100IT extends Marc2LdTestBase {
     assertThat(result)
       .filteredOn(resource -> CollectionUtils.isEqualCollection(resource.getTypes(), List.of(mainType)))
       .isEmpty();
+  }
+
+  @Test
+  void shouldMapField100_withoutIdentifier() {
+    // given
+    var marc = loadResourceAsString("authority/100/marc_100_empty_identifier.jsonl");
+
+    // when
+    var result = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(result)
+      .isNotNull()
+      .singleElement()
+      .extracting(Resource::getOutgoingEdges)
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
   @ParameterizedTest
@@ -89,11 +106,11 @@ class MarcToBibframeAuthorityWithoutConcept100IT extends Marc2LdTestBase {
       .satisfies(edge ->
         validateEdge(edge, MAP, List.of(ID_LCCN, IDENTIFIER),
           Map.of(
-            "http://bibfra.me/vocab/lite/name", List.of("sh85121035"),
-            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/sh85121035"),
-            "http://bibfra.me/vocab/lite/label", List.of("sh85121035")
+            "http://bibfra.me/vocab/lite/name", List.of("010fieldvalue"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/010fieldvalue"),
+            "http://bibfra.me/vocab/lite/label", List.of("010fieldvalue")
           ),
-          "sh85121035"));
+          "010fieldvalue"));
   }
 
   private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {

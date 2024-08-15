@@ -4,7 +4,7 @@
   },{
     "010": {
       "subfields" : [ {
-        "a" : "010 field value"
+        "z" : "010 field value"
       } ]
     }
   }, {
@@ -26,7 +26,7 @@
       }, {
         "q" : "qValue"
       } ],
-      "ind1" : " ",
+      "ind1" : "3",
       "ind2" : " "
     }
   } ]
