@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.model.InstanceMetadata;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Bibframe2MarcFieldRuleApplier;
@@ -117,19 +117,19 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
-    var instanceMetadata = resource.getInstanceMetadata();
-    if (notContainsMetadata(instanceMetadata)) {
+    var folioMetadata = resource.getFolioMetadata();
+    if (notContainsMetadata(folioMetadata)) {
       return;
     }
     var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
-    ofNullable(instanceMetadata.getInventoryId()).ifPresent(
+    ofNullable(folioMetadata.getInventoryId()).ifPresent(
       id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id)));
-    ofNullable(instanceMetadata.getSrsId()).ifPresent(
+    ofNullable(folioMetadata.getSrsId()).ifPresent(
       id -> field999.addSubfield(marcFactory.newSubfield(S, id)));
     marcRecord.addVariableField(field999);
   }
 
-  private boolean notContainsMetadata(InstanceMetadata instanceMetadata) {
-    return isNull(instanceMetadata) || allNull(instanceMetadata.getInventoryId(), instanceMetadata.getSrsId());
+  private boolean notContainsMetadata(FolioMetadata folioMetadata) {
+    return isNull(folioMetadata) || allNull(folioMetadata.getInventoryId(), folioMetadata.getSrsId());
   }
 }

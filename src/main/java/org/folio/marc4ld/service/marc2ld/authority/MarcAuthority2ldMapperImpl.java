@@ -1,12 +1,19 @@
 package org.folio.marc4ld.service.marc2ld.authority;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.folio.ld.dictionary.model.ResourceSource.MARC;
+import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.S;
+import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueWithoutSpaces;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
@@ -63,6 +70,18 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
     marcRecord.getControlFields()
       .forEach(controlField -> authorityIdentifierProcessor.setIdentifier(resource, controlField));
     resource.setId(hashService.hash(resource));
+    folioMetadataFrom(marcRecord).ifPresent(resource::setFolioMetadata);
     return resource;
+  }
+
+  private Optional<FolioMetadata> folioMetadataFrom(org.marc4j.marc.Record marcRecord) {
+    return marcRecord.getDataFields().stream()
+      .filter(dataField -> dataField.getTag().equals(FIELD_UUID))
+      .findFirst().map(
+        metadata -> new FolioMetadata()
+          .setSource(MARC)
+          .setInventoryId(getSubfieldValueWithoutSpaces(metadata, SUBFIELD_INVENTORY_ID))
+          .setSrsId(getSubfieldValueWithoutSpaces(metadata, S))
+      );
   }
 }
