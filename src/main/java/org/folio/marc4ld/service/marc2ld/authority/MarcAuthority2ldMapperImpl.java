@@ -80,8 +80,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
       .findFirst().map(
         metadata -> new FolioMetadata()
           .setSource(MARC)
-          .setInventoryId(getSubfieldValueStripped(metadata, SUBFIELD_INVENTORY_ID))
-          .setSrsId(getSubfieldValueStripped(metadata, S))
+          .setInventoryId(getSubfieldValueStripped(metadata, SUBFIELD_INVENTORY_ID).orElse(null))
+          .setSrsId(getSubfieldValueStripped(metadata, S).orElse(null))
       );
   }
 }

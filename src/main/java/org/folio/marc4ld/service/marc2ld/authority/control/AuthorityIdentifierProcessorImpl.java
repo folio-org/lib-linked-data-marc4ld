@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.marc2ld.authority.control;
 
-import static java.util.Objects.isNull;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 
@@ -37,22 +36,27 @@ public class AuthorityIdentifierProcessorImpl implements AuthorityIdentifierProc
     if (ObjectUtils.notEqual(dataField.getTag(), IDENTIFIER_TAG)) {
       return;
     }
-    var data = MarcUtil.getSubfieldValueWithoutSpaces(dataField, Constants.A);
-    if (isNull(data)) {
-      return;
-    }
-    var properties = new HashMap<>(Map.of(
+    MarcUtil.getSubfieldValueWithoutSpaces(dataField, Constants.A)
+      .ifPresent(data -> {
+        var target = new Resource()
+          .addType(ResourceTypeDictionary.ID_LCCN)
+          .addType(ResourceTypeDictionary.IDENTIFIER);
+
+        var properties = makeProperties(data);
+        labelService.setLabel(target, properties);
+
+        target
+          .setDoc(mapperHelper.getJsonNode(properties))
+          .setId(hashService.hash(target));
+        var edge = new ResourceEdge(resource, target, PredicateDictionary.MAP);
+        resource.addOutgoingEdge(edge);
+      });
+  }
+
+  private Map<String, List<String>> makeProperties(String data) {
+    return new HashMap<>(Map.of(
       NAME.getValue(), List.of(data),
       LINK.getValue(), List.of("http://id.loc.gov/authorities/" + data)
     ));
-    var target = new Resource();
-    target.addType(ResourceTypeDictionary.ID_LCCN);
-    target.addType(ResourceTypeDictionary.IDENTIFIER);
-
-    labelService.setLabel(target, properties);
-    target.setDoc(mapperHelper.getJsonNode(properties));
-    target.setId(hashService.hash(target));
-    var edge = new ResourceEdge(resource, target, PredicateDictionary.MAP);
-    resource.addOutgoingEdge(edge);
   }
 }
