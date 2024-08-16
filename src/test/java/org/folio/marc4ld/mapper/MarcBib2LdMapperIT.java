@@ -288,10 +288,25 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateProviderEvent(edgeIterator.next(), PE_DISTRIBUTION, "Distribution");
     validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture");
     validateCopyrightDate(edgeIterator.next());
+    validateExtent(edgeIterator.next());
     validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
     validateCategory(edgeIterator.next(), CARRIER, "carriers");
     validateAccessLocation(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
+  }
+
+  private void validateExtent(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
+    var resource = edge.getTarget();
+    assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.EXTENT.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.EXTENT.getUri());
+    validateId(resource);
+    assertThat(resource.getLabel()).isEqualTo("extent");
+    assertThat(resource.getTypes()).containsOnly(ResourceTypeDictionary.EXTENT);
+    assertThat(resource.getDoc()).hasSize(1);
+    assertThat(resource.getDoc().has(LABEL.getValue())).isTrue();
+    assertThat(resource.getDoc().get(LABEL.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo("extent");
   }
 
   private void validateInstance(Resource resource) {
@@ -693,7 +708,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(iterator.next(), PredicateDictionary.EXTENT,
       List.of(ResourceTypeDictionary.EXTENT),
       Map.of(
-        "http://bibfra.me/vocab/lite/extent", List.of("extent")
+        LABEL.getValue(), List.of("extent")
       ), "extent");
     validateEdge(iterator.next(), MAP,
       List.of(IDENTIFIER, ID_LOCAL),
