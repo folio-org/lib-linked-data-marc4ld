@@ -472,6 +472,16 @@ bibFieldRules:
         a: EXTENT
         c: DIMENSIONS
       append: true
+      edges:
+        - types: EXTENT
+          parent: INSTANCE
+          predicate: EXTENT
+          subfields:
+            a: LABEL
+            f: LABEL
+            g: LABEL
+            '3': MATERIALS_SPECIFIED
+          concat: ' '
     - types: INSTANCE
       subfields:
         a: PHYSICAL_DESCRIPTION
@@ -1590,7 +1600,7 @@ bibFieldRules:
               parent: INSTANCE
               predicate: EXTENT
               subfields:
-                h: EXTENT
+                h: LABEL
               marc2ldCondition:
                 fieldsAllOf:
                   h: presented

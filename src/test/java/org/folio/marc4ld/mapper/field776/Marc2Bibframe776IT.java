@@ -7,6 +7,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
+import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
@@ -197,7 +198,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
     validateEdge(resourceEdges.get(0), EXTENT,
       List.of(ResourceTypeDictionary.EXTENT),
       Map.of(
-        "http://bibfra.me/vocab/lite/extent", List.of("extent")
+        LABEL.getValue(), List.of("extent")
       ), "extent");
   }
 
