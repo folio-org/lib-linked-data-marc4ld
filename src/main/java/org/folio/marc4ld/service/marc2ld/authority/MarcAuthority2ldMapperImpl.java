@@ -5,7 +5,7 @@ import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueWithoutSpaces;
+import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueStripped;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   }
 
   private Resource fillResource(Resource resource, org.marc4j.marc.Record marcRecord) {
-    marcRecord.getControlFields()
+    marcRecord.getDataFields()
       .forEach(controlField -> authorityIdentifierProcessor.setIdentifier(resource, controlField));
     resource.setId(hashService.hash(resource));
     folioMetadataFrom(marcRecord).ifPresent(resource::setFolioMetadata);
@@ -80,8 +80,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
       .findFirst().map(
         metadata -> new FolioMetadata()
           .setSource(MARC)
-          .setInventoryId(getSubfieldValueWithoutSpaces(metadata, SUBFIELD_INVENTORY_ID))
-          .setSrsId(getSubfieldValueWithoutSpaces(metadata, S))
+          .setInventoryId(getSubfieldValueStripped(metadata, SUBFIELD_INVENTORY_ID).orElse(null))
+          .setSrsId(getSubfieldValueStripped(metadata, S).orElse(null))
       );
   }
 }
