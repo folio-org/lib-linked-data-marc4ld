@@ -6,6 +6,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -35,7 +38,7 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
 
     // then
     assertThat(result)
-      .extracting(r -> getFirstOutgoingEdge(r, predicate))
+      .extracting(r -> getFirstOutgoingEdgeFromResult(r, predicate))
       .satisfies(e -> validateEdge(e, predicate, List.of(PROVIDER_EVENT),
         Map.of(
           "http://bibfra.me/vocab/lite/name", List.of("Name of provision activity"),
@@ -53,12 +56,12 @@ class Marc2Bibframe264IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/name", List.of("New York (State)")
         ),
         "New York (State)"))
-      .extracting(this::getOutgoingEdges)
+      .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
   }
 
-  private ResourceEdge getFirstOutgoingEdge(Resource result, PredicateDictionary predicate) {
+  private ResourceEdge getFirstOutgoingEdgeFromResult(Resource result, PredicateDictionary predicate) {
     return getFirstOutgoingEdge(result, withPredicateUri(predicate.getUri()));
   }
 

@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
