@@ -38,6 +38,7 @@ public class Constants {
   public static final String TAG_700 = "700";
   public static final String TAG_710 = "710";
   public static final String TAG_711 = "711";
+  public static final String TAG_775 = "775";
   public static final String TAG_776 = "776";
 
   @UtilityClass

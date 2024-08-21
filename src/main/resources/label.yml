@@ -130,4 +130,6 @@ labelRules:
       - LABEL
   - types: LANGUAGE_CATEGORY
     properties: CODE
+  - types: ABBREVIATED_TITLE
+    properties: MAIN_TITLE
 

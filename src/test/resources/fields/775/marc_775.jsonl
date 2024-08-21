@@ -1,0 +1,60 @@
+{
+  "leader" : "01767cam a22003977i 4500",
+  "fields" : [ {
+    "775" : {
+      "subfields" : [ {
+        "a" : "agent name"
+      }, {
+        "a" : "agent name 2"
+      }, {
+        "b" : "instance edition"
+      }, {
+        "c" : "work title qualifier"
+      }, {
+        "d" : "instance publication information"
+      }, {
+        "e" : "eng"
+      }, {
+        "e" : "rus"
+      }, {
+        "h" : "extent"
+      }, {
+        "k" : "instance series statement"
+      }, {
+        "m" : "instance materials"
+      }, {
+        "n" : "instance note"
+      }, {
+        "o" : "local ID identifier name"
+      }, {
+        "o" : "local ID identifier name 2"
+      }, {
+        "p" : "abbreviated title"
+      }, {
+        "p" : "abbreviated title 2"
+      }, {
+        "r" : "instance report number"
+      }, {
+        "s" : "work title main title"
+      }, {
+        "t" : "work/instance title main title"
+      }, {
+        "u" : "STRN identifier name"
+      }, {
+        "w" : "unknown identifier name"
+      }, {
+        "w" : "(DLC)LCCN identifier name"
+      }, {
+        "x" : "ISSN identifier name"
+      }, {
+        "y" : "CODEN identifier name"
+      }, {
+        "z" : "ISBN identifier name"
+      }, {
+        "z" : "ISBN identifier name 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

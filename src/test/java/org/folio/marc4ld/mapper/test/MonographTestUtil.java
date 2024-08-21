@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.test;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
+import static java.util.Objects.nonNull;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
 import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
@@ -153,6 +154,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.collections4.map.HashedMap;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -975,6 +977,51 @@ public class MonographTestUtil {
 
   public static JsonNode getJsonNode(Map<String, ?> map) {
     return OBJECT_MAPPER.convertValue(map, JsonNode.class);
+  }
+
+  public static Resource getSampleInstanceWithWork(Resource work) {
+    var instanceTitle = createResource(
+      Map.of(
+        MAIN_TITLE, List.of("MainTitle")
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel("MainTitle");
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(TITLE, List.of(instanceTitle));
+    var instance = createResource(
+      new HashedMap<>(),
+      Set.of(INSTANCE),
+      pred2OutgoingResources);
+    if (nonNull(work)) {
+      var edge = new ResourceEdge(instance, work, INSTANTIATES);
+      instance.addOutgoingEdge(edge);
+    }
+    return instance;
+  }
+
+  public static Resource getSampleWork() {
+    var primaryTitle = createPrimaryTitle(null);
+    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
+    pred2OutgoingResources.put(TITLE, List.of(primaryTitle));
+    var work = createResource(
+      new HashedMap<>(),
+      Set.of(WORK),
+      pred2OutgoingResources
+    );
+    work.setLabel(primaryTitle.getLabel());
+    return work;
+  }
+
+  private Resource createPrimaryTitle(Long id) {
+    var primaryTitleValue = "Primary: mainTitle" + (nonNull(id) ? id : "");
+    return createResource(
+      Map.of(
+        MAIN_TITLE, List.of(primaryTitleValue)
+      ),
+      Set.of(ResourceTypeDictionary.TITLE),
+      emptyMap()
+    ).setLabel(primaryTitleValue);
   }
 
 }
