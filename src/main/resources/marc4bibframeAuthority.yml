@@ -92,6 +92,24 @@ authorityFieldRules:
             b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+    - types: JURISDICTION
+      include: 110_mappings_short
+      marc2ldCondition:
+        ind1: '1'
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
+    - types: ORGANIZATION
+      include: 110_mappings_short
+      marc2ldCondition:
+        ind1: '!1'
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
 
 sharedAuthorityRules:
   100_mappings_short:
@@ -174,3 +192,12 @@ sharedAuthorityRules:
         multiply: true
         subfields:
           z: NAME
+
+  110_mappings_short:
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+    constants:
+      RESOURCE_PREFERRED: true
