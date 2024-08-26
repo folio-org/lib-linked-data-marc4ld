@@ -3,6 +3,9 @@ package org.folio.marc4ld.mapper.field502;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
 
 class Marc2Bibframe502IT extends Marc2LdTestBase {
@@ -42,10 +46,11 @@ class Marc2Bibframe502IT extends Marc2LdTestBase {
       .satisfies(e -> validateEdge(e, PredicateDictionary.GRANTING_INSTITUTION,
         List.of(ResourceTypeDictionary.ORGANIZATION),
         Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("dissertation granting institution"),
           "http://bibfra.me/vocab/lite/name", List.of("dissertation granting institution")
         ),
         "dissertation granting institution"))
-      .extracting(this::getOutgoingEdges)
+      .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
   }

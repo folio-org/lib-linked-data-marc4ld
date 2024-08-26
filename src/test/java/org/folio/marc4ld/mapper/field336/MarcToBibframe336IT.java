@@ -7,6 +7,9 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
+import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,7 +54,7 @@ class MarcToBibframe336IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/label", List.of("rdacontent")
         ),
         "rdacontent"))
-      .extracting(this::getOutgoingEdges)
+      .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
   }

@@ -57,6 +57,41 @@ authorityFieldRules:
           y: not_presented
           z: not_presented
 
+  '110':
+    - types: CONCEPT, ORGANIZATION
+      include: 110_mappings
+      marc2ldCondition:
+        ind1: '!1'
+        fieldsAnyOf:
+          v: presented
+          x: presented
+          y: presented
+          z: presented
+      edges:
+        - types: ORGANIZATION
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: SUBORDINATE_UNIT
+            c: PLACE
+            d: DATE
+    - types: CONCEPT, JURISDICTION
+      include: 110_mappings
+      marc2ldCondition:
+        ind1: '1'
+        fieldsAnyOf:
+          v: presented
+          x: presented
+          y: presented
+          z: presented
+      edges:
+        - types: JURISDICTION
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: SUBORDINATE_UNIT
+            c: PLACE
+            d: DATE
 
 sharedAuthorityRules:
   100_mappings_short:
@@ -78,6 +113,40 @@ sharedAuthorityRules:
       d: DATE
       j: ATTRIBUTION
       q: NAME_ALTERNATIVE
+      v: FORM_SUBDIVISION
+      x: GENERAL_SUBDIVISION
+      y: CHRONOLOGICAL_SUBDIVISION
+      z: GEOGRAPHIC_SUBDIVISION
+    constants:
+      RESOURCE_PREFERRED: true
+    edges:
+      - types: FORM
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          v: NAME
+      - types: TOPIC
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          x: NAME
+      - types: TEMPORAL
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          y: NAME
+      - types: PLACE
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          z: NAME
+
+  110_mappings:
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
       v: FORM_SUBDIVISION
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION

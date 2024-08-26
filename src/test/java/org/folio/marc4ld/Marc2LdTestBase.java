@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.function.Predicate;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -47,45 +45,6 @@ public class Marc2LdTestBase {
   protected void validateId(Resource resource) {
     var expectedId = hashService.hash(resource);
     assertThat(resource.getId()).isEqualTo(expectedId);
-  }
-
-  protected List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .toList();
-  }
-
-  protected List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
-    return resourceEdge.getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .filter(predicate)
-      .toList();
-  }
-
-  protected ResourceEdge getFirstOutgoingEdge(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
-    return getOutgoingEdges(resourceEdge)
-      .stream()
-      .filter(predicate)
-      .findFirst()
-      .orElseThrow();
-  }
-
-  protected ResourceEdge getFirstOutgoingEdge(Resource resource, Predicate<ResourceEdge> predicate) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(predicate)
-      .findFirst()
-      .orElseThrow();
-  }
-
-  protected ResourceEdge getWorkEdge(Resource resource) {
-    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"));
-  }
-
-  protected Predicate<ResourceEdge> withPredicateUri(String uri) {
-    return re -> re.getPredicate().getUri().equals(uri);
   }
 
   protected void validateAllIds(Resource resource) {

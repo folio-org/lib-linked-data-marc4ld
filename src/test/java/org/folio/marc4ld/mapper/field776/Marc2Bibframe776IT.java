@@ -22,12 +22,10 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -94,16 +92,6 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ), expectedLabel);
-  }
-
-  private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(edge -> Optional.of(edge.getTarget())
-        .map(Resource::getTypes)
-        .filter(types -> CollectionUtils.containsAll(types, Arrays.asList(resourceTypes)))
-        .isPresent())
-      .toList();
   }
 
   private Resource getWork(Resource resource) {
