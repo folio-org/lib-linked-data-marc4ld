@@ -1,0 +1,60 @@
+package org.folio.marc4ld.mapper.field008;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
+import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+import java.util.Map;
+import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
+import org.junit.jupiter.api.Test;
+
+class Marc2LdIllustrationsIT extends Marc2LdTestBase {
+
+  @Test
+  void shouldMapIllustrations() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_illustrations.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
+      .satisfies(edges -> {
+        assertEquals(2, edges.size());
+        validateEdge(edges.get(0), ILLUSTRATIONS, List.of(CATEGORY),
+          Map.of(
+          "http://bibfra.me/vocab/marc/code", List.of("a"),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/ill"),
+          "http://bibfra.me/vocab/marc/term", List.of("Illustrations")
+          ), "Illustrations");
+        validateEdge(edges.get(1), ILLUSTRATIONS, List.of(CATEGORY),
+          Map.of(
+          "http://bibfra.me/vocab/marc/code", List.of("b"),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
+          "http://bibfra.me/vocab/marc/term", List.of("Maps")
+          ), "Maps");
+      })
+      .extracting(edges -> getOutgoingEdges(edges.get(0)))
+      .satisfies(edges -> {
+        assertEquals(1, edges.size());
+        validateEdge(edges.get(0), IS_DEFINED_BY, List.of(CATEGORY_SET),
+          Map.of(
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus"),
+            "http://bibfra.me/vocab/lite/label", List.of("Illustrative Content")
+          ), "Illustrative Content");
+        assertEquals(0, getOutgoingEdges(edges.get(0)).size());
+      });
+  }
+}

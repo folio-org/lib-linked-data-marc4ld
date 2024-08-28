@@ -28,6 +28,7 @@ import org.folio.marc4ld.enums.RecordType;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
+import org.folio.marc4ld.service.marc2ld.mapper.custom.CustomMapper;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -52,6 +53,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final ConditionChecker conditionChecker;
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
+  private final List<CustomMapper> customMappers;
 
   @Override
   public Optional<Resource> fromMarcJson(String marc) {
@@ -99,6 +101,9 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
       .forEach(dataField -> fillData(marcRecord, instance, dataField));
     marcRecord.getControlFields()
       .forEach(controlField -> fillControl(marcRecord, instance, controlField));
+    customMappers.stream()
+      .filter(customMapper -> customMapper.isApplicable(marcRecord))
+      .forEach(customMapper -> customMapper.map(marcRecord, instance));
   }
 
   private void fillControl(org.marc4j.marc.Record marcRecord, Resource instance, ControlField controlField) {
