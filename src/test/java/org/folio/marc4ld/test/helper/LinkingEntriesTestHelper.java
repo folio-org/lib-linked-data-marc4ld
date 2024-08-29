@@ -22,6 +22,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,7 @@ public class LinkingEntriesTestHelper {
   private static final Set<PredicateDictionary> LINKING_ENTRIES_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);
 
   public static void validateLiteWork(Resource resource, PredicateDictionary predicate, String expectedLabel) {
-    var resourceEdges = getEdges(getWork(resource), WORK);
+    var resourceEdges = getEdges(getWorkEdge(resource).getTarget(), WORK);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), predicate,
       List.of(WORK),
@@ -73,7 +74,8 @@ public class LinkingEntriesTestHelper {
   }
 
   public static Resource getLiteWork(Resource resource) {
-    return getWork(resource)
+    return getWorkEdge(resource)
+      .getTarget()
       .getOutgoingEdges()
       .stream()
       .filter(resourceEdge -> LINKING_ENTRIES_PREDICATES.contains(resourceEdge.getPredicate()))
@@ -222,14 +224,5 @@ public class LinkingEntriesTestHelper {
       Map.of(
         "http://bibfra.me/vocab/marc/mainTitle", List.of("work/instance title main title")
       ), "work/instance title main title");
-  }
-
-  private static Resource getWork(Resource resource) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(resourceEdge -> INSTANTIATES == resourceEdge.getPredicate())
-      .map(ResourceEdge::getTarget)
-      .findFirst()
-      .orElseThrow();
   }
 }

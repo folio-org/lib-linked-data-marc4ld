@@ -22,6 +22,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
@@ -666,7 +667,30 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         CODE.getValue(), List.of("eng"),
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
+    validateBook(edgeIterator.next(), ILLUSTRATIONS,
+      Map.of(
+        CODE.getValue(), List.of("a"),
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus/ill"),
+        TERM.getValue(), List.of("Illustrations")
+      ),
+      Map.of(
+        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus"),
+        LABEL.getValue(), List.of("Illustrative Content")
+      ));
     assertThat(edgeIterator.hasNext()).isFalse();
+  }
+
+  private void validateBook(ResourceEdge edge, PredicateDictionary predicate,
+                            Map<String, List<String>> categoryProperties,
+                            Map<String, List<String>> categorySetProperties) {
+    validateEdge(edge, predicate, List.of(CATEGORY), categoryProperties,
+      categoryProperties.get(TERM.getValue()).get(0));
+
+    assertThat(edge.getTarget().getOutgoingEdges())
+      .hasSize(1)
+      .singleElement()
+      .satisfies(resourceEdge -> validateEdge(resourceEdge, IS_DEFINED_BY, List.of(CATEGORY_SET), categorySetProperties,
+        categorySetProperties.get(LABEL.getValue()).get(0)));
   }
 
   private void validateLinkingEntry(ResourceEdge edge, PredicateDictionary predicate, String suffix) {

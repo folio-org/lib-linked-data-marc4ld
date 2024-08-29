@@ -2,6 +2,7 @@ package org.folio.marc4ld.util;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.springframework.util.CollectionUtils;
 
 @UtilityClass
@@ -47,7 +49,15 @@ public class BibframeUtil {
       .map(doc -> doc.get(property))
       .map(propertiesConversionFunction)
       .orElse(List.of());
+  }
 
+  public static Resource getWork(Resource resource) {
+    return resource.getOutgoingEdges()
+      .stream()
+      .filter(resourceEdge -> INSTANTIATES == resourceEdge.getPredicate())
+      .map(ResourceEdge::getTarget)
+      .findFirst()
+      .orElseThrow();
   }
 
   private static boolean isEmptyDoc(JsonNode doc) {
