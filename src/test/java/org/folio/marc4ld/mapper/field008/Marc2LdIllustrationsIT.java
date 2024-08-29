@@ -9,7 +9,6 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
       .satisfies(edges -> {
-        assertEquals(2, edges.size());
+        assertThat(edges).hasSize(2);
         validateEdge(edges.get(0), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
           "http://bibfra.me/vocab/marc/code", List.of("a"),
@@ -48,13 +47,13 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       })
       .extracting(edges -> getOutgoingEdges(edges.get(0)))
       .satisfies(edges -> {
-        assertEquals(1, edges.size());
+        assertThat(edges).hasSize(1);
         validateEdge(edges.get(0), IS_DEFINED_BY, List.of(CATEGORY_SET),
           Map.of(
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus"),
             "http://bibfra.me/vocab/lite/label", List.of("Illustrative Content")
           ), "Illustrative Content");
-        assertEquals(0, getOutgoingEdges(edges.get(0)).size());
+        assertThat(getOutgoingEdges(edges.get(0))).hasSize(0);
       });
   }
 }

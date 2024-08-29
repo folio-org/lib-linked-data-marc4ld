@@ -685,10 +685,12 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
                             Map<String, List<String>> categorySetProperties) {
     validateEdge(edge, predicate, List.of(CATEGORY), categoryProperties,
       categoryProperties.get(TERM.getValue()).get(0));
-    var outgoingIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateEdge(outgoingIterator.next(), IS_DEFINED_BY, List.of(CATEGORY_SET), categorySetProperties,
-      categorySetProperties.get(LABEL.getValue()).get(0));
-    assertThat(outgoingIterator.hasNext()).isFalse();
+
+    assertThat(edge.getTarget().getOutgoingEdges())
+      .hasSize(1)
+      .singleElement()
+      .satisfies(resourceEdge -> validateEdge(resourceEdge, IS_DEFINED_BY, List.of(CATEGORY_SET), categorySetProperties,
+        categorySetProperties.get(LABEL.getValue()).get(0)));
   }
 
   private void validateLinkingEntry(ResourceEdge edge, PredicateDictionary predicate, String suffix) {
