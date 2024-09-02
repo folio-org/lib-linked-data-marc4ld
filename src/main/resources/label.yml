@@ -54,8 +54,13 @@ labelRules:
     properties:
       - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: MEETING
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
+  - types: CONCEPT, MEETING
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: PROVIDER_EVENT
     properties:
       - NAME

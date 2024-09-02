@@ -1,7 +1,6 @@
 package org.folio.marc4ld.authority.field110;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
@@ -21,6 +20,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
+import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateSubfocusResources;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
@@ -32,7 +32,6 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -72,15 +71,14 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
 
     // when
     var resources = marcAuthorityToResources(marc);
-    var actualResource = resources.stream().findFirst();
-
     // then
-    assertThat(actualResource).isPresent()
-      .get()
+    assertThat(resources)
+      .hasSize(1)
+      .singleElement()
       .satisfies(
         resource -> validateCreatedResource(resource, List.of(CONCEPT, JURISDICTION), shortProperties(),
           outgoingEdges, EXPECTED_SHORT_LABEL))
-      .satisfies(resource -> validateFocusResource(resource, JURISDICTION))
+      .satisfies(resource -> validateFocusResource(resource, JURISDICTION, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(this::validateOnlyOneSubfocusResource)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
@@ -93,14 +91,13 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
     var outgoingEdges = 10;
 
     //then
-    var actualResource = resources.stream().findFirst();
-    assertThat(actualResource)
-      .isPresent()
-      .get()
+    assertThat(resources)
+      .hasSize(1)
+      .singleElement()
       .satisfies(
         resource -> validateCreatedResource(resource, types, generalProperties(),
           outgoingEdges, EXPECTED_MAIN_LABEL))
-      .satisfies(resource -> validateFocusResource(resource, types.get(1)))
+      .satisfies(resource -> validateFocusResource(resource, types.get(1), focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(resource -> validateSubfocusResources(resource, FIELD_CODES))
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
@@ -117,16 +114,6 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
                                        int outgoingEdges, String label) {
     validateResource(resource, types, properties, label);
     assertThat(resource.getOutgoingEdges()).hasSize(outgoingEdges);
-  }
-
-  private void validateFocusResource(Resource resource, ResourceTypeDictionary focusResourceType) {
-    var focusEdges = getEdges(resource, focusResourceType);
-    assertThat(focusEdges).hasSize(1)
-      .singleElement()
-      .satisfies(focusEdge -> assertEquals(focusEdge.getPredicate(), FOCUS))
-      .extracting(ResourceEdge::getTarget)
-      .satisfies(target -> validateResource(
-        target, List.of(focusResourceType), focusProperties(), EXPECTED_FOCUS_LABEL));
   }
 
   private Map<String, List<String>> generalProperties() {

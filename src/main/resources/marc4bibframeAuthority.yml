@@ -111,6 +111,24 @@ authorityFieldRules:
           y: not_presented
           z: not_presented
 
+  '111':
+    - types: CONCEPT, MEETING
+      include: 111_mappings
+      marc2ldCondition:
+        fieldsAnyOf:
+          v: presented
+          x: presented
+          y: presented
+          z: presented
+      edges:
+        - types: MEETING
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: SUBORDINATE_UNIT
+            c: PLACE
+            d: DATE
+
 sharedAuthorityRules:
   100_mappings_short:
     subfields:
@@ -201,3 +219,37 @@ sharedAuthorityRules:
       d: DATE
     constants:
       RESOURCE_PREFERRED: true
+
+  111_mappings:
+    subfields:
+      a: NAME
+      c: PLACE
+      d: DATE
+      e: SUBORDINATE_UNIT
+      v: FORM_SUBDIVISION
+      x: GENERAL_SUBDIVISION
+      y: CHRONOLOGICAL_SUBDIVISION
+      z: GEOGRAPHIC_SUBDIVISION
+    constants:
+      RESOURCE_PREFERRED: true
+    edges:
+      - types: FORM
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          v: NAME
+      - types: TOPIC
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          x: NAME
+      - types: TEMPORAL
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          y: NAME
+      - types: PLACE
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          z: NAME
