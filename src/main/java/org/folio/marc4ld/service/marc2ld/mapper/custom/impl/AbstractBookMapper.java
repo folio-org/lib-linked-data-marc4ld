@@ -60,11 +60,11 @@ public abstract class AbstractBookMapper implements CustomMapper {
 
   @Override
   public void map(Record marcRecord, Resource instance) {
-    var work = getWork(instance);
-    getCharacterRange(marcRecord)
-      .chars()
-      .filter(c -> isSupportedCode((char) c))
-      .forEach(c -> work.addOutgoingEdge(new ResourceEdge(work, createCategory((char) c), getPredicate())));
+    getWork(instance)
+      .ifPresent(work -> getCharacterRange(marcRecord)
+        .chars()
+        .filter(c -> isSupportedCode((char) c))
+        .forEach(c -> work.addOutgoingEdge(new ResourceEdge(work, createCategory((char) c), getPredicate()))));
   }
 
   private String getCharacterRange(Record record) {

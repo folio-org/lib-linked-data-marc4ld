@@ -31,19 +31,31 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
       .satisfies(edges -> {
-        assertThat(edges).hasSize(2);
+        assertThat(edges).hasSize(4);
         validateEdge(edges.get(0), ILLUSTRATIONS, List.of(CATEGORY),
-          Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("a"),
-          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/ill"),
-          "http://bibfra.me/vocab/marc/term", List.of("Illustrations")
-          ), "Illustrations");
-        validateEdge(edges.get(1), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
           "http://bibfra.me/vocab/marc/code", List.of("b"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
           "http://bibfra.me/vocab/marc/term", List.of("Maps")
           ), "Maps");
+        validateEdge(edges.get(1), ILLUSTRATIONS, List.of(CATEGORY),
+          Map.of(
+            "http://bibfra.me/vocab/marc/code", List.of("c"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/por"),
+            "http://bibfra.me/vocab/marc/term", List.of("Portraits")
+          ), "Portraits");
+        validateEdge(edges.get(2), ILLUSTRATIONS, List.of(CATEGORY),
+          Map.of(
+            "http://bibfra.me/vocab/marc/code", List.of("d"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/chr"),
+            "http://bibfra.me/vocab/marc/term", List.of("Charts")
+          ), "Charts");
+        validateEdge(edges.get(3), ILLUSTRATIONS, List.of(CATEGORY),
+          Map.of(
+            "http://bibfra.me/vocab/marc/code", List.of("e"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/pln"),
+            "http://bibfra.me/vocab/marc/term", List.of("Plans")
+          ), "Plans");
       })
       .extracting(edges -> getOutgoingEdges(edges.get(0)))
       .satisfies(edges -> {
