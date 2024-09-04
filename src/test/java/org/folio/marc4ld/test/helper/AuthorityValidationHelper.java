@@ -1,6 +1,7 @@
 package org.folio.marc4ld.test.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
@@ -9,13 +10,16 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 
 public class AuthorityValidationHelper {
 
@@ -33,7 +37,17 @@ public class AuthorityValidationHelper {
   }
 
   public static void validateSubfocusResources(Resource resource, Map<ResourceTypeDictionary, Character> fieldCodes) {
-    fieldCodes.keySet().forEach(field -> validateSubfocus(resource, field, fieldCodes.get(field)));
+    fieldCodes.forEach((type, subfield) -> validateSubfocus(resource, type, subfield));
+  }
+
+  public static void validateFocusResource(Resource resource, ResourceTypeDictionary focusResourceType,
+                                           Map<String, List<String>> properties, String label) {
+    var focusEdges = getEdges(resource, focusResourceType);
+    assertThat(focusEdges).hasSize(1)
+      .singleElement()
+      .satisfies(focusEdge -> assertEquals(focusEdge.getPredicate(), FOCUS))
+      .extracting(ResourceEdge::getTarget)
+      .satisfies(target -> validateResource(target, List.of(focusResourceType), properties, label));
   }
 
   public static void validateSubfocus(Resource resource, ResourceTypeDictionary type,
