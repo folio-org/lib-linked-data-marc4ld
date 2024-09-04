@@ -21,7 +21,6 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateSubfocusResources;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private static final String EXPECTED_MAIN_LABEL = "aValue, cValue1, cValue2, dValue -- vValue1 -- vValue2 -- xValue1"
     + " -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
   private static final String EXPECTED_FOCUS_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
+  private static final String EXPECTED_MEETING_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
   private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
     FORM, 'v',
     TOPIC, 'x',
@@ -54,11 +54,28 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
     assertThat(resources)
       .hasSize(1)
       .singleElement()
-      .satisfies(resource -> assertEquals(resource.getOutgoingEdges().size(), 10))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, MEETING), generalProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, MEETING, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(resource -> validateSubfocusResources(resource, FIELD_CODES))
+      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+  }
+
+  @Test
+  void shouldMap111FieldCorrectlyWhenSubfocusFieldsAreEmpty() {
+    // given
+    var marc = loadResourceAsString("authority/111/marc_111_meeting_empty_subfocus.jsonl");
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    //then
+    assertThat(resources)
+      .hasSize(1)
+      .singleElement()
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> validateResource(resource, List.of(MEETING), meetingProperties(), EXPECTED_MEETING_LABEL))
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
@@ -84,6 +101,17 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
       PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
       DATE.getValue(), List.of("dValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
+    );
+  }
+
+  private Map<String, List<String>> meetingProperties() {
+    return Map.of(
+      NAME.getValue(), List.of("aValue"),
+      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
+      PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
+      DATE.getValue(), List.of("dValue"),
+      LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL),
+      RESOURCE_PREFERRED.getValue(), List.of("true")
     );
   }
 }
