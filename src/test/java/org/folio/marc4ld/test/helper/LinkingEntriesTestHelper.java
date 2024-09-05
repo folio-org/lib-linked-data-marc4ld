@@ -1,10 +1,11 @@
-package org.folio.marc4ld.mapper.field776;
+package org.folio.marc4ld.test.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.EXTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
+import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
@@ -19,84 +20,36 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
-import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@EnableConfigurationProperties
-@SpringBootTest(classes = SpringTestConfig.class)
-class Marc2Bibframe776IT extends Marc2LdTestBase {
+public class LinkingEntriesTestHelper {
 
-  @Test
-  void shouldMapField776Correctly() {
-    //given
-    var marc = loadResourceAsString("fields/776/marc_776.jsonl");
+  private static final Set<PredicateDictionary> LINKING_ENTRIES_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);
 
-    //when
-    var result = marcBibToResource(marc);
-
-    //then
-    assertThat(result)
-      .satisfies(resource -> validateLiteWork(resource, "work title main title"))
-      .satisfies(resource -> validateAgent(resource, "agent name", "agent name 2"))
-      .satisfies(this::validateIssn)
-      .satisfies(resource -> validateLiteWorkTitle(resource, "work title main title"))
-      .satisfies(resource -> validateLiteInstance(resource, 11, "work title main title"))
-      .satisfies(this::validateExtent)
-      .satisfies(resource -> validateLocalId(resource, "local ID identifier name", "local ID identifier name 2"))
-      .satisfies(this::validateStrn)
-      .satisfies(this::validateCoden)
-      .satisfies(resource -> validateIsbn(resource, "ISBN identifier name", "ISBN identifier name 2"))
-      .satisfies(this::validateUnknown)
-      .satisfies(this::validateLccn)
-      .satisfies(this::validateLiteInstanceTitle);
-  }
-
-  @Test
-  void shouldMapField776WithMissingSubfieldsCorrectly() {
-    //given
-    var marc = loadResourceAsString("fields/776/marc_776_with_missing_subfields.jsonl");
-
-    //when
-    var result = marcBibToResource(marc);
-
-    //then
-    assertThat(result)
-      .satisfies(resource -> validateLiteWork(resource, "work/instance title main title"))
-      .satisfies(resource -> validateAgent(resource, "agent name"))
-      .satisfies(resource -> validateLiteWorkTitle(resource, "work/instance title main title"))
-      .satisfies(resource -> validateLiteInstance(resource, 5, "work/instance title main title"))
-      .satisfies(resource -> validateLocalId(resource, "local ID identifier name"))
-      .satisfies(resource -> validateIsbn(resource, "ISBN identifier name"))
-      .satisfies(this::validateUnknown)
-      .satisfies(this::validateLiteInstanceTitle);
-  }
-
-  private void validateLiteWork(Resource resource, String expectedLabel) {
-    var resourceEdges = getEdges(getWork(resource), WORK);
+  public static void validateLiteWork(Resource resource, PredicateDictionary predicate, String expectedLabel) {
+    var resourceEdges = getEdges(getWorkEdge(resource).getTarget(), WORK);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), OTHER_VERSION,
+    validateEdge(resourceEdges.get(0), predicate,
       List.of(WORK),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ), expectedLabel);
   }
 
-  private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
+  public static List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
     return resource.getOutgoingEdges()
       .stream()
       .filter(edge -> Optional.of(edge.getTarget())
@@ -106,20 +59,11 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       .toList();
   }
 
-  private Resource getWork(Resource resource) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(resourceEdge -> INSTANTIATES == resourceEdge.getPredicate())
-      .map(ResourceEdge::getTarget)
-      .findFirst()
-      .orElseThrow();
-  }
-
-  private void validateAgent(Resource resource, String... expectedNames) {
+  public static void validateAgent(Resource resource, String... expectedNames) {
     var resourceEdges = getEdges(getLiteWork(resource), AGENT);
     assertThat(resourceEdges).hasSize(expectedNames.length);
     var index = 0;
-    for (String expectedName : expectedNames) {
+    for (var expectedName : expectedNames) {
       validateEdge(resourceEdges.get(index), CREATOR,
         List.of(AGENT),
         Map.of(
@@ -129,17 +73,18 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
     }
   }
 
-  private Resource getLiteWork(Resource resource) {
-    return getWork(resource)
+  public static Resource getLiteWork(Resource resource) {
+    return getWorkEdge(resource)
+      .getTarget()
       .getOutgoingEdges()
       .stream()
-      .filter(resourceEdge -> OTHER_VERSION == resourceEdge.getPredicate())
+      .filter(resourceEdge -> LINKING_ENTRIES_PREDICATES.contains(resourceEdge.getPredicate()))
       .map(ResourceEdge::getTarget)
       .findFirst()
       .orElseThrow();
   }
 
-  private void validateIssn(Resource resource) {
+  public static void validateIssn(Resource resource) {
     var resourceEdges = getEdges(getLiteWork(resource), IDENTIFIER, ID_ISSN);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), MAP,
@@ -149,7 +94,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "ISSN identifier name");
   }
 
-  private void validateLiteWorkTitle(Resource resource, String expectedMainTitle) {
+  public static void validateLiteWorkTitle(Resource resource, String expectedMainTitle) {
     var resourceEdges = getEdges(getLiteWork(resource), ResourceTypeDictionary.TITLE);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), TITLE,
@@ -160,7 +105,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), expectedMainTitle);
   }
 
-  private void validateLiteInstance(Resource resource, int expectedEdgesSize, String expectedWorkLabel) {
+  public static void validateLiteInstance(Resource resource, int expectedEdgesSize, String expectedWorkLabel) {
     var liteInstance = getLiteInstance(resource);
     validateResource(liteInstance, List.of(INSTANCE),
       Map.of(
@@ -172,7 +117,6 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/marc/reportNumber", List.of("instance report number")
       ), "work/instance title main title");
     assertThat(liteInstance.getOutgoingEdges()).hasSize(expectedEdgesSize);
-    validateAllIds(liteInstance);
     var resourceEdges = getEdges(liteInstance, WORK);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), INSTANTIATES,
@@ -182,7 +126,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), expectedWorkLabel);
   }
 
-  private Resource getLiteInstance(Resource resource) {
+  public static Resource getLiteInstance(Resource resource) {
     return getLiteWork(resource)
       .getIncomingEdges()
       .stream()
@@ -192,7 +136,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       .orElseThrow();
   }
 
-  private void validateExtent(Resource resource) {
+  public static void validateExtent(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), ResourceTypeDictionary.EXTENT);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), EXTENT,
@@ -202,11 +146,11 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "extent");
   }
 
-  private void validateLocalId(Resource resource, String... expectedLocalIds) {
+  public static void validateLocalId(Resource resource, String... expectedLocalIds) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_LOCAL);
     assertThat(resourceEdges).hasSize(expectedLocalIds.length);
     var index = 0;
-    for (String expectedLocalId : expectedLocalIds) {
+    for (var expectedLocalId : expectedLocalIds) {
       validateEdge(resourceEdges.get(index), MAP,
         List.of(IDENTIFIER, ID_LOCAL),
         Map.of(
@@ -216,7 +160,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
     }
   }
 
-  private void validateStrn(Resource resource) {
+  public static void validateStrn(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_STRN);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), MAP,
@@ -226,7 +170,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "STRN identifier name");
   }
 
-  private void validateCoden(Resource resource) {
+  public static void validateCoden(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_CODEN);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), MAP,
@@ -236,11 +180,11 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "CODEN identifier name");
   }
 
-  private void validateIsbn(Resource resource, String... expectedIsbnNames) {
+  public static void validateIsbn(Resource resource, String... expectedIsbnNames) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_ISBN);
     assertThat(resourceEdges).hasSize(expectedIsbnNames.length);
     var index = 0;
-    for (String expectedIsbnName : expectedIsbnNames) {
+    for (var expectedIsbnName : expectedIsbnNames) {
       validateEdge(resourceEdges.get(index), MAP,
         List.of(IDENTIFIER, ID_ISBN),
         Map.of(
@@ -250,7 +194,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
     }
   }
 
-  private void validateUnknown(Resource resource) {
+  public static void validateUnknown(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_UNKNOWN);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), MAP,
@@ -261,7 +205,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "unknown identifier name");
   }
 
-  private void validateLccn(Resource resource) {
+  public static void validateLccn(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_LCCN);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), MAP,
@@ -272,7 +216,7 @@ class Marc2Bibframe776IT extends Marc2LdTestBase {
       ), "(DLC)LCCN identifier name");
   }
 
-  private void validateLiteInstanceTitle(Resource resource) {
+  public static void validateLiteInstanceTitle(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), ResourceTypeDictionary.TITLE);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.get(0), TITLE,

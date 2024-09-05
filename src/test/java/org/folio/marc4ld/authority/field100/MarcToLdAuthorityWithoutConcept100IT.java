@@ -6,22 +6,20 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class MarcToBibframeAuthorityWithoutConcept100IT extends Marc2LdTestBase {
+class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @CsvSource(value = {
@@ -111,15 +109,5 @@ class MarcToBibframeAuthorityWithoutConcept100IT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/lite/label", List.of("010fieldvalue")
           ),
           "010fieldvalue"));
-  }
-
-  private List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(edge -> Optional.of(edge.getTarget())
-        .map(Resource::getTypes)
-        .filter(types -> CollectionUtils.containsAll(types, Arrays.asList(resourceTypes)))
-        .isPresent())
-      .toList();
   }
 }

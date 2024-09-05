@@ -22,7 +22,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class MarcToBibframeAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
+class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @ValueSource(strings = {

@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.marc2ld.mapper.mapper;
 
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
+import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
@@ -10,6 +11,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.T;
+import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 
@@ -27,9 +29,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class OtherVersionMapper implements Marc2ldMapper {
+public class LinkingEntriesMapper implements Marc2ldMapper {
 
-  private static final List<String> TAGS = List.of(TAG_776);
+  private static final List<String> TAGS = List.of(TAG_775, TAG_776);
+  private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);
   private static final Set<ResourceTypeDictionary> IDENTIFIER_TYPE = Set.of(IDENTIFIER);
   private static final String DLC_PREFIX = "(DLC)";
 
@@ -43,7 +46,7 @@ public class OtherVersionMapper implements Marc2ldMapper {
 
   @Override
   public boolean canMap(PredicateDictionary predicate) {
-    return predicate == OTHER_VERSION;
+    return SUPPORTED_PREDICATES.contains(predicate);
   }
 
   @Override

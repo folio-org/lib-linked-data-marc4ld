@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
+import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
@@ -93,6 +94,7 @@ public class Marc2Bibframe082IT extends Marc2LdTestBase {
     return link == null
       ? createResource(
       Map.of(
+        LABEL, List.of("assigning agency"),
         NAME, List.of("assigning agency")
       ),
       Set.of(ORGANIZATION),
@@ -100,6 +102,7 @@ public class Marc2Bibframe082IT extends Marc2LdTestBase {
     ).setLabel("assigning agency")
       : createResource(
       Map.of(
+        LABEL, List.of("United States, Library of Congress"),
         NAME, List.of("United States, Library of Congress"),
         LINK, List.of(link)
       ),

@@ -5,6 +5,7 @@ import static org.folio.marc4ld.util.Constants.B;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.T;
 import static org.folio.marc4ld.util.Constants.TAG_245;
+import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 import static org.folio.marc4ld.util.MarcUtil.isSubfieldPresent;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Bib7xxPreprocessor implements DataFieldPreprocessor {
 
-  private static final List<String> TAGS = List.of(TAG_776);
+  private static final List<String> TAGS = List.of(TAG_775, TAG_776);
 
   private final MarcFactory marcFactory;
 

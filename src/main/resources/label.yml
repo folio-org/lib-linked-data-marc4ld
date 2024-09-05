@@ -50,11 +50,17 @@ labelRules:
     properties:
       - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: ORGANIZATION
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: MEETING
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
+  - types: CONCEPT, MEETING
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: PROVIDER_EVENT
     properties:
       - NAME
@@ -70,11 +76,13 @@ labelRules:
     properties:
       - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, JURISDICTION
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, ORGANIZATION
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, TOPIC
     properties:
       - NAME
@@ -97,8 +105,9 @@ labelRules:
     properties:
       - NAME
   - types: JURISDICTION
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: ANNOTATION
     properties:
       - NAME
@@ -126,4 +135,6 @@ labelRules:
       - LABEL
   - types: LANGUAGE_CATEGORY
     properties: CODE
+  - types: ABBREVIATED_TITLE
+    properties: MAIN_TITLE
 
