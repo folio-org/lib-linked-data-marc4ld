@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.springframework.util.CollectionUtils;
@@ -51,13 +52,19 @@ public class BibframeUtil {
       .orElse(List.of());
   }
 
-  public static Resource getWork(Resource resource) {
+  public static Optional<Resource> getWork(Resource resource) {
     return resource.getOutgoingEdges()
       .stream()
       .filter(resourceEdge -> INSTANTIATES == resourceEdge.getPredicate())
       .map(ResourceEdge::getTarget)
-      .findFirst()
-      .orElseThrow();
+      .findFirst();
+  }
+
+  public static List<ResourceEdge> getOutgoingEdges(Resource resource, PredicateDictionary predicate) {
+    return resource.getOutgoingEdges()
+      .stream()
+      .filter(resourceEdge -> predicate == resourceEdge.getPredicate())
+      .toList();
   }
 
   private static boolean isEmptyDoc(JsonNode doc) {

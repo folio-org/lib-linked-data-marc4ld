@@ -14,6 +14,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
@@ -624,6 +625,16 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("eng");
 
+    var illustrationCategory = createResource(
+      Map.of(
+        CODE, List.of("b"),
+        LINK, List.of("http://id.loc.gov/vocabulary/millus/map"),
+        TERM, List.of("Maps")
+      ),
+      Set.of(CATEGORY),
+      emptyMap()
+    ).setLabel("Maps");
+
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(ORIGIN_PLACE, List.of(originPlace));
     pred2OutgoingResources.put(PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(place));
@@ -642,6 +653,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(GOVERNMENT_PUBLICATION, List.of(category));
     pred2OutgoingResources.put(PredicateDictionary.TARGET_AUDIENCE, List.of(createTargetAudience()));
     pred2OutgoingResources.put(LANGUAGE, List.of(languageCategory));
+    pred2OutgoingResources.put(ILLUSTRATIONS, List.of(illustrationCategory));
 
     return createResource(
       Map.of(

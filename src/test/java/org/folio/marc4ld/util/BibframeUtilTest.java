@@ -1,7 +1,12 @@
 package org.folio.marc4ld.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
+import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.getLightWeightInstanceResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleInstanceResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
@@ -116,5 +121,51 @@ class BibframeUtilTest {
     //then
     assertThat(isEmpty)
       .isFalse();
+  }
+
+  @Test
+  void getWork_shouldReturn_emptyOptional() {
+    //given
+    var resource = getLightWeightInstanceResource();
+
+    //expect
+    assertThat(BibframeUtil.getWork(resource)).isNotPresent();
+  }
+
+  @Test
+  void getWork_shouldReturn_work() {
+    //given
+    var resource = getSampleInstanceResource();
+
+    //when
+    var result = BibframeUtil.getWork(resource);
+
+    //then
+    assertThat(result).isPresent();
+    assertEquals(Set.of(WORK), result.get().getTypes());
+  }
+
+  @Test
+  void getOutgoingEdges_shouldReturn_edgesWithSpecifiedPredicate() {
+    //given
+    var resource = getSampleInstanceResource();
+
+    //when
+    var result = BibframeUtil.getOutgoingEdges(resource, TITLE);
+
+    //then
+    assertThat(result).hasSize(5);
+  }
+
+  @Test
+  void getOutgoingEdges_shouldReturn_emptyList() {
+    //given
+    var resource = getSampleInstanceResource();
+
+    //when
+    var result = BibframeUtil.getOutgoingEdges(resource, ILLUSTRATIONS);
+
+    //then
+    assertThat(result).isEmpty();
   }
 }
