@@ -56,7 +56,7 @@ labelRules:
   - types: MEETING
     addLabelProperty: true
     properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
+      - "{$NAME}{, $PLACE}{, $DATE}"
   - types: CONCEPT, MEETING
     addLabelProperty: true
     properties:
