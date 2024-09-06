@@ -827,7 +827,7 @@ public class MonographTestUtil {
     var properties = Stream.concat(
         createCommonConceptProperties("form").entrySet().stream(),
         Map.ofEntries(
-          entry(GEOGRAPHIC_COVERAGE, List.of("form geographic coverage"))
+          entry(MISC_INFO, List.of("form misc info"))
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var form = createResource(removeNonFocusProperties(properties), Set.of(FORM), emptyMap())
