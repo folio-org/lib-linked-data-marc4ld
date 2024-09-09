@@ -28,6 +28,8 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
 
@@ -52,7 +54,6 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
 
     // then
     assertThat(resources)
-      .hasSize(1)
       .singleElement()
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
       .satisfies(
@@ -72,11 +73,26 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
 
     //then
     assertThat(resources)
-      .hasSize(1)
       .singleElement()
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
       .satisfies(resource -> validateResource(resource, List.of(MEETING), meetingProperties(), EXPECTED_MEETING_LABEL))
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "authority/111/marc_111_with_$t.jsonl",
+    "authority/111/marc_111_with_$t_empty_subfocus.jsonl"}
+  )
+  void shouldNotMap110FieldIfTitleSubfieldIsPresent(String file) {
+    // given
+    var marc = loadResourceAsString(file);
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(resources).isEmpty();
   }
 
   private Map<String, List<String>> generalProperties() {

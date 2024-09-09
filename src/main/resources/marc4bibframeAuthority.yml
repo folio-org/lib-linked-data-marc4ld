@@ -4,6 +4,8 @@ authorityFieldRules:
       include: 100_mappings
       marc2ldCondition:
         ind1: '!3'
+        fieldsAllOf:
+          t: not_presented
         fieldsAnyOf:
           v: presented
           x: presented
@@ -22,6 +24,8 @@ authorityFieldRules:
     - types: CONCEPT, FAMILY
       include: 100_mappings
       marc2ldCondition:
+        fieldsAllOf:
+          t: not_presented
         ind1: '3'
         fieldsAnyOf:
           v: presented
@@ -47,6 +51,7 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
+          t: not_presented
     - types: FAMILY
       include: 100_mappings_short
       marc2ldCondition:
@@ -56,11 +61,14 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
+          t: not_presented
 
   '110':
     - types: CONCEPT, ORGANIZATION
       include: 110_mappings
       marc2ldCondition:
+        fieldsAllOf:
+          t: not_presented
         ind1: '!1'
         fieldsAnyOf:
           v: presented
@@ -78,6 +86,8 @@ authorityFieldRules:
     - types: CONCEPT, JURISDICTION
       include: 110_mappings
       marc2ldCondition:
+        fieldsAllOf:
+          t: not_presented
         ind1: '1'
         fieldsAnyOf:
           v: presented
@@ -101,6 +111,7 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
+          t: not_presented
     - types: ORGANIZATION
       include: 110_mappings_short
       marc2ldCondition:
@@ -110,11 +121,14 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
+          t: not_presented
 
   '111':
     - types: CONCEPT, MEETING
       include: 111_mappings
       marc2ldCondition:
+        fieldsAllOf:
+          t: not_presented
         fieldsAnyOf:
           v: presented
           x: presented
@@ -136,6 +150,7 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
+          t: not_presented
 
 sharedAuthorityRules:
   100_mappings_short:

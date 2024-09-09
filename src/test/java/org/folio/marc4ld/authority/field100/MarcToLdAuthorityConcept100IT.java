@@ -21,6 +21,7 @@ import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
 
@@ -30,6 +31,22 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
     TEMPORAL, 'y',
     PLACE, 'z'
   );
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "authority/100/marc_100_with_$t.jsonl",
+    "authority/100/marc_100_with_$t_empty_subfocus.jsonl"}
+  )
+  void shouldNotMap110FieldIfTitleSubfieldIsPresent(String file) {
+    // given
+    var marc = loadResourceAsString(file);
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(resources).isEmpty();
+  }
 
   @ParameterizedTest
   @CsvSource(value = {
