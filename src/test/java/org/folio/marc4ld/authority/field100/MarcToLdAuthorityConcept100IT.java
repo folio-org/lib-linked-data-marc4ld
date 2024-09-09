@@ -37,7 +37,7 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
     "authority/100/marc_100_with_$t.jsonl",
     "authority/100/marc_100_with_$t_empty_subfocus.jsonl"}
   )
-  void shouldNotMap110FieldIfTitleSubfieldIsPresent(String file) {
+  void shouldNotMap100FieldIfTitleSubfieldIsPresent(String file) {
     // given
     var marc = loadResourceAsString(file);
 
