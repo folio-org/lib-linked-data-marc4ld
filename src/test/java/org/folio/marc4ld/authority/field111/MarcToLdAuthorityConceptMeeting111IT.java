@@ -33,8 +33,8 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
 
   private static final String EXPECTED_MAIN_LABEL = "aValue, cValue1, cValue2, dValue -- vValue1 -- vValue2 -- xValue1"
     + " -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
-  private static final String EXPECTED_FOCUS_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
-  private static final String EXPECTED_MEETING_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
+  private static final String EXPECTED_FOCUS_LABEL = "aValue, cValue1, cValue2, dValue";
+  private static final String EXPECTED_MEETING_LABEL = "aValue, cValue1, cValue2, dValue";
   private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
     FORM, 'v',
     TOPIC, 'x',
@@ -97,9 +97,9 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private Map<String, List<String>> focusProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
-      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
       PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
       DATE.getValue(), List.of("dValue"),
+      SUBORDINATE_UNIT.getValue(), List.of("eValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
     );
   }
@@ -107,9 +107,9 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private Map<String, List<String>> meetingProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
-      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
       PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
       DATE.getValue(), List.of("dValue"),
+      SUBORDINATE_UNIT.getValue(), List.of("eValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL),
       RESOURCE_PREFERRED.getValue(), List.of("true")
     );

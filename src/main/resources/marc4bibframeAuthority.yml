@@ -125,9 +125,9 @@ authorityFieldRules:
           predicate: FOCUS
           subfields:
             a: NAME
-            b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+            e: SUBORDINATE_UNIT
     - types: MEETING
       include: 111_mappings_short
       marc2ldCondition:
@@ -265,8 +265,8 @@ sharedAuthorityRules:
   111_mappings_short:
     subfields:
       a: NAME
-      b: SUBORDINATE_UNIT
       c: PLACE
       d: DATE
+      e: SUBORDINATE_UNIT
     constants:
       RESOURCE_PREFERRED: true
