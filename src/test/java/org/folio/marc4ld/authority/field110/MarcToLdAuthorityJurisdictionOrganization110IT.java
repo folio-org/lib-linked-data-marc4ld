@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
 
@@ -81,6 +82,22 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
       .satisfies(resource -> validateFocusResource(resource, JURISDICTION, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(this::validateOnlyOneSubfocusResource)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "authority/110/marc_110_with_$t.jsonl",
+    "authority/110/marc_110_with_$t_empty_subfocus.jsonl"}
+  )
+  void shouldNotMap110FieldIfTitleSubfieldIsPresent(String file) {
+    // given
+    var marc = loadResourceAsString(file);
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(resources).isEmpty();
   }
 
   @ParameterizedTest
