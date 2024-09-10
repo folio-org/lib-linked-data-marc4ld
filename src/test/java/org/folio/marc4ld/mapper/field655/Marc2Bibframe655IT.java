@@ -43,7 +43,7 @@ class Marc2Bibframe655IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("form chronological subdivision"),
         "http://bibfra.me/vocab/marc/generalSubdivision", List.of("form general subdivision"),
-        "http://bibfra.me/vocab/marc/geographicCoverage", List.of("form geographic coverage"),
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("form misc info"),
         "http://bibfra.me/vocab/lite/name", List.of("form name"),
         "http://bibfra.me/vocab/marc/formSubdivision", List.of("form form subdivision")
       ),
@@ -55,7 +55,7 @@ class Marc2Bibframe655IT extends Marc2LdTestBase {
       PredicateDictionary.GENRE,
       List.of(ResourceTypeDictionary.FORM),
       Map.of(
-        "http://bibfra.me/vocab/marc/geographicCoverage", List.of("form geographic coverage"),
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("form misc info"),
         "http://bibfra.me/vocab/lite/name", List.of("form name"),
         "http://bibfra.me/vocab/lite/label", List.of("form name")
       ),

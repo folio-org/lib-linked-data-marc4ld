@@ -1384,7 +1384,7 @@ bibFieldRules:
       predicate: SUBJECT
       subfields:
         a: NAME
-        b: GEOGRAPHIC_COVERAGE
+        b: MISC_INFO
         e: RELATOR_TERM
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
@@ -1403,7 +1403,7 @@ bibFieldRules:
           predicate: FOCUS
           subfields:
             a: NAME
-            b: GEOGRAPHIC_COVERAGE
+            b: MISC_INFO
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
             '2': SOURCE
@@ -1458,7 +1458,7 @@ bibFieldRules:
       predicate: GENRE
       subfields:
         a: NAME
-        b: GEOGRAPHIC_COVERAGE
+        b: MISC_INFO
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
         '2': SOURCE

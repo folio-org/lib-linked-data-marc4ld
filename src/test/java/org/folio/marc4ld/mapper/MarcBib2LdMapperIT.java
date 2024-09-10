@@ -1132,7 +1132,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private Map<String, List<String>> getFormConceptExpectedProperties() {
     return Stream.concat(
         getCommonConceptExpectedProperties("form").entrySet().stream(),
-        Map.ofEntries(entry(GEOGRAPHIC_COVERAGE.getValue(), List.of("form geographic coverage")))
+        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("form misc info")))
           .entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
