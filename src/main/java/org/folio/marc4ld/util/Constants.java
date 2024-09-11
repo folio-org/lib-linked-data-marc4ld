@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 public class Constants {
 
   public static final String FIELD_UUID = "999";
+  public static final char INDICATOR_FOLIO = 'f';
   public static final char SUBFIELD_INVENTORY_ID = 'i';
   public static final char SPACE = ' ';
   public static final char ZERO = '0';
