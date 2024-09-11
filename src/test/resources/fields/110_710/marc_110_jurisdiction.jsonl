@@ -1,0 +1,62 @@
+{
+  "leader" : "00390nam a2200061uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "110" : {
+      "subfields" : [ {
+        "a" : "author"
+      }, {
+        "b" : "subordinate unit"
+      }, {
+        "b" : "another subordinate unit"
+      }, {
+        "c" : "place"
+      }, {
+        "c" : "another place"
+      }, {
+        "d" : "date"
+      }, {
+        "d" : "another date"
+      }, {
+        "e" : "author"
+      }, {
+        "u" : "affiliation"
+      }, {
+        "0" : "lccn link"
+      }, {
+        "0" : "another lccn link"
+      }, {
+        "1" : "equivalent"
+      }, {
+        "1" : "another equivalent"
+      }, {
+        "4" : "aut"
+      }, {
+        "6" : "linkage"
+      }, {
+        "7" : "control field"
+      }, {
+        "7" : "another control field"
+      }, {
+        "8" : "field link"
+      }, {
+        "8" : "another field link"
+      } ],
+      "ind1" : "1",
+      "ind2" : " "
+    }
+  }, {
+    "110" : {
+      "subfields" : [ {
+        "a" : "editor"
+      }, {
+        "e" : "editor"
+      }, {
+        "4" : "edt"
+      } ],
+      "ind1" : "1",
+      "ind2" : " "
+    }
+  } ]
+}

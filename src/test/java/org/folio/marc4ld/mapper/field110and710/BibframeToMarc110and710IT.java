@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field110;
+package org.folio.marc4ld.mapper.field110and710;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
@@ -15,7 +15,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
@@ -25,27 +24,35 @@ import java.util.Map;
 import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class BibframeToMarc110IT {
+class BibframeToMarc110and710IT {
 
   @Autowired
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
 
-  @Test
-  void shouldMapField110() {
+  @ParameterizedTest
+  @CsvSource(value = {
+    "ORGANIZATION, CREATOR, fields/110_710/marc_110_organization.jsonl",
+    "JURISDICTION, CREATOR, fields/110_710/marc_110_jurisdiction.jsonl",
+    "ORGANIZATION, CONTRIBUTOR, fields/110_710/marc_710_organization.jsonl",
+    "JURISDICTION, CONTRIBUTOR, fields/110_710/marc_710_jurisdiction.jsonl"
+  })
+  void shouldMapField110_710(ResourceTypeDictionary type, PredicateDictionary predicate, String marcFile) {
     //given
-    var resource = createResourceWithWorkWith110();
-    var expectedMarc = loadResourceAsString("fields/110/marc_110.jsonl");
+    var resource = createResourceWithWorkWith110_710(type, predicate);
+    var expectedMarc = loadResourceAsString(marcFile);
 
     //when
     var result = bibframe2MarcMapper.toMarcJson(resource);
@@ -55,7 +62,7 @@ class BibframeToMarc110IT {
       .isEqualTo(expectedMarc);
   }
 
-  private Resource createResourceWithWorkWith110() {
+  private Resource createResourceWithWorkWith110_710(ResourceTypeDictionary type, PredicateDictionary predicate) {
     var lccn = MonographTestUtil.createResource(
       Map.ofEntries(
         entry(LINK, List.of("lccn link"))
@@ -74,7 +81,7 @@ class BibframeToMarc110IT {
 
     var authorOrganization = MonographTestUtil.createResource(
       Map.ofEntries(
-        entry(NAME, List.of("author organization")),
+        entry(NAME, List.of("author")),
         entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
         entry(PLACE, List.of("place", "another place")),
         entry(DATE, List.of("date", "another date")),
@@ -84,23 +91,23 @@ class BibframeToMarc110IT {
         entry(CONTROL_FIELD, List.of("control field", "another control field")),
         entry(FIELD_LINK, List.of("field link", "another field link"))
       ),
-      Set.of(ORGANIZATION),
+      Set.of(type),
       Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
-    ).setLabel("author organization");
+    ).setLabel("author");
 
     var editorOrganization = MonographTestUtil.createResource(
       Map.of(
-        NAME, List.of("editor organization")
+        NAME, List.of("editor")
       ),
-      Set.of(ORGANIZATION),
+      Set.of(type),
       emptyMap()
-    ).setLabel("editor organization");
+    ).setLabel("editor");
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
       Map.of(
-        PredicateDictionary.CREATOR, List.of(authorOrganization, editorOrganization),
+        predicate, List.of(authorOrganization, editorOrganization),
         PredicateDictionary.AUTHOR, List.of(authorOrganization),
         PredicateDictionary.EDITOR, List.of(editorOrganization)
       )

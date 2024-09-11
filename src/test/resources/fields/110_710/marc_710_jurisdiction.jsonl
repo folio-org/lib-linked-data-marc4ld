@@ -1,11 +1,11 @@
 {
-  "leader" : "00416nam a2200061uc 4500",
+  "leader" : "00390nam a2200061uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
-    "110" : {
+    "710" : {
       "subfields" : [ {
-        "a" : "author organization"
+        "a" : "author"
       }, {
         "b" : "subordinate unit"
       }, {
@@ -43,19 +43,19 @@
       }, {
         "8" : "another field link"
       } ],
-      "ind1" : " ",
+      "ind1" : "1",
       "ind2" : " "
     }
   }, {
-    "110" : {
+    "710" : {
       "subfields" : [ {
-        "a" : "editor organization"
+        "a" : "editor"
       }, {
         "e" : "editor"
       }, {
         "4" : "edt"
       } ],
-      "ind1" : " ",
+      "ind1" : "1",
       "ind2" : " "
     }
   } ]

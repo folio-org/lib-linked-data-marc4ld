@@ -11,7 +11,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
+import static org.folio.marc4ld.util.Constants.ONE;
+import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_110;
 import static org.folio.marc4ld.util.Constants.TAG_710;
 
@@ -20,6 +23,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.MarcFactory;
@@ -27,9 +31,9 @@ import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrganizationMapper extends AgentMapper {
+public class OrganizationJurisdictionMapper extends AgentMapper {
 
-  private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(ORGANIZATION);
+  private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(ORGANIZATION, JURISDICTION);
   private static final Map<Character, String> REPEATABLE_SUBFIELD_PROPERTY_MAP = Map.of(
     'b', SUBORDINATE_UNIT.getValue(),
     'c', PLACE.getValue(),
@@ -45,8 +49,8 @@ public class OrganizationMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  public OrganizationMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor,
-                            MarcFactory marcFactory, Comparator<Subfield> comparator) {
+  public OrganizationJurisdictionMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor,
+                                        MarcFactory marcFactory, Comparator<Subfield> comparator) {
     super(objectMapper, dictionaryProcessor, marcFactory, comparator);
   }
 
@@ -68,5 +72,10 @@ public class OrganizationMapper extends AgentMapper {
   @Override
   protected Map<Character, String> getNonRepeatableSubfieldPropertyMap() {
     return NON_REPEATABLE_SUBFIELD_PROPERTY_MAP;
+  }
+
+  @Override
+  protected char getIndicator1(Resource resource) {
+    return resource.getTypes().contains(JURISDICTION) ? ONE : SPACE;
   }
 }

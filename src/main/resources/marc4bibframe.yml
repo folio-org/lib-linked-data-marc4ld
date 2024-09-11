@@ -312,22 +312,15 @@ bibFieldRules:
         text: e
   110:
     - types: ORGANIZATION
-      parent: WORK
       predicate: CREATOR
-      subfields:
-        a: NAME
-        b: SUBORDINATE_UNIT
-        c: PLACE
-        d: DATE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 110_710_mappings
+      marc2ldCondition:
+        ind1: '!1'
+    - types: JURISDICTION
+      predicate: CREATOR
+      include: 110_710_mappings
+      marc2ldCondition:
+        ind1: '1'
   111:
     - types: MEETING
       parent: WORK
@@ -1513,22 +1506,15 @@ bibFieldRules:
         text: e
   710:
     - types: ORGANIZATION
-      parent: WORK
       predicate: CONTRIBUTOR
-      subfields:
-        a: NAME
-        b: SUBORDINATE_UNIT
-        c: PLACE
-        d: DATE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 110_710_mappings
+      marc2ldCondition:
+        ind1: '!1'
+    - types: JURISDICTION
+      predicate: CONTRIBUTOR
+      include: 110_710_mappings
+      marc2ldCondition:
+        ind1: '1'
   711:
     - types: MEETING
       parent: WORK
@@ -1729,3 +1715,19 @@ bibSharedRules:
             predicate: TITLE
             subfields:
               t: MAIN_TITLE
+  110_710_mappings:
+    parent: WORK
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    relation:
+      code: '4'
+      text: e

@@ -237,6 +237,25 @@
       }
     },
     {
+      "110": {
+        "subfields": [
+          {
+            "a": "CREATOR JURISDICTION name",
+            "b": "CREATOR JURISDICTION subordinate unit",
+            "c": "CREATOR JURISDICTION place",
+            "d": "CREATOR JURISDICTION date",
+            "u": "CREATOR JURISDICTION affiliation",
+            "0": "CREATOR JURISDICTION authority link",
+            "1": "CREATOR JURISDICTION equivalent",
+            "6": "CREATOR JURISDICTION linkage",
+            "7": "CREATOR JURISDICTION control field",
+            "8": "CREATOR JURISDICTION field link"
+          }
+        ],
+        "ind1": "1"
+      }
+    },
+    {
       "111": {
         "subfields": [
           {
@@ -1725,6 +1744,25 @@
         ]
       }
     },
+  {
+    "710": {
+      "subfields": [
+        {
+          "a": "CONTRIBUTOR JURISDICTION name",
+          "b": "CONTRIBUTOR JURISDICTION subordinate unit",
+          "c": "CONTRIBUTOR JURISDICTION place",
+          "d": "CONTRIBUTOR JURISDICTION date",
+          "u": "CONTRIBUTOR JURISDICTION affiliation",
+          "0": "CONTRIBUTOR JURISDICTION authority link",
+          "1": "CONTRIBUTOR JURISDICTION equivalent",
+          "6": "CONTRIBUTOR JURISDICTION linkage",
+          "7": "CONTRIBUTOR JURISDICTION control field",
+          "8": "CONTRIBUTOR JURISDICTION field link"
+        }
+      ],
+      "ind1": "1"
+    }
+  },
     {
       "711": {
         "subfields": [
