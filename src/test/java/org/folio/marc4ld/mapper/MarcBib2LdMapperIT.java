@@ -618,7 +618,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
       getFamilyPersonContributorExpectedProperties("CREATOR FAMILY"), "CREATOR FAMILY name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(ORGANIZATION),
-      getOrganizationContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
+      getOrganizationJurisdictionContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
+    validateEdge(edgeIterator.next(), CREATOR, List.of(JURISDICTION),
+      getOrganizationJurisdictionContributorExpectedProperties("CREATOR JURISDICTION"), "CREATOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CREATOR MEETING"), "CREATOR MEETING name");
     validateTitle(edgeIterator.next());
@@ -650,7 +652,11 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR FAMILY"), "CONTRIBUTOR FAMILY name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(ORGANIZATION),
-      getOrganizationContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"), "CONTRIBUTOR ORGANIZATION name");
+      getOrganizationJurisdictionContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"),
+      "CONTRIBUTOR ORGANIZATION name");
+    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(JURISDICTION),
+      getOrganizationJurisdictionContributorExpectedProperties("CONTRIBUTOR JURISDICTION"),
+      "CONTRIBUTOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
     validateLinkingEntry(edgeIterator.next(), OTHER_EDITION, "775");
@@ -1193,7 +1199,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     );
   }
 
-  private Map<String, List<String>> getOrganizationContributorExpectedProperties(String prefix) {
+  private Map<String, List<String>> getOrganizationJurisdictionContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME.getValue(), List.of(prefix + " name")),
       entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
