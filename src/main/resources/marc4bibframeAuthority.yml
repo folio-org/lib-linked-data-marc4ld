@@ -152,6 +152,33 @@ authorityFieldRules:
           z: not_presented
           t: not_presented
 
+  '155':
+    - types: CONCEPT, FORM
+      include: 155_mappings
+      marc2ldCondition:
+        fieldsAllOf:
+          t: not_presented
+        fieldsAnyOf:
+          v: presented
+          x: presented
+          y: presented
+          z: presented
+      edges:
+        - types: FORM
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: MISC_INFO
+    - types: FORM
+      include: 155_mappings_short
+      marc2ldCondition:
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
+          t: not_presented
+
 sharedAuthorityRules:
   100_mappings_short:
     subfields:
@@ -283,5 +310,44 @@ sharedAuthorityRules:
       c: PLACE
       d: DATE
       e: SUBORDINATE_UNIT
+    constants:
+      RESOURCE_PREFERRED: true
+
+  155_mappings:
+    subfields:
+      a: NAME
+      b: MISC_INFO
+      v: FORM_SUBDIVISION
+      x: GENERAL_SUBDIVISION
+      y: CHRONOLOGICAL_SUBDIVISION
+      z: GEOGRAPHIC_SUBDIVISION
+    constants:
+      RESOURCE_PREFERRED: true
+    edges:
+      - types: FORM
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          v: NAME
+      - types: TOPIC
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          x: NAME
+      - types: TEMPORAL
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          y: NAME
+      - types: PLACE
+        predicate: SUB_FOCUS
+        multiply: true
+        subfields:
+          z: NAME
+
+  155_mappings_short:
+    subfields:
+      a: NAME
+      b: MISC_INFO
     constants:
       RESOURCE_PREFERRED: true

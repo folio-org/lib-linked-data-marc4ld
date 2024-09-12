@@ -12,7 +12,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -43,9 +42,9 @@ public class AuthorityValidationHelper {
   public static void validateFocusResource(Resource resource, ResourceTypeDictionary focusResourceType,
                                            Map<String, List<String>> properties, String label) {
     var focusEdges = getEdges(resource, focusResourceType);
-    assertThat(focusEdges).hasSize(1)
+    assertThat(focusEdges)
+      .filteredOn(resourceEdge -> resourceEdge.getPredicate().equals(FOCUS))
       .singleElement()
-      .satisfies(focusEdge -> assertEquals(focusEdge.getPredicate(), FOCUS))
       .extracting(ResourceEdge::getTarget)
       .satisfies(target -> validateResource(target, List.of(focusResourceType), properties, label));
   }
@@ -55,8 +54,8 @@ public class AuthorityValidationHelper {
     assertNotNull(fieldCode);
     var resourceEdges = getEdges(resource, type);
     assertThat(resourceEdges)
+      .filteredOn(resourceEdge -> resourceEdge.getPredicate().equals(SUB_FOCUS))
       .hasSize(2)
-      .satisfies()
       .satisfies(edge -> validateEdge(edge.get(0), SUB_FOCUS, List.of(type),
         Map.of(
           LABEL.getValue(), List.of(fieldCode + "Value1"),

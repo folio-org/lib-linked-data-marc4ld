@@ -80,8 +80,6 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
     assertThat(result)
       .hasSize(1)
       .filteredOn(resource -> resource.getTypes().containsAll(List.of(CONCEPT, mainType)))
-      .isNotNull()
-      .isNotEmpty()
       .singleElement()
       .satisfies(resource -> TestUtil.validateResource(resource, List.of(CONCEPT, mainType),
         Map.ofEntries(
