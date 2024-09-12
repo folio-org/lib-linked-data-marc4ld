@@ -6,8 +6,8 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
+import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
-import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 
 import java.util.Collection;
@@ -126,7 +126,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     if (notContainsMetadata(folioMetadata)) {
       return;
     }
-    var field999 = marcFactory.newDataField(FIELD_UUID, SPACE, SPACE);
+    var field999 = marcFactory.newDataField(FIELD_UUID, INDICATOR_FOLIO, INDICATOR_FOLIO);
     ofNullable(folioMetadata.getInventoryId()).ifPresent(
       id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id)));
     ofNullable(folioMetadata.getSrsId()).ifPresent(
