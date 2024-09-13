@@ -1,0 +1,29 @@
+{
+  "fields" : [ {
+    "001":"sh85121033"
+  },{
+    "010": {
+      "subfields" : [ {
+        "a" : "010 field value"
+      } ]
+    }
+  }, {
+    "155" : {
+      "subfields" : [ {
+        "a" : "aValue"
+      }, {
+        "b" : "bValue"
+      }, {
+        "c" : "cValue1"
+      }, {
+        "c" : "cValue2"
+      }, {
+        "d" : "dValue"
+      }, {
+        "e" : "eValue"
+      }],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

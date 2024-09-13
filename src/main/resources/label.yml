@@ -90,8 +90,9 @@ labelRules:
     properties:
       - NAME
   - types: CONCEPT, FORM
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: FORM
     addLabelProperty: true
     properties:

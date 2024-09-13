@@ -45,9 +45,11 @@ class Marc2Bibframe655IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/marc/generalSubdivision", List.of("form general subdivision"),
         "http://bibfra.me/vocab/marc/miscInfo", List.of("form misc info"),
         "http://bibfra.me/vocab/lite/name", List.of("form name"),
-        "http://bibfra.me/vocab/marc/formSubdivision", List.of("form form subdivision")
+        "http://bibfra.me/vocab/marc/formSubdivision", List.of("form form subdivision"),
+        "http://bibfra.me/vocab/lite/label",
+        List.of("form name -- form form subdivision -- form general subdivision -- form chronological subdivision")
       ),
-      "form name"
+      "form name -- form form subdivision -- form general subdivision -- form chronological subdivision"
     );
     var resourceEdge2 = edgeIterator.next();
     validateEdge(

@@ -62,8 +62,6 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .isNotNull()
-      .isNotEmpty()
       .singleElement()
       .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, resourceType)))
       .satisfies(resource -> validateFocus(resource, resourceType))

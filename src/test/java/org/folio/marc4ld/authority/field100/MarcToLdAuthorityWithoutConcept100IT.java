@@ -75,8 +75,6 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .isNotNull()
-      .isNotEmpty()
       .singleElement()
       .satisfies(resource -> validateRootResource(resource, resourceType))
       .satisfies(this::validateIdentifier);
