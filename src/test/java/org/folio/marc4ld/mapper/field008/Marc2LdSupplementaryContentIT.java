@@ -41,9 +41,9 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
         validateEdge(edges.get(1), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
             "http://bibfra.me/vocab/marc/code", List.of("q"),
-            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/film"),
-            "http://bibfra.me/vocab/marc/term", List.of("film")
-          ), "film");
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/filmography"),
+            "http://bibfra.me/vocab/marc/term", List.of("filmography")
+          ), "filmography");
         validateEdge(edges.get(2), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
             "http://bibfra.me/vocab/marc/code", List.of("k"),

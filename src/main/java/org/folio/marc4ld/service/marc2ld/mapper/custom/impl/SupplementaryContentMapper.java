@@ -17,7 +17,7 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   private static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
     'k', "discography",
-    'q', "film"
+    'q', "filmography"
   );
 
   public SupplementaryContentMapper(LabelService labelService,

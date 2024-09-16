@@ -80,7 +80,7 @@ class SupplementaryContentMapperTest {
   @CsvSource(value = {
     "b, bibliography",
     "k, discography",
-    "q, film"
+    "q, filmography"
   })
   void getLinkSuffix_shouldReturn_correctSuffix(char code, String expectedSuffix) {
     //expect
@@ -91,7 +91,7 @@ class SupplementaryContentMapperTest {
   @CsvSource(value = {
     "b, bibliography",
     "k, discography",
-    "q, film"
+    "q, filmography"
   })
   void getTerm_shouldReturn_correctTerm(char code, String expectedTerm) {
     //expect
