@@ -1,13 +1,19 @@
 package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
+import static org.folio.marc4ld.util.BibframeUtil.getWork;
+import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
+import org.marc4j.marc.ControlField;
+import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +23,8 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   private static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
     'k', "discography",
-    'q', "filmography"
+    'q', "filmography",
+    '1', "index"
   );
 
   public SupplementaryContentMapper(LabelService labelService,
@@ -64,5 +71,19 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   @Override
   protected String getTerm(char code) {
     return getLinkSuffix(code);
+  }
+
+  @Override
+  public void map(Record marcRecord, Resource instance) {
+    super.map(marcRecord, instance);
+    marcRecord.getControlFields()
+      .stream()
+      .filter(controlField -> TAG_008.equals(controlField.getTag()))
+      .map(ControlField::getData)
+      .map(data -> data.charAt(31))
+      .filter(c -> '1' == c)
+      .findAny()
+      .ifPresent(c -> getWork(instance)
+        .ifPresent(work -> work.addOutgoingEdge(new ResourceEdge(work, createCategory(c), getPredicate()))));
   }
 }
