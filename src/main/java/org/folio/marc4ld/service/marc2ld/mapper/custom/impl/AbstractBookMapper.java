@@ -53,9 +53,9 @@ public abstract class AbstractBookMapper implements CustomMapper {
   protected abstract String getTerm(char code);
 
   @Override
-  public boolean isApplicable(Record record) {
-    return APPLICABLE_TYPES.contains(record.getLeader().getTypeOfRecord())
-      && APPLICABLE_LEVELS.contains(record.getLeader().getImplDefined1()[0]);
+  public boolean isApplicable(Record marcRecord) {
+    return APPLICABLE_TYPES.contains(marcRecord.getLeader().getTypeOfRecord())
+      && APPLICABLE_LEVELS.contains(marcRecord.getLeader().getImplDefined1()[0]);
   }
 
   @Override
@@ -67,8 +67,8 @@ public abstract class AbstractBookMapper implements CustomMapper {
         .forEach(c -> work.addOutgoingEdge(new ResourceEdge(work, createCategory((char) c), getPredicate()))));
   }
 
-  private String getCharacterRange(Record record) {
-    return record.getControlFields()
+  private String getCharacterRange(Record marcRecord) {
+    return marcRecord.getControlFields()
       .stream()
       .filter(controlField -> TAG_008.equals(controlField.getTag()))
       .map(controlField -> controlField.getData().substring(getStartIndex(), getEndIndex()))
@@ -76,7 +76,7 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .orElse(EMPTY);
   }
 
-  private Resource createCategory(char code) {
+  protected Resource createCategory(char code) {
     var categorySet = createResource(CATEGORY_SET, Map.of(
       LINK.getValue(), List.of(getCategorySetLink()),
       LABEL.getValue(), List.of(getCategorySetLabel())));

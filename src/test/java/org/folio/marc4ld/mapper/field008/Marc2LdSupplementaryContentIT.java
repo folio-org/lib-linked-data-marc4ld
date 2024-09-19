@@ -31,7 +31,7 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/supplementaryContent")))
       .satisfies(edges -> {
-        assertThat(edges).hasSize(3);
+        assertThat(edges).hasSize(4);
         validateEdge(edges.get(0), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
             "http://bibfra.me/vocab/marc/code", List.of("b"),
@@ -50,6 +50,12 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/discography"),
             "http://bibfra.me/vocab/marc/term", List.of("discography")
           ), "discography");
+        validateEdge(edges.get(3), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
+          Map.of(
+            "http://bibfra.me/vocab/marc/code", List.of("1"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/index"),
+            "http://bibfra.me/vocab/marc/term", List.of("index")
+          ), "index");
       })
       .extracting(edges -> getOutgoingEdges(edges.get(0)))
       .satisfies(edges -> {
