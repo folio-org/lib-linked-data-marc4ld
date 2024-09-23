@@ -85,6 +85,7 @@ class Ld2MarcSupplementaryContentMapperTest {
       Set.of(WORK),
       Map.of(SUPPLEMENTARY_CONTENT, List.of(
         createCategory("b", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography", categorySet),
+        createCategory("m", "http://id.loc.gov/vocabulary/msupplcont/music", "music", categorySet),
         createCategory("1", "http://id.loc.gov/vocabulary/msupplcont/index", "index", categorySet)
       ))
     );

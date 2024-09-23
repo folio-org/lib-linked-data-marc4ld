@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
+import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.SupplementaryContentMapper.SUPPORTED_CODES;
 import static org.folio.marc4ld.util.BibframeUtil.getOutgoingEdges;
 import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
 import static org.folio.marc4ld.util.BibframeUtil.getWork;
@@ -40,7 +41,10 @@ public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
       .map(ResourceEdge::getTarget)
       .map(r -> getPropertyValue(r, CODE.getValue()))
       .flatMap(Optional::stream)
-      .filter(code -> !ONE.equals(code))
+      .distinct()
+      .map(code -> code.charAt(0))
+      .filter(SUPPORTED_CODES::contains)
+      .map(String::valueOf)
       .collect(Collectors.joining());
   }
 

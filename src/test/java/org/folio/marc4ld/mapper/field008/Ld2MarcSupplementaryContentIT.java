@@ -51,6 +51,7 @@ class Ld2MarcSupplementaryContentIT {
         createCategory("b", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography", categorySet),
         createCategory("q", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography", categorySet),
         createCategory("k", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography", categorySet),
+        createCategory("m", "http://id.loc.gov/vocabulary/msupplcont/music", "music", categorySet),
         createCategory("1", "http://id.loc.gov/vocabulary/msupplcont/index", "index", categorySet)
       ))
     );
