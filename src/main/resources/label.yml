@@ -56,11 +56,11 @@ labelRules:
   - types: MEETING
     addLabelProperty: true
     properties:
-      - "{$NAME}{, $PLACE}{, $DATE}"
+      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}"
   - types: CONCEPT, MEETING
     addLabelProperty: true
     properties:
-      - "{$NAME}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: PROVIDER_EVENT
     properties:
       - NAME
