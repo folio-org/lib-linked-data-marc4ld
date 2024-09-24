@@ -33,10 +33,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
 
-  private static final String EXPECTED_MAIN_LABEL = "aValue, cValue1, cValue2, dValue -- vValue1 -- vValue2 -- xValue1"
-    + " -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
-  private static final String EXPECTED_FOCUS_LABEL = "aValue, cValue1, cValue2, dValue";
-  private static final String EXPECTED_MEETING_LABEL = "aValue, cValue1, cValue2, dValue";
+  private static final String EXPECTED_MAIN_LABEL = "aValue, dValue, cValue1, cValue2, eValue -- vValue1 -- vValue2"
+    + " -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
+  private static final String EXPECTED_FOCUS_LABEL = "aValue, dValue, cValue1, cValue2, eValue";
+  private static final String EXPECTED_MEETING_LABEL = "aValue, dValue, cValue1, cValue2, eValue";
   private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
     FORM, 'v',
     TOPIC, 'x',
