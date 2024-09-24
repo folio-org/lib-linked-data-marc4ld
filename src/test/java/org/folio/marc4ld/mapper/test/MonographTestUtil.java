@@ -606,15 +606,17 @@ public class MonographTestUtil {
       emptyMap()
     ).setLabel("CONTRIBUTOR ORGANIZATION name");
 
-    var category = createResource(
-      Map.of(
-        CODE, List.of("a"),
-        LINK, List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
-        TERM, List.of("Autonomous")
-      ),
-      Set.of(CATEGORY),
-      emptyMap()
-    ).setLabel("Autonomous");
+    var category = createCategory("a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous", null);
+    var targetAudience = createCategory("b", "http://id.loc.gov/vocabulary/maudience/pri", "Primary",
+      createCategorySet("https://id.loc.gov/vocabulary/maudience", "Target audience"));
+    var illustrationCategory = createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps",
+      createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content"));
+    var supplementaryContentCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
+    var supplementaryContent = createCategory("q", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography",
+      supplementaryContentCategorySet);
+    var indexSupplementaryContent = createCategory("1", "http://id.loc.gov/vocabulary/msupplcont/index", "index",
+      supplementaryContentCategorySet);
 
     var languageCategory = createResource(
       Map.of(
@@ -624,16 +626,6 @@ public class MonographTestUtil {
       Set.of(LANGUAGE_CATEGORY),
       emptyMap()
     ).setLabel("eng");
-
-    var illustrationCategory = createResource(
-      Map.of(
-        CODE, List.of("b"),
-        LINK, List.of("http://id.loc.gov/vocabulary/millus/map"),
-        TERM, List.of("Maps")
-      ),
-      Set.of(CATEGORY),
-      emptyMap()
-    ).setLabel("Maps");
 
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(ORIGIN_PLACE, List.of(originPlace));
@@ -651,9 +643,11 @@ public class MonographTestUtil {
       createPlaceConcept(), formConcept));
     pred2OutgoingResources.put(GENRE, List.of(formConcept.getOutgoingEdges().iterator().next().getTarget()));
     pred2OutgoingResources.put(GOVERNMENT_PUBLICATION, List.of(category));
-    pred2OutgoingResources.put(PredicateDictionary.TARGET_AUDIENCE, List.of(createTargetAudience()));
+    pred2OutgoingResources.put(PredicateDictionary.TARGET_AUDIENCE, List.of(targetAudience));
     pred2OutgoingResources.put(LANGUAGE, List.of(languageCategory));
     pred2OutgoingResources.put(ILLUSTRATIONS, List.of(illustrationCategory));
+    pred2OutgoingResources.put(PredicateDictionary.SUPPLEMENTARY_CONTENT,
+      List.of(supplementaryContent, indexSupplementaryContent));
 
     return createResource(
       Map.of(
@@ -923,37 +917,8 @@ public class MonographTestUtil {
     ).setLabel("Dewey Decimal Classification value");
   }
 
-  private Resource createTargetAudience() {
-    var categorySet = createResource(
-      Map.of(
-        LINK, List.of("https://id.loc.gov/vocabulary/maudience"),
-        LABEL, List.of("Target audience")
-      ),
-      Set.of(CATEGORY_SET),
-      emptyMap()
-    ).setLabel("Target audience");
-    var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
-    pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
-    return createResource(
-      Map.of(
-        CODE, List.of("b"),
-        LINK, List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-        TERM, List.of("Primary")
-      ),
-      Set.of(CATEGORY),
-      pred2OutgoingResources
-    ).setLabel("Primary");
-  }
-
   private static Resource createContent() {
-    var categorySet = createResource(
-      Map.of(
-        LINK, List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent"),
-        LABEL, List.of("rdacontent")
-      ),
-      Set.of(CATEGORY_SET),
-      emptyMap()
-    ).setLabel("rdacontent");
+    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent", "rdacontent");
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(IS_DEFINED_BY, List.of(categorySet));
     return createResource(
@@ -1023,6 +988,29 @@ public class MonographTestUtil {
     );
     work.setLabel(primaryTitle.getLabel());
     return work;
+  }
+
+  public static Resource createCategorySet(String link, String label) {
+    return createResource(
+      Map.of(
+        LINK, List.of(link),
+        LABEL, List.of(label)
+      ),
+      Set.of(CATEGORY_SET),
+      emptyMap()
+    ).setLabel(label);
+  }
+
+  public static Resource createCategory(String code, String link, String term, Resource categorySet) {
+    return createResource(
+      Map.of(
+        CODE, List.of(code),
+        LINK, List.of(link),
+        TERM, List.of(term)
+      ),
+      Set.of(CATEGORY),
+      categorySet == null ? emptyMap() : Map.of(IS_DEFINED_BY, List.of(categorySet))
+    ).setLabel(term);
   }
 
   private Resource createPrimaryTitle(Long id) {

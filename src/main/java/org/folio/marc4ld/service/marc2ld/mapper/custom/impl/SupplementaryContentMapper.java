@@ -19,7 +19,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SupplementaryContentMapper extends AbstractBookMapper {
 
-  private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
+  public static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
+
   private static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
     'k', "discography",
