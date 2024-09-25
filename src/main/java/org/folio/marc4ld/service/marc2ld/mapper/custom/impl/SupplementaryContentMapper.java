@@ -19,14 +19,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class SupplementaryContentMapper extends AbstractBookMapper {
 
-  public static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
-
-  private static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
+  public static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
     'k', "discography",
     'q', "filmography",
     '1', "index"
   );
+
+  private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
 
   public SupplementaryContentMapper(LabelService labelService,
                                     MapperHelper mapperHelper,
@@ -75,6 +75,11 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   }
 
   @Override
+  protected String getCode(char code) {
+    return getTerm(code);
+  }
+
+  @Override
   public void map(Record marcRecord, Resource instance) {
     super.map(marcRecord, instance);
     marcRecord.getControlFields()
@@ -85,6 +90,13 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
       .filter(c -> '1' == c)
       .findAny()
       .ifPresent(c -> getWork(instance)
-        .ifPresent(work -> work.addOutgoingEdge(new ResourceEdge(work, createCategory(c), getPredicate()))));
+        .ifPresent(work -> {
+          var category = createCategory(
+            getCode(c),
+            getCategorySetLink() + "/" + getLinkSuffix(c),
+            getTerm(c)
+          );
+          work.addOutgoingEdge(new ResourceEdge(work, category, getPredicate()));
+        }));
   }
 }

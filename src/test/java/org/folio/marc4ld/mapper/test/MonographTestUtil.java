@@ -613,9 +613,9 @@ public class MonographTestUtil {
       createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content"));
     var supplementaryContentCategorySet =
       createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
-    var supplementaryContent = createCategory("q", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography",
-      supplementaryContentCategorySet);
-    var indexSupplementaryContent = createCategory("1", "http://id.loc.gov/vocabulary/msupplcont/index", "index",
+    var supplementaryContent = createCategory("filmography", "http://id.loc.gov/vocabulary/msupplcont/filmography",
+      "filmography", supplementaryContentCategorySet);
+    var indexSupplementaryContent = createCategory("index", "http://id.loc.gov/vocabulary/msupplcont/index", "index",
       supplementaryContentCategorySet);
 
     var languageCategory = createResource(

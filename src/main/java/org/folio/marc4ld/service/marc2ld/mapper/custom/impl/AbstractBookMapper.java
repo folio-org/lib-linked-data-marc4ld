@@ -52,6 +52,8 @@ public abstract class AbstractBookMapper implements CustomMapper {
 
   protected abstract String getTerm(char code);
 
+  protected abstract String getCode(char code);
+
   @Override
   public boolean isApplicable(Record marcRecord) {
     return APPLICABLE_TYPES.contains(marcRecord.getLeader().getTypeOfRecord())
@@ -64,7 +66,14 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .ifPresent(work -> getCharacterRange(marcRecord)
         .chars()
         .filter(c -> isSupportedCode((char) c))
-        .forEach(c -> work.addOutgoingEdge(new ResourceEdge(work, createCategory((char) c), getPredicate()))));
+        .forEach(c -> {
+          var category = createCategory(
+            getCode((char) c),
+            getCategorySetLink() + "/" + getLinkSuffix((char) c),
+            getTerm((char) c)
+          );
+          work.addOutgoingEdge(new ResourceEdge(work, category, getPredicate()));
+        }));
   }
 
   private String getCharacterRange(Record marcRecord) {
@@ -76,14 +85,14 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .orElse(EMPTY);
   }
 
-  protected Resource createCategory(char code) {
+  protected Resource createCategory(String code, String link, String term) {
     var categorySet = createResource(CATEGORY_SET, Map.of(
       LINK.getValue(), List.of(getCategorySetLink()),
       LABEL.getValue(), List.of(getCategorySetLabel())));
     return createResource(CATEGORY, Map.of(
-      CODE.getValue(), List.of("" + code),
-      LINK.getValue(), List.of(getCategorySetLink() + "/" + getLinkSuffix(code)),
-      TERM.getValue(), List.of(getTerm(code))
+      CODE.getValue(), List.of(code),
+      LINK.getValue(), List.of(link),
+      TERM.getValue(), List.of(term)
     ), categorySet);
   }
 

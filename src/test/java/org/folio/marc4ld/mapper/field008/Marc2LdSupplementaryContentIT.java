@@ -34,25 +34,25 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
         assertThat(edges).hasSize(4);
         validateEdge(edges.get(0), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("b"),
+            "http://bibfra.me/vocab/marc/code", List.of("bibliography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/bibliography"),
             "http://bibfra.me/vocab/marc/term", List.of("bibliography")
           ), "bibliography");
         validateEdge(edges.get(1), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("q"),
+            "http://bibfra.me/vocab/marc/code", List.of("filmography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/filmography"),
             "http://bibfra.me/vocab/marc/term", List.of("filmography")
           ), "filmography");
         validateEdge(edges.get(2), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("k"),
+            "http://bibfra.me/vocab/marc/code", List.of("discography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/discography"),
             "http://bibfra.me/vocab/marc/term", List.of("discography")
           ), "discography");
         validateEdge(edges.get(3), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("1"),
+            "http://bibfra.me/vocab/marc/code", List.of("index"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/index"),
             "http://bibfra.me/vocab/marc/term", List.of("index")
           ), "index");

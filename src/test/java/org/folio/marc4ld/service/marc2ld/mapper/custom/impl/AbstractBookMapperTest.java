@@ -155,5 +155,10 @@ class AbstractBookMapperTest {
     protected String getTerm(char code) {
       return "";
     }
+
+    @Override
+    protected String getCode(char code) {
+      return "";
+    }
   }
 }

@@ -96,4 +96,9 @@ public class IllustrationsMapper extends AbstractBookMapper {
   protected String getTerm(char code) {
     return CODE_TO_TERM_MAP.get(code);
   }
+
+  @Override
+  protected String getCode(char code) {
+    return "" + code;
+  }
 }
