@@ -121,4 +121,27 @@ class IllustrationsMapperTest {
     //expect
     assertEquals(expectedTerm, mapper.getTerm(code));
   }
+
+  @ParameterizedTest
+  @CsvSource(value = {
+    "a, a",
+    "b, b",
+    "c, c",
+    "d, d",
+    "e, e",
+    "f, f",
+    "g, g",
+    "h, h",
+    "i, i",
+    "j, j",
+    "k, k",
+    "l, l",
+    "m, m",
+    "o, o",
+    "p, p",
+  })
+  void getCode_shouldReturn_correctCode(char code, String expectedCode) {
+    //expect
+    assertEquals(expectedCode, mapper.getCode(code));
+  }
 }

@@ -48,11 +48,14 @@ class Ld2MarcSupplementaryContentIT {
       emptyMap(),
       Set.of(WORK),
       Map.of(SUPPLEMENTARY_CONTENT, List.of(
-        createCategory("b", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography", categorySet),
-        createCategory("q", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography", categorySet),
-        createCategory("k", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography", categorySet),
-        createCategory("m", "http://id.loc.gov/vocabulary/msupplcont/music", "music", categorySet),
-        createCategory("1", "http://id.loc.gov/vocabulary/msupplcont/index", "index", categorySet)
+        createCategory("bibliography", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography",
+          categorySet),
+        createCategory("filmography", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography",
+          categorySet),
+        createCategory("discography", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography",
+          categorySet),
+        createCategory("music", "http://id.loc.gov/vocabulary/msupplcont/music", "music", categorySet),
+        createCategory("index", "http://id.loc.gov/vocabulary/msupplcont/index", "index", categorySet)
       ))
     );
 

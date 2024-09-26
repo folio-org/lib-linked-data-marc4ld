@@ -119,6 +119,18 @@ class SupplementaryContentMapperTest {
     assertEquals(expectedTerm, mapper.getTerm(code));
   }
 
+  @ParameterizedTest
+  @CsvSource(value = {
+    "b, bibliography",
+    "k, discography",
+    "q, filmography",
+    "1, index"
+  })
+  void getCode_shouldReturn_correctCode(char code, String expectedCode) {
+    //expect
+    assertEquals(expectedCode, mapper.getCode(code));
+  }
+
   @Test
   void shouldNotMap() {
     //given

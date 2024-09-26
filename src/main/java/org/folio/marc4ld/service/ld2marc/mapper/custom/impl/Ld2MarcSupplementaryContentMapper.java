@@ -2,13 +2,14 @@ package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
-import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.SupplementaryContentMapper.SUPPORTED_CODES;
+import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.SupplementaryContentMapper.CODE_TO_LINK_SUFFIX_MAP;
 import static org.folio.marc4ld.util.BibframeUtil.getOutgoingEdges;
 import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
 import static org.folio.marc4ld.util.BibframeUtil.getWork;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.folio.ld.dictionary.model.Resource;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
 
-  private static final String ONE = "1";
+  private static final String INDEX = "index";
 
   @Override
   public void map(Resource resource, Context context) {
@@ -31,7 +32,7 @@ public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
           context.controlFieldsBuilder().addFieldValue(TAG_008, nonIndexCodes, 24, 28);
         }
         if (hasIndex(supplementaryContentEdges)) {
-          context.controlFieldsBuilder().addFieldValue(TAG_008, ONE, 31, 32);
+          context.controlFieldsBuilder().addFieldValue(TAG_008, "1", 31, 32);
         }
       });
   }
@@ -42,9 +43,13 @@ public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
       .map(r -> getPropertyValue(r, CODE.getValue()))
       .flatMap(Optional::stream)
       .distinct()
-      .map(code -> code.charAt(0))
-      .filter(SUPPORTED_CODES::contains)
-      .map(String::valueOf)
+      .filter(codeValue -> CODE_TO_LINK_SUFFIX_MAP.containsValue(codeValue) && !INDEX.equals(codeValue))
+      .flatMap(codeValue -> CODE_TO_LINK_SUFFIX_MAP.entrySet()
+        .stream()
+        .filter(entry -> codeValue.equals(entry.getValue()))
+        .map(Map.Entry::getKey)
+        .map(String::valueOf)
+      )
       .collect(Collectors.joining());
   }
 
@@ -53,6 +58,6 @@ public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
       .map(ResourceEdge::getTarget)
       .map(r -> getPropertyValue(r, CODE.getValue()))
       .flatMap(Optional::stream)
-      .anyMatch(ONE::equals);
+      .anyMatch(INDEX::equals);
   }
 }
