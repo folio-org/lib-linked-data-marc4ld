@@ -13,6 +13,8 @@ import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.MarcUtil.isLanguageMaterial;
+import static org.folio.marc4ld.util.MarcUtil.isMonographicComponentPartOrItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,8 +25,6 @@ import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.enums.BibliographLevel;
-import org.folio.marc4ld.enums.RecordType;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
@@ -77,15 +77,6 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     var typeOfRecord = leader.getTypeOfRecord();
     var bibliographicLevel = leader.getImplDefined1()[0];
     return isLanguageMaterial(typeOfRecord) && isMonographicComponentPartOrItem(bibliographicLevel);
-  }
-
-  private boolean isLanguageMaterial(char typeOfRecord) {
-    return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value;
-  }
-
-  private boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
-    return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
-      || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
   }
 
   private Resource createInstanceAndWorkResource(List<Record> records) {
