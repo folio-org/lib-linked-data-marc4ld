@@ -59,5 +59,5 @@ public class YourService {
 ```
 
 ### Dependencies
-- [lib-linked-data-fingerprint](https://github.com/FOLIO-EIS/lib-linked-data-fingerprint)
-- [lib-linked-data-dictionary](https://github.com/FOLIO-EIS/lib-linked-data-dictionary)
+- [lib-linked-data-fingerprint](https://github.com/folio-org/lib-linked-data-fingerprint)
+- [lib-linked-data-dictionary](https://github.com/folio-org/lib-linked-data-dictionary)
