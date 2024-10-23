@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
 
+import static java.util.Optional.ofNullable;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -10,6 +11,7 @@ import static org.folio.marc4ld.util.BibframeUtil.getPropertyValues;
 import static org.folio.marc4ld.util.Constants.Dictionary.AGENT_CODE_TO_PREDICATE;
 import static org.folio.marc4ld.util.Constants.E;
 import static org.folio.marc4ld.util.Constants.FOUR;
+import static org.folio.marc4ld.util.Constants.NINE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
@@ -23,8 +25,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -87,8 +91,16 @@ public abstract class AgentMapper implements Ld2MarcMapper {
     addRelationCodes(dataField, resourceEdge);
     addRelationNames(dataField, resourceEdge);
     addIdentifierLinks(dataField, resource);
+    addMetadataSubfields(dataField, resource);
     orderSubfields(dataField, comparator);
     return dataField;
+  }
+
+  protected void addMetadataSubfields(DataField dataField, Resource resource) {
+    ofNullable(resource.getFolioMetadata())
+      .map(FolioMetadata::getInventoryId)
+      .filter(StringUtils::isNotBlank)
+      .ifPresent(inventoryId -> dataField.addSubfield(marcFactory.newSubfield(NINE, inventoryId)));
   }
 
   private boolean isAgentEdge(ResourceEdge resourceEdge) {

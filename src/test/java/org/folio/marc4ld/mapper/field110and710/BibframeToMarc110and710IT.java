@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field110and710;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
@@ -25,6 +26,7 @@ import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -80,28 +82,32 @@ class BibframeToMarc110and710IT {
     ).setLabel("another lccn");
 
     var authorOrganization = MonographTestUtil.createResource(
-      Map.ofEntries(
-        entry(NAME, List.of("author")),
-        entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
-        entry(PLACE, List.of("place", "another place")),
-        entry(DATE, List.of("date", "another date")),
-        entry(AFFILIATION, List.of("affiliation")),
-        entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
-        entry(LINKAGE, List.of("linkage")),
-        entry(CONTROL_FIELD, List.of("control field", "another control field")),
-        entry(FIELD_LINK, List.of("field link", "another field link"))
-      ),
-      Set.of(type),
-      Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
-    ).setLabel("author");
+        Map.ofEntries(
+          entry(NAME, List.of("author")),
+          entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
+          entry(PLACE, List.of("place", "another place")),
+          entry(DATE, List.of("date", "another date")),
+          entry(AFFILIATION, List.of("affiliation")),
+          entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
+          entry(LINKAGE, List.of("linkage")),
+          entry(CONTROL_FIELD, List.of("control field", "another control field")),
+          entry(FIELD_LINK, List.of("field link", "another field link"))
+        ),
+        Set.of(type),
+        Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
+      )
+      .setLabel("author")
+      .setFolioMetadata(new FolioMetadata().setInventoryId("8473ef4b-001f-46b3-a60e-52bcdeb3d5b2"));
 
     var editorOrganization = MonographTestUtil.createResource(
-      Map.of(
-        NAME, List.of("editor")
-      ),
-      Set.of(type),
-      emptyMap()
-    ).setLabel("editor");
+        Map.of(
+          NAME, List.of("editor")
+        ),
+        Set.of(type),
+        emptyMap()
+      )
+      .setLabel("editor")
+      .setFolioMetadata(new FolioMetadata().setInventoryId(EMPTY));
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),

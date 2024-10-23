@@ -15,6 +15,7 @@ public class Constants {
   public static final char THREE = '3';
   public static final char FOUR = '4';
   public static final char SEVEN = '7';
+  public static final char NINE = '9';
   public static final char A = 'a';
   public static final char B = 'b';
   public static final char E = 'e';

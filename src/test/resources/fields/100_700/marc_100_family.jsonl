@@ -1,25 +1,27 @@
 {
-  "leader" : "00392nam a2200049uc 4500",
+  "leader" : "00438nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
-    "111" : {
+    "100" : {
       "subfields" : [ {
         "a" : "name"
       }, {
-        "c" : "place"
+        "b" : "numeration"
       }, {
-        "c" : "another place"
+        "c" : "titles"
+      }, {
+        "c" : "another titles"
       }, {
         "d" : "date"
       }, {
-        "d" : "another date"
+        "e" : "author"
       }, {
-        "e" : "subordinate unit"
+        "j" : "attribution"
       }, {
-        "e" : "another subordinate unit"
+        "j" : "another attribution"
       }, {
-        "j" : "author"
+        "q" : "name alternative"
       }, {
         "u" : "affiliation"
       }, {
@@ -46,8 +48,10 @@
         "8" : "field link"
       }, {
         "8" : "another field link"
+      }, {
+        "9" : "8473ef4b-001f-46b3-a60e-52bcdeb3d5b2"
       } ],
-      "ind1" : " ",
+      "ind1" : "3",
       "ind2" : " "
     }
   } ]
