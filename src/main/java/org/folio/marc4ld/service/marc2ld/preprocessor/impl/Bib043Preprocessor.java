@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Bib043Preprocessor implements DataFieldPreprocessor {
+  private static final String TRAILING_HYPHEN_REGEX = "-+$";
 
   private static final List<String> TAGS = List.of(TAG_043);
 
@@ -31,7 +32,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
     dataField.getSubfields()
       .forEach(sf -> {
         if (sf.getCode() == A) {
-          result.addSubfield(marcFactory.newSubfield(A, sf.getData().replaceAll("-+$", EMPTY)));
+          result.addSubfield(marcFactory.newSubfield(A, sf.getData().replaceAll(TRAILING_HYPHEN_REGEX, EMPTY)));
         } else {
           result.addSubfield(sf);
         }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TrailingPunctuationPreprocessor implements DataFieldPreprocessor {
+  private static final String TRAILING_PUNCTUATION_REGEX = "[.,:;\\s]+\\s*$";
 
   private static final List<String> TAGS = List.of(TAG_260, TAG_262, TAG_264, TAG_300);
 
@@ -38,7 +39,7 @@ public class TrailingPunctuationPreprocessor implements DataFieldPreprocessor {
   }
 
   private String clean(String data) {
-    return data.replaceAll("[.,:;\\s]+\\s*$", "");
+    return data.replaceAll(TRAILING_PUNCTUATION_REGEX, "");
   }
 
   @Override
