@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field100;
+package org.folio.marc4ld.mapper.field100and700;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
@@ -28,6 +28,7 @@ import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -40,19 +41,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class BibframeToMarc100IT {
+class BibframeToMarc100And700IT {
 
   @Autowired
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
 
   @ParameterizedTest
   @CsvSource(value = {
-    "PERSON, fields/100/marc_100_person.jsonl",
-    "FAMILY, fields/100/marc_100_family.jsonl"
+    "PERSON, CREATOR, fields/100_700/marc_100_person.jsonl",
+    "PERSON, CONTRIBUTOR, fields/100_700/marc_700_person.jsonl",
+    "FAMILY, CREATOR, fields/100_700/marc_100_family.jsonl",
+    "FAMILY, CONTRIBUTOR, fields/100_700/marc_700_family.jsonl"
   })
-  void shouldMapField100(ResourceTypeDictionary type, String marcFile) {
+  void shouldMapField100And700(ResourceTypeDictionary type, PredicateDictionary predicate, String marcFile) {
     //given
-    var resource = createResourceWithWorkWith100(type);
+    var resource = createResourceWithWork(type, predicate);
     var expectedMarc = loadResourceAsString(marcFile);
 
     //when
@@ -63,7 +66,7 @@ class BibframeToMarc100IT {
       .isEqualTo(expectedMarc);
   }
 
-  private Resource createResourceWithWorkWith100(ResourceTypeDictionary type) {
+  private Resource createResourceWithWork(ResourceTypeDictionary type, PredicateDictionary predicate) {
     var lccn = MonographTestUtil.createResource(
       Map.ofEntries(
         entry(LINK, List.of("lccn link"))
@@ -81,29 +84,31 @@ class BibframeToMarc100IT {
     ).setLabel("another lccn");
 
     var creator = MonographTestUtil.createResource(
-      Map.ofEntries(
-        entry(AUTHORITY_LINK, List.of("authority link", "another authority link")),
-        entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
-        entry(LINKAGE, List.of("linkage")),
-        entry(CONTROL_FIELD, List.of("control field", "another control field")),
-        entry(FIELD_LINK, List.of("field link", "another field link")),
-        entry(NAME, List.of("name")),
-        entry(NUMERATION, List.of("numeration")),
-        entry(TITLES, List.of("titles", "another titles")),
-        entry(DATE, List.of("date")),
-        entry(ATTRIBUTION, List.of("attribution", "another attribution")),
-        entry(NAME_ALTERNATIVE, List.of("name alternative")),
-        entry(AFFILIATION, List.of("affiliation"))
-      ),
-      Set.of(type),
-      Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
-    ).setLabel("name");
+        Map.ofEntries(
+          entry(AUTHORITY_LINK, List.of("authority link", "another authority link")),
+          entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
+          entry(LINKAGE, List.of("linkage")),
+          entry(CONTROL_FIELD, List.of("control field", "another control field")),
+          entry(FIELD_LINK, List.of("field link", "another field link")),
+          entry(NAME, List.of("name")),
+          entry(NUMERATION, List.of("numeration")),
+          entry(TITLES, List.of("titles", "another titles")),
+          entry(DATE, List.of("date")),
+          entry(ATTRIBUTION, List.of("attribution", "another attribution")),
+          entry(NAME_ALTERNATIVE, List.of("name alternative")),
+          entry(AFFILIATION, List.of("affiliation"))
+        ),
+        Set.of(type),
+        Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
+      )
+      .setLabel("name")
+      .setFolioMetadata(new FolioMetadata().setInventoryId("8473ef4b-001f-46b3-a60e-52bcdeb3d5b2"));
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
       Map.of(
-        PredicateDictionary.CREATOR, List.of(creator),
+        predicate, List.of(creator),
         PredicateDictionary.AUTHOR, List.of(creator)
       )
     ).setLabel("Work: label");

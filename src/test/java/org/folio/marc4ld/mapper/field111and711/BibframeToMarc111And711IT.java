@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field111;
+package org.folio.marc4ld.mapper.field111and711;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
@@ -26,27 +26,33 @@ import java.util.Map;
 import java.util.Set;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class BibframeToMarc111IT {
+class BibframeToMarc111And711IT {
 
   @Autowired
   private Bibframe2MarcMapperImpl bibframe2MarcMapper;
 
-  @Test
-  void shouldMapField111() {
+  @ParameterizedTest
+  @CsvSource(value = {
+    "CREATOR, fields/111_711/marc_111.jsonl",
+    "CONTRIBUTOR, fields/111_711/marc_711.jsonl"
+  })
+  void shouldMapField111And711(PredicateDictionary predicate, String marcFile) {
     //given
-    var resource = createResourceWithWorkWith111();
-    var expectedMarc = loadResourceAsString("fields/111/marc_111.jsonl");
+    var resource = createResourceWithWork(predicate);
+    var expectedMarc = loadResourceAsString(marcFile);
 
     //when
     var result = bibframe2MarcMapper.toMarcJson(resource);
@@ -56,7 +62,7 @@ class BibframeToMarc111IT {
       .isEqualTo(expectedMarc);
   }
 
-  private Resource createResourceWithWorkWith111() {
+  private Resource createResourceWithWork(PredicateDictionary predicate) {
     var lccn = MonographTestUtil.createResource(
       Map.ofEntries(
         entry(LINK, List.of("lccn link"))
@@ -74,27 +80,29 @@ class BibframeToMarc111IT {
     ).setLabel("another lccn");
 
     var meeting = MonographTestUtil.createResource(
-      Map.ofEntries(
-        entry(NAME, List.of("name")),
-        entry(AUTHORITY_LINK, List.of("authority link", "another authority link")),
-        entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
-        entry(PLACE, List.of("place", "another place")),
-        entry(DATE, List.of("date", "another date")),
-        entry(AFFILIATION, List.of("affiliation")),
-        entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
-        entry(LINKAGE, List.of("linkage")),
-        entry(CONTROL_FIELD, List.of("control field", "another control field")),
-        entry(FIELD_LINK, List.of("field link", "another field link"))
-      ),
-      Set.of(MEETING),
-      Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
-    ).setLabel("name");
+        Map.ofEntries(
+          entry(NAME, List.of("name")),
+          entry(AUTHORITY_LINK, List.of("authority link", "another authority link")),
+          entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
+          entry(PLACE, List.of("place", "another place")),
+          entry(DATE, List.of("date", "another date")),
+          entry(AFFILIATION, List.of("affiliation")),
+          entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
+          entry(LINKAGE, List.of("linkage")),
+          entry(CONTROL_FIELD, List.of("control field", "another control field")),
+          entry(FIELD_LINK, List.of("field link", "another field link"))
+        ),
+        Set.of(MEETING),
+        Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
+      )
+      .setLabel("name")
+      .setFolioMetadata(new FolioMetadata().setInventoryId("8473ef4b-001f-46b3-a60e-52bcdeb3d5b2"));
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(WORK),
       Map.of(
-        PredicateDictionary.CREATOR, List.of(meeting),
+        predicate, List.of(meeting),
         PredicateDictionary.AUTHOR, List.of(meeting)
       )
     ).setLabel("Work: label");
