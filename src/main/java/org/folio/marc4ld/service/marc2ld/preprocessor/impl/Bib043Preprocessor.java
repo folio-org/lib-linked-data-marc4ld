@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.Dictionary.GEOGRAPHIC_CODE_TO_NAME;
 import static org.folio.marc4ld.util.Constants.TAG_043;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Bib043Preprocessor implements DataFieldPreprocessor {
-  private static final String TRAILING_HYPHEN_REGEX = "-+$";
 
   private static final List<String> TAGS = List.of(TAG_043);
 
@@ -32,7 +30,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
     dataField.getSubfields()
       .forEach(sf -> {
         if (sf.getCode() == A) {
-          result.addSubfield(marcFactory.newSubfield(A, sf.getData().replaceAll(TRAILING_HYPHEN_REGEX, EMPTY)));
+          result.addSubfield(marcFactory.newSubfield(A, removeTrailingHyphens(sf.getData())));
         } else {
           result.addSubfield(sf);
         }
@@ -51,5 +49,13 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
       .map(Subfield::getData)
       .flatMap(data -> dictionaryProcessor.getValue(GEOGRAPHIC_CODE_TO_NAME, data))
       .isPresent();
+  }
+
+  private String removeTrailingHyphens(String data) {
+    int length = data.length();
+    while (length > 0 && data.charAt(length - 1) == '-') {
+      length--;
+    }
+    return data.substring(0, length);
   }
 }
