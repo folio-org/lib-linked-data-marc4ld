@@ -123,7 +123,7 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
     var edges = getEdges(resource, FORM);
     assertThat(edges).hasSize(1)
       .singleElement()
-      .satisfies(e -> assertEquals(e.getPredicate(), SUB_FOCUS));
+      .satisfies(e -> assertEquals(SUB_FOCUS, e.getPredicate()));
   }
 
   private void validateCreatedResource(Resource resource, List<ResourceTypeDictionary> types,

@@ -134,7 +134,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
@@ -255,15 +254,6 @@ public class MonographTestUtil {
     var publication = providerEvent("Publication");
     var distribution = providerEvent("Distribution");
     var manufacture = providerEvent("Manufacture");
-
-    var supplementaryContent = createResource(
-      Map.of(
-        LINK, List.of("supplementaryContent link"),
-        NAME, List.of("supplementaryContent name")
-      ),
-      Set.of(SUPPLEMENTARY_CONTENT),
-      emptyMap()
-    ).setLabel("supplementaryContent label");
 
     var accessLocation = createResource(
       Map.of(

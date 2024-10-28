@@ -5,7 +5,7 @@ import static java.util.Objects.nonNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.enums.BibliographLevel;
@@ -33,7 +33,7 @@ public class MarcUtil {
   }
 
   private static Optional<String> getSubfieldApplyingTransformation(DataField dataField, char code,
-                                                                    Function<String, String> function) {
+                                                                    UnaryOperator<String> function) {
     return Optional.ofNullable(dataField.getSubfield(code))
       .filter(subfield -> nonNull(subfield.getData()))
       .map(subfield -> function.apply(subfield.getData()));

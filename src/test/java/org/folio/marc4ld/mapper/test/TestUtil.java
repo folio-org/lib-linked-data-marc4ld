@@ -21,7 +21,7 @@ import org.springframework.core.io.ResourceLoader;
 @UtilityClass
 public class TestUtil {
 
-  public static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @SneakyThrows
   public static String loadResourceAsString(String resourceName) {

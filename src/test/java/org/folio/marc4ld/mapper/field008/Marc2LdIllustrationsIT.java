@@ -65,7 +65,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus"),
             "http://bibfra.me/vocab/lite/label", List.of("Illustrative Content")
           ), "Illustrative Content");
-        assertThat(getOutgoingEdges(edges.get(0))).hasSize(0);
+        assertThat(getOutgoingEdges(edges.get(0))).isEmpty();
       });
   }
 }

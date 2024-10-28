@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
+class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
 
   private static final String LEADER_TEMPLATE = "11111x%s%s x1111111xx 1111";
   private static final char UNKNOWN_CODE = 'x';
@@ -30,7 +30,7 @@ public class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @MethodSource("leaderSource")
-  public void map_shouldProcessMonographsOnly(String leader,
+  void map_shouldProcessMonographsOnly(String leader,
                                               Condition<Optional<Resource>> condition) throws Exception {
     var resource = marcBib2ldMapper.fromMarcJson(objectMapper.writeValueAsString(new MarcJson(leader)));
     assertThat(resource).satisfies(condition);
