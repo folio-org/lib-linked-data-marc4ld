@@ -27,7 +27,7 @@ public abstract class AbstractLd2MarcBookMapper implements Ld2MarcCustomMapper {
       .ifPresent(work -> {
         var value = getOutgoingEdges(work, getPredicate())
           .stream()
-          .limit(getEndIndex() - getStartIndex())
+          .limit((long) getEndIndex() - (long) getStartIndex())
           .map(ResourceEdge::getTarget)
           .map(r -> getPropertyValue(r, CODE.getValue()))
           .flatMap(Optional::stream)
