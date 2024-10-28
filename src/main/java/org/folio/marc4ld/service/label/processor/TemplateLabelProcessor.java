@@ -26,7 +26,7 @@ public class TemplateLabelProcessor implements LabelProcessor {
 
   private static final Pattern CONDITIONAL_PATTERN = Pattern.compile("\\{([^}]*)\\}");
   private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\$(\\w+)");
-  private static final Pattern TRIM_RESULT_PATTERN = Pattern.compile("^[\\s,\\-]+|[\\s,\\-]+$");
+  private static final Pattern TRIM_RESULT_PATTERN = Pattern.compile("(^[\\s,\\-]+)|([\\s,\\-]+$)");
 
   private final List<String> templateParts;
   private final List<String> conditionalParts;
