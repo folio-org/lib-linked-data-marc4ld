@@ -65,6 +65,7 @@ public abstract class AgentMapper implements Ld2MarcMapper {
 
   protected abstract Map<Character, String> getNonRepeatableSubfieldPropertyMap();
 
+  @SuppressWarnings("unused")
   protected char getIndicator1(Resource resource) {
     return SPACE;
   }
