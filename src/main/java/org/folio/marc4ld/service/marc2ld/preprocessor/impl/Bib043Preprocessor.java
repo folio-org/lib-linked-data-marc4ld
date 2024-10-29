@@ -52,7 +52,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
   }
 
   private String removeTrailingHyphens(String data) {
-    int length = data.length();
+    var length = data.length();
     while (length > 0 && data.charAt(length - 1) == '-') {
       length--;
     }

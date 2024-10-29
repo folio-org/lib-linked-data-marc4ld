@@ -37,7 +37,7 @@ public class TrailingPunctuationPreprocessor implements DataFieldPreprocessor {
   }
 
   private String clean(String data) {
-    int length = data.length();
+    var length = data.length();
     while (length > 0 && isPunctuationOrWhitespace(data.charAt(length - 1))) {
       length--;
     }
