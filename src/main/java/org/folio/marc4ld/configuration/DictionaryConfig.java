@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -29,7 +30,7 @@ public class DictionaryConfig {
       resources = resourcePatternResolver.getResources("classpath*:dictionary/*");
     } catch (IOException e) {
       log.error("IOException during dictionaries gathering {}", e.getMessage());
-      throw new RuntimeException(e);
+      throw new BeanInitializationException("Failed to initialize bean " + DICTIONARY_MAP, e);
     }
     return stream(resources)
       .map(Resource::getFilename)

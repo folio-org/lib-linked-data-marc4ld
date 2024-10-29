@@ -69,8 +69,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     return Optional.of(createInstanceAndWorkResource(records));
   }
 
-  private boolean isMonograph(Record record) {
-    var leader = record.getLeader();
+  private boolean isMonograph(Record marcRecord) {
+    var leader = marcRecord.getLeader();
     if (isNull(leader)) {
       return false;
     }

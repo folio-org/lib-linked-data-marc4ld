@@ -51,14 +51,14 @@ class AbstractBookMapperTest {
   @MethodSource("applicableDataProvider")
   void isApplicable_shouldReturn_true(char typeOfRecord, char[] implementationDefinedValues) {
     //given
-    var record = mock(Record.class);
+    var marcRecord = mock(Record.class);
     var leader = mock(Leader.class);
-    when(record.getLeader()).thenReturn(leader);
+    when(marcRecord.getLeader()).thenReturn(leader);
     when(leader.getTypeOfRecord()).thenReturn(typeOfRecord);
     when(leader.getImplDefined1()).thenReturn(implementationDefinedValues);
 
     //expect
-    assertTrue(mapper.isApplicable(record));
+    assertTrue(mapper.isApplicable(marcRecord));
   }
 
   static Stream<Arguments> notApplicableDataProvider() {
@@ -74,28 +74,28 @@ class AbstractBookMapperTest {
   @MethodSource("notApplicableDataProvider")
   void isApplicable_shouldReturn_false(char typeOfRecord, char[] implementationDefinedValues) {
     //given
-    var record = mock(Record.class);
+    var marcRecord = mock(Record.class);
     var leader = mock(Leader.class);
-    when(record.getLeader()).thenReturn(leader);
+    when(marcRecord.getLeader()).thenReturn(leader);
     when(leader.getTypeOfRecord()).thenReturn(typeOfRecord);
     when(leader.getImplDefined1()).thenReturn(implementationDefinedValues);
 
     //expect
-    assertFalse(mapper.isApplicable(record));
+    assertFalse(mapper.isApplicable(marcRecord));
   }
 
   @Test
   void map() {
     //given
     var marcFactory = MarcFactory.newInstance();
-    var record = marcFactory.newRecord();
-    record.addVariableField(marcFactory.newControlField("008", "ab"));
+    var marcRecord = marcFactory.newRecord();
+    marcRecord.addVariableField(marcFactory.newControlField("008", "ab"));
     var instance = new Resource();
     var work = new Resource();
     instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));
 
     //when
-    mapper.map(record, instance);
+    mapper.map(marcRecord, instance);
 
     //then
     var workEdges = work.getOutgoingEdges();

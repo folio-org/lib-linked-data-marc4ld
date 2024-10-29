@@ -10,16 +10,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 
 @Data
 @Configuration
 @ConfigurationProperties
-@PropertySources({
-  @PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class),
-  @PropertySource(value = "classpath:marc4bibframeAuthority.yml", factory = YamlPropertySourceFactory.class),
-  @PropertySource(value = "classpath:label.yml", factory = YamlPropertySourceFactory.class)
-})
+@PropertySource(value = "classpath:marc4bibframe.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:marc4bibframeAuthority.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:label.yml", factory = YamlPropertySourceFactory.class)
 public class Marc4BibframeRules {
 
   private Map<String, List<FieldRule>> bibFieldRules;
