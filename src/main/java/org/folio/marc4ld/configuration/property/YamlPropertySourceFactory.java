@@ -1,5 +1,7 @@
 package org.folio.marc4ld.configuration.property;
 
+import static java.util.Objects.requireNonNull;
+
 import lombok.NonNull;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
@@ -13,7 +15,8 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
   public PropertySource<?> createPropertySource(String name, @NonNull EncodedResource encodedResource) {
     var factory = new YamlPropertiesFactoryBean();
     factory.setResources(encodedResource.getResource());
-    var properties = factory.getObject();
-    return new PropertiesPropertySource(encodedResource.getResource().getFilename(), properties);
+    var properties = requireNonNull(factory.getObject());
+    var fileName = requireNonNull(encodedResource.getResource().getFilename());
+    return new PropertiesPropertySource(fileName, properties);
   }
 }
