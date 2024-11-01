@@ -69,7 +69,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
-import static org.folio.ld.dictionary.PropertyDictionary.EDITION_STATEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
@@ -241,9 +240,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     // then
     assertThat(resource.getLabel()).isEmpty();
     assertThat(resource.getDoc()).hasSize(2);
-    assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
-    assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
+    assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
+    assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
     assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
@@ -317,9 +316,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getLabel()).isEqualTo("MainTitle");
     assertThat(resource.getDoc()).hasSize(35);
     validateInstanceNotes(resource);
-    assertThat(resource.getDoc().has(EDITION_STATEMENT.getValue())).isTrue();
-    assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EDITION_STATEMENT.getValue()).get(0).asText())
+    assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
+    assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
+    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asText())
       .isEqualTo("Edition Statement Edition statement2");
     assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
