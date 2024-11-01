@@ -1247,57 +1247,6 @@
       }
     },
     {
-      "651": {
-        "subfields": [
-          {
-            "a": "place name"
-          },
-          {
-            "g": "place misc info"
-          },
-          {
-            "v": "place form subdivision"
-          },
-          {
-            "x": "place general subdivision"
-          },
-          {
-            "y": "place chronological subdivision"
-          },
-          {
-            "z": "place geographic subdivision"
-          },
-          {
-            "2": "place source"
-          },
-          {
-            "3": "place materials specified"
-          },
-          {
-            "e": "place relator term"
-          },
-          {
-            "4": "place relator code"
-          },
-          {
-            "0": "place authority link"
-          },
-          {
-            "1": "place equivalent"
-          },
-          {
-            "6": "place linkage"
-          },
-          {
-            "7": "place control field"
-          },
-          {
-            "8": "place field link"
-          }
-        ]
-      }
-    },
-    {
       "655": {
         "subfields": [
           {

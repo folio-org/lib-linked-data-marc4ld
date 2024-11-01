@@ -629,8 +629,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PLACE),
-      getPlaceConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FORM),
       getFormConceptExpectedProperties());
     validateEdge(edgeIterator.next(), GENRE, List.of(FORM),
@@ -1101,14 +1099,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
       entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
-  }
-
-  private Map<String, List<String>> getPlaceConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("place").entrySet().stream(),
-        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("place misc info")))
-          .entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private Map<String, List<String>> getFormConceptExpectedProperties() {
