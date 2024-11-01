@@ -145,10 +145,7 @@ class Marc2Bibframe610IT  extends Marc2LdTestBase {
       .forEach(r -> {
         var label = r.getLabel();
         var properties = expectedSubFocuses.get(label);
-        validateResource(r, List.of(properties.type), properties.properties, label);
+        validateResource(r, List.of(properties.type()), properties.properties(), label);
       });
-  }
-
-  record TypeAndProperties(ResourceTypeDictionary type, Map<String, List<String>> properties) {
   }
 }

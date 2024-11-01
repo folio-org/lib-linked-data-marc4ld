@@ -18,7 +18,6 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
@@ -139,10 +138,7 @@ class Marc2Bibframe650IT extends Marc2LdTestBase {
       .forEach(r -> {
         var label = r.getLabel();
         var properties = expectedSubFocuses.get(label);
-        validateResource(r, List.of(properties.type), properties.properties, label);
+        validateResource(r, List.of(properties.type()), properties.properties(), label);
       });
-  }
-
-  record TypeAndProperties(ResourceTypeDictionary type, Map<String, List<String>> properties) {
   }
 }

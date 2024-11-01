@@ -384,112 +384,12 @@
       }
     },
     {
-      "261": {
-        "subfields": [
-          {
-            "b": "Manufacture261 Name"
-          },
-          {
-            "d": "Manufacture261 Date"
-          },
-          {
-            "f": "Manufacture261 Place"
-          }
-        ]
-      }
-    },
-    {
-      "262": {
-        "subfields": [
-          {
-            "a": "Publication262 Place"
-          },
-          {
-            "b": "Publication262 Name"
-          },
-          {
-            "c": "Publication262 Date"
-          }
-        ],
-        "ind1": " ",
-        "ind2": " "
-      }
-    },
-    {
       "263": {
         "subfields": [
           {
             "a": "projectedProvisionDate"
           }
         ]
-      }
-    },
-    {
-      "264": {
-        "subfields": [
-          {
-            "a": "Production Place"
-          },
-          {
-            "b": "Production Name"
-          },
-          {
-            "c": "Production Date"
-          }
-        ],
-        "ind1": " ",
-        "ind2": "0"
-      }
-    },
-    {
-      "264": {
-        "subfields": [
-          {
-            "a": "Publication Place"
-          },
-          {
-            "b": "Publication Name"
-          },
-          {
-            "c": "Publication Date"
-          }
-        ],
-        "ind1": " ",
-        "ind2": "1"
-      }
-    },
-    {
-      "264": {
-        "subfields": [
-          {
-            "a": "Distribution Place"
-          },
-          {
-            "b": "Distribution Name"
-          },
-          {
-            "c": "Distribution Date"
-          }
-        ],
-        "ind1": " ",
-        "ind2": "2"
-      }
-    },
-    {
-      "264": {
-        "subfields": [
-          {
-            "a": "Manufacture Place"
-          },
-          {
-            "b": "Manufacture Name"
-          },
-          {
-            "c": "Manufacture Date"
-          }
-        ],
-        "ind1": " ",
-        "ind2": "3"
       }
     },
     {

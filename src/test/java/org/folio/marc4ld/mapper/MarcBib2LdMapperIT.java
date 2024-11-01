@@ -36,11 +36,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
-import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
@@ -49,7 +44,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
@@ -71,12 +65,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
-import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
@@ -92,7 +83,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_DUPLICATES;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
-import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
@@ -105,16 +95,12 @@ import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.PHYSICAL_DESCRIPTION;
 import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DATE;
-import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
-import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
-import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
@@ -153,7 +139,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -269,12 +254,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
-    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture261");
-    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication262");
-    validateProviderEvent(edgeIterator.next(), PE_PRODUCTION, "Production");
-    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication");
-    validateProviderEvent(edgeIterator.next(), PE_DISTRIBUTION, "Distribution");
-    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture");
     validateCopyrightDate(edgeIterator.next());
     validateExtent(edgeIterator.next());
     validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
@@ -923,56 +902,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateProviderEvent(ResourceEdge edge, PredicateDictionary expectedPredicate,
-                                     String expectedPrefix) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(expectedPredicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(expectedPredicate.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo(expectedPrefix + " Name");
-    assertThat(resource.getTypes()).containsOnly(PROVIDER_EVENT);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(SIMPLE_PLACE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Place");
-    assertThat(resource.getDoc().has(DATE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Date");
-    assertThat(resource.getDoc().has(NAME.getValue())).isTrue();
-    assertThat(resource.getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Name");
-    assertThat(resource.getDoc().has(PROVIDER_DATE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(PROVIDER_DATE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(PROVIDER_DATE.getValue()).get(0).asText()).isEqualTo("1999");
-    assertThat(resource.getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = resource.getOutgoingEdges().iterator();
-    validateProviderPlace(edgeIterator.next());
-    assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateProviderPlace(ResourceEdge edge) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo("Afghanistan");
-    assertThat(resource.getTypes()).containsOnly(PLACE);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(NAME.getValue())).isTrue();
-    assertThat(resource.getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("Afghanistan");
-    assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("af");
-    assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
-    assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText())
-      .isEqualTo("http://id.loc.gov/vocabulary/countries/af");
-    assertThat(resource.getOutgoingEdges()).isEmpty();
-  }
-
   private void validateCopyrightDate(ResourceEdge edge) {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
@@ -1045,25 +974,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(SCALE_NOTE.getValue(), "fraction note, remainder note"),
       entry(STUDY_PROGRAM_NAME.getValue(), "program, interest, reading, title, text, nonpublic, public"),
       entry(SUPPLEMENT.getValue(), "supplement note")
-    );
-  }
-
-  private Map<String, List<String>> getCommonConceptExpectedProperties(String prefix) {
-    return Map.ofEntries(
-      entry(NAME.getValue(), List.of(prefix + " name")),
-      entry(FORM_SUBDIVISION.getValue(), List.of(prefix + " form subdivision")),
-      entry(GENERAL_SUBDIVISION.getValue(), List.of(prefix + " general subdivision")),
-      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), List.of(prefix + " chronological subdivision")),
-      entry(GEOGRAPHIC_SUBDIVISION.getValue(), List.of(prefix + " geographic subdivision")),
-      entry(SOURCE.getValue(), List.of(prefix + " source")),
-      entry(MATERIALS_SPECIFIED.getValue(), List.of(prefix + " materials specified")),
-      entry(RELATOR_TERM.getValue(), List.of(prefix + " relator term")),
-      entry(RELATOR_CODE.getValue(), List.of(prefix + " relator code")),
-      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
-      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
-      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
-      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
-      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
   }
 
