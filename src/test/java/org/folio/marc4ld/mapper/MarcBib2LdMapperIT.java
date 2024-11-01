@@ -630,14 +630,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FAMILY),
-      getFamilyPersonConceptExpectedProperties("family"));
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PERSON),
-      getFamilyPersonConceptExpectedProperties("person"));
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, JURISDICTION),
-      getJurisdictionOrganizationConceptExpectedProperties("jurisdiction"));
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, ORGANIZATION),
-      getJurisdictionOrganizationConceptExpectedProperties("organization"));
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, TOPIC),
       getTopicConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PLACE),
@@ -1139,32 +1131,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         getCommonConceptExpectedProperties("form").entrySet().stream(),
         Map.ofEntries(entry(MISC_INFO.getValue(), List.of("form misc info")))
           .entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> getFamilyPersonConceptExpectedProperties(String prefix) {
-    return Stream.concat(
-        getCommonConceptExpectedProperties(prefix).entrySet().stream(),
-        Map.ofEntries(
-          entry(NUMERATION.getValue(), List.of(prefix + " numeration")),
-          entry(TITLES.getValue(), List.of(prefix + " titles")),
-          entry(DATE.getValue(), List.of(prefix + " date")),
-          entry(ATTRIBUTION.getValue(), List.of(prefix + " attribution")),
-          entry(NAME_ALTERNATIVE.getValue(), List.of(prefix + " name alternative")),
-          entry(AFFILIATION.getValue(), List.of(prefix + " affiliation"))
-        ).entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> getJurisdictionOrganizationConceptExpectedProperties(String prefix) {
-    return Stream.concat(
-        getCommonConceptExpectedProperties(prefix).entrySet().stream(),
-        Map.ofEntries(
-          entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
-          entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
-          entry(DATE.getValue(), List.of(prefix + " date")),
-          entry(AFFILIATION.getValue(), List.of(prefix + " affiliation"))
-        ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 

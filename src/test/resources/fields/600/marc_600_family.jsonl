@@ -4,6 +4,20 @@
       "subfields" : [ {
         "a" : "name"
       }, {
+       "b" : "numeration"
+      }, {
+        "c" : "title 1"
+      }, {
+        "c" : "title 2",
+      }, {
+        "d" : "2024",
+      }, {
+        "e" : "relator",
+      }, {
+        "j" : "attribution",
+      }, {
+       "q" : "name alternative",
+      }, {
         "v" : "form 1"
       }, {
         "v" : "form 2"
