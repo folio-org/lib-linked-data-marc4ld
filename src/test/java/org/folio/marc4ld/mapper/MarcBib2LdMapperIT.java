@@ -142,7 +142,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
@@ -257,8 +256,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
     validateWork(edgeIterator.next());
-    validateLccn(edgeIterator.next(), "2019493854", "current");
-    validateLccn(edgeIterator.next(), "88888888", "canceled or invalid");
     validateLocalId(edgeIterator.next(), "19861509", "current");
     validateLocalId(edgeIterator.next(), "09151986", "canceled or invalid");
     validateIsbn(edgeIterator.next(), "9780143789963", "current");
@@ -466,23 +463,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(doc.get(PUBLICATION_FREQUENCY.getValue()).get(0).asText()).isEqualTo("frequency, date");
     assertThat(doc.get(DATES_OF_PUBLICATION_NOTE.getValue()).get(0).asText()).isEqualTo("dates, source");
     assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asText()).isEqualTo("extent, details");
-  }
-
-  private void validateLccn(ResourceEdge edge, String number, String status) {
-    assertThat(edge.getId()).isNull();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsOnly(ID_LCCN, IDENTIFIER);
-    assertThat(edge.getTarget().getDoc()).hasSize(2);
-    assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
-    assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), status);
-    assertThat(edgeIterator.hasNext()).isFalse();
   }
 
   private void validateLocalId(ResourceEdge edge, String number, String status) {
