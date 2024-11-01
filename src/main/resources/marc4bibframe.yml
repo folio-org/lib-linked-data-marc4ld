@@ -383,8 +383,8 @@ bibFieldRules:
   250:
     - types: INSTANCE
       subfields:
-        a: EDITION_STATEMENT
-        b: EDITION_STATEMENT
+        a: EDITION
+        b: EDITION
       concat: ' '
       append: true
   257:
