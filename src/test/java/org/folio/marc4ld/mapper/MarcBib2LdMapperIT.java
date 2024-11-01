@@ -16,8 +16,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
-import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
-import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
@@ -45,8 +43,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
-import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
-import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
@@ -97,7 +93,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_D
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
-import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
@@ -140,10 +135,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
@@ -162,9 +155,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -177,7 +168,6 @@ import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -629,10 +619,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FORM),
-      getFormConceptExpectedProperties());
-    validateEdge(edgeIterator.next(), GENRE, List.of(FORM),
-      removeNonFocusProperties(getFormConceptExpectedProperties()), "form name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
@@ -1101,27 +1087,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     );
   }
 
-  private Map<String, List<String>> getFormConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("form").entrySet().stream(),
-        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("form misc info")))
-          .entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> removeNonFocusProperties(Map<String, List<String>> properties) {
-    return properties.entrySet().stream()
-      .filter(entry -> !List.of(
-        FORM_SUBDIVISION.getValue(),
-        GENERAL_SUBDIVISION.getValue(),
-        CHRONOLOGICAL_SUBDIVISION.getValue(),
-        GEOGRAPHIC_SUBDIVISION.getValue(),
-        RELATOR_TERM.getValue(),
-        RELATOR_CODE.getValue()
-      ).contains(entry.getKey()))
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
   private Map<String, List<String>> getFamilyPersonContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME.getValue(), List.of(prefix + " name")),
@@ -1167,39 +1132,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
       entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
-  }
-
-  private void validateSubjectEdge(ResourceEdge subjectEdge, List<ResourceTypeDictionary> subjectTypes,
-                                   Map<String, List<String>> conceptProperties) {
-    validateEdge(subjectEdge, SUBJECT, subjectTypes, conceptProperties,
-      conceptProperties.get(NAME.getValue()).get(0));
-    assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
-    var focusEdge = edgeIterator.next();
-    validateEdge(focusEdge, FOCUS, List.of(subjectTypes.get(1)),
-      removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()).get(0));
-    var formEdge = edgeIterator.next();
-    validateEdge(formEdge, SUB_FOCUS, List.of(FORM),
-      Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())),
-      conceptProperties.get(FORM_SUBDIVISION.getValue()).get(0));
-    var topicEdge = edgeIterator.next();
-    validateEdge(topicEdge, SUB_FOCUS, List.of(TOPIC),
-      Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())),
-      conceptProperties.get(GENERAL_SUBDIVISION.getValue()).get(0));
-    var temporalEdge = edgeIterator.next();
-    validateEdge(temporalEdge, SUB_FOCUS, List.of(TEMPORAL),
-      Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())),
-      conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()).get(0));
-    var placeEdge = edgeIterator.next();
-    validateEdge(placeEdge, SUB_FOCUS, List.of(PLACE),
-      Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())),
-      conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()).get(0));
-    assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(formEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(topicEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(temporalEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(placeEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(edgeIterator.hasNext()).isFalse();
   }
 
   //TODO MODLD-391
