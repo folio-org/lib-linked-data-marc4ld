@@ -1247,66 +1247,6 @@
       }
     },
     {
-      "650": {
-        "subfields": [
-          {
-            "a": "topic name"
-          },
-          {
-            "b": "topic geographic coverage"
-          },
-          {
-            "c": "topic location of event"
-          },
-          {
-            "d": "topic date"
-          },
-          {
-            "g": "topic misc info"
-          },
-          {
-            "v": "topic form subdivision"
-          },
-          {
-            "x": "topic general subdivision"
-          },
-          {
-            "y": "topic chronological subdivision"
-          },
-          {
-            "z": "topic geographic subdivision"
-          },
-          {
-            "2": "topic source"
-          },
-          {
-            "3": "topic materials specified"
-          },
-          {
-            "e": "topic relator term"
-          },
-          {
-            "4": "topic relator code"
-          },
-          {
-            "0": "topic authority link"
-          },
-          {
-            "1": "topic equivalent"
-          },
-          {
-            "6": "topic linkage"
-          },
-          {
-            "7": "topic control field"
-          },
-          {
-            "8": "topic field link"
-          }
-        ]
-      }
-    },
-    {
       "651": {
         "subfields": [
           {

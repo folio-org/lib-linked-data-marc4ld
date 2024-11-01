@@ -93,7 +93,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
-import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_EVENT;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_DUPLICATES;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
@@ -630,8 +629,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, TOPIC),
-      getTopicConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PLACE),
       getPlaceConceptExpectedProperties());
     validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FORM),
@@ -1104,18 +1101,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
       entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
-  }
-
-  private Map<String, List<String>> getTopicConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("topic").entrySet().stream(),
-        Map.ofEntries(
-          entry(GEOGRAPHIC_COVERAGE.getValue(), List.of("topic geographic coverage")),
-          entry(LOCATION_OF_EVENT.getValue(), List.of("topic location of event")),
-          entry(DATE.getValue(), List.of("topic date")),
-          entry(MISC_INFO.getValue(), List.of("topic misc info"))
-        ).entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private Map<String, List<String>> getPlaceConceptExpectedProperties() {
