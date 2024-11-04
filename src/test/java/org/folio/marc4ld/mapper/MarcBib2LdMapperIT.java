@@ -28,8 +28,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PredicateDictionary.NARRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.ONSCREEN_PRESENTER;
 import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
-import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
-import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
 import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
@@ -111,19 +109,14 @@ import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ABBREVIATED_TITLE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
@@ -581,8 +574,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       "CONTRIBUTOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
-    validateLinkingEntry(edgeIterator.next(), OTHER_EDITION, "775");
-    validateLinkingEntry(edgeIterator.next(), OTHER_VERSION, "776");
     validateEdge(edgeIterator.next(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
       Map.of(
         CODE.getValue(), List.of("a"),
@@ -595,106 +586,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateLinkingEntry(ResourceEdge edge, PredicateDictionary predicate, String suffix) {
-    validateEdge(edge, predicate, List.of(WORK),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("work title main title " + suffix)
-      ), "work title main title " + suffix);
-    var outgoingIterator = edge.getTarget().getOutgoingEdges().iterator();
-    if ("775".equals(suffix)) {
-      validateEdge(outgoingIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
-        Map.of(
-          CODE.getValue(), List.of("eng"),
-          LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
-        ), "eng");
-      validateEdge(outgoingIterator.next(), PredicateDictionary.TITLE, List.of(ABBREVIATED_TITLE),
-        Map.of(
-          MAIN_TITLE.getValue(), List.of("abbreviated title")
-        ), "abbreviated title");
-    }
-    validateEdge(outgoingIterator.next(), CREATOR,
-      List.of(AGENT),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("agent name " + suffix)
-      ), "agent name " + suffix);
-    validateEdge(outgoingIterator.next(), MAP,
-      List.of(IDENTIFIER, ID_ISSN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("ISSN identifier name " + suffix)
-      ), "ISSN identifier name " + suffix);
-    validateEdge(outgoingIterator.next(), PredicateDictionary.TITLE,
-      List.of(TITLE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of("work title main title " + suffix),
-        "http://bibfra.me/vocab/marc/qualifier", List.of("work title qualifier " + suffix)
-      ), "work title main title " + suffix);
-    assertThat(outgoingIterator.hasNext()).isFalse();
-    var incomingIterator = edge.getTarget().getIncomingEdges().iterator();
-    validateLiteInstance(incomingIterator.next().getSource(), suffix);
-    assertThat(incomingIterator.hasNext()).isFalse();
-  }
-
-  private void validateLiteInstance(Resource resource, String suffix) {
-    validateResource(resource, List.of(INSTANCE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/edition", List.of("instance edition " + suffix),
-        "http://bibfra.me/vocab/marc/publicationInformation", List.of("instance publication information " + suffix),
-        "http://bibfra.me/vocab/marc/materials", List.of("instance materials " + suffix),
-        "http://bibfra.me/vocab/lite/note", List.of("instance note " + suffix),
-        "http://bibfra.me/vocab/marc/seriesStatement", List.of("instance series statement " + suffix),
-        "http://bibfra.me/vocab/marc/reportNumber", List.of("instance report number " + suffix)
-      ), "work/instance title main title " + suffix);
-    var iterator = resource.getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), PredicateDictionary.EXTENT,
-      List.of(ResourceTypeDictionary.EXTENT),
-      Map.of(
-        LABEL.getValue(), List.of("extent " + suffix)
-      ), "extent " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_LOCAL),
-      Map.of(
-        "http://bibfra.me/vocab/marc/localId", List.of("local ID identifier name " + suffix)
-      ),
-      "local ID identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_STRN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("STRN identifier name " + suffix)
-      ),
-      "STRN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_CODEN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("CODEN identifier name " + suffix)
-      ),
-      "CODEN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_ISBN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("ISBN identifier name " + suffix)
-      ),
-      "ISBN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_UNKNOWN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("unknown identifier name " + suffix)
-      ),
-      "unknown identifier name " + suffix);
-    validateEdge(iterator.next(), PredicateDictionary.TITLE,
-      List.of(ResourceTypeDictionary.TITLE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of("MainTitle SubTitle")
-      ),
-      "MainTitle SubTitle");
-    validateEdge(iterator.next(), INSTANTIATES,
-      List.of(WORK),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("work title main title " + suffix)
-      ),
-      "work title main title " + suffix);
-    assertThat(iterator.hasNext()).isFalse();
   }
 
   private void validateLcClassification(ResourceEdge edge) {
