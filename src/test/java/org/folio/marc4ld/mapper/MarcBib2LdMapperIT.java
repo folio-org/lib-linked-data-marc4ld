@@ -3,10 +3,8 @@ package org.folio.marc4ld.mapper;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
-import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
-import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
@@ -51,7 +49,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
-import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
@@ -67,7 +64,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
-import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
@@ -94,7 +90,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
@@ -131,9 +126,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
-import static org.folio.marc4ld.util.Constants.Classification.DDC;
-import static org.folio.marc4ld.util.Constants.Classification.DLC;
-import static org.folio.marc4ld.util.Constants.Classification.FULL;
 
 import java.util.List;
 import java.util.Map;
@@ -541,7 +533,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         GEOGRAPHIC_AREA_CODE.getValue(), List.of("n-us"),
         GEOGRAPHIC_COVERAGE.getValue(), List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
       ), "United States");
-    validateDdcClassification(edgeIterator.next());
     validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
@@ -583,24 +574,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateDdcClassification(ResourceEdge edge) {
-    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
-      Map.of(
-        SOURCE.getValue(), List.of(DDC),
-        CODE.getValue(), List.of("Dewey Decimal Classification value"),
-        ITEM_NUMBER.getValue(), List.of("item number"),
-        EDITION_NUMBER.getValue(), List.of("edition number"),
-        EDITION.getValue(), List.of(FULL)
-      ), "Dewey Decimal Classification value");
-    var iterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), ASSIGNING_SOURCE,
-      List.of(ORGANIZATION),
-      Map.of(
-        NAME.getValue(), List.of("United States, Library of Congress"),
-        LINK.getValue(), List.of(DLC)
-      ), "United States, Library of Congress");
   }
 
   private void validateTitle(ResourceEdge edge) {
