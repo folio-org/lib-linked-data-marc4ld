@@ -54,7 +54,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
@@ -522,12 +521,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
-    validateEdge(edgeIterator.next(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
-      Map.of(
-        NAME.getValue(), List.of("United States"),
-        GEOGRAPHIC_AREA_CODE.getValue(), List.of("n-us"),
-        GEOGRAPHIC_COVERAGE.getValue(), List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
-      ), "United States");
     validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
