@@ -134,8 +134,6 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
 import static org.folio.marc4ld.util.Constants.Classification.DLC;
 import static org.folio.marc4ld.util.Constants.Classification.FULL;
-import static org.folio.marc4ld.util.Constants.Classification.LC;
-import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import java.util.List;
 import java.util.Map;
@@ -543,7 +541,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         GEOGRAPHIC_AREA_CODE.getValue(), List.of("n-us"),
         GEOGRAPHIC_COVERAGE.getValue(), List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
       ), "United States");
-    validateLcClassification(edgeIterator.next());
     validateDdcClassification(edgeIterator.next());
     validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
@@ -586,28 +583,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateLcClassification(ResourceEdge edge) {
-    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
-      Map.of(
-        SOURCE.getValue(), List.of(LC),
-        CODE.getValue(), List.of("code"),
-        ITEM_NUMBER.getValue(), List.of("item number")
-      ), "code");
-    var iterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), STATUS,
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        LABEL.getValue(), List.of("used by assigner"),
-        LINK.getValue(), List.of(UBA)
-      ), "used by assigner");
-    validateEdge(iterator.next(), ASSIGNING_SOURCE,
-      List.of(ORGANIZATION),
-      Map.of(
-        NAME.getValue(), List.of("United States, Library of Congress"),
-        LINK.getValue(), List.of(DLC)
-      ), "United States, Library of Congress");
   }
 
   private void validateDdcClassification(ResourceEdge edge) {
