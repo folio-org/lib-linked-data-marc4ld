@@ -2,7 +2,7 @@
   "leader": "01767cam a22003977i 4500",
   "fields": [
     {
-      "008": "190607t19992019af a   b     a000 1 eng"
+      "008": "190607t19992019af     b     a000 1 eng"
     },
     {
       "019": {
@@ -435,47 +435,6 @@
         "subfields": [
           {
             "a": "issuance"
-          }
-        ]
-      }
-    },
-    {
-      "336": {
-        "subfields": [
-          {
-            "a": "CONTENT term",
-            "b": "CONTENT code",
-            "2": "CONTENT source"
-          }
-        ]
-      }
-    },
-    {
-      "337": {
-        "subfields": [
-          {
-            "a": "MEDIA term"
-          },
-          {
-            "b": "MEDIA code"
-          },
-          {
-            "2": "MEDIA source"
-          }
-        ]
-      }
-    },
-    {
-      "338": {
-        "subfields": [
-          {
-            "a": "CARRIER term"
-          },
-          {
-            "b": "CARRIER code"
-          },
-          {
-            "2": "CARRIER source"
           }
         ]
       }

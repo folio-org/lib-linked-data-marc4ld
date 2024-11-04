@@ -6,10 +6,8 @@ import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
 import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
-import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
-import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
@@ -20,7 +18,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
-import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
@@ -28,7 +25,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.JUDGE;
 import static org.folio.ld.dictionary.PredicateDictionary.LAB_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
-import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PredicateDictionary.NARRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.ONSCREEN_PRESENTER;
@@ -256,8 +252,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateParallelTitle(edgeIterator.next());
     validateCopyrightDate(edgeIterator.next());
     validateExtent(edgeIterator.next());
-    validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
-    validateCategory(edgeIterator.next(), CARRIER, "carriers");
     validateAccessLocation(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
@@ -577,7 +571,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateParallelTitle(edgeIterator.next());
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
-    validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
@@ -604,30 +597,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         CODE.getValue(), List.of("eng"),
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
       ), "eng");
-    validateBook(edgeIterator.next(), ILLUSTRATIONS,
-      Map.of(
-        CODE.getValue(), List.of("a"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus/ill"),
-        TERM.getValue(), List.of("Illustrations")
-      ),
-      Map.of(
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus"),
-        LABEL.getValue(), List.of("Illustrative Content")
-      ));
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateBook(ResourceEdge edge, PredicateDictionary predicate,
-                            Map<String, List<String>> categoryProperties,
-                            Map<String, List<String>> categorySetProperties) {
-    validateEdge(edge, predicate, List.of(CATEGORY), categoryProperties,
-      categoryProperties.get(TERM.getValue()).get(0));
-
-    assertThat(edge.getTarget().getOutgoingEdges())
-      .hasSize(1)
-      .singleElement()
-      .satisfies(resourceEdge -> validateEdge(resourceEdge, IS_DEFINED_BY, List.of(CATEGORY_SET), categorySetProperties,
-        categorySetProperties.get(LABEL.getValue()).get(0)));
   }
 
   private void validateLinkingEntry(ResourceEdge edge, PredicateDictionary predicate, String suffix) {
@@ -914,30 +884,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2018");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
-  }
-
-  private void validateCategory(ResourceEdge edge, PredicateDictionary predicate, String linkTerm) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo(predicate.name() + " term");
-    assertThat(resource.getTypes()).containsOnly(CATEGORY);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
-    assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
-    assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(
-      "http://id.loc.gov/vocabulary/" + linkTerm + "/" + predicate.name() + " code");
-    assertThat(resource.getDoc().has(TERM.getValue())).isTrue();
-    assertThat(resource.getDoc().get(TERM.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
-    assertThat(resource.getDoc().has(SOURCE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(SOURCE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " source");
   }
 
   private void validateAccessLocation(ResourceEdge edge) {
