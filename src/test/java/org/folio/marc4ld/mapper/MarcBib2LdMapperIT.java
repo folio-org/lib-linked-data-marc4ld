@@ -35,7 +35,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
@@ -112,7 +111,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
@@ -559,11 +557,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       "CONTRIBUTOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
-    validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("eng"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
-      ), "eng");
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
