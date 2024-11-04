@@ -21,10 +21,10 @@ import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
 
-class MarcToBibframe008IT extends Marc2LdTestBase {
+class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
 
   @Test
-  void shouldMapField008() {
+  void shouldMapGovernmentPublication() {
     // given
     var marc = loadResourceAsString("fields/008/marc_008_mgovtpubtype.jsonl");
 

@@ -12,7 +12,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
-import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
@@ -99,13 +98,11 @@ import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
-import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -562,12 +559,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       "CONTRIBUTOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
-    validateEdge(edgeIterator.next(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("a"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
-        TERM.getValue(), List.of("Autonomous")
-      ), "Autonomous");
     validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
       Map.of(
         CODE.getValue(), List.of("eng"),
