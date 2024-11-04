@@ -16,8 +16,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
-import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
-import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
@@ -38,22 +36,14 @@ import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_DISTRIBUTION;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_MANUFACTURE;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_PRODUCTION;
-import static org.folio.ld.dictionary.PredicateDictionary.PE_PUBLICATION;
-import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
-import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
-import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
@@ -75,12 +65,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
-import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
@@ -93,12 +80,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
-import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_EVENT;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_DUPLICATES;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
-import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
-import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
@@ -111,16 +95,12 @@ import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.PHYSICAL_DESCRIPTION;
 import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DATE;
-import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
-import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
-import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
@@ -141,16 +121,13 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
@@ -162,10 +139,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PROVIDER_EVENT;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -178,7 +152,6 @@ import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -268,8 +241,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(result.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = result.getOutgoingEdges().iterator();
     validateWork(edgeIterator.next());
-    validateLccn(edgeIterator.next(), "2019493854", "current");
-    validateLccn(edgeIterator.next(), "88888888", "canceled or invalid");
     validateLocalId(edgeIterator.next(), "19861509", "current");
     validateLocalId(edgeIterator.next(), "09151986", "canceled or invalid");
     validateIsbn(edgeIterator.next(), "9780143789963", "current");
@@ -283,12 +254,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
-    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture261");
-    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication262");
-    validateProviderEvent(edgeIterator.next(), PE_PRODUCTION, "Production");
-    validateProviderEvent(edgeIterator.next(), PE_PUBLICATION, "Publication");
-    validateProviderEvent(edgeIterator.next(), PE_DISTRIBUTION, "Distribution");
-    validateProviderEvent(edgeIterator.next(), PE_MANUFACTURE, "Manufacture");
     validateCopyrightDate(edgeIterator.next());
     validateExtent(edgeIterator.next());
     validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
@@ -479,23 +444,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asText()).isEqualTo("extent, details");
   }
 
-  private void validateLccn(ResourceEdge edge, String number, String status) {
-    assertThat(edge.getId()).isNull();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(MAP.getUri());
-    validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo(number);
-    assertThat(edge.getTarget().getTypes()).containsOnly(ID_LCCN, IDENTIFIER);
-    assertThat(edge.getTarget().getDoc()).hasSize(2);
-    assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
-    assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateIdStatus(edgeIterator.next(), status);
-    assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
   private void validateLocalId(ResourceEdge edge, String number, String status) {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(MAP.getHash());
@@ -630,14 +578,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
       Map.of(NAME.getValue(), List.of("France")), "France");
     validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, TOPIC),
-      getTopicConceptExpectedProperties());
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, PLACE),
-      getPlaceConceptExpectedProperties());
-    validateSubjectEdge(edgeIterator.next(), List.of(CONCEPT, FORM),
-      getFormConceptExpectedProperties());
-    validateEdge(edgeIterator.next(), GENRE, List.of(FORM),
-      removeNonFocusProperties(getFormConceptExpectedProperties()), "form name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
@@ -962,56 +902,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
-  private void validateProviderEvent(ResourceEdge edge, PredicateDictionary expectedPredicate,
-                                     String expectedPrefix) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(expectedPredicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(expectedPredicate.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo(expectedPrefix + " Name");
-    assertThat(resource.getTypes()).containsOnly(PROVIDER_EVENT);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(SIMPLE_PLACE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(SIMPLE_PLACE.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Place");
-    assertThat(resource.getDoc().has(DATE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Date");
-    assertThat(resource.getDoc().has(NAME.getValue())).isTrue();
-    assertThat(resource.getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(expectedPrefix + " Name");
-    assertThat(resource.getDoc().has(PROVIDER_DATE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(PROVIDER_DATE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(PROVIDER_DATE.getValue()).get(0).asText()).isEqualTo("1999");
-    assertThat(resource.getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = resource.getOutgoingEdges().iterator();
-    validateProviderPlace(edgeIterator.next());
-    assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateProviderPlace(ResourceEdge edge) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(PROVIDER_PLACE.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(PROVIDER_PLACE.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo("Afghanistan");
-    assertThat(resource.getTypes()).containsOnly(PLACE);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(NAME.getValue())).isTrue();
-    assertThat(resource.getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo("Afghanistan");
-    assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo("af");
-    assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
-    assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText())
-      .isEqualTo("http://id.loc.gov/vocabulary/countries/af");
-    assertThat(resource.getOutgoingEdges()).isEmpty();
-  }
-
   private void validateCopyrightDate(ResourceEdge edge) {
     assertThat(edge.getId()).isNull();
     assertThat(edge.getPredicate().getHash()).isEqualTo(COPYRIGHT.getHash());
@@ -1087,66 +977,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     );
   }
 
-  private Map<String, List<String>> getCommonConceptExpectedProperties(String prefix) {
-    return Map.ofEntries(
-      entry(NAME.getValue(), List.of(prefix + " name")),
-      entry(FORM_SUBDIVISION.getValue(), List.of(prefix + " form subdivision")),
-      entry(GENERAL_SUBDIVISION.getValue(), List.of(prefix + " general subdivision")),
-      entry(CHRONOLOGICAL_SUBDIVISION.getValue(), List.of(prefix + " chronological subdivision")),
-      entry(GEOGRAPHIC_SUBDIVISION.getValue(), List.of(prefix + " geographic subdivision")),
-      entry(SOURCE.getValue(), List.of(prefix + " source")),
-      entry(MATERIALS_SPECIFIED.getValue(), List.of(prefix + " materials specified")),
-      entry(RELATOR_TERM.getValue(), List.of(prefix + " relator term")),
-      entry(RELATOR_CODE.getValue(), List.of(prefix + " relator code")),
-      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
-      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
-      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
-      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
-      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
-    );
-  }
-
-  private Map<String, List<String>> getTopicConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("topic").entrySet().stream(),
-        Map.ofEntries(
-          entry(GEOGRAPHIC_COVERAGE.getValue(), List.of("topic geographic coverage")),
-          entry(LOCATION_OF_EVENT.getValue(), List.of("topic location of event")),
-          entry(DATE.getValue(), List.of("topic date")),
-          entry(MISC_INFO.getValue(), List.of("topic misc info"))
-        ).entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> getPlaceConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("place").entrySet().stream(),
-        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("place misc info")))
-          .entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> getFormConceptExpectedProperties() {
-    return Stream.concat(
-        getCommonConceptExpectedProperties("form").entrySet().stream(),
-        Map.ofEntries(entry(MISC_INFO.getValue(), List.of("form misc info")))
-          .entrySet().stream())
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
-  private Map<String, List<String>> removeNonFocusProperties(Map<String, List<String>> properties) {
-    return properties.entrySet().stream()
-      .filter(entry -> !List.of(
-        FORM_SUBDIVISION.getValue(),
-        GENERAL_SUBDIVISION.getValue(),
-        CHRONOLOGICAL_SUBDIVISION.getValue(),
-        GEOGRAPHIC_SUBDIVISION.getValue(),
-        RELATOR_TERM.getValue(),
-        RELATOR_CODE.getValue()
-      ).contains(entry.getKey()))
-      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-  }
-
   private Map<String, List<String>> getFamilyPersonContributorExpectedProperties(String prefix) {
     return Map.ofEntries(
       entry(NAME.getValue(), List.of(prefix + " name")),
@@ -1192,39 +1022,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
       entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
     );
-  }
-
-  private void validateSubjectEdge(ResourceEdge subjectEdge, List<ResourceTypeDictionary> subjectTypes,
-                                   Map<String, List<String>> conceptProperties) {
-    validateEdge(subjectEdge, SUBJECT, subjectTypes, conceptProperties,
-      conceptProperties.get(NAME.getValue()).get(0));
-    assertThat(subjectEdge.getTarget().getOutgoingEdges()).isNotEmpty();
-    var edgeIterator = subjectEdge.getTarget().getOutgoingEdges().iterator();
-    var focusEdge = edgeIterator.next();
-    validateEdge(focusEdge, FOCUS, List.of(subjectTypes.get(1)),
-      removeNonFocusProperties(conceptProperties), conceptProperties.get(NAME.getValue()).get(0));
-    var formEdge = edgeIterator.next();
-    validateEdge(formEdge, SUB_FOCUS, List.of(FORM),
-      Map.of(NAME.getValue(), conceptProperties.get(FORM_SUBDIVISION.getValue())),
-      conceptProperties.get(FORM_SUBDIVISION.getValue()).get(0));
-    var topicEdge = edgeIterator.next();
-    validateEdge(topicEdge, SUB_FOCUS, List.of(TOPIC),
-      Map.of(NAME.getValue(), conceptProperties.get(GENERAL_SUBDIVISION.getValue())),
-      conceptProperties.get(GENERAL_SUBDIVISION.getValue()).get(0));
-    var temporalEdge = edgeIterator.next();
-    validateEdge(temporalEdge, SUB_FOCUS, List.of(TEMPORAL),
-      Map.of(NAME.getValue(), conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue())),
-      conceptProperties.get(CHRONOLOGICAL_SUBDIVISION.getValue()).get(0));
-    var placeEdge = edgeIterator.next();
-    validateEdge(placeEdge, SUB_FOCUS, List.of(PLACE),
-      Map.of(NAME.getValue(), conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue())),
-      conceptProperties.get(GEOGRAPHIC_SUBDIVISION.getValue()).get(0));
-    assertThat(focusEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(formEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(topicEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(temporalEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(placeEdge.getTarget().getOutgoingEdges()).isEmpty();
-    assertThat(edgeIterator.hasNext()).isFalse();
   }
 
   //TODO MODLD-391

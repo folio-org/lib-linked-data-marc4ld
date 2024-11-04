@@ -1,14 +1,23 @@
 package org.folio.marc4ld.mapper.field650;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
+import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
+import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import java.util.stream.StreamSupport;
-import org.assertj.core.api.InstanceOfAssertFactories;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.ld.dictionary.model.Resource;
+import java.util.Map;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
@@ -16,136 +25,120 @@ import org.junit.jupiter.api.Test;
 class Marc2Bibframe650IT extends Marc2LdTestBase {
 
   @Test
-  void map_shouldContains_severalForms() {
+  void shouldMapField650() {
     // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_forms.jsonl");
+    var marc = loadResourceAsString("fields/650/marc_650.jsonl");
 
     // when
     var resource = marcBibToResource(marc);
 
-    var subject = geSubject(resource);
-    assertThat(subject)
-      .hasFieldOrPropertyWithValue("label", "Private libraries")
-      .extracting(Resource::getDoc)
-      .extracting(node -> node.get("http://bibfra.me/vocab/marc/formSubdivision"))
-      .extracting(this::getValues)
-      .asInstanceOf(InstanceOfAssertFactories.LIST)
-      .containsOnly("form 1", "form 2");
-  }
+    //then
+    var work = getWorkEdge(resource).getTarget();
+    var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
 
-  @Test
-  void map_shouldReturn_severalFormNodes() {
-    // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_forms.jsonl");
+    // validate Concept resource
+    var expectedConceptLabel = "name";
+    validateResource(
+      subjectEdge.getTarget(),
+      List.of(TOPIC, CONCEPT),
+      Map.ofEntries(
+        Map.entry("http://bibfra.me/vocab/marc/locationOfEvent", List.of("location of event")),
+        Map.entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link")),
+        Map.entry("http://bibfra.me/vocab/marc/source", List.of("source")),
+        Map.entry("http://bibfra.me/vocab/marc/controlField", List.of("control field")),
+        Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info")),
+        Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
+        Map.entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+        Map.entry("http://bibfra.me/vocab/marc/geographicCoverage", List.of("geographic coverage")),
+        Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
+        Map.entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
+        Map.entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage")),
+        Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
+        Map.entry("http://bibfra.me/vocab/marc/relator_code", List.of("relator code")),
+        Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
+        Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator term")),
+        Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("place 1", "place 2")),
+        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1", "form 2"))
+      ),
+      expectedConceptLabel);
 
-    // when
-    var resource = marcBibToResource(marc);
+    // Validate focus resource
+    var focusEdge = getFirstOutgoingEdge(subjectEdge, withPredicateUri(FOCUS.getUri()));
+    validateResource(
+      focusEdge.getTarget(),
+      List.of(TOPIC),
+      Map.ofEntries(
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of("name")),
+        Map.entry("http://bibfra.me/vocab/marc/locationOfEvent", List.of("location of event")),
+        Map.entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link")),
+        Map.entry("http://bibfra.me/vocab/marc/source", List.of("source")),
+        Map.entry("http://bibfra.me/vocab/marc/controlField", List.of("control field")),
+        Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info")),
+        Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
+        Map.entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+        Map.entry("http://bibfra.me/vocab/marc/geographicCoverage", List.of("geographic coverage")),
+        Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
+        Map.entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
+        Map.entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage"))
+      ),
+      "name"
+    );
 
-    var subject = geSubject(resource);
+    // Validate subFocus resources
+    var subFocusEdges = getOutgoingEdges(subjectEdge, withPredicateUri(SUB_FOCUS.getUri()));
+    assertThat(subFocusEdges).hasSize(8);
+    var expectedSubFocuses = Map.of(
+      "form 1", new TypeAndProperties(FORM,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("form 1"),
+          "http://bibfra.me/vocab/lite/name", List.of("form 1"))
+      ),
+      "form 2", new TypeAndProperties(FORM,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("form 2"),
+          "http://bibfra.me/vocab/lite/name", List.of("form 2"))
+      ),
+      "topic 1", new TypeAndProperties(TOPIC,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("topic 1"),
+          "http://bibfra.me/vocab/lite/name", List.of("topic 1"))
+      ),
+      "topic 2", new TypeAndProperties(TOPIC,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("topic 2"),
+          "http://bibfra.me/vocab/lite/name", List.of("topic 2"))
+      ),
+      "temporal 1", new TypeAndProperties(TEMPORAL,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("temporal 1"),
+          "http://bibfra.me/vocab/lite/name", List.of("temporal 1"))
+      ),
+      "temporal 2", new TypeAndProperties(TEMPORAL,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("temporal 2"),
+          "http://bibfra.me/vocab/lite/name", List.of("temporal 2"))
+      ),
+      "place 1", new TypeAndProperties(PLACE,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("place 1"),
+          "http://bibfra.me/vocab/lite/name", List.of("place 1"))
+      ),
+      "place 2", new TypeAndProperties(PLACE,
+        Map.of(
+          "http://bibfra.me/vocab/lite/label", List.of("place 2"),
+          "http://bibfra.me/vocab/lite/name", List.of("place 2"))
+      )
+    );
 
-    var formNodes = getNodes(subject, ResourceTypeDictionary.FORM);
-
-    assertThat(formNodes)
-      .hasSize(2)
-      .extracting(Resource::getLabel)
-      .containsOnly("form 1", "form 2")
-    ;
-  }
-
-  @Test
-  void map_shouldContains_severalRegions() {
-    // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_places.jsonl");
-
-    // when
-    var resource = marcBibToResource(marc);
-    var subject = geSubject(resource);
-    assertThat(subject)
-      .hasFieldOrPropertyWithValue("label", "Private libraries")
-      .extracting(Resource::getDoc)
-      .extracting(node -> node.get("http://bibfra.me/vocab/marc/geographicSubdivision"))
-      .extracting(this::getValues)
-      .asInstanceOf(InstanceOfAssertFactories.LIST)
-      .containsOnly("Italy", "Florence");
-  }
-
-  @Test
-  void map_shouldReturn_severalGeographicalNodes() {
-    // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_places.jsonl");
-
-    // when
-    var resource = marcBibToResource(marc);
-    var subject = geSubject(resource);
-
-    var geographicNodes = getNodes(subject, ResourceTypeDictionary.PLACE);
-
-    assertThat(geographicNodes)
-      .hasSize(2)
-      .extracting(Resource::getLabel)
-      .containsOnly("Italy", "Florence")
-    ;
-  }
-
-  @Test
-  void map_shouldContains_severalTopics() {
-    // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_topics.jsonl");
-
-    // when
-    var resource = marcBibToResource(marc);
-    var subject = geSubject(resource);
-    assertThat(subject)
-      .hasFieldOrPropertyWithValue("label", "Private libraries")
-      .extracting(Resource::getDoc)
-      .extracting(node -> node.get("http://bibfra.me/vocab/marc/generalSubdivision"))
-      .extracting(this::getValues)
-      .asInstanceOf(InstanceOfAssertFactories.LIST)
-      .containsOnly("topic 1", "topic 2");
-  }
-
-  @Test
-  void map_shouldReturn_severalTopicNodes() {
-    // given
-    var marc = loadResourceAsString("fields/650/marc_650_several_topics.jsonl");
-
-    // when
-    var resource = marcBibToResource(marc);
-    var subject = geSubject(resource);
-
-    var topicNodes = getNodes(subject, ResourceTypeDictionary.TOPIC);
-
-    assertThat(topicNodes)
-      .hasSize(3)
-      .extracting(Resource::getLabel)
-      .containsOnly("Private libraries", "topic 1", "topic 2")
-    ;
-  }
-
-  private List<String> getValues(JsonNode node) {
-    return StreamSupport.stream(node.spliterator(), false)
-      .map(JsonNode::asText)
-      .toList();
-  }
-
-  private Resource geSubject(Resource resource) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .orElseThrow()
-      .getTarget()
-      .getOutgoingEdges()
-      .stream()
-      .findFirst()
-      .orElseThrow()
-      .getTarget();
-  }
-
-  private static List<Resource> getNodes(Resource subject, ResourceTypeDictionary type) {
-    return subject.getOutgoingEdges()
+    subFocusEdges
       .stream()
       .map(ResourceEdge::getTarget)
-      .filter(resourceEdge -> resourceEdge.getTypes().contains(type))
-      .toList();
+      .forEach(r -> {
+        var label = r.getLabel();
+        var properties = expectedSubFocuses.get(label);
+        validateResource(r, List.of(properties.type()), properties.properties(), label);
+      });
   }
 }

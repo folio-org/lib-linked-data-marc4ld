@@ -4,6 +4,10 @@
       "subfields" : [ {
         "a" : "name"
       }, {
+        "g":"misc info 1"
+      }, {
+        "g":"misc info 2"
+      }, {
         "v" : "form 1"
       }, {
         "v" : "form 2"
@@ -19,6 +23,24 @@
         "z" : "place 1"
       }, {
         "z" : "place 2"
+      }, {
+         "2":"source"
+      }, {
+         "3":"materials specified"
+      }, {
+         "e":"relator term"
+      }, {
+         "4":"relator code"
+      }, {
+         "0":"authority link"
+      }, {
+         "1":"equivalent"
+      }, {
+         "6":"linkage"
+      }, {
+         "7":"control field"
+      }, {
+         "8":"field link"
       } ]
     }
   } ]

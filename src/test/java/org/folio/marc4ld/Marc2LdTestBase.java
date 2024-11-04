@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -56,5 +59,8 @@ public class Marc2LdTestBase {
 
   private void validateSource(Resource resource) {
     assertThat(resource.getFolioMetadata().getSource()).isEqualTo(MARC);
+  }
+
+  public record TypeAndProperties(ResourceTypeDictionary type, Map<String, List<String>> properties) {
   }
 }
