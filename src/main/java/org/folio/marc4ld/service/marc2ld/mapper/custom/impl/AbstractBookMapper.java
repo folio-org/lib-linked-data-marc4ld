@@ -24,6 +24,7 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.custom.CustomMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.Record;
 
 @RequiredArgsConstructor
@@ -80,7 +81,9 @@ public abstract class AbstractBookMapper implements CustomMapper {
     return marcRecord.getControlFields()
       .stream()
       .filter(controlField -> TAG_008.equals(controlField.getTag()))
-      .map(controlField -> controlField.getData().substring(getStartIndex(), getEndIndex()))
+      .map(ControlField::getData)
+      .filter(data -> data.length() >= getEndIndex())
+      .map(data -> data.substring(getStartIndex(), getEndIndex()))
       .findFirst()
       .orElse(EMPTY);
   }

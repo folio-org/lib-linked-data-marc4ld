@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@Log4j2
 public class ConditionCheckerImpl implements ConditionChecker {
 
   public static final String NOT = "!";
@@ -141,12 +143,20 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return isEmpty(condition.getControlFields()) || condition.getControlFields().stream()
       .flatMap(cfc -> controlFields.stream()
         .filter(cf -> cf.getTag().equals(cfc.getTag()))
-        .map(cf -> {
-          var expression = expressionParser.parseExpression(cfc.getExpression());
-          cfc.setData(cf.getData());
-          return expression.getValue(new StandardEvaluationContext(cfc), Boolean.class);
-        }))
+        .map(cf -> evaluateControlField(cfc, cf)))
       .allMatch(b -> b);
+  }
+
+  private Boolean evaluateControlField(Marc4BibframeRules.ControlFieldContext cfc, ControlField cf) {
+    var expression = expressionParser.parseExpression(cfc.getExpression());
+    cfc.setData(cf.getData());
+    try {
+      return expression.getValue(new StandardEvaluationContext(cfc), Boolean.class);
+    } catch (Exception e) {
+      log.warn("Failed to evaluate control field. Tag: [{}]. Data: [{}]. Expression: [{}]. Args: {}",
+        cfc.getTag(), cfc.getData(), cfc.getExpression(), cfc.getArgs(), e);
+      return false;
+    }
   }
 
 }
