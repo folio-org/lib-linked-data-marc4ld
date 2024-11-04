@@ -21,7 +21,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.HOST;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
-import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.JUDGE;
 import static org.folio.ld.dictionary.PredicateDictionary.LAB_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -116,7 +115,6 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ABBREVIATED_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -591,7 +589,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         LINK.getValue(), List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
         TERM.getValue(), List.of("Autonomous")
       ), "Autonomous");
-    validateTargetAudience(edgeIterator.next());
     validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
       Map.of(
         CODE.getValue(), List.of("eng"),
@@ -738,22 +735,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         NAME.getValue(), List.of("United States, Library of Congress"),
         LINK.getValue(), List.of(DLC)
       ), "United States, Library of Congress");
-  }
-
-  private void validateTargetAudience(ResourceEdge edge) {
-    validateEdge(edge, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("b"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-        TERM.getValue(), List.of("Primary")
-      ), "Primary");
-    var targetAudience = edge.getTarget();
-    validateEdge(targetAudience.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
-      List.of(CATEGORY_SET),
-      Map.of(
-        LINK.getValue(), List.of("https://id.loc.gov/vocabulary/maudience"),
-        LABEL.getValue(), List.of("Target audience")
-      ), "Target audience");
   }
 
   private void validateTitle(ResourceEdge edge) {
