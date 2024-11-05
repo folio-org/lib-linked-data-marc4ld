@@ -6,13 +6,11 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdge;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -124,15 +122,5 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
       ),
       "bValue, aValue, cValue, qValue, dValue");
-  }
-
-  private Optional<ResourceEdge> getEdge(Resource resource, ResourceTypeDictionary... resourceTypes) {
-    return resource.getOutgoingEdges()
-      .stream()
-      .filter(edge -> Optional.of(edge.getTarget())
-        .map(Resource::getTypes)
-        .filter(types -> CollectionUtils.containsAll(types, Arrays.asList(resourceTypes)))
-        .isPresent())
-      .findFirst();
   }
 }
