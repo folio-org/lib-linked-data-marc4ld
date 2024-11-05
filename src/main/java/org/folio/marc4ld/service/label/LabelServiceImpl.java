@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -18,13 +19,17 @@ import org.folio.marc4ld.service.label.processor.UuidLabelProcessor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j2
 public class LabelServiceImpl implements LabelService {
 
   private final Map<Set<ResourceTypeDictionary>, LabelController> typesControllers;
-  private final LabelProcessor defaultProcessor = new UuidLabelProcessor();
-  private final LabelController defaultController = new LabelController(List.of(defaultProcessor), false);
+  private final LabelProcessor defaultProcessor;
+  private final LabelController defaultController;
 
   public LabelServiceImpl(Marc4BibframeRules rules, LabelProcessorFactory labelProcessorFactory) {
+    this.defaultProcessor = new UuidLabelProcessor();
+    this.defaultController = new LabelController(List.of(defaultProcessor), false);
+
     this.typesControllers = rules.getLabelRules()
       .stream()
       .collect(Collectors.toMap(this::getTypes,
@@ -42,7 +47,10 @@ public class LabelServiceImpl implements LabelService {
       .map(p -> p.apply(properties))
       .filter(StringUtils::isNotBlank)
       .findFirst()
-      .orElseGet(() -> defaultProcessor.apply(properties));
+      .orElseGet(() -> {
+        log.warn("No label configuration for types: {}. Generating default label.", resource.getTypes());
+        return defaultProcessor.apply(properties);
+      });
     resource.setLabel(label);
     if (controller.addLabelProperty) {
       properties.put(LABEL.getValue(), List.of(label));
