@@ -2,7 +2,7 @@
   "leader": "01767cam a22003977i 4500",
   "fields": [
     {
-      "008": "190607t19992019af a   b     a000 1 eng"
+      "008": "190607t19992019af            000 1    "
     },
     {
       "019": {
@@ -71,33 +71,6 @@
       }
     },
     {
-      "043": {
-        "subfields": [
-          {
-            "a": "n-us---"
-          }
-        ]
-      }
-    },
-    {
-      "043": {
-        "subfields": [
-          {
-            "a": "qwe"
-          }
-        ]
-      }
-    },
-    {
-      "043": {
-        "subfields": [
-          {
-            "k": "asd"
-          }
-        ]
-      }
-    },
-    {
       "046": {
         "subfields": [
           {
@@ -107,37 +80,6 @@
             "l": "2023"
           }
         ]
-      }
-    },
-    {
-      "050": {
-        "subfields": [
-          {
-            "a": "code"
-          },
-          {
-            "b": "item number"
-          }
-        ],
-        "ind1": "0",
-        "ind2": "0"
-      }
-    },
-    {
-      "082": {
-        "subfields": [
-          {
-            "a": "Dewey Decimal Classification value"
-          },
-          {
-            "b": "item number"
-          },
-          {
-            "2": "edition number"
-          }
-        ],
-        "ind1": "0",
-        "ind2": "0"
       }
     },
     {
@@ -375,15 +317,6 @@
       }
     },
     {
-      "257": {
-        "subfields": [
-          {
-            "a": "France"
-          }
-        ]
-      }
-    },
-    {
       "263": {
         "subfields": [
           {
@@ -435,47 +368,6 @@
         "subfields": [
           {
             "a": "issuance"
-          }
-        ]
-      }
-    },
-    {
-      "336": {
-        "subfields": [
-          {
-            "a": "CONTENT term",
-            "b": "CONTENT code",
-            "2": "CONTENT source"
-          }
-        ]
-      }
-    },
-    {
-      "337": {
-        "subfields": [
-          {
-            "a": "MEDIA term"
-          },
-          {
-            "b": "MEDIA code"
-          },
-          {
-            "2": "MEDIA source"
-          }
-        ]
-      }
-    },
-    {
-      "338": {
-        "subfields": [
-          {
-            "a": "CARRIER term"
-          },
-          {
-            "b": "CARRIER code"
-          },
-          {
-            "2": "CARRIER source"
           }
         ]
       }
@@ -1262,120 +1154,6 @@
           },
           {
             "c": "system"
-          }
-        ]
-      }
-    },
-    {
-      "775": {
-        "subfields": [
-          {
-            "a" : "agent name 775"
-          },
-          {
-            "b" : "instance edition 775"
-          },
-          {
-            "c" : "work title qualifier 775"
-          },
-          {
-            "d" : "instance publication information 775"
-          },
-          {
-            "e" : "eng"
-          },
-          {
-            "h" : "extent 775"
-          },
-          {
-            "k" : "instance series statement 775"
-          },
-          {
-            "m" : "instance materials 775"
-          },
-          {
-            "n" : "instance note 775"
-          },
-          {
-            "o" : "local ID identifier name 775"
-          },
-          {
-            "p" : "abbreviated title"
-          },
-          {
-            "r" : "instance report number 775"
-          },
-          {
-            "s" : "work title main title 775"
-          },
-          {
-            "u" : "STRN identifier name 775"
-          },
-          {
-            "w" : "unknown identifier name 775"
-          },
-          {
-            "x" : "ISSN identifier name 775"
-          },
-          {
-            "y" : "CODEN identifier name 775"
-          },
-          {
-            "z" : "ISBN identifier name 775"
-          }
-        ]
-      }
-    },
-    {
-      "776": {
-        "subfields": [
-          {
-            "a" : "agent name 776"
-          },
-          {
-            "b" : "instance edition 776"
-          },
-          {
-            "c" : "work title qualifier 776"
-          },
-          {
-            "d" : "instance publication information 776"
-          },
-          {
-            "h" : "extent 776"
-          },
-          {
-            "k" : "instance series statement 776"
-          },
-          {
-            "m" : "instance materials 776"
-          },
-          {
-            "n" : "instance note 776"
-          },
-          {
-            "o" : "local ID identifier name 776"
-          },
-          {
-            "r" : "instance report number 776"
-          },
-          {
-            "s" : "work title main title 776"
-          },
-          {
-            "u" : "STRN identifier name 776"
-          },
-          {
-            "w" : "unknown identifier name 776"
-          },
-          {
-            "x" : "ISSN identifier name 776"
-          },
-          {
-            "y" : "CODEN identifier name 776"
-          },
-          {
-            "z" : "ISBN identifier name 776"
           }
         ]
       }

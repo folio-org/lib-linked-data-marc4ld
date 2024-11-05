@@ -28,6 +28,8 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
 
   private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
 
+  private static final int INDEX_PRESENT_INDEX = 31;
+
   public SupplementaryContentMapper(LabelService labelService,
                                     MapperHelper mapperHelper,
                                     FingerprintHashService hashService) {
@@ -86,7 +88,8 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
       .stream()
       .filter(controlField -> TAG_008.equals(controlField.getTag()))
       .map(ControlField::getData)
-      .map(data -> data.charAt(31))
+      .filter(data -> data.length() >= INDEX_PRESENT_INDEX + 1)
+      .map(data -> data.charAt(INDEX_PRESENT_INDEX))
       .filter(c -> '1' == c)
       .findAny()
       .ifPresent(c -> getWork(instance)

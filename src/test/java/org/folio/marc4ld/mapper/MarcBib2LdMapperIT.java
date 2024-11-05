@@ -3,38 +3,27 @@ package org.folio.marc4ld.mapper;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
-import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
-import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
-import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
-import static org.folio.ld.dictionary.PredicateDictionary.CONTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
-import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.GRAPHIC_TECHNICIAN;
 import static org.folio.ld.dictionary.PredicateDictionary.HONOUREE;
 import static org.folio.ld.dictionary.PredicateDictionary.HOST;
-import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTRUCTOR;
-import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.JUDGE;
 import static org.folio.ld.dictionary.PredicateDictionary.LAB_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
-import static org.folio.ld.dictionary.PredicateDictionary.MEDIA;
 import static org.folio.ld.dictionary.PredicateDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PredicateDictionary.NARRATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.ONSCREEN_PRESENTER;
-import static org.folio.ld.dictionary.PredicateDictionary.ORIGIN_PLACE;
-import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
-import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
 import static org.folio.ld.dictionary.PredicateDictionary.PATRON;
 import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
@@ -45,7 +34,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
@@ -58,7 +46,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
-import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
@@ -66,7 +53,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
@@ -74,7 +60,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
-import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
@@ -101,7 +86,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
@@ -111,44 +95,29 @@ import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
-import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ABBREVIATED_TITLE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateProperty;
-import static org.folio.marc4ld.util.Constants.Classification.DDC;
-import static org.folio.marc4ld.util.Constants.Classification.DLC;
-import static org.folio.marc4ld.util.Constants.Classification.FULL;
-import static org.folio.marc4ld.util.Constants.Classification.LC;
-import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
 import java.util.List;
 import java.util.Map;
@@ -256,8 +225,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateParallelTitle(edgeIterator.next());
     validateCopyrightDate(edgeIterator.next());
     validateExtent(edgeIterator.next());
-    validateCategory(edgeIterator.next(), MEDIA, "mediaTypes");
-    validateCategory(edgeIterator.next(), CARRIER, "carriers");
     validateAccessLocation(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
@@ -552,14 +519,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
-    validateEdge(edgeIterator.next(), PredicateDictionary.GEOGRAPHIC_COVERAGE, List.of(PLACE),
-      Map.of(
-        NAME.getValue(), List.of("United States"),
-        GEOGRAPHIC_AREA_CODE.getValue(), List.of("n-us"),
-        GEOGRAPHIC_COVERAGE.getValue(), List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
-      ), "United States");
-    validateLcClassification(edgeIterator.next());
-    validateDdcClassification(edgeIterator.next());
     validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
     validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
@@ -575,9 +534,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
-    validateEdge(edgeIterator.next(), ORIGIN_PLACE, List.of(PLACE),
-      Map.of(NAME.getValue(), List.of("France")), "France");
-    validateCategory(edgeIterator.next(), CONTENT, "contentTypes");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
       getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
@@ -590,200 +546,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       "CONTRIBUTOR JURISDICTION name");
     validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
       getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
-    validateLinkingEntry(edgeIterator.next(), OTHER_EDITION, "775");
-    validateLinkingEntry(edgeIterator.next(), OTHER_VERSION, "776");
-    validateEdge(edgeIterator.next(), GOVERNMENT_PUBLICATION, List.of(CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("a"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/mgovtpubtype/a"),
-        TERM.getValue(), List.of("Autonomous")
-      ), "Autonomous");
-    validateTargetAudience(edgeIterator.next());
-    validateEdge(edgeIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("eng"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
-      ), "eng");
-    validateBook(edgeIterator.next(), ILLUSTRATIONS,
-      Map.of(
-        CODE.getValue(), List.of("a"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus/ill"),
-        TERM.getValue(), List.of("Illustrations")
-      ),
-      Map.of(
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/millus"),
-        LABEL.getValue(), List.of("Illustrative Content")
-      ));
     assertThat(edgeIterator.hasNext()).isFalse();
-  }
-
-  private void validateBook(ResourceEdge edge, PredicateDictionary predicate,
-                            Map<String, List<String>> categoryProperties,
-                            Map<String, List<String>> categorySetProperties) {
-    validateEdge(edge, predicate, List.of(CATEGORY), categoryProperties,
-      categoryProperties.get(TERM.getValue()).get(0));
-
-    assertThat(edge.getTarget().getOutgoingEdges())
-      .hasSize(1)
-      .singleElement()
-      .satisfies(resourceEdge -> validateEdge(resourceEdge, IS_DEFINED_BY, List.of(CATEGORY_SET), categorySetProperties,
-        categorySetProperties.get(LABEL.getValue()).get(0)));
-  }
-
-  private void validateLinkingEntry(ResourceEdge edge, PredicateDictionary predicate, String suffix) {
-    validateEdge(edge, predicate, List.of(WORK),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("work title main title " + suffix)
-      ), "work title main title " + suffix);
-    var outgoingIterator = edge.getTarget().getOutgoingEdges().iterator();
-    if ("775".equals(suffix)) {
-      validateEdge(outgoingIterator.next(), PredicateDictionary.LANGUAGE, List.of(LANGUAGE_CATEGORY),
-        Map.of(
-          CODE.getValue(), List.of("eng"),
-          LINK.getValue(), List.of("http://id.loc.gov/vocabulary/languages/eng")
-        ), "eng");
-      validateEdge(outgoingIterator.next(), PredicateDictionary.TITLE, List.of(ABBREVIATED_TITLE),
-        Map.of(
-          MAIN_TITLE.getValue(), List.of("abbreviated title")
-        ), "abbreviated title");
-    }
-    validateEdge(outgoingIterator.next(), CREATOR,
-      List.of(AGENT),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("agent name " + suffix)
-      ), "agent name " + suffix);
-    validateEdge(outgoingIterator.next(), MAP,
-      List.of(IDENTIFIER, ID_ISSN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("ISSN identifier name " + suffix)
-      ), "ISSN identifier name " + suffix);
-    validateEdge(outgoingIterator.next(), PredicateDictionary.TITLE,
-      List.of(TITLE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of("work title main title " + suffix),
-        "http://bibfra.me/vocab/marc/qualifier", List.of("work title qualifier " + suffix)
-      ), "work title main title " + suffix);
-    assertThat(outgoingIterator.hasNext()).isFalse();
-    var incomingIterator = edge.getTarget().getIncomingEdges().iterator();
-    validateLiteInstance(incomingIterator.next().getSource(), suffix);
-    assertThat(incomingIterator.hasNext()).isFalse();
-  }
-
-  private void validateLiteInstance(Resource resource, String suffix) {
-    validateResource(resource, List.of(INSTANCE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/edition", List.of("instance edition " + suffix),
-        "http://bibfra.me/vocab/marc/publicationInformation", List.of("instance publication information " + suffix),
-        "http://bibfra.me/vocab/marc/materials", List.of("instance materials " + suffix),
-        "http://bibfra.me/vocab/lite/note", List.of("instance note " + suffix),
-        "http://bibfra.me/vocab/marc/seriesStatement", List.of("instance series statement " + suffix),
-        "http://bibfra.me/vocab/marc/reportNumber", List.of("instance report number " + suffix)
-      ), "work/instance title main title " + suffix);
-    var iterator = resource.getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), PredicateDictionary.EXTENT,
-      List.of(ResourceTypeDictionary.EXTENT),
-      Map.of(
-        LABEL.getValue(), List.of("extent " + suffix)
-      ), "extent " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_LOCAL),
-      Map.of(
-        "http://bibfra.me/vocab/marc/localId", List.of("local ID identifier name " + suffix)
-      ),
-      "local ID identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_STRN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("STRN identifier name " + suffix)
-      ),
-      "STRN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_CODEN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("CODEN identifier name " + suffix)
-      ),
-      "CODEN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_ISBN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("ISBN identifier name " + suffix)
-      ),
-      "ISBN identifier name " + suffix);
-    validateEdge(iterator.next(), MAP,
-      List.of(IDENTIFIER, ID_UNKNOWN),
-      Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("unknown identifier name " + suffix)
-      ),
-      "unknown identifier name " + suffix);
-    validateEdge(iterator.next(), PredicateDictionary.TITLE,
-      List.of(ResourceTypeDictionary.TITLE),
-      Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of("MainTitle SubTitle")
-      ),
-      "MainTitle SubTitle");
-    validateEdge(iterator.next(), INSTANTIATES,
-      List.of(WORK),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("work title main title " + suffix)
-      ),
-      "work title main title " + suffix);
-    assertThat(iterator.hasNext()).isFalse();
-  }
-
-  private void validateLcClassification(ResourceEdge edge) {
-    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
-      Map.of(
-        SOURCE.getValue(), List.of(LC),
-        CODE.getValue(), List.of("code"),
-        ITEM_NUMBER.getValue(), List.of("item number")
-      ), "code");
-    var iterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), STATUS,
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        LABEL.getValue(), List.of("used by assigner"),
-        LINK.getValue(), List.of(UBA)
-      ), "used by assigner");
-    validateEdge(iterator.next(), ASSIGNING_SOURCE,
-      List.of(ORGANIZATION),
-      Map.of(
-        NAME.getValue(), List.of("United States, Library of Congress"),
-        LINK.getValue(), List.of(DLC)
-      ), "United States, Library of Congress");
-  }
-
-  private void validateDdcClassification(ResourceEdge edge) {
-    validateEdge(edge, CLASSIFICATION, List.of(ResourceTypeDictionary.CLASSIFICATION),
-      Map.of(
-        SOURCE.getValue(), List.of(DDC),
-        CODE.getValue(), List.of("Dewey Decimal Classification value"),
-        ITEM_NUMBER.getValue(), List.of("item number"),
-        EDITION_NUMBER.getValue(), List.of("edition number"),
-        EDITION.getValue(), List.of(FULL)
-      ), "Dewey Decimal Classification value");
-    var iterator = edge.getTarget().getOutgoingEdges().iterator();
-    validateEdge(iterator.next(), ASSIGNING_SOURCE,
-      List.of(ORGANIZATION),
-      Map.of(
-        NAME.getValue(), List.of("United States, Library of Congress"),
-        LINK.getValue(), List.of(DLC)
-      ), "United States, Library of Congress");
-  }
-
-  private void validateTargetAudience(ResourceEdge edge) {
-    validateEdge(edge, PredicateDictionary.TARGET_AUDIENCE, List.of(CATEGORY),
-      Map.of(
-        CODE.getValue(), List.of("b"),
-        LINK.getValue(), List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-        TERM.getValue(), List.of("Primary")
-      ), "Primary");
-    var targetAudience = edge.getTarget();
-    validateEdge(targetAudience.getOutgoingEdges().iterator().next(), IS_DEFINED_BY,
-      List.of(CATEGORY_SET),
-      Map.of(
-        LINK.getValue(), List.of("https://id.loc.gov/vocabulary/maudience"),
-        LABEL.getValue(), List.of("Target audience")
-      ), "Target audience");
   }
 
   private void validateTitle(ResourceEdge edge) {
@@ -914,30 +677,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2018");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
-  }
-
-  private void validateCategory(ResourceEdge edge, PredicateDictionary predicate, String linkTerm) {
-    assertThat(edge.getId()).isNull();
-    var resource = edge.getTarget();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo(predicate.name() + " term");
-    assertThat(resource.getTypes()).containsOnly(CATEGORY);
-    assertThat(resource.getDoc()).hasSize(4);
-    assertThat(resource.getDoc().has(CODE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(CODE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(CODE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " code");
-    assertThat(resource.getDoc().has(LINK.getValue())).isTrue();
-    assertThat(resource.getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo(
-      "http://id.loc.gov/vocabulary/" + linkTerm + "/" + predicate.name() + " code");
-    assertThat(resource.getDoc().has(TERM.getValue())).isTrue();
-    assertThat(resource.getDoc().get(TERM.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(TERM.getValue()).get(0).asText()).isEqualTo(predicate.name() + " term");
-    assertThat(resource.getDoc().has(SOURCE.getValue())).isTrue();
-    assertThat(resource.getDoc().get(SOURCE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(SOURCE.getValue()).get(0).asText()).isEqualTo(predicate.name() + " source");
   }
 
   private void validateAccessLocation(ResourceEdge edge) {
