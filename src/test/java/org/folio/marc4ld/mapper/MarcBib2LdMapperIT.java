@@ -6,9 +6,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
-import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.COPYRIGHT;
-import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.DESIGNER;
 import static org.folio.ld.dictionary.PredicateDictionary.EDITOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FILMMAKER;
@@ -29,13 +27,9 @@ import static org.folio.ld.dictionary.PredicateDictionary.RADIO_DIRECTOR;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
-import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
-import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
-import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATA_QUALITY;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
@@ -47,10 +41,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
-import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
-import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
@@ -63,16 +55,13 @@ import static org.folio.ld.dictionary.PropertyDictionary.ISSUING_BODY;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
-import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCAL_ID_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_ORIGINALS_DUPLICATES;
 import static org.folio.ld.dictionary.PropertyDictionary.LOCATION_OF_OTHER_ARCHIVAL_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ORIGINAL_VERSION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.OTHER_EVENT_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
@@ -88,31 +77,24 @@ import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
 import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
-import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PARALLEL_TITLE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -123,7 +105,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -519,33 +500,11 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));
     assertThat(work.getOutgoingEdges()).isNotEmpty();
     var edgeIterator = work.getOutgoingEdges().iterator();
-    validateEdge(edgeIterator.next(), CREATOR, List.of(PERSON),
-      getFamilyPersonContributorExpectedProperties("CREATOR PERSON"), "CREATOR PERSON name");
-    validateEdge(edgeIterator.next(), CREATOR, List.of(FAMILY),
-      getFamilyPersonContributorExpectedProperties("CREATOR FAMILY"), "CREATOR FAMILY name");
-    validateEdge(edgeIterator.next(), CREATOR, List.of(ORGANIZATION),
-      getOrganizationJurisdictionContributorExpectedProperties("CREATOR ORGANIZATION"), "CREATOR ORGANIZATION name");
-    validateEdge(edgeIterator.next(), CREATOR, List.of(JURISDICTION),
-      getOrganizationJurisdictionContributorExpectedProperties("CREATOR JURISDICTION"), "CREATOR JURISDICTION name");
-    validateEdge(edgeIterator.next(), CREATOR, List.of(MEETING),
-      getMeetingContributorExpectedProperties("CREATOR MEETING"), "CREATOR MEETING name");
     validateTitle(edgeIterator.next());
     validateTitle2(edgeIterator.next());
     validateTitle3(edgeIterator.next());
     validateVariantTitle(edgeIterator.next());
     validateParallelTitle(edgeIterator.next());
-    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(PERSON),
-      getFamilyPersonContributorExpectedProperties("CONTRIBUTOR PERSON"), "CONTRIBUTOR PERSON name");
-    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(FAMILY),
-      getFamilyPersonContributorExpectedProperties("CONTRIBUTOR FAMILY"), "CONTRIBUTOR FAMILY name");
-    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(ORGANIZATION),
-      getOrganizationJurisdictionContributorExpectedProperties("CONTRIBUTOR ORGANIZATION"),
-      "CONTRIBUTOR ORGANIZATION name");
-    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(JURISDICTION),
-      getOrganizationJurisdictionContributorExpectedProperties("CONTRIBUTOR JURISDICTION"),
-      "CONTRIBUTOR JURISDICTION name");
-    validateEdge(edgeIterator.next(), CONTRIBUTOR, List.of(MEETING),
-      getMeetingContributorExpectedProperties("CONTRIBUTOR MEETING"), "CONTRIBUTOR MEETING name");
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -714,79 +673,5 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       entry(STUDY_PROGRAM_NAME.getValue(), "program, interest, reading, title, text, nonpublic, public"),
       entry(SUPPLEMENT.getValue(), "supplement note")
     );
-  }
-
-  private Map<String, List<String>> getFamilyPersonContributorExpectedProperties(String prefix) {
-    return Map.ofEntries(
-      entry(NAME.getValue(), List.of(prefix + " name")),
-      entry(NUMERATION.getValue(), List.of(prefix + " numeration")),
-      entry(TITLES.getValue(), List.of(prefix + " titles")),
-      entry(DATE.getValue(), List.of(prefix + " date")),
-      entry(ATTRIBUTION.getValue(), List.of(prefix + " attribution")),
-      entry(NAME_ALTERNATIVE.getValue(), List.of(prefix + " name alternative")),
-      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
-      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
-      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
-      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
-      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
-      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
-    );
-  }
-
-  private Map<String, List<String>> getOrganizationJurisdictionContributorExpectedProperties(String prefix) {
-    return Map.ofEntries(
-      entry(NAME.getValue(), List.of(prefix + " name")),
-      entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
-      entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
-      entry(DATE.getValue(), List.of(prefix + " date")),
-      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
-      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
-      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
-      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
-      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
-      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
-    );
-  }
-
-  private Map<String, List<String>> getMeetingContributorExpectedProperties(String prefix) {
-    return Map.ofEntries(
-      entry(NAME.getValue(), List.of(prefix + " name")),
-      entry(PropertyDictionary.PLACE.getValue(), List.of(prefix + " place")),
-      entry(DATE.getValue(), List.of(prefix + " date")),
-      entry(SUBORDINATE_UNIT.getValue(), List.of(prefix + " subordinate unit")),
-      entry(AFFILIATION.getValue(), List.of(prefix + " affiliation")),
-      entry(AUTHORITY_LINK.getValue(), List.of(prefix + " authority link")),
-      entry(EQUIVALENT.getValue(), List.of(prefix + " equivalent")),
-      entry(LINKAGE.getValue(), List.of(prefix + " linkage")),
-      entry(CONTROL_FIELD.getValue(), List.of(prefix + " control field")),
-      entry(FIELD_LINK.getValue(), List.of(prefix + " field link"))
-    );
-  }
-
-  //TODO MODLD-391
-  @Deprecated(forRemoval = true, since = "MODLD-391")
-  private static void validateEdge(ResourceEdge edge, PredicateDictionary predicate,
-                                   List<ResourceTypeDictionary> types,
-                                   Map<String, List<String>> properties,
-                                   String expectedLabel) {
-    assertThat(edge.getId()).isNull();
-    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
-    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
-    validateResource(edge.getTarget(), types, properties, expectedLabel);
-  }
-
-  //TODO MODLD-391
-  @Deprecated(forRemoval = true, since = "MODLD-391")
-  private static void validateResource(Resource resource,
-                                       List<ResourceTypeDictionary> types,
-                                       Map<String, List<String>> properties,
-                                       String expectedLabel) {
-    assertThat(resource.getId()).isNotNull();
-    assertThat(resource.getTypes()).containsOnly(types.toArray(new ResourceTypeDictionary[0]));
-
-    // disabled due to the fact that the label is not always present, problem with complicated
-    // assertThat(resource.getLabel()).isEqualTo(expectedLabel);
-    // assertThat(resource.getDoc()).hasSize(properties.size());
-    properties.forEach((property, propertyValues) -> validateProperty(resource, property, propertyValues));
   }
 }

@@ -55,6 +55,16 @@ public class ResourceEdgeHelper {
       .toList();
   }
 
+  public static Optional<ResourceEdge> getEdge(Resource resource, ResourceTypeDictionary... resourceTypes) {
+    return resource.getOutgoingEdges()
+      .stream()
+      .filter(edge -> Optional.of(edge.getTarget())
+        .map(Resource::getTypes)
+        .filter(types -> CollectionUtils.containsAll(types, Arrays.asList(resourceTypes)))
+        .isPresent())
+      .findFirst();
+  }
+
   public static Predicate<ResourceEdge> withPredicateUri(String uri) {
     return re -> re.getPredicate().getUri().equals(uri);
   }
