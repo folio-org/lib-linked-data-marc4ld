@@ -370,7 +370,6 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(PE_PUBLICATION, List.of(publication));
     pred2OutgoingResources.put(PE_DISTRIBUTION, List.of(distribution));
     pred2OutgoingResources.put(PE_MANUFACTURE, List.of(manufacture));
-    //pred2OutgoingResources.put(PredicateDictionary.SUPPLEMENTARY_CONTENT, List.of(supplementaryContent));
     pred2OutgoingResources.put(ACCESS_LOCATION, List.of(accessLocation));
     pred2OutgoingResources.put(MAP,
       List.of(lccn, lccnCancelled, isbn, isbnCancelled, ean, eanCancelled, localId, localIdCancelled, otherId,
