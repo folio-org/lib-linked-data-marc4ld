@@ -6,14 +6,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.marc2ld.field.property.Property;
 import org.marc4j.marc.DataField;
 
 @RequiredArgsConstructor
 public class IndicatorPropertyBuilder implements PropertyBuilder<DataField> {
 
-  private final Marc4BibframeRules.FieldRule rule;
+  private final Marc4LdRules.FieldRule rule;
 
   @Override
   public Collection<Property> apply(DataField dataField) {

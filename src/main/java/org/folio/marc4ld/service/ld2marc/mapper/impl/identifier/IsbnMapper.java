@@ -4,9 +4,9 @@ import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValues;
 import static org.folio.marc4ld.util.Constants.Q;
 import static org.folio.marc4ld.util.Constants.TAG_020;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +44,8 @@ public class IsbnMapper extends AbstractIdentifierMapper {
   public DataField apply(ResourceEdge resourceEdge) {
     var dataField = super.apply(resourceEdge);
     getPropertyValues(resourceEdge.getTarget(), QUALIFIER.getValue(),
-      node -> objectMapper.convertValue(node, new TypeReference<>() {}))
+      node -> objectMapper.convertValue(node, new TypeReference<>() {
+      }))
       .stream()
       .map(qualifier -> marcFactory.newSubfield(Q, qualifier))
       .forEach(dataField::addSubfield);

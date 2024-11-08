@@ -7,14 +7,14 @@ import java.util.Optional;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 
 public interface Marc2ldFieldRuleApplier {
 
-  Marc4BibframeRules.FieldRule getOriginal();
+  Marc4LdRules.FieldRule getOriginal();
 
   Resource computeParentIfAbsent(Resource resource);
 

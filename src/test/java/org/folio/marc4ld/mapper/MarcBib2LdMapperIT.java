@@ -119,7 +119,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class MarcBib2LdMapperIT extends Marc2LdTestBase {
 
   @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
+  private MarcBib2ldMapper marcBib2ldMapper;
 
   @Test
   void map_shouldReturnEmptyOptional_ifGivenMarcIsNull() {
@@ -127,7 +127,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     String marc = null;
 
     // when
-    var result = marc2BibframeMapper.fromMarcJson(marc);
+    var result = marcBib2ldMapper.fromMarcJson(marc);
 
     // then
     assertThat(result).isEmpty();
@@ -210,6 +210,83 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
+  @Test
+  void twoMappedResources_shouldContainWorkWithDifferentIds() {
+    // given
+    var marc1 = loadResourceAsString("full_marc.jsonl");
+    var marc2 = loadResourceAsString("short_marc.jsonl");
+
+    // when
+    var result1 = marcBibToResource(marc1);
+    var result2 = marcBibToResource(marc2);
+
+    // then
+    var work1opt = result1.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
+    var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
+    assertThat(work1opt).isPresent();
+    assertThat(work2opt).isPresent();
+    assertThat(work1opt.get().getTarget().getId()).isNotEqualTo(work2opt.get().getTarget().getId());
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideMarcAndPredicates")
+  void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    assertThat(work.getOutgoingEdges()).hasSize(12);
+
+    var workEdgesIterator = work.getOutgoingEdges().iterator();
+    var workCreatorPerson = workEdgesIterator.next().getTarget();
+    var creatorPersonRelation = workEdgesIterator.next();
+    assertThat(creatorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(0));
+    assertThat(creatorPersonRelation.getTarget()).isEqualTo(workCreatorPerson);
+
+    var workCreatorOrganization = workEdgesIterator.next().getTarget();
+    var creatorOrganizationRelation = workEdgesIterator.next();
+    assertThat(creatorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(1));
+    assertThat(creatorOrganizationRelation.getTarget()).isEqualTo(workCreatorOrganization);
+
+    var workCreatorMeeting = workEdgesIterator.next().getTarget();
+    var creatorMeetingRelation = workEdgesIterator.next();
+    assertThat(creatorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(2));
+    assertThat(creatorMeetingRelation.getTarget()).isEqualTo(workCreatorMeeting);
+
+    var workContributorPerson = workEdgesIterator.next().getTarget();
+    var contributorPersonRelation = workEdgesIterator.next();
+    assertThat(contributorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(3));
+    assertThat(contributorPersonRelation.getTarget()).isEqualTo(workContributorPerson);
+
+    var workContributorOrganization = workEdgesIterator.next().getTarget();
+    var contributorOrganizationRelation = workEdgesIterator.next();
+    assertThat(contributorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(4));
+    assertThat(contributorOrganizationRelation.getTarget()).isEqualTo(workContributorOrganization);
+
+    var workContributorMeeting = workEdgesIterator.next().getTarget();
+    var contributorMeetingRelation = workEdgesIterator.next();
+    assertThat(contributorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(5));
+    assertThat(contributorMeetingRelation.getTarget()).isEqualTo(workContributorMeeting);
+  }
+
+  private static Stream<Arguments> provideMarcAndPredicates() {
+    return Stream.of(
+      Arguments.of(
+        loadResourceAsString("code_relations.jsonl"),
+        List.of(AUTHOR, BROADCASTER, CLIENT, DESIGNER, EDITOR, HOST)
+      ),
+      Arguments.of(
+        loadResourceAsString("text_relations.jsonl"),
+        List.of(FILMMAKER, GRAPHIC_TECHNICIAN, ILLUSTRATOR, LAB_DIRECTOR, HONOUREE, INSTRUCTOR)
+      ),
+      Arguments.of(
+        loadResourceAsString("code_and_text_relations.jsonl"),
+        List.of(JUDGE, MEDIUM, NARRATOR, ONSCREEN_PRESENTER, PATRON, RADIO_DIRECTOR)
+      )
+    );
+  }
+
   private void validateExtent(ResourceEdge edge) {
     assertThat(edge.getId()).isNull();
     var resource = edge.getTarget();
@@ -254,83 +331,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(folioMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
     assertThat(folioMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
-  }
-
-  @Test
-  void twoMappedResources_shouldContainWorkWithDifferentIds() {
-    // given
-    var marc1 = loadResourceAsString("full_marc.jsonl");
-    var marc2 = loadResourceAsString("short_marc.jsonl");
-
-    // when
-    var result1 = marcBibToResource(marc1);
-    var result2 = marcBibToResource(marc2);
-
-    // then
-    var work1opt = result1.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
-    var work2opt = result2.getOutgoingEdges().stream().filter(re -> INSTANTIATES.equals(re.getPredicate())).findFirst();
-    assertThat(work1opt).isPresent();
-    assertThat(work2opt).isPresent();
-    assertThat(work1opt.get().getTarget().getId()).isNotEqualTo(work2opt.get().getTarget().getId());
-  }
-
-  private static Stream<Arguments> provideMarcAndPredicates() {
-    return Stream.of(
-      Arguments.of(
-        loadResourceAsString("code_relations.jsonl"),
-        List.of(AUTHOR, BROADCASTER, CLIENT, DESIGNER, EDITOR, HOST)
-      ),
-      Arguments.of(
-        loadResourceAsString("text_relations.jsonl"),
-        List.of(FILMMAKER, GRAPHIC_TECHNICIAN, ILLUSTRATOR, LAB_DIRECTOR, HONOUREE, INSTRUCTOR)
-      ),
-      Arguments.of(
-        loadResourceAsString("code_and_text_relations.jsonl"),
-        List.of(JUDGE, MEDIUM, NARRATOR, ONSCREEN_PRESENTER, PATRON, RADIO_DIRECTOR)
-      )
-    );
-  }
-
-  @ParameterizedTest
-  @MethodSource("provideMarcAndPredicates")
-  void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {
-    //when
-    var result = marcBibToResource(marc);
-
-    //then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
-    assertThat(work.getOutgoingEdges()).hasSize(12);
-
-    var workEdgesIterator = work.getOutgoingEdges().iterator();
-    var workCreatorPerson = workEdgesIterator.next().getTarget();
-    var creatorPersonRelation = workEdgesIterator.next();
-    assertThat(creatorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(0));
-    assertThat(creatorPersonRelation.getTarget()).isEqualTo(workCreatorPerson);
-
-    var workCreatorOrganization = workEdgesIterator.next().getTarget();
-    var creatorOrganizationRelation = workEdgesIterator.next();
-    assertThat(creatorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(1));
-    assertThat(creatorOrganizationRelation.getTarget()).isEqualTo(workCreatorOrganization);
-
-    var workCreatorMeeting = workEdgesIterator.next().getTarget();
-    var creatorMeetingRelation = workEdgesIterator.next();
-    assertThat(creatorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(2));
-    assertThat(creatorMeetingRelation.getTarget()).isEqualTo(workCreatorMeeting);
-
-    var workContributorPerson = workEdgesIterator.next().getTarget();
-    var contributorPersonRelation = workEdgesIterator.next();
-    assertThat(contributorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(3));
-    assertThat(contributorPersonRelation.getTarget()).isEqualTo(workContributorPerson);
-
-    var workContributorOrganization = workEdgesIterator.next().getTarget();
-    var contributorOrganizationRelation = workEdgesIterator.next();
-    assertThat(contributorOrganizationRelation.getPredicate()).isEqualTo(expectedPredicates.get(4));
-    assertThat(contributorOrganizationRelation.getTarget()).isEqualTo(workContributorOrganization);
-
-    var workContributorMeeting = workEdgesIterator.next().getTarget();
-    var contributorMeetingRelation = workEdgesIterator.next();
-    assertThat(contributorMeetingRelation.getPredicate()).isEqualTo(expectedPredicates.get(5));
-    assertThat(contributorMeetingRelation.getTarget()).isEqualTo(workContributorMeeting);
   }
 
   private void validateInstanceNotes(Resource resource) {

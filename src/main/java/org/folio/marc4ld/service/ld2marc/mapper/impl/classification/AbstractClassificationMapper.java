@@ -5,10 +5,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CLASSIFICATION;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValues;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.B;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +50,8 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
   public DataField apply(ResourceEdge resourceEdge) {
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(tag, getIndicator1(resource), getIndicator2(resource));
-    getPropertyValues(resource, CODE.getValue(), node -> objectMapper.convertValue(node, new TypeReference<>() {}))
+    getPropertyValues(resource, CODE.getValue(), node -> objectMapper.convertValue(node, new TypeReference<>() {
+    }))
       .stream()
       .map(code -> marcFactory.newSubfield(A, code))
       .forEach(dataField::addSubfield);

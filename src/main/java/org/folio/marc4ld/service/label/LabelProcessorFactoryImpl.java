@@ -3,7 +3,7 @@ package org.folio.marc4ld.service.label;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.collections4.CollectionUtils;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.label.processor.LabelProcessor;
 import org.folio.marc4ld.service.label.processor.PropertyLabelProcessor;
 import org.folio.marc4ld.service.label.processor.TemplateLabelProcessor;
@@ -15,7 +15,7 @@ public class LabelProcessorFactoryImpl implements LabelProcessorFactory {
   public static final String PATTERN_MARKER = "$";
 
   @Override
-  public Collection<LabelProcessor> get(Marc4BibframeRules.LabelRule rule) {
+  public Collection<LabelProcessor> get(Marc4LdRules.LabelRule rule) {
     if (CollectionUtils.isEmpty(rule.getProperties())) {
       return Collections.emptyList();
     }

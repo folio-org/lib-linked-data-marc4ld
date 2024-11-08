@@ -6,14 +6,14 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValues;
 import static org.folio.marc4ld.util.Constants.Dictionary.AGENT_CODE_TO_PREDICATE;
 import static org.folio.marc4ld.util.Constants.E;
 import static org.folio.marc4ld.util.Constants.FOUR;
 import static org.folio.marc4ld.util.Constants.NINE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.ZERO;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -123,7 +123,8 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   }
 
   private Function<JsonNode, List<String>> getPropertiesConversionFunction() {
-    return node -> objectMapper.convertValue(node, new TypeReference<>() {});
+    return node -> objectMapper.convertValue(node, new TypeReference<>() {
+    });
   }
 
   private void addNonRepeatableSubfields(DataField dataField, Resource resource) {

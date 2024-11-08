@@ -3,10 +3,10 @@ package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.SupplementaryContentMapper.CODE_TO_LINK_SUFFIX_MAP;
-import static org.folio.marc4ld.util.BibframeUtil.getOutgoingEdges;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
-import static org.folio.marc4ld.util.BibframeUtil.getWork;
 import static org.folio.marc4ld.util.Constants.TAG_008;
+import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getWork;
 
 import java.util.List;
 import java.util.Map;

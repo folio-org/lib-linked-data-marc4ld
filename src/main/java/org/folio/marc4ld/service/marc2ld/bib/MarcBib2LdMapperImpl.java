@@ -9,10 +9,10 @@ import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
-import static org.folio.marc4ld.util.BibframeUtil.getFirst;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.LdUtil.getFirst;
 import static org.folio.marc4ld.util.MarcUtil.isLanguageMaterial;
 import static org.folio.marc4ld.util.MarcUtil.isMonographicComponentPartOrItem;
 

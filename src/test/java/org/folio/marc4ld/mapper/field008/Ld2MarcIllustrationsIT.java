@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapperImpl;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Ld2MarcIllustrationsIT {
 
   @Autowired
-  private Bibframe2MarcMapperImpl bibframe2MarcMapper;
+  private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
   void shouldMap_onlyFour_illustrations() {
@@ -36,7 +36,7 @@ class Ld2MarcIllustrationsIT {
     var resource = createInstance();
 
     // when
-    var result = bibframe2MarcMapper.toMarcJson(resource);
+    var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
     assertThat(result).isEqualTo(expectedMarc);

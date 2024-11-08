@@ -12,7 +12,7 @@ import lombok.NonNull;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
 import org.marc4j.marc.ControlField;
@@ -24,7 +24,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
 
   private final Relation relation;
   @NonNull
-  private final Marc4BibframeRules.FieldRule fieldRule;
+  private final Marc4LdRules.FieldRule fieldRule;
   @NonNull
   private final Collection<Marc2ldFieldRuleApplier> edgeRules;
   @NonNull
@@ -35,7 +35,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   private final PredicateDictionary predicate;
 
   @Override
-  public Marc4BibframeRules.FieldRule getOriginal() {
+  public Marc4LdRules.FieldRule getOriginal() {
     return fieldRule;
   }
 
@@ -60,7 +60,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   public Resource createResource() {
     var res = new Resource();
     Optional.of(fieldRule)
-      .map(Marc4BibframeRules.FieldRule::getTypes)
+      .map(Marc4LdRules.FieldRule::getTypes)
       .stream()
       .flatMap(Collection::stream)
       .map(ResourceTypeDictionary::valueOf)
@@ -116,7 +116,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   private Resource createResourceByParent() {
     var res = new Resource();
     Optional.of(fieldRule)
-      .map(Marc4BibframeRules.FieldRule::getParent)
+      .map(Marc4LdRules.FieldRule::getParent)
       .map(ResourceTypeDictionary::valueOf)
       .ifPresent(res::addType);
     return res;

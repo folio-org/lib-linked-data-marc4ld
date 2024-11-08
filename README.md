@@ -3,17 +3,16 @@
 
 This software is distributed under the terms of the Apache License, Version 2.0.
 See the file "[LICENSE](LICENSE)" for more information.
-
-## Introduction
-lib-linked-data-marc4ld is a Java Spring library for converting MARC Bibliographic records to Linked Data Graph and vice-versa.
-
-## Usage
-
+## Purpose
+Lib-linked-data-marc4ld is a Java library designed for converting MARC records to Linked Data Graphs and vice versa.
+## Compiling
+```bash
+mvn clean install
+```
+## Using the library
 ### Convert MARC Bibliographic record to Linked Data Graph
-
 ```java
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.springframework.stereotype.Service;
 
@@ -33,19 +32,40 @@ public class YourService {
   }
 }
 ```
-
-### Convert Linked Data Graph to MARC Bibliographic record
-
+### Convert MARC Authority record to Linked Data Graph
 ```java
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.ld2marc.Bibframe2MarcMapper;
+import org.folio.marc4ld.service.marc2ld.bib.MarcAuthority2ldMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class YourService {
-  private final Bibframe2MarcMapper mapper;
 
-  public YourService(Bibframe2MarcMapper mapper) {
+  private final MarcAuthority2ldMapper mapper;
+
+  public YourService(MarcAuthority2ldMapper mapper) {
+    this.mapper = mapper;
+  }
+
+  public void yourMethod(String marcJson) {
+    Resource resource = mapper.fromMarcJson(marcJson);
+    // ...
+    // ...
+  }
+}
+```
+### Convert Linked Data Graph to MARC record
+
+```java
+import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
+import org.springframework.stereotype.Service;
+
+@Service
+public class YourService {
+  private final Ld2MarcMapper mapper;
+
+  public YourService(Ld2MarcMapper mapper) {
     this.mapper = mapper;
   }
 
@@ -55,9 +75,9 @@ public class YourService {
     // ...
   }
 }
-
 ```
-
 ### Dependencies
-- [lib-linked-data-fingerprint](https://github.com/folio-org/lib-linked-data-fingerprint)
 - [lib-linked-data-dictionary](https://github.com/folio-org/lib-linked-data-dictionary)
+- [lib-linked-data-fingerprint](https://github.com/folio-org/lib-linked-data-fingerprint)
+## Download and configuration
+The built artifacts for this module are available. See [configuration](https://dev.folio.org/download/artifacts/) for repository access.

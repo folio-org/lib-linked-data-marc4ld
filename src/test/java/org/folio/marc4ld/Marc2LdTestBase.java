@@ -25,13 +25,13 @@ public class Marc2LdTestBase {
   private FingerprintHashService hashService;
 
   @Autowired
-  private MarcBib2ldMapper marc2BibframeMapper;
+  private MarcBib2ldMapper marcBib2ldMapper;
 
   @Autowired
   private MarcAuthority2ldMapper marcAuthority2ldMapper;
 
   protected Resource marcBibToResource(String marc) {
-    var optionalResource = marc2BibframeMapper.fromMarcJson(marc);
+    var optionalResource = marcBib2ldMapper.fromMarcJson(marc);
     assertThat(optionalResource).isNotEmpty();
     var resource = optionalResource.get();
     validateSource(resource);
