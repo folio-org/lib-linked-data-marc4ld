@@ -1,6 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.relation;
 
-import static org.folio.marc4ld.util.BibframeUtil.isNotEmpty;
+import static org.folio.marc4ld.util.LdUtil.isNotEmpty;
 
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;

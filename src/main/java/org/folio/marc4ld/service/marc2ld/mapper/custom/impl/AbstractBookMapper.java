@@ -8,8 +8,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
-import static org.folio.marc4ld.util.BibframeUtil.getWork;
 import static org.folio.marc4ld.util.Constants.TAG_008;
+import static org.folio.marc4ld.util.LdUtil.getWork;
 
 import java.util.Arrays;
 import java.util.List;

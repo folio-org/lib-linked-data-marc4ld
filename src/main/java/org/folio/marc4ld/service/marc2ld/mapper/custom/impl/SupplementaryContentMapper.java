@@ -1,8 +1,8 @@
 package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
-import static org.folio.marc4ld.util.BibframeUtil.getWork;
 import static org.folio.marc4ld.util.Constants.TAG_008;
+import static org.folio.marc4ld.util.LdUtil.getWork;
 
 import java.util.Map;
 import java.util.Set;

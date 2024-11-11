@@ -1,10 +1,10 @@
 package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
-import static org.folio.marc4ld.util.BibframeUtil.getOutgoingEdges;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
-import static org.folio.marc4ld.util.BibframeUtil.getWork;
 import static org.folio.marc4ld.util.Constants.TAG_008;
+import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getWork;
 
 import java.util.Optional;
 import java.util.stream.Collectors;

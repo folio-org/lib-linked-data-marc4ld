@@ -1,7 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.field.property.transformer;
 
 import lombok.RequiredArgsConstructor;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +12,7 @@ public class PropertyTransformerFactoryImpl implements PropertyTransformerFactor
   private final DefaultPropertyTransformer defaultPropertyTransformer;
 
   @Override
-  public PropertyTransformer get(Marc4BibframeRules.FieldRule rule) {
+  public PropertyTransformer get(Marc4LdRules.FieldRule rule) {
     if (rule.isMultiply()) {
       validateMultiply(rule);
       return separatePropertyTransformer;
@@ -20,7 +20,7 @@ public class PropertyTransformerFactoryImpl implements PropertyTransformerFactor
     return defaultPropertyTransformer;
   }
 
-  private void validateMultiply(Marc4BibframeRules.FieldRule rule) {
+  private void validateMultiply(Marc4LdRules.FieldRule rule) {
     if (rule.getSubfields().size() != 1) {
       throw new IllegalArgumentException("Only 1 subfield is required for multiply rule");
     }

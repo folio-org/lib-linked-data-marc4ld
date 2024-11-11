@@ -2,7 +2,7 @@ package org.folio.marc4ld.service.marc2ld.field.property.merger;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.function.ConcatinatedMergeFunction;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.function.MergeFunction;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.function.UnionMergeFunction;
@@ -16,17 +16,17 @@ public class PropertyMergerFactoryImpl implements PropertyMergerFactory {
   private final UnionMergeFunction unionMergeFunction;
 
   @Override
-  public PropertyMerger getConstant(Marc4BibframeRules.FieldRule rule) {
+  public PropertyMerger getConstant(Marc4LdRules.FieldRule rule) {
     return constantPropertyMerger;
   }
 
   @Override
-  public PropertyMerger get(Marc4BibframeRules.FieldRule rule) {
+  public PropertyMerger get(Marc4LdRules.FieldRule rule) {
     var mergeFunction = getMergeFunction(rule);
     return new PropertyMergerImpl(mergeFunction);
   }
 
-  private MergeFunction getMergeFunction(Marc4BibframeRules.FieldRule rule) {
+  private MergeFunction getMergeFunction(Marc4LdRules.FieldRule rule) {
     return Optional.ofNullable(rule.getConcat())
       .map(ConcatinatedMergeFunction::new)
       .map(MergeFunction.class::cast)

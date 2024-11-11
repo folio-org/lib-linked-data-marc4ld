@@ -3,10 +3,10 @@ package org.folio.marc4ld.service.ld2marc.mapper.impl.identifier;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.Z;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

@@ -19,7 +19,7 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
@@ -39,7 +39,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   private final ExpressionParser expressionParser;
 
   @Override
-  public boolean isMarc2LdConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, DataField dataField,
+  public boolean isMarc2LdConditionSatisfied(Marc4LdRules.FieldRule fieldRule, DataField dataField,
                                              List<ControlField> controlFields) {
     var condition = fieldRule.getMarc2ldCondition();
     if (isNull(condition)) {
@@ -53,7 +53,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   @Override
-  public boolean isLd2MarcConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
+  public boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource) {
     var condition = fieldRule.getLd2marcCondition();
     if (isNull(condition)) {
       return true;
@@ -64,14 +64,14 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return isNull(condition.getEdge()) || isEdgeConditionSatisfied(fieldRule, resource);
   }
 
-  private boolean isAllOfFieldConditions(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+  private boolean isAllOfFieldConditions(DataField dataField, Marc4LdRules.Marc2ldCondition condition) {
     return isEmpty(condition.getFieldsAllOf())
       || condition.getFieldsAllOf().entrySet()
       .stream()
       .allMatch(fieldCondition -> isValueSatisfied(dataField, fieldCondition));
   }
 
-  private boolean isFieldAnyOfConditions(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+  private boolean isFieldAnyOfConditions(DataField dataField, Marc4LdRules.Marc2ldCondition condition) {
     return isEmpty(condition.getFieldsAnyOf())
       || condition.getFieldsAnyOf().entrySet()
       .stream()
@@ -85,11 +85,11 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return isSingleConditionSatisfied(value, fieldCondition.getValue());
   }
 
-  private boolean isInd2Condition(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+  private boolean isInd2Condition(DataField dataField, Marc4LdRules.Marc2ldCondition condition) {
     return isSingleConditionSatisfied(String.valueOf(dataField.getIndicator2()), condition.getInd2());
   }
 
-  private boolean isInd1Condition(DataField dataField, Marc4BibframeRules.Marc2ldCondition condition) {
+  private boolean isInd1Condition(DataField dataField, Marc4LdRules.Marc2ldCondition condition) {
     return isSingleConditionSatisfied(String.valueOf(dataField.getIndicator1()), condition.getInd1());
   }
 
@@ -110,7 +110,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return Objects.equals(value, condition);
   }
 
-  private boolean isEdgeConditionSatisfied(Marc4BibframeRules.FieldRule fieldRule, Resource resource) {
+  private boolean isEdgeConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource) {
     if (isEmpty(resource.getOutgoingEdges())) {
       return false;
     }
@@ -124,7 +124,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
       .orElse(false);
   }
 
-  private boolean isResourceSatisfiesRule(Resource resource, Marc4BibframeRules.FieldRule rule) {
+  private boolean isResourceSatisfiesRule(Resource resource, Marc4LdRules.FieldRule rule) {
     var types = rule.getTypes().stream().map(ResourceTypeDictionary::valueOf).collect(toSet());
     var constantsPresented = isConstantsPresented(rule.getConstants(), resource.getDoc());
     return Objects.equals(resource.getTypes(), types) && constantsPresented;
@@ -139,7 +139,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private boolean isControlFieldConditions(List<ControlField> controlFields,
-                                           Marc4BibframeRules.Marc2ldCondition condition) {
+                                           Marc4LdRules.Marc2ldCondition condition) {
     return isEmpty(condition.getControlFields()) || condition.getControlFields().stream()
       .flatMap(cfc -> controlFields.stream()
         .filter(cf -> cf.getTag().equals(cfc.getTag()))
@@ -147,7 +147,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
       .allMatch(b -> b);
   }
 
-  private Boolean evaluateControlField(Marc4BibframeRules.ControlFieldContext cfc, ControlField cf) {
+  private Boolean evaluateControlField(Marc4LdRules.ControlFieldContext cfc, ControlField cf) {
     var expression = expressionParser.parseExpression(cfc.getExpression());
     cfc.setData(cf.getData());
     try {

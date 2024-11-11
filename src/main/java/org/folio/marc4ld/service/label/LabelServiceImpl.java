@@ -13,7 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.label.processor.LabelProcessor;
 import org.folio.marc4ld.service.label.processor.UuidLabelProcessor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class LabelServiceImpl implements LabelService {
   private final LabelProcessor defaultProcessor;
   private final LabelController defaultController;
 
-  public LabelServiceImpl(Marc4BibframeRules rules, LabelProcessorFactory labelProcessorFactory) {
+  public LabelServiceImpl(Marc4LdRules rules, LabelProcessorFactory labelProcessorFactory) {
     this.defaultProcessor = new UuidLabelProcessor();
     this.defaultController = new LabelController(List.of(defaultProcessor), false);
 
@@ -65,7 +65,7 @@ public class LabelServiceImpl implements LabelService {
       .orElse(defaultController);
   }
 
-  private Set<ResourceTypeDictionary> getTypes(Marc4BibframeRules.LabelRule rule) {
+  private Set<ResourceTypeDictionary> getTypes(Marc4LdRules.LabelRule rule) {
     return rule.getTypes()
       .stream()
       .map(ResourceTypeDictionary::valueOf)

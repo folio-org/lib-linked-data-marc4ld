@@ -57,14 +57,14 @@ class Ld2MarcSupplementaryContentMapperTest {
     verify(controlFieldsBuilder).addFieldValue("008", "1", 31, 32);
   }
 
-  private static Stream<Arguments> resourceProvider() {
+  private Stream<Arguments> resourceProvider() {
     return Stream.of(
       Arguments.of(new Resource()),
       Arguments.of(createResourceWithoutSupplementaryContents())
     );
   }
 
-  private static Resource createResourceWithoutSupplementaryContents() {
+  private Resource createResourceWithoutSupplementaryContents() {
     var work = createResource(
       emptyMap(),
       Set.of(WORK),

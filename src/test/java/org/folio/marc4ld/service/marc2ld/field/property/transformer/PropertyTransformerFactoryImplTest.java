@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import org.folio.marc4ld.configuration.property.Marc4BibframeRules;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +29,7 @@ class PropertyTransformerFactoryImplTest {
   @Test
   void whenRuleIsMultiply_andSubfieldsIsOneThenReturnSeparateTransformer() {
     // given
-    var rule = Mockito.mock(Marc4BibframeRules.FieldRule.class);
+    var rule = Mockito.mock(Marc4LdRules.FieldRule.class);
     when(rule.isMultiply())
       .thenReturn(true);
     when(rule.getSubfields())
@@ -47,7 +47,7 @@ class PropertyTransformerFactoryImplTest {
   @ValueSource(ints = {0, 2, 3, 4, 5})
   void whenRuleIsMultiply_andSubfieldsIsOneThenReturnSeparateTransformer(int size) {
     // given
-    var rule = Mockito.mock(Marc4BibframeRules.FieldRule.class);
+    var rule = Mockito.mock(Marc4LdRules.FieldRule.class);
     Map<Character, String> subfields = Mockito.mock(Map.class);
     when(subfields.size())
       .thenReturn(size);

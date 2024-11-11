@@ -4,7 +4,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.marc4ld.util.BibframeUtil.getPropertyValue;
 import static org.folio.marc4ld.util.Constants.Classification.ABRIDGED;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
 import static org.folio.marc4ld.util.Constants.Classification.DLC;
@@ -17,6 +16,7 @@ import static org.folio.marc4ld.util.Constants.SEVEN;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TWO;
 import static org.folio.marc4ld.util.Constants.ZERO;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
