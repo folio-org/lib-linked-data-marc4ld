@@ -35,7 +35,7 @@ public class YourService {
 ### Convert MARC Authority record to Linked Data Graph
 ```java
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.marc2ld.bib.MarcAuthority2ldMapper;
+import org.folio.marc4ld.service.marc2ld.authority.MarcAuthority2ldMapper;
 import org.springframework.stereotype.Service;
 
 @Service
