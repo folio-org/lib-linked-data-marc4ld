@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field008;
+package org.folio.marc4ld.mapper.field008.metadata;
 
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
