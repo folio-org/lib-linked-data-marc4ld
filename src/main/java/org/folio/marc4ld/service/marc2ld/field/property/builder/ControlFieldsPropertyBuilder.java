@@ -40,8 +40,12 @@ public class ControlFieldsPropertyBuilder implements PropertyBuilder<Collection<
   private Optional<Property> getValue(Map.Entry<String, List<Integer>> propertyField, String data) {
     var range = propertyField.getValue();
     return Optional.of(data)
-      .filter(cfValue -> range.get(1) <= cfValue.length())
-      .map(cfValue -> cfValue.substring(range.get(0), range.get(1)))
+      .map(cfValue -> {
+        if (range.get(1) > cfValue.length()) {
+          return cfValue.substring(range.get(0));
+        }
+        return cfValue.substring(range.get(0), range.get(1));
+      })
       .map(String::strip)
       .filter(StringUtils::isNotBlank)
       .map(value -> normalize(value, propertyField.getKey()))

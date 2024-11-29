@@ -1,5 +1,18 @@
 bibFieldRules:
+  '001':
+    - types: ANNOTATION
+      parent: INSTANCE
+      predicate: ADMIN_METADATA
+      controlFields:
+        '001':
+          CONTROL_NUMBER: 0,99
   '008':
+    - types: ANNOTATION
+      parent: INSTANCE
+      predicate: ADMIN_METADATA
+      controlFields:
+        '008':
+          CREATED_DATE: 0,6
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
