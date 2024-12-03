@@ -2,7 +2,6 @@ package org.folio.marc4ld.service.ld2marc.resource.field;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.LinkedHashMap;
@@ -22,7 +21,8 @@ public class ControlFieldsBuilder {
   public void addFieldValue(String tag, String newValue, Integer startPos, Integer endPos) {
     if (isNotEmpty(newValue)) {
       storage.putIfAbsent(tag, new StringBuilder());
-      storage.get(tag).replace(startPos, startPos + newValue.length(), ensureLength(newValue, newValue.length()));
+      newValue = limitLength(newValue, endPos);
+      storage.get(tag).replace(startPos, startPos + newValue.length(), newValue);
     }
   }
 
@@ -30,12 +30,12 @@ public class ControlFieldsBuilder {
     return storage.entrySet().stream().map(e -> factory.newControlField(e.getKey(), e.getValue().toString()));
   }
 
-  private String ensureLength(String str, int size) {
+  private String limitLength(String str, int maxLength) {
     str = str.strip();
-    if (str.length() > size) {
-      return str.substring(0, size);
-    } else {
-      return rightPad(str, size);
+    if (str.length() > maxLength) {
+      return str.substring(0, maxLength);
     }
+    return str;
   }
+
 }

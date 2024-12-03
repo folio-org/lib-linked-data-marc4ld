@@ -1,5 +1,7 @@
 package org.folio.marc4ld.service.marc2ld;
 
+import static java.util.Objects.isNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -74,6 +76,7 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
       return Optional.of(resource);
     }
     return resource.getOutgoingEdges().stream()
+      .filter(re -> isNull(fieldRule.getPredicate()) || re.getPredicate().name().equals(fieldRule.getPredicate()))
       .map(re -> selectResourceFromEdges(re.getTarget()))
       .filter(Optional::isPresent)
       .flatMap(Optional::stream)

@@ -3,6 +3,7 @@ bibFieldRules:
     - types: ANNOTATION
       parent: INSTANCE
       predicate: ADMIN_METADATA
+      append: true
       controlFields:
         '001':
           CONTROL_NUMBER: 0,99
@@ -10,6 +11,7 @@ bibFieldRules:
     - types: ANNOTATION
       parent: INSTANCE
       predicate: ADMIN_METADATA
+      append: true
       controlFields:
         '008':
           CREATED_DATE: 0,6
