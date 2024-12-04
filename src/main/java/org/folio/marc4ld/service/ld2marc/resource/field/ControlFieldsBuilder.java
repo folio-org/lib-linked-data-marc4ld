@@ -21,7 +21,7 @@ public class ControlFieldsBuilder {
   public void addFieldValue(String tag, String newValue, Integer startPos, Integer endPos) {
     if (isNotEmpty(newValue)) {
       storage.putIfAbsent(tag, new StringBuilder());
-      newValue = limitLength(newValue, endPos);
+      newValue = limitLength(newValue, endPos - startPos);
       storage.get(tag).replace(startPos, startPos + newValue.length(), newValue);
     }
   }
