@@ -3,6 +3,7 @@ package org.folio.marc4ld.mapper;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
 import static org.folio.ld.dictionary.PredicateDictionary.AUTHOR;
 import static org.folio.ld.dictionary.PredicateDictionary.BROADCASTER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLIENT;
@@ -30,6 +31,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FOR
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.CREATED_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATA_QUALITY;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
@@ -207,6 +209,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateCopyrightDate(edgeIterator.next());
     validateExtent(edgeIterator.next());
     validateAccessLocation(edgeIterator.next());
+    validateAdminMetadata(edgeIterator.next());
     assertThat(edgeIterator.hasNext()).isFalse();
   }
 
@@ -652,6 +655,20 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc().has(NOTE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("access location note");
+    assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
+  }
+
+  private void validateAdminMetadata(ResourceEdge edge) {
+    assertThat(edge.getId()).isNull();
+    assertThat(edge.getPredicate().getHash()).isEqualTo(ADMIN_METADATA.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(ADMIN_METADATA.getUri());
+    validateId(edge.getTarget());
+    assertThat(edge.getTarget().getLabel()).isNotNull();
+    assertThat(edge.getTarget().getTypes()).containsOnly(ANNOTATION);
+    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc().has(CREATED_DATE.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("190607");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

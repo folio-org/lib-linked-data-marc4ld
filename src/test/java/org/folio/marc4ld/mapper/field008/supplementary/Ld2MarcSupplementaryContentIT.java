@@ -1,9 +1,9 @@
-package org.folio.marc4ld.mapper.field008;
+package org.folio.marc4ld.mapper.field008.supplementary;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategory;
@@ -24,15 +24,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Ld2MarcIllustrationsIT {
+class Ld2MarcSupplementaryContentIT {
 
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
-  void shouldMap_onlyFour_illustrations() {
+  void shouldMap_supplementaryContent() {
     // given
-    var expectedMarc = loadResourceAsString("fields/008/marc_008_illustrations.jsonl");
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_supplementary_content.jsonl");
     var resource = createInstance();
 
     // when
@@ -43,16 +43,19 @@ class Ld2MarcIllustrationsIT {
   }
 
   private Resource createInstance() {
-    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content");
+    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
     var work = createResource(
       emptyMap(),
       Set.of(WORK),
-      Map.of(ILLUSTRATIONS, List.of(
-        createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps", categorySet),
-        createCategory("c", "http://id.loc.gov/vocabulary/millus/por", "Portraits", categorySet),
-        createCategory("d", "http://id.loc.gov/vocabulary/millus/chr", "Charts", categorySet),
-        createCategory("e", "http://id.loc.gov/vocabulary/millus/pln", "Plans", categorySet),
-        createCategory("f", "http://id.loc.gov/vocabulary/millus/plt", "Plates", categorySet)
+      Map.of(SUPPLEMENTARY_CONTENT, List.of(
+        createCategory("bibliography", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography",
+          categorySet),
+        createCategory("filmography", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography",
+          categorySet),
+        createCategory("discography", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography",
+          categorySet),
+        createCategory("music", "http://id.loc.gov/vocabulary/msupplcont/music", "music", categorySet),
+        createCategory("index", "http://id.loc.gov/vocabulary/msupplcont/index", "index", categorySet)
       ))
     );
 

@@ -113,6 +113,7 @@ labelRules:
     properties:
       - NAME
       - LINK
+      - CONTROL_NUMBER
   - types: TITLE
     properties:
       - MAIN_TITLE
