@@ -3,6 +3,9 @@
 
 This software is distributed under the terms of the Apache License, Version 2.0.
 See the file "[LICENSE](LICENSE)" for more information.
+
+This software uses a copyleft (LGPL-2.1-or-later) licensed software library: [marc4j](https://github.com/marc4j/marc4j)
+
 ## Purpose
 Lib-linked-data-marc4ld is a Java library designed for converting MARC records to Linked Data Graphs and vice versa.
 ## Compiling
