@@ -165,6 +165,12 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 @UtilityClass
 public class MonographTestUtil {
 
+  public static Resource getLightWeightInstanceResource(Resource work) {
+    var instance = getLightWeightInstanceResource();
+    instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));
+    return instance;
+  }
+
   public static Resource getLightWeightInstanceResource() {
     var instanceTitle = createResource(
       Map.of(
