@@ -142,12 +142,16 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       var optionalWork = LdUtil.getWork(resource);
       optionalWork.ifPresentOrElse(work -> {
           var optionalDate = chooseDate(resource.getUpdatedAt(), work.getUpdatedAt());
-          optionalDate.ifPresent(date -> addDateField(marcRecord, date));
+          optionalDate.ifPresent(date -> addUpdatedDateField(marcRecord, date));
         },
         () -> ofNullable(resource.getUpdatedAt())
-          .ifPresent(date -> addDateField(marcRecord, date))
+          .ifPresent(date -> addUpdatedDateField(marcRecord, date))
       );
     }
+  }
+
+  private void addUpdatedDateField(Record record, Date date) {
+    record.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
   }
 
   private Optional<Date> chooseDate(Date instanceDate, Date workDate) {
@@ -157,10 +161,6 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
         .findFirst();
     }
     return instanceDate.after(workDate) ? of(instanceDate) : of(workDate);
-  }
-
-  private void addDateField(Record record, Date date) {
-    record.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
   }
 
   private String convertDate(Date date) {
