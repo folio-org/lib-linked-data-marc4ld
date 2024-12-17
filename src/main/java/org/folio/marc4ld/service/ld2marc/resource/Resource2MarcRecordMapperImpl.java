@@ -15,7 +15,7 @@ import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Comparator;
@@ -49,7 +49,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private static final DateTimeFormatter MARC_DATE_FORMAT = DateTimeFormatter
     .ofPattern("yyyyMMddHHmmss.0")
-    .withZone(ZoneId.of("UTC"));
+    .withZone(ZoneOffset.UTC);
 
   private final MarcFactory marcFactory;
   private final Collection<Ld2MarcFieldRuleApplier> rules;
