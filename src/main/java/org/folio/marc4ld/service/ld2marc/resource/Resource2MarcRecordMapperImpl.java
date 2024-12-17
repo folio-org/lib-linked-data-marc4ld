@@ -154,8 +154,8 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     }
   }
 
-  private void addUpdatedDateField(Record record, Date date) {
-    record.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
+  private void addUpdatedDateField(Record marcRecord, Date date) {
+    marcRecord.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
   }
 
   private Optional<Date> chooseDate(Date instanceDate, Date workDate) {
