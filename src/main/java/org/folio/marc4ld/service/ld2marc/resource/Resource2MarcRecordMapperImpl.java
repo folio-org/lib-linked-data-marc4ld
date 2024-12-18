@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
+import static java.time.Instant.ofEpochMilli;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Optional.of;
@@ -14,7 +15,8 @@ import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
 
-import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -45,7 +47,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
-  private static final SimpleDateFormat MARC_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss.0");
+  private static final DateTimeFormatter MARC_DATE_FORMAT = DateTimeFormatter
+    .ofPattern("yyyyMMddHHmmss.0")
+    .withZone(ZoneOffset.UTC);
 
   private final MarcFactory marcFactory;
   private final Collection<Ld2MarcFieldRuleApplier> rules;
@@ -150,8 +154,8 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     }
   }
 
-  private void addUpdatedDateField(Record record, Date date) {
-    record.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
+  private void addUpdatedDateField(Record marcRecord, Date date) {
+    marcRecord.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
   }
 
   private Optional<Date> chooseDate(Date instanceDate, Date workDate) {
@@ -164,7 +168,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private String convertDate(Date date) {
-    return MARC_DATE_FORMAT.format(date);
+    return MARC_DATE_FORMAT.format(ofEpochMilli(date.getTime()));
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
