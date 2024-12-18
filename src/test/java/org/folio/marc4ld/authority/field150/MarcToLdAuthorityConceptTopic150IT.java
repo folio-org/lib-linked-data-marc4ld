@@ -1,15 +1,6 @@
 package org.folio.marc4ld.authority.field150;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -62,24 +53,24 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
 
   private Map<String, List<String>> generalProperties() {
     return Map.of(
-      NAME.getValue(), List.of("aValue"),
-      GEOGRAPHIC_COVERAGE.getValue(), List.of("bValue"),
-      MISC_INFO.getValue(), List.of("gValue1", "gValue2"),
-      FORM_SUBDIVISION.getValue(), List.of("vValue1", "vValue2"),
-      GENERAL_SUBDIVISION.getValue(), List.of("xValue1", "xValue2"),
-      CHRONOLOGICAL_SUBDIVISION.getValue(), List.of("yValue1", "yValue2"),
-      GEOGRAPHIC_SUBDIVISION.getValue(), List.of("zValue1", "zValue2"),
-      RESOURCE_PREFERRED.getValue(), List.of("true"),
-      LABEL.getValue(), List.of(EXPECTED_MAIN_LABEL)
+      "http://bibfra.me/vocab/lite/name", List.of("aValue"),
+      "http://bibfra.me/vocab/marc/geographicCoverage", List.of("bValue"),
+      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1", "vValue2"),
+      "http://bibfra.me/vocab/marc/generalSubdivision", List.of("xValue1", "xValue2"),
+      "http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("yValue1", "yValue2"),
+      "http://bibfra.me/vocab/marc/geographicSubdivision", List.of("zValue1", "zValue2"),
+      "http://library.link/vocab/resourcePreferred", List.of("true"),
+      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
     );
   }
 
   private Map<String, List<String>> focusProperties() {
     return Map.of(
-      NAME.getValue(), List.of("aValue"),
-      GEOGRAPHIC_COVERAGE.getValue(), List.of("bValue"),
-      MISC_INFO.getValue(), List.of("gValue1", "gValue2"),
-      LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
+      "http://bibfra.me/vocab/lite/name", List.of("aValue"),
+      "http://bibfra.me/vocab/marc/geographicCoverage", List.of("bValue"),
+      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL)
     );
   }
 }
