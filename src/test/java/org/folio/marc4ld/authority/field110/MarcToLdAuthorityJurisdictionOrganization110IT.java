@@ -15,14 +15,10 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
-import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateSubfocusResources;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,6 +29,7 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.test.helper.AuthorityValidationHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,12 +42,6 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
     + "-- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
   private static final String EXPECTED_FOCUS_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
   private static final String EXPECTED_SHORT_LABEL = "aValue, bValue, cValue1, cValue2, dValue -- vValue1";
-  private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
-    FORM, 'v',
-    TOPIC, 'x',
-    TEMPORAL, 'y',
-    PLACE, 'z'
-  );
 
   private static Stream<Arguments> arguments() {
     return Stream.of(
@@ -115,7 +106,7 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
         resource -> validateCreatedResource(resource, types, generalProperties(),
           outgoingEdges, EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, types.get(1), focusProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateSubfocusResources(resource, FIELD_CODES))
+      .satisfies(AuthorityValidationHelper::validateSubfocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
