@@ -3,14 +3,9 @@ package org.folio.marc4ld.authority.field100;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
-import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateSubfocusResources;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 
 import java.util.List;
@@ -19,18 +14,12 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
+import org.folio.marc4ld.test.helper.AuthorityValidationHelper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
-
-  private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
-    FORM, 'v',
-    TOPIC, 'x',
-    TEMPORAL, 'y',
-    PLACE, 'z'
-  );
 
   @ParameterizedTest
   @ValueSource(strings = {
@@ -65,7 +54,7 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
       .singleElement()
       .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, resourceType)))
       .satisfies(resource -> validateFocus(resource, resourceType))
-      .satisfies(resource -> validateSubfocusResources(resource, FIELD_CODES))
+      .satisfies(AuthorityValidationHelper::validateSubfocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 

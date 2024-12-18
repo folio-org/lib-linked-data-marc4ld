@@ -37,7 +37,8 @@ class Marc2Ld650IT extends Marc2LdTestBase {
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
 
     // validate Concept resource
-    var expectedConceptLabel = "name";
+    var expectedConceptLabel = "name -- form 1 -- form 2 -- topic 1 -- topic 2 -- temporal 1 -- temporal 2"
+      + " -- place 1 -- place 2";
     validateResource(
       subjectEdge.getTarget(),
       List.of(TOPIC, CONCEPT),
@@ -59,7 +60,8 @@ class Marc2Ld650IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
         Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator term")),
         Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("place 1", "place 2")),
-        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1", "form 2"))
+        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1", "form 2")),
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of(expectedConceptLabel))
       ),
       expectedConceptLabel);
 
