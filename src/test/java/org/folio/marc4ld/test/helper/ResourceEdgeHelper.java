@@ -8,7 +8,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.spring.testing.type.UnitTest;
 
+@UnitTest
 public class ResourceEdgeHelper {
 
   public static List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {

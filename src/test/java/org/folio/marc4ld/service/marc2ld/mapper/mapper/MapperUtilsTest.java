@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.marc4j.marc.MarcFactory;
 
+@UnitTest
 class MapperUtilsTest {
   private final MarcFactory factory = MarcFactory.newInstance();
   private final MapperHelper mapperHelper = new MapperHelper(OBJECT_MAPPER);
