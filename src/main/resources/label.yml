@@ -84,8 +84,9 @@ labelRules:
     properties:
       - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, TOPIC
+    addLabelProperty: true
     properties:
-      - NAME
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, PLACE
     properties:
       - NAME

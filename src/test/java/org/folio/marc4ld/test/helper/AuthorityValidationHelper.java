@@ -7,8 +7,12 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
@@ -21,6 +25,13 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 
 public class AuthorityValidationHelper {
+
+  private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
+    FORM, 'v',
+    TOPIC, 'x',
+    TEMPORAL, 'y',
+    PLACE, 'z'
+  );
 
   public static void validateIdentifier(Resource resource, String expectedValue) {
     var resourceEdges = getEdges(resource, ID_LCCN, IDENTIFIER);
@@ -35,8 +46,8 @@ public class AuthorityValidationHelper {
           ), expectedValue));
   }
 
-  public static void validateSubfocusResources(Resource resource, Map<ResourceTypeDictionary, Character> fieldCodes) {
-    fieldCodes.forEach((type, subfield) -> validateSubfocus(resource, type, subfield));
+  public static void validateSubfocusResources(Resource resource) {
+    FIELD_CODES.forEach((type, subfield) -> validateSubfocus(resource, type, subfield));
   }
 
   public static void validateFocusResource(Resource resource, ResourceTypeDictionary focusResourceType,

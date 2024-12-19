@@ -11,19 +11,15 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
-import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateSubfocusResources;
 
 import java.util.List;
 import java.util.Map;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.test.helper.AuthorityValidationHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -33,12 +29,6 @@ class MarcToLdAuthorityConceptMeeting155IT extends Marc2LdTestBase {
   private static final String EXPECTED_MAIN_LABEL = "aValue -- vValue1 -- vValue2 -- xValue1"
     + " -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
   private static final String EXPECTED_FOCUS_LABEL = "aValue";
-  private static final Map<ResourceTypeDictionary, Character> FIELD_CODES = Map.of(
-    FORM, 'v',
-    TOPIC, 'x',
-    TEMPORAL, 'y',
-    PLACE, 'z'
-  );
 
   @Test
   void shouldMap155FieldCorrectly() {
@@ -55,7 +45,7 @@ class MarcToLdAuthorityConceptMeeting155IT extends Marc2LdTestBase {
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, FORM), generalProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, FORM, focusProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateSubfocusResources(resource, FIELD_CODES))
+      .satisfies(AuthorityValidationHelper::validateSubfocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
