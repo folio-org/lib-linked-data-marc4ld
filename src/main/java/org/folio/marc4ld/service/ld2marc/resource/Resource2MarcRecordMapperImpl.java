@@ -8,12 +8,13 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.apache.commons.lang3.ObjectUtils.anyNull;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
+import static org.folio.marc4ld.util.LdUtil.getWork;
+import static org.folio.marc4ld.util.LdUtil.isInstance;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.FolioMetadata;
@@ -35,7 +35,6 @@ import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
 import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper.Context;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessorFactory;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
-import org.folio.marc4ld.util.LdUtil;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -47,7 +46,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
-  private static final DateTimeFormatter MARC_DATE_FORMAT = DateTimeFormatter
+  private static final DateTimeFormatter MARC_UPDATED_DATE_FORMAT = DateTimeFormatter
     .ofPattern("yyyyMMddHHmmss.0")
     .withZone(ZoneOffset.UTC);
 
@@ -69,7 +68,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     addInternalIds(marcRecord, resource);
-    addDateFields(marcRecord, resource);
+    addUpdatedDateField(marcRecord, resource);
     return marcRecord;
   }
 
@@ -137,13 +136,9 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return field;
   }
 
-  private void addDateFields(Record marcRecord, Resource resource) {
-    addUpdatedDateField(marcRecord, resource);
-  }
-
   private void addUpdatedDateField(Record marcRecord, Resource resource) {
-    if (resource.getTypes().equals(Set.of(INSTANCE))) {
-      var optionalWork = LdUtil.getWork(resource);
+    if (isInstance(resource)) {
+      var optionalWork = getWork(resource);
       optionalWork.ifPresentOrElse(work -> {
           var optionalDate = chooseDate(resource.getUpdatedAt(), work.getUpdatedAt());
           optionalDate.ifPresent(date -> addUpdatedDateField(marcRecord, date));
@@ -168,7 +163,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private String convertDate(Date date) {
-    return MARC_DATE_FORMAT.format(ofEpochMilli(date.getTime()));
+    return MARC_UPDATED_DATE_FORMAT.format(ofEpochMilli(date.getTime()));
   }
 
   private void addInternalIds(Record marcRecord, Resource resource) {
