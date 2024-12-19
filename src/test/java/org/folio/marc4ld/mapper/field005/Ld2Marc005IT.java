@@ -29,9 +29,9 @@ public class Ld2Marc005IT {
   void map_shouldMapUpdatedDateFieldCorrectly(Date instanceUpdatedAt, Date workUpdatedAt, String expectedMarcFile) {
     // given
     var work = getSampleWork();
-    work.setUpdatedAt(workUpdatedAt);
+    work.setUpdatedDate(workUpdatedAt);
     var instance = getLightWeightInstanceResource(work);
-    instance.setUpdatedAt(instanceUpdatedAt);
+    instance.setUpdatedDate(instanceUpdatedAt);
     var expectedMarc = loadResourceAsString(expectedMarcFile);
 
     // when

@@ -140,10 +140,10 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     if (isInstance(resource)) {
       var optionalWork = getWork(resource);
       optionalWork.ifPresentOrElse(work -> {
-          var optionalDate = chooseDate(resource.getUpdatedAt(), work.getUpdatedAt());
+          var optionalDate = chooseDate(resource.getUpdatedDate(), work.getUpdatedDate());
           optionalDate.ifPresent(date -> addUpdatedDateField(marcRecord, date));
         },
-        () -> ofNullable(resource.getUpdatedAt())
+        () -> ofNullable(resource.getUpdatedDate())
           .ifPresent(date -> addUpdatedDateField(marcRecord, date))
       );
     }

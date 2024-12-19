@@ -43,7 +43,7 @@ public class Ld2Marc008IT {
    void map_shouldMapCreatedDateCorrectly_ifAdminMetadataNotContainsCreatedDate(Date createdDate, String marcFile) {
     // given
     var instance = getLightWeightInstanceResource();
-    instance.setCreatedAt(createdDate);
+    instance.setCreatedDate(createdDate);
     var expectedMarc = loadResourceAsString(marcFile);
 
     // when

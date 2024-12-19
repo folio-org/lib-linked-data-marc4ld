@@ -39,7 +39,7 @@ public class Ld2MarcCreatedDateMapper implements Ld2MarcCustomMapper {
       .map(value -> value.get(0))
       .filter(node -> !node.isNull())
       .map(JsonNode::textValue)
-      .or(() -> ofNullable(resource.getCreatedAt())
+      .or(() -> ofNullable(resource.getCreatedDate())
         .map(date -> MARC_CREATED_DATE_FORMAT.format(ofEpochMilli(date.getTime()))));
   }
 }
