@@ -4,6 +4,7 @@ import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
 import static java.util.Objects.nonNull;
 import static org.folio.ld.dictionary.PredicateDictionary.ACCESS_LOCATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
 import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
@@ -40,6 +41,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
+import static org.folio.ld.dictionary.PropertyDictionary.CREATED_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATES_OF_PUBLICATION_NOTE;
@@ -164,6 +166,21 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 
 @UtilityClass
 public class MonographTestUtil {
+
+  public static Resource getInstanceWithAdminMetadata(String createdDate) {
+    var adminMetadata = createResource(
+      Map.of(
+        CREATED_DATE, List.of(createdDate)
+      ),
+      Set.of(ANNOTATION),
+      emptyMap()
+    );
+    return createResource(
+      emptyMap(),
+      Set.of(INSTANCE),
+      Map.of(ADMIN_METADATA, List.of(adminMetadata))
+    );
+  }
 
   public static Resource getLightWeightInstanceResource(Resource work) {
     var instance = getLightWeightInstanceResource();
