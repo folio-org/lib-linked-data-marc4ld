@@ -34,7 +34,9 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.spring.testing.type.UnitTest;
 
+@UnitTest
 public class LinkingEntriesTestHelper {
 
   private static final Set<PredicateDictionary> LINKING_ENTRIES_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);

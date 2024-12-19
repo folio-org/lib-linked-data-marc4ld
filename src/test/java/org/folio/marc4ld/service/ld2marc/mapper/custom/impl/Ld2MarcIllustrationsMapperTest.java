@@ -3,8 +3,10 @@ package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 
+@UnitTest
 class Ld2MarcIllustrationsMapperTest {
 
   Ld2MarcIllustrationsMapper mapper = new Ld2MarcIllustrationsMapper();

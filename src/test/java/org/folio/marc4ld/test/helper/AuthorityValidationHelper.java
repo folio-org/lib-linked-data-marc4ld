@@ -19,7 +19,9 @@ import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.spring.testing.type.UnitTest;
 
+@UnitTest
 public class AuthorityValidationHelper {
 
   public static void validateIdentifier(Resource resource, String expectedValue) {
