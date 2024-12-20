@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-public class Ld2Marc005IT {
+class Ld2Marc005IT {
 
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
@@ -41,7 +41,7 @@ public class Ld2Marc005IT {
     assertEquals(expectedMarc, actualMarc);
   }
 
-  public static Stream<Arguments> dateFieldSource() {
+  private static Stream<Arguments> dateFieldSource() {
     return Stream.of(
       arguments(new Date(1734000555555L), new Date(1734000500000L), "fields/005/marc_instance_date.jsonl"),
       arguments(new Date(1734000500000L), new Date(1734000666666L), "fields/005/marc_work_date.jsonl"),
