@@ -19,11 +19,13 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@UnitTest
 class Ld2MarcSupplementaryContentMapperTest {
 
   Ld2MarcSupplementaryContentMapper mapper = new Ld2MarcSupplementaryContentMapper();
@@ -57,14 +59,14 @@ class Ld2MarcSupplementaryContentMapperTest {
     verify(controlFieldsBuilder).addFieldValue("008", "1", 31, 32);
   }
 
-  private Stream<Arguments> resourceProvider() {
+  private static Stream<Arguments> resourceProvider() {
     return Stream.of(
       Arguments.of(new Resource()),
       Arguments.of(createResourceWithoutSupplementaryContents())
     );
   }
 
-  private Resource createResourceWithoutSupplementaryContents() {
+  private static Resource createResourceWithoutSupplementaryContents() {
     var work = createResource(
       emptyMap(),
       Set.of(WORK),

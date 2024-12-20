@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.stream.Stream;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,6 +24,7 @@ import org.marc4j.marc.impl.DataFieldImpl;
 import org.marc4j.marc.impl.SubfieldImpl;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@UnitTest
 @ExtendWith(MockitoExtension.class)
 class Bib7xxPreprocessorTest {
 

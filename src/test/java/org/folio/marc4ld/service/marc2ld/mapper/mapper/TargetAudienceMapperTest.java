@@ -15,6 +15,7 @@ import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,6 +24,7 @@ import org.marc4j.marc.ControlField;
 import org.marc4j.marc.MarcFactory;
 import org.mockito.Mockito;
 
+@UnitTest
 class TargetAudienceMapperTest {
 
   private static final String LINK_PREFIX = "http://id.loc.gov/vocabulary/maudience/";

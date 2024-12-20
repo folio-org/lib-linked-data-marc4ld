@@ -3,11 +3,13 @@ package org.folio.marc4ld.service.ld2marc.resource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.marc4j.marc.Subfield;
 import org.mockito.Mockito;
 
+@UnitTest
 class LetterFirstComparatorTest {
 
   private final Comparator<Subfield> comparator = new LetterFirstComparator();

@@ -3,10 +3,12 @@ package org.folio.marc4ld.service.dictionary;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+@UnitTest
 class DictionaryProcessorImplTest {
 
   @Test

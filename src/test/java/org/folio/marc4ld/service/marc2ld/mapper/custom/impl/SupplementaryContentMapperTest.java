@@ -25,6 +25,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@UnitTest
 @ExtendWith(MockitoExtension.class)
 class SupplementaryContentMapperTest {
 

@@ -12,11 +12,13 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Set;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@UnitTest
 class LdUtilTest {
 
   @Test

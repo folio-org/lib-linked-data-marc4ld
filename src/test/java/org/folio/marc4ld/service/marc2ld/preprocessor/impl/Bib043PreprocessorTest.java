@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
+import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@UnitTest
 @ExtendWith(MockitoExtension.class)
 class Bib043PreprocessorTest {
 
