@@ -197,6 +197,19 @@ authorityFieldRules:
           x: presented
           y: presented
           z: presented
+    - types: TOPIC
+      subfields:
+        a: NAME
+        b: GEOGRAPHIC_COVERAGE
+        g: MISC_INFO
+      constants:
+        RESOURCE_PREFERRED: true
+      marc2ldCondition:
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
 
   '155':
     - types: CONCEPT, FORM
