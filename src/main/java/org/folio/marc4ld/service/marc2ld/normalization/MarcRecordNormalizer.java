@@ -4,5 +4,5 @@ import org.marc4j.marc.Record;
 
 public interface MarcRecordNormalizer {
 
-  void normalize(Record record);
+  void normalize(Record marcRecord);
 }
