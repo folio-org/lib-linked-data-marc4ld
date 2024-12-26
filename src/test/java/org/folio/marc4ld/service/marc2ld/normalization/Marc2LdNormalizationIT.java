@@ -36,7 +36,7 @@ class Marc2LdNormalizationIT {
     // when
     var recordStream = marcReaderProcessor.readMarc(initialMarc);
 
-    //then
+    // then
     assertThat(recordStream.findFirst())
       .get()
       .satisfies(this::notContainsPunctuationsAfterNormalization);
