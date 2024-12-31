@@ -117,13 +117,13 @@ labelRules:
       - CONTROL_NUMBER
   - types: TITLE
     properties:
-      - MAIN_TITLE
+      - "{$MAIN_TITLE} {$SUBTITLE}"
   - types: VARIANT_TITLE
     properties:
-      - MAIN_TITLE
+      - "{$MAIN_TITLE} {$SUBTITLE}"
   - types: PARALLEL_TITLE
     properties:
-      - MAIN_TITLE
+      - "{$MAIN_TITLE} {$SUBTITLE}"
   - types: CLASSIFICATION
     properties:
       - CODE
