@@ -46,6 +46,31 @@
             }
         },
         {
+            "100": {
+                "subfields": [
+                    {
+                        "a": "abbreviation A."
+                    }
+                ],
+                "ind1": " ",
+                "ind2": " "
+            }
+        },
+        {
+            "100": {
+                "subfields": [
+                    {
+                        "a": "abbreviation A.B.,"
+                    },
+                    {
+                        "d": "d."
+                    }
+                ],
+                "ind1": " ",
+                "ind2": " "
+            }
+        },
+        {
             "110": {
                 "subfields": [
                     {
@@ -68,6 +93,20 @@
                     }
                 ],
                 "ind1": "1",
+                "ind2": " "
+            }
+        },
+        {
+            "110": {
+                "subfields": [
+                    {
+                       "a": "abbreviation A.B. ;"
+                    },
+                    {
+                       "d": "d."
+                    }
+                ],
+                "ind1": " ",
                 "ind2": " "
             }
         },
@@ -230,6 +269,20 @@
                 ],
                 "ind1": "1",
                 "ind2": "9"
+            }
+        },
+        {
+            "246": {
+                "subfields": [
+                    {
+                       "a": "abbreviation A.B."
+                    },
+                    {
+                       "n": "abbreviation A."
+                    }
+                ],
+                "ind1": " ",
+                "ind2": " "
             }
         },
         {

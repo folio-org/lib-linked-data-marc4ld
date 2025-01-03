@@ -6,6 +6,7 @@ import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.configuration.property.Marc2LdNormalizationRules;
 import org.marc4j.marc.DataField;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MarcPunctuationNormalizerImpl implements MarcPunctuationNormalizer {
+  private static final String PERIOD = ".";
+  private static final Pattern SPACE_UPPERCASE_PERIOD = Pattern.compile(" [A-Z]\\.$");
+  private static final Pattern PERIOD_UPPERCASE_PERIOD = Pattern.compile("\\.[A-Z]\\.$");
 
   private final Marc2LdNormalizationRules marc2LdNormalizationRules;
 
@@ -62,7 +66,7 @@ public class MarcPunctuationNormalizerImpl implements MarcPunctuationNormalizer 
     do {
       modified = false;
       for (var punctuation : punctuations) {
-        if (data.endsWith(punctuation)) {
+        if (data.endsWith(punctuation) && isNotAbbreviation(punctuation, data)) {
           data = data.substring(0, data.length() - punctuation.length());
           modified = true;
           break;
@@ -70,6 +74,14 @@ public class MarcPunctuationNormalizerImpl implements MarcPunctuationNormalizer 
       }
     } while (modified);
     return data;
+  }
+
+  private boolean isNotAbbreviation(String punctuation, String data) {
+    // Check if the trailing period in data is for an abbreviation
+    if (!punctuation.equals(PERIOD)) {
+      return true;
+    }
+    return !(SPACE_UPPERCASE_PERIOD.matcher(data).find() || PERIOD_UPPERCASE_PERIOD.matcher(data).find());
   }
 
   private List<String> generateLookups(String tag, char code) {
