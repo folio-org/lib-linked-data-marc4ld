@@ -15,7 +15,6 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.mapper.test.TestUtil;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -43,22 +42,6 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
     assertThat(result)
       .filteredOn(resource -> CollectionUtils.isEqualCollection(resource.getTypes(), List.of(mainType)))
       .isEmpty();
-  }
-
-  @Test
-  void shouldMapField100_withoutIdentifier() {
-    // given
-    var marc = loadResourceAsString("authority/100/marc_100_empty_identifier.jsonl");
-
-    // when
-    var result = marcAuthorityToResources(marc);
-
-    // then
-    assertThat(result)
-      .isNotNull()
-      .singleElement()
-      .extracting(Resource::getOutgoingEdges)
-      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
   @ParameterizedTest

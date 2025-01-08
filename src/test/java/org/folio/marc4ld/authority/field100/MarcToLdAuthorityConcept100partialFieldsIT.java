@@ -93,7 +93,7 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
             + value))
         ),
         "bValue, aValue, cValue, qValue, dValue -- " + value))
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(3))
       .satisfies(resource -> validateFocus(resource, mainType))
       .extracting(Resource::getOutgoingEdges)
       .satisfies(edges -> {

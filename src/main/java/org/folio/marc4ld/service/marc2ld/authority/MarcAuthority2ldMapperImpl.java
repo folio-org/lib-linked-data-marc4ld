@@ -2,9 +2,11 @@ package org.folio.marc4ld.service.marc2ld.authority;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
+import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.Constants.TAG_010;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueStripped;
 
 import java.util.Collection;
@@ -23,6 +25,7 @@ import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -45,9 +48,19 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
       return Collections.emptyList();
     }
     return marcReaderProcessor.readMarc(marc)
+      .filter(this::hasLccn)
       .flatMap(this::createResources)
       .map(emptyEdgesCleaner)
       .toList();
+  }
+
+  private boolean hasLccn(Record marcRecord) {
+    return marcRecord.getDataFields().stream().anyMatch(this::isLccn);
+  }
+
+  private boolean isLccn(DataField dataField) {
+    return dataField.getTag().equals(TAG_010)
+      && dataField.getSubfields().stream().anyMatch(subfield -> subfield.getCode() == A);
   }
 
   private Stream<Resource> createResources(org.marc4j.marc.Record marcRecord) {
