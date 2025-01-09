@@ -64,7 +64,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var marcRecord = buildMarcRecord(resource);
     addInternalIds(marcRecord, resource);
     addUpdatedDateField(marcRecord, resource);
-    sortControlFields(marcRecord);
+    sortFields(marcRecord);
     return marcRecord;
   }
 
@@ -75,18 +75,17 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var context = new Context(cfb, dataFields);
     customMappers.forEach(mapper -> mapper.map(resource, context));
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
-      .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
 
-  private void sortControlFields(Record marcRecord) {
-    if (isEmpty(marcRecord.getControlFields())) {
+  private void sortFields(Record marcRecord) {
+    if (isEmpty(marcRecord.getVariableFields())) {
       return;
     }
-    var controlFields = new ArrayList<>(marcRecord.getControlFields());
-    controlFields.forEach(marcRecord::removeVariableField);
-    controlFields.stream()
+    var variableFields = new ArrayList<>(marcRecord.getVariableFields());
+    variableFields.forEach(marcRecord::removeVariableField);
+    variableFields.stream()
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
   }
