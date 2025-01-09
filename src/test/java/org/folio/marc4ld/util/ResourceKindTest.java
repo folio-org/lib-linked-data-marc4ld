@@ -55,7 +55,7 @@ class ResourceKindTest {
   @ParameterizedTest
   @EnumSource(value = ResourceTypeDictionary.class,
     mode = EnumSource.Mode.EXCLUDE,
-    names = {"CONCEPT", "PERSON", "FAMILY", "JURISDICTION", "ORGANIZATION", "MEETING", "FORM"})
+    names = {"CONCEPT", "PERSON", "FAMILY", "JURISDICTION", "ORGANIZATION", "MEETING", "FORM", "TOPIC"})
   void notContainsAuthorityTypes(ResourceTypeDictionary type) {
     //when
     var expectedAuthorityTypes = ResourceKind.AUTHORITY;
