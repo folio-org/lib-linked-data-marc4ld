@@ -5,6 +5,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.apache.commons.lang3.ObjectUtils.anyNull;
@@ -18,6 +19,7 @@ import static org.folio.marc4ld.util.LdUtil.isInstance;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -59,17 +61,33 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   @Override
   public Record toMarcRecord(Resource resource) {
+    var marcRecord = buildMarcRecord(resource);
+    addInternalIds(marcRecord, resource);
+    addUpdatedDateField(marcRecord, resource);
+    sortFields(marcRecord);
+    return marcRecord;
+  }
+
+  private Record buildMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
     var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
     var context = new Context(cfb, dataFields);
     customMappers.forEach(mapper -> mapper.map(resource, context));
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
+      .forEach(marcRecord::addVariableField);
+    return marcRecord;
+  }
+
+  private void sortFields(Record marcRecord) {
+    if (isEmpty(marcRecord.getVariableFields())) {
+      return;
+    }
+    var variableFields = new ArrayList<>(marcRecord.getVariableFields());
+    variableFields.forEach(marcRecord::removeVariableField);
+    variableFields.stream()
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
-    addInternalIds(marcRecord, resource);
-    addUpdatedDateField(marcRecord, resource);
-    return marcRecord;
   }
 
   private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
