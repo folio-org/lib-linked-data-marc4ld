@@ -1,5 +1,11 @@
 {
   "fields" : [ {
+      "010" : {
+        "subfields" : [ {
+          "a" : "lccnValue"
+        } ]
+      }
+   }, {
     "100" : {
       "subfields" : [ {
         "a" : "aValue"
