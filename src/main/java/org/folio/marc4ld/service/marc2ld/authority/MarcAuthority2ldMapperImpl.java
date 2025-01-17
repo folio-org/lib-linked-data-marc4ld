@@ -22,6 +22,7 @@ import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.authority.control.AuthorityIdentifierProcessor;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
+import org.folio.marc4ld.service.marc2ld.normalization.MarcAuthorityPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
 import org.marc4j.marc.DataField;
@@ -40,6 +41,7 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
   private final AuthorityIdentifierProcessor authorityIdentifierProcessor;
+  private final MarcAuthorityPunctuationNormalizerImpl marcPunctuationNormalizer;
 
   @Override
   public Collection<Resource> fromMarcJson(String marc) {
@@ -64,6 +66,7 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   }
 
   private Stream<Resource> createResources(org.marc4j.marc.Record marcRecord) {
+    marcPunctuationNormalizer.normalize(marcRecord);
     return marcRecord.getDataFields()
       .stream()
       .flatMap(dataField -> createResources(dataField, marcRecord))

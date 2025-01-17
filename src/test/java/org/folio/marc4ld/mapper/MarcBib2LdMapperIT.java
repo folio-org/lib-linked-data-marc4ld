@@ -425,7 +425,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(QUALIFIER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("(paperback)");
+    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("paperback");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);

@@ -25,16 +25,34 @@ class Marc2LdPunctuationNormalizationIT {
   private MarcReaderProcessor marcReaderProcessor;
 
   @Autowired
-  private MarcPunctuationNormalizer marcPunctuationNormalizer;
+  private MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
+
+  @Autowired
+  private MarcAuthorityPunctuationNormalizerImpl marcAuthorityPunctuationNormalizer;
 
   @Test
-  void map_shouldNormalizeMarcRecord() {
+  void map_shouldNormalizeMarBibRecord() {
     // given
-    var initialMarc = loadResourceAsString("fields/normalization/normalization_full_marc.jsonl");
+    var initialMarc = loadResourceAsString("fields/normalization/normalization_full_marc_bib.jsonl");
 
     // when
     var marcRecord = marcReaderProcessor.readMarc(initialMarc).findFirst();
     marcRecord.ifPresent(marcPunctuationNormalizer::normalize);
+
+    // then
+    assertThat(marcRecord)
+      .get()
+      .satisfies(this::isNormalized);
+  }
+
+  @Test
+  void map_shouldNormalizeMarcAuthorityRecord() {
+    // given
+    var initialMarc = loadResourceAsString("fields/normalization/normalization_full_marc_authority.jsonl");
+
+    // when
+    var marcRecord = marcReaderProcessor.readMarc(initialMarc).findFirst();
+    marcRecord.ifPresent(marcAuthorityPunctuationNormalizer::normalize);
 
     // then
     assertThat(marcRecord)
