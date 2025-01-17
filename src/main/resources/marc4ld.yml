@@ -597,6 +597,8 @@ bibFieldRules:
               c: presented
   504:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: BIBLIOGRAPHY_NOTE
         b: BIBLIOGRAPHY_NOTE
@@ -624,6 +626,8 @@ bibFieldRules:
       append: true
   507:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: SCALE_NOTE
         b: SCALE_NOTE
@@ -636,6 +640,8 @@ bibFieldRules:
       append: true
   510:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: REFERENCES
         b: REFERENCES
@@ -658,6 +664,8 @@ bibFieldRules:
       append: true
   514:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: DATA_QUALITY
         b: DATA_QUALITY
@@ -687,6 +695,8 @@ bibFieldRules:
       append: true
   518:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: OTHER_EVENT_INFORMATION
         d: OTHER_EVENT_INFORMATION
@@ -703,6 +713,8 @@ bibFieldRules:
       append: true
   522:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: GEOGRAPHIC_COVERAGE
       append: true
@@ -713,11 +725,15 @@ bibFieldRules:
       append: true
   525:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: SUPPLEMENT
       append: true
   526:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: STUDY_PROGRAM_NAME
         b: STUDY_PROGRAM_NAME
