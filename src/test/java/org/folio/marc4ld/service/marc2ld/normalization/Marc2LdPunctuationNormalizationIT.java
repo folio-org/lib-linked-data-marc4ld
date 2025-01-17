@@ -6,8 +6,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import java.util.Collection;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -28,18 +27,32 @@ class Marc2LdPunctuationNormalizationIT {
   @Autowired
   private MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
 
-  @ParameterizedTest
-  @ValueSource(strings = {
-    "fields/normalization/normalization_full_marc_bib.jsonl",
-    "fields/normalization/normalization_full_marc_authority.jsonl"}
-  )
-  void map_shouldNormalizeMarcRecord(String marc) {
+  @Autowired
+  private MarcAuthorityPunctuationNormalizerImpl marcAuthorityPunctuationNormalizer;
+
+  @Test
+  void map_shouldNormalizeMarBibRecord() {
     // given
-    var initialMarc = loadResourceAsString(marc);
+    var initialMarc = loadResourceAsString("fields/normalization/normalization_full_marc_bib.jsonl");
 
     // when
     var marcRecord = marcReaderProcessor.readMarc(initialMarc).findFirst();
     marcRecord.ifPresent(marcPunctuationNormalizer::normalize);
+
+    // then
+    assertThat(marcRecord)
+      .get()
+      .satisfies(this::isNormalized);
+  }
+
+  @Test
+  void map_shouldNormalizeMarcAuthorityRecord() {
+    // given
+    var initialMarc = loadResourceAsString("fields/normalization/normalization_full_marc_authority.jsonl");
+
+    // when
+    var marcRecord = marcReaderProcessor.readMarc(initialMarc).findFirst();
+    marcRecord.ifPresent(marcAuthorityPunctuationNormalizer::normalize);
 
     // then
     assertThat(marcRecord)
