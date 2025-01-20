@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MarcAuthorityPunctuationNormalizerImpl extends AbstractMarcPunctuationNormalizer {
 
+  private static final Map<String, List<String>> LAST_SUBFIELD_RULES = Map.of();
+
   public MarcAuthorityPunctuationNormalizerImpl(Marc2LdNormalizationRules marc2LdNormalizationRules) {
     super(marc2LdNormalizationRules);
   }
@@ -19,6 +21,6 @@ public class MarcAuthorityPunctuationNormalizerImpl extends AbstractMarcPunctuat
 
   @Override
   protected Map<String, List<String>> getLastSubfieldRules() {
-    return Map.of();
+    return LAST_SUBFIELD_RULES;
   }
 }

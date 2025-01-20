@@ -58,7 +58,7 @@ abstract class AbstractMarcPunctuationNormalizer implements MarcPunctuationNorma
     }
   }
 
-  protected void normalizeLastSubfield(DataField dataField) {
+  private void normalizeLastSubfield(DataField dataField) {
     var subfields = dataField.getSubfields();
     var lastSubfield = subfields.get(subfields.size() - 1);
     ofNullable(getLastSubfieldRules().get(dataField.getTag()))
@@ -75,7 +75,7 @@ abstract class AbstractMarcPunctuationNormalizer implements MarcPunctuationNorma
       .ifPresent(lookup -> subfield.setData(removeParenthesesAndSquareBrackets(subfield.getData())));
   }
 
-  protected String removeParenthesesAndSquareBrackets(String data) {
+  private String removeParenthesesAndSquareBrackets(String data) {
     return data.replaceAll(PARENTHESES_AND_SQUARE_BRACKETS_REGEX, "").trim();
   }
 
