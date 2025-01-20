@@ -29,7 +29,7 @@ import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.custom.CustomMapper;
-import org.folio.marc4ld.service.marc2ld.normalization.MarcPunctuationNormalizer;
+import org.folio.marc4ld.service.marc2ld.normalization.MarcBibPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -55,7 +55,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
   private final List<CustomMapper> customMappers;
-  private final MarcPunctuationNormalizer marcPunctuationNormalizer;
+  private final MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
 
   @Override
   public Optional<Resource> fromMarcJson(String marc) {
