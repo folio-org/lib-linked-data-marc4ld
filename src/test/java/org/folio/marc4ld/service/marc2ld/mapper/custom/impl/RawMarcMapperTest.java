@@ -9,6 +9,7 @@ import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
 import static org.folio.marc4ld.util.Constants.THREE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -42,6 +43,15 @@ class RawMarcMapperTest {
   private RawMarcMapper mapper;
 
   @Test
+  void isApplicableShouldReturnTrue() {
+    //given
+    var marcRecord = new RecordImpl();
+
+    //expect
+    assertTrue(mapper.isApplicable(marcRecord));
+  }
+
+  @Test
   void mapShouldMapRawData() {
     //given
     var marcRecord = new RecordImpl();
@@ -69,6 +79,6 @@ class RawMarcMapperTest {
     mapper.map(marcRecord, resource);
 
     //then
-    assertEquals(expectedRawMarc, resource.getRawMarc().getContent());
+    assertEquals(expectedRawMarc, resource.getUnmappedMarc().getContent());
   }
 }

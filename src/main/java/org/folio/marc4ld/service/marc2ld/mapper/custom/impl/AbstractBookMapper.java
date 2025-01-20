@@ -14,6 +14,7 @@ import static org.folio.marc4ld.util.LdUtil.getWork;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -28,6 +29,9 @@ import org.marc4j.marc.Record;
 
 @RequiredArgsConstructor
 public abstract class AbstractBookMapper implements CustomMapper {
+
+  private static final Set<Character> APPLICABLE_TYPES = Set.of('a', 't');
+  private static final Set<Character> APPLICABLE_LEVELS = Set.of('a', 'c', 'd', 'm');
 
   private final LabelService labelService;
   private final MapperHelper mapperHelper;
@@ -50,6 +54,12 @@ public abstract class AbstractBookMapper implements CustomMapper {
   protected abstract String getTerm(char code);
 
   protected abstract String getCode(char code);
+
+  @Override
+  public boolean isApplicable(Record marcRecord) {
+    return APPLICABLE_TYPES.contains(marcRecord.getLeader().getTypeOfRecord())
+      && APPLICABLE_LEVELS.contains(marcRecord.getLeader().getImplDefined1()[0]);
+  }
 
   @Override
   public void map(Record marcRecord, Resource instance) {

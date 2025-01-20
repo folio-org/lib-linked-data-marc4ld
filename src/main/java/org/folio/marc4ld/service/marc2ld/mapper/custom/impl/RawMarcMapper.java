@@ -31,6 +31,11 @@ public class RawMarcMapper implements CustomMapper {
   private final Marc4LdRules marc4LdRules;
 
   @Override
+  public boolean isApplicable(Record marcRecord) {
+    return true;
+  }
+
+  @Override
   public void map(Record marcRecord, Resource instance) {
     var unprocessed = marcFactory.newRecord();
     marcRecord.getVariableFields()
@@ -43,7 +48,7 @@ public class RawMarcMapper implements CustomMapper {
       var writer = new MarcJsonWriter(byteArrayOutputStream);
       writer.write(unprocessed);
       writer.close();
-      instance.setRawMarc(new RawMarc().setContent(byteArrayOutputStream.toString()));
+      instance.setUnmappedMarc(new RawMarc().setContent(byteArrayOutputStream.toString()));
     } catch (IOException e) {
       log.error("Exception during marc to resource conversion", e);
     }
