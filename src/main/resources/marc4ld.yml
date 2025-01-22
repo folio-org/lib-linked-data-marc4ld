@@ -571,6 +571,13 @@ bibFieldRules:
       subfields:
         a: NOTE
       append: true
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: NOTE
+      marc2ldCondition:
+        skip: true
   501:
     - types: INSTANCE
       subfields:
