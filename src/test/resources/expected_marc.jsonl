@@ -1,5 +1,5 @@
 {
-  "leader" : "09093nam a2200961uc 4500",
+  "leader" : "09348nam a2201057uc 4500",
   "fields" : [ {
     "008" : "       1999    ilub   b q   a  1   eng "
   }, {
@@ -471,6 +471,14 @@
       "ind2" : " "
     }
   }, {
+    "504" : {
+      "subfields" : [ {
+        "a" : "bibliography note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "505" : {
       "subfields" : [ {
         "a" : "work table of contents"
@@ -487,9 +495,25 @@
       "ind2" : " "
     }
   }, {
+    "507" : {
+      "subfields" : [ {
+        "a" : "scale note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "508" : {
       "subfields" : [ {
         "a" : "credits note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "510" : {
+      "subfields" : [ {
+        "a" : "references"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -511,6 +535,14 @@
       "ind2" : " "
     }
   }, {
+    "514" : {
+      "subfields" : [ {
+        "a" : "data quality"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "515" : {
       "subfields" : [ {
         "a" : "issuance note"
@@ -527,6 +559,14 @@
       "ind2" : " "
     }
   }, {
+    "518" : {
+      "subfields" : [ {
+        "a" : "other event information"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "520" : {
       "subfields" : [ {
         "a" : "work summary"
@@ -535,9 +575,33 @@
       "ind2" : " "
     }
   }, {
+    "522" : {
+      "subfields" : [ {
+        "a" : "geographic coverage"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
     "524" : {
       "subfields" : [ {
         "a" : "citation coverage note"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "525" : {
+      "subfields" : [ {
+        "a" : "supplement"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "526" : {
+      "subfields" : [ {
+        "a" : "study program name"
       } ],
       "ind1" : " ",
       "ind2" : " "

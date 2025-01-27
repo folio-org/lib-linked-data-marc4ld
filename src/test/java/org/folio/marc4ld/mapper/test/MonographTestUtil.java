@@ -36,6 +36,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FOR
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
+import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
@@ -43,6 +44,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
 import static org.folio.ld.dictionary.PropertyDictionary.CREATED_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREDITS_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.DATA_QUALITY;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATES_OF_PUBLICATION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_END;
@@ -87,6 +89,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ORIGINAL_VERSION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.OTHER_EVENT_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.PARTICIPANT_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
@@ -95,16 +98,20 @@ import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DAT
 import static org.folio.ld.dictionary.PropertyDictionary.PROVIDER_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
+import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.REPRODUCTION_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.SCALE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.SIMPLE_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
+import static org.folio.ld.dictionary.PropertyDictionary.STUDY_PROGRAM_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUMMARY;
+import static org.folio.ld.dictionary.PropertyDictionary.SUPPLEMENT;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS;
 import static org.folio.ld.dictionary.PropertyDictionary.SYSTEM_DETAILS_ACCESS_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.TABLE_OF_CONTENTS;
@@ -661,11 +668,19 @@ public class MonographTestUtil {
       List.of(supplementaryContent, indexSupplementaryContent));
 
     return createResource(
-      Map.of(
-        SUMMARY, List.of("work summary"),
-        TABLE_OF_CONTENTS, List.of("work table of contents"),
-        DATE_START, List.of("2023"),
-        DATE_END, List.of("2024")
+      Map.ofEntries(
+        entry(SUMMARY, List.of("work summary")),
+        entry(TABLE_OF_CONTENTS, List.of("work table of contents")),
+        entry(DATE_START, List.of("2023")),
+        entry(DATE_END, List.of("2024")),
+        entry(BIBLIOGRAPHY_NOTE, List.of("bibliography note")),
+        entry(SCALE_NOTE, List.of("scale note")),
+        entry(REFERENCES, List.of("references")),
+        entry(DATA_QUALITY, List.of("data quality")),
+        entry(OTHER_EVENT_INFORMATION, List.of("other event information")),
+        entry(GEOGRAPHIC_COVERAGE, List.of("geographic coverage")),
+        entry(SUPPLEMENT, List.of("supplement")),
+        entry(STUDY_PROGRAM_NAME, List.of("study program name"))
       ),
       Set.of(WORK),
       pred2OutgoingResources
