@@ -6,6 +6,7 @@ import static org.folio.marc4ld.util.Constants.TAG_776;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -44,14 +45,8 @@ public class RawMarcMapper implements CustomMapper {
       .filter(this::notExcluded)
       .forEach(unprocessed::addVariableField);
     unprocessed.setLeader(marcRecord.getLeader());
-    try (var byteArrayOutputStream = new ByteArrayOutputStream()) {
-      var writer = new MarcJsonWriter(byteArrayOutputStream);
-      writer.write(unprocessed);
-      writer.close();
-      instance.setUnmappedMarc(new RawMarc().setContent(byteArrayOutputStream.toString()));
-    } catch (IOException e) {
-      log.error("Exception during marc to resource conversion", e);
-    }
+    toString(unprocessed)
+      .ifPresent(marcString -> instance.setUnmappedMarc(new RawMarc().setContent(marcString)));
   }
 
   private boolean notMapped(VariableField variableField) {
@@ -64,5 +59,17 @@ public class RawMarcMapper implements CustomMapper {
 
   private boolean notExcluded(VariableField variableField) {
     return !EXCLUDED_TAGS.contains(variableField.getTag());
+  }
+
+  private Optional<String> toString(Record marcRecord) {
+    try (var byteArrayOutputStream = new ByteArrayOutputStream()) {
+      var writer = new MarcJsonWriter(byteArrayOutputStream);
+      writer.write(marcRecord);
+      writer.close();
+      return Optional.of(byteArrayOutputStream.toString());
+    } catch (IOException e) {
+      log.error("Exception during marc to resource conversion", e);
+      return Optional.empty();
+    }
   }
 }
