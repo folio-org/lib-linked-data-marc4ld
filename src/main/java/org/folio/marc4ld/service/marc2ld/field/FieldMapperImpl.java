@@ -1,10 +1,13 @@
 package org.folio.marc4ld.service.marc2ld.field;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
@@ -53,10 +56,24 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource setProperties(Resource resource) {
-    var existProp = mapperHelper.getProperties(resource);
-    var properties = fieldRule.mergeProperties(dataField, controlFields, existProp);
-    resource.setDoc(mapperHelper.getJsonNode(properties));
-    return resource;
+    var existingProps = mapperHelper.getProperties(resource);
+    var newProps = fieldRule.mergeProperties(dataField, controlFields);
+    mergeProperties(existingProps, newProps);
+    return resource.setDoc(mapperHelper.getJsonNode(newProps));
+  }
+
+  private void mergeProperties(Map<String, List<String>> props1, Map<String, List<String>> props2) {
+    props1.forEach(
+      (key, value) -> props2.merge(
+        key,
+        value,
+        (oldValue, newValue) -> {
+          Set<String> combinedSet = new HashSet<>(oldValue);
+          combinedSet.addAll(newValue);
+          return new ArrayList<>(combinedSet);
+        }
+      )
+    );
   }
 
   private List<Resource> createNewEdges(Resource resource) {

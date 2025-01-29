@@ -35,15 +35,14 @@ public class PropertyRuleImpl implements PropertyRule {
 
   @Override
   public Collection<Map<String, List<String>>> create(DataField dataField, Collection<ControlField> controlFields) {
-    var values = this.merge(dataField, controlFields, new HashMap<>());
+    var values = this.merge(dataField, controlFields);
     return propertyTransformer.apply(values);
   }
 
   @Override
   public Map<String, List<String>> merge(
     DataField dataField,
-    Collection<ControlField> fields,
-    Map<String, List<String>> values
+    Collection<ControlField> fields
   ) {
     var properties = Stream.of(
         this.getDataFieldProperties(dataField),
@@ -51,6 +50,7 @@ public class PropertyRuleImpl implements PropertyRule {
       )
       .flatMap(Collection::stream)
       .toList();
+    var values = new HashMap<String, List<String>>();
     properties.forEach(property -> propertyMerger.merge(values, property));
     constants.forEach(property -> constantMerger.merge(values, property));
     return values;

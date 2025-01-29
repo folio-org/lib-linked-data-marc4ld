@@ -15,7 +15,6 @@ public interface PropertyRule {
 
   Map<String, List<String>> merge(
     DataField dataField,
-    Collection<ControlField> fields,
-    Map<String, List<String>> values
+    Collection<ControlField> fields
   );
 }
