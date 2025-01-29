@@ -3,9 +3,12 @@ package org.folio.marc4ld.service.marc2ld.field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
@@ -56,18 +59,25 @@ public class FieldMapperImpl implements FieldMapper {
   private Resource setProperties(Resource resource) {
     var existingProps = mapperHelper.getProperties(resource);
     var newProps = fieldRule.createProperties(dataField, controlFields);
-    mergeProperties(existingProps, newProps);
-    return resource.setDoc(mapperHelper.getJsonNode(existingProps));
+    var mergedPros = mergeProperties(existingProps, newProps);
+    return resource.setDoc(mapperHelper.getJsonNode(mergedPros));
   }
 
-  private void mergeProperties(Map<String, List<String>> props1, Collection<Map<String, List<String>>> props2) {
-    props2.forEach(prop -> prop.forEach((key, value) -> {
-      if (props1.containsKey(key)) {
-        props1.get(key).addAll(value);
-      } else {
-        props1.put(key, new ArrayList<>(value));
-      }
-    }));
+  private Map<String, List<String>> mergeProperties(Map<String, List<String>> props1,
+                                                    Collection<Map<String, List<String>>> props2) {
+    Map<String, List<String>> mergedProps = new HashMap<>(props1);
+    props2.forEach(
+      prop -> prop.forEach(
+        (key, value) -> mergedProps.merge(key, value, this::combineLists)
+      )
+    );
+    return mergedProps;
+  }
+
+  private List<String> combineLists(List<String> list1, List<String> list2) {
+    Set<String> combinedSet = new HashSet<>(list1);
+    combinedSet.addAll(list2);
+    return new ArrayList<>(combinedSet);
   }
 
   private List<Resource> createNewEdges(Resource resource) {
