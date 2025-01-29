@@ -30,8 +30,6 @@ public interface Marc2ldFieldRuleApplier {
 
   Collection<Map<String, List<String>>> createProperties(DataField dataField, Collection<ControlField> controlFields);
 
-  Map<String, List<String>> mergeProperties(DataField dataField, Collection<ControlField> controlFields);
-
   Collection<ResourceTypeDictionary> getTypes();
 
   PredicateDictionary getPredicate();

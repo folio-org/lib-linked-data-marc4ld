@@ -100,11 +100,6 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   }
 
   @Override
-  public Map<String, List<String>> mergeProperties(DataField dataField, Collection<ControlField> controlFields) {
-    return propertyRule.merge(dataField, controlFields);
-  }
-
-  @Override
   public Collection<ResourceTypeDictionary> getTypes() {
     return types;
   }

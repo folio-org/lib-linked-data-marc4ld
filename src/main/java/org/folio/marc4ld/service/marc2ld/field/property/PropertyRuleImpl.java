@@ -39,8 +39,7 @@ public class PropertyRuleImpl implements PropertyRule {
     return propertyTransformer.apply(values);
   }
 
-  @Override
-  public Map<String, List<String>> merge(
+  private Map<String, List<String>> merge(
     DataField dataField,
     Collection<ControlField> fields
   ) {
