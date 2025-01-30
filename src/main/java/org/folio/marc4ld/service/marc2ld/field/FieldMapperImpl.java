@@ -1,14 +1,15 @@
 package org.folio.marc4ld.service.marc2ld.field;
 
-import java.util.ArrayList;
+import static java.util.stream.Stream.concat;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
@@ -59,25 +60,22 @@ public class FieldMapperImpl implements FieldMapper {
   private Resource setProperties(Resource resource) {
     var existingProps = mapperHelper.getProperties(resource);
     var newProps = fieldRule.createProperties(dataField, controlFields);
-    var mergedPros = mergeProperties(existingProps, newProps);
-    return resource.setDoc(mapperHelper.getJsonNode(mergedPros));
+    var mergedProps = mergeProperties(existingProps, newProps);
+    return resource.setDoc(mapperHelper.getJsonNode(mergedProps));
   }
 
   private Map<String, List<String>> mergeProperties(Map<String, List<String>> props1,
                                                     Collection<Map<String, List<String>>> props2) {
-    Map<String, List<String>> mergedProps = new HashMap<>(props1);
-    props2.forEach(
-      prop -> prop.forEach(
-        (key, value) -> mergedProps.merge(key, value, this::combineLists)
-      )
-    );
-    return mergedProps;
+    return concat(Stream.of(props1), props2.stream())
+      .map(Map::entrySet)
+      .flatMap(Set::stream)
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, this::combineLists));
   }
 
   private List<String> combineLists(List<String> list1, List<String> list2) {
-    Set<String> combinedSet = new HashSet<>(list1);
-    combinedSet.addAll(list2);
-    return new ArrayList<>(combinedSet);
+    return concat(list1.stream(), list2.stream())
+      .distinct()
+      .toList();
   }
 
   private List<Resource> createNewEdges(Resource resource) {
