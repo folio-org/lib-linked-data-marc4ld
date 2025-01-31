@@ -73,6 +73,7 @@ public class Marc4LdRules {
     private String ind1;
     private String ind2;
     private List<ControlFieldContext> controlFields;
+    private boolean skip;
   }
 
   @Data

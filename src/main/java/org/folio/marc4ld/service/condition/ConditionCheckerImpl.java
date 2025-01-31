@@ -45,7 +45,9 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (isNull(condition)) {
       return true;
     }
-    return isInd1Condition(dataField, condition)
+    return
+      !condition.isSkip()
+      && isInd1Condition(dataField, condition)
       && isInd2Condition(dataField, condition)
       && isControlFieldConditions(controlFields, condition)
       && isAllOfFieldConditions(dataField, condition)
