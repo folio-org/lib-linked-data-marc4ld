@@ -38,15 +38,18 @@ public class RawMarcMapper implements CustomMapper {
 
   @Override
   public void map(Record marcRecord, Resource instance) {
-    var unprocessed = marcFactory.newRecord();
-    marcRecord.getVariableFields()
+    var fieldsToPreserve = marcRecord.getVariableFields()
       .stream()
       .filter(variableField -> notMapped(variableField) || isSelected(variableField))
       .filter(this::notExcluded)
-      .forEach(unprocessed::addVariableField);
-    unprocessed.setLeader(marcRecord.getLeader());
-    toString(unprocessed)
-      .ifPresent(marcString -> instance.setUnmappedMarc(new RawMarc().setContent(marcString)));
+      .toList();
+    if (!fieldsToPreserve.isEmpty()) {
+      var unprocessed = marcFactory.newRecord();
+      unprocessed.setLeader(marcRecord.getLeader());
+      fieldsToPreserve.forEach(unprocessed::addVariableField);
+      toString(unprocessed)
+        .ifPresent(marcString -> instance.setUnmappedMarc(new RawMarc().setContent(marcString)));
+    }
   }
 
   private boolean notMapped(VariableField variableField) {

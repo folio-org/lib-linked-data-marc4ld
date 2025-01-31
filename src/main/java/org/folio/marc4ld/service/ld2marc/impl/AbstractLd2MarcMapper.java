@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc;
+package org.folio.marc4ld.service.ld2marc.impl;
 
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -13,20 +13,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.marc4j.MarcJsonWriter;
-import org.springframework.stereotype.Service;
 
 @Log4j2
-@Service
 @RequiredArgsConstructor
-public class Ld2MarcMapperImpl implements Ld2MarcMapper {
+public abstract class AbstractLd2MarcMapper implements Ld2MarcMapper {
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(INSTANCE);
 
   private final ObjectMapper objectMapper;
-  private final LeaderGenerator leaderGenerator;
   private final Resource2MarcRecordMapper resourceMapper;
 
   @Override
@@ -41,9 +38,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
     }
     try (var os = new ByteArrayOutputStream()) {
       var writer = new MarcJsonWriter(os);
-      var marcRecord = resourceMapper.toMarcRecord(resource);
-      leaderGenerator.addLeader(marcRecord);
-      writer.write(marcRecord);
+      writer.write(resourceMapper.toMarcRecord(resource));
       writer.close();
       return toPrettyJson(os.toString());
     } catch (IOException e) {
@@ -56,5 +51,4 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
     var jsonObject = objectMapper.readValue(jsonString, Object.class);
     return objectMapper.writeValueAsString(jsonObject);
   }
-
 }

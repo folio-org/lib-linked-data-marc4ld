@@ -20,11 +20,13 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.impl.Ld2MarcUnitedMapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -33,7 +35,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class Ld2Marc082IT {
 
   @Autowired
-  private Ld2MarcMapperImpl ld2MarcMapper;
+  @Qualifier(Ld2MarcUnitedMapper.NAME)
+  private Ld2MarcMapper ld2MarcMapper;
 
   @ParameterizedTest
   @MethodSource("provideArguments")
