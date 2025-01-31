@@ -28,12 +28,7 @@ public interface Marc2ldFieldRuleApplier {
 
   Optional<Relation> getRelation();
 
-  Collection<Map<String, List<String>>> createProperties(DataField dataField,
-                                                         Collection<ControlField> controlFields);
-
-  Map<String, List<String>> mergeProperties(DataField dataField,
-                                            Collection<ControlField> controlFields,
-                                            Map<String, List<String>> values);
+  Collection<Map<String, List<String>>> createProperties(DataField dataField, Collection<ControlField> controlFields);
 
   Collection<ResourceTypeDictionary> getTypes();
 

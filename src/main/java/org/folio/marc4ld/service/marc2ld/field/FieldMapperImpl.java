@@ -1,10 +1,15 @@
 package org.folio.marc4ld.service.marc2ld.field;
 
+import static java.util.stream.Stream.concat;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
@@ -53,10 +58,24 @@ public class FieldMapperImpl implements FieldMapper {
   }
 
   private Resource setProperties(Resource resource) {
-    var existProp = mapperHelper.getProperties(resource);
-    var properties = fieldRule.mergeProperties(dataField, controlFields, existProp);
-    resource.setDoc(mapperHelper.getJsonNode(properties));
-    return resource;
+    var existingProps = mapperHelper.getProperties(resource);
+    var newProps = fieldRule.createProperties(dataField, controlFields);
+    var mergedProps = mergeProperties(existingProps, newProps);
+    return resource.setDoc(mapperHelper.getJsonNode(mergedProps));
+  }
+
+  private Map<String, List<String>> mergeProperties(Map<String, List<String>> props1,
+                                                    Collection<Map<String, List<String>>> props2) {
+    return concat(Stream.of(props1), props2.stream())
+      .map(Map::entrySet)
+      .flatMap(Set::stream)
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, this::combineLists));
+  }
+
+  private List<String> combineLists(List<String> list1, List<String> list2) {
+    return concat(list1.stream(), list2.stream())
+      .distinct()
+      .toList();
   }
 
   private List<Resource> createNewEdges(Resource resource) {

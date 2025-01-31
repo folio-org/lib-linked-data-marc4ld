@@ -12,10 +12,4 @@ public interface PropertyRule {
     DataField dataField,
     Collection<ControlField> fields
   );
-
-  Map<String, List<String>> merge(
-    DataField dataField,
-    Collection<ControlField> fields,
-    Map<String, List<String>> values
-  );
 }
