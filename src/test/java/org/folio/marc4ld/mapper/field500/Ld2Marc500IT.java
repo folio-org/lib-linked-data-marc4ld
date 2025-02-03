@@ -14,11 +14,9 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
-import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
-import org.folio.marc4ld.service.ld2marc.impl.Ld2MarcUnitedMapper;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,8 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Ld2Marc500IT {
 
   @Autowired
-  @Qualifier(Ld2MarcUnitedMapper.NAME)
-  private Ld2MarcMapper ld2MarcMapper;
+  private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
   void shouldMapField500() {
