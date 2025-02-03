@@ -6,4 +6,6 @@ public interface Ld2MarcMapper {
 
   String toMarcJson(Resource resource);
 
+  String toMarcJson(Resource resource, boolean appendUnmappedMarc);
+
 }

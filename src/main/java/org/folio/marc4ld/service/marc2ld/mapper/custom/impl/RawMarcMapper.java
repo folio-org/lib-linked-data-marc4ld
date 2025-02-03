@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
+import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class RawMarcMapper implements CustomMapper {
 
   private static final Set<String> SELECTED_TAGS = Set.of(TAG_775, TAG_776);
-  private static final Set<String> EXCLUDED_TAGS = Set.of(TAG_005);
+  private static final Set<String> EXCLUDED_TAGS = Set.of(TAG_005, FIELD_UUID);
 
   private final MarcFactory marcFactory;
   private final Marc4LdRules marc4LdRules;

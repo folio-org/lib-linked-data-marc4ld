@@ -1,11 +1,9 @@
 package org.folio.marc4ld.service.ld2marc.resource;
 
 import static java.time.Instant.ofEpochMilli;
-import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.apache.commons.lang3.ObjectUtils.anyNull;
@@ -16,10 +14,10 @@ import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
 import static org.folio.marc4ld.util.LdUtil.getWork;
 import static org.folio.marc4ld.util.LdUtil.isInstance;
+import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -41,7 +39,6 @@ import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
-import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -77,17 +74,6 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .forEach(marcRecord::addVariableField);
     return marcRecord;
-  }
-
-  private void sortFields(Record marcRecord) {
-    if (isEmpty(marcRecord.getVariableFields())) {
-      return;
-    }
-    var variableFields = new ArrayList<>(marcRecord.getVariableFields());
-    variableFields.forEach(marcRecord::removeVariableField);
-    variableFields.stream()
-      .sorted(comparing(VariableField::getTag))
-      .forEach(marcRecord::addVariableField);
   }
 
   private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
