@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.resource.impl;
+package org.folio.marc4ld.service.ld2marc.resource;
 
 import static java.time.Instant.ofEpochMilli;
 import static java.util.Comparator.comparing;
@@ -29,7 +29,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.FolioMetadata;
-import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Ld2MarcFieldRuleApplier;
@@ -37,31 +36,39 @@ import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
 import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper.Context;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessorFactory;
-import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
-import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
-public abstract class AbstarctResource2MarcRecordMapper implements Resource2MarcRecordMapper {
+public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper {
 
   private static final DateTimeFormatter MARC_UPDATED_DATE_FORMAT = DateTimeFormatter
     .ofPattern("yyyyMMddHHmmss.0")
     .withZone(ZoneOffset.UTC);
 
-  final MarcFactory marcFactory;
+  private final MarcFactory marcFactory;
   private final Collection<Ld2MarcFieldRuleApplier> rules;
   private final List<Ld2MarcMapper> ld2MarcMappers;
   private final List<Ld2MarcCustomMapper> customMappers;
   private final Comparator<Subfield> subfieldComparator;
   private final DataFieldPostProcessorFactory dataFieldPostProcessorFactory;
-  private final MarcReaderProcessor marcReaderProcessor;
 
-  Record buildMarcRecord(Resource resource) {
+  @Override
+  public Record toMarcRecord(Resource resource) {
+    var marcRecord = buildMarcRecord(resource);
+    addInternalIds(marcRecord, resource);
+    addUpdatedDateField(marcRecord, resource);
+    sortFields(marcRecord);
+    return marcRecord;
+  }
+
+  private Record buildMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
     var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
@@ -72,44 +79,7 @@ public abstract class AbstarctResource2MarcRecordMapper implements Resource2Marc
     return marcRecord;
   }
 
-  Optional<Record> getUnmappedMarcRecord(Resource resource) {
-    return Optional.ofNullable(resource.getUnmappedMarc())
-      .map(RawMarc::getContent)
-      .map(marcReaderProcessor::readMarc)
-      .flatMap(Stream::findFirst);
-  }
-
-  void addInternalIds(Record marcRecord, Resource resource) {
-    var folioMetadata = resource.getFolioMetadata();
-    if (notContainsMetadata(folioMetadata)) {
-      return;
-    }
-    var field999 = marcFactory.newDataField(FIELD_UUID, INDICATOR_FOLIO, INDICATOR_FOLIO);
-    ofNullable(folioMetadata.getInventoryId()).ifPresent(
-      id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id)));
-    ofNullable(folioMetadata.getSrsId()).ifPresent(
-      id -> field999.addSubfield(marcFactory.newSubfield(S, id)));
-    marcRecord.addVariableField(field999);
-  }
-
-  void addUpdatedDateField(Record marcRecord, Resource resource) {
-    if (isInstance(resource)) {
-      var optionalWork = getWork(resource);
-      optionalWork.ifPresentOrElse(work -> {
-          var optionalDate = chooseDate(resource.getUpdatedDate(), work.getUpdatedDate());
-          optionalDate.ifPresent(date -> addUpdatedDateField(marcRecord, date));
-        },
-        () -> ofNullable(resource.getUpdatedDate())
-          .ifPresent(date -> addUpdatedDateField(marcRecord, date))
-      );
-    }
-  }
-
-  private void addUpdatedDateField(Record marcRecord, Date date) {
-    marcRecord.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
-  }
-
-  void sortFields(Record marcRecord) {
+  private void sortFields(Record marcRecord) {
     if (isEmpty(marcRecord.getVariableFields())) {
       return;
     }
@@ -184,6 +154,23 @@ public abstract class AbstarctResource2MarcRecordMapper implements Resource2Marc
     return field;
   }
 
+  private void addUpdatedDateField(Record marcRecord, Resource resource) {
+    if (isInstance(resource)) {
+      var optionalWork = getWork(resource);
+      optionalWork.ifPresentOrElse(work -> {
+          var optionalDate = chooseDate(resource.getUpdatedDate(), work.getUpdatedDate());
+          optionalDate.ifPresent(date -> addUpdatedDateField(marcRecord, date));
+        },
+        () -> ofNullable(resource.getUpdatedDate())
+          .ifPresent(date -> addUpdatedDateField(marcRecord, date))
+      );
+    }
+  }
+
+  private void addUpdatedDateField(Record marcRecord, Date date) {
+    marcRecord.addVariableField(marcFactory.newControlField(TAG_005, convertDate(date)));
+  }
+
   private Optional<Date> chooseDate(Date instanceDate, Date workDate) {
     if (anyNull(instanceDate, workDate)) {
       return Stream.of(instanceDate, workDate)
@@ -195,6 +182,19 @@ public abstract class AbstarctResource2MarcRecordMapper implements Resource2Marc
 
   private String convertDate(Date date) {
     return MARC_UPDATED_DATE_FORMAT.format(ofEpochMilli(date.getTime()));
+  }
+
+  private void addInternalIds(Record marcRecord, Resource resource) {
+    var folioMetadata = resource.getFolioMetadata();
+    if (notContainsMetadata(folioMetadata)) {
+      return;
+    }
+    var field999 = marcFactory.newDataField(FIELD_UUID, INDICATOR_FOLIO, INDICATOR_FOLIO);
+    ofNullable(folioMetadata.getInventoryId()).ifPresent(
+      id -> field999.addSubfield(marcFactory.newSubfield(SUBFIELD_INVENTORY_ID, id)));
+    ofNullable(folioMetadata.getSrsId()).ifPresent(
+      id -> field999.addSubfield(marcFactory.newSubfield(S, id)));
+    marcRecord.addVariableField(field999);
   }
 
   private boolean notContainsMetadata(FolioMetadata folioMetadata) {

@@ -8,19 +8,16 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.ResourceSource;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
-import org.folio.marc4ld.service.ld2marc.impl.Ld2MarcUnitedMapper;
+import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 class Ld2Marc999IT extends Marc2LdTestBase {
 
   @Autowired
-  @Qualifier(Ld2MarcUnitedMapper.NAME)
-  private Ld2MarcMapper ld2MarcMapper;
+  private Ld2MarcMapperImpl ld2MarcMapper;
 
   static Stream<Arguments> provide999FieldArguments() {
     return Stream.of(

@@ -9,7 +9,6 @@ import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
 import static org.folio.marc4ld.util.Constants.THREE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +43,7 @@ class RawMarcMapperTest {
   private RawMarcMapper mapper;
 
   @Test
-  void isApplicable_shouldReturnTrue() {
+  void isApplicableShouldReturnTrue() {
     //given
     var marcRecord = new RecordImpl();
 
@@ -53,7 +52,7 @@ class RawMarcMapperTest {
   }
 
   @Test
-  void map_shouldMapRawData() {
+  void mapShouldMapRawData() {
     //given
     var marcRecord = new RecordImpl();
     marcRecord.setLeader(new LeaderImpl("01767cam a22003977i 4500"));
@@ -81,21 +80,5 @@ class RawMarcMapperTest {
 
     //then
     assertEquals(expectedRawMarc, resource.getUnmappedMarc().getContent());
-  }
-
-  @Test
-  void map_ShouldNotMapRawData_ifThereIsNothingToMap() {
-    //given
-    var resource = new Resource();
-    var marcRecord = new RecordImpl();
-    marcRecord.addVariableField(new DataFieldImpl(TAG_100, THREE, SPACE));
-    when(marc4LdRules.getBibFieldRules())
-      .thenReturn(Map.of(TAG_100, List.of()));
-
-    //when
-    mapper.map(marcRecord, resource);
-
-    //then
-    assertNull(resource.getUnmappedMarc());
   }
 }
