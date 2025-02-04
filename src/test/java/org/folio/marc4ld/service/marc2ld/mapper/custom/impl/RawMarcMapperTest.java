@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.util.Constants.A;
+import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_005;
 import static org.folio.marc4ld.util.Constants.TAG_100;
@@ -69,6 +70,7 @@ class RawMarcMapperTest {
     marcRecord.addVariableField(selectedDataField775);
     marcRecord.addVariableField(selectedDataField776);
     marcRecord.addVariableField(unmappedDataField);
+    marcRecord.addVariableField(new DataFieldImpl(FIELD_UUID, SPACE, SPACE));
     var resource = new Resource();
     when(marcFactory.newRecord()).thenReturn(new RecordImpl());
     when(marc4LdRules.getBibFieldRules())
