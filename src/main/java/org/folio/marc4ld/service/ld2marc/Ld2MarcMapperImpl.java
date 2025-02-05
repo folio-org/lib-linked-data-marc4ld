@@ -18,6 +18,7 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -40,27 +41,17 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
 
   @Override
   public String toMarcJson(Resource resource) {
-    if (isValid(resource)) {
-      var marcRecord = resourceMapper.toMarcRecord(resource);
-      leaderGenerator.addLeader(marcRecord);
-      return toJsonString(marcRecord);
-    } else {
-      return null;
-    }
+    return toMarcJson(resource, UnmappedMarcHandling.MERGE);
   }
 
   @Override
-  public String toMarcJson(Resource resource, boolean appendUnmappedMarc) {
+  public String toMarcJson(Resource resource, UnmappedMarcHandling marcHandling) {
     if (isValid(resource)) {
-      var unmappedMarc = getUnmappedMarc(resource);
-      if (unmappedMarc.isPresent()) {
-        var marcRecord = resourceMapper.toMarcRecord(resource);
-        addUnmappedMarc(appendUnmappedMarc, unmappedMarc.get(), marcRecord);
-        leaderGenerator.addLeader(marcRecord);
-        return toJsonString(marcRecord);
-      } else {
-        return this.toMarcJson(resource);
-      }
+      var marcRecord = resourceMapper.toMarcRecord(resource);
+      getUnmappedMarc(resource)
+        .ifPresent(unmappedMarc -> addUnmappedMarc(marcHandling, unmappedMarc, marcRecord));
+      leaderGenerator.addLeader(marcRecord);
+      return toJsonString(marcRecord);
     } else {
       return null;
     }
@@ -85,8 +76,8 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
       .flatMap(Stream::findFirst);
   }
 
-  private void addUnmappedMarc(boolean appendUnmappedMarc, Record unmappedMarcRecord, Record marcRecord) {
-    if (appendUnmappedMarc) {
+  private void addUnmappedMarc(UnmappedMarcHandling marcHandling, Record unmappedMarcRecord, Record marcRecord) {
+    if (marcHandling == UnmappedMarcHandling.APPEND) {
       sortFields(marcRecord);
       unmappedMarcRecord.getVariableFields()
         .stream()

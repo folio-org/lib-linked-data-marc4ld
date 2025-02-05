@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.TestUtil.extractTags;
+import static org.folio.marc4ld.enums.UnmappedMarcHandling.APPEND;
+import static org.folio.marc4ld.enums.UnmappedMarcHandling.MERGE;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_005;
@@ -28,6 +30,7 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -75,14 +78,14 @@ class Ld2MarcMapperImplTest {
 
   static Stream<Arguments> dataProvider() {
     return Stream.of(
-      Arguments.of(true, List.of(TAG_005, TAG_008, TAG_007, TAG_245, FIELD_UUID, TAG_775, TAG_776)),
-      Arguments.of(false, List.of(TAG_005, TAG_007, TAG_008, TAG_245, TAG_775, TAG_776, FIELD_UUID))
+      Arguments.of(APPEND, List.of(TAG_005, TAG_008, TAG_007, TAG_245, FIELD_UUID, TAG_775, TAG_776)),
+      Arguments.of(MERGE, List.of(TAG_005, TAG_007, TAG_008, TAG_245, TAG_775, TAG_776, FIELD_UUID))
     );
   }
 
   @ParameterizedTest
   @MethodSource("dataProvider")
-  void toMarcJson_shouldReturnMarcJson(boolean appendUnmappedMarc, List<String> expectedTags)
+  void toMarcJson_shouldReturnMarcJson(UnmappedMarcHandling marcHandling, List<String> expectedTags)
     throws JsonProcessingException {
     //given
     var expectedMarcJson = "prettyMarcJson";
@@ -95,7 +98,7 @@ class Ld2MarcMapperImplTest {
     when(objectMapper.writeValueAsString(jsonObject)).thenReturn(expectedMarcJson);
 
     //expect
-    assertEquals(expectedMarcJson, mapper.toMarcJson(resource, appendUnmappedMarc));
+    assertEquals(expectedMarcJson, mapper.toMarcJson(resource, marcHandling));
     verify(leaderGenerator).addLeader(recordCaptor.capture());
     assertThat(extractTags(recordCaptor.getValue())).isEqualTo(expectedTags);
   }
