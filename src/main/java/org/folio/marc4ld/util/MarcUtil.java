@@ -1,6 +1,8 @@
 package org.folio.marc4ld.util;
 
+import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,7 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.enums.BibliographLevel;
 import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
+import org.marc4j.marc.VariableField;
 
 @UtilityClass
 public class MarcUtil {
@@ -53,5 +57,16 @@ public class MarcUtil {
   public static boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
     return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
       || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
+  }
+
+  public static void sortFields(Record marcRecord) {
+    if (isEmpty(marcRecord.getVariableFields())) {
+      return;
+    }
+    var variableFields = new ArrayList<>(marcRecord.getVariableFields());
+    variableFields.forEach(marcRecord::removeVariableField);
+    variableFields.stream()
+      .sorted(comparing(VariableField::getTag))
+      .forEach(marcRecord::addVariableField);
   }
 }
