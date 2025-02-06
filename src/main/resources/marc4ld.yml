@@ -241,6 +241,7 @@ bibFieldRules:
         GEOGRAPHIC_COVERAGE: https://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
   '046':
     - types: WORK
+      parent: INSTANCE
       predicate: INSTANTIATES
       subfields:
         k: DATE_START
@@ -855,6 +856,8 @@ bibFieldRules:
       append: true
   546:
     - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
       subfields:
         a: LANGUAGE_NOTE
       append: true

@@ -1,0 +1,16 @@
+{
+  "leader" : "00127nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "546" : {
+      "subfields" : [ {
+        "a" : "Language note 1"
+      }, {
+        "a" : "Language note 2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
