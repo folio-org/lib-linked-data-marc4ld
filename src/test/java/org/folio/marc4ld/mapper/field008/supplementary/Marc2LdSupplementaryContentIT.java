@@ -32,7 +32,7 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/supplementaryContent")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(4);
-        validateEdge(edges.get(0), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
+        validateEdge(edges.getFirst(), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
             "http://bibfra.me/vocab/marc/code", List.of("bibliography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/bibliography"),
@@ -57,15 +57,15 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/marc/term", List.of("index")
           ), "index");
       })
-      .extracting(edges -> getOutgoingEdges(edges.get(0)))
+      .extracting(edges -> getOutgoingEdges(edges.getFirst()))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
-        validateEdge(edges.get(0), IS_DEFINED_BY, List.of(CATEGORY_SET),
+        validateEdge(edges.getFirst(), IS_DEFINED_BY, List.of(CATEGORY_SET),
           Map.of(
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont"),
             "http://bibfra.me/vocab/lite/label", List.of("Supplementary Content")
           ), "Supplementary Content");
-        assertThat(getOutgoingEdges(edges.get(0))).isEmpty();
+        assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
   }
 }

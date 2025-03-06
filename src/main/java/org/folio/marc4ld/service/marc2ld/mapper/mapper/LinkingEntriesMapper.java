@@ -88,7 +88,7 @@ public class LinkingEntriesMapper implements Marc2ldMapper {
 
   private void adjustIdentifier(Resource resource) {
     var properties = mapperHelper.getProperties(resource);
-    var name = properties.get(NAME.getValue()).get(0);
+    var name = properties.get(NAME.getValue()).getFirst();
     if (name.startsWith(DLC_PREFIX)) {
       name = name.substring(DLC_PREFIX.length());
       properties.put(NAME.getValue(), List.of(name));

@@ -1,6 +1,5 @@
 package org.folio.marc4ld.mapper.leader;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +61,7 @@ class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
   }
 
   private static String leader(char recordType, char bibliographicLevel) {
-    return format(LEADER_TEMPLATE, recordType, bibliographicLevel);
+    return LEADER_TEMPLATE.formatted(recordType, bibliographicLevel);
   }
 
   private record MarcJson(String leader) {}

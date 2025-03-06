@@ -60,7 +60,7 @@ abstract class AbstractMarcPunctuationNormalizer implements MarcPunctuationNorma
 
   private void normalizeLastSubfield(DataField dataField) {
     var subfields = dataField.getSubfields();
-    var lastSubfield = subfields.get(subfields.size() - 1);
+    var lastSubfield = subfields.getLast();
     ofNullable(getLastSubfieldRules().get(dataField.getTag()))
       .ifPresent(punctuationMarksToRemove ->
         lastSubfield.setData(removePunctuation(lastSubfield.getData(), punctuationMarksToRemove)));
@@ -112,10 +112,10 @@ abstract class AbstractMarcPunctuationNormalizer implements MarcPunctuationNorma
 
   protected List<String> generateLookups(String tag, char code) {
     var lookups = new ArrayList<String>();
-    lookups.add(String.format("XX%s%s", tag.charAt(2), code));
-    lookups.add(String.format("%sXX%s", tag.charAt(0), code));
-    lookups.add(String.format("%sX%s", tag.substring(0, 2), code));
-    lookups.add(String.format("%s%s", tag, code));
+    lookups.add("XX%s%s".formatted(tag.charAt(2), code));
+    lookups.add("%sXX%s".formatted(tag.charAt(0), code));
+    lookups.add("%sX%s".formatted(tag.substring(0, 2), code));
+    lookups.add("%s%s".formatted(tag, code));
     return lookups;
   }
 }

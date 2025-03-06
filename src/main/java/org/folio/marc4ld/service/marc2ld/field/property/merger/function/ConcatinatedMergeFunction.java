@@ -10,7 +10,7 @@ public class ConcatinatedMergeFunction implements MergeFunction {
 
   @Override
   public List<String> apply(List<String> values, List<String> newValues) {
-    var concatenated = values.get(0).concat(concat).concat(newValues.get(0));
+    var concatenated = values.getFirst().concat(concat).concat(newValues.getFirst());
     values.set(0, concatenated);
     return values;
   }

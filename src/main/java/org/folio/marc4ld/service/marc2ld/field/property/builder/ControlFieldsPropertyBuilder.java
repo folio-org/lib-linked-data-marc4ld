@@ -42,9 +42,9 @@ public class ControlFieldsPropertyBuilder implements PropertyBuilder<Collection<
     return Optional.of(data)
       .map(cfValue -> {
         if (range.get(1) > cfValue.length()) {
-          return cfValue.substring(range.get(0));
+          return cfValue.substring(range.getFirst());
         }
-        return cfValue.substring(range.get(0), range.get(1));
+        return cfValue.substring(range.getFirst(), range.get(1));
       })
       .map(String::strip)
       .filter(StringUtils::isNotBlank)

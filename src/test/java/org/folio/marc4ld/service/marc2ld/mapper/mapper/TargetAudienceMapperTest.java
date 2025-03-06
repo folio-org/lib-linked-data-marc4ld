@@ -61,8 +61,8 @@ class TargetAudienceMapperTest {
     var properties = OBJECT_MAPPER.convertValue(resource.getDoc(),
       new TypeReference<HashMap<String, List<String>>>() {
       });
-    var actualLink = properties.get(LINK.getValue()).get(0);
-    var actualTerm = properties.get(TERM.getValue()).get(0);
+    var actualLink = properties.get(LINK.getValue()).getFirst();
+    var actualTerm = properties.get(TERM.getValue()).getFirst();
     assertThat(actualLink).isEqualTo(LINK_PREFIX + expectedLinkSuffix);
     assertThat(actualTerm).isEqualTo(expectedTerm);
   }

@@ -27,7 +27,7 @@ class Marc2Ld257IT extends Marc2LdTestBase {
     var originPlaceResourceEdges = new ArrayList<>(work.getOutgoingEdges());
     assertEquals(2, originPlaceResourceEdges.size());
     validateEdge(
-      originPlaceResourceEdges.get(0),
+      originPlaceResourceEdges.getFirst(),
       ORIGIN_PLACE,
       List.of(PLACE),
       Map.of(

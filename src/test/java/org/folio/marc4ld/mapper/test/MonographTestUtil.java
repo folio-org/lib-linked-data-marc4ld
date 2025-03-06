@@ -761,7 +761,7 @@ public class MonographTestUtil {
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var familyPerson = createResource(removeNonFocusProperties(properties), Set.of(type), emptyMap())
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
     var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
     var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
     var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
@@ -771,7 +771,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(FOCUS, List.of(familyPerson));
     pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, place));
     return createResource(properties, Set.of(CONCEPT, type), pred2OutgoingResources)
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
   }
 
   private Resource createJurisdictionOrganizationConcept(String prefix, ResourceTypeDictionary type) {
@@ -785,7 +785,7 @@ public class MonographTestUtil {
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var jusdictionOrganization = createResource(removeNonFocusProperties(properties), Set.of(type), emptyMap())
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
     var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
     var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
     var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
@@ -795,7 +795,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(FOCUS, List.of(jusdictionOrganization));
     pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, place));
     return createResource(properties, Set.of(CONCEPT, type), pred2OutgoingResources)
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
   }
 
   private Resource createTopicConcept() {
@@ -809,7 +809,7 @@ public class MonographTestUtil {
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var topic = createResource(removeNonFocusProperties(properties), Set.of(TOPIC), emptyMap())
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
     var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
     var subTopic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
     var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
@@ -819,7 +819,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(FOCUS, List.of(topic));
     pred2OutgoingResources.put(SUB_FOCUS, List.of(form, subTopic, temporal, place));
     return createResource(properties, Set.of(CONCEPT, TOPIC), pred2OutgoingResources)
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
   }
 
   private Resource createPlaceConcept() {
@@ -830,7 +830,7 @@ public class MonographTestUtil {
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var place = createResource(removeNonFocusProperties(properties), Set.of(PLACE), emptyMap())
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
     var form = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
     var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
     var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
@@ -840,7 +840,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(FOCUS, List.of(place));
     pred2OutgoingResources.put(SUB_FOCUS, List.of(form, topic, temporal, subPlace));
     return createResource(properties, Set.of(CONCEPT, PLACE), pred2OutgoingResources)
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
   }
 
   private Resource createFormConcept() {
@@ -851,7 +851,7 @@ public class MonographTestUtil {
         ).entrySet().stream())
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     var form = createResource(removeNonFocusProperties(properties), Set.of(FORM), emptyMap())
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
     var subForm = createResource(Map.of(NAME, properties.get(FORM_SUBDIVISION)), Set.of(FORM), emptyMap());
     var topic = createResource(Map.of(NAME, properties.get(GENERAL_SUBDIVISION)), Set.of(TOPIC), emptyMap());
     var temporal = createResource(Map.of(NAME, properties.get(CHRONOLOGICAL_SUBDIVISION)), Set.of(TEMPORAL),
@@ -861,7 +861,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(FOCUS, List.of(form));
     pred2OutgoingResources.put(SUB_FOCUS, List.of(subForm, topic, temporal, place));
     return createResource(properties, Set.of(CONCEPT, FORM), pred2OutgoingResources)
-      .setLabel(properties.get(NAME).get(0));
+      .setLabel(properties.get(NAME).getFirst());
   }
 
   private Resource providerEvent(String prefix) {

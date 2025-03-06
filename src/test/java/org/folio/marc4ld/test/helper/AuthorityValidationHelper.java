@@ -40,7 +40,7 @@ public class AuthorityValidationHelper {
     assertThat(resourceEdges)
       .hasSize(1)
       .satisfies(edges ->
-        validateEdge(resourceEdges.get(0), MAP, List.of(ID_LCCN, IDENTIFIER),
+        validateEdge(resourceEdges.getFirst(), MAP, List.of(ID_LCCN, IDENTIFIER),
           Map.of(
             LINK.getValue(), List.of("http://id.loc.gov/authorities/" + expectedValue),
             NAME.getValue(), List.of(expectedValue),
@@ -69,7 +69,7 @@ public class AuthorityValidationHelper {
     assertThat(resourceEdges)
       .filteredOn(resourceEdge -> resourceEdge.getPredicate().equals(SUB_FOCUS))
       .hasSize(2)
-      .satisfies(edge -> validateEdge(edge.get(0), SUB_FOCUS, List.of(type),
+      .satisfies(edge -> validateEdge(edge.getFirst(), SUB_FOCUS, List.of(type),
         Map.of(
           LABEL.getValue(), List.of(fieldCode + "Value1"),
           NAME.getValue(), List.of(fieldCode + "Value1")

@@ -32,7 +32,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(4);
-        validateEdge(edges.get(0), ILLUSTRATIONS, List.of(CATEGORY),
+        validateEdge(edges.getFirst(), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
           "http://bibfra.me/vocab/marc/code", List.of("b"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
@@ -57,15 +57,15 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/marc/term", List.of("Plans")
           ), "Plans");
       })
-      .extracting(edges -> getOutgoingEdges(edges.get(0)))
+      .extracting(edges -> getOutgoingEdges(edges.getFirst()))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
-        validateEdge(edges.get(0), IS_DEFINED_BY, List.of(CATEGORY_SET),
+        validateEdge(edges.getFirst(), IS_DEFINED_BY, List.of(CATEGORY_SET),
           Map.of(
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus"),
             "http://bibfra.me/vocab/lite/label", List.of("Illustrative Content")
           ), "Illustrative Content");
-        assertThat(getOutgoingEdges(edges.get(0))).isEmpty();
+        assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
   }
 }

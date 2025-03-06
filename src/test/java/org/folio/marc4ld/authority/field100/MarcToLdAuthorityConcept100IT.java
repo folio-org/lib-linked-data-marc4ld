@@ -83,7 +83,7 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
     var resourceEdges = getEdges(resource, resourceType);
     assertThat(resourceEdges)
       .hasSize(1);
-    validateEdge(resourceEdges.get(0), FOCUS, List.of(resourceType),
+    validateEdge(resourceEdges.getFirst(), FOCUS, List.of(resourceType),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),
         "http://bibfra.me/vocab/marc/numeration", List.of("bValue"),
