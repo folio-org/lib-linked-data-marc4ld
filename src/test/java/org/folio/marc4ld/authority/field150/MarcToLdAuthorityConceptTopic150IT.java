@@ -36,7 +36,7 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, TOPIC), conceptTopicProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, TOPIC, focusProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(AuthorityValidationHelper::validateSubfocusResources)
+      .satisfies(AuthorityValidationHelper::validateSubFocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 

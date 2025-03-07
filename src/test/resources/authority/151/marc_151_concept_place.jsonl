@@ -1,0 +1,37 @@
+{
+  "fields" : [ {
+    "001":"0123456789"
+  },{
+    "010": {
+      "subfields" : [ {
+        "a" : "010 field value"
+      } ]
+    }
+  }, {
+    "151" : {
+      "subfields" : [ {
+        "a" : "aValue"
+      }, {
+        "b" : "bValue"
+      }, {
+        "v" : "vValue1"
+      }, {
+        "v" : "vValue2"
+      }, {
+        "x" : "xValue1"
+      }, {
+        "x" : "xValue2"
+      }, {
+        "y" : "yValue1"
+      }, {
+        "y" : "yValue2"
+      }, {
+        "z" : "zValue1"
+      }, {
+        "z" : "zValue2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
