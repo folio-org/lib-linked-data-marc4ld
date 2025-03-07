@@ -25,7 +25,7 @@ public class ControlFieldRuleApplierImpl implements ControlFieldRuleApplier {
       .map(entry -> new ControlFieldSettings(
         entry.getKey(),
         PropertyDictionary.valueOf(entry.getKey()).getValue(),
-        entry.getValue().get(0),
+        entry.getValue().getFirst(),
         entry.getValue().get(1))
       )
       .toList();

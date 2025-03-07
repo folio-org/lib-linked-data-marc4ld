@@ -90,7 +90,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
   private Resource getCategorySet() {
     var categorySet = new Resource()
       .setTypes(CATEGORY_SET_TYPES)
-      .setLabel(CATEGORY_SET_LABEL.get(0));
+      .setLabel(CATEGORY_SET_LABEL.getFirst());
     mapperHelper.addPropertiesToResource(
       categorySet,
       Map.of(

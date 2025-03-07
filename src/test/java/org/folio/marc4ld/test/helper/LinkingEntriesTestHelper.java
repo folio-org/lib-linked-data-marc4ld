@@ -44,7 +44,7 @@ public class LinkingEntriesTestHelper {
   public static void validateLiteWork(Resource resource, PredicateDictionary predicate, String expectedLabel) {
     var resourceEdges = getEdges(getWorkEdge(resource).getTarget(), WORK);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), predicate,
+    validateEdge(resourceEdges.getFirst(), predicate,
       List.of(WORK),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
@@ -89,7 +89,7 @@ public class LinkingEntriesTestHelper {
   public static void validateIssn(Resource resource) {
     var resourceEdges = getEdges(getLiteWork(resource), IDENTIFIER, ID_ISSN);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), MAP,
+    validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_ISSN),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("ISSN identifier name")
@@ -99,7 +99,7 @@ public class LinkingEntriesTestHelper {
   public static void validateLiteWorkTitle(Resource resource, String expectedMainTitle) {
     var resourceEdges = getEdges(getLiteWork(resource), ResourceTypeDictionary.TITLE);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), TITLE,
+    validateEdge(resourceEdges.getFirst(), TITLE,
       List.of(ResourceTypeDictionary.TITLE),
       Map.of(
         "http://bibfra.me/vocab/marc/mainTitle", List.of(expectedMainTitle),
@@ -121,7 +121,7 @@ public class LinkingEntriesTestHelper {
     assertThat(liteInstance.getOutgoingEdges()).hasSize(expectedEdgesSize);
     var resourceEdges = getEdges(liteInstance, WORK);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), INSTANTIATES,
+    validateEdge(resourceEdges.getFirst(), INSTANTIATES,
       List.of(WORK),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedWorkLabel)
@@ -141,7 +141,7 @@ public class LinkingEntriesTestHelper {
   public static void validateExtent(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), ResourceTypeDictionary.EXTENT);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), EXTENT,
+    validateEdge(resourceEdges.getFirst(), EXTENT,
       List.of(ResourceTypeDictionary.EXTENT),
       Map.of(
         LABEL.getValue(), List.of("extent")
@@ -165,7 +165,7 @@ public class LinkingEntriesTestHelper {
   public static void validateStrn(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_STRN);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), MAP,
+    validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_STRN),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("STRN identifier name")
@@ -175,7 +175,7 @@ public class LinkingEntriesTestHelper {
   public static void validateCoden(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_CODEN);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), MAP,
+    validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_CODEN),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("CODEN identifier name")
@@ -199,7 +199,7 @@ public class LinkingEntriesTestHelper {
   public static void validateUnknown(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_UNKNOWN);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), MAP,
+    validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_UNKNOWN),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("unknown identifier name"),
@@ -210,7 +210,7 @@ public class LinkingEntriesTestHelper {
   public static void validateLccn(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), IDENTIFIER, ID_LCCN);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), MAP,
+    validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_LCCN),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("LCCN identifier name"),
@@ -221,7 +221,7 @@ public class LinkingEntriesTestHelper {
   public static void validateLiteInstanceTitle(Resource resource) {
     var resourceEdges = getEdges(getLiteInstance(resource), ResourceTypeDictionary.TITLE);
     assertThat(resourceEdges).hasSize(1);
-    validateEdge(resourceEdges.get(0), TITLE,
+    validateEdge(resourceEdges.getFirst(), TITLE,
       List.of(ResourceTypeDictionary.TITLE),
       Map.of(
         "http://bibfra.me/vocab/marc/mainTitle", List.of("work/instance title main title")

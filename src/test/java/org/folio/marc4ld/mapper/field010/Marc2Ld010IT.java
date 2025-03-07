@@ -35,7 +35,7 @@ class Marc2Ld010IT extends Marc2LdTestBase {
 
     // Current LCCN edge (010$a)
     validateResource(
-      lccnEdges.get(0).getTarget(),
+      lccnEdges.getFirst().getTarget(),
       List.of(IDENTIFIER, ID_LCCN),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("2024111111"),
@@ -44,7 +44,7 @@ class Marc2Ld010IT extends Marc2LdTestBase {
       "2024111111"
     );
 
-    var currentEdge = getStatusEdge(lccnEdges.get(0).getTarget());
+    var currentEdge = getStatusEdge(lccnEdges.getFirst().getTarget());
     validateResource(
       currentEdge.getTarget(),
       List.of(ResourceTypeDictionary.STATUS),

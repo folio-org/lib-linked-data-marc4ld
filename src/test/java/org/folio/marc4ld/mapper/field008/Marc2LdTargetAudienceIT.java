@@ -32,22 +32,22 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
-        validateEdge(edges.get(0), TARGET_AUDIENCE, List.of(CATEGORY),
+        validateEdge(edges.getFirst(), TARGET_AUDIENCE, List.of(CATEGORY),
           Map.of(
           "http://bibfra.me/vocab/marc/code", List.of("b"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/pri"),
           "http://bibfra.me/vocab/marc/term", List.of("Primary")
           ), "Primary");
       })
-      .extracting(edges -> getOutgoingEdges(edges.get(0)))
+      .extracting(edges -> getOutgoingEdges(edges.getFirst()))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
-        validateEdge(edges.get(0), IS_DEFINED_BY, List.of(CATEGORY_SET),
+        validateEdge(edges.getFirst(), IS_DEFINED_BY, List.of(CATEGORY_SET),
           Map.of(
             "http://bibfra.me/vocab/lite/link", List.of("https://id.loc.gov/vocabulary/maudience"),
             "http://bibfra.me/vocab/lite/label", List.of("Target audience")
           ), "Target audience");
-        assertThat(getOutgoingEdges(edges.get(0))).isEmpty();
+        assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
   }
 }

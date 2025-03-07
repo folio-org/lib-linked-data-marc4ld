@@ -244,7 +244,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     var workEdgesIterator = work.getOutgoingEdges().iterator();
     var workCreatorPerson = workEdgesIterator.next().getTarget();
     var creatorPersonRelation = workEdgesIterator.next();
-    assertThat(creatorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.get(0));
+    assertThat(creatorPersonRelation.getPredicate()).isEqualTo(expectedPredicates.getFirst());
     assertThat(creatorPersonRelation.getTarget()).isEqualTo(workCreatorPerson);
 
     var workCreatorOrganization = workEdgesIterator.next().getTarget();
