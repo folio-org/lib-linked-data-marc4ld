@@ -210,10 +210,18 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
-
+  '151':
+    - types: CONCEPT, PLACE
+      include: 15X_mappings
+      edges:
+        - types: PLACE
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            b: MISC_INFO
   '155':
     - types: CONCEPT, FORM
-      include: 155_mappings
+      include: 15X_mappings
       marc2ldCondition:
         fieldsAllOf:
           t: not_presented
@@ -372,7 +380,7 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
 
-  155_mappings:
+  15X_mappings:
     subfields:
       a: NAME
       b: MISC_INFO

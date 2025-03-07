@@ -106,7 +106,7 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
         resource -> validateCreatedResource(resource, types, generalProperties(),
           outgoingEdges, EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, types.get(1), focusProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(AuthorityValidationHelper::validateSubfocusResources)
+      .satisfies(AuthorityValidationHelper::validateSubFocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
