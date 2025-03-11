@@ -194,10 +194,10 @@ authorityFieldRules:
             g: MISC_INFO
       marc2ldCondition:
         fieldsAllOf:
-          v: not_presented
-          x: not_presented
-          y: not_presented
-          z: not_presented
+          v: presented
+          x: presented
+          y: presented
+          z: presented
   '155':
     - types: CONCEPT, FORM
       include: 15X_mappings
