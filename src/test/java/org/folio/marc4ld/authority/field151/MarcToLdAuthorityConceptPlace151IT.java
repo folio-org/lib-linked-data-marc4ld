@@ -67,7 +67,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   private Map<String, List<String>> generalProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
-      MISC_INFO.getValue(), List.of("bValue"),
+      MISC_INFO.getValue(), List.of("gValue"),
       FORM_SUBDIVISION.getValue(), List.of("vValue1", "vValue2"),
       GENERAL_SUBDIVISION.getValue(), List.of("xValue1", "xValue2"),
       CHRONOLOGICAL_SUBDIVISION.getValue(), List.of("yValue1", "yValue2"),
@@ -80,7 +80,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   private Map<String, List<String>> focusProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
-      MISC_INFO.getValue(), List.of("bValue"),
+      MISC_INFO.getValue(), List.of("gValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
     );
   }
@@ -88,7 +88,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   private Map<String, List<String>> shortProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
-      MISC_INFO.getValue(), List.of("bValue"),
+      MISC_INFO.getValue(), List.of("gValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL),
       RESOURCE_PREFERRED.getValue(), List.of("true")
     );

@@ -12,7 +12,7 @@
       "subfields" : [ {
         "a" : "aValue"
       }, {
-        "b" : "bValue"
+        "g" : "gValue"
       } ],
       "ind1" : " ",
       "ind2" : " "

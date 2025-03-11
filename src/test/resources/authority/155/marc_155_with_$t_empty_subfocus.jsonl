@@ -12,13 +12,13 @@
       "subfields" : [ {
         "a" : "aValue"
       }, {
-        "b" : "bValue"
-      }, {
         "c" : "cValue1"
       }, {
         "c" : "cValue2"
       }, {
         "d" : "dValue"
+      }, {
+        "g" : "gValue"
       }, {
         "t" : "tValue"
       }],
