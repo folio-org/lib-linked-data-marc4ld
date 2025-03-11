@@ -154,16 +154,9 @@ authorityFieldRules:
 
   '150':
     - types: CONCEPT, TOPIC
+      include: 15X_mappings
       subfields:
-        a: NAME
         b: GEOGRAPHIC_COVERAGE
-        g: MISC_INFO
-        v: FORM_SUBDIVISION
-        x: GENERAL_SUBDIVISION
-        y: CHRONOLOGICAL_SUBDIVISION
-        z: GEOGRAPHIC_SUBDIVISION
-      constants:
-        RESOURCE_PREFERRED: true
       edges:
         - types: TOPIC
           predicate: FOCUS
@@ -171,26 +164,6 @@ authorityFieldRules:
             a: NAME
             b: GEOGRAPHIC_COVERAGE
             g: MISC_INFO
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
       marc2ldCondition:
         fieldsAnyOf:
           v: presented
@@ -210,10 +183,24 @@ authorityFieldRules:
           x: not_presented
           y: not_presented
           z: not_presented
-
+  '151':
+    - types: CONCEPT, PLACE
+      include: 15X_mappings
+      edges:
+        - types: PLACE
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            g: MISC_INFO
+      marc2ldCondition:
+        fieldsAllOf:
+          v: presented
+          x: presented
+          y: presented
+          z: presented
   '155':
     - types: CONCEPT, FORM
-      include: 155_mappings
+      include: 15X_mappings
       marc2ldCondition:
         fieldsAllOf:
           t: not_presented
@@ -227,9 +214,11 @@ authorityFieldRules:
           predicate: FOCUS
           subfields:
             a: NAME
-            b: MISC_INFO
     - types: FORM
-      include: 155_mappings_short
+      subfields:
+        a: NAME
+      constants:
+        RESOURCE_PREFERRED: true
       marc2ldCondition:
         fieldsAllOf:
           v: not_presented
@@ -372,10 +361,10 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
 
-  155_mappings:
+  15X_mappings:
     subfields:
       a: NAME
-      b: MISC_INFO
+      g: MISC_INFO
       v: FORM_SUBDIVISION
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
@@ -403,10 +392,3 @@ sharedAuthorityRules:
         multiply: true
         subfields:
           z: NAME
-
-  155_mappings_short:
-    subfields:
-      a: NAME
-      b: MISC_INFO
-    constants:
-      RESOURCE_PREFERRED: true

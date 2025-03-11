@@ -48,8 +48,8 @@ public class AuthorityValidationHelper {
           ), expectedValue));
   }
 
-  public static void validateSubfocusResources(Resource resource) {
-    FIELD_CODES.forEach((type, subfield) -> validateSubfocus(resource, type, subfield));
+  public static void validateSubFocusResources(Resource resource) {
+    FIELD_CODES.forEach((type, subfield) -> validateSubFocus(resource, type, subfield));
   }
 
   public static void validateFocusResource(Resource resource, ResourceTypeDictionary focusResourceType,
@@ -62,8 +62,8 @@ public class AuthorityValidationHelper {
       .satisfies(target -> validateResource(target, List.of(focusResourceType), properties, label));
   }
 
-  public static void validateSubfocus(Resource resource, ResourceTypeDictionary type,
-                                Character fieldCode) {
+  public static void validateSubFocus(Resource resource, ResourceTypeDictionary type,
+                                      Character fieldCode) {
     assertNotNull(fieldCode);
     var resourceEdges = getEdges(resource, type);
     assertThat(resourceEdges)
