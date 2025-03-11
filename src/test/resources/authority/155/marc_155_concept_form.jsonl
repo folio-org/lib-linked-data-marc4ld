@@ -12,8 +12,6 @@
       "subfields" : [ {
         "a" : "aValue"
       }, {
-        "b" : "bValue"
-      }, {
         "c" : "cValue1"
       }, {
         "c" : "cValue2"

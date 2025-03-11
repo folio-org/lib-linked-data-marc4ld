@@ -214,9 +214,11 @@ authorityFieldRules:
           predicate: FOCUS
           subfields:
             a: NAME
-            b: MISC_INFO
     - types: FORM
-      include: 155_mappings_short
+      subfields:
+        a: NAME
+      constants:
+        RESOURCE_PREFERRED: true
       marc2ldCondition:
         fieldsAllOf:
           v: not_presented
@@ -390,10 +392,3 @@ sharedAuthorityRules:
         multiply: true
         subfields:
           z: NAME
-
-  155_mappings_short:
-    subfields:
-      a: NAME
-      b: MISC_INFO
-    constants:
-      RESOURCE_PREFERRED: true

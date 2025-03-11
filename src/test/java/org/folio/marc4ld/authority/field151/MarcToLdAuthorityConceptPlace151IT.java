@@ -48,7 +48,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   }
 
   @Test
-  void shouldMap151FieldCorrectlyWhenSubFocusFieldsAreEmpty() {
+  void shouldNotMap151FieldWhenSubFocusFieldsAreEmpty() {
     // given
     var marc = loadResourceAsString("authority/151/marc_151_place_empty_subfocus.jsonl");
 
@@ -56,12 +56,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
     var resources = marcAuthorityToResources(marc);
 
     //then
-    assertThat(resources)
-      .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
-      .satisfies(resource -> validateResource(resource, List.of(CONCEPT, PLACE), shortProperties(),
-        EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+    assertThat(resources).isEmpty();
   }
 
   private Map<String, List<String>> generalProperties() {
@@ -85,12 +80,4 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
     );
   }
 
-  private Map<String, List<String>> shortProperties() {
-    return Map.of(
-      NAME.getValue(), List.of("aValue"),
-      MISC_INFO.getValue(), List.of("gValue"),
-      LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL),
-      RESOURCE_PREFERRED.getValue(), List.of("true")
-    );
-  }
 }
