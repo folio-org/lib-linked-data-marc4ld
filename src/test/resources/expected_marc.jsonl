@@ -1,5 +1,5 @@
 {
-  "leader" : "09348nam a2201057uc 4500",
+  "leader" : "09424nam a2201081uc 4500",
   "fields" : [ {
     "008" : "       1999    ilub   b q   a  1   eng "
   }, {
@@ -458,6 +458,8 @@
     "500" : {
       "subfields" : [ {
         "a" : "general note"
+      }, {
+        "a" : "545 data"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -676,6 +678,22 @@
         "a" : "custodian, address, country, title, provenance, note"
       } ],
       "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "545" : {
+      "subfields" : [ {
+        "a" : "biographical data"
+      } ],
+      "ind1" : "0",
+      "ind2" : " "
+    }
+  }, {
+    "545" : {
+      "subfields" : [ {
+        "a" : "historical data"
+      } ],
+      "ind1" : "1",
       "ind2" : " "
     }
   }, {

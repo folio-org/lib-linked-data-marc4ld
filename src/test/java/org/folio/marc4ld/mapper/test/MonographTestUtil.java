@@ -37,6 +37,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.ATTRIBUTION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.BIOGRAPHICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
@@ -67,6 +68,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_AREA_CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
+import static org.folio.ld.dictionary.PropertyDictionary.HISTORICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
@@ -444,7 +446,7 @@ public class MonographTestUtil {
         entry(ISSUING_BODY, List.of("issuing body note")),
         entry(LOCATION_OF_ORIGINALS_DUPLICATES, List.of("custodian, postal address, country, address, code")),
         entry(LOCATION_OF_OTHER_ARCHIVAL_MATERIAL, List.of("note, source, control, reference")),
-        entry(NOTE, List.of("general note")),
+        entry(NOTE, List.of("general note", "545 data")),
         entry(ORIGINAL_VERSION_NOTE,
           List.of("entry, statement, publication, description, series statement, key title, details, note, title")),
         entry(PARTICIPANT_NOTE, List.of("participant note")),
@@ -456,6 +458,8 @@ public class MonographTestUtil {
         entry(SYSTEM_DETAILS, List.of("note, text, uri")),
         entry(SYSTEM_DETAILS_ACCESS_NOTE, List.of("model, language, system")),
         entry(TYPE_OF_REPORT, List.of("type, period")),
+        entry(BIOGRAPHICAL_DATA, List.of("biographical data")),
+        entry(HISTORICAL_DATA, List.of("historical data")),
         entry(WITH_NOTE, List.of("with note"))
       ),
       Set.of(INSTANCE),
