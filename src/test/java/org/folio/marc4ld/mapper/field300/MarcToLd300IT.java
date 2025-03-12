@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field300;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.EXTENT;
+import static org.folio.ld.dictionary.PropertyDictionary.ACCOMPANYING_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
@@ -45,7 +46,8 @@ class MarcToLd300IT extends Marc2LdTestBase {
         Map.of(
           PropertyDictionary.EXTENT.getValue(), List.of("extent_1/physical_description_1"),
           DIMENSIONS.getValue(), List.of("dimensions"),
-          PHYSICAL_DESCRIPTION.getValue(), List.of("extent_1/physical_description_1, physical_description_2")
+          PHYSICAL_DESCRIPTION.getValue(), List.of("physical_description_2"),
+          ACCOMPANYING_MATERIAL.getValue(), List.of("accompanyingMaterial")
         ), ""))
       .extracting(this::getExtentEdge)
       .satisfies(e -> validateEdge(e, EXTENT, List.of(ResourceTypeDictionary.EXTENT),
