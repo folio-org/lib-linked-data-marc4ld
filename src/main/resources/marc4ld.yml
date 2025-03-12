@@ -479,7 +479,9 @@ bibFieldRules:
     - types: INSTANCE
       subfields:
         a: EXTENT
+        b: PHYSICAL_DESCRIPTION
         c: DIMENSIONS
+        e: ACCOMPANYING_MATERIAL
       append: true
       edges:
         - types: EXTENT
@@ -491,12 +493,6 @@ bibFieldRules:
             g: LABEL
             '3': MATERIALS_SPECIFIED
           concat: ' '
-    - types: INSTANCE
-      subfields:
-        a: PHYSICAL_DESCRIPTION
-        b: PHYSICAL_DESCRIPTION
-      concat: ', '
-      append: true
   310:
     - types: INSTANCE
       subfields:
