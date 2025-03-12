@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field300;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.EXTENT;
+import static org.folio.ld.dictionary.PropertyDictionary.ACCOMPANYING_MATERIAL;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.MATERIALS_SPECIFIED;
@@ -33,8 +34,8 @@ class MarcToLd300IT extends Marc2LdTestBase {
   @Test
   void shouldMapField300() {
     // given
-    var marc = loadResourceAsString("fields/300/marc_300.jsonl");
-    var expectedExtentLabel = "extent_1/physical_description_1 extent_2 extent_3";
+    var marc = loadResourceAsString("fields/300/marc2ld_300.jsonl");
+    var expectedExtentLabel = "extent unit_type unit_size";
 
     //when
     var result = marcBibToResource(marc);
@@ -43,15 +44,16 @@ class MarcToLd300IT extends Marc2LdTestBase {
     assertThat(result)
       .satisfies(r -> validateResource(r, List.of(ResourceTypeDictionary.INSTANCE),
         Map.of(
-          PropertyDictionary.EXTENT.getValue(), List.of("extent_1/physical_description_1"),
+          PropertyDictionary.EXTENT.getValue(), List.of("extent"),
           DIMENSIONS.getValue(), List.of("dimensions"),
-          PHYSICAL_DESCRIPTION.getValue(), List.of("extent_1/physical_description_1, physical_description_2")
+          PHYSICAL_DESCRIPTION.getValue(), List.of("physical_description"),
+          ACCOMPANYING_MATERIAL.getValue(), List.of("accompanying_material")
         ), ""))
       .extracting(this::getExtentEdge)
       .satisfies(e -> validateEdge(e, EXTENT, List.of(ResourceTypeDictionary.EXTENT),
         Map.of(
           LABEL.getValue(), List.of(expectedExtentLabel),
-          MATERIALS_SPECIFIED.getValue(), List.of("materials spec")
+          MATERIALS_SPECIFIED.getValue(), List.of("materials_spec")
         ), expectedExtentLabel))
       .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)

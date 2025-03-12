@@ -1,0 +1,46 @@
+{
+  "leader" : "00364nam a2200061uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "300" : {
+      "subfields" : [ {
+        "a" : "extent1 label1"
+      }, {
+        "a" : "extent1 label2"
+      }, {
+        "b" : "physical_description1"
+      }, {
+        "c" : "dimension1"
+      }, {
+        "c" : "dimension2"
+      }, {
+        "e" : "accompanying_material1"
+      }, {
+        "3" : "extent1 materials_spec1"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "300" : {
+      "subfields" : [ {
+        "a" : "extent2 label1"
+      }, {
+        "a" : "extent2 label2"
+      }, {
+        "b" : "physical_description1"
+      }, {
+        "c" : "dimension1"
+      }, {
+        "c" : "dimension2"
+      }, {
+        "e" : "accompanying_material1"
+      }, {
+        "3" : "extent2 materials_spec1"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

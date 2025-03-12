@@ -10,7 +10,6 @@ import static org.folio.marc4ld.util.Constants.B;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,8 +49,7 @@ public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
   public DataField apply(ResourceEdge resourceEdge) {
     var resource = resourceEdge.getTarget();
     var dataField = marcFactory.newDataField(tag, getIndicator1(resource), getIndicator2(resource));
-    getPropertyValues(resource, CODE.getValue(), node -> objectMapper.convertValue(node, new TypeReference<>() {
-    }))
+    getPropertyValues(resource, CODE.getValue())
       .stream()
       .map(code -> marcFactory.newSubfield(A, code))
       .forEach(dataField::addSubfield);

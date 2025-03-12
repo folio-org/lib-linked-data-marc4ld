@@ -479,8 +479,12 @@ bibFieldRules:
     - types: INSTANCE
       subfields:
         a: EXTENT
+        b: PHYSICAL_DESCRIPTION
         c: DIMENSIONS
+        e: ACCOMPANYING_MATERIAL
       append: true
+      ld2marcCondition:
+        skip: true
       edges:
         - types: EXTENT
           parent: INSTANCE
@@ -491,12 +495,8 @@ bibFieldRules:
             g: LABEL
             '3': MATERIALS_SPECIFIED
           concat: ' '
-    - types: INSTANCE
-      subfields:
-        a: PHYSICAL_DESCRIPTION
-        b: PHYSICAL_DESCRIPTION
-      concat: ', '
-      append: true
+          ld2marcCondition:
+            skip: true
   310:
     - types: INSTANCE
       subfields:
@@ -912,6 +912,13 @@ bibFieldRules:
     - types: INSTANCE
       subfields:
         a: EXHIBITIONS_NOTE
+      append: true
+  586:
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: AWARDS_NOTE
       append: true
   588:
     - types: INSTANCE
