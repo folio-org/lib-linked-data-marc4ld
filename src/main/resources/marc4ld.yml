@@ -850,6 +850,24 @@ bibFieldRules:
         n: RELATED_PARTS
       concat: ', '
       append: true
+  545:
+    - include: 545_mappings
+      subfields:
+        a: BIOGRAPHICAL_DATA
+      marc2ldCondition:
+        ind1: '0'
+    - include: 545_mappings
+      subfields:
+        a: HISTORICAL_DATA
+      marc2ldCondition:
+        ind1: '1'
+    - include: 545_mappings
+      subfields:
+        a: NOTE
+      marc2ldCondition:
+        ind1: ' '
+      ld2marcCondition:
+        skip: true
   546:
     - types: WORK
       parent: INSTANCE
@@ -1612,24 +1630,6 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
-  245_mappings:
-    types: TITLE
-    predicate: TITLE
-    subfields:
-      a: MAIN_TITLE
-      b: SUBTITLE
-      n: PART_NUMBER
-      p: PART_NAME
-    ind2: NON_SORT_NUM
-  246_mappings:
-    predicate: TITLE
-    subfields:
-      a: MAIN_TITLE
-      b: SUBTITLE
-      f: DATE
-      i: NOTE
-      n: PART_NUMBER
-      p: PART_NAME
   050_mappings:
     types: CLASSIFICATION
     parent: WORK
@@ -1648,6 +1648,24 @@ bibSharedRules:
           LINK: http://id.loc.gov/vocabulary/organizations/dlc
         marc2ldCondition:
           ind2: '0'
+  245_mappings:
+    types: TITLE
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      n: PART_NUMBER
+      p: PART_NAME
+    ind2: NON_SORT_NUM
+  246_mappings:
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      f: DATE
+      i: NOTE
+      n: PART_NUMBER
+      p: PART_NAME
   26X_mappings:
     types: PROVIDER_EVENT
     parent: INSTANCE
@@ -1665,6 +1683,26 @@ bibSharedRules:
             CODE: 15,18
         constants:
           LINK: http://id.loc.gov/vocabulary/countries/%CODE
+  545_mappings:
+    types: INSTANCE
+    concat: ', '
+    append: true
+  110_710_mappings:
+    parent: WORK
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    relation:
+      code: '4'
+      text: e
   linking_entries_mappings:
     types: WORK
     parent: WORK
@@ -1752,19 +1790,3 @@ bibSharedRules:
             predicate: TITLE
             subfields:
               t: MAIN_TITLE
-  110_710_mappings:
-    parent: WORK
-    subfields:
-      a: NAME
-      b: SUBORDINATE_UNIT
-      c: PLACE
-      d: DATE
-      u: AFFILIATION
-      '0': AUTHORITY_LINK
-      '1': EQUIVALENT
-      '6': LINKAGE
-      '7': CONTROL_FIELD
-      '8': FIELD_LINK
-    relation:
-      code: '4'
-      text: e
