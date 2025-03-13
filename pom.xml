@@ -6,7 +6,7 @@
 
   <groupId>org.folio</groupId>
   <artifactId>lib-linked-data-marc4ld</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -50,9 +50,9 @@
       <version>${lib-linked-data-dictionary.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.folio</groupId>
+      <groupId>com.github.folio-org</groupId>
       <artifactId>lib-linked-data-fingerprint</artifactId>
-      <version>${lib-linked-data-fingerprint.version}</version>
+      <version>v1.0.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -249,6 +249,10 @@
       <id>folio-nexus</id>
       <name>FOLIO Maven repository</name>
       <url>https://repository.folio.org/repository/maven-folio</url>
+    </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
 
