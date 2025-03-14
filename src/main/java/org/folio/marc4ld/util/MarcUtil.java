@@ -3,22 +3,51 @@ package org.folio.marc4ld.util;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.enums.BibliographLevel;
 import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 
 @UtilityClass
 public class MarcUtil {
+
+  public static void addRepeatableSubfield(Resource resource, DataField dataField,
+                                           String property, char subfield,
+                                           ObjectMapper objectMapper, MarcFactory marcFactory) {
+    getPropertyValues(resource, property, getPropertiesConversionFunction(objectMapper))
+      .stream()
+      .map(val -> marcFactory.newSubfield(subfield, val))
+      .forEach(dataField::addSubfield);
+  }
+
+  public static void addNonRepeatableSubfield(Resource resource, DataField dataField, String property, char subfield,
+                                              MarcFactory marcFactory) {
+    getPropertyValue(resource, property)
+      .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
+  }
+
+  private Function<JsonNode, List<String>> getPropertiesConversionFunction(ObjectMapper objectMapper) {
+    return node -> objectMapper.convertValue(node, new TypeReference<>() {
+    });
+  }
 
   public static boolean isSubfieldPresent(char subfield, DataField dataField) {
     return dataField.getSubfield(subfield) != null;

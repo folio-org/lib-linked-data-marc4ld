@@ -13,18 +13,15 @@ import static org.folio.marc4ld.util.Constants.NINE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
-import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
+import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
+import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -116,22 +113,12 @@ public abstract class AgentMapper implements Ld2MarcMapper {
 
   private void addRepeatableSubfields(DataField dataField, Resource resource) {
     getRepeatableSubfieldPropertyMap().forEach((subfield, property) ->
-      getPropertyValues(resource, property, getPropertiesConversionFunction())
-        .stream()
-        .map(value -> marcFactory.newSubfield(subfield, value))
-        .forEach(dataField::addSubfield));
-  }
-
-  private Function<JsonNode, List<String>> getPropertiesConversionFunction() {
-    return node -> objectMapper.convertValue(node, new TypeReference<>() {
-    });
+      addRepeatableSubfield(resource, dataField, property, subfield, objectMapper, marcFactory));
   }
 
   private void addNonRepeatableSubfields(DataField dataField, Resource resource) {
     getNonRepeatableSubfieldPropertyMap().forEach((subfield, property) ->
-      getPropertyValue(resource, property)
-        .map(value -> marcFactory.newSubfield(subfield, value))
-        .ifPresent(dataField::addSubfield));
+      addNonRepeatableSubfield(resource, dataField, property, subfield, marcFactory));
   }
 
   private void addRelationCodes(DataField dataField, ResourceEdge resourceEdge) {
