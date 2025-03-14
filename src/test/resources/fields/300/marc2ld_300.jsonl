@@ -5,19 +5,19 @@
   }, {
     "300" : {
       "subfields" : [ {
-        "a" : "extent_1/physical_description_1",
+        "a" : "extent",
       }, {
-        "b" : "physical_description_2",
+        "b" : "physical_description",
       }, {
         "c" : "dimensions"
       }, {
-        "f" : "extent_2"
+        "f" : "unit_type"
       }, {
-        "e" : "accompanyingMaterial"
+        "e" : "accompanying_material"
       }, {
-        "g" : "extent_3"
+        "g" : "unit_size"
       }, {
-        "3" : "materials spec"
+        "3" : "materials_spec"
       }  ],
       "ind1" : " ",
       "ind2" : " "

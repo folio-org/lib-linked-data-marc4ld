@@ -1,6 +1,7 @@
 package org.folio.marc4ld.util;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
@@ -39,7 +40,7 @@ public class LdUtil {
   }
 
   public static boolean isInstance(Resource resource) {
-    return resource.getTypes().equals(Set.of(INSTANCE));
+    return nonNull(resource) && resource.getTypes().equals(Set.of(INSTANCE));
   }
 
   public static Optional<String> getPropertyValue(Resource resource, String property) {

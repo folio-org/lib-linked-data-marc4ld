@@ -483,6 +483,8 @@ bibFieldRules:
         c: DIMENSIONS
         e: ACCOMPANYING_MATERIAL
       append: true
+      ld2marcCondition:
+        skip: true
       edges:
         - types: EXTENT
           parent: INSTANCE
@@ -493,6 +495,8 @@ bibFieldRules:
             g: LABEL
             '3': MATERIALS_SPECIFIED
           concat: ' '
+          ld2marcCondition:
+            skip: true
   310:
     - types: INSTANCE
       subfields:
