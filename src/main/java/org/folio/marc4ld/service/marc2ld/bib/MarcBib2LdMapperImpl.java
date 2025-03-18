@@ -120,7 +120,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
         rules.findBibFieldRules(tag)
           .stream()
           .filter(rule -> conditionChecker
-            .isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord.getControlFields()))
+            .isMarc2LdConditionSatisfied(rule.getOriginal(), field, marcRecord.getControlFields()))
           .forEach(fr -> fieldController.handleField(instance, field, marcRecord.getControlFields(), fr))
       );
   }

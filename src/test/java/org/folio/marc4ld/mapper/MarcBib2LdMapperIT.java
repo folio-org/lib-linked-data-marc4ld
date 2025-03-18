@@ -29,7 +29,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
 import static org.folio.ld.dictionary.PropertyDictionary.BIBLIOGRAPHY_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.BIOGRAPHICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.CITATION_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.COMPUTER_DATA_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.CREATED_DATE;
@@ -50,7 +49,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.GOVERNING_ACCESS_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.HISTORICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_ABOUT_DOCUMENTATION;
 import static org.folio.ld.dictionary.PropertyDictionary.INFORMATION_RELATING_TO_COPYRIGHT_STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.ISSUANCE;
@@ -309,7 +307,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private void validateInstance(Resource resource) {
     validateId(resource);
     assertThat(resource.getLabel()).isEqualTo("MainTitle SubTitle");
-    assertThat(resource.getDoc()).hasSize(37);
+    assertThat(resource.getDoc()).hasSize(35);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
@@ -332,12 +330,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
       "projectedProvisionDate");
-    assertThat(resource.getDoc().has(BIOGRAPHICAL_DATA.getValue())).isTrue();
-    assertThat(resource.getDoc().get(BIOGRAPHICAL_DATA.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(BIOGRAPHICAL_DATA.getValue()).get(0).asText()).isEqualTo("biographical data");
-    assertThat(resource.getDoc().has(HISTORICAL_DATA.getValue())).isTrue();
-    assertThat(resource.getDoc().get(HISTORICAL_DATA.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(HISTORICAL_DATA.getValue()).get(0).asText()).isEqualTo("historical data");
     var folioMetadata = resource.getFolioMetadata();
     assertThat(folioMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
     assertThat(folioMetadata.getSrsId()).hasToString("43d58061-decf-4d74-9747-0e1c368e861b");
@@ -347,7 +339,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private void validateInstanceNotes(Resource resource) {
     var doc = resource.getDoc();
 
-    List.of(WITH_NOTE, CREDITS_NOTE, ISSUANCE_NOTE, FORMER_TITLE_NOTE, ISSUING_BODY, EXHIBITIONS_NOTE,
+    List.of(NOTE, WITH_NOTE, CREDITS_NOTE, ISSUANCE_NOTE, FORMER_TITLE_NOTE, ISSUING_BODY, EXHIBITIONS_NOTE,
         PARTICIPANT_NOTE, COMPUTER_DATA_NOTE, CITATION_COVERAGE, ADDITIONAL_PHYSICAL_FORM, ACCESSIBILITY_NOTE,
         INFORMATION_ABOUT_DOCUMENTATION, DESCRIPTION_SOURCE_NOTE, GOVERNING_ACCESS_NOTE, TYPE_OF_REPORT,
         REPRODUCTION_NOTE, ORIGINAL_VERSION_NOTE, LOCATION_OF_ORIGINALS_DUPLICATES, FUNDING_INFORMATION,
@@ -358,10 +350,8 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         assertThat(doc.has(p.getValue())).isTrue();
         assertThat(doc.get(p.getValue())).hasSize(1);
       });
-    assertThat(doc.has(NOTE.getValue())).isTrue();
-    assertThat(doc.get(NOTE.getValue())).hasSize(2);
+
     assertThat(doc.get(NOTE.getValue()).get(0).asText()).isEqualTo("general note");
-    assertThat(doc.get(NOTE.getValue()).get(1).asText()).isEqualTo("545 data");
     assertThat(doc.get(WITH_NOTE.getValue()).get(0).asText()).isEqualTo("with note");
     assertThat(doc.get(CREDITS_NOTE.getValue()).get(0).asText()).isEqualTo("credits note");
     assertThat(doc.get(ISSUANCE_NOTE.getValue()).get(0).asText()).isEqualTo("issuance note");

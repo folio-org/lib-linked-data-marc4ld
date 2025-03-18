@@ -1685,7 +1685,6 @@ bibSharedRules:
           LINK: http://id.loc.gov/vocabulary/countries/%CODE
   545_mappings:
     types: INSTANCE
-    concat: ', '
     append: true
   110_710_mappings:
     parent: WORK

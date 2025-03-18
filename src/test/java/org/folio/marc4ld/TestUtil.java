@@ -24,6 +24,12 @@ public class TestUtil {
     return dataField;
   }
 
+  public static DataField createDataField(String tag, char indicator1) {
+    var dataField = createDataField(tag, List.of());
+    dataField.setIndicator1(indicator1);
+    return dataField;
+  }
+
   public static void validateSubfield(DataField dataField, char subfield, String expectedValue) {
     assertEquals(expectedValue, dataField.getSubfield(subfield).getData());
   }

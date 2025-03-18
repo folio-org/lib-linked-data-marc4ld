@@ -774,36 +774,6 @@
       }
     },
     {
-      "545": {
-        "subfields": [
-          {
-            "a": "545 data"
-          }
-        ],
-        "ind1": " "
-      }
-    },
-    {
-      "545": {
-        "subfields": [
-          {
-            "a": "historical data"
-          }
-        ],
-        "ind1": "1"
-      }
-    },
-    {
-      "545": {
-        "subfields": [
-          {
-            "a": "biographical data"
-          }
-        ],
-        "ind1": "0"
-      }
-    },
-    {
       "546": {
         "subfields": [
           {
