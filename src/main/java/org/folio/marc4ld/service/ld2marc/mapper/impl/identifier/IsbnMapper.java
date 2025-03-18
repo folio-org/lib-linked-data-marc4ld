@@ -8,7 +8,6 @@ import static org.folio.marc4ld.util.Constants.Q;
 import static org.folio.marc4ld.util.Constants.TAG_020;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.util.Set;
@@ -43,9 +42,7 @@ public class IsbnMapper extends AbstractIdentifierMapper {
   @Override
   public DataField apply(ResourceEdge resourceEdge) {
     var dataField = super.apply(resourceEdge);
-    getPropertyValues(resourceEdge.getTarget(), QUALIFIER.getValue(),
-      node -> objectMapper.convertValue(node, new TypeReference<>() {
-      }))
+    getPropertyValues(resourceEdge.getTarget(), QUALIFIER.getValue())
       .stream()
       .map(qualifier -> marcFactory.newSubfield(Q, qualifier))
       .forEach(dataField::addSubfield);

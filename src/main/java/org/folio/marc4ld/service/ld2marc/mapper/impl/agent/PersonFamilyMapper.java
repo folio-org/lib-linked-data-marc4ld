@@ -20,7 +20,6 @@ import static org.folio.marc4ld.util.Constants.TAG_100;
 import static org.folio.marc4ld.util.Constants.TAG_700;
 import static org.folio.marc4ld.util.Constants.THREE;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -53,9 +52,9 @@ public class PersonFamilyMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  protected PersonFamilyMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor,
+  protected PersonFamilyMapper(DictionaryProcessor dictionaryProcessor,
                                MarcFactory marcFactory, Comparator<Subfield> comparator) {
-    super(objectMapper, dictionaryProcessor, marcFactory, comparator);
+    super(dictionaryProcessor, marcFactory, comparator);
   }
 
   @Override

@@ -18,7 +18,6 @@ import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_110;
 import static org.folio.marc4ld.util.Constants.TAG_710;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -49,9 +48,9 @@ public class OrganizationJurisdictionMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  public OrganizationJurisdictionMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor,
+  public OrganizationJurisdictionMapper(DictionaryProcessor dictionaryProcessor,
                                         MarcFactory marcFactory, Comparator<Subfield> comparator) {
-    super(objectMapper, dictionaryProcessor, marcFactory, comparator);
+    super(dictionaryProcessor, marcFactory, comparator);
   }
 
   @Override

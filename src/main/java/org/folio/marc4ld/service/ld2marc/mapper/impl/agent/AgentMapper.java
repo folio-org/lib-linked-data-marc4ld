@@ -13,18 +13,14 @@ import static org.folio.marc4ld.util.Constants.NINE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
-import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
+import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
+import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -42,15 +38,13 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(CREATOR, CONTRIBUTOR);
   private static final String RELATION_PREFIX = "http://bibfra.me/vocab/relation/";
 
-  private final ObjectMapper objectMapper;
   private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
   private final Comparator<Subfield> comparator;
   private final DataField emptyDataField;
 
-  protected AgentMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
+  protected AgentMapper(DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
                         Comparator<Subfield> comparator) {
-    this.objectMapper = objectMapper;
     this.dictionaryProcessor = dictionaryProcessor;
     this.marcFactory = marcFactory;
     this.comparator = comparator;
@@ -116,22 +110,12 @@ public abstract class AgentMapper implements Ld2MarcMapper {
 
   private void addRepeatableSubfields(DataField dataField, Resource resource) {
     getRepeatableSubfieldPropertyMap().forEach((subfield, property) ->
-      getPropertyValues(resource, property, getPropertiesConversionFunction())
-        .stream()
-        .map(value -> marcFactory.newSubfield(subfield, value))
-        .forEach(dataField::addSubfield));
-  }
-
-  private Function<JsonNode, List<String>> getPropertiesConversionFunction() {
-    return node -> objectMapper.convertValue(node, new TypeReference<>() {
-    });
+      addRepeatableSubfield(resource, property, dataField, subfield, marcFactory));
   }
 
   private void addNonRepeatableSubfields(DataField dataField, Resource resource) {
     getNonRepeatableSubfieldPropertyMap().forEach((subfield, property) ->
-      getPropertyValue(resource, property)
-        .map(value -> marcFactory.newSubfield(subfield, value))
-        .ifPresent(dataField::addSubfield));
+      addNonRepeatableSubfield(resource, property, dataField, subfield, marcFactory));
   }
 
   private void addRelationCodes(DataField dataField, ResourceEdge resourceEdge) {
