@@ -931,6 +931,13 @@ bibFieldRules:
       subfields:
         a: EXHIBITIONS_NOTE
       append: true
+  586:
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: AWARDS_NOTE
+      append: true
   588:
     - types: INSTANCE
       subfields:
