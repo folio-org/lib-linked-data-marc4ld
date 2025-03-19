@@ -3,6 +3,8 @@ package org.folio.marc4ld.util;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,15 +12,31 @@ import java.util.Optional;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.enums.BibliographLevel;
 import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 
 @UtilityClass
 public class MarcUtil {
+
+  public static void addRepeatableSubfield(Resource resource, String property, DataField dataField,
+                                           char subfield, MarcFactory marcFactory) {
+    getPropertyValues(resource, property)
+      .stream()
+      .map(val -> marcFactory.newSubfield(subfield, val))
+      .forEach(dataField::addSubfield);
+  }
+
+  public static void addNonRepeatableSubfield(Resource resource, String property, DataField dataField, char subfield,
+                                              MarcFactory marcFactory) {
+    getPropertyValue(resource, property)
+      .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
+  }
 
   public static boolean isSubfieldPresent(char subfield, DataField dataField) {
     return dataField.getSubfield(subfield) != null;
