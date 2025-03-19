@@ -1,0 +1,16 @@
+{
+  "leader" : "00121nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "586" : {
+      "subfields" : [ {
+        "a" : "awards_note1"
+      }, {
+        "a" : "awards_note2"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
