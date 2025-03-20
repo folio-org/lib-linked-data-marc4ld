@@ -16,6 +16,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.marc4ld.Marc2LdTestBase;
@@ -29,7 +30,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   private static final String EXPECTED_FOCUS_LABEL = "aValue";
 
   @Test
-  void shouldMap151FieldCorrectly() {
+  void shouldMap151FieldToConceptPlaceResource_whenSubFocusFieldsArePresent() {
     // given
     var marc = loadResourceAsString("authority/151/marc_151_concept_place.jsonl");
 
@@ -41,14 +42,14 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
       .singleElement()
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
       .satisfies(
-        resource -> validateResource(resource, List.of(CONCEPT, PLACE), generalProperties(), EXPECTED_MAIN_LABEL))
+        resource -> validateResource(resource, List.of(CONCEPT, PLACE), conceptPlaceProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, PLACE, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(AuthorityValidationHelper::validateSubFocusResources)
       .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
   @Test
-  void shouldNotMap151FieldWhenSubFocusFieldsAreEmpty() {
+  void shouldMap151FieldToPlaceResource_whenSubFocusFieldsAreEmpty() {
     // given
     var marc = loadResourceAsString("authority/151/marc_151_place_empty_subfocus.jsonl");
 
@@ -56,10 +57,14 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
     var resources = marcAuthorityToResources(marc);
 
     //then
-    assertThat(resources).isEmpty();
+    assertThat(resources)
+      .singleElement()
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> validateResource(resource, List.of(PLACE), placeProperties(), EXPECTED_FOCUS_LABEL))
+      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
   }
 
-  private Map<String, List<String>> generalProperties() {
+  private Map<String, List<String>> conceptPlaceProperties() {
     return Map.of(
       NAME.getValue(), List.of("aValue"),
       MISC_INFO.getValue(), List.of("gValue"),
@@ -78,6 +83,12 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
       MISC_INFO.getValue(), List.of("gValue"),
       LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
     );
+  }
+
+  private Map<String, List<String>> placeProperties() {
+    var placeProperties = new HashMap<>(focusProperties());
+    placeProperties.put("http://library.link/vocab/resourcePreferred", List.of("true"));
+    return placeProperties;
   }
 
 }

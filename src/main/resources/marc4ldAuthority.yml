@@ -198,6 +198,18 @@ authorityFieldRules:
           x: presented
           y: presented
           z: presented
+    - types: PLACE
+      subfields:
+        a: NAME
+        g: MISC_INFO
+      constants:
+        RESOURCE_PREFERRED: true
+      marc2ldCondition:
+        fieldsAllOf:
+          v: not_presented
+          x: not_presented
+          y: not_presented
+          z: not_presented
   '155':
     - types: CONCEPT, FORM
       include: 15X_mappings
