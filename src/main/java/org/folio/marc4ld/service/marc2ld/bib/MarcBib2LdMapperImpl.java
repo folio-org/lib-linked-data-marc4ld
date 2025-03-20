@@ -84,8 +84,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private Resource createInstanceAndWorkResource(List<Record> records) {
     var instanceAndWork = createInstanceAndWork();
     records.forEach(marcRecord -> fillInstanceFields(marcRecord, instanceAndWork.instance));
-    setAdditionInfo(instanceAndWork);
     emptyEdgesCleaner.apply(instanceAndWork.instance);
+    setAdditionInfo(instanceAndWork);
     return instanceAndWork.instance;
   }
 
