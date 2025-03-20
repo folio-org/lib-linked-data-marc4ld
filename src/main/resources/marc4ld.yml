@@ -231,6 +231,135 @@ bibFieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '041':
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: LANGUAGE
+      subfields:
+        a: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: SUMMARY_LANGUAGE
+      subfields:
+        b: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: SUNG_OR_SPOKEN_TEXT_LANGUAGE
+      subfields:
+        d: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: LIBRETTO_LANGUAGE
+      subfields:
+        e: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: TABLE_OF_CONTENTS_LANGUAGE
+      subfields:
+        f: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ACCOMPANYING_MATERIAL_LANGUAGE
+      subfields:
+        g: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ORIGINAL_LANGUAGE
+      subfields:
+        h: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: INTERTITLES_LANGUAGE
+      subfields:
+        i: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: SUBTITLES_OR_CAPTIONS_LANGUAGE
+      subfields:
+        j: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: INTERMEDIATE_TRANSLATIONS_LANGUAGE
+      subfields:
+        k: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE
+      subfields:
+        m: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ORIGINAL_LIBRETTO_LANGUAGE
+      subfields:
+        n: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: CAPTIONS_LANGUAGE
+      subfields:
+        p: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ACCESSIBLE_AUDIO_LANGUAGE
+      subfields:
+        q: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE
+      subfields:
+        r: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
+    - types: LANGUAGE_CATEGORY
+      parent: WORK
+      predicate: ACCOMPANYING_TRANSCRIPTS_LANGUAGE
+      subfields:
+        t: CODE
+      constants:
+        LINK: http://id.loc.gov/vocabulary/languages/%CODE
+      multiply: true
   '043':
     - types: PLACE
       parent: WORK
