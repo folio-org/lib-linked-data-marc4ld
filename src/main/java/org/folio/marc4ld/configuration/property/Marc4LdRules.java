@@ -28,7 +28,7 @@ public class Marc4LdRules {
   @Data
   public static class FieldRule {
     private Set<String> types;
-    private String parent;
+    private Set<String> parent;
     private String predicate;
     private Marc2ldCondition marc2ldCondition;
     private Ld2marcCondition ld2marcCondition;

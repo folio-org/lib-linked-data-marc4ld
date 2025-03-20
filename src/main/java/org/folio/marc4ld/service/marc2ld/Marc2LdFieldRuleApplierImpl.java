@@ -47,7 +47,6 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
       return resource;
     }
     var resourceTypes = Optional.ofNullable(fieldRule.getParent())
-      .map(Set::of)
       .orElse(new HashSet<>());
     return selectResourceByTypes(resource, resourceTypes)
       .orElseGet(this::createResourceByParent);
@@ -112,9 +111,11 @@ public class Marc2LdFieldRuleApplierImpl implements Marc2ldFieldRuleApplier {
   private Resource createResourceByParent() {
     var res = new Resource();
     Optional.of(fieldRule)
+      .stream()
       .map(Marc4LdRules.FieldRule::getParent)
+      .flatMap(Collection::stream)
       .map(ResourceTypeDictionary::valueOf)
-      .ifPresent(res::addType);
+      .forEach(res::addType);
     return res;
   }
 
