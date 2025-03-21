@@ -67,15 +67,18 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
       .forEach(this::setParentForEdges);
   }
 
-  public void setParentForEdges(Marc4LdRules.FieldRule fieldRule) {
+  public Marc4LdRules.FieldRule setParentForEdges(Marc4LdRules.FieldRule fieldRule) {
     if (fieldRule.getEdges() == null) {
-      return;
+      return fieldRule;
     }
-    fieldRule
-      .getEdges()
-      .forEach(edge -> {
-        edge.setParent(fieldRule.getTypes());
-        setParentForEdges(edge);
-      });
+    var updatedEdges = fieldRule.getEdges()
+      .stream()
+      .map(edge -> {
+        var updatedEdge = edge.toBuilder().parent(fieldRule.getTypes()).build();
+        return setParentForEdges(updatedEdge);
+      })
+      .toList();
+    fieldRule.setEdges(updatedEdges);
+    return fieldRule;
   }
 }

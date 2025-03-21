@@ -5,6 +5,7 @@ import static java.util.Optional.ofNullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,6 +27,7 @@ public class Marc4LdRules {
   private Map<String, FieldRule> sharedAuthorityRules;
 
   @Data
+  @Builder(toBuilder = true)
   public static class FieldRule {
     private Set<String> types;
     private Set<String> parent;
