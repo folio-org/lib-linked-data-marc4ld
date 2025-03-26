@@ -54,8 +54,7 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
     ofNullable(source.getControlFields()).ifPresent(target::putControlFields);
     ofNullable(source.getEdges()).ifPresent(target::addEdges);
 
-    if (source.isAppend()) {
-      target.setAppend(true);
-    }
+    target.setAppend(source.isAppend());
+    target.setMultiply(source.isMultiply());
   }
 }

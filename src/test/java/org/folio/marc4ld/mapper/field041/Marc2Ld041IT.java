@@ -1,26 +1,11 @@
 package org.folio.marc4ld.mapper.field041;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PredicateDictionary.ACCESSIBLE_AUDIO_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ACCOMPANYING_MATERIAL_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ACCOMPANYING_TRANSCRIPTS_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.CAPTIONS_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.INTERMEDIATE_TRANSLATIONS_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.INTERTITLES_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.LIBRETTO_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ORIGINAL_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.ORIGINAL_LIBRETTO_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.SUBTITLES_OR_CAPTIONS_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.SUMMARY_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.SUNG_OR_SPOKEN_TEXT_LANGUAGE;
-import static org.folio.ld.dictionary.PredicateDictionary.TABLE_OF_CONTENTS_LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 
 import java.util.List;
 import java.util.Map;
@@ -36,22 +21,22 @@ class Marc2Ld041IT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @CsvSource(value = {
-    "a, LANGUAGE",
-    "b, SUMMARY_LANGUAGE",
-    "d, SUNG_OR_SPOKEN_TEXT_LANGUAGE",
-    "e, LIBRETTO_LANGUAGE",
-    "f, TABLE_OF_CONTENTS_LANGUAGE",
-    "g, ACCOMPANYING_MATERIAL_LANGUAGE",
-    "h, ORIGINAL_LANGUAGE",
-    "i, INTERTITLES_LANGUAGE",
-    "j, SUBTITLES_OR_CAPTIONS_LANGUAGE",
-    "k, INTERMEDIATE_TRANSLATIONS_LANGUAGE",
-    "m, ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE",
-    "n, ORIGINAL_LIBRETTO_LANGUAGE",
-    "p, CAPTIONS_LANGUAGE",
-    "q, ACCESSIBLE_AUDIO_LANGUAGE",
-    "r, ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE",
-    "t, ACCOMPANYING_TRANSCRIPTS_LANGUAGE"
+    "a, http://bibfra.me/vocab/lite/language",
+    "b, http://bibfra.me/vocab/lite/summaryLanguage",
+    "d, http://bibfra.me/vocab/lite/sungOrSpokenTextLanguage",
+    "e, http://bibfra.me/vocab/lite/librettoLanguage",
+    "f, http://bibfra.me/vocab/lite/tableOfContentsLanguage",
+    "g, http://bibfra.me/vocab/lite/accompanyingMaterialLanguage",
+    "h, http://bibfra.me/vocab/lite/originalLanguage",
+    "i, http://bibfra.me/vocab/lite/intertitlesLanguage",
+    "j, http://bibfra.me/vocab/lite/subtitlesOrCaptionsLanguage",
+    "k, http://bibfra.me/vocab/lite/intermediateTranslationsLanguage",
+    "m, http://bibfra.me/vocab/lite/originalAccompanyingMaterialsLanguage",
+    "n, http://bibfra.me/vocab/lite/originalLibrettoLanguage",
+    "p, http://bibfra.me/vocab/lite/captionsLanguage",
+    "q, http://bibfra.me/vocab/lite/accessibleAudioLanguage",
+    "r, http://bibfra.me/vocab/lite/accessibleVisualMaterialLanguage",
+    "t, http://bibfra.me/vocab/lite/accompanyingTranscriptsLanguage"
   })
   void shouldMapField041_asLanguageCategoryResourceUnderDifferentPredicates(String subfield, String predicate) {
     // given
@@ -62,10 +47,10 @@ class Marc2Ld041IT extends Marc2LdTestBase {
     var result = marcBibToResource(marc);
 
     // then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    var work = getWorkEdge(result).getTarget();
     assertThat(work.getOutgoingEdges())
       .hasSize(1);
-    validateLanguage(work.getOutgoingEdges().iterator().next(), PredicateDictionary.valueOf(predicate), "rus");
+    validateLanguage(work.getOutgoingEdges().iterator().next(), predicate, "rus");
   }
 
   @Test
@@ -77,10 +62,10 @@ class Marc2Ld041IT extends Marc2LdTestBase {
     var result = marcBibToResource(marc);
 
     // then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    var work = getWorkEdge(result).getTarget();
     assertThat(work.getOutgoingEdges())
       .hasSize(1);
-    validateLanguage(work.getOutgoingEdges().iterator().next(), LANGUAGE, "rus");
+    validateLanguage(work.getOutgoingEdges().iterator().next(), "http://bibfra.me/vocab/lite/language", "rus");
   }
 
   @Test
@@ -92,12 +77,12 @@ class Marc2Ld041IT extends Marc2LdTestBase {
     var result = marcBibToResource(marc);
 
     // then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    var work = getWorkEdge(result).getTarget();
     assertThat(work.getOutgoingEdges())
       .hasSize(2);
     var iterator = work.getOutgoingEdges().iterator();
-    validateLanguage(iterator.next(), LANGUAGE, "rus");
-    validateLanguage(iterator.next(), LANGUAGE, "eng");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/language", "rus");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/language", "eng");
   }
 
   @Test
@@ -109,26 +94,26 @@ class Marc2Ld041IT extends Marc2LdTestBase {
     var result = marcBibToResource(marc);
 
     // then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    var work = getWorkEdge(result).getTarget();
     assertThat(work.getOutgoingEdges())
       .hasSize(16);
     var iterator = work.getOutgoingEdges().iterator();
-    validateLanguage(iterator.next(), LANGUAGE, "aaa");
-    validateLanguage(iterator.next(), SUMMARY_LANGUAGE, "bbb");
-    validateLanguage(iterator.next(), SUNG_OR_SPOKEN_TEXT_LANGUAGE, "ddd");
-    validateLanguage(iterator.next(), LIBRETTO_LANGUAGE, "eee");
-    validateLanguage(iterator.next(), TABLE_OF_CONTENTS_LANGUAGE, "fff");
-    validateLanguage(iterator.next(), ACCOMPANYING_MATERIAL_LANGUAGE, "ggg");
-    validateLanguage(iterator.next(), ORIGINAL_LANGUAGE, "hhh");
-    validateLanguage(iterator.next(), INTERTITLES_LANGUAGE, "iii");
-    validateLanguage(iterator.next(), SUBTITLES_OR_CAPTIONS_LANGUAGE, "jjj");
-    validateLanguage(iterator.next(), INTERMEDIATE_TRANSLATIONS_LANGUAGE, "kkk");
-    validateLanguage(iterator.next(), ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE, "mmm");
-    validateLanguage(iterator.next(), ORIGINAL_LIBRETTO_LANGUAGE, "nnn");
-    validateLanguage(iterator.next(), CAPTIONS_LANGUAGE, "ppp");
-    validateLanguage(iterator.next(), ACCESSIBLE_AUDIO_LANGUAGE, "qqq");
-    validateLanguage(iterator.next(), ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE, "rrr");
-    validateLanguage(iterator.next(), ACCOMPANYING_TRANSCRIPTS_LANGUAGE, "ttt");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/language", "aaa");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/summaryLanguage", "bbb");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/sungOrSpokenTextLanguage", "ddd");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/librettoLanguage", "eee");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/tableOfContentsLanguage", "fff");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accompanyingMaterialLanguage", "ggg");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLanguage", "hhh");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intertitlesLanguage", "iii");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/subtitlesOrCaptionsLanguage", "jjj");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intermediateTranslationsLanguage", "kkk");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalAccompanyingMaterialsLanguage", "mmm");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLibrettoLanguage", "nnn");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/captionsLanguage", "ppp");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accessibleAudioLanguage", "qqq");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accessibleVisualMaterialLanguage", "rrr");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accompanyingTranscriptsLanguage", "ttt");
   }
 
   @Test
@@ -140,48 +125,40 @@ class Marc2Ld041IT extends Marc2LdTestBase {
     var result = marcBibToResource(marc);
 
     // then
-    var work = result.getOutgoingEdges().iterator().next().getTarget();
+    var work = getWorkEdge(result).getTarget();
     assertThat(work.getOutgoingEdges())
-      .hasSize(32);
+      .hasSize(24);
     var iterator = work.getOutgoingEdges().iterator();
-    validateLanguage(iterator.next(), LANGUAGE, "aaa");
-    validateLanguage(iterator.next(), LANGUAGE, "aaa2");
-    validateLanguage(iterator.next(), SUMMARY_LANGUAGE, "bbb");
-    validateLanguage(iterator.next(), SUMMARY_LANGUAGE, "bbb2");
-    validateLanguage(iterator.next(), SUNG_OR_SPOKEN_TEXT_LANGUAGE, "ddd");
-    validateLanguage(iterator.next(), SUNG_OR_SPOKEN_TEXT_LANGUAGE, "ddd2");
-    validateLanguage(iterator.next(), LIBRETTO_LANGUAGE, "eee");
-    validateLanguage(iterator.next(), LIBRETTO_LANGUAGE, "eee2");
-    validateLanguage(iterator.next(), TABLE_OF_CONTENTS_LANGUAGE, "fff");
-    validateLanguage(iterator.next(), TABLE_OF_CONTENTS_LANGUAGE, "fff2");
-    validateLanguage(iterator.next(), ACCOMPANYING_MATERIAL_LANGUAGE, "ggg");
-    validateLanguage(iterator.next(), ACCOMPANYING_MATERIAL_LANGUAGE, "ggg2");
-    validateLanguage(iterator.next(), ORIGINAL_LANGUAGE, "hhh");
-    validateLanguage(iterator.next(), ORIGINAL_LANGUAGE, "hhh2");
-    validateLanguage(iterator.next(), INTERTITLES_LANGUAGE, "iii");
-    validateLanguage(iterator.next(), INTERTITLES_LANGUAGE, "iii2");
-    validateLanguage(iterator.next(), SUBTITLES_OR_CAPTIONS_LANGUAGE, "jjj");
-    validateLanguage(iterator.next(), SUBTITLES_OR_CAPTIONS_LANGUAGE, "jjj2");
-    validateLanguage(iterator.next(), INTERMEDIATE_TRANSLATIONS_LANGUAGE, "kkk");
-    validateLanguage(iterator.next(), INTERMEDIATE_TRANSLATIONS_LANGUAGE, "kkk2");
-    validateLanguage(iterator.next(), ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE, "mmm");
-    validateLanguage(iterator.next(), ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE, "mmm2");
-    validateLanguage(iterator.next(), ORIGINAL_LIBRETTO_LANGUAGE, "nnn");
-    validateLanguage(iterator.next(), ORIGINAL_LIBRETTO_LANGUAGE, "nnn2");
-    validateLanguage(iterator.next(), CAPTIONS_LANGUAGE, "ppp");
-    validateLanguage(iterator.next(), CAPTIONS_LANGUAGE, "ppp2");
-    validateLanguage(iterator.next(), ACCESSIBLE_AUDIO_LANGUAGE, "qqq");
-    validateLanguage(iterator.next(), ACCESSIBLE_AUDIO_LANGUAGE, "qqq2");
-    validateLanguage(iterator.next(), ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE, "rrr");
-    validateLanguage(iterator.next(), ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE, "rrr2");
-    validateLanguage(iterator.next(), ACCOMPANYING_TRANSCRIPTS_LANGUAGE, "ttt");
-    validateLanguage(iterator.next(), ACCOMPANYING_TRANSCRIPTS_LANGUAGE, "ttt2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/language", "aaa");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/language", "aaa2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/summaryLanguage", "bbb");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/summaryLanguage", "bbb2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/sungOrSpokenTextLanguage", "ddd");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/sungOrSpokenTextLanguage", "ddd2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/librettoLanguage", "eee");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/librettoLanguage", "eee2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/tableOfContentsLanguage", "fff");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/tableOfContentsLanguage", "fff2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accompanyingMaterialLanguage", "ggg");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/accompanyingMaterialLanguage", "ggg2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLanguage", "hhh");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLanguage", "hhh2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intertitlesLanguage", "iii");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intertitlesLanguage", "iii2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/subtitlesOrCaptionsLanguage", "jjj");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/subtitlesOrCaptionsLanguage", "jjj2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intermediateTranslationsLanguage", "kkk");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/intermediateTranslationsLanguage", "kkk2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalAccompanyingMaterialsLanguage", "mmm");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalAccompanyingMaterialsLanguage", "mmm2");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLibrettoLanguage", "nnn");
+    validateLanguage(iterator.next(), "http://bibfra.me/vocab/lite/originalLibrettoLanguage", "nnn2");
   }
 
-  private void validateLanguage(ResourceEdge resourceEdge, PredicateDictionary predicate, String code) {
+  private void validateLanguage(ResourceEdge resourceEdge, String predicate, String code) {
     validateEdge(
       resourceEdge,
-      predicate,
+      PredicateDictionary.fromUri(predicate).get(),
       List.of(ResourceTypeDictionary.LANGUAGE_CATEGORY),
       Map.of(
         CODE.getValue(), List.of(code),
