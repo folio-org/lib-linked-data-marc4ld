@@ -29,8 +29,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: args.contains(data.substring(28, 29))
-                args: a, c, f, i, l, m, o, s
+                substring: 28,29
+                isAny: a, c, f, i, l, m, o, s
           edges:
             - types: CATEGORY_SET
               parent: CATEGORY
@@ -47,8 +47,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: args.contains(data.substring(22, 23))
-                args: a, b, c, d, e, f, g, j
+                substring: 22,23
+                isAny: a, b, c, d, e, f, g, j
         - types: LANGUAGE_CATEGORY
           parent: WORK
           predicate: LANGUAGE
@@ -58,7 +58,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: data.substring(35, 38).trim().isEmpty() == false
+                substring: 35,38
+                isBlank: false
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
   '010':

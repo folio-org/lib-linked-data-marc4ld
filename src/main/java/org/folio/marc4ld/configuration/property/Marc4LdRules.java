@@ -91,9 +91,9 @@ public class Marc4LdRules {
   @Data
   public static class ControlFieldContext {
     private String tag;
-    private String data;
-    private String expression;
-    private List<String> args;
+    private List<Integer> substring;
+    private List<String> isAny;
+    private Boolean isBlank;
   }
 
   @Data

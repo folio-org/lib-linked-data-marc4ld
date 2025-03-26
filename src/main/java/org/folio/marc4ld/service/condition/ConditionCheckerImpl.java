@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
@@ -23,11 +22,8 @@ import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
 @Log4j2
 public class ConditionCheckerImpl implements ConditionChecker {
@@ -35,8 +31,6 @@ public class ConditionCheckerImpl implements ConditionChecker {
   public static final String NOT = "!";
   public static final String PRESENTED = "presented";
   public static final String NOT_PRESENTED = "not_presented";
-
-  private final ExpressionParser expressionParser;
 
   @Override
   public boolean isMarc2LdConditionSatisfied(Marc4LdRules.FieldRule fieldRule, DataField dataField,
@@ -150,15 +144,28 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private Boolean evaluateControlField(Marc4LdRules.ControlFieldContext cfc, ControlField cf) {
-    var expression = expressionParser.parseExpression(cfc.getExpression());
-    cfc.setData(cf.getData());
-    try {
-      return expression.getValue(new StandardEvaluationContext(cfc), Boolean.class);
-    } catch (Exception e) {
-      log.warn("Failed to evaluate control field. Tag: [{}]. Data: [{}]. Expression: [{}]. Args: {}",
-        cfc.getTag(), cfc.getData(), cfc.getExpression(), cfc.getArgs(), e);
+    var data = cf.getData();
+    data = substring(data, cfc.getSubstring());
+    var isAny = cfc.getIsAny();
+    if (!isEmpty(isAny) && !isAny.contains(data)) {
       return false;
     }
+    var isBlank = cfc.getIsBlank();
+    return isBlank == null || isBlank.booleanValue() == data.isBlank();
   }
 
+  static String substring(String data, List<Integer> substring) {
+    if (isEmpty(substring)) {
+      return data;
+    }
+    int start = substring.get(0);
+    if (start >= data.length()) {
+      return "";
+    }
+    int end = substring.get(1);
+    if (end > data.length()) {
+      return data.substring(start);
+    }
+    return data.substring(start, end);
+  }
 }
