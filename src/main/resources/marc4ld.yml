@@ -360,7 +360,9 @@ bibFieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         '0': AUTHORITY_LINK
@@ -381,7 +383,9 @@ bibFieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         '0': AUTHORITY_LINK
@@ -412,6 +416,8 @@ bibFieldRules:
         c: PLACE
         d: DATE
         e: SUBORDINATE_UNIT
+        g: MISC_INFO
+        n: NUMBER_OF_PARTS
         u: AFFILIATION
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
@@ -1019,7 +1025,9 @@ bibFieldRules:
         c: TITLES
         d: DATE
         e: RELATOR_TERM
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         v: FORM_SUBDIVISION
@@ -1044,7 +1052,9 @@ bibFieldRules:
             b: NUMERATION
             c: TITLES
             d: DATE
+            g: MISC_INFO
             j: ATTRIBUTION
+            n: NUMBER_OF_PARTS
             q: NAME_ALTERNATIVE
             u: AFFILIATION
             '0': AUTHORITY_LINK
@@ -1105,7 +1115,9 @@ bibFieldRules:
         c: TITLES
         d: DATE
         e: RELATOR_TERM
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         v: FORM_SUBDIVISION
@@ -1130,7 +1142,9 @@ bibFieldRules:
             b: NUMERATION
             c: TITLES
             d: DATE
+            g: MISC_INFO
             j: ATTRIBUTION
+            n: NUMBER_OF_PARTS
             q: NAME_ALTERNATIVE
             u: AFFILIATION
             '0': AUTHORITY_LINK
@@ -1192,6 +1206,8 @@ bibFieldRules:
         c: PLACE
         d: DATE
         e: RELATOR_TERM
+        g: MISC_INFO
+        n: NUMBER_OF_PARTS
         u: AFFILIATION
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
@@ -1215,6 +1231,8 @@ bibFieldRules:
             b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+            g: MISC_INFO
+            n: NUMBER_OF_PARTS
             u: AFFILIATION
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
@@ -1274,6 +1292,8 @@ bibFieldRules:
         c: PLACE
         d: DATE
         e: RELATOR_TERM
+        g: MISC_INFO
+        n: NUMBER_OF_PARTS
         u: AFFILIATION
         v: FORM_SUBDIVISION
         x: GENERAL_SUBDIVISION
@@ -1297,6 +1317,8 @@ bibFieldRules:
             b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+            g: MISC_INFO
+            n: NUMBER_OF_PARTS
             u: AFFILIATION
             '0': AUTHORITY_LINK
             '1': EQUIVALENT
@@ -1604,7 +1626,9 @@ bibFieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         '0': AUTHORITY_LINK
@@ -1625,7 +1649,9 @@ bibFieldRules:
         b: NUMERATION
         c: TITLES
         d: DATE
+        g: MISC_INFO
         j: ATTRIBUTION
+        n: NUMBER_OF_PARTS
         q: NAME_ALTERNATIVE
         u: AFFILIATION
         '0': AUTHORITY_LINK
@@ -1656,6 +1682,8 @@ bibFieldRules:
         c: PLACE
         d: DATE
         e: SUBORDINATE_UNIT
+        g: MISC_INFO
+        n: NUMBER_OF_PARTS
         u: AFFILIATION
         '0': AUTHORITY_LINK
         '1': EQUIVALENT
@@ -1776,6 +1804,8 @@ bibSharedRules:
       b: SUBORDINATE_UNIT
       c: PLACE
       d: DATE
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
       u: AFFILIATION
       '0': AUTHORITY_LINK
       '1': EQUIVALENT

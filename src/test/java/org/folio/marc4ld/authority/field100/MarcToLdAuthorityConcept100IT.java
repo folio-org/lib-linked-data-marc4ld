@@ -65,7 +65,9 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/marc/numeration", List.of("bValue")),
         Map.entry("http://bibfra.me/vocab/marc/titles", List.of("cValue1", "cValue2")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("dValue")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2")),
         Map.entry("http://bibfra.me/vocab/marc/attribution", List.of("jValue1", "jValue2")),
+        Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2")),
         Map.entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")),
         Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1", "vValue2")),
         Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("xValue1", "xValue2")),
@@ -89,7 +91,9 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/marc/numeration", List.of("bValue"),
         "http://bibfra.me/vocab/marc/titles", List.of("cValue1", "cValue2"),
         "http://bibfra.me/vocab/lite/date", List.of("dValue"),
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
         "http://bibfra.me/vocab/marc/attribution", List.of("jValue1", "jValue2"),
+        "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
       ),
       "bValue, aValue, cValue1, cValue2, qValue, dValue");
