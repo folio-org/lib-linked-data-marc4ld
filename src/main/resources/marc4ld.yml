@@ -231,6 +231,71 @@ bibFieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '041':
+    - include: 041_mappings
+      predicate: LANGUAGE
+      subfields:
+        a: CODE
+    - include: 041_mappings
+      predicate: SUMMARY_LANGUAGE
+      subfields:
+        b: CODE
+    - include: 041_mappings
+      predicate: SUNG_OR_SPOKEN_TEXT_LANGUAGE
+      subfields:
+        d: CODE
+    - include: 041_mappings
+      predicate: LIBRETTO_LANGUAGE
+      subfields:
+        e: CODE
+    - include: 041_mappings
+      predicate: TABLE_OF_CONTENTS_LANGUAGE
+      subfields:
+        f: CODE
+    - include: 041_mappings
+      predicate: ACCOMPANYING_MATERIAL_LANGUAGE
+      subfields:
+        g: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_LANGUAGE
+      subfields:
+        h: CODE
+    - include: 041_mappings
+      predicate: INTERTITLES_LANGUAGE
+      subfields:
+        i: CODE
+    - include: 041_mappings
+      predicate: SUBTITLES_OR_CAPTIONS_LANGUAGE
+      subfields:
+        j: CODE
+    - include: 041_mappings
+      predicate: INTERMEDIATE_TRANSLATIONS_LANGUAGE
+      subfields:
+        k: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE
+      subfields:
+        m: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_LIBRETTO_LANGUAGE
+      subfields:
+        n: CODE
+    - include: 041_mappings
+      predicate: CAPTIONS_LANGUAGE
+      subfields:
+        p: CODE
+    - include: 041_mappings
+      predicate: ACCESSIBLE_AUDIO_LANGUAGE
+      subfields:
+        q: CODE
+    - include: 041_mappings
+      predicate: ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE
+      subfields:
+        r: CODE
+    - include: 041_mappings
+      predicate: ACCOMPANYING_TRANSCRIPTS_LANGUAGE
+      subfields:
+        t: CODE
   '043':
     - types: PLACE
       parent: WORK
@@ -1641,6 +1706,12 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
+  041_mappings:
+    types: LANGUAGE_CATEGORY
+    parent: WORK
+    constants:
+      LINK: http://id.loc.gov/vocabulary/languages/%CODE
+    multiply: true
   050_mappings:
     types: CLASSIFICATION
     parent: WORK
