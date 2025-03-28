@@ -8,7 +8,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
@@ -37,6 +39,8 @@ public class OrganizationJurisdictionMapper extends AgentMapper {
     'b', SUBORDINATE_UNIT.getValue(),
     'c', PLACE.getValue(),
     'd', DATE.getValue(),
+    'g', MISC_INFO.getValue(),
+    'n', NUMBER_OF_PARTS.getValue(),
     '0', AUTHORITY_LINK.getValue(),
     '1', EQUIVALENT.getValue(),
     '7', CONTROL_FIELD.getValue(),

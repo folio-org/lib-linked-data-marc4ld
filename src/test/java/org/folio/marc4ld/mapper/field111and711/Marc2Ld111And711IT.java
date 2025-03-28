@@ -56,6 +56,8 @@ class Marc2Ld111And711IT extends Marc2LdTestBase {
       entry("http://bibfra.me/vocab/marc/subordinateUnit", List.of("subordinate unit", "another subordinate unit")),
       entry("http://bibfra.me/vocab/marc/place", List.of("place", "another place")),
       entry("http://bibfra.me/vocab/lite/date", List.of("date", "another date")),
+      entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+      entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts",  "another number of parts")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
       entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent", "another equivalent")),
       entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage")),

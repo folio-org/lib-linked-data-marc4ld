@@ -70,7 +70,9 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/marc/numeration", List.of("bValue"),
         "http://bibfra.me/vocab/marc/titles", List.of("cValue1", "cValue2"),
         "http://bibfra.me/vocab/lite/date", List.of("dValue"),
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
         "http://bibfra.me/vocab/marc/attribution", List.of("jValue1", "jValue2"),
+        "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue"),
         "http://library.link/vocab/resourcePreferred", List.of("true")
       ),
