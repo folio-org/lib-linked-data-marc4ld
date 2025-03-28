@@ -14,7 +14,15 @@
       }, {
         "e" : "relator",
       }, {
+        "g" : "misc info",
+      }, {
+        "g" : "another misc info",
+      }, {
         "j" : "attribution",
+      }, {
+        "n" : "number of parts",
+      }, {
+        "n" : "another number of parts",
       }, {
        "q" : "name alternative",
       }, {

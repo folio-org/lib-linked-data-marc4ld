@@ -1,5 +1,5 @@
 {
-  "leader" : "00428nam a2200061uc 4500",
+  "leader" : "00500nam a2200061uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -20,6 +20,14 @@
         "d" : "another date"
       }, {
         "e" : "author"
+      }, {
+        "g" : "misc info"
+      }, {
+        "g" : "another misc info"
+      }, {
+        "n" : "number of parts"
+      }, {
+        "n" : "another number of parts"
       }, {
         "u" : "affiliation"
       }, {

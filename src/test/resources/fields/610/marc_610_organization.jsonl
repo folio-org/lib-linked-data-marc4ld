@@ -12,6 +12,14 @@
       }, {
         "e" : "relator term"
       }, {
+        "g" : "misc info"
+      }, {
+        "g" : "another misc info"
+      }, {
+        "n" : "number of parts"
+      }, {
+        "n" : "another number of parts"
+      }, {
         "u" : "affiliation"
       }, {
         "v" : "form 1"

@@ -11,8 +11,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -94,6 +96,8 @@ class LdToMarc100And700IT {
           entry(NUMERATION, List.of("numeration")),
           entry(TITLES, List.of("titles", "another titles")),
           entry(DATE, List.of("date")),
+          entry(MISC_INFO, List.of("misc info", "another misc info")),
+          entry(NUMBER_OF_PARTS, List.of("number of parts", "another number of parts")),
           entry(ATTRIBUTION, List.of("attribution", "another attribution")),
           entry(NAME_ALTERNATIVE, List.of("name alternative")),
           entry(AFFILIATION, List.of("affiliation"))

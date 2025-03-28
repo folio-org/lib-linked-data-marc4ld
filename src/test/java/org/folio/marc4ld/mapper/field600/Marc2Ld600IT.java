@@ -53,6 +53,8 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/marc/titles", List.of("title 1", "title 2")),
         Map.entry("http://bibfra.me/vocab/marc/attribution", List.of("attribution")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("2024")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+        Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
         Map.entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative")),
         Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
         Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
@@ -74,6 +76,8 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/marc/titles", List.of("title 1", "title 2"),
         "http://bibfra.me/vocab/marc/attribution", List.of("attribution"),
         "http://bibfra.me/vocab/lite/date", List.of("2024"),
+        "http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info"),
+        "http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative")
       ),
       "numeration, name, title 1, title 2, name alternative, 2024"
