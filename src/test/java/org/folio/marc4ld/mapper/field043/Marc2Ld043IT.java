@@ -42,8 +42,7 @@ class Marc2Ld043IT extends Marc2LdTestBase {
     validateEdge(edgesIterator.next(), GEOGRAPHIC_COVERAGE, List.of(ResourceTypeDictionary.PLACE),
       Map.of(
         "http://bibfra.me/vocab/marc/geographicCoverage",
-        List.of("https://id.loc.gov/vocabulary/geographicAreas/a-is",
-          "https://id.loc.gov/vocabulary/geographicAreas/a-is"),
+        List.of("https://id.loc.gov/vocabulary/geographicAreas/a-is"),
         "http://bibfra.me/vocab/lite/name", List.of("Israel"),
         "http://bibfra.me/vocab/lite/label", List.of("Israel"),
         "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("a-is")
