@@ -9,8 +9,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
@@ -37,7 +39,9 @@ public class PersonFamilyMapper extends AgentMapper {
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(PERSON, FAMILY);
   private static final Map<Character, String> REPEATABLE_SUBFIELD_PROPERTY_MAP = Map.of(
     'c', TITLES.getValue(),
+    'g', MISC_INFO.getValue(),
     'j', ATTRIBUTION.getValue(),
+    'n', NUMBER_OF_PARTS.getValue(),
     '0', AUTHORITY_LINK.getValue(),
     '1', EQUIVALENT.getValue(),
     '7', CONTROL_FIELD.getValue(),

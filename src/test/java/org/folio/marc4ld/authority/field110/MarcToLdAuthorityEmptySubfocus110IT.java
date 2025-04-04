@@ -1,12 +1,6 @@
 package org.folio.marc4ld.authority.field110;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PropertyDictionary.DATE;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.PLACE;
-import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
-import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
@@ -23,12 +17,14 @@ class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
   private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
   private static final String EXPECTED_IDENTIFIER = "010fieldvalue";
   private static final Map<String, List<String>> EXPECTED_PROPERTIES = Map.of(
-    NAME.getValue(), List.of("aValue"),
-    SUBORDINATE_UNIT.getValue(), List.of("bValue"),
-    PLACE.getValue(), List.of("cValue1", "cValue2"),
-    DATE.getValue(), List.of("dValue"),
-    RESOURCE_PREFERRED.getValue(), List.of("true"),
-    LABEL.getValue(), List.of(EXPECTED_MAIN_LABEL)
+    "http://bibfra.me/vocab/lite/name", List.of("aValue"),
+    "http://bibfra.me/vocab/marc/subordinateUnit", List.of("bValue"),
+    "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+    "http://bibfra.me/vocab/lite/date", List.of("dValue"),
+    "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+    "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+    "http://library.link/vocab/resourcePreferred", List.of("true"),
+    "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
   );
 
   @ParameterizedTest

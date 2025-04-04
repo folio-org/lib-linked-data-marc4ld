@@ -2,15 +2,6 @@ package org.folio.marc4ld.authority.field110;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
-import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.DATE;
-import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
-import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
@@ -25,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
@@ -125,39 +115,45 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
   }
 
   private Map<String, List<String>> generalProperties() {
-    return Map.of(
-      CHRONOLOGICAL_SUBDIVISION.getValue(), List.of("yValue1", "yValue2"),
-      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
-      RESOURCE_PREFERRED.getValue(), List.of("true"),
-      DATE.getValue(), List.of("dValue"),
-      GENERAL_SUBDIVISION.getValue(), List.of("xValue1", "xValue2"),
-      NAME.getValue(), List.of("aValue"),
-      PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
-      GEOGRAPHIC_SUBDIVISION.getValue(), List.of("zValue1", "zValue2"),
-      FORM_SUBDIVISION.getValue(), List.of("vValue1", "vValue2"),
-      LABEL.getValue(), List.of(EXPECTED_MAIN_LABEL)
+    return Map.ofEntries(
+      Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("yValue1", "yValue2")),
+      Map.entry("http://bibfra.me/vocab/marc/subordinateUnit", List.of("bValue")),
+      Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
+      Map.entry("http://bibfra.me/vocab/lite/date", List.of("dValue")),
+      Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("xValue1", "xValue2")),
+      Map.entry("http://bibfra.me/vocab/lite/name", List.of("aValue")),
+      Map.entry("http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2")),
+      Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("zValue1", "zValue2")),
+      Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1", "vValue2")),
+      Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2")),
+      Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2")),
+      Map.entry("http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL))
     );
   }
 
   private Map<String, List<String>> focusProperties() {
     return Map.of(
-      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
-      DATE.getValue(), List.of("dValue"),
-      NAME.getValue(), List.of("aValue"),
-      PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
-      LABEL.getValue(), List.of(EXPECTED_FOCUS_LABEL)
+      "http://bibfra.me/vocab/marc/subordinateUnit", List.of("bValue"),
+      "http://bibfra.me/vocab/lite/date", List.of("dValue"),
+      "http://bibfra.me/vocab/lite/name", List.of("aValue"),
+      "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL)
     );
   }
 
   private Map<String, List<String>> shortProperties() {
     return Map.of(
-      SUBORDINATE_UNIT.getValue(), List.of("bValue"),
-      RESOURCE_PREFERRED.getValue(), List.of("true"),
-      DATE.getValue(), List.of("dValue"),
-      NAME.getValue(), List.of("aValue"),
-      PropertyDictionary.PLACE.getValue(), List.of("cValue1", "cValue2"),
-      FORM_SUBDIVISION.getValue(), List.of("vValue1"),
-      LABEL.getValue(), List.of(EXPECTED_SHORT_LABEL)
+      "http://bibfra.me/vocab/marc/subordinateUnit", List.of("bValue"),
+      "http://library.link/vocab/resourcePreferred", List.of("true"),
+      "http://bibfra.me/vocab/lite/date", List.of("dValue"),
+      "http://bibfra.me/vocab/lite/name", List.of("aValue"),
+      "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+      "http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1"),
+      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_SHORT_LABEL)
     );
   }
 }
