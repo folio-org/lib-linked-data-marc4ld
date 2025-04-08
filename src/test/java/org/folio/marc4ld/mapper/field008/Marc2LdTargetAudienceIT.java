@@ -44,7 +44,7 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
         assertThat(edges).hasSize(1);
         validateEdge(edges.getFirst(), IS_DEFINED_BY, List.of(CATEGORY_SET),
           Map.of(
-            "http://bibfra.me/vocab/lite/link", List.of("https://id.loc.gov/vocabulary/maudience"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience"),
             "http://bibfra.me/vocab/lite/label", List.of("Target audience")
           ), "Target audience");
         assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
