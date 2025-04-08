@@ -50,7 +50,7 @@ public class TargetAudienceMapper implements Marc2ldMapper {
   );
   private static final String LINK_PREFIX = "http://id.loc.gov/vocabulary/maudience/";
   private static final Set<ResourceTypeDictionary> CATEGORY_SET_TYPES = Set.of(CATEGORY_SET);
-  private static final List<String> CATEGORY_SET_LINK = List.of("https://id.loc.gov/vocabulary/maudience");
+  private static final List<String> CATEGORY_SET_LINK = List.of("http://id.loc.gov/vocabulary/maudience");
   private static final List<String> CATEGORY_SET_LABEL = List.of("Target audience");
 
   private final FingerprintHashService hashService;

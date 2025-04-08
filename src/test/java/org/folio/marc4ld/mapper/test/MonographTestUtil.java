@@ -474,7 +474,7 @@ public class MonographTestUtil {
       Map.of(
         NAME, List.of("United States"),
         GEOGRAPHIC_AREA_CODE, List.of("n-us"),
-        GEOGRAPHIC_COVERAGE, List.of("https://id.loc.gov/vocabulary/geographicAreas/n-us")
+        GEOGRAPHIC_COVERAGE, List.of("http://id.loc.gov/vocabulary/geographicAreas/n-us")
       ),
       Set.of(PLACE),
       emptyMap()
@@ -626,7 +626,7 @@ public class MonographTestUtil {
 
     var category = createCategory("a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous", null);
     var targetAudience = createCategory("b", "http://id.loc.gov/vocabulary/maudience/pri", "Primary",
-      createCategorySet("https://id.loc.gov/vocabulary/maudience", "Target audience"));
+      createCategorySet("http://id.loc.gov/vocabulary/maudience", "Target audience"));
     var illustrationCategory = createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps",
       createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content"));
     var supplementaryContentCategorySet =
