@@ -1,0 +1,30 @@
+{
+  "leader" : "00169nam a2200073uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "545" : {
+      "subfields" : [ {
+        "a" : "545 data"
+      } ],
+      "ind1" : "/",
+      "ind2" : " "
+    }
+  }, {
+    "545" : {
+      "subfields" : [ {
+        "a" : "biographical data"
+      } ],
+      "ind1" : "0",
+      "ind2" : " "
+    }
+  }, {
+    "545" : {
+      "subfields" : [ {
+        "a" : "historical data"
+      } ],
+      "ind1" : "1",
+      "ind2" : " "
+    }
+  } ]
+}

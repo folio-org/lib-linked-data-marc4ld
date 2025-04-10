@@ -16,7 +16,6 @@ import static org.folio.marc4ld.util.Constants.J;
 import static org.folio.marc4ld.util.Constants.TAG_111;
 import static org.folio.marc4ld.util.Constants.TAG_711;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -46,9 +45,9 @@ public class MeetingMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  protected MeetingMapper(ObjectMapper objectMapper, DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
+  protected MeetingMapper(DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
                           Comparator<Subfield> comparator) {
-    super(objectMapper, dictionaryProcessor, marcFactory, comparator);
+    super(dictionaryProcessor, marcFactory, comparator);
   }
 
   @Override

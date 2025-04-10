@@ -1,6 +1,8 @@
 package org.folio.marc4ld.util;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.stream.StreamSupport.stream;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
@@ -11,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
@@ -39,7 +40,7 @@ public class LdUtil {
   }
 
   public static boolean isInstance(Resource resource) {
-    return resource.getTypes().equals(Set.of(INSTANCE));
+    return nonNull(resource) && resource.getTypes().equals(Set.of(INSTANCE));
   }
 
   public static Optional<String> getPropertyValue(Resource resource, String property) {
@@ -50,12 +51,11 @@ public class LdUtil {
       .map(JsonNode::asText);
   }
 
-  public static List<String> getPropertyValues(Resource resource, String property,
-                                               Function<JsonNode, List<String>> propertiesConversionFunction) {
+  public static List<String> getPropertyValues(Resource resource, String property) {
     return Optional.of(resource)
       .map(Resource::getDoc)
       .map(doc -> doc.get(property))
-      .map(propertiesConversionFunction)
+      .map(node -> stream(node.spliterator(), false).map(JsonNode::asText).toList())
       .orElse(List.of());
   }
 

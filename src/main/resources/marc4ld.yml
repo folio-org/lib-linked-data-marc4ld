@@ -29,8 +29,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: args.contains(data.substring(28, 29))
-                args: a, c, f, i, l, m, o, s
+                substring: 28,29
+                isAny: a, c, f, i, l, m, o, s
           edges:
             - types: CATEGORY_SET
               parent: CATEGORY
@@ -47,8 +47,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: args.contains(data.substring(22, 23))
-                args: a, b, c, d, e, f, g, j
+                substring: 22,23
+                isAny: a, b, c, d, e, f, g, j
         - types: LANGUAGE_CATEGORY
           parent: WORK
           predicate: LANGUAGE
@@ -58,7 +58,8 @@ bibFieldRules:
           marc2ldCondition:
             controlFields:
               - tag: 008
-                expression: data.substring(35, 38).trim().isEmpty() == false
+                substring: 35,38
+                isBlank: false
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
   '010':
@@ -231,6 +232,71 @@ bibFieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '041':
+    - include: 041_mappings
+      predicate: LANGUAGE
+      subfields:
+        a: CODE
+    - include: 041_mappings
+      predicate: SUMMARY_LANGUAGE
+      subfields:
+        b: CODE
+    - include: 041_mappings
+      predicate: SUNG_OR_SPOKEN_TEXT_LANGUAGE
+      subfields:
+        d: CODE
+    - include: 041_mappings
+      predicate: LIBRETTO_LANGUAGE
+      subfields:
+        e: CODE
+    - include: 041_mappings
+      predicate: TABLE_OF_CONTENTS_LANGUAGE
+      subfields:
+        f: CODE
+    - include: 041_mappings
+      predicate: ACCOMPANYING_MATERIAL_LANGUAGE
+      subfields:
+        g: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_LANGUAGE
+      subfields:
+        h: CODE
+    - include: 041_mappings
+      predicate: INTERTITLES_LANGUAGE
+      subfields:
+        i: CODE
+    - include: 041_mappings
+      predicate: SUBTITLES_OR_CAPTIONS_LANGUAGE
+      subfields:
+        j: CODE
+    - include: 041_mappings
+      predicate: INTERMEDIATE_TRANSLATIONS_LANGUAGE
+      subfields:
+        k: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_ACCOMPANYING_MATERIALS_LANGUAGE
+      subfields:
+        m: CODE
+    - include: 041_mappings
+      predicate: ORIGINAL_LIBRETTO_LANGUAGE
+      subfields:
+        n: CODE
+    - include: 041_mappings
+      predicate: CAPTIONS_LANGUAGE
+      subfields:
+        p: CODE
+    - include: 041_mappings
+      predicate: ACCESSIBLE_AUDIO_LANGUAGE
+      subfields:
+        q: CODE
+    - include: 041_mappings
+      predicate: ACCESSIBLE_VISUAL_MATERIAL_LANGUAGE
+      subfields:
+        r: CODE
+    - include: 041_mappings
+      predicate: ACCOMPANYING_TRANSCRIPTS_LANGUAGE
+      subfields:
+        t: CODE
   '043':
     - types: PLACE
       parent: WORK
@@ -481,8 +547,12 @@ bibFieldRules:
     - types: INSTANCE
       subfields:
         a: EXTENT
+        b: PHYSICAL_DESCRIPTION
         c: DIMENSIONS
+        e: ACCOMPANYING_MATERIAL
       append: true
+      ld2marcCondition:
+        skip: true
       edges:
         - types: EXTENT
           parent: INSTANCE
@@ -493,12 +563,8 @@ bibFieldRules:
             g: LABEL
             '3': MATERIALS_SPECIFIED
           concat: ' '
-    - types: INSTANCE
-      subfields:
-        a: PHYSICAL_DESCRIPTION
-        b: PHYSICAL_DESCRIPTION
-      concat: ', '
-      append: true
+          ld2marcCondition:
+            skip: true
   310:
     - types: INSTANCE
       subfields:
@@ -856,6 +922,24 @@ bibFieldRules:
         n: RELATED_PARTS
       concat: ', '
       append: true
+  545:
+    - include: 545_mappings
+      subfields:
+        a: BIOGRAPHICAL_DATA
+      marc2ldCondition:
+        ind1: '0'
+    - include: 545_mappings
+      subfields:
+        a: HISTORICAL_DATA
+      marc2ldCondition:
+        ind1: '1'
+    - include: 545_mappings
+      subfields:
+        a: NOTE
+      marc2ldCondition:
+        ind1: ' '
+      ld2marcCondition:
+        skip: true
   546:
     - types: WORK
       parent: INSTANCE
@@ -914,6 +998,13 @@ bibFieldRules:
     - types: INSTANCE
       subfields:
         a: EXHIBITIONS_NOTE
+      append: true
+  586:
+    - types: WORK
+      parent: INSTANCE
+      predicate: INSTANTIATES
+      subfields:
+        a: AWARDS_NOTE
       append: true
   588:
     - types: INSTANCE
@@ -1618,24 +1709,12 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
-  245_mappings:
-    types: TITLE
-    predicate: TITLE
-    subfields:
-      a: MAIN_TITLE
-      b: SUBTITLE
-      n: PART_NUMBER
-      p: PART_NAME
-    ind2: NON_SORT_NUM
-  246_mappings:
-    predicate: TITLE
-    subfields:
-      a: MAIN_TITLE
-      b: SUBTITLE
-      f: DATE
-      i: NOTE
-      n: PART_NUMBER
-      p: PART_NAME
+  041_mappings:
+    types: LANGUAGE_CATEGORY
+    parent: WORK
+    constants:
+      LINK: http://id.loc.gov/vocabulary/languages/%CODE
+    multiply: true
   050_mappings:
     types: CLASSIFICATION
     parent: WORK
@@ -1654,6 +1733,24 @@ bibSharedRules:
           LINK: http://id.loc.gov/vocabulary/organizations/dlc
         marc2ldCondition:
           ind2: '0'
+  245_mappings:
+    types: TITLE
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      n: PART_NUMBER
+      p: PART_NAME
+    ind2: NON_SORT_NUM
+  246_mappings:
+    predicate: TITLE
+    subfields:
+      a: MAIN_TITLE
+      b: SUBTITLE
+      f: DATE
+      i: NOTE
+      n: PART_NUMBER
+      p: PART_NAME
   26X_mappings:
     types: PROVIDER_EVENT
     parent: INSTANCE
@@ -1671,6 +1768,25 @@ bibSharedRules:
             CODE: 15,18
         constants:
           LINK: http://id.loc.gov/vocabulary/countries/%CODE
+  545_mappings:
+    types: INSTANCE
+    append: true
+  110_710_mappings:
+    parent: WORK
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    relation:
+      code: '4'
+      text: e
   linking_entries_mappings:
     types: WORK
     parent: WORK
@@ -1758,19 +1874,3 @@ bibSharedRules:
             predicate: TITLE
             subfields:
               t: MAIN_TITLE
-  110_710_mappings:
-    parent: WORK
-    subfields:
-      a: NAME
-      b: SUBORDINATE_UNIT
-      c: PLACE
-      d: DATE
-      u: AFFILIATION
-      '0': AUTHORITY_LINK
-      '1': EQUIVALENT
-      '6': LINKAGE
-      '7': CONTROL_FIELD
-      '8': FIELD_LINK
-    relation:
-      code: '4'
-      text: e

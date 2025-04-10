@@ -1,5 +1,5 @@
 {
-  "leader" : "09348nam a2201057uc 4500",
+  "leader" : "09301nam a2201045uc 4500",
   "fields" : [ {
     "008" : "       1999    ilub   b q   a  1   eng "
   }, {
@@ -84,6 +84,14 @@
         "q" : "otherIdQal"
       }, {
         "z" : "231123"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "041" : {
+      "subfields" : [ {
+        "a" : "eng"
       } ],
       "ind1" : " ",
       "ind2" : " "
@@ -375,24 +383,6 @@
       } ],
       "ind1" : " ",
       "ind2" : "4"
-    }
-  }, {
-    "300" : {
-      "subfields" : [ {
-        "a" : "extent"
-      }, {
-        "c" : "dimensions"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "300" : {
-      "subfields" : [ {
-        "a" : "extent, details"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
     }
   }, {
     "310" : {
