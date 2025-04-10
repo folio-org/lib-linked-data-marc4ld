@@ -303,8 +303,10 @@ bibFieldRules:
       predicate: GEOGRAPHIC_COVERAGE
       subfields:
         a: GEOGRAPHIC_AREA_CODE
+      multiply: true
       constants:
-        GEOGRAPHIC_COVERAGE: https://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
+        GEOGRAPHIC_COVERAGE: http://id.loc.gov/vocabulary/geographicAreas/%GEOGRAPHIC_AREA_CODE
+        NAME: '%GEOGRAPHIC_AREA_CODE'
   '046':
     - types: WORK
       parent: INSTANCE
