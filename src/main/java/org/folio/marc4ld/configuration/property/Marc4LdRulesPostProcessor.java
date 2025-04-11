@@ -2,16 +2,31 @@ package org.folio.marc4ld.configuration.property;
 
 import static java.util.Optional.ofNullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
+
+  private static final Function<Marc4LdRules.FieldRule, List<Marc4LdRules.FieldRule>> EDGES_EXTRACTOR =
+    rule -> {
+      var edges = rule.getEdges();
+      if (CollectionUtils.isNotEmpty(edges)) {
+        var rules = new ArrayList<>(edges);
+        rules.add(rule);
+        return rules;
+      } else {
+        return List.of(rule);
+      }
+    };
 
   @Override
   public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
@@ -31,6 +46,8 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
                             Map<String, Marc4LdRules.FieldRule> sharedRules) {
     fieldRules.values()
       .stream()
+      .flatMap(Collection::stream)
+      .map(EDGES_EXTRACTOR)
       .flatMap(Collection::stream)
       .forEach(rule -> Optional.of(rule)
         .map(Marc4LdRules.FieldRule::getInclude)

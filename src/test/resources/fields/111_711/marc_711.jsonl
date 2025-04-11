@@ -1,5 +1,5 @@
 {
-  "leader" : "00430nam a2200049uc 4500",
+  "leader" : "00502nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -19,7 +19,15 @@
       }, {
         "e" : "another subordinate unit"
       }, {
+        "g" : "misc info"
+      }, {
+        "g" : "another misc info"
+      }, {
         "j" : "author"
+      }, {
+        "n" : "number of parts"
+      }, {
+        "n" : "another number of parts"
       }, {
         "u" : "affiliation"
       }, {

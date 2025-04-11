@@ -353,47 +353,15 @@ bibFieldRules:
               q: presented
   100:
     - types: PERSON
-      parent: WORK
       predicate: CREATOR
       marc2ldCondition:
         ind1: '!3'
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 100_700_mappings
     - types: FAMILY
-      parent: WORK
       predicate: CREATOR
       marc2ldCondition:
         ind1: '3'
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 100_700_mappings
   110:
     - types: ORGANIZATION
       predicate: CREATOR
@@ -406,23 +374,8 @@ bibFieldRules:
       marc2ldCondition:
         ind1: '1'
   111:
-    - types: MEETING
-      parent: WORK
+    - include: 111_711_mappings
       predicate: CREATOR
-      subfields:
-        a: NAME
-        c: PLACE
-        d: DATE
-        e: SUBORDINATE_UNIT
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: j
   245:
     - parent: INSTANCE
       include: 245_mappings
@@ -1013,51 +966,12 @@ bibFieldRules:
       append: true
   600:
     - types: CONCEPT, FAMILY
-      parent: WORK
-      predicate: SUBJECT
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        e: RELATOR_TERM
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        v: FORM_SUBDIVISION
-        x: GENERAL_SUBDIVISION
-        y: CHRONOLOGICAL_SUBDIVISION
-        z: GEOGRAPHIC_SUBDIVISION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        '4': RELATOR_CODE
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
+      include: 600_mappings
       marc2ldCondition:
         ind1: '3'
       edges:
         - types: FAMILY
-          predicate: FOCUS
-          subfields:
-            a: NAME
-            b: NUMERATION
-            c: TITLES
-            d: DATE
-            j: ATTRIBUTION
-            q: NAME_ALTERNATIVE
-            u: AFFILIATION
-            '0': AUTHORITY_LINK
-            '1': EQUIVALENT
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
-            '6': LINKAGE
-            '7': CONTROL_FIELD
-            '8': FIELD_LINK
-          ld2marcCondition:
-            skip: true
+          include: 600_focus_mappings
         - types: FORM
           predicate: SUB_FOCUS
           multiply: true
@@ -1099,51 +1013,12 @@ bibFieldRules:
           ld2marcCondition:
             skip: true
     - types: CONCEPT, PERSON
-      parent: WORK
-      predicate: SUBJECT
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        e: RELATOR_TERM
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        v: FORM_SUBDIVISION
-        x: GENERAL_SUBDIVISION
-        y: CHRONOLOGICAL_SUBDIVISION
-        z: GEOGRAPHIC_SUBDIVISION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        '4': RELATOR_CODE
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
+      include: 600_mappings
       marc2ldCondition:
         ind1: '!3'
       edges:
         - types: PERSON
-          predicate: FOCUS
-          subfields:
-            a: NAME
-            b: NUMERATION
-            c: TITLES
-            d: DATE
-            j: ATTRIBUTION
-            q: NAME_ALTERNATIVE
-            u: AFFILIATION
-            '0': AUTHORITY_LINK
-            '1': EQUIVALENT
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
-            '6': LINKAGE
-            '7': CONTROL_FIELD
-            '8': FIELD_LINK
-          ld2marcCondition:
-            skip: true
+          include: 600_focus_mappings
         - types: FORM
           predicate: SUB_FOCUS
           multiply: true
@@ -1186,47 +1061,12 @@ bibFieldRules:
             skip: true
   610:
     - types: CONCEPT, JURISDICTION
-      parent: WORK
-      predicate: SUBJECT
-      subfields:
-        a: NAME
-        b: SUBORDINATE_UNIT
-        c: PLACE
-        d: DATE
-        e: RELATOR_TERM
-        u: AFFILIATION
-        v: FORM_SUBDIVISION
-        x: GENERAL_SUBDIVISION
-        y: CHRONOLOGICAL_SUBDIVISION
-        z: GEOGRAPHIC_SUBDIVISION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        '4': RELATOR_CODE
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
+      include: 610_mappings
       marc2ldCondition:
         ind1: '1'
       edges:
         - types: JURISDICTION
-          predicate: FOCUS
-          subfields:
-            a: NAME
-            b: SUBORDINATE_UNIT
-            c: PLACE
-            d: DATE
-            u: AFFILIATION
-            '0': AUTHORITY_LINK
-            '1': EQUIVALENT
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
-            '6': LINKAGE
-            '7': CONTROL_FIELD
-            '8': FIELD_LINK
-          ld2marcCondition:
-            skip: true
+          include: 610_focus_mappings
         - types: FORM
           predicate: SUB_FOCUS
           multiply: true
@@ -1268,47 +1108,12 @@ bibFieldRules:
           ld2marcCondition:
             skip: true
     - types: CONCEPT, ORGANIZATION
-      parent: WORK
-      predicate: SUBJECT
-      subfields:
-        a: NAME
-        b: SUBORDINATE_UNIT
-        c: PLACE
-        d: DATE
-        e: RELATOR_TERM
-        u: AFFILIATION
-        v: FORM_SUBDIVISION
-        x: GENERAL_SUBDIVISION
-        y: CHRONOLOGICAL_SUBDIVISION
-        z: GEOGRAPHIC_SUBDIVISION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '2': SOURCE
-        '3': MATERIALS_SPECIFIED
-        '4': RELATOR_CODE
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
+      include: 610_mappings
       marc2ldCondition:
         ind1: '!1'
       edges:
         - types: ORGANIZATION
-          predicate: FOCUS
-          subfields:
-            a: NAME
-            b: SUBORDINATE_UNIT
-            c: PLACE
-            d: DATE
-            u: AFFILIATION
-            '0': AUTHORITY_LINK
-            '1': EQUIVALENT
-            '2': SOURCE
-            '3': MATERIALS_SPECIFIED
-            '6': LINKAGE
-            '7': CONTROL_FIELD
-            '8': FIELD_LINK
-          ld2marcCondition:
-            skip: true
+          include: 610_focus_mappings
         - types: FORM
           predicate: SUB_FOCUS
           multiply: true
@@ -1597,47 +1402,15 @@ bibFieldRules:
         skip: true
   700:
     - types: PERSON
-      parent: WORK
       predicate: CONTRIBUTOR
       marc2ldCondition:
         ind1: '!3'
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 100_700_mappings
     - types: FAMILY
-      parent: WORK
       predicate: CONTRIBUTOR
       marc2ldCondition:
         ind1: '3'
-      subfields:
-        a: NAME
-        b: NUMERATION
-        c: TITLES
-        d: DATE
-        j: ATTRIBUTION
-        q: NAME_ALTERNATIVE
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: e
+      include: 100_700_mappings
   710:
     - types: ORGANIZATION
       predicate: CONTRIBUTOR
@@ -1650,23 +1423,8 @@ bibFieldRules:
       marc2ldCondition:
         ind1: '1'
   711:
-    - types: MEETING
-      parent: WORK
+    - include: 111_711_mappings
       predicate: CONTRIBUTOR
-      subfields:
-        a: NAME
-        c: PLACE
-        d: DATE
-        e: SUBORDINATE_UNIT
-        u: AFFILIATION
-        '0': AUTHORITY_LINK
-        '1': EQUIVALENT
-        '6': LINKAGE
-        '7': CONTROL_FIELD
-        '8': FIELD_LINK
-      relation:
-        code: '4'
-        text: j
   753:
     - types: INSTANCE
       subfields:
@@ -1771,13 +1529,107 @@ bibSharedRules:
   545_mappings:
     types: INSTANCE
     append: true
-  110_710_mappings:
+  600_mappings:
     parent: WORK
+    predicate: SUBJECT
+    subfields:
+      a: NAME
+      b: NUMERATION
+      c: TITLES
+      d: DATE
+      e: RELATOR_TERM
+      g: MISC_INFO
+      j: ATTRIBUTION
+      n: NUMBER_OF_PARTS
+      q: NAME_ALTERNATIVE
+      u: AFFILIATION
+      v: FORM_SUBDIVISION
+      x: GENERAL_SUBDIVISION
+      y: CHRONOLOGICAL_SUBDIVISION
+      z: GEOGRAPHIC_SUBDIVISION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '2': SOURCE
+      '3': MATERIALS_SPECIFIED
+      '4': RELATOR_CODE
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+  600_focus_mappings:
+    predicate: FOCUS
+    subfields:
+      a: NAME
+      b: NUMERATION
+      c: TITLES
+      d: DATE
+      g: MISC_INFO
+      j: ATTRIBUTION
+      n: NUMBER_OF_PARTS
+      q: NAME_ALTERNATIVE
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '2': SOURCE
+      '3': MATERIALS_SPECIFIED
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    ld2marcCondition:
+      skip: true
+  610_mappings:
+    parent: WORK
+    predicate: SUBJECT
     subfields:
       a: NAME
       b: SUBORDINATE_UNIT
       c: PLACE
       d: DATE
+      e: RELATOR_TERM
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
+      u: AFFILIATION
+      v: FORM_SUBDIVISION
+      x: GENERAL_SUBDIVISION
+      y: CHRONOLOGICAL_SUBDIVISION
+      z: GEOGRAPHIC_SUBDIVISION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '2': SOURCE
+      '3': MATERIALS_SPECIFIED
+      '4': RELATOR_CODE
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+  610_focus_mappings:
+    predicate: FOCUS
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '2': SOURCE
+      '3': MATERIALS_SPECIFIED
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    ld2marcCondition:
+      skip: true
+  100_700_mappings:
+    parent: WORK
+    subfields:
+      a: NAME
+      b: NUMERATION
+      c: TITLES
+      d: DATE
+      g: MISC_INFO
+      j: ATTRIBUTION
+      n: NUMBER_OF_PARTS
+      q: NAME_ALTERNATIVE
       u: AFFILIATION
       '0': AUTHORITY_LINK
       '1': EQUIVALENT
@@ -1787,6 +1639,43 @@ bibSharedRules:
     relation:
       code: '4'
       text: e
+  110_710_mappings:
+    parent: WORK
+    subfields:
+      a: NAME
+      b: SUBORDINATE_UNIT
+      c: PLACE
+      d: DATE
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    relation:
+      code: '4'
+      text: e
+  111_711_mappings:
+    types: MEETING
+    parent: WORK
+    subfields:
+      a: NAME
+      c: PLACE
+      d: DATE
+      e: SUBORDINATE_UNIT
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
+      u: AFFILIATION
+      '0': AUTHORITY_LINK
+      '1': EQUIVALENT
+      '6': LINKAGE
+      '7': CONTROL_FIELD
+      '8': FIELD_LINK
+    relation:
+      code: '4'
+      text: j
   linking_entries_mappings:
     types: WORK
     parent: WORK
