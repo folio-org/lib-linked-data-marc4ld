@@ -60,6 +60,8 @@ class Marc2Ld610IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
         Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+        Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
         Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
         Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator term")),
         Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
@@ -86,6 +88,8 @@ class Marc2Ld610IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
         Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+        Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
         Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
         Map.entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
         Map.entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage"))

@@ -19,7 +19,9 @@ authorityFieldRules:
             b: NUMERATION
             c: TITLES
             d: DATE
+            g: MISC_INFO
             j: ATTRIBUTION
+            n: NUMBER_OF_PARTS
             q: NAME_ALTERNATIVE
     - types: CONCEPT, FAMILY
       include: 100_mappings
@@ -40,7 +42,9 @@ authorityFieldRules:
             b: NUMERATION
             c: TITLES
             d: DATE
+            g: MISC_INFO
             j: ATTRIBUTION
+            n: NUMBER_OF_PARTS
             q: NAME_ALTERNATIVE
     - types: PERSON
       include: 100_mappings_short
@@ -83,6 +87,8 @@ authorityFieldRules:
             b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+            g: MISC_INFO
+            n: NUMBER_OF_PARTS
     - types: CONCEPT, JURISDICTION
       include: 110_mappings
       marc2ldCondition:
@@ -102,6 +108,8 @@ authorityFieldRules:
             b: SUBORDINATE_UNIT
             c: PLACE
             d: DATE
+            g: MISC_INFO
+            n: NUMBER_OF_PARTS
     - types: JURISDICTION
       include: 110_mappings_short
       marc2ldCondition:
@@ -142,6 +150,8 @@ authorityFieldRules:
             c: PLACE
             d: DATE
             e: SUBORDINATE_UNIT
+            g: MISC_INFO
+            n: NUMBER_OF_PARTS
     - types: MEETING
       include: 111_mappings_short
       marc2ldCondition:
@@ -246,7 +256,9 @@ sharedAuthorityRules:
       b: NUMERATION
       c: TITLES
       d: DATE
+      g: MISC_INFO
       j: ATTRIBUTION
+      n: NUMBER_OF_PARTS
       q: NAME_ALTERNATIVE
     constants:
       RESOURCE_PREFERRED: true
@@ -257,7 +269,9 @@ sharedAuthorityRules:
       b: NUMERATION
       c: TITLES
       d: DATE
+      g: MISC_INFO
       j: ATTRIBUTION
+      n: NUMBER_OF_PARTS
       q: NAME_ALTERNATIVE
       v: FORM_SUBDIVISION
       x: GENERAL_SUBDIVISION
@@ -293,6 +307,8 @@ sharedAuthorityRules:
       b: SUBORDINATE_UNIT
       c: PLACE
       d: DATE
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
       v: FORM_SUBDIVISION
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
@@ -327,6 +343,8 @@ sharedAuthorityRules:
       b: SUBORDINATE_UNIT
       c: PLACE
       d: DATE
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
     constants:
       RESOURCE_PREFERRED: true
 
@@ -336,6 +354,8 @@ sharedAuthorityRules:
       c: PLACE
       d: DATE
       e: SUBORDINATE_UNIT
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
       v: FORM_SUBDIVISION
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
@@ -370,6 +390,8 @@ sharedAuthorityRules:
       c: PLACE
       d: DATE
       e: SUBORDINATE_UNIT
+      g: MISC_INFO
+      n: NUMBER_OF_PARTS
     constants:
       RESOURCE_PREFERRED: true
 

@@ -10,7 +10,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.LINKAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -87,6 +89,8 @@ class LdToMarc110and710IT {
           entry(SUBORDINATE_UNIT, List.of("subordinate unit", "another subordinate unit")),
           entry(PLACE, List.of("place", "another place")),
           entry(DATE, List.of("date", "another date")),
+          entry(MISC_INFO, List.of("misc info", "another misc info")),
+          entry(NUMBER_OF_PARTS, List.of("number of parts", "another number of parts")),
           entry(AFFILIATION, List.of("affiliation")),
           entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
           entry(LINKAGE, List.of("linkage")),

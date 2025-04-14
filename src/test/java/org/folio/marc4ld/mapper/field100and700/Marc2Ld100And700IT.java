@@ -62,6 +62,8 @@ class Marc2Ld100And700IT extends Marc2LdTestBase {
       entry("http://bibfra.me/vocab/marc/numeration", List.of("numeration")),
       entry("http://bibfra.me/vocab/marc/titles", List.of("titles", "another titles")),
       entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+      entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+      entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
       entry("http://bibfra.me/vocab/marc/attribution", List.of("attribution", "another attribution")),
       entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation"))

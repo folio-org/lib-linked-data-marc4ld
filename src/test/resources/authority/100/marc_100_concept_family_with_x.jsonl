@@ -16,7 +16,11 @@
       }, {
         "d" : "dValue"
       }, {
+        "g" : "gValue"
+      }, {
         "j" : "jValue"
+      }, {
+        "n" : "nValue"
       }, {
         "q" : "qValue"
       } , {

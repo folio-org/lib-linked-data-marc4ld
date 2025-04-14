@@ -61,6 +61,8 @@ class Marc2Ld110And710IT extends Marc2LdTestBase {
       entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link", "another field link")),
       entry("http://bibfra.me/vocab/lite/name", List.of("author")),
       entry("http://bibfra.me/vocab/lite/date", List.of("date")),
+      entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
+      entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
       entry("http://bibfra.me/vocab/marc/place", List.of("place", "another place")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
       entry("http://bibfra.me/vocab/lite/label", List.of("author, subordinate unit, another subordinate unit, place,"
