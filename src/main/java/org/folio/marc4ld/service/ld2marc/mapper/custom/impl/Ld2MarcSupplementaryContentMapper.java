@@ -2,7 +2,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
-import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.SupplementaryContentMapper.CODE_TO_LINK_SUFFIX_MAP;
+import static org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category.SupplementaryContentMapper.CODE_TO_LINK_SUFFIX_MAP;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;

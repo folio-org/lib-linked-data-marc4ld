@@ -1,17 +1,13 @@
 package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
-import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.NULL;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Set;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -104,17 +100,15 @@ class AbstractBookMapperTest {
     assertEquals(1, workEdges.size());
     assertEquals(NULL, workEdges.iterator().next().getPredicate());
 
-    var category = workEdges.iterator().next().getTarget();
-    assertEquals(Set.of(CATEGORY), category.getTypes());
-    assertEquals(1, category.getOutgoingEdges().size());
-    assertEquals(IS_DEFINED_BY, category.getOutgoingEdges().iterator().next().getPredicate());
-    assertEquals(Set.of(CATEGORY_SET), category.getOutgoingEdges().iterator().next().getTarget().getTypes());
-    assertEquals(0, category.getOutgoingEdges().iterator().next().getTarget().getOutgoingEdges().size());
+    var subResource = workEdges.iterator().next().getTarget();
+    assertEquals(1L, subResource.getId());
   }
 
   static class TestBookMapper extends AbstractBookMapper {
 
-    TestBookMapper(LabelService labelService, MapperHelper mapperHelper, FingerprintHashService hashService) {
+    TestBookMapper(LabelService labelService,
+                          MapperHelper mapperHelper,
+                          FingerprintHashService hashService) {
       super(labelService, mapperHelper, hashService);
     }
 
@@ -139,28 +133,8 @@ class AbstractBookMapperTest {
     }
 
     @Override
-    protected String getCategorySetLink() {
-      return "";
-    }
-
-    @Override
-    protected String getCategorySetLabel() {
-      return "";
-    }
-
-    @Override
-    protected String getLinkSuffix(char code) {
-      return "";
-    }
-
-    @Override
-    protected String getTerm(char code) {
-      return "";
-    }
-
-    @Override
-    protected String getCode(char code) {
-      return "";
+    protected void addSubResource(Resource resource, char code) {
+      resource.addOutgoingEdge(new ResourceEdge(resource, new Resource().setId(1L), getPredicate()));
     }
   }
 }
