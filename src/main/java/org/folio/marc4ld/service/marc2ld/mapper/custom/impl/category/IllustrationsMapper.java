@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static java.util.Map.entry;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
@@ -12,7 +12,7 @@ import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IllustrationsMapper extends AbstractBookMapper {
+public class IllustrationsMapper extends AbstractCategoryMapper {
 
   private static final Set<Character> SUPPORTED_CODES = Set.of(
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p');

@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.SPACE;

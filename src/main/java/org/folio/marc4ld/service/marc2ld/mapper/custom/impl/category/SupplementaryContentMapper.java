@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.marc4ld.util.Constants.TAG_008;
@@ -17,7 +17,7 @@ import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SupplementaryContentMapper extends AbstractBookMapper {
+public class SupplementaryContentMapper extends AbstractCategoryMapper {
 
   public static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
