@@ -53,18 +53,6 @@ class SupplementaryContentMapperTest {
   @InjectMocks
   private SupplementaryContentMapper mapper;
 
-  @Test
-  void getStartIndex_shouldReturn_18() {
-    //expect
-    assertEquals(24, mapper.getStartIndex());
-  }
-
-  @Test
-  void getEndIndex_shouldReturn_22() {
-    //expect
-    assertEquals(28, mapper.getEndIndex());
-  }
-
   @ParameterizedTest
   @ValueSource(chars = {'b', 'k', 'q'})
   void isSupportedCode_shouldReturn_true(char code) {

@@ -33,17 +33,7 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
   public SupplementaryContentMapper(LabelService labelService,
                                     MapperHelper mapperHelper,
                                     FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
-  }
-
-  @Override
-  protected int getStartIndex() {
-    return 24;
-  }
-
-  @Override
-  protected int getEndIndex() {
-    return 28;
+    super(labelService, mapperHelper, hashService, 24, 28);
   }
 
   @Override

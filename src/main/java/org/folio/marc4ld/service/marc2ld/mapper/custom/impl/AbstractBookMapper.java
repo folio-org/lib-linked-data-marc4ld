@@ -28,14 +28,10 @@ public abstract class AbstractBookMapper implements CustomMapper {
   private final LabelService labelService;
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
-
-  protected abstract int getStartIndex();
-
-  protected abstract int getEndIndex();
+  private final int startIndex;
+  private final int endIndex;
 
   protected abstract boolean isSupportedCode(char code);
-
-  protected abstract PredicateDictionary getPredicate();
 
   protected abstract void addSubResource(Resource resource, char code);
 
@@ -70,8 +66,8 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .stream()
       .filter(controlField -> TAG_008.equals(controlField.getTag()))
       .map(ControlField::getData)
-      .filter(data -> data.length() >= getEndIndex())
-      .map(data -> data.substring(getStartIndex(), getEndIndex()))
+      .filter(data -> data.length() >= endIndex)
+      .map(data -> data.substring(startIndex, endIndex))
       .findFirst()
       .orElse(EMPTY);
   }

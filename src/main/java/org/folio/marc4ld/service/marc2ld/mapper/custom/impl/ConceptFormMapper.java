@@ -76,29 +76,14 @@ public class ConceptFormMapper extends AbstractBookMapper {
   private final FingerprintHashService hashService;
 
   public ConceptFormMapper(LabelService labelService, MapperHelper mapperHelper, FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
+    super(labelService, mapperHelper, hashService, 24, 28);
     this.mapperHelper = mapperHelper;
     this.hashService = hashService;
   }
 
   @Override
-  protected int getStartIndex() {
-    return 24;
-  }
-
-  @Override
-  protected int getEndIndex() {
-    return 28;
-  }
-
-  @Override
   protected boolean isSupportedCode(char code) {
     return SUPPORTED_CODES.contains(code);
-  }
-
-  @Override
-  protected PredicateDictionary getPredicate() {
-    return SUBJECT;
   }
 
   @Override
@@ -115,7 +100,7 @@ public class ConceptFormMapper extends AbstractBookMapper {
     var conceptForm = createResource(Set.of(CONCEPT, FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
     ), Map.of(FOCUS, form));
-    resource.addOutgoingEdge(new ResourceEdge(resource, conceptForm, getPredicate()));
+    resource.addOutgoingEdge(new ResourceEdge(resource, conceptForm, SUBJECT));
     resource.addOutgoingEdge(new ResourceEdge(resource, form, GENRE));
   }
 

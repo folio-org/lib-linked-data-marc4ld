@@ -50,17 +50,7 @@ class AbstractCategoryMapperTest {
   static class TestCategoryMapper extends AbstractCategoryMapper {
 
     TestCategoryMapper(LabelService labelService, MapperHelper mapperHelper, FingerprintHashService hashService) {
-      super(labelService, mapperHelper, hashService);
-    }
-
-    @Override
-    protected int getStartIndex() {
-      return 0;
-    }
-
-    @Override
-    protected int getEndIndex() {
-      return 2;
+      super(labelService, mapperHelper, hashService, 0, 2);
     }
 
     @Override

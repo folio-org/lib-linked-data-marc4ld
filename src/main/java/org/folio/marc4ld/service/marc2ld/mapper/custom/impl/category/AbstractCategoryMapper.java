@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -22,8 +23,8 @@ import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 public abstract class AbstractCategoryMapper extends AbstractBookMapper {
 
   protected AbstractCategoryMapper(LabelService labelService, MapperHelper mapperHelper,
-                                FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
+                                FingerprintHashService hashService, int startIndex, int endIndex) {
+    super(labelService, mapperHelper, hashService, startIndex, endIndex);
   }
 
   protected abstract String getCategorySetLink();
@@ -35,6 +36,8 @@ public abstract class AbstractCategoryMapper extends AbstractBookMapper {
   protected abstract String getTerm(char code);
 
   protected abstract String getCode(char code);
+
+  protected abstract PredicateDictionary getPredicate();
 
   @Override
   protected void addSubResource(Resource resource, char code) {

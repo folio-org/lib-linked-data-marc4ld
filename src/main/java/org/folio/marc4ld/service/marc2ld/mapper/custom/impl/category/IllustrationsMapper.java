@@ -54,17 +54,7 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   public IllustrationsMapper(LabelService labelService,
                              MapperHelper mapperHelper,
                              FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
-  }
-
-  @Override
-  protected int getStartIndex() {
-    return 18;
-  }
-
-  @Override
-  protected int getEndIndex() {
-    return 22;
+    super(labelService, mapperHelper, hashService, 18, 22);
   }
 
   @Override

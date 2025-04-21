@@ -34,18 +34,6 @@ class IllustrationsMapperTest {
   @InjectMocks
   private IllustrationsMapper mapper;
 
-  @Test
-  void getStartIndex_shouldReturn_18() {
-    //expect
-    assertEquals(18, mapper.getStartIndex());
-  }
-
-  @Test
-  void getEndIndex_shouldReturn_22() {
-    //expect
-    assertEquals(22, mapper.getEndIndex());
-  }
-
   @ParameterizedTest
   @ValueSource(chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p'})
   void isSupportedCode_shouldReturn_true(char code) {

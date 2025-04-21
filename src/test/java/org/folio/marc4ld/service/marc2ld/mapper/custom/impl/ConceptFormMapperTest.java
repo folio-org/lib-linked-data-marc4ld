@@ -41,24 +41,6 @@ class ConceptFormMapperTest {
   @InjectMocks
   private ConceptFormMapper mapper;
 
-  @Test
-  void getStartIndex() {
-    // expect
-    assertEquals(24, mapper.getStartIndex());
-  }
-
-  @Test
-  void getEndIndex() {
-    // expect
-    assertEquals(28, mapper.getEndIndex());
-  }
-
-  @Test
-  void getPredicate() {
-    // expect
-    assertEquals("http://bibfra.me/vocab/lite/subject", mapper.getPredicate().getUri());
-  }
-
   @ParameterizedTest
   @CsvSource({
     "a, false",

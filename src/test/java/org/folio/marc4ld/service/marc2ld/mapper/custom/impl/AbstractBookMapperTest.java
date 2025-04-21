@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Stream;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -109,17 +108,7 @@ class AbstractBookMapperTest {
     TestBookMapper(LabelService labelService,
                           MapperHelper mapperHelper,
                           FingerprintHashService hashService) {
-      super(labelService, mapperHelper, hashService);
-    }
-
-    @Override
-    protected int getStartIndex() {
-      return 0;
-    }
-
-    @Override
-    protected int getEndIndex() {
-      return 2;
+      super(labelService, mapperHelper, hashService, 0, 2);
     }
 
     @Override
@@ -128,13 +117,8 @@ class AbstractBookMapperTest {
     }
 
     @Override
-    protected PredicateDictionary getPredicate() {
-      return NULL;
-    }
-
-    @Override
     protected void addSubResource(Resource resource, char code) {
-      resource.addOutgoingEdge(new ResourceEdge(resource, new Resource().setId(1L), getPredicate()));
+      resource.addOutgoingEdge(new ResourceEdge(resource, new Resource().setId(1L), NULL));
     }
   }
 }
