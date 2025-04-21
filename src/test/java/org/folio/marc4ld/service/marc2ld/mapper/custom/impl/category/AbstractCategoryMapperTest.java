@@ -50,7 +50,7 @@ class AbstractCategoryMapperTest {
   static class TestCategoryMapper extends AbstractCategoryMapper {
 
     TestCategoryMapper(LabelService labelService, MapperHelper mapperHelper, FingerprintHashService hashService) {
-      super(labelService, mapperHelper, hashService, 0, 2);
+      super(labelService, mapperHelper, hashService, 0, 2, "categorySetLabel", "categorySetLink");
     }
 
     @Override
@@ -61,16 +61,6 @@ class AbstractCategoryMapperTest {
     @Override
     protected PredicateDictionary getPredicate() {
       return NULL;
-    }
-
-    @Override
-    protected String getCategorySetLink() {
-      return "categorySetLink";
-    }
-
-    @Override
-    protected String getCategorySetLabel() {
-      return "categorySetLabel";
     }
 
     @Override

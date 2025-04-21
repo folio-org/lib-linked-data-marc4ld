@@ -22,14 +22,17 @@ import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 
 public abstract class AbstractCategoryMapper extends AbstractBookMapper {
 
+  protected final String categorySetLink;
+
+  private final String categorySetLabel;
+
   protected AbstractCategoryMapper(LabelService labelService, MapperHelper mapperHelper,
-                                FingerprintHashService hashService, int startIndex, int endIndex) {
+                                   FingerprintHashService hashService, int startIndex, int endIndex,
+                                   String categorySetLabel, String categorySetLink) {
     super(labelService, mapperHelper, hashService, startIndex, endIndex);
+    this.categorySetLabel = categorySetLabel;
+    this.categorySetLink = categorySetLink;
   }
-
-  protected abstract String getCategorySetLink();
-
-  protected abstract String getCategorySetLabel();
 
   protected abstract String getLinkSuffix(char code);
 
@@ -43,7 +46,7 @@ public abstract class AbstractCategoryMapper extends AbstractBookMapper {
   protected void addSubResource(Resource resource, char code) {
     var category = createCategory(
       getCode(code),
-      getCategorySetLink() + "/" + getLinkSuffix(code),
+      categorySetLink + "/" + getLinkSuffix(code),
       getTerm(code)
     );
     resource.addOutgoingEdge(new ResourceEdge(resource, category, getPredicate()));
@@ -51,8 +54,8 @@ public abstract class AbstractCategoryMapper extends AbstractBookMapper {
 
   protected Resource createCategory(String code, String link, String term) {
     var categorySet = createResource(Set.of(CATEGORY_SET), Map.of(
-      LINK.getValue(), List.of(getCategorySetLink()),
-      LABEL.getValue(), List.of(getCategorySetLabel())
+      LINK.getValue(), List.of(categorySetLink),
+      LABEL.getValue(), List.of(categorySetLabel)
     ), Collections.emptyMap());
     return createResource(Set.of(CATEGORY), Map.of(
       CODE.getValue(), List.of(code),

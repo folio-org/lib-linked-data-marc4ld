@@ -54,7 +54,9 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   public IllustrationsMapper(LabelService labelService,
                              MapperHelper mapperHelper,
                              FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService, 18, 22);
+    super(labelService, mapperHelper, hashService, 18, 22,
+      "Illustrative Content",
+      "http://id.loc.gov/vocabulary/millus");
   }
 
   @Override
@@ -65,16 +67,6 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   @Override
   protected PredicateDictionary getPredicate() {
     return ILLUSTRATIONS;
-  }
-
-  @Override
-  protected String getCategorySetLink() {
-    return "http://id.loc.gov/vocabulary/millus";
-  }
-
-  @Override
-  protected String getCategorySetLabel() {
-    return "Illustrative Content";
   }
 
   @Override

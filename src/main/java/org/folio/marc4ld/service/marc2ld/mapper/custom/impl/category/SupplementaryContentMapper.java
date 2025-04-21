@@ -27,13 +27,14 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
   );
 
   private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
-
   private static final int INDEX_PRESENT_INDEX = 31;
 
   public SupplementaryContentMapper(LabelService labelService,
                                     MapperHelper mapperHelper,
                                     FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService, 24, 28);
+    super(labelService, mapperHelper, hashService, 24, 28,
+      "Supplementary Content",
+      "http://id.loc.gov/vocabulary/msupplcont");
   }
 
   @Override
@@ -44,16 +45,6 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
   @Override
   protected PredicateDictionary getPredicate() {
     return SUPPLEMENTARY_CONTENT;
-  }
-
-  @Override
-  protected String getCategorySetLink() {
-    return "http://id.loc.gov/vocabulary/msupplcont";
-  }
-
-  @Override
-  protected String getCategorySetLabel() {
-    return "Supplementary Content";
   }
 
   @Override
@@ -86,7 +77,7 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
         .ifPresent(work -> {
           var category = createCategory(
             getCode(c),
-            getCategorySetLink() + "/" + getLinkSuffix(c),
+            categorySetLink + "/" + getLinkSuffix(c),
             getTerm(c)
           );
           work.addOutgoingEdge(new ResourceEdge(work, category, getPredicate()));

@@ -73,18 +73,6 @@ class SupplementaryContentMapperTest {
     assertEquals(SUPPLEMENTARY_CONTENT, mapper.getPredicate());
   }
 
-  @Test
-  void getCategorySetLink_shouldReturn_millus() {
-    //expect
-    assertEquals("http://id.loc.gov/vocabulary/msupplcont", mapper.getCategorySetLink());
-  }
-
-  @Test
-  void getCategorySetLabel_shouldReturn_illustrativeContent() {
-    //expect
-    assertEquals("Supplementary Content", mapper.getCategorySetLabel());
-  }
-
   @ParameterizedTest
   @CsvSource(value = {
     "b, bibliography",

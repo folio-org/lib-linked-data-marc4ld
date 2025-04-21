@@ -54,18 +54,6 @@ class IllustrationsMapperTest {
     assertEquals(ILLUSTRATIONS, mapper.getPredicate());
   }
 
-  @Test
-  void getCategorySetLink_shouldReturn_millus() {
-    //expect
-    assertEquals("http://id.loc.gov/vocabulary/millus", mapper.getCategorySetLink());
-  }
-
-  @Test
-  void getCategorySetLabel_shouldReturn_illustrativeContent() {
-    //expect
-    assertEquals("Illustrative Content", mapper.getCategorySetLabel());
-  }
-
   @ParameterizedTest
   @CsvSource(value = {
     "a, ill",
