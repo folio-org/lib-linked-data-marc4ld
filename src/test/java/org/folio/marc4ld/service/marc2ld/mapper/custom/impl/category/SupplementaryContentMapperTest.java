@@ -16,11 +16,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
@@ -149,7 +150,7 @@ class SupplementaryContentMapperTest {
     var work = createResource(
       emptyMap(),
       Set.of(WORK),
-      new HashMap<>()
+      new EnumMap<>(PredicateDictionary.class)
     );
 
     return createResource(
