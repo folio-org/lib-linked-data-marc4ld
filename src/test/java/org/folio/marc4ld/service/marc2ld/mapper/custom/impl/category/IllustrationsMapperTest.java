@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,18 +34,6 @@ class IllustrationsMapperTest {
   @InjectMocks
   private IllustrationsMapper mapper;
 
-  @Test
-  void getStartIndex_shouldReturn_18() {
-    //expect
-    assertEquals(18, mapper.getStartIndex());
-  }
-
-  @Test
-  void getEndIndex_shouldReturn_22() {
-    //expect
-    assertEquals(22, mapper.getEndIndex());
-  }
-
   @ParameterizedTest
   @ValueSource(chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p'})
   void isSupportedCode_shouldReturn_true(char code) {
@@ -64,18 +52,6 @@ class IllustrationsMapperTest {
   void getPredicate_shouldReturn_illustrations() {
     //expect
     assertEquals(ILLUSTRATIONS, mapper.getPredicate());
-  }
-
-  @Test
-  void getCategorySetLink_shouldReturn_millus() {
-    //expect
-    assertEquals("http://id.loc.gov/vocabulary/millus", mapper.getCategorySetLink());
-  }
-
-  @Test
-  void getCategorySetLabel_shouldReturn_illustrativeContent() {
-    //expect
-    assertEquals("Illustrative Content", mapper.getCategorySetLabel());
   }
 
   @ParameterizedTest

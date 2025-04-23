@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.marc4ld.util.Constants.TAG_008;
@@ -17,7 +17,7 @@ import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SupplementaryContentMapper extends AbstractBookMapper {
+public class SupplementaryContentMapper extends AbstractCategoryMapper {
 
   public static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
@@ -27,23 +27,14 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   );
 
   private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
-
   private static final int INDEX_PRESENT_INDEX = 31;
 
   public SupplementaryContentMapper(LabelService labelService,
                                     MapperHelper mapperHelper,
                                     FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
-  }
-
-  @Override
-  protected int getStartIndex() {
-    return 24;
-  }
-
-  @Override
-  protected int getEndIndex() {
-    return 28;
+    super(labelService, mapperHelper, hashService, 24, 28,
+      "Supplementary Content",
+      "http://id.loc.gov/vocabulary/msupplcont");
   }
 
   @Override
@@ -54,16 +45,6 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
   @Override
   protected PredicateDictionary getPredicate() {
     return SUPPLEMENTARY_CONTENT;
-  }
-
-  @Override
-  protected String getCategorySetLink() {
-    return "http://id.loc.gov/vocabulary/msupplcont";
-  }
-
-  @Override
-  protected String getCategorySetLabel() {
-    return "Supplementary Content";
   }
 
   @Override
@@ -96,7 +77,7 @@ public class SupplementaryContentMapper extends AbstractBookMapper {
         .ifPresent(work -> {
           var category = createCategory(
             getCode(c),
-            getCategorySetLink() + "/" + getLinkSuffix(c),
+            categorySetLink + "/" + getLinkSuffix(c),
             getTerm(c)
           );
           work.addOutgoingEdge(new ResourceEdge(work, category, getPredicate()));

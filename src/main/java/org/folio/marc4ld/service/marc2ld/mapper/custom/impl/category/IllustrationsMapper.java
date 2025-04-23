@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static java.util.Map.entry;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
@@ -12,7 +12,7 @@ import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IllustrationsMapper extends AbstractBookMapper {
+public class IllustrationsMapper extends AbstractCategoryMapper {
 
   private static final Set<Character> SUPPORTED_CODES = Set.of(
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p');
@@ -54,17 +54,9 @@ public class IllustrationsMapper extends AbstractBookMapper {
   public IllustrationsMapper(LabelService labelService,
                              MapperHelper mapperHelper,
                              FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService);
-  }
-
-  @Override
-  protected int getStartIndex() {
-    return 18;
-  }
-
-  @Override
-  protected int getEndIndex() {
-    return 22;
+    super(labelService, mapperHelper, hashService, 18, 22,
+      "Illustrative Content",
+      "http://id.loc.gov/vocabulary/millus");
   }
 
   @Override
@@ -75,16 +67,6 @@ public class IllustrationsMapper extends AbstractBookMapper {
   @Override
   protected PredicateDictionary getPredicate() {
     return ILLUSTRATIONS;
-  }
-
-  @Override
-  protected String getCategorySetLink() {
-    return "http://id.loc.gov/vocabulary/millus";
-  }
-
-  @Override
-  protected String getCategorySetLabel() {
-    return "Illustrative Content";
   }
 
   @Override

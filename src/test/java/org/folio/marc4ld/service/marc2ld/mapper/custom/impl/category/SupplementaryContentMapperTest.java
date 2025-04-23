@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
+package org.folio.marc4ld.service.marc2ld.mapper.custom.impl.category;
 
 import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.SPACE;
@@ -16,11 +16,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
@@ -53,18 +54,6 @@ class SupplementaryContentMapperTest {
   @InjectMocks
   private SupplementaryContentMapper mapper;
 
-  @Test
-  void getStartIndex_shouldReturn_18() {
-    //expect
-    assertEquals(24, mapper.getStartIndex());
-  }
-
-  @Test
-  void getEndIndex_shouldReturn_22() {
-    //expect
-    assertEquals(28, mapper.getEndIndex());
-  }
-
   @ParameterizedTest
   @ValueSource(chars = {'b', 'k', 'q'})
   void isSupportedCode_shouldReturn_true(char code) {
@@ -83,18 +72,6 @@ class SupplementaryContentMapperTest {
   void getPredicate_shouldReturn_illustrations() {
     //expect
     assertEquals(SUPPLEMENTARY_CONTENT, mapper.getPredicate());
-  }
-
-  @Test
-  void getCategorySetLink_shouldReturn_millus() {
-    //expect
-    assertEquals("http://id.loc.gov/vocabulary/msupplcont", mapper.getCategorySetLink());
-  }
-
-  @Test
-  void getCategorySetLabel_shouldReturn_illustrativeContent() {
-    //expect
-    assertEquals("Supplementary Content", mapper.getCategorySetLabel());
   }
 
   @ParameterizedTest
@@ -173,7 +150,7 @@ class SupplementaryContentMapperTest {
     var work = createResource(
       emptyMap(),
       Set.of(WORK),
-      new HashMap<>()
+      new EnumMap<>(PredicateDictionary.class)
     );
 
     return createResource(

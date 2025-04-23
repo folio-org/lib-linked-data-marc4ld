@@ -1,17 +1,9 @@
 package org.folio.marc4ld.service.marc2ld.mapper.custom.impl;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
-import static org.folio.ld.dictionary.PropertyDictionary.CODE;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.LINK;
-import static org.folio.ld.dictionary.PropertyDictionary.TERM;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 import static org.folio.marc4ld.util.LdUtil.getWork;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,24 +28,12 @@ public abstract class AbstractBookMapper implements CustomMapper {
   private final LabelService labelService;
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
-
-  protected abstract int getStartIndex();
-
-  protected abstract int getEndIndex();
+  private final int startIndex;
+  private final int endIndex;
 
   protected abstract boolean isSupportedCode(char code);
 
-  protected abstract PredicateDictionary getPredicate();
-
-  protected abstract String getCategorySetLink();
-
-  protected abstract String getCategorySetLabel();
-
-  protected abstract String getLinkSuffix(char code);
-
-  protected abstract String getTerm(char code);
-
-  protected abstract String getCode(char code);
+  protected abstract void addSubResource(Resource resource, char code);
 
   @Override
   public boolean isApplicable(Record marcRecord) {
@@ -67,14 +47,18 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .ifPresent(work -> getCharacterRange(marcRecord)
         .chars()
         .filter(c -> isSupportedCode((char) c))
-        .forEach(c -> {
-          var category = createCategory(
-            getCode((char) c),
-            getCategorySetLink() + "/" + getLinkSuffix((char) c),
-            getTerm((char) c)
-          );
-          work.addOutgoingEdge(new ResourceEdge(work, category, getPredicate()));
-        }));
+        .forEach(c -> addSubResource(work, (char) c)));
+  }
+
+  protected Resource createResource(Set<ResourceTypeDictionary> types, Map<String, List<String>> properties,
+                                    Map<PredicateDictionary, Resource> outgoingResources) {
+    var resource = new Resource()
+      .setTypes(types)
+      .setDoc(mapperHelper.getJsonNode(properties));
+    outgoingResources.forEach((key, value) -> resource.addOutgoingEdge(new ResourceEdge(resource, value, key)));
+    labelService.setLabel(resource, properties);
+    resource.setId(hashService.hash(resource));
+    return resource;
   }
 
   private String getCharacterRange(Record marcRecord) {
@@ -82,32 +66,9 @@ public abstract class AbstractBookMapper implements CustomMapper {
       .stream()
       .filter(controlField -> TAG_008.equals(controlField.getTag()))
       .map(ControlField::getData)
-      .filter(data -> data.length() >= getEndIndex())
-      .map(data -> data.substring(getStartIndex(), getEndIndex()))
+      .filter(data -> data.length() >= endIndex)
+      .map(data -> data.substring(startIndex, endIndex))
       .findFirst()
       .orElse(EMPTY);
-  }
-
-  protected Resource createCategory(String code, String link, String term) {
-    var categorySet = createResource(CATEGORY_SET, Map.of(
-      LINK.getValue(), List.of(getCategorySetLink()),
-      LABEL.getValue(), List.of(getCategorySetLabel())));
-    return createResource(CATEGORY, Map.of(
-      CODE.getValue(), List.of(code),
-      LINK.getValue(), List.of(link),
-      TERM.getValue(), List.of(term)
-    ), categorySet);
-  }
-
-  private Resource createResource(ResourceTypeDictionary type, Map<String, List<String>> properties,
-                                  Resource... outgoingResources) {
-    var resource = new Resource()
-      .addType(type)
-      .setDoc(mapperHelper.getJsonNode(properties));
-    Arrays.stream(outgoingResources)
-      .forEach(or -> resource.addOutgoingEdge(new ResourceEdge(resource, or, IS_DEFINED_BY)));
-    labelService.setLabel(resource, properties);
-    resource.setId(hashService.hash(resource));
-    return resource;
   }
 }
