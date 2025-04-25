@@ -98,8 +98,7 @@ class Bib7xxPreprocessorTest {
 
     //then
     assertThat(result)
-      .isPresent()
-      .get()
+      .singleElement()
       .satisfies(df -> assertEquals("776", df.getTag()))
       .satisfies(df -> assertEquals(' ', df.getIndicator1()))
       .satisfies(df -> assertEquals(' ', df.getIndicator2()))

@@ -7,6 +7,7 @@
 - Convert marc field 041 (Language categories) to Resource description [MODLD-361](https://folio-org.atlassian.net/browse/MODLD-361)
 - Map subfields 'g' and 'n' for fields 100/110/111/600/610/700/710/711 [MODLD-683](https://folio-org.atlassian.net/browse/MODLD-683)
 - Mapping for MARC field 490 [MODLD-714](https://folio-org.atlassian.net/browse/MODLD-714)
+- Mapping for MARC field 340$m [MODLD-723](https://folio-org.atlassian.net/browse/MODLD-723)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

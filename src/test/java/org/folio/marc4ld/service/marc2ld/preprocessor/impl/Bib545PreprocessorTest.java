@@ -56,8 +56,7 @@ class Bib545PreprocessorTest {
 
     //then
     assertThat(result)
-      .isPresent()
-      .get()
+      .singleElement()
       .satisfies(df -> assertEquals(tag, df.getTag()))
       .satisfies(df -> assertEquals(expectedIndicator1, df.getIndicator1()))
       .satisfies(df -> assertEquals(' ', df.getIndicator2()));

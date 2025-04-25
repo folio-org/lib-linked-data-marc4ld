@@ -11,7 +11,6 @@ import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 import static org.folio.marc4ld.util.MarcUtil.isSubfieldPresent;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.DataField;
@@ -28,11 +27,11 @@ public class Bib7xxPreprocessor implements DataFieldPreprocessor {
   private final MarcFactory marcFactory;
 
   @Override
-  public Optional<DataField> preprocess(PreprocessorContext context) {
+  public List<DataField> preprocess(PreprocessorContext context) {
     var originalDataField = context.dataField();
     var preprocessedDataField = duplicateDataField(originalDataField, marcFactory);
     addSubfieldsRelatedToTitle(context.marcRecord(), preprocessedDataField);
-    return Optional.of(preprocessedDataField);
+    return List.of(preprocessedDataField);
   }
 
   @Override
