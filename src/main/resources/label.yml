@@ -24,6 +24,7 @@ labelRules:
     properties:
       - NAME
   - types: ID_ISSN, IDENTIFIER
+    addLabelProperty: true
     properties:
       - NAME
   - types: ID_STRN, IDENTIFIER
@@ -141,4 +142,15 @@ labelRules:
     properties: CODE
   - types: ABBREVIATED_TITLE
     properties: MAIN_TITLE
-
+  - types: SERIES
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: WORK, SERIES
+    addLabelProperty: true
+    properties:
+      - "{$NAME} {$VOLUME}"
+  - types: INSTANCE, SERIES
+    addLabelProperty: true
+    properties:
+      - NAME
