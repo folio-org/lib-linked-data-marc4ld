@@ -8,48 +8,13 @@
       "490": {
         "subfields": [
           {
-            "a": "name11"
+            "a": "name"
           },
           {
-            "a": "name12"
+            "v": "volume"
           },
           {
-            "v": "volume11"
-          },
-          {
-            "v": "volume12"
-          },
-          {
-            "x": "issn11"
-          },
-          {
-            "x": "issn12"
-          }
-        ],
-        "ind1": " ",
-        "ind2": " "
-      }
-    },
-    {
-      "490": {
-        "subfields": [
-          {
-            "a": "name21"
-          },
-          {
-            "a": "name22"
-          },
-          {
-            "v": "volume21"
-          },
-          {
-            "v": "volume22"
-          },
-          {
-            "x": "issn21"
-          },
-          {
-            "x": "issn22"
+            "x": "issn"
           }
         ],
         "ind1": " ",

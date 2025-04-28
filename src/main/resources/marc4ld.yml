@@ -600,7 +600,6 @@ bibFieldRules:
       edges:
         - types: SERIES
           predicate: IS_PART_OF
-          multiply: true
           subfields:
             a: NAME
           ld2marcCondition:

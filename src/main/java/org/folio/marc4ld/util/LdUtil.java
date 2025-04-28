@@ -81,6 +81,23 @@ public class LdUtil {
       .map(ResourceEdge::getTarget);
   }
 
+  public static void reverseFirstEdgeWithPredicate(Resource resource, PredicateDictionary predicate) {
+    if (isNull(predicate)) {
+      return;
+    }
+    for (var iterator = resource.getOutgoingEdges().iterator(); iterator.hasNext(); ) {
+      var resourceEdge = iterator.next();
+      if (predicate.equals(resourceEdge.getPredicate())) {
+        var target = resourceEdge.getTarget();
+        var newEdge = new ResourceEdge(target, resource, predicate);
+        target.addOutgoingEdge(newEdge);
+        resource.getIncomingEdges().add(newEdge);
+        iterator.remove();
+        break;
+      }
+    }
+  }
+
   private static boolean isEmptyDoc(JsonNode doc) {
     return isNull(doc) || doc.isEmpty();
   }

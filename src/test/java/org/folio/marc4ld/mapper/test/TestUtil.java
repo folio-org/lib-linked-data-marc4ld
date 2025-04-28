@@ -40,6 +40,16 @@ public class TestUtil {
     validateResource(edge.getTarget(), types, properties, expectedLabel);
   }
 
+  public static void validateEdgeWithSource(ResourceEdge edge, PredicateDictionary predicate,
+                                  List<ResourceTypeDictionary> types,
+                                  Map<String, List<String>> properties,
+                                  String expectedLabel) {
+    assertThat(edge.getId()).isNull();
+    assertThat(edge.getPredicate().getHash()).isEqualTo(predicate.getHash());
+    assertThat(edge.getPredicate().getUri()).isEqualTo(predicate.getUri());
+    validateResource(edge.getSource(), types, properties, expectedLabel);
+  }
+
   public static void validateResource(Resource resource,
                                       List<ResourceTypeDictionary> types,
                                       Map<String, List<String>> properties,

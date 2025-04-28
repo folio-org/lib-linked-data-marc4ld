@@ -92,7 +92,8 @@ public class LinkingEntriesTestHelper {
     validateEdge(resourceEdges.getFirst(), MAP,
       List.of(IDENTIFIER, ID_ISSN),
       Map.of(
-        "http://bibfra.me/vocab/lite/name", List.of("ISSN identifier name")
+        "http://bibfra.me/vocab/lite/name", List.of("ISSN identifier name"),
+        "http://bibfra.me/vocab/lite/label", List.of("ISSN identifier name")
       ), "ISSN identifier name");
   }
 
