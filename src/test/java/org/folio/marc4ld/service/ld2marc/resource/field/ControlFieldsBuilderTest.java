@@ -1,12 +1,10 @@
 package org.folio.marc4ld.service.ld2marc.resource.field;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import org.folio.spring.testing.type.UnitTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +16,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@Disabled("Fix in MODLD-623")
 @UnitTest
 @ExtendWith(MockitoExtension.class)
 class ControlFieldsBuilderTest {
@@ -33,7 +30,7 @@ class ControlFieldsBuilderTest {
   @Test
   void shouldUseTagsAndValue() {
     //given
-    var tag = "test";
+    var tag = "008";
     var value = "hello";
     var startPosition = 5;
     var endPosition = startPosition + value.length();
@@ -44,7 +41,7 @@ class ControlFieldsBuilderTest {
     //then
     assertThat(actualElements)
       .size()
-      .isEqualTo(2);
+      .isEqualTo(1);
 
     assertThat(tagCaptor.getValue())
       .isEqualTo(tag);
@@ -55,7 +52,7 @@ class ControlFieldsBuilderTest {
   @Test
   void shouldContainsStringLength() {
     //given
-    var tag = "test";
+    var tag = "008";
     var value = "hello";
     var startPosition = 5;
     var endPosition = startPosition + value.length();
@@ -78,7 +75,7 @@ class ControlFieldsBuilderTest {
   })
   void shouldFitStartPosition(String value, int startPosition) {
     //given
-    var tag = "test";
+    var tag = "008";
     var endPosition = startPosition + value.length();
 
     //when
@@ -99,7 +96,7 @@ class ControlFieldsBuilderTest {
   })
   void shouldFitEndPosition(String value, int endPosition) {
     //given
-    var tag = "test";
+    var tag = "008";
     var startPosition = 1;
 
     //when
@@ -121,7 +118,7 @@ class ControlFieldsBuilderTest {
   })
   void shouldCutValue(String givenValue, int startPosition, int endPosition, String expectedValue) {
     //given
-    var tag = "test";
+    var tag = "008";
 
     //when
     getFieldsByTestBuilder(tag, givenValue, startPosition, endPosition);
@@ -138,8 +135,7 @@ class ControlFieldsBuilderTest {
     builder.addFieldValue(tag, value, startPos, endPos);
     var transformFields = builder.build(factory)
       .toList();
-    verify(factory, times(2))
-      .newControlField(tagCaptor.capture(), dataCaptor.capture());
+    verify(factory).newControlField(tagCaptor.capture(), dataCaptor.capture());
     return transformFields;
   }
 }
