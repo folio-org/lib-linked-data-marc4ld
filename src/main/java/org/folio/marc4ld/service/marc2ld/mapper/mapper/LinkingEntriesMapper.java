@@ -13,6 +13,7 @@ import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.T;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
+import static org.folio.marc4ld.util.LdUtil.reverseFirstEdgeWithPredicate;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 
 import java.util.List;
@@ -101,16 +102,6 @@ public class LinkingEntriesMapper implements Marc2ldMapper {
   }
 
   private void adjustWorkToInstanceRelation(Resource resource) {
-    for (var iterator = resource.getOutgoingEdges().iterator(); iterator.hasNext(); ) {
-      var resourceEdge = iterator.next();
-      if (INSTANTIATES.equals(resourceEdge.getPredicate())) {
-        var instance = resourceEdge.getTarget();
-        var instanceToWorkResourceEdge = new ResourceEdge(instance, resource, INSTANTIATES);
-        instance.addOutgoingEdge(instanceToWorkResourceEdge);
-        resource.getIncomingEdges().add(instanceToWorkResourceEdge);
-        iterator.remove();
-        break;
-      }
-    }
+    reverseFirstEdgeWithPredicate(resource, INSTANTIATES);
   }
 }

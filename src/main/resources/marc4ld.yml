@@ -588,6 +588,38 @@ bibFieldRules:
         z: DATES_OF_PUBLICATION_NOTE
       concat: ', '
       append: true
+  490:
+    - types: WORK, SERIES
+      parent: WORK
+      predicate: IS_PART_OF
+      subfields:
+        a: NAME
+        v: VOLUME
+      ld2marcCondition:
+        skip: true
+      edges:
+        - types: SERIES
+          predicate: IS_PART_OF
+          subfields:
+            a: NAME
+          ld2marcCondition:
+            skip: true
+          edges:
+            - types: INSTANCE, SERIES
+              parent: SERIES
+              predicate: INSTANTIATES
+              subfields:
+                a: NAME
+              ld2marcCondition:
+                skip: true
+              edges:
+                - types: ID_ISSN, IDENTIFIER
+                  predicate: MAP
+                  subfields:
+                    x: NAME
+                  ld2marcCondition:
+                    skip: true
+
   500:
     - types: INSTANCE
       subfields:

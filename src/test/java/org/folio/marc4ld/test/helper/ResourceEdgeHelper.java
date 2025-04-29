@@ -13,6 +13,25 @@ import org.folio.spring.testing.type.UnitTest;
 @UnitTest
 public class ResourceEdgeHelper {
 
+  public static List<ResourceEdge> getIncomingEdges(Resource resource, Predicate<ResourceEdge> predicate) {
+    return resource
+      .getIncomingEdges()
+      .stream()
+      .filter(predicate)
+      .toList();
+  }
+
+  public static List<ResourceEdge> getIncomingEdges(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
+    return getIncomingEdges(resourceEdge.getTarget(), predicate);
+  }
+
+  public static ResourceEdge getFirstIncomingEdge(ResourceEdge resourceEdge, Predicate<ResourceEdge> predicate) {
+    return getIncomingEdges(resourceEdge, predicate)
+      .stream()
+      .findFirst()
+      .orElseThrow();
+  }
+
   public static List<ResourceEdge> getOutgoingEdges(ResourceEdge resourceEdge) {
     return getOutgoingEdges(resourceEdge, re -> true);
   }
