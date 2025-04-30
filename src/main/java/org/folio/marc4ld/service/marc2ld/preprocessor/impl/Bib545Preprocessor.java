@@ -6,7 +6,6 @@ import static org.folio.marc4ld.util.Constants.TAG_545;
 import static org.folio.marc4ld.util.Constants.ZERO;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
 import org.marc4j.marc.DataField;
@@ -22,11 +21,11 @@ public class Bib545Preprocessor implements DataFieldPreprocessor {
   private final MarcFactory marcFactory;
 
   @Override
-  public Optional<DataField> preprocess(PreprocessorContext context) {
+  public List<DataField> preprocess(PreprocessorContext context) {
     var originalDataField = context.dataField();
     var preprocessedDataField = duplicateDataField(originalDataField, marcFactory);
     editIndicator1(preprocessedDataField);
-    return Optional.of(preprocessedDataField);
+    return List.of(preprocessedDataField);
   }
 
   @Override

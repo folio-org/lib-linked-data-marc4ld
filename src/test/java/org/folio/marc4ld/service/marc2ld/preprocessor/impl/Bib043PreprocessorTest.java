@@ -56,8 +56,9 @@ class Bib043PreprocessorTest {
 
     //then
     assertThat(preprocessed)
+      .singleElement()
       .usingRecursiveComparison()
-      .isEqualTo(Optional.of(expectedDataField));
+      .isEqualTo(expectedDataField);
   }
 
   @Test

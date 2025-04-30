@@ -116,7 +116,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
 
   private void handleField(String tag, Resource instance, DataField dataField, org.marc4j.marc.Record marcRecord) {
     fieldPreprocessor.apply(new PreprocessorContext(marcRecord, dataField))
-      .ifPresent(field ->
+      .forEach(field ->
         rules.findBibFieldRules(tag)
           .stream()
           .filter(rule -> conditionChecker
