@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.preprocessor.impl;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.folio.marc4ld.util.Constants.M;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_340;
@@ -91,10 +92,7 @@ public class Bib340Preprocessor implements DataFieldPreprocessor {
   }
 
   private String stripNonAlphaNumeric(String data) {
-    return data.chars()
-      .filter(Character::isLetterOrDigit)
-      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      .toString();
+    return data.replaceAll("[^a-zA-Z0-9]", EMPTY);
   }
 
   private boolean isValid(DataField df) {
