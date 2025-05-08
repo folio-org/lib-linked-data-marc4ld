@@ -21,7 +21,6 @@ bibFieldRules:
       append: true
       edges:
         - types: CATEGORY
-          parent: WORK
           predicate: GOVERNMENT_PUBLICATION
           controlFields:
             '008':
@@ -33,13 +32,11 @@ bibFieldRules:
                 isAny: a, c, f, i, l, m, o, s
           edges:
             - types: CATEGORY_SET
-              parent: CATEGORY
               predicate: IS_DEFINED_BY
               constants:
                 LINK: http://id.loc.gov/vocabulary/mgovtpubtype
                 LABEL: Government Publication Type
         - types: CATEGORY
-          parent: WORK
           predicate: TARGET_AUDIENCE
           controlFields:
             '008':
@@ -50,7 +47,6 @@ bibFieldRules:
                 substring: 22,23
                 isAny: a, b, c, d, e, f, g, j
         - types: LANGUAGE_CATEGORY
-          parent: WORK
           predicate: LANGUAGE
           controlFields:
             '008':
@@ -321,7 +317,6 @@ bibFieldRules:
         SOURCE: lc
       edges:
         - types: STATUS
-          parent: CLASSIFICATION
           predicate: STATUS
           constants:
             LABEL: used by assigner
@@ -344,7 +339,6 @@ bibFieldRules:
         SOURCE: ddc
       edges:
         - types: ORGANIZATION
-          parent: CLASSIFICATION
           predicate: ASSIGNING_SOURCE
           subfields:
             q: NAME
@@ -508,7 +502,6 @@ bibFieldRules:
         skip: true
       edges:
         - types: EXTENT
-          parent: INSTANCE
           predicate: EXTENT
           subfields:
             a: LABEL
@@ -542,7 +535,6 @@ bibFieldRules:
         LINK: http://id.loc.gov/vocabulary/contentTypes/%CODE
       edges:
         - types: CATEGORY_SET
-          parent: CATEGORY
           predicate: IS_DEFINED_BY
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacontent
@@ -559,7 +551,6 @@ bibFieldRules:
         LINK: http://id.loc.gov/vocabulary/mediaTypes/%CODE
       edges:
         - types: CATEGORY_SET
-          parent: CATEGORY
           predicate: IS_DEFINED_BY
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia
@@ -576,7 +567,6 @@ bibFieldRules:
         LINK: http://id.loc.gov/vocabulary/carriers/%CODE
       edges:
         - types: CATEGORY_SET
-          parent: CATEGORY
           predicate: IS_DEFINED_BY
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier
@@ -675,7 +665,6 @@ bibFieldRules:
         o: DISSERTATION_ID
       edges:
         - types: ORGANIZATION
-          parent: DISSERTATION
           predicate: GRANTING_INSTITUTION
           subfields:
             c: NAME
@@ -1496,7 +1485,6 @@ bibFieldRules:
       predicate: OTHER_EDITION
       edges:
         - types: LANGUAGE_CATEGORY
-          parent: WORK
           predicate: LANGUAGE
           multiply: true
           subfields:
@@ -1506,7 +1494,6 @@ bibFieldRules:
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
         - types: ABBREVIATED_TITLE
-          parent: WORK
           predicate: TITLE
           multiply: true
           subfields:
@@ -1542,7 +1529,6 @@ bibSharedRules:
       skip: true
     edges:
       - types: ORGANIZATION
-        parent: CLASSIFICATION
         predicate: ASSIGNING_SOURCE
         constants:
           NAME: United States, Library of Congress
@@ -1577,7 +1563,6 @@ bibSharedRules:
         PROVIDER_DATE: 7,11
     edges:
       - types: PLACE
-        parent: PROVIDER_EVENT
         predicate: PROVIDER_PLACE
         controlFields:
           '008':
@@ -1739,7 +1724,6 @@ bibSharedRules:
     parent: WORK
     edges:
       - types: AGENT
-        parent: WORK
         predicate: CREATOR
         multiply: true
         subfields:
@@ -1747,14 +1731,12 @@ bibSharedRules:
         ld2marcCondition:
           skip: true
       - types: ID_ISSN, IDENTIFIER
-        parent: WORK
         predicate: MAP
         subfields:
           x: NAME
         ld2marcCondition:
           skip: true
       - types: TITLE
-        parent: WORK
         predicate: TITLE
         subfields:
           c: QUALIFIER
@@ -1762,7 +1744,6 @@ bibSharedRules:
         ld2marcCondition:
           skip: true
       - types: INSTANCE
-        parent: WORK
         predicate: INSTANTIATES
         subfields:
           b: EDITION
@@ -1775,7 +1756,6 @@ bibSharedRules:
           skip: true
         edges:
           - types: EXTENT
-            parent: INSTANCE
             predicate: EXTENT
             subfields:
               h: LABEL
@@ -1783,13 +1763,11 @@ bibSharedRules:
               fieldsAllOf:
                 h: presented
           - types: ID_LOCAL, IDENTIFIER
-            parent: INSTANCE
             predicate: MAP
             multiply: true
             subfields:
               o: LOCAL_ID_VALUE
           - types: ID_STRN, IDENTIFIER
-            parent: INSTANCE
             predicate: MAP
             subfields:
               u: NAME
@@ -1797,7 +1775,6 @@ bibSharedRules:
               fieldsAllOf:
                 u: presented
           - types: ID_CODEN, IDENTIFIER
-            parent: INSTANCE
             predicate: MAP
             subfields:
               y: NAME
@@ -1805,19 +1782,16 @@ bibSharedRules:
               fieldsAllOf:
                 y: presented
           - types: ID_ISBN, IDENTIFIER
-            parent: INSTANCE
             predicate: MAP
             multiply: true
             subfields:
               z: NAME
           - types: IDENTIFIER
-            parent: INSTANCE
             predicate: MAP
             multiply: true
             subfields:
               w: NAME
           - types: TITLE
-            parent: INSTANCE
             predicate: TITLE
             subfields:
               t: MAIN_TITLE
