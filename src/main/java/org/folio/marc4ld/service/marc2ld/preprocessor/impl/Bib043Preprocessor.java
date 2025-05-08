@@ -6,6 +6,7 @@ import static org.folio.marc4ld.util.Constants.TAG_043;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor;
@@ -24,7 +25,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
   private final MarcFactory marcFactory;
 
   @Override
-  public Optional<DataField> preprocess(PreprocessorContext context) {
+  public List<DataField> preprocess(PreprocessorContext context) {
     var dataField = context.dataField();
     var result = marcFactory.newDataField(dataField.getTag(), dataField.getIndicator1(), dataField.getIndicator2());
     dataField.getSubfields()
@@ -35,8 +36,7 @@ public class Bib043Preprocessor implements DataFieldPreprocessor {
           result.addSubfield(sf);
         }
       });
-    return Optional.of(result)
-      .filter(this::isValid);
+    return Stream.of(result).filter(this::isValid).toList();
   }
 
   @Override

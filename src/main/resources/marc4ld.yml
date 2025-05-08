@@ -581,6 +581,32 @@ bibFieldRules:
           constants:
             LINK: http://id.loc.gov/vocabulary/genreFormSchemes/rdacarrier
             LABEL: rdacarrier
+  340:
+    - types: CATEGORY
+      parent: INSTANCE
+      predicate: BOOK_FORMAT
+      subfields:
+        m: TERM
+        '2': SOURCE
+      marc2ldCondition:
+        fieldsAllOf:
+          m: presented
+          z: not_presented
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          constants:
+            LINK: http://id.loc.gov/vocabulary/bookformat
+            LABEL: Book Format
+    - types: INSTANCE
+      subfields:
+        m: BOOK_FORMAT
+      marc2ldCondition:
+        fieldsAllOf:
+          m: presented
+          z: presented
+      append: true
   362:
     - types: INSTANCE
       subfields:

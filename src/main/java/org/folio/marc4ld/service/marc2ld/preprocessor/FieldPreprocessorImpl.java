@@ -3,7 +3,6 @@ package org.folio.marc4ld.service.marc2ld.preprocessor;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +23,7 @@ public class FieldPreprocessorImpl implements FieldPreprocessor {
   }
 
   @Override
-  public Optional<DataField> apply(PreprocessorContext context) {
+  public List<DataField> apply(PreprocessorContext context) {
     return dataFieldPreprocessors.entrySet()
       .stream()
       .filter(entry ->  entry.getKey().contains(context.dataField().getTag()))
@@ -39,8 +38,8 @@ public class FieldPreprocessorImpl implements FieldPreprocessor {
     public static final List<String> TAGS = List.of(StringUtils.EMPTY);
 
     @Override
-    public Optional<DataField> preprocess(PreprocessorContext context) {
-      return Optional.of(context.dataField());
+    public List<DataField> preprocess(PreprocessorContext context) {
+      return List.of(context.dataField());
     }
 
     @Override
