@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 
@@ -19,6 +20,6 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 public class ResourceKind {
   public static final Set<ResourceTypeDictionary> BIBLIOGRAPHIC = Set.of(INSTANCE, WORK);
   public static final Set<ResourceTypeDictionary> AUTHORITY = Set.of(
-    CONCEPT, PERSON, FAMILY, MEETING, JURISDICTION, ORGANIZATION, FORM, TOPIC
+    CONCEPT, PERSON, FAMILY, MEETING, JURISDICTION, ORGANIZATION, FORM, TOPIC, PLACE
   );
 }
