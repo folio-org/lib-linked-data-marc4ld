@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,7 +30,7 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
   private final IndicatorRuleApplier indProperty1;
   private final IndicatorRuleApplier indProperty2;
   private final String tag;
-  private final String parent;
+  private final Set<String> parent;
   private final Marc4LdRules.FieldRule fieldRule;
   private final Collection<ControlFieldRuleApplier> controlFieldRuleAppliers;
   private final Collection<SubFieldRuleApplier> subFieldRuleAppliers;
@@ -54,8 +55,8 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
       Marc4LdRules.FieldRule::getInd2,
       Marc4LdRules.Marc2ldCondition::getInd2
     );
-    this.parent = Optional.ofNullable(fieldRule.getParent())
-      .orElse(StringUtils.EMPTY);
+    this.parent = ofNullable(fieldRule.getParent())
+      .orElse(Collections.emptySet());
   }
 
   @Override
@@ -157,7 +158,7 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
     }
     return Optional.of(resourceEdge)
       .map(ResourceEdge::getSource)
-      .map(resource -> resource.getTypeNames().contains(parent))
+      .map(resource -> resource.getTypeNames().containsAll(parent))
       .orElse(true);
   }
 }
