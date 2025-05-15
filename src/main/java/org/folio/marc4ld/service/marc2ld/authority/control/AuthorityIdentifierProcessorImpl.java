@@ -14,7 +14,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
-import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
+import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.marc4ld.util.Constants;
 import org.folio.marc4ld.util.MarcUtil;
 import org.marc4j.marc.DataField;
