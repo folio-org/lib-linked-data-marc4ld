@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class FieldPreprocessorImpl implements FieldPreprocessor {
   }
 
   @Override
-  public List<DataField> apply(PreprocessorContext context) {
+  public List<DataField> apply(DataFieldPreprocessor.PreprocessorContext context) {
     return dataFieldPreprocessors.entrySet()
       .stream()
       .filter(entry ->  entry.getKey().contains(context.dataField().getTag()))

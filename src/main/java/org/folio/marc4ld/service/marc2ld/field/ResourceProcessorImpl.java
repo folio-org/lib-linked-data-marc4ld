@@ -13,9 +13,9 @@ import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
-import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapper;
-import org.folio.marc4ld.service.marc2ld.mapper.Marc2ldMapperController;
-import org.folio.marc4ld.service.marc2ld.mapper.mapper.MapperHelper;
+import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapperController;
+import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class ResourceProcessorImpl implements ResourceProcessor {
 
   private final RelationProvider relationProvider;
-  private final Marc2ldMapperController marc2ldMapperController;
+  private final AdditionalMapperController additionalMapperController;
   private final FingerprintHashService hashService;
   private final MapperHelper mapperHelper;
   private final ConditionChecker conditionChecker;
@@ -64,9 +64,9 @@ public class ResourceProcessorImpl implements ResourceProcessor {
       .filter(rule -> conditionChecker.isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, controlFields))
       .forEach(rule -> handleField(resource, dataField, controlFields, rule));
 
-    Optional.of(marc2ldMapperController.findAll(dataField.getTag()))
+    Optional.of(additionalMapperController.findAll(dataField.getTag()))
       .filter(CollectionUtils::isNotEmpty)
-      .orElseGet(() -> marc2ldMapperController.findAll(controlFields))
+      .orElseGet(() -> additionalMapperController.findAll(controlFields))
       .stream()
       .filter(mapper -> isMapping(fieldRule, mapper))
       .findFirst()
@@ -84,7 +84,7 @@ public class ResourceProcessorImpl implements ResourceProcessor {
     resource.setDoc(mapperHelper.getJsonNode(properties));
   }
 
-  private static boolean isMapping(Marc2ldFieldRuleApplier fieldRule, Marc2ldMapper mapper) {
+  private static boolean isMapping(Marc2ldFieldRuleApplier fieldRule, AdditionalMapper mapper) {
     return Optional.of(fieldRule)
       .map(Marc2ldFieldRuleApplier::getPredicate)
       .map(mapper::canMap)

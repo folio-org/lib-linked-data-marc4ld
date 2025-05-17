@@ -28,7 +28,7 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
-import org.folio.marc4ld.service.marc2ld.mapper.custom.CustomMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcBibPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
