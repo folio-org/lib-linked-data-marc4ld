@@ -120,25 +120,13 @@ class Marc2LdConceptFormIT extends Marc2LdTestBase {
     return focusEdges -> {
       assertThat(focusEdges).hasSize(4);
       validateEdge(focusEdges.getFirst(), predicate, List.of(FORM),
-        Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of("Catalogs"),
-          "http://library.link/vocab/resourcePreferred", List.of("true")
-        ), "Catalogs");
+        Map.of("http://bibfra.me/vocab/lite/name", List.of("Catalogs")), "Catalogs");
       validateEdge(focusEdges.get(1), predicate, List.of(FORM),
-        Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of("Indexes"),
-          "http://library.link/vocab/resourcePreferred", List.of("true")
-        ), "Indexes");
+        Map.of("http://bibfra.me/vocab/lite/name", List.of("Indexes")), "Indexes");
       validateEdge(focusEdges.get(2), predicate, List.of(FORM),
-        Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of("Calendars"),
-          "http://library.link/vocab/resourcePreferred", List.of("true")
-        ), "Calendars");
+        Map.of("http://bibfra.me/vocab/lite/name", List.of("Calendars")), "Calendars");
       validateEdge(focusEdges.get(3), predicate, List.of(FORM),
-        Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of("Comics (Graphic works)"),
-          "http://library.link/vocab/resourcePreferred", List.of("true")
-        ), "Comics (Graphic works)");
+        Map.of("http://bibfra.me/vocab/lite/name", List.of("Comics (Graphic works)")), "Comics (Graphic works)");
     };
   }
 }

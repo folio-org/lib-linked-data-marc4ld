@@ -7,7 +7,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -94,8 +93,7 @@ public class ConceptFormMapper extends AbstractBookMapper {
       LABEL.getValue(), List.of(CODE_TO_LCCN_MAP.get(code))
     ), Collections.emptyMap());
     var form = createResource(Set.of(FORM), Map.of(
-      NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code)),
-      RESOURCE_PREFERRED.getValue(), List.of("true")
+      NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
     ), Map.of(MAP, lccn));
     var conceptForm = createResource(Set.of(CONCEPT, FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
