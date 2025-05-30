@@ -645,6 +645,9 @@ bibFieldRules:
                     x: NAME
                   ld2marcCondition:
                     skip: true
+                  marc2ldCondition:
+                    fieldsAllOf:
+                      x: presented
 
   500:
     - types: INSTANCE
