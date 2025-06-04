@@ -14,11 +14,13 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdgeWithSource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstIncomingEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,32 @@ class Marc2Ld490IT extends Marc2LdTestBase {
       .extracting(instanceSeries ->
         getFirstOutgoingEdge(instanceSeries.getSource(), withPredicateUri("http://library.link/vocab/map")))
       .satisfies(this::validateIssnIdentifier);
+  }
+
+  @Test
+  void shouldMapField490WithoutIssn() {
+    // given
+    var marc = loadResourceAsString("fields/490/marc_490_no_issn.jsonl");
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(getWorkEdge(result).getTarget())
+      .extracting(work -> getFirstOutgoingEdge(work, withPredicateUri("http://bibfra.me/vocab/relation/isPartOf")))
+      .satisfies(this::validateWorkSeries)
+      .extracting(workSeries ->
+        getFirstOutgoingEdge(workSeries, withPredicateUri("http://bibfra.me/vocab/relation/isPartOf")))
+      .satisfies(this::validateSeries)
+      .extracting(series -> getFirstIncomingEdge(series, withPredicateUri("http://bibfra.me/vocab/lite/instantiates")))
+      .satisfies(this::validateInstanceSeries)
+      .extracting(ResourceEdge::getSource)
+      .satisfies(this::hasNoIssnIdentifier);
+  }
+
+  private void hasNoIssnIdentifier(Resource instanceSeries) {
+    var issnEdges = getOutgoingEdges(instanceSeries, withPredicateUri("http://library.link/vocab/map"));
+    assertThat(issnEdges).isEmpty();
   }
 
   private void validateWorkSeries(ResourceEdge workSeries) {
