@@ -44,11 +44,17 @@ public abstract class AbstractIdentifierMapper implements Ld2MarcMapper {
       .filter(resourceEdge -> resourceEdge.getPredicate() == STATUS)
       .findFirst()
       .flatMap(e -> getPropertyValue(e.getTarget(), LINK.getValue()))
-      .map(link -> switch (link) {
-        case CURRENT -> Optional.of(A);
-        case CANCINV -> Optional.of(Z);
-        default -> Optional.<Character>empty();
-      })
+      .map(this::linkToChar)
       .orElse(Optional.of(A));
+  }
+
+  private Optional<Character> linkToChar(String link) {
+    if (CURRENT.equals(link)) {
+      return Optional.of(A);
+    }
+    if (CANCINV.equals(link)) {
+      return Optional.of(Z);
+    }
+    return Optional.empty();
   }
 }
