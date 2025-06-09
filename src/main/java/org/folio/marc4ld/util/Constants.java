@@ -70,7 +70,6 @@ public class Constants {
   public static class Dictionary {
 
     public static final String GEOGRAPHIC_CODE_TO_NAME = "GEOGRAPHIC_CODE_TO_NAME";
-    public static final String AGENT_CODE_TO_PREDICATE = "AGENT_CODE_TO_PREDICATE";
     public static final String AGENT_TEXT_TO_PREDICATE = "AGENT_TEXT_TO_PREDICATE";
   }
 }

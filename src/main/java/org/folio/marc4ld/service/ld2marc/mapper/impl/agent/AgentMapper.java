@@ -6,7 +6,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.marc4ld.util.Constants.Dictionary.AGENT_CODE_TO_PREDICATE;
 import static org.folio.marc4ld.util.Constants.E;
 import static org.folio.marc4ld.util.Constants.FOUR;
 import static org.folio.marc4ld.util.Constants.NINE;
@@ -19,15 +18,16 @@ import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.RoleDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -38,14 +38,11 @@ public abstract class AgentMapper implements Ld2MarcMapper {
   private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(CREATOR, CONTRIBUTOR);
   private static final String RELATION_PREFIX = "http://bibfra.me/vocab/relation/";
 
-  private final DictionaryProcessor dictionaryProcessor;
   private final MarcFactory marcFactory;
   private final Comparator<Subfield> comparator;
   private final DataField emptyDataField;
 
-  protected AgentMapper(DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
-                        Comparator<Subfield> comparator) {
-    this.dictionaryProcessor = dictionaryProcessor;
+  protected AgentMapper(MarcFactory marcFactory, Comparator<Subfield> comparator) {
     this.marcFactory = marcFactory;
     this.comparator = comparator;
     emptyDataField = marcFactory.newDataField();
@@ -124,9 +121,8 @@ public abstract class AgentMapper implements Ld2MarcMapper {
       .stream()
       .filter(re -> agent.equals(re.getTarget()))
       .map(ResourceEdge::getPredicate)
-      .map(Enum::name)
-      .map(predicate -> dictionaryProcessor.getKey(AGENT_CODE_TO_PREDICATE, predicate))
-      .flatMap(Optional::stream)
+      .map(RoleDictionary::getCode)
+      .filter(Objects::nonNull)
       .map(code -> marcFactory.newSubfield(FOUR, code))
       .forEach(dataField::addSubfield);
   }

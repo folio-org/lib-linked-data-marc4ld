@@ -81,10 +81,6 @@ class RelationProviderImplTest {
         when(dictionaryProcessor.getValue("AGENT_TEXT_TO_PREDICATE", subfieldE.getData()))
           .thenReturn(Optional.of("PHOTOGRAPHER"));
       }
-      if (subfield4 != null) {
-        when(dictionaryProcessor.getValue("AGENT_CODE_TO_PREDICATE", subfield4.getData()))
-          .thenReturn(Optional.of("PERFORMER"));
-      }
     }
 
     //when
