@@ -26,7 +26,6 @@ import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
@@ -52,9 +51,8 @@ public class OrganizationJurisdictionMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  public OrganizationJurisdictionMapper(DictionaryProcessor dictionaryProcessor,
-                                        MarcFactory marcFactory, Comparator<Subfield> comparator) {
-    super(dictionaryProcessor, marcFactory, comparator);
+  public OrganizationJurisdictionMapper(MarcFactory marcFactory, Comparator<Subfield> comparator) {
+    super(marcFactory, comparator);
   }
 
   @Override

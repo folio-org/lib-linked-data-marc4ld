@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
@@ -49,9 +48,8 @@ public class MeetingMapper extends AgentMapper {
     '6', LINKAGE.getValue()
   );
 
-  protected MeetingMapper(DictionaryProcessor dictionaryProcessor, MarcFactory marcFactory,
-                          Comparator<Subfield> comparator) {
-    super(dictionaryProcessor, marcFactory, comparator);
+  protected MeetingMapper(MarcFactory marcFactory, Comparator<Subfield> comparator) {
+    super(marcFactory, comparator);
   }
 
   @Override
