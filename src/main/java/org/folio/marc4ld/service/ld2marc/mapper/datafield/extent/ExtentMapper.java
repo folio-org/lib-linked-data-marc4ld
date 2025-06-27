@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.extent;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.extent;
 
 import static org.folio.ld.dictionary.PredicateDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCOMPANYING_MATERIAL;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.folio.marc4ld.util.MarcUtil;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ExtentMapper implements Ld2MarcMapper {
+public class ExtentMapper implements CustomDataFieldsMapper {
 
   private final MarcFactory marcFactory;
 

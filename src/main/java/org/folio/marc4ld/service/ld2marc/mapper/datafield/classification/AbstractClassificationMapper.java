@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.classification;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.classification;
 
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.ITEM_NUMBER;
@@ -19,12 +19,12 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 
 @RequiredArgsConstructor
-public abstract class AbstractClassificationMapper implements Ld2MarcMapper {
+public abstract class AbstractClassificationMapper implements CustomDataFieldsMapper {
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(CLASSIFICATION);
 

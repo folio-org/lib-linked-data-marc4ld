@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.classification;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.classification;
 
 import static org.folio.ld.dictionary.PredicateDictionary.ASSIGNING_SOURCE;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;

@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static java.time.Instant.ofEpochMilli;
 import static java.util.Optional.ofNullable;
@@ -12,22 +12,23 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
+import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Ld2MarcCreatedDateMapper implements Ld2MarcCustomMapper {
+public class CreatedDateMapper implements CustomControlFieldsMapper {
 
   private static final DateTimeFormatter MARC_CREATED_DATE_FORMAT = DateTimeFormatter
     .ofPattern("yyMMdd")
     .withZone(ZoneOffset.UTC);
 
   @Override
-  public void map(Resource resource, Context context) {
+  public void map(Resource resource, ControlFieldsBuilder controlFieldsBuilder) {
     if (isInstance(resource)) {
       var optionalCreatedDate = getCreatedDateFromResource(resource);
       optionalCreatedDate.ifPresent(
-        date -> context.controlFieldsBuilder().addFieldValue(TAG_008, date, 0, 6));
+        date -> controlFieldsBuilder.addFieldValue(TAG_008, date, 0, 6));
     }
   }
 

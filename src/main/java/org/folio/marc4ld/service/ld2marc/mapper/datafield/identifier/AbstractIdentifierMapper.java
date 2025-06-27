@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.identifier;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.identifier;
 
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
@@ -12,12 +12,12 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 
 @RequiredArgsConstructor
-public abstract class AbstractIdentifierMapper implements Ld2MarcMapper {
+public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper {
 
   private static final String CURRENT = "http://id.loc.gov/vocabulary/mstatus/current";
   private static final String CANCINV = "http://id.loc.gov/vocabulary/mstatus/cancinv";

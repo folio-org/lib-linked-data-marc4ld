@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static java.util.Collections.emptyMap;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
@@ -35,10 +34,9 @@ class Ld2MarcSupplementaryContentMapperTest {
   void shouldNotMap(Resource resource) {
     //given
     var controlFieldsBuilder = mock(ControlFieldsBuilder.class);
-    var context = new Ld2MarcCustomMapper.Context(controlFieldsBuilder, List.of());
 
     //when
-    mapper.map(resource, context);
+    mapper.map(resource, controlFieldsBuilder);
 
     //then
     verifyNoInteractions(controlFieldsBuilder);
@@ -49,10 +47,9 @@ class Ld2MarcSupplementaryContentMapperTest {
     //given
     var resource = createResourceWithSupplementaryContents();
     var controlFieldsBuilder = mock(ControlFieldsBuilder.class);
-    var context = new Ld2MarcCustomMapper.Context(controlFieldsBuilder, List.of());
 
     //when
-    mapper.map(resource, context);
+    mapper.map(resource, controlFieldsBuilder);
 
     //then
     verify(controlFieldsBuilder).addFieldValue("008", "b", 24, 28);

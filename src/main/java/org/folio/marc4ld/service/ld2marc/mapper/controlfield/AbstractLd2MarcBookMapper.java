@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.marc4ld.util.Constants.TAG_008;
@@ -11,9 +11,10 @@ import java.util.stream.Collectors;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
+import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 
-public abstract class AbstractLd2MarcBookMapper implements Ld2MarcCustomMapper {
+public abstract class AbstractLd2MarcBookMapper implements CustomControlFieldsMapper {
 
   protected abstract PredicateDictionary getPredicate();
 
@@ -22,7 +23,7 @@ public abstract class AbstractLd2MarcBookMapper implements Ld2MarcCustomMapper {
   protected abstract int getEndIndex();
 
   @Override
-  public void map(Resource resource, Context context) {
+  public void map(Resource resource, ControlFieldsBuilder controlFieldsBuilder) {
     getWork(resource)
       .ifPresent(work -> {
         var value = getOutgoingEdges(work, getPredicate())
@@ -32,7 +33,7 @@ public abstract class AbstractLd2MarcBookMapper implements Ld2MarcCustomMapper {
           .map(r -> getPropertyValue(r, CODE.getValue()))
           .flatMap(Optional::stream)
           .collect(Collectors.joining());
-        context.controlFieldsBuilder().addFieldValue(TAG_008, value, getStartIndex(), getEndIndex());
+        controlFieldsBuilder.addFieldValue(TAG_008, value, getStartIndex(), getEndIndex());
       });
   }
 }
