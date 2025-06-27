@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Ld2MarcMapperIT {
+class CustomDataFieldsMapperIT {
 
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;

@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
@@ -14,25 +14,26 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
+import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Ld2MarcSupplementaryContentMapper implements Ld2MarcCustomMapper {
+public class Ld2MarcSupplementaryContentMapper implements CustomControlFieldsMapper {
 
   private static final String INDEX = "index";
 
   @Override
-  public void map(Resource resource, Context context) {
+  public void map(Resource resource, ControlFieldsBuilder controlFieldsBuilder) {
     getWork(resource)
       .ifPresent(work -> {
         var supplementaryContentEdges = getOutgoingEdges(work, SUPPLEMENTARY_CONTENT);
         var nonIndexCodes = getNonIndexCodes(supplementaryContentEdges);
         if (!nonIndexCodes.isEmpty()) {
-          context.controlFieldsBuilder().addFieldValue(TAG_008, nonIndexCodes, 24, 28);
+          controlFieldsBuilder.addFieldValue(TAG_008, nonIndexCodes, 24, 28);
         }
         if (hasIndex(supplementaryContentEdges)) {
-          context.controlFieldsBuilder().addFieldValue(TAG_008, "1", 31, 32);
+          controlFieldsBuilder.addFieldValue(TAG_008, "1", 31, 32);
         }
       });
   }
