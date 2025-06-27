@@ -30,9 +30,8 @@ import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Ld2MarcFieldRuleApplier;
-import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper;
-import org.folio.marc4ld.service.ld2marc.mapper.custom.Ld2MarcCustomMapper.Context;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessorFactory;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.marc4j.marc.DataField;
@@ -51,8 +50,8 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private final MarcFactory marcFactory;
   private final Collection<Ld2MarcFieldRuleApplier> rules;
-  private final List<Ld2MarcMapper> ld2MarcMappers;
-  private final List<Ld2MarcCustomMapper> customMappers;
+  private final List<CustomDataFieldsMapper> dataFieldsMappers;
+  private final List<CustomControlFieldsMapper> controlFieldMappers;
   private final Comparator<Subfield> subfieldComparator;
   private final DataFieldPostProcessorFactory dataFieldPostProcessorFactory;
 
@@ -69,15 +68,14 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
     var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
-    var context = new Context(cfb, dataFields);
-    customMappers.forEach(mapper -> mapper.map(resource, context));
+    controlFieldMappers.forEach(mapper -> mapper.map(resource, cfb));
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
 
   private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
-    return ld2MarcMappers.stream()
+    return dataFieldsMappers.stream()
       .map(mapper -> mapper.map(edge))
       .flatMap(Optional::stream)
       .findFirst()

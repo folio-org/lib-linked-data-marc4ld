@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.agent;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.ld.dictionary.PredicateDictionary.CONTRIBUTOR;
@@ -28,12 +28,12 @@ import org.folio.ld.dictionary.RoleDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.ld2marc.mapper.Ld2MarcMapper;
+import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Subfield;
 
-public abstract class AgentMapper implements Ld2MarcMapper {
+public abstract class AgentMapper implements CustomDataFieldsMapper {
 
   private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(CREATOR, CONTRIBUTOR);
   private static final String RELATION_PREFIX = "http://bibfra.me/vocab/relation/";

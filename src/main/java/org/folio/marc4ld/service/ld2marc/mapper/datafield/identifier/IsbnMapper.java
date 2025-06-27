@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.identifier;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.identifier;
 
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
