@@ -53,7 +53,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @UnitTest
-class Ld2MarcMapperImplTest {
+class CustomDataFieldsMapperImplTest {
 
   private static final String RAW_MARC = "rawMarc";
   private static final String TAG_007 = "007";

@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.custom.impl;
+package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 

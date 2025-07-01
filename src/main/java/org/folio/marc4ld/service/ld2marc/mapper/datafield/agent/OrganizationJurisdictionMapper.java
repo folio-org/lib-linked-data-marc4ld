@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.ld2marc.mapper.impl.agent;
+package org.folio.marc4ld.service.ld2marc.mapper.datafield.agent;
 
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;

@@ -6,7 +6,11 @@ import java.util.function.Predicate;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.marc4j.marc.DataField;
 
-public interface Ld2MarcMapper extends Predicate<ResourceEdge>, Function<ResourceEdge, DataField> {
+/**
+ * Specifies an interface for custom mappers that handle complex or non-configurable Linked Data to MARC data field
+ * conversions. These mappers function independent of configuration-driven mapping logic.
+ */
+public interface CustomDataFieldsMapper extends Predicate<ResourceEdge>, Function<ResourceEdge, DataField> {
 
   default Optional<DataField> map(ResourceEdge resourceEdge) {
     return Optional.of(resourceEdge)

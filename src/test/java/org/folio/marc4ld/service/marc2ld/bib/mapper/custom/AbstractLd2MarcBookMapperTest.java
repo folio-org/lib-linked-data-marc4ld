@@ -24,7 +24,7 @@ import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 
 @UnitTest
-class AbstractBookMapperTest {
+class AbstractLd2MarcBookMapperTest {
 
   LabelService labelService = mock(LabelService.class);
   MapperHelper mapperHelper = mock(MapperHelper.class);
