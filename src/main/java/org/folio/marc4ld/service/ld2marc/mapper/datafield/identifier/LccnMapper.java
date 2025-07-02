@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.datafield.identifier;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.Constants.TAG_010;
 
 import java.util.Objects;
@@ -23,7 +24,11 @@ public class LccnMapper extends AbstractIdentifierMapper {
 
   @Override
   public boolean test(ResourceEdge resourceEdge) {
-    return resourceEdge.getPredicate() == MAP && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
+    return
+      resourceEdge.getSource() != null
+      && resourceEdge.getSource().isOfType(INSTANCE)
+      && resourceEdge.getPredicate() == MAP
+      && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
   }
 
   @Override
