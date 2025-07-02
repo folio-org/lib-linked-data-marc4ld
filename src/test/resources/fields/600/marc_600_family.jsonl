@@ -1,30 +1,33 @@
 {
+  "leader" : "00373nam a2200049uc 4500",
   "fields" : [ {
+    "008" : "                                       "
+  }, {
     "600" : {
       "subfields" : [ {
         "a" : "name"
       }, {
-       "b" : "numeration"
+        "b" : "numeration"
       }, {
         "c" : "title 1"
       }, {
-        "c" : "title 2",
+        "c" : "title 2"
       }, {
-        "d" : "2024",
+        "d" : "2024"
       }, {
-        "e" : "relator",
+        "e" : "relator"
       }, {
-        "g" : "misc info",
+        "g" : "misc info"
       }, {
-        "g" : "another misc info",
+        "g" : "another misc info"
       }, {
-        "j" : "attribution",
+        "j" : "attribution"
       }, {
-        "n" : "number of parts",
+        "n" : "number of parts"
       }, {
-        "n" : "another number of parts",
+        "n" : "another number of parts"
       }, {
-       "q" : "name alternative",
+        "q" : "name alternative"
       }, {
         "v" : "form 1"
       }, {
@@ -41,8 +44,11 @@
         "z" : "place 1"
       }, {
         "z" : "place 2"
+      }, {
+        "0" : "https://id.loc.gov/authorities/names/n1234567890"
       } ],
-      "ind1" : "3"
+      "ind1" : "3",
+      "ind2" : " "
     }
   } ]
 }

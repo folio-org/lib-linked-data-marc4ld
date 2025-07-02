@@ -7,6 +7,7 @@ import static org.folio.marc4ld.util.Constants.T;
 import static org.folio.marc4ld.util.Constants.TAG_245;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
+import static org.folio.marc4ld.util.MarcUtil.duplicateDataField;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 import static org.folio.marc4ld.util.MarcUtil.isSubfieldPresent;
 

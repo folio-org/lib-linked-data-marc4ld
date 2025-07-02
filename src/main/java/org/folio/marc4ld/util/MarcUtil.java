@@ -24,6 +24,17 @@ import org.marc4j.marc.VariableField;
 @UtilityClass
 public class MarcUtil {
 
+  public static DataField duplicateDataField(DataField originalDataField, MarcFactory marcFactory) {
+    var newDataField = marcFactory.newDataField(
+      originalDataField.getTag(),
+      originalDataField.getIndicator1(),
+      originalDataField.getIndicator2()
+    );
+    originalDataField.getSubfields()
+      .forEach(newDataField::addSubfield);
+    return newDataField;
+  }
+
   public static void addRepeatableSubfield(Resource resource, String property, DataField dataField,
                                            char subfield, MarcFactory marcFactory) {
     getPropertyValues(resource, property)
