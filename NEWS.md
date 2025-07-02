@@ -9,6 +9,7 @@
 - Mapping for MARC field 490 [MODLD-714](https://folio-org.atlassian.net/browse/MODLD-714)
 - Mapping for MARC field 340$m [MODLD-723](https://folio-org.atlassian.net/browse/MODLD-723)
 - RoleDictionary usage [MODLD-750](https://folio-org.atlassian.net/browse/MODLD-750)
+- Include 6XX $0 subfield in derived marc [MODLD-770](https://folio-org.atlassian.net/browse/MODLD-770)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

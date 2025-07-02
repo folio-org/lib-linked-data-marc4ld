@@ -4,6 +4,7 @@ import static org.folio.marc4ld.util.Constants.ONE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_545;
 import static org.folio.marc4ld.util.Constants.ZERO;
+import static org.folio.marc4ld.util.MarcUtil.duplicateDataField;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

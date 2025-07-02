@@ -30,6 +30,7 @@ import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.field.Ld2MarcFieldRuleApplier;
+import org.folio.marc4ld.service.ld2marc.mapper.AdditionalDataFieldsMapper;
 import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
 import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.folio.marc4ld.service.ld2marc.processing.DataFieldPostProcessorFactory;
@@ -50,8 +51,9 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private final MarcFactory marcFactory;
   private final Collection<Ld2MarcFieldRuleApplier> rules;
-  private final List<CustomDataFieldsMapper> dataFieldsMappers;
-  private final List<CustomControlFieldsMapper> controlFieldMappers;
+  private final List<CustomDataFieldsMapper> customDataFieldsMappers;
+  private final List<CustomControlFieldsMapper> customControlFieldMappers;
+  private final List<AdditionalDataFieldsMapper> additionalDataFieldsMappers;
   private final Comparator<Subfield> subfieldComparator;
   private final DataFieldPostProcessorFactory dataFieldPostProcessorFactory;
 
@@ -67,40 +69,58 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   private Record buildMarcRecord(Resource resource) {
     var marcRecord = marcFactory.newRecord();
     var cfb = new ControlFieldsBuilder();
-    var dataFields = getFields(new ResourceEdge(null, resource, null), cfb);
-    controlFieldMappers.forEach(mapper -> mapper.map(resource, cfb));
+    var dataFields = getDataFields(new ResourceEdge(null, resource, null), cfb);
+    customControlFieldMappers.forEach(mapper -> mapper.map(resource, cfb));
     Stream.concat(cfb.build(marcFactory), dataFields.stream())
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
 
-  private List<DataField> getFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
-    return dataFieldsMappers.stream()
-      .map(mapper -> mapper.map(edge))
-      .flatMap(Optional::stream)
-      .findFirst()
-      .map(List::of)
-      .orElseGet(() -> getFields(cfb, edge))
+  private List<DataField> getDataFields(ResourceEdge edge, ControlFieldsBuilder cfb) {
+    return performCustomMapping(edge)
+      .orElseGet(() -> performConfigBasedMapping(cfb, edge))
       .stream()
       .filter(df -> isNotEmpty(df.getSubfields()))
       .toList();
   }
 
-  private List<DataField> getFields(ControlFieldsBuilder cfb, ResourceEdge edge) {
+  private Optional<List<DataField>> performCustomMapping(ResourceEdge edge) {
+    return customDataFieldsMappers.stream()
+      .map(mapper -> mapper.map(edge))
+      .flatMap(Optional::stream)
+      .findFirst()
+      .map(List::of);
+  }
+
+  private List<DataField> performConfigBasedMapping(ControlFieldsBuilder cfb, ResourceEdge edge) {
     var resource = edge.getTarget();
     var fieldsFromResource = rules.stream()
       .flatMap(tagToRule -> mapToDataFields(edge, cfb, tagToRule));
     var fieldsFromEdges = getOutgoingEdges(cfb, resource);
     var combinedFields = Stream.concat(fieldsFromResource, fieldsFromEdges).toList();
 
+    combinedFields = performAdditionalMappings(combinedFields, edge);
     return dataFieldPostProcessorFactory.get()
       .apply(combinedFields, resource.getTypes());
+  }
+
+  private List<DataField> performAdditionalMappings(List<DataField> mappedSoFar, ResourceEdge edge) {
+    return mappedSoFar.stream()
+      .map(dataField -> performAdditionalMappings(dataField, edge))
+      .toList();
+  }
+
+  private DataField performAdditionalMappings(DataField mappedSoFar, ResourceEdge edge) {
+    for (var additionalMapper : additionalDataFieldsMappers) {
+      mappedSoFar = additionalMapper.map(edge, mappedSoFar);
+    }
+    return mappedSoFar;
   }
 
   private Stream<DataField> getOutgoingEdges(ControlFieldsBuilder cfb, Resource resource) {
     return resource.getOutgoingEdges()
       .stream()
-      .flatMap(re -> getFields(re, cfb).stream());
+      .flatMap(re -> getDataFields(re, cfb).stream());
   }
 
   private Stream<DataField> mapToDataFields(
