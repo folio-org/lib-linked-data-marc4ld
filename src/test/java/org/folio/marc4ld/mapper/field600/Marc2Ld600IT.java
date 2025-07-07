@@ -61,7 +61,9 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/lite/label", List.of(expectedConceptLabel)),
         Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("place 1", "place 2")),
         Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1", "form 2")),
-        Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator"))
+        Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator")),
+        Map.entry("http://bibfra.me/vocab/lite/authorityLink",
+          List.of("https://id.loc.gov/authorities/names/n1234567890"))
       ),
       expectedConceptLabel);
 
@@ -78,7 +80,8 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/date", List.of("2024"),
         "http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info"),
         "http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts"),
-        "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative")
+        "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative"),
+        "http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890")
       ),
       "numeration, name, title 1, title 2, name alternative, 2024"
     );
