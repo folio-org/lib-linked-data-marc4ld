@@ -1,0 +1,22 @@
+{
+  "leader": "00124nam a2200061uc 4500",
+  "fields": [
+    {
+      "008": "                                       "
+    },
+    {
+      "490": {
+        "subfields": [
+          {
+            "a": "Zhongguo Jing ju bai bu jing dian wai yi xi lie. Di 3 ji ="
+          },
+          {
+            "a": "Translation series of a hundred Jingju (Peking opera) classics"
+          }
+        ],
+        "ind1": "0",
+        "ind2": " "
+      }
+    }
+  ]
+}
