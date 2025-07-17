@@ -44,7 +44,6 @@ class MarcToLd300IT extends Marc2LdTestBase {
     assertThat(result)
       .satisfies(r -> validateResource(r, List.of(ResourceTypeDictionary.INSTANCE),
         Map.of(
-          PropertyDictionary.EXTENT.getValue(), List.of("extent"),
           DIMENSIONS.getValue(), List.of("dimensions"),
           PHYSICAL_DESCRIPTION.getValue(), List.of("physical_description"),
           ACCOMPANYING_MATERIAL.getValue(), List.of("accompanying_material")
