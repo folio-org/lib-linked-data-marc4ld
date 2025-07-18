@@ -7,6 +7,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.apache.commons.lang3.ObjectUtils.anyNull;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
@@ -80,8 +81,14 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return performCustomMapping(edge)
       .orElseGet(() -> performConfigBasedMapping(cfb, edge))
       .stream()
+      .map(this::cleanEmptySubFields)
       .filter(df -> isNotEmpty(df.getSubfields()))
       .toList();
+  }
+
+  private DataField cleanEmptySubFields(DataField dataField) {
+    dataField.getSubfields().removeIf(sf -> isBlank(sf.getData()));
+    return dataField;
   }
 
   private Optional<List<DataField>> performCustomMapping(ResourceEdge edge) {
