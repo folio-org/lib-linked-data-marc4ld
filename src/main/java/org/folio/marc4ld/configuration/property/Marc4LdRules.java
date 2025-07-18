@@ -5,6 +5,7 @@ import static java.util.Optional.ofNullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,9 +27,10 @@ public class Marc4LdRules {
   private Map<String, FieldRule> sharedAuthorityRules;
 
   @Data
+  @Builder(toBuilder = true)
   public static class FieldRule {
     private Set<String> types;
-    private String parent;
+    private Set<String> parent;
     private String predicate;
     private Marc2ldCondition marc2ldCondition;
     private Ld2marcCondition ld2marcCondition;

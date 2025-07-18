@@ -40,6 +40,8 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
   private void postProcess(Marc4LdRules marc4LdRules) {
     processRules(marc4LdRules.getBibFieldRules(), marc4LdRules.getBibSharedRules());
     processRules(marc4LdRules.getAuthorityFieldRules(), marc4LdRules.getSharedAuthorityRules());
+    setParentForEdges(marc4LdRules.getBibFieldRules());
+    setParentForEdges(marc4LdRules.getAuthorityFieldRules());
   }
 
   private void processRules(Map<String, List<Marc4LdRules.FieldRule>> fieldRules,
@@ -73,5 +75,26 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
 
     target.setAppend(source.isAppend());
     target.setMultiply(source.isMultiply());
+  }
+
+  private void setParentForEdges(Map<String, List<Marc4LdRules.FieldRule>> rules) {
+    rules.values().stream()
+      .flatMap(List::stream)
+      .forEach(this::setParentForEdges);
+  }
+
+  public Marc4LdRules.FieldRule setParentForEdges(Marc4LdRules.FieldRule fieldRule) {
+    if (fieldRule.getEdges() == null) {
+      return fieldRule;
+    }
+    var updatedEdges = fieldRule.getEdges()
+      .stream()
+      .map(edge -> {
+        var updatedEdge = edge.toBuilder().parent(fieldRule.getTypes()).build();
+        return setParentForEdges(updatedEdge);
+      })
+      .toList();
+    fieldRule.setEdges(updatedEdges);
+    return fieldRule;
   }
 }
