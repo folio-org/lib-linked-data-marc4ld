@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -64,7 +63,6 @@ class Ld2Marc300IT {
     ).setLabel("extent2 unit_type2 unit_size2");
     return MonographTestUtil.createResource(
       Map.of(
-        PropertyDictionary.EXTENT, List.of("extent"),
         DIMENSIONS, List.of("dimension1", "dimension2"),
         PHYSICAL_DESCRIPTION, List.of("physical_description1", "physical_description2"),
         ACCOMPANYING_MATERIAL, List.of("accompanying_material1", "accompanying_material2")

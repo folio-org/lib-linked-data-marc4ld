@@ -499,7 +499,6 @@ bibFieldRules:
   300:
     - types: INSTANCE
       subfields:
-        a: EXTENT
         b: PHYSICAL_DESCRIPTION
         c: DIMENSIONS
         e: ACCOMPANYING_MATERIAL
