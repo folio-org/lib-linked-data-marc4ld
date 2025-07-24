@@ -3,7 +3,6 @@ package org.folio.marc4ld.service.marc2ld.field;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -19,6 +18,7 @@ import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.marc4ld.service.marc2ld.relation.RelationProvider;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,43 +34,43 @@ public class ResourceProcessorImpl implements ResourceProcessor {
 
   @Override
   public Collection<Resource> create(DataField dataField,
-                                     List<ControlField> controlFields,
+                                     Record marcRecord,
                                      Marc2ldFieldRuleApplier rule) {
-    var fieldMapper = getMapper(dataField, controlFields, rule);
+    var fieldMapper = getMapper(dataField, marcRecord.getControlFields(), rule);
     var mappedResources = fieldMapper.createResources();
     mappedResources
-      .forEach(resource -> additionalMapping(resource, rule, dataField, controlFields));
+      .forEach(resource -> additionalMapping(resource, rule, dataField, marcRecord));
     return mappedResources;
   }
 
   @Override
   public void handleField(Resource parent,
                           DataField dataField,
-                          List<ControlField> controlFields,
+                          Record marcRecord,
                           Marc2ldFieldRuleApplier rule) {
-    var fieldMapper = getMapper(dataField, controlFields, rule);
+    var fieldMapper = getMapper(dataField, marcRecord.getControlFields(), rule);
     var mappedResources = fieldMapper.createResources(parent);
 
     mappedResources
-      .forEach(resource -> additionalMapping(resource, rule, dataField, controlFields));
+      .forEach(resource -> additionalMapping(resource, rule, dataField, marcRecord));
   }
 
   private void additionalMapping(Resource resource,
                                  Marc2ldFieldRuleApplier fieldRule,
                                  DataField dataField,
-                                 List<ControlField> controlFields) {
+                                 Record marcRecord) {
     fieldRule.getEdgeRules()
       .stream()
-      .filter(rule -> conditionChecker.isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, controlFields))
-      .forEach(rule -> handleField(resource, dataField, controlFields, rule));
+      .filter(rule -> conditionChecker.isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord))
+      .forEach(rule -> handleField(resource, dataField, marcRecord, rule));
 
     Optional.of(additionalMapperController.findAll(dataField.getTag()))
       .filter(CollectionUtils::isNotEmpty)
-      .orElseGet(() -> additionalMapperController.findAll(controlFields))
+      .orElseGet(() -> additionalMapperController.findAll(marcRecord.getControlFields()))
       .stream()
       .filter(mapper -> isMapping(fieldRule, mapper))
       .findFirst()
-      .ifPresent(m -> m.map(new MarcData(dataField, controlFields), resource));
+      .ifPresent(m -> m.map(new MarcData(dataField, marcRecord.getControlFields()), resource));
 
     if (!resource.getTypes().contains(WORK)) {
       setLabel(resource);

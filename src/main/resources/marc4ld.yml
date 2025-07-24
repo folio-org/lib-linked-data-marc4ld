@@ -15,6 +15,23 @@ bibFieldRules:
       controlFields:
         '008':
           CREATED_DATE: 0,6
+    - types: CATEGORY
+      parent: WORK
+      predicate: CHARACTERISTIC
+      controlFields:
+        '008':
+          CODE: 21,22
+      edges:
+        - types: CATEGORY_SET
+          parent: CATEGORY
+          predicate: IS_DEFINED_BY
+          constants:
+            LINK: http://id.loc.gov/vocabulary/mserialpubtype
+            LABEL: Serial Publication Type
+      marc2ldCondition:
+        leader:
+          - substring: 7,8
+            isAny: b, s
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES

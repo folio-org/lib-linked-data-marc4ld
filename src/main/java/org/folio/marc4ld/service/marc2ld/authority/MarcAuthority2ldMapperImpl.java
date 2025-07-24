@@ -64,8 +64,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
     return rules.findAuthorityFieldRules(dataField.getTag())
       .stream()
       .filter(rule -> conditionChecker
-        .isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord.getControlFields()))
-      .map(applier -> fieldController.create(dataField, marcRecord.getControlFields(), applier))
+        .isMarc2LdConditionSatisfied(rule.getOriginal(), dataField, marcRecord))
+      .map(applier -> fieldController.create(dataField, marcRecord, applier))
       .flatMap(Collection::stream);
   }
 

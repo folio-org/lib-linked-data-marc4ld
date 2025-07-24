@@ -11,6 +11,7 @@
 - RoleDictionary usage [MODLD-750](https://folio-org.atlassian.net/browse/MODLD-750)
 - Include 6XX $0 subfield in derived marc [MODLD-770](https://folio-org.atlassian.net/browse/MODLD-770)
 - PlaceDictionary usage [MODLD-781](https://folio-org.atlassian.net/browse/MODLD-781)
+- Serial characteristic mapping added [MODLD-794](https://folio-org.atlassian.net/browse/MODLD-794)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

@@ -71,5 +71,7 @@ public class Constants {
 
     public static final String GEOGRAPHIC_CODE_TO_NAME = "GEOGRAPHIC_CODE_TO_NAME";
     public static final String AGENT_TEXT_TO_PREDICATE = "AGENT_TEXT_TO_PREDICATE";
+    public static final String CHARACTERISTIC_CODE_TO_LINK = "CHARACTERISTIC_CODE_TO_LINK";
+    public static final String CHARACTERISTIC_CODE_TO_TERM = "CHARACTERISTIC_CODE_TO_TERM";
   }
 }

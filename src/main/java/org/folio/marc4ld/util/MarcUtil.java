@@ -88,6 +88,11 @@ public class MarcUtil {
       || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
   }
 
+  public static boolean isSerial(char bibliographicLevel) {
+    return bibliographicLevel == BibliographLevel.SERIAL.value
+      || bibliographicLevel == BibliographLevel.SERIAL_COMPONENT_PART.value;
+  }
+
   public static void sortFields(Record marcRecord) {
     if (isEmpty(marcRecord.getVariableFields())) {
       return;
