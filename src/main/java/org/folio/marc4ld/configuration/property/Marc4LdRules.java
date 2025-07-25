@@ -73,6 +73,7 @@ public class Marc4LdRules {
     private String ind1;
     private String ind2;
     private List<ControlFieldContext> controlFields;
+    private List<Leader> leader;
     private boolean skip;
   }
 
@@ -94,6 +95,12 @@ public class Marc4LdRules {
     private List<Integer> substring;
     private List<String> isAny;
     private Boolean isBlank;
+  }
+
+  @Data
+  public static class Leader {
+    private List<Integer> substring;
+    private List<String> isAny;
   }
 
   @Data

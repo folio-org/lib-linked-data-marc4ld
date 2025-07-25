@@ -79,6 +79,11 @@ public class MarcUtil {
     subfields.forEach(dataField::addSubfield);
   }
 
+  public static boolean isMonograph(char typeOfRecord, char bibliographicLevel) {
+    return isLanguageMaterial(typeOfRecord)
+      && isMonographicComponentPartOrItem(bibliographicLevel);
+  }
+
   public static boolean isLanguageMaterial(char typeOfRecord) {
     return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value;
   }
@@ -86,6 +91,11 @@ public class MarcUtil {
   public static boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
     return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
       || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
+  }
+
+  public static boolean isSerial(char bibliographicLevel) {
+    return bibliographicLevel == BibliographLevel.SERIAL.value
+      || bibliographicLevel == BibliographLevel.SERIAL_COMPONENT_PART.value;
   }
 
   public static void sortFields(Record marcRecord) {

@@ -12,6 +12,7 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
 
   @Test
-  void shouldMapTargetAudience() {
+  void shouldMapTargetAudience_whenRecordIsMonograph() {
     // given
     var marc = loadResourceAsString("fields/008/marc_008_target_audience.jsonl");
 
@@ -49,5 +50,21 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
           ), "Target audience");
         assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
+  }
+
+  @Test
+  void shouldNotMapTargetAudience_whenRecordIsSerial() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_target_audience_serial.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(ResourceEdge::getTarget)
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }

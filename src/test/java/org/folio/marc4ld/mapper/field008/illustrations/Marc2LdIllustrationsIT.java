@@ -12,6 +12,7 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 class Marc2LdIllustrationsIT extends Marc2LdTestBase {
 
   @Test
-  void shouldMapIllustrations() {
+  void shouldMapIllustrations_whenRecordIsMonograph() {
     // given
     var marc = loadResourceAsString("fields/008/marc_008_illustrations.jsonl");
 
@@ -34,9 +35,9 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
         assertThat(edges).hasSize(4);
         validateEdge(edges.getFirst(), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("b"),
-          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
-          "http://bibfra.me/vocab/marc/term", List.of("Maps")
+            "http://bibfra.me/vocab/marc/code", List.of("b"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
+            "http://bibfra.me/vocab/marc/term", List.of("Maps")
           ), "Maps");
         validateEdge(edges.get(1), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
@@ -67,5 +68,21 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
           ), "Illustrative Content");
         assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
+  }
+
+  @Test
+  void shouldNotMapIllustrations_whenRecordIsSerial() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_illustrations_serial.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(ResourceEdge::getTarget)
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }

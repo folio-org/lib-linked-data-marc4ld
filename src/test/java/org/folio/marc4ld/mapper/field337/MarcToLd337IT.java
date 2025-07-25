@@ -40,7 +40,7 @@ class MarcToLd337IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("MEDIA source")
         ),
         "MEDIA term"))
-      .extracting(this::getCategorySetEdge)
+      .extracting(ResourceEdgeHelper::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/genreFormSchemes/rdamedia"),
@@ -56,7 +56,4 @@ class MarcToLd337IT extends Marc2LdTestBase {
     return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/media"));
   }
 
-  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
-  }
 }

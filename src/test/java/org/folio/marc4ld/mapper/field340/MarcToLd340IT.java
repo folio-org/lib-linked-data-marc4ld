@@ -47,7 +47,7 @@ class MarcToLd340IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/source", List.of("rdabf")
         ),
         term))
-      .extracting(this::getCategorySetEdge)
+      .extracting(ResourceEdgeHelper::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/bookformat"),
@@ -78,10 +78,6 @@ class MarcToLd340IT extends Marc2LdTestBase {
 
   private ResourceEdge getBookFormatEdge(Resource result) {
     return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/bookFormat"));
-  }
-
-  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
   }
 
   private static Stream<Arguments> provideStandardBookFormatParams() {

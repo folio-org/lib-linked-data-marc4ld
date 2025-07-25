@@ -6,6 +6,7 @@ import static org.folio.marc4ld.util.Constants.Dictionary.GEOGRAPHIC_CODE_TO_NAM
 import static org.folio.marc4ld.util.Constants.TAG_043;
 
 import java.util.List;
+import java.util.Set;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -33,7 +34,7 @@ public class GeographicCoverageMapper extends DictionaryBasedMarc2LdMapper {
   }
 
   @Override
-  MappingConfig getMappingConfig() {
-    return CONFIG;
+  Set<MappingConfig> getMappingConfigs() {
+    return Set.of(CONFIG);
   }
 }
