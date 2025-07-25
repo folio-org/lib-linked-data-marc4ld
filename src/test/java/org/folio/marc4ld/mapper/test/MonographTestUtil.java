@@ -57,7 +57,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EQUIVALENT;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FIELD_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
@@ -215,7 +214,6 @@ public class MonographTestUtil {
       .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b");
     return createResource(
       Map.ofEntries(
-        entry(EXTENT, List.of("extent")),
         entry(DIMENSIONS, List.of("dimensions"))
       ),
       Set.of(INSTANCE),
@@ -414,7 +412,6 @@ public class MonographTestUtil {
       .setSrsId("43d58061-decf-4d74-9747-0e1c368e861b");
     return createResource(
       Map.ofEntries(
-        entry(EXTENT, List.of("extent")),
         entry(DIMENSIONS, List.of("dimensions")),
         entry(EDITION, List.of("Edition Statement Edition statement2")),
         entry(PROJECTED_PROVISION_DATE, List.of("projectedProvisionDate")),

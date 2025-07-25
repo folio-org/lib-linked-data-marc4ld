@@ -16,7 +16,6 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -44,7 +43,6 @@ class MarcToLd300IT extends Marc2LdTestBase {
     assertThat(result)
       .satisfies(r -> validateResource(r, List.of(ResourceTypeDictionary.INSTANCE),
         Map.of(
-          PropertyDictionary.EXTENT.getValue(), List.of("extent"),
           DIMENSIONS.getValue(), List.of("dimensions"),
           PHYSICAL_DESCRIPTION.getValue(), List.of("physical_description"),
           ACCOMPANYING_MATERIAL.getValue(), List.of("accompanying_material")

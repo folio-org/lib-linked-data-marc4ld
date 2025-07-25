@@ -44,7 +44,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.EXHIBITIONS_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.EXTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.FORMER_TITLE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.FUNDING_INFORMATION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_COVERAGE;
@@ -307,7 +306,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private void validateInstance(Resource resource) {
     validateId(resource);
     assertThat(resource.getLabel()).isEqualTo("MainTitle SubTitle");
-    assertThat(resource.getDoc()).hasSize(35);
+    assertThat(resource.getDoc()).hasSize(34);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
@@ -317,9 +316,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
       .isEqualTo("Statement Of Responsibility");
-    assertThat(resource.getDoc().has(EXTENT.getValue())).isTrue();
-    assertThat(resource.getDoc().get(EXTENT.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EXTENT.getValue()).get(0).asText()).isEqualTo("extent");
     assertThat(resource.getDoc().has(DIMENSIONS.getValue())).isTrue();
     assertThat(resource.getDoc().get(DIMENSIONS.getValue())).hasSize(1);
     assertThat(resource.getDoc().get(DIMENSIONS.getValue()).get(0).asText()).isEqualTo("dimensions");
