@@ -627,16 +627,20 @@ bibFieldRules:
           predicate: IS_PART_OF
           subfields:
             a: NAME
+            x: ISSN
           ld2marcCondition:
             skip: true
           edges:
+            - types: ID_ISSN, IDENTIFIER
+              predicate: MAP
+              subfields:
+                x: NAME
             - types: INSTANCE, SERIES
               parent: SERIES
               predicate: INSTANTIATES
               subfields:
                 a: NAME
-              ld2marcCondition:
-                skip: true
+                x: ISSN
               edges:
                 - types: ID_ISSN, IDENTIFIER
                   predicate: MAP
@@ -647,7 +651,6 @@ bibFieldRules:
                   marc2ldCondition:
                     fieldsAllOf:
                       x: presented
-
   500:
     - types: INSTANCE
       subfields:

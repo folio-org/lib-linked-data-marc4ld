@@ -63,9 +63,9 @@ class Marc2Ld490IT extends Marc2LdTestBase {
       .satisfies(this::validateWorkSeries)
       .extracting(workSeries ->
         getFirstOutgoingEdge(workSeries, withPredicateUri("http://bibfra.me/vocab/relation/isPartOf")))
-      .satisfies(this::validateSeries)
+      .satisfies(this::validateSeriesWithoutIssn)
       .extracting(series -> getFirstIncomingEdge(series, withPredicateUri("http://bibfra.me/vocab/lite/instantiates")))
-      .satisfies(this::validateInstanceSeries)
+      .satisfies(this::validateInstanceSeriesWithoutIssn)
       .extracting(ResourceEdge::getSource)
       .satisfies(this::hasNoIssnIdentifier);
   }
@@ -87,10 +87,31 @@ class Marc2Ld490IT extends Marc2LdTestBase {
     validateEdge(series, IS_PART_OF, List.of(SERIES),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
-        "http://bibfra.me/vocab/lite/name", List.of("name")), "name");
+        "http://bibfra.me/vocab/lite/name", List.of("name"),
+        "http://bibfra.me/vocab/marc/issn", List.of("issn")
+      ), "name");
+
+    var issnEdge = getFirstOutgoingEdge(series.getTarget(), withPredicateUri("http://library.link/vocab/map"));
+    validateIssnIdentifier(issnEdge);
+  }
+
+  private void validateSeriesWithoutIssn(ResourceEdge series) {
+    validateEdge(series, IS_PART_OF, List.of(SERIES),
+      Map.of(
+        "http://bibfra.me/vocab/lite/label", List.of("name"),
+        "http://bibfra.me/vocab/lite/name", List.of("name")
+      ), "name");
   }
 
   private void validateInstanceSeries(ResourceEdge instanceSeries) {
+    validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES),
+      Map.of(
+        "http://bibfra.me/vocab/lite/label", List.of("name"),
+        "http://bibfra.me/vocab/lite/name", List.of("name"),
+        "http://bibfra.me/vocab/marc/issn", List.of("issn")), "name");
+  }
+
+  private void validateInstanceSeriesWithoutIssn(ResourceEdge instanceSeries) {
     validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
