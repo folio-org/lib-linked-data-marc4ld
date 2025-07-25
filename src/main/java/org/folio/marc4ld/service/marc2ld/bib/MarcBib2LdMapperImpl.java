@@ -13,8 +13,7 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.LdUtil.getFirst;
-import static org.folio.marc4ld.util.MarcUtil.isLanguageMaterial;
-import static org.folio.marc4ld.util.MarcUtil.isMonographicComponentPartOrItem;
+import static org.folio.marc4ld.util.MarcUtil.isMonograph;
 import static org.folio.marc4ld.util.MarcUtil.isSerial;
 
 import java.util.List;
@@ -81,9 +80,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     }
     var typeOfRecord = leader.getTypeOfRecord();
     var bibliographicLevel = leader.getImplDefined1()[0];
-    return isLanguageMaterial(typeOfRecord)
-      && isMonographicComponentPartOrItem(bibliographicLevel)
-      || isSerial(bibliographicLevel);
+    return isMonograph(typeOfRecord, bibliographicLevel) || isSerial(bibliographicLevel);
   }
 
   private Resource createInstanceAndWorkResource(List<Record> records) {

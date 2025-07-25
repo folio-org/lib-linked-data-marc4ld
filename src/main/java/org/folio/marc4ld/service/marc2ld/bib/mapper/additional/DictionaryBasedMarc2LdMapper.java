@@ -1,8 +1,9 @@
 package org.folio.marc4ld.service.marc2ld.bib.mapper.additional;
 
+import static java.util.Collections.emptyMap;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -26,7 +27,6 @@ public abstract class DictionaryBasedMarc2LdMapper implements AdditionalMapper {
     getMappingConfigs()
       .stream()
       .map(mc -> mapSingle(resource, mc))
-      .filter(Objects::nonNull)
       .forEach(properties -> resource.setDoc(mapperHelper.getJsonNode(properties)));
   }
 
@@ -35,7 +35,7 @@ public abstract class DictionaryBasedMarc2LdMapper implements AdditionalMapper {
     var codes = properties.getOrDefault(config.keyProperty.getValue(), List.of());
     var values = dictionaryProcessor.getValues(config.dictionaryName, codes);
     if (values.isEmpty()) {
-      return null;
+      return emptyMap();
     }
     properties.put(config.valueProperty.getValue(), values);
     return properties;

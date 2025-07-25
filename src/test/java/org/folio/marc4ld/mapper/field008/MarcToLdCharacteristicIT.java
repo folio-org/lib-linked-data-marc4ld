@@ -60,7 +60,7 @@ class MarcToLdCharacteristicIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .extracting(ResourceEdge::getTarget)
       .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/characteristic")))
-      .satisfies(characteristics -> assertThat(characteristics).isEmpty());
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
   private ResourceEdge getCharacteristicEdge(ResourceEdge resourceEdge) {

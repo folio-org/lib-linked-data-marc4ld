@@ -62,6 +62,11 @@ bibFieldRules:
             '008':
               CODE: 22,23
           marc2ldCondition:
+            leader:
+              - substring: 6,7
+                isAny: a
+              - substring: 7,8
+                isAny: a, m
             controlFields:
               - tag: 008
                 substring: 22,23

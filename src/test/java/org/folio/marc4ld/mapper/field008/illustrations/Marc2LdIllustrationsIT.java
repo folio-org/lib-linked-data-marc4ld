@@ -83,6 +83,6 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .extracting(ResourceEdge::getTarget)
       .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
-      .satisfies(list -> assertThat(list).isEmpty());
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }
