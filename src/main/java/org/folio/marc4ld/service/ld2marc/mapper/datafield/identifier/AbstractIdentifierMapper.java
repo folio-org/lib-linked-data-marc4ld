@@ -5,6 +5,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.SPACE;
+import static org.folio.marc4ld.util.Constants.Y;
 import static org.folio.marc4ld.util.Constants.Z;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 
@@ -21,6 +22,7 @@ public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper
 
   private static final String CURRENT = "http://id.loc.gov/vocabulary/mstatus/current";
   private static final String CANCINV = "http://id.loc.gov/vocabulary/mstatus/cancinv";
+  private static final String INCORRECT = "http://id.loc.gov/vocabulary/mstatus/incorrect";
 
   protected final MarcFactory marcFactory;
 
@@ -49,12 +51,11 @@ public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper
   }
 
   private Optional<Character> linkToChar(String link) {
-    if (CURRENT.equals(link)) {
-      return Optional.of(A);
-    }
-    if (CANCINV.equals(link)) {
-      return Optional.of(Z);
-    }
-    return Optional.empty();
+    return switch (link) {
+      case CURRENT -> Optional.of(A);
+      case INCORRECT -> Optional.of(Y);
+      case CANCINV -> Optional.of(Z);
+      default -> Optional.empty();
+    };
   }
 }
