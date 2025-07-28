@@ -32,7 +32,7 @@ class Marc2Ld022IT extends Marc2LdTestBase {
     var issnEdges = getOutgoingEdges(result, withPredicateUri(MAP.getUri()));
     assertEquals(3, issnEdges.size());
 
-    // Current LCCN edge (022$a)
+    // Current ISSN edge (022$a)
     validateResource(
       issnEdges.getFirst().getTarget(),
       List.of(IDENTIFIER, ID_ISSN),
@@ -54,7 +54,7 @@ class Marc2Ld022IT extends Marc2LdTestBase {
       "current"
     );
 
-    // Incorrect LCCN edge (010$y)
+    // Incorrect ISSN edge (022$y)
     validateResource(
       issnEdges.get(1).getTarget(),
       List.of(IDENTIFIER, ID_ISSN),
@@ -76,7 +76,7 @@ class Marc2Ld022IT extends Marc2LdTestBase {
       "incorrect"
     );
 
-    // Cancelled LCCN edge (010$y)
+    // Cancelled ISSN edge (022$z)
     validateResource(
       issnEdges.get(2).getTarget(),
       List.of(IDENTIFIER, ID_ISSN),
