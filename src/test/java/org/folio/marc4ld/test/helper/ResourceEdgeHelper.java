@@ -66,6 +66,10 @@ public class ResourceEdgeHelper {
     return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"));
   }
 
+  public static ResourceEdge getCategorySetEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
+  }
+
   public static List<ResourceEdge> getEdges(Resource resource, ResourceTypeDictionary... resourceTypes) {
     return resource.getOutgoingEdges()
       .stream()

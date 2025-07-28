@@ -13,8 +13,8 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.LdUtil.getFirst;
-import static org.folio.marc4ld.util.MarcUtil.isLanguageMaterial;
-import static org.folio.marc4ld.util.MarcUtil.isMonographicComponentPartOrItem;
+import static org.folio.marc4ld.util.MarcUtil.isMonograph;
+import static org.folio.marc4ld.util.MarcUtil.isSerial;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +45,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
-
+  private static final String SUPPORTED_RECORD_TYPES = "Monograph, Serial";
   private final Marc2ldRules rules;
   private final ResourceProcessor fieldController;
   private final FieldPreprocessor fieldPreprocessor;
@@ -63,22 +63,24 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
       log.warn("Given marc is empty [{}]", marc);
       return Optional.empty();
     }
-    var records = marcReaderProcessor.readMarc(marc).filter(this::isMonograph).toList();
+    var records = marcReaderProcessor.readMarc(marc)
+      .filter(this::isSupportedType)
+      .toList();
     if (records.isEmpty()) {
-      log.warn("Given marc is not monograph, skipping: [{}]", marc);
+      log.warn("Given marc record is not of supported types ({}), skipping: [{}]", SUPPORTED_RECORD_TYPES, marc);
       return Optional.empty();
     }
     return Optional.of(createInstanceAndWorkResource(records));
   }
 
-  private boolean isMonograph(Record marcRecord) {
+  private boolean isSupportedType(Record marcRecord) {
     var leader = marcRecord.getLeader();
     if (isNull(leader)) {
       return false;
     }
     var typeOfRecord = leader.getTypeOfRecord();
     var bibliographicLevel = leader.getImplDefined1()[0];
-    return isLanguageMaterial(typeOfRecord) && isMonographicComponentPartOrItem(bibliographicLevel);
+    return isMonograph(typeOfRecord, bibliographicLevel) || isSerial(bibliographicLevel);
   }
 
   private Resource createInstanceAndWorkResource(List<Record> records) {
@@ -120,8 +122,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
         rules.findBibFieldRules(tag)
           .stream()
           .filter(rule -> conditionChecker
-            .isMarc2LdConditionSatisfied(rule.getOriginal(), field, marcRecord.getControlFields()))
-          .forEach(fr -> fieldController.handleField(instance, field, marcRecord.getControlFields(), fr))
+            .isMarc2LdConditionSatisfied(rule.getOriginal(), field, marcRecord))
+          .forEach(fr -> fieldController.handleField(instance, field, marcRecord, fr))
       );
   }
 

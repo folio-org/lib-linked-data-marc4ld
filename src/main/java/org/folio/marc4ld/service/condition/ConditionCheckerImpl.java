@@ -21,6 +21,8 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Leader;
+import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,7 @@ public class ConditionCheckerImpl implements ConditionChecker {
   public static final String NOT_PRESENTED = "not_presented";
 
   @Override
-  public boolean isMarc2LdConditionSatisfied(Marc4LdRules.FieldRule fieldRule, DataField dataField,
-                                             List<ControlField> controlFields) {
+  public boolean isMarc2LdConditionSatisfied(Marc4LdRules.FieldRule fieldRule, DataField dataField, Record marcRecord) {
     var condition = fieldRule.getMarc2ldCondition();
     if (isNull(condition)) {
       return true;
@@ -43,7 +44,8 @@ public class ConditionCheckerImpl implements ConditionChecker {
       !condition.isSkip()
       && isInd1Condition(dataField, condition)
       && isInd2Condition(dataField, condition)
-      && isControlFieldConditions(controlFields, condition)
+      && isControlFieldConditions(marcRecord.getControlFields(), condition)
+      && isLeaderConditions(marcRecord.getLeader(), condition)
       && isAllOfFieldConditions(dataField, condition)
       && isFieldAnyOfConditions(dataField, condition);
   }
@@ -144,14 +146,27 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private Boolean evaluateControlField(Marc4LdRules.ControlFieldContext cfc, ControlField cf) {
-    var data = cf.getData();
-    data = substring(data, cfc.getSubstring());
-    var isAny = cfc.getIsAny();
-    if (!isEmpty(isAny) && !isAny.contains(data)) {
+    var data = substring(cf.getData(), cfc.getSubstring());
+    if (!isAnyMatch(data, cfc.getIsAny())) {
       return false;
     }
     var isBlank = cfc.getIsBlank();
     return isBlank == null || isBlank.booleanValue() == data.isBlank();
+  }
+
+  private boolean isLeaderConditions(Leader leader, Marc4LdRules.Marc2ldCondition condition) {
+    return isEmpty(condition.getLeader()) || condition.getLeader()
+      .stream()
+      .allMatch(leaderCondition -> evaluateLeaderValue(leaderCondition, leader.marshal()));
+  }
+
+  private Boolean evaluateLeaderValue(Marc4LdRules.Leader leaderCondition, String leader) {
+    var data = substring(leader, leaderCondition.getSubstring());
+    return isAnyMatch(data, leaderCondition.getIsAny());
+  }
+
+  private static boolean isAnyMatch(String data, List<String> isAny) {
+    return isEmpty(isAny) || isAny.contains(data);
   }
 
   static String substring(String data, List<Integer> substring) {

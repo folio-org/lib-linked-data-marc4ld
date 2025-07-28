@@ -41,7 +41,7 @@ class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/marc/term", List.of("Autonomous")
         ),
         "Autonomous"))
-      .extracting(this::getCategorySetEdge)
+      .extracting(ResourceEdgeHelper::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mgovtpubtype"),
@@ -61,9 +61,5 @@ class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
 
   private ResourceEdge getGovernmentPublicationEdge(ResourceEdge result) {
     return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/governmentPublication"));
-  }
-
-  private ResourceEdge getCategorySetEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/lite/isDefinedBy"));
   }
 }
