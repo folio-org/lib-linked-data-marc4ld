@@ -3,10 +3,14 @@ package org.folio.marc4ld.mapper.field008.illustrations;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
@@ -30,6 +34,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
+      .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, BOOKS), Map.of(), ""))
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(4);
@@ -81,6 +86,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
+      .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
       .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
       .satisfies(edges -> assertThat(edges).isEmpty());

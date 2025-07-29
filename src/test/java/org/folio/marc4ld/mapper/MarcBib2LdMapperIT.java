@@ -88,6 +88,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
@@ -493,7 +494,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     validateId(work);
     assertThat(work.getLabel()).isEqualTo("MainTitle SubTitle");
-    assertThat(work.getTypes()).containsOnly(WORK);
+    assertThat(work.getTypes()).containsOnly(WORK, BOOKS);
     assertThat(work.getDoc()).hasSize(13);
     getWorkExpectedProperties()
       .forEach((property, propertyValue) -> validateProperty(work, property, List.of(propertyValue)));

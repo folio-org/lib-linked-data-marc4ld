@@ -1,6 +1,7 @@
 package org.folio.marc4ld.mapper.field586;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
@@ -27,7 +28,7 @@ class Marc2Ld586IT extends Marc2LdTestBase {
   }
 
   private void validateAwardsNote(Resource resource) {
-    validateResource(resource, List.of(WORK),
+    validateResource(resource, List.of(WORK, BOOKS),
       Map.of("http://bibfra.me/vocab/marc/awardsNote", List.of("awards_note1", "awards_note2")), "");
   }
 }

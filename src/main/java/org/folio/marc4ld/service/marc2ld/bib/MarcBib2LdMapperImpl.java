@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.marc2ld.bib;
 
 import static java.lang.Character.MIN_VALUE;
 import static java.util.Objects.isNull;
+import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
@@ -13,14 +14,13 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
 import static org.folio.marc4ld.util.LdUtil.getFirst;
-import static org.folio.marc4ld.util.MarcUtil.isMonograph;
-import static org.folio.marc4ld.util.MarcUtil.isSerial;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -34,6 +34,7 @@ import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.Prep
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
+import org.folio.marc4ld.util.TypeUtil;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -45,7 +46,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
-  private static final String SUPPORTED_RECORD_TYPES = "Monograph, Serial";
   private final Marc2ldRules rules;
   private final ResourceProcessor fieldController;
   private final FieldPreprocessor fieldPreprocessor;
@@ -61,34 +61,33 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   public Optional<Resource> fromMarcJson(String marc) {
     if (isEmpty(marc)) {
       log.warn("Given marc is empty [{}]", marc);
-      return Optional.empty();
+      return empty();
     }
-    var records = marcReaderProcessor.readMarc(marc)
-      .filter(this::isSupportedType)
-      .toList();
-    if (records.isEmpty()) {
-      log.warn("Given marc record is not of supported types ({}), skipping: [{}]", SUPPORTED_RECORD_TYPES, marc);
-      return Optional.empty();
+    var records = marcReaderProcessor.readMarc(marc).toList();
+    if (records.size() > 1) {
+      log.warn("Given marc contains [{}] record(s), but only the first is to be mapped", records.size());
     }
-    return Optional.of(createInstanceAndWorkResource(records));
+    return createInstanceAndWorkResource(records.getFirst());
   }
 
-  private boolean isSupportedType(Record marcRecord) {
-    var leader = marcRecord.getLeader();
-    if (isNull(leader)) {
-      return false;
-    }
-    var typeOfRecord = leader.getTypeOfRecord();
-    var bibliographicLevel = leader.getImplDefined1()[0];
-    return isMonograph(typeOfRecord, bibliographicLevel) || isSerial(bibliographicLevel);
+  private Optional<Resource> createInstanceAndWorkResource(Record marcRecord) {
+    return getWorkType(marcRecord)
+      .map(this::createInstanceAndWork)
+      .map(iaw -> {
+        fillInstanceFields(marcRecord, iaw.instance);
+        emptyEdgesCleaner.apply(iaw.instance);
+        setAdditionInfo(iaw);
+        return iaw.instance;
+      });
   }
 
-  private Resource createInstanceAndWorkResource(List<Record> records) {
-    var instanceAndWork = createInstanceAndWork();
-    records.forEach(marcRecord -> fillInstanceFields(marcRecord, instanceAndWork.instance));
-    emptyEdgesCleaner.apply(instanceAndWork.instance);
-    setAdditionInfo(instanceAndWork);
-    return instanceAndWork.instance;
+  private Optional<ResourceTypeDictionary> getWorkType(Record marcRecord) {
+    var workType = TypeUtil.getWorkType(marcRecord);
+    if (workType.isEmpty()) {
+      log.warn("Given marc record is not of supported types ({}), skipping: [{}]",
+        TypeUtil.getSupportedRecordTypes(), marcRecord);
+    }
+    return workType;
   }
 
   private void fillInstanceFields(org.marc4j.marc.Record marcRecord, Resource instance) {
@@ -134,8 +133,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     return subfield.getData().strip();
   }
 
-  private InstanceAndWork createInstanceAndWork() {
-    var work = new Resource().addType(WORK);
+  private InstanceAndWork createInstanceAndWork(ResourceTypeDictionary workType) {
+    var work = new Resource().addType(WORK).addType(workType);
     var instance = new Resource().addType(INSTANCE);
     instance.setFolioMetadata(new FolioMetadata().setSource(MARC));
     instance.addOutgoingEdge(new ResourceEdge(instance, work, INSTANTIATES));

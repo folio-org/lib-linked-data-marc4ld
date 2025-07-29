@@ -16,6 +16,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.enums.BibliographLevel;
 import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Leader;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -79,23 +80,40 @@ public class MarcUtil {
     subfields.forEach(dataField::addSubfield);
   }
 
-  public static boolean isMonograph(char typeOfRecord, char bibliographicLevel) {
-    return isLanguageMaterial(typeOfRecord)
-      && isMonographicComponentPartOrItem(bibliographicLevel);
+  public static boolean isBook(Leader leader) {
+    var typeOfRecord = leader.getTypeOfRecord();
+    var bibliographicLevel = leader.getImplDefined1()[0];
+    return isLanguageMaterial(typeOfRecord) && isBookLevel(bibliographicLevel);
   }
 
-  public static boolean isLanguageMaterial(char typeOfRecord) {
-    return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value;
+  public static boolean isSerial(Leader leader) {
+    var bibliographicLevel = leader.getImplDefined1()[0];
+    return bibliographicLevel == BibliographLevel.SERIAL.value
+      || bibliographicLevel == BibliographLevel.SERIAL_COMPONENT_PART.value;
   }
 
-  public static boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
+  private static boolean isLanguageMaterial(char typeOfRecord) {
+    return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value
+      || typeOfRecord == RecordType.MANUSCRIPT_LANGUAGE_MATERIAL.value;
+  }
+
+  private static boolean isBookLevel(char bibliographicLevel) {
+    return isMonographicComponentPartOrItem(bibliographicLevel)
+      || isCollection(bibliographicLevel)
+      || isSubUnit(bibliographicLevel);
+  }
+
+  private static boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
     return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
       || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
   }
 
-  public static boolean isSerial(char bibliographicLevel) {
-    return bibliographicLevel == BibliographLevel.SERIAL.value
-      || bibliographicLevel == BibliographLevel.SERIAL_COMPONENT_PART.value;
+  private static boolean isCollection(char bibliographicLevel) {
+    return bibliographicLevel == BibliographLevel.COLLECTION.value;
+  }
+
+  private static boolean isSubUnit(char bibliographicLevel) {
+    return bibliographicLevel == BibliographLevel.SUBUNIT.value;
   }
 
   public static void sortFields(Record marcRecord) {

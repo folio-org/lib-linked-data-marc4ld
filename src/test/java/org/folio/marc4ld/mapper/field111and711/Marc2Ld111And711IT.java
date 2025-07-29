@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field111and711;
 
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -37,7 +38,7 @@ class Marc2Ld111And711IT extends Marc2LdTestBase {
     assertThat(resource).isNotNull();
     var work = getWorkEdge(resource).getTarget();
     assertThat(work)
-      .satisfies(w -> validateResource(w, List.of(WORK), new HashMap<>(), ""))
+      .satisfies(w -> validateResource(w, List.of(WORK, BOOKS), new HashMap<>(), ""))
       .satisfies(w -> validateEdges(w, predicate));
   }
 
