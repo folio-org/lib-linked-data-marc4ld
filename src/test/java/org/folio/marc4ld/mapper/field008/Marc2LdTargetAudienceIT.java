@@ -3,10 +3,14 @@ package org.folio.marc4ld.mapper.field008;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
@@ -30,14 +34,15 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
+      .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, BOOKS), Map.of(), ""))
       .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
         validateEdge(edges.getFirst(), TARGET_AUDIENCE, List.of(CATEGORY),
           Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("b"),
-          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-          "http://bibfra.me/vocab/marc/term", List.of("Primary")
+            "http://bibfra.me/vocab/marc/code", List.of("b"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/pri"),
+            "http://bibfra.me/vocab/marc/term", List.of("Primary")
           ), "Primary");
       })
       .extracting(edges -> getOutgoingEdges(edges.getFirst()))
@@ -63,6 +68,7 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
+      .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
       .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
       .satisfies(edges -> assertThat(edges).isEmpty());
