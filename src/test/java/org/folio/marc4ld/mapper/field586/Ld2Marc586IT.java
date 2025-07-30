@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field586;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.folio.ld.dictionary.PropertyDictionary.AWARDS_NOTE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -45,7 +46,7 @@ class Ld2Marc586IT {
         List.of(
           createResource(
             Map.of(AWARDS_NOTE, List.of("awards_note1", "awards_note2")),
-            Set.of(WORK),
+            Set.of(WORK, BOOKS),
             Map.of()))));
   }
 }

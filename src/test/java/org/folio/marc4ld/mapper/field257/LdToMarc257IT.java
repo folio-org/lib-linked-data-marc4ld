@@ -1,5 +1,6 @@
 package org.folio.marc4ld.mapper.field257;
 
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -63,7 +64,7 @@ class LdToMarc257IT {
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(PredicateDictionary.ORIGIN_PLACE, List.of(originPlace1, originPlace2))
     ).setLabel("Work: label");
 

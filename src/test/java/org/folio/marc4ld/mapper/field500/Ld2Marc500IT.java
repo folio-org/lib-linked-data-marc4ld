@@ -1,6 +1,7 @@
 package org.folio.marc4ld.mapper.field500;
 
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -44,7 +45,7 @@ class Ld2Marc500IT {
   private Resource createResourceWith500() {
     var work = MonographTestUtil.createResource(
       Map.of(NOTE, List.of("note 2")),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Collections.emptyMap()
     ).setLabel("Work: label");
 

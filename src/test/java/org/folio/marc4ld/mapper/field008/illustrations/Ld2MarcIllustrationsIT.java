@@ -4,6 +4,7 @@ import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategory;
@@ -46,7 +47,7 @@ class Ld2MarcIllustrationsIT {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content");
     var work = createResource(
       emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(ILLUSTRATIONS, List.of(
         createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps", categorySet),
         createCategory("c", "http://id.loc.gov/vocabulary/millus/por", "Portraits", categorySet),

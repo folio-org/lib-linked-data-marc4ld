@@ -5,6 +5,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_ID;
 import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_YEAR;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -53,7 +54,7 @@ class Ld2Marc502IT {
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(PredicateDictionary.DISSERTATION, List.of(dissertation1, dissertation2))
     ).setLabel("Work: label");
 

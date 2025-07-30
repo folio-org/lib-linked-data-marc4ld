@@ -26,7 +26,7 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.impl.LeaderImpl;
 
 @UnitTest
-public class TypeUtilTest {
+class TypeUtilTest {
   private static final String LEADER_TEMPLATE = "      %s%s                ";
   private static final char UNKNOWN_CODE = '_';
 

@@ -120,6 +120,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.TYPE_OF_REPORT;
 import static org.folio.ld.dictionary.PropertyDictionary.VARIANT_TYPE;
 import static org.folio.ld.dictionary.PropertyDictionary.WITH_NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
@@ -679,7 +680,7 @@ public class MonographTestUtil {
         entry(SUPPLEMENT, List.of("supplement")),
         entry(STUDY_PROGRAM_NAME, List.of("study program name"))
       ),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       pred2OutgoingResources
     ).setLabel("Work: label");
   }
@@ -1006,7 +1007,7 @@ public class MonographTestUtil {
     pred2OutgoingResources.put(TITLE, List.of(primaryTitle));
     var work = createResource(
       new HashedMap<>(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       pred2OutgoingResources
     );
     work.setLabel(primaryTitle.getLabel());
