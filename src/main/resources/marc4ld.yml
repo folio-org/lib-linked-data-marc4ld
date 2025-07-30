@@ -177,6 +177,49 @@ bibFieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '022':
+    - types: ID_ISSN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        a: NAME
+      marc2ldCondition:
+        fieldsAllOf:
+          a: presented
+      edges:
+        - types: STATUS
+          predicate: STATUS
+          constants:
+            LABEL: current
+            LINK: http://id.loc.gov/vocabulary/mstatus/current
+    - types: ID_ISSN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        y: NAME
+      marc2ldCondition:
+        fieldsAllOf:
+          y: presented
+      edges:
+        - types: STATUS
+          predicate: STATUS
+          constants:
+            LABEL: incorrect
+            LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
+    - types: ID_ISSN, IDENTIFIER
+      parent: INSTANCE
+      predicate: MAP
+      subfields:
+        z: NAME
+      marc2ldCondition:
+        fieldsAllOf:
+          z: presented
+      edges:
+        - types: STATUS
+          predicate: STATUS
+          constants:
+            LABEL: canceled or invalid
+            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '024':
     - types: ID_EAN, IDENTIFIER
       parent: INSTANCE

@@ -44,17 +44,15 @@ public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper
       .filter(resourceEdge -> resourceEdge.getPredicate() == STATUS)
       .findFirst()
       .flatMap(e -> getPropertyValue(e.getTarget(), LINK.getValue()))
-      .map(this::linkToChar)
+      .map(this::getMarcSubfield)
       .orElse(Optional.of(A));
   }
 
-  private Optional<Character> linkToChar(String link) {
-    if (CURRENT.equals(link)) {
-      return Optional.of(A);
-    }
-    if (CANCINV.equals(link)) {
-      return Optional.of(Z);
-    }
-    return Optional.empty();
+  protected Optional<Character> getMarcSubfield(String statusLink) {
+    return switch (statusLink) {
+      case CURRENT -> Optional.of(A);
+      case CANCINV -> Optional.of(Z);
+      default -> Optional.empty();
+    };
   }
 }
