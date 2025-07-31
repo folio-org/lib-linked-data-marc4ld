@@ -19,6 +19,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATOR_TERM;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -116,7 +117,7 @@ class Ld2Marc600SimpleConceptIT {
     );
     var work = createResource(
       Map.of(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(SUBJECT, List.of(concept))
     );
     return createResource(

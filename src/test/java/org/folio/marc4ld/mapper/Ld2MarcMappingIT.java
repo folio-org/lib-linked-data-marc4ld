@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -48,7 +49,7 @@ class Ld2MarcMappingIT {
   private Resource createResourceWithEmptyProperties() {
     var work = createResource(
       Map.of(DATE_START, List.of("")),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of()
     );
 

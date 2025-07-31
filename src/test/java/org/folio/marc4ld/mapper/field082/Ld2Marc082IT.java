@@ -3,6 +3,7 @@ package org.folio.marc4ld.mapper.field082;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CLASSIFICATION;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.field082.Marc2Ld082IT.createAssigningSource;
@@ -80,7 +81,7 @@ public class Ld2Marc082IT {
   public static Resource createResource(Resource classification) {
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(CLASSIFICATION, List.of(classification))
     );
 

@@ -3,23 +3,12 @@ package org.folio.marc4ld.mapper.leader;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Optional;
-import java.util.stream.Stream;
-import org.assertj.core.api.Condition;
-import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.folio.marc4ld.enums.BibliographLevel;
-import org.folio.marc4ld.enums.RecordType;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
-
-  private static final String LEADER_TEMPLATE = "11111x%s%s x1111111xx 1111";
-  private static final char UNKNOWN_CODE = 'x';
 
   @Autowired
   private MarcBib2ldMapper marcBib2ldMapper;
@@ -27,42 +16,42 @@ class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @ParameterizedTest
-  @MethodSource("leaderSource")
-  void map_shouldProcessMonographsOnly(String leader,
-                                              Condition<Optional<Resource>> condition) throws Exception {
+  @Test
+  void shouldProcessBook() throws Exception {
+    // given
+    var leader = "      aa                ";
+
+    // when
     var resource = marcBib2ldMapper.fromMarcJson(objectMapper.writeValueAsString(new MarcJson(leader)));
-    assertThat(resource).satisfies(condition);
+
+    // then
+    assertThat(resource).isPresent();
   }
 
-  private static Stream<Arguments> leaderSource() {
-    return Stream.of(
-      Arguments.of(
-        leader(RecordType.LANGUAGE_MATERIAL.value, BibliographLevel.MONOGRAPH_OR_ITEM.value),
-        new Condition<Optional<Resource>>(Optional::isPresent, "Resource is present")
-      ),
-      Arguments.of(
-        leader(RecordType.LANGUAGE_MATERIAL.value, BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value),
-        new Condition<Optional<Resource>>(Optional::isPresent, "Resource is present")
-      ),
-      Arguments.of(
-        leader(RecordType.LANGUAGE_MATERIAL.value, UNKNOWN_CODE),
-        new Condition<Optional<Resource>>(Optional::isEmpty, "Resource is empty")
-      ),
-      Arguments.of(
-        leader(UNKNOWN_CODE, BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value),
-        new Condition<Optional<Resource>>(Optional::isEmpty, "Resource is empty")
-      ),
-      Arguments.of(
-        leader(UNKNOWN_CODE, BibliographLevel.MONOGRAPH_OR_ITEM.value),
-        new Condition<Optional<Resource>>(Optional::isEmpty, "Resource is empty")
-      )
-    );
+  @Test
+  void shouldProcessSerial() throws Exception {
+    // given
+    var leader = "       s                ";
+
+    // when
+    var resource = marcBib2ldMapper.fromMarcJson(objectMapper.writeValueAsString(new MarcJson(leader)));
+
+    // then
+    assertThat(resource).isPresent();
   }
 
-  private static String leader(char recordType, char bibliographicLevel) {
-    return LEADER_TEMPLATE.formatted(recordType, bibliographicLevel);
+  @Test
+  void shouldNotProcessUnknownType() throws Exception {
+    // given
+    var leader = "                        ";
+
+    // when
+    var resource = marcBib2ldMapper.fromMarcJson(objectMapper.writeValueAsString(new MarcJson(leader)));
+
+    // then
+    assertThat(resource).isNotPresent();
   }
 
-  private record MarcJson(String leader) {}
+  private record MarcJson(String leader) {
+  }
 }

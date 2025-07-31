@@ -16,8 +16,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.impl.ControlFieldImpl;
@@ -61,46 +59,6 @@ class MarcUtilTest {
 
     //expect
     assertEquals(value, MarcUtil.getSubfieldValue(code, dataField));
-  }
-
-  @Test
-  void isLanguageMaterial_shouldReturn_True() {
-    //expect
-    assertTrue(MarcUtil.isLanguageMaterial('a'));
-  }
-
-  @ParameterizedTest
-  @ValueSource(chars = {
-    'b',
-    ' ',
-    '1',
-    '!'
-  })
-  void isLanguageMaterial_shouldReturn_False(char c) {
-    //expect
-    assertFalse(MarcUtil.isLanguageMaterial(c));
-  }
-
-  @ParameterizedTest
-  @ValueSource(chars = {
-    'a',
-    'm'
-  })
-  void isMonographicComponentPartOrItem_shouldReturn_True(char c) {
-    //expect
-    assertTrue(MarcUtil.isMonographicComponentPartOrItem(c));
-  }
-
-  @ParameterizedTest
-  @ValueSource(chars = {
-    'b',
-    ' ',
-    '1',
-    '!'
-  })
-  void isMonographicComponentPartOrItem_shouldReturn_False(char c) {
-    //expect
-    assertFalse(MarcUtil.isLanguageMaterial(c));
   }
 
   @Test

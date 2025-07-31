@@ -4,6 +4,7 @@ import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -149,7 +150,7 @@ class SupplementaryContentMapperTest {
   private Resource createInstanceWithWork() {
     var work = createResource(
       emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       new EnumMap<>(PredicateDictionary.class)
     );
 

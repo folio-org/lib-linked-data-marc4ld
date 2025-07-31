@@ -17,6 +17,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -110,7 +111,7 @@ class LdToMarc100And700IT {
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(
         predicate, List.of(creator),
         PredicateDictionary.AUTHOR, List.of(creator)

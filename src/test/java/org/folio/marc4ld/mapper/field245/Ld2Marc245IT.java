@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.STATEMENT_OF_RESPONSIBILITY;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBTITLE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -148,7 +149,7 @@ class Ld2Marc245IT {
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       outgoingWorkResources
     ).setLabel("Work: label");
 

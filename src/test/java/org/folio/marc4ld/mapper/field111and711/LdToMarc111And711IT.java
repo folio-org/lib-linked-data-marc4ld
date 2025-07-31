@@ -15,6 +15,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMBER_OF_PARTS;
 import static org.folio.ld.dictionary.PropertyDictionary.PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.SUBORDINATE_UNIT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
@@ -104,7 +105,7 @@ class LdToMarc111And711IT {
 
     var work = MonographTestUtil.createResource(
       Collections.emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(
         predicate, List.of(meeting),
         PredicateDictionary.AUTHOR, List.of(meeting)

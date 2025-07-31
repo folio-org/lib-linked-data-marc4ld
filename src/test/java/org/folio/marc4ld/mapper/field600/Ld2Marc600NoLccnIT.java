@@ -5,6 +5,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
@@ -74,7 +75,7 @@ class Ld2Marc600NoLccnIT {
     );
     var work = createResource(
       Map.of(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(SUBJECT, List.of(concept))
     );
     return createResource(

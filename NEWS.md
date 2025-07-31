@@ -13,6 +13,7 @@
 - PlaceDictionary usage [MODLD-781](https://folio-org.atlassian.net/browse/MODLD-781)
 - Serial characteristic mapping added [MODLD-794](https://folio-org.atlassian.net/browse/MODLD-794)
 - Map MARC 022 to ISSN node and vice-versa [MODLD-798](https://folio-org.atlassian.net/browse/MODLD-798)
+- Conversion rules from Graph to MARC - Leader Field defines WORK type [MODLD-806](https://folio-org.atlassian.net/browse/MODLD-806)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

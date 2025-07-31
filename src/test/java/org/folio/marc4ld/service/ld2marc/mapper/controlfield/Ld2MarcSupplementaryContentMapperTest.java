@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 import static java.util.Collections.emptyMap;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategory;
@@ -66,7 +67,7 @@ class Ld2MarcSupplementaryContentMapperTest {
   private static Resource createResourceWithoutSupplementaryContents() {
     var work = createResource(
       emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       emptyMap()
     );
 
@@ -81,7 +82,7 @@ class Ld2MarcSupplementaryContentMapperTest {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
     var work = createResource(
       emptyMap(),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Map.of(SUPPLEMENTARY_CONTENT, List.of(
         createCategory("bibliography", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography",
           categorySet),

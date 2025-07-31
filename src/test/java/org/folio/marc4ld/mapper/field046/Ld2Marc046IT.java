@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field046;
 
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_END;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -48,7 +49,7 @@ class Ld2Marc046IT {
         DATE_START, List.of("2022"),
         DATE_END, List.of("2023")
       ),
-      Set.of(WORK),
+      Set.of(WORK, BOOKS),
       Collections.emptyMap()
     ).setLabel("Work: label");
 

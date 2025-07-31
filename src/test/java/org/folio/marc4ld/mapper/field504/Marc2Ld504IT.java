@@ -1,6 +1,7 @@
 package org.folio.marc4ld.mapper.field504;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
@@ -25,7 +26,7 @@ class Marc2Ld504IT extends Marc2LdTestBase {
     var work = getWorkEdge(result).getTarget();
     assertThat(work)
       .satisfies(w -> validateResource(w,
-        List.of(WORK),
+        List.of(WORK, BOOKS),
         Map.of("http://bibfra.me/vocab/marc/bibliographyNote", List.of("504 a 1, 504 b 1", "504 a 2, 504 b 2")),
         ""));
   }

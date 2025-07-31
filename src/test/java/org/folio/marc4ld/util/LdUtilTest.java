@@ -3,6 +3,7 @@ package org.folio.marc4ld.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getLightWeightInstanceResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleInstanceResource;
@@ -144,7 +145,7 @@ class LdUtilTest {
 
     //then
     assertThat(result).isPresent();
-    assertEquals(Set.of(WORK), result.get().getTypes());
+    assertEquals(Set.of(WORK, BOOKS), result.get().getTypes());
   }
 
   @Test
