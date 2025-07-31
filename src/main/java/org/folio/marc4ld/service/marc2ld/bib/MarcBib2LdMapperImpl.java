@@ -82,7 +82,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   }
 
   private Optional<ResourceTypeDictionary> getWorkType(Record marcRecord) {
-    var workType = TypeUtil.getWorkType(marcRecord);
+    var workType = TypeUtil.getWorkType(marcRecord.getLeader());
     if (workType.isEmpty()) {
       log.warn("Given marc record is not of supported types ({}), skipping: [{}]",
         TypeUtil.getSupportedRecordTypes(), marcRecord);

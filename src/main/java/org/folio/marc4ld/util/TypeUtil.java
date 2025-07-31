@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import lombok.experimental.UtilityClass;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.marc4j.marc.Leader;
-import org.marc4j.marc.Record;
+import org.marc4j.marc.impl.LeaderImpl;
 
 @UtilityClass
 public class TypeUtil {
@@ -19,10 +19,15 @@ public class TypeUtil {
     new TypeDefinition(CONTINUING_RESOURCES, MarcUtil::isSerial)
   );
 
-  public static Optional<ResourceTypeDictionary> getWorkType(Record marcRecord) {
-    return Optional.of(marcRecord.getLeader())
-      .flatMap(leader -> TYPE_DEFINITIONS.stream()
-        .filter(th -> th.checker.test(leader))
+  public static boolean isSupported(String leader) {
+    return getWorkType(new LeaderImpl(leader))
+      .isPresent();
+  }
+
+  public static Optional<ResourceTypeDictionary> getWorkType(Leader leader) {
+    return Optional.of(leader)
+      .flatMap(l -> TYPE_DEFINITIONS.stream()
+        .filter(th -> th.checker.test(l))
         .map(th -> th.type)
         .findFirst());
   }
