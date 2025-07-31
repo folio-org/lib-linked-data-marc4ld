@@ -69,6 +69,30 @@ class MarcToLdCharacteristicIT extends Marc2LdTestBase {
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
+
+  @Test
+  void shouldGracefullyHandleEmptyCharacteristic() {
+    // given
+    var emptyCharacteristicMarc = """
+      {
+        "leader" : "      as                ",
+        "fields" : [ {
+          "008" : "                                   eng"
+        } ]
+      }""";
+
+    //when
+    var result = marcBibToResource(emptyCharacteristicMarc);
+
+    //then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
+      .extracting(ResourceEdge::getTarget)
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/characteristic")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
+  }
+
   private ResourceEdge getCharacteristicEdge(ResourceEdge resourceEdge) {
     return getFirstOutgoingEdge(resourceEdge, withPredicateUri("http://bibfra.me/vocab/marc/characteristic"));
   }
