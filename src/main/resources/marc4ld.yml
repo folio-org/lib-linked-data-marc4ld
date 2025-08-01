@@ -29,6 +29,10 @@ bibFieldRules:
             LINK: http://id.loc.gov/vocabulary/mserialpubtype
             LABEL: Serial Publication Type
       marc2ldCondition:
+        controlFields:
+          - tag: 008
+            substring: 21,22
+            isBlank: false
         leader:
           - substring: 7,8
             isAny: b, s
