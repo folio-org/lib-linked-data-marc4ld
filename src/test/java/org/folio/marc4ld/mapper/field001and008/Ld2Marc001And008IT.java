@@ -3,11 +3,13 @@ package org.folio.marc4ld.mapper.field001and008;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.CREATED_DATE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.List;
@@ -54,7 +56,7 @@ class Ld2Marc001And008IT {
     return createResource(
       emptyMap(),
       Set.of(INSTANCE),
-      Map.of(ADMIN_METADATA, List.of(adminMetadata))
+      Map.of(ADMIN_METADATA, List.of(adminMetadata), INSTANTIATES, List.of(createWorkBook()))
     );
   }
 }
