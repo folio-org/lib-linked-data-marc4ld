@@ -57,24 +57,20 @@ class CustomDataFieldsMapperImplTest {
 
   private static final String RAW_MARC = "rawMarc";
   private static final String TAG_007 = "007";
-
   @Mock
   ObjectMapper objectMapper;
-
   @Mock
   LeaderGenerator leaderGenerator;
-
   @Mock
   Resource2MarcRecordMapper resourceMapper;
-
   @Mock
   MarcReaderProcessor marcReaderProcessor;
-
   @InjectMocks
   Ld2MarcMapperImpl mapper;
-
   @Captor
   private ArgumentCaptor<Record> recordCaptor;
+  @Captor
+  private ArgumentCaptor<Resource> resourceCaptor;
 
   static Stream<Arguments> dataProvider() {
     return Stream.of(
@@ -99,8 +95,9 @@ class CustomDataFieldsMapperImplTest {
 
     //expect
     assertEquals(expectedMarcJson, mapper.toMarcJson(resource, marcHandling));
-    verify(leaderGenerator).addLeader(recordCaptor.capture());
+    verify(leaderGenerator).addLeader(recordCaptor.capture(), resourceCaptor.capture());
     assertThat(extractTags(recordCaptor.getValue())).isEqualTo(expectedTags);
+    assertThat(resourceCaptor.getValue()).isEqualTo(resource);
   }
 
   static Stream<Arguments> resourceProvider() {

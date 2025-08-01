@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field008;
+package org.folio.marc4ld.mapper.field008.government.publication;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
@@ -14,19 +14,23 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
 
-  @Test
-  void shouldMapGovernmentPublication() {
+  @ParameterizedTest
+  @MethodSource("fileNames")
+  void shouldMapGovernmentPublication_whenRecordIsBookOrSerial(String fileName) {
     // given
-    var marc = loadResourceAsString("fields/008/marc_008_mgovtpubtype.jsonl");
+    var marc = loadResourceAsString(fileName);
 
     //when
     var result = marcBibToResource(marc);
@@ -51,6 +55,13 @@ class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
+  }
+
+  private static Stream<Arguments> fileNames() {
+    return Stream.of(
+      Arguments.of("fields/008/marc_008_mgovtpubtype.jsonl"),
+      Arguments.of("fields/008/marc_008_mgovtpubtype_serial.jsonl")
+    );
   }
 
   private ResourceEdge getGovernmentPublicationEdge(Resource result) {

@@ -1,8 +1,8 @@
 package org.folio.marc4ld.mapper.field776;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleInstanceWithWork;
-import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleWork;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -23,7 +23,7 @@ class Ld2Marc776IT {
   void map_shouldNotReturn776Field() {
     // given
     var expectedMarc = loadResourceAsString("fields/776/marc_776_skipped.jsonl");
-    var instance = getSampleInstanceWithWork(getSampleWork());
+    var instance = getSampleInstanceWithWork(createWorkBook());
 
     // when
     var result = ld2MarcMapper.toMarcJson(instance);

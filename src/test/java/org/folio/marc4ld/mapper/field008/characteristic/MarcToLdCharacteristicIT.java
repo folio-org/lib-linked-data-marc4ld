@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field008;
+package org.folio.marc4ld.mapper.field008.characteristic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;

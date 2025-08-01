@@ -1,19 +1,22 @@
 package org.folio.marc4ld.mapper.field338;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.CARRIER;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_DEFINED_BY;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.SOURCE;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
@@ -41,8 +44,7 @@ class LdToMarc338IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    AssertionsForClassTypes.assertThat(result)
-      .isEqualTo(expectedMarc);
+    assertThat(result).isEqualTo(expectedMarc);
   }
 
   private Resource createResourceWith338() {
@@ -64,13 +66,13 @@ class LdToMarc338IT {
         SOURCE, List.of("CARRIER source")
       ),
       Set.of(ResourceTypeDictionary.CATEGORY),
-      Map.of(PredicateDictionary.IS_DEFINED_BY, List.of(rdaContent))
+      Map.of(IS_DEFINED_BY, List.of(rdaContent))
     ).setLabel("CARRIER term");
 
     return MonographTestUtil.createResource(
       Collections.emptyMap(),
       Set.of(INSTANCE),
-      Map.of(PredicateDictionary.CARRIER, List.of(mediaContent))
+      Map.of(CARRIER, List.of(mediaContent), INSTANTIATES, List.of(createWorkBook()))
     );
   }
 }

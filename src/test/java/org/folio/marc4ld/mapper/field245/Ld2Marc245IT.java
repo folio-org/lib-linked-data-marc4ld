@@ -47,8 +47,7 @@ class Ld2Marc245IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    assertThat(result)
-      .isEqualTo(expectedMarc);
+    assertThat(result).isEqualTo(expectedMarc);
   }
 
   @Test
@@ -61,8 +60,7 @@ class Ld2Marc245IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    assertThat(result)
-      .isEqualTo(expectedMarc);
+    assertThat(result).isEqualTo(expectedMarc);
   }
 
   @Test

@@ -1,14 +1,15 @@
-package org.folio.marc4ld.mapper.field001;
+package org.folio.marc4ld.mapper.field008.target.audience;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PredicateDictionary.ADMIN_METADATA;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
-import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_NUMBER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ANNOTATION;
+import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategory;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategorySet;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
-import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.List;
@@ -24,16 +25,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Ld2Marc001IT {
+class Ld2MarcTargetAudienceIT {
 
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
-  void shouldMapField001() {
+  void shouldMap_targetAudience_whenWorkIsBook() {
     // given
-    var expectedMarc = loadResourceAsString("fields/001/marc_001.jsonl");
-    var resource = createInstance();
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_target_audience.jsonl");
+    var resource = createInstanceWithWorkWithTargetAudience();
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
@@ -42,19 +43,20 @@ class Ld2Marc001IT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
-  private Resource createInstance() {
-    var adminMetadata = createResource(
-      Map.of(
-        CONTROL_NUMBER, List.of("#880524405##")
-      ),
-      Set.of(ANNOTATION),
-      emptyMap()
+  private Resource createInstanceWithWorkWithTargetAudience() {
+    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/maudience", "Target audience");
+    var characteristic = createCategory("b", "http://id.loc.gov/vocabulary/maudience/pri", "Primary",
+      categorySet);
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, BOOKS),
+      Map.of(TARGET_AUDIENCE, List.of(characteristic))
     );
 
     return createResource(
       emptyMap(),
       Set.of(INSTANCE),
-      Map.of(ADMIN_METADATA, List.of(adminMetadata), INSTANTIATES, List.of(createWorkBook()))
+      Map.of(INSTANTIATES, List.of(work))
     );
   }
 }

@@ -30,6 +30,8 @@ import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
+import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
+import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.ACCESSIBILITY_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.ADDITIONAL_PHYSICAL_FORM;
@@ -185,7 +187,7 @@ public class MonographTestUtil {
     return createResource(
       emptyMap(),
       Set.of(INSTANCE),
-      Map.of(ADMIN_METADATA, List.of(adminMetadata))
+      Map.of(ADMIN_METADATA, List.of(adminMetadata), INSTANTIATES, List.of(createWorkBook()))
     );
   }
 
@@ -659,10 +661,10 @@ public class MonographTestUtil {
       createPlaceConcept(), formConcept));
     pred2OutgoingResources.put(GENRE, List.of(formConcept.getOutgoingEdges().iterator().next().getTarget()));
     pred2OutgoingResources.put(GOVERNMENT_PUBLICATION, List.of(category));
-    pred2OutgoingResources.put(PredicateDictionary.TARGET_AUDIENCE, List.of(targetAudience));
+    pred2OutgoingResources.put(TARGET_AUDIENCE, List.of(targetAudience));
     pred2OutgoingResources.put(LANGUAGE, List.of(languageCategory));
     pred2OutgoingResources.put(ILLUSTRATIONS, List.of(illustrationCategory));
-    pred2OutgoingResources.put(PredicateDictionary.SUPPLEMENTARY_CONTENT,
+    pred2OutgoingResources.put(SUPPLEMENTARY_CONTENT,
       List.of(supplementaryContent, indexSupplementaryContent));
 
     return createResource(
@@ -1001,7 +1003,7 @@ public class MonographTestUtil {
     return instance;
   }
 
-  public static Resource getSampleWork() {
+  public static Resource createWorkBook() {
     var primaryTitle = createPrimaryTitle(null);
     var pred2OutgoingResources = new LinkedHashMap<PredicateDictionary, List<Resource>>();
     pred2OutgoingResources.put(TITLE, List.of(primaryTitle));

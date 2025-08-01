@@ -13,8 +13,6 @@ import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.enums.BibliographLevel;
-import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Leader;
 import org.marc4j.marc.MarcFactory;
@@ -80,42 +78,6 @@ public class MarcUtil {
     subfields.forEach(dataField::addSubfield);
   }
 
-  public static boolean isBook(Leader leader) {
-    var typeOfRecord = leader.getTypeOfRecord();
-    var bibliographicLevel = leader.getImplDefined1()[0];
-    return isLanguageMaterial(typeOfRecord) && isBookLevel(bibliographicLevel);
-  }
-
-  public static boolean isSerial(Leader leader) {
-    var bibliographicLevel = leader.getImplDefined1()[0];
-    return bibliographicLevel == BibliographLevel.SERIAL.value
-      || bibliographicLevel == BibliographLevel.SERIAL_COMPONENT_PART.value;
-  }
-
-  private static boolean isLanguageMaterial(char typeOfRecord) {
-    return typeOfRecord == RecordType.LANGUAGE_MATERIAL.value
-      || typeOfRecord == RecordType.MANUSCRIPT_LANGUAGE_MATERIAL.value;
-  }
-
-  private static boolean isBookLevel(char bibliographicLevel) {
-    return isMonographicComponentPartOrItem(bibliographicLevel)
-      || isCollection(bibliographicLevel)
-      || isSubUnit(bibliographicLevel);
-  }
-
-  private static boolean isMonographicComponentPartOrItem(char bibliographicLevel) {
-    return bibliographicLevel == BibliographLevel.MONOGRAPHIC_COMPONENT_PART.value
-      || bibliographicLevel == BibliographLevel.MONOGRAPH_OR_ITEM.value;
-  }
-
-  private static boolean isCollection(char bibliographicLevel) {
-    return bibliographicLevel == BibliographLevel.COLLECTION.value;
-  }
-
-  private static boolean isSubUnit(char bibliographicLevel) {
-    return bibliographicLevel == BibliographLevel.SUBUNIT.value;
-  }
-
   public static void sortFields(Record marcRecord) {
     if (isEmpty(marcRecord.getVariableFields())) {
       return;
@@ -125,5 +87,9 @@ public class MarcUtil {
     variableFields.stream()
       .sorted(comparing(VariableField::getTag))
       .forEach(marcRecord::addVariableField);
+  }
+
+  public static char getBibliographicLevel(Leader leader) {
+    return leader.getImplDefined1()[0];
   }
 }

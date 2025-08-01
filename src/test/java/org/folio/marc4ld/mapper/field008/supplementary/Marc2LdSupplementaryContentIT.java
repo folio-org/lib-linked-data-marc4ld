@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
 
   @Test
-  void shouldMapSupplementaryContent() {
+  void shouldMapSupplementaryContent_whenWorkIsBook() {
     // given
     var marc = loadResourceAsString("fields/008/marc_008_supplementary_content.jsonl");
 
@@ -67,5 +67,19 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
           ), "Supplementary Content");
         assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
+  }
+
+  @Test
+  void shouldNotMapSupplementaryContent_whenRecordIsSerial() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_supplementary_content_serial.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .extracting(instance -> getOutgoingEdges(instance, withPredicateUri("http://bibfra.me/vocab/lite/instantiates")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }

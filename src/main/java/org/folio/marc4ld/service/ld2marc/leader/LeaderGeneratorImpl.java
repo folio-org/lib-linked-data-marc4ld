@@ -1,18 +1,20 @@
 package org.folio.marc4ld.service.ld2marc.leader;
 
+import static org.folio.marc4ld.util.TypeUtil.getBibliographLevel;
+import static org.folio.marc4ld.util.TypeUtil.getRecordType;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.folio.marc4ld.enums.BibliographLevel;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.enums.CharCodingScheme;
 import org.folio.marc4ld.enums.ControlType;
 import org.folio.marc4ld.enums.DescriptiveCatalogingForm;
 import org.folio.marc4ld.enums.EncodingLevel;
 import org.folio.marc4ld.enums.MultipartResourceRecordLevel;
 import org.folio.marc4ld.enums.RecordStatus;
-import org.folio.marc4ld.enums.RecordType;
 import org.marc4j.MarcStreamWriter;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -36,15 +38,15 @@ public class LeaderGeneratorImpl implements LeaderGenerator {
   private final MarcFactory marcFactory;
 
   @Override
-  public void addLeader(Record marcRecord) {
+  public void addLeader(Record marcRecord, Resource instance) {
     var leader = marcFactory.newLeader();
     // 5
     leader.setRecordStatus(RecordStatus.NEW.value);
     // 6
-    leader.setTypeOfRecord(RecordType.LANGUAGE_MATERIAL.value);
+    leader.setTypeOfRecord(getRecordType(instance));
     // 7-8
-    leader.setImplDefined1(new char[] {
-      BibliographLevel.MONOGRAPH_OR_ITEM.value,
+    leader.setImplDefined1(new char[]{
+      getBibliographLevel(instance),
       ControlType.NO_SPECIFIED_TYPE.value
     });
     // 9
@@ -56,13 +58,13 @@ public class LeaderGeneratorImpl implements LeaderGenerator {
     // 12-16
     leader.setBaseAddressOfData(calculateBaseAddressOfData(marcRecord));
     // 17-19
-    leader.setImplDefined2(new char[] {
+    leader.setImplDefined2(new char[]{
       EncodingLevel.UNKNOWN.value,
       DescriptiveCatalogingForm.ISBD_PUNCTUATION_OMITTED.value,
       MultipartResourceRecordLevel.NOT_SPECIFIED_OR_NOT_APPLICABLE.value
     });
     // 20-23
-    leader.setEntryMap(new char[] {
+    leader.setEntryMap(new char[]{
       LENGTH_OF_THE_LENGTH_OF_FIELD_PORTION,
       LENGTH_OF_THE_STARTING_CHARACTER_POSITION_PORTION,
       LENGTH_OF_THE_IMPLEMENTATION_DEFINED_PORTION,

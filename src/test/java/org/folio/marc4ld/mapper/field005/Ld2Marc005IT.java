@@ -1,7 +1,7 @@
 package org.folio.marc4ld.mapper.field005;
 
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getLightWeightInstanceResource;
-import static org.folio.marc4ld.mapper.test.MonographTestUtil.getSampleWork;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -28,7 +28,7 @@ class Ld2Marc005IT {
   @MethodSource("dateFieldSource")
   void map_shouldMapUpdatedDateFieldCorrectly(Date instanceUpdatedAt, Date workUpdatedAt, String expectedMarcFile) {
     // given
-    var work = getSampleWork();
+    var work = createWorkBook();
     work.setUpdatedDate(workUpdatedAt);
     var instance = getLightWeightInstanceResource(work);
     instance.setUpdatedDate(instanceUpdatedAt);
