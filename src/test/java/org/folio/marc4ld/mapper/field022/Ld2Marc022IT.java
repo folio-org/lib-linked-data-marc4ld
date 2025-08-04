@@ -1,6 +1,7 @@
 package org.folio.marc4ld.mapper.field022;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
@@ -8,6 +9,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.status;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
@@ -50,7 +52,8 @@ class Ld2Marc022IT {
       Map.of(),
       Set.of(INSTANCE),
       Map.of(
-        MAP, List.of(currentIssn, incorrectIssn, cancelledIssn)
+        MAP, List.of(currentIssn, incorrectIssn, cancelledIssn),
+        INSTANTIATES, List.of(createWorkBook())
       )
     );
   }

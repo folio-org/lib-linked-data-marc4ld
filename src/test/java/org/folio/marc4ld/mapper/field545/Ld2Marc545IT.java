@@ -1,5 +1,6 @@
 package org.folio.marc4ld.mapper.field545;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.folio.ld.dictionary.PropertyDictionary.BIOGRAPHICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.HISTORICAL_DATA;
 import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
@@ -10,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -37,8 +37,7 @@ class Ld2Marc545IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    AssertionsForClassTypes.assertThat(result)
-      .isEqualTo(expectedMarc);
+    assertThat(result).isEqualTo(expectedMarc);
   }
 
   private Resource createResourceWith545() {

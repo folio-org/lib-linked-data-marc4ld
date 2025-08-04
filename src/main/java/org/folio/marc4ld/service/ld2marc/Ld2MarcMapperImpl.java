@@ -50,7 +50,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
       var marcRecord = resourceMapper.toMarcRecord(resource);
       getUnmappedMarc(resource)
         .ifPresent(unmappedMarc -> addUnmappedMarc(marcHandling, unmappedMarc, marcRecord));
-      leaderGenerator.addLeader(marcRecord);
+      leaderGenerator.addLeader(marcRecord, resource);
       return toJsonString(marcRecord);
     } else {
       return null;
