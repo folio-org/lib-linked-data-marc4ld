@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.mapper.controlfield;
 
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.marc4ld.service.marc2ld.bib.mapper.custom.SupplementaryContentMapper.CODE_TO_LINK_SUFFIX_MAP;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
@@ -11,7 +12,9 @@ import static org.folio.marc4ld.util.LdUtil.getWork;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
@@ -20,12 +23,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Ld2MarcSupplementaryContentMapper implements CustomControlFieldsMapper {
-
+  private static final Set<ResourceTypeDictionary> APPLICABLE_WORK_TYPES = Set.of(BOOKS);
   private static final String INDEX = "index";
 
   @Override
   public void map(Resource resource, ControlFieldsBuilder controlFieldsBuilder) {
     getWork(resource)
+      .filter(work -> APPLICABLE_WORK_TYPES.stream().anyMatch(work::isOfType))
       .ifPresent(work -> {
         var supplementaryContentEdges = getOutgoingEdges(work, SUPPLEMENTARY_CONTENT);
         var nonIndexCodes = getNonIndexCodes(supplementaryContentEdges);

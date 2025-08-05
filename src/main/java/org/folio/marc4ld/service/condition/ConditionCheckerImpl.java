@@ -6,6 +6,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,16 +43,16 @@ public class ConditionCheckerImpl implements ConditionChecker {
     }
     return
       !condition.isSkip()
-      && isInd1Condition(dataField, condition)
-      && isInd2Condition(dataField, condition)
-      && isControlFieldConditions(marcRecord.getControlFields(), condition)
-      && isLeaderConditions(marcRecord.getLeader(), condition)
-      && isAllOfFieldConditions(dataField, condition)
-      && isFieldAnyOfConditions(dataField, condition);
+        && isInd1Condition(dataField, condition)
+        && isInd2Condition(dataField, condition)
+        && isControlFieldConditions(marcRecord.getControlFields(), condition)
+        && isLeaderConditions(marcRecord.getLeader(), condition)
+        && isAllOfFieldConditions(dataField, condition)
+        && isFieldAnyOfConditions(dataField, condition);
   }
 
   @Override
-  public boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource) {
+  public boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource, Resource parent) {
     var condition = fieldRule.getLd2marcCondition();
     if (isNull(condition)) {
       return true;
@@ -59,7 +60,8 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (condition.isSkip()) {
       return false;
     }
-    return isNull(condition.getEdge()) || isEdgeConditionSatisfied(fieldRule, resource);
+    return isEdgeConditionSatisfied(fieldRule, resource)
+      && isWorkTypeConditionSatisfied(condition.getWorkType(), parent);
   }
 
   private boolean isAllOfFieldConditions(DataField dataField, Marc4LdRules.Marc2ldCondition condition) {
@@ -109,6 +111,9 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private boolean isEdgeConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource) {
+    if (isNull(fieldRule.getLd2marcCondition().getEdge())) {
+      return true;
+    }
     if (isEmpty(resource.getOutgoingEdges())) {
       return false;
     }
@@ -120,6 +125,13 @@ public class ConditionCheckerImpl implements ConditionChecker {
         .filter(re -> re.getPredicate().equals(PredicateDictionary.valueOf(edgeRule.getPredicate())))
         .anyMatch(re -> isResourceSatisfiesRule(re.getTarget(), edgeRule)))
       .orElse(false);
+  }
+
+  private boolean isWorkTypeConditionSatisfied(ResourceTypeDictionary conditionalWorkType, Resource parent) {
+    if (isNull(conditionalWorkType) || isNull(parent) || !parent.isOfType(WORK)) {
+      return true;
+    }
+    return parent.isOfType(conditionalWorkType);
   }
 
   private boolean isResourceSatisfiesRule(Resource resource, Marc4LdRules.FieldRule rule) {

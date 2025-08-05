@@ -1,6 +1,9 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.startsWith;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -8,8 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
@@ -54,21 +55,22 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
       Marc4LdRules.Marc2ldCondition::getInd2
     );
     this.parent = Optional.ofNullable(fieldRule.getParent())
-      .orElse(StringUtils.EMPTY);
+      .orElse(EMPTY);
   }
 
   @Override
   public boolean isSuitable(ResourceEdge edge) {
     return isSuitableTypes(edge)
       && isSuitablePredicate(edge)
-      && isTypeLikeRuleParent(edge);
+      && isTypeLikeRuleParent(edge)
+      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, edge.getTarget(), edge.getSource());
   }
 
   @Override
   public boolean isDataFieldCreatable(Resource resource) {
-    return !StringUtils.startsWith(tag, CONTROL_FIELD_PREFIX)
-      && CollectionUtils.isNotEmpty(subFieldRuleAppliers)
-      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, resource);
+    return !startsWith(tag, CONTROL_FIELD_PREFIX)
+      && isNotEmpty(subFieldRuleAppliers)
+      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, resource, null);
   }
 
   @Override

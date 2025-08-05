@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -81,6 +82,7 @@ public class Marc4LdRules {
   public static class Ld2marcCondition {
     private String edge;
     private boolean skip;
+    private ResourceTypeDictionary workType;
   }
 
   @Data

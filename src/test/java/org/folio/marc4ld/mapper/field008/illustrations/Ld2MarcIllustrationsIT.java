@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createCategory;
@@ -15,6 +16,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
@@ -31,10 +33,10 @@ class Ld2MarcIllustrationsIT {
   private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
-  void shouldMap_onlyFour_illustrations() {
+  void shouldMap_onlyFour_illustrations_whenWorkIsBook() {
     // given
     var expectedMarc = loadResourceAsString("fields/008/marc_008_illustrations.jsonl");
-    var resource = createInstance();
+    var resource = createInstance(BOOKS);
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
@@ -43,11 +45,24 @@ class Ld2MarcIllustrationsIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
-  private Resource createInstance() {
+  @Test
+  void shouldNotMap_illustrations_whenWorkIsSerial() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_empty_serial.jsonl");
+    var resource = createInstance(CONTINUING_RESOURCES);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  private Resource createInstance(ResourceTypeDictionary workType) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content");
     var work = createResource(
       emptyMap(),
-      Set.of(WORK, BOOKS),
+      Set.of(WORK, workType),
       Map.of(ILLUSTRATIONS, List.of(
         createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps", categorySet),
         createCategory("c", "http://id.loc.gov/vocabulary/millus/por", "Portraits", categorySet),
