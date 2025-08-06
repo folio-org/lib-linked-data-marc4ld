@@ -119,7 +119,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     return Stream.concat(fieldsFromResource.stream(), fieldsFromEdges.stream()).toList();
   }
 
-  private static boolean isMergeable(List<DataField> fields1, List<DataField> fields2) {
+  private boolean isMergeable(List<DataField> fields1, List<DataField> fields2) {
     return fields1.size() == 1
       && fields2.size() == 1
       && fields1.getFirst().getTag().equals(fields2.getFirst().getTag());
