@@ -4,6 +4,7 @@ import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -15,6 +16,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
@@ -34,7 +36,7 @@ class Ld2MarcCharacteristicIT {
   void shouldMap_characteristic_whenWorkIsSerial() {
     // given
     var expectedMarc = loadResourceAsString("fields/008/marc_008_characteristic.jsonl");
-    var resource = createInstanceWithWorkWithCharacteristic();
+    var resource = createInstanceWithWorkWithCharacteristic(CONTINUING_RESOURCES);
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
@@ -43,13 +45,26 @@ class Ld2MarcCharacteristicIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
-  private Resource createInstanceWithWorkWithCharacteristic() {
+  @Test
+  void shouldNotMap_characteristic_whenWorkIsBook() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_empty_book.jsonl");
+    var resource = createInstanceWithWorkWithCharacteristic(BOOKS);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  private Resource createInstanceWithWorkWithCharacteristic(ResourceTypeDictionary workType) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
     var characteristic = createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
       categorySet);
     var work = createResource(
       emptyMap(),
-      Set.of(WORK, CONTINUING_RESOURCES),
+      Set.of(WORK, workType),
       Map.of(CHARACTERISTIC, List.of(characteristic))
     );
 

@@ -15,6 +15,7 @@
 - Map MARC 022 to ISSN node and vice-versa [MODLD-798](https://folio-org.atlassian.net/browse/MODLD-798)
 - Conversion rules from MARC to Graph - Leader Field defines WORK type [MODLD-805](https://folio-org.atlassian.net/browse/MODLD-805)
 - Conversion rules from Graph to MARC - WORK type defines Leader Field [MODLD-806](https://folio-org.atlassian.net/browse/MODLD-806)
+- Graph to MARC logic when Books and Serials fields co-exist (008/18-34) [MODLD-812](https://folio-org.atlassian.net/browse/MODLD-812)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

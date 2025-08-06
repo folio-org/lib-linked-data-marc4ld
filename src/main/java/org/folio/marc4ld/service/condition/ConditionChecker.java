@@ -9,6 +9,6 @@ public interface ConditionChecker {
 
   boolean isMarc2LdConditionSatisfied(Marc4LdRules.FieldRule fieldRule, DataField dataField, Record marcRecord);
 
-  boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource);
+  boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource, Resource parent);
 
 }
