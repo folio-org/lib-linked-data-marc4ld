@@ -10,7 +10,6 @@ import static org.folio.marc4ld.util.Constants.B;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +27,6 @@ public abstract class AbstractClassificationMapper implements CustomDataFieldsMa
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(CLASSIFICATION);
 
-  protected final ObjectMapper objectMapper;
   protected final MarcFactory marcFactory;
 
   private final String tag;
