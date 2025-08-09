@@ -9,6 +9,7 @@ import static org.folio.marc4ld.util.LdUtil.isInstance;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.folio.ld.dictionary.model.Resource;
@@ -28,7 +29,7 @@ public class CreatedDateMapper implements CustomControlFieldsMapper {
     if (isInstance(resource)) {
       var optionalCreatedDate = getCreatedDateFromResource(resource);
       optionalCreatedDate.ifPresent(
-        date -> controlFieldsBuilder.addFieldValue(TAG_008, date, 0, 6));
+        date -> controlFieldsBuilder.addFieldValue(TAG_008, conditionalReformatDate(date), 0, 5));
     }
   }
 
@@ -42,5 +43,14 @@ public class CreatedDateMapper implements CustomControlFieldsMapper {
       .map(JsonNode::textValue)
       .or(() -> ofNullable(resource.getCreatedDate())
         .map(date -> MARC_CREATED_DATE_FORMAT.format(ofEpochMilli(date.getTime()))));
+  }
+
+  private String conditionalReformatDate(String dateFromResource) {
+    var formatted = dateFromResource;
+    if (dateFromResource.length() > 6) {
+      var localDate = LocalDate.parse(dateFromResource);
+      formatted = MARC_CREATED_DATE_FORMAT.format(localDate);
+    }
+    return formatted;
   }
 }
