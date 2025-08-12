@@ -18,6 +18,7 @@
 - Graph to MARC logic when Books and Serials fields co-exist (008/18-34) [MODLD-812](https://folio-org.atlassian.net/browse/MODLD-812)
 - Convert MARC 040 to Graph and vice-versa [MODLD-784](https://folio-org.atlassian.net/browse/MODLD-784)
 - Code cleanup - Create separate class for mapping updated date (005) [MODLD-829](https://folio-org.atlassian.net/browse/MODLD-829)
+- Update mapping for MRC 024(ind1=3) [MODLD-810](https://folio-org.atlassian.net/browse/MODLD-810)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

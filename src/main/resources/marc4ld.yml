@@ -229,12 +229,12 @@ bibFieldRules:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '024':
-    - types: ID_EAN, IDENTIFIER
+    - types: ID_IAN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
-        a: EAN_VALUE
-        d: EAN_VALUE
+        a: NAME
+        d: NAME
         q: QUALIFIER
       concat: ''
       marc2ldCondition:
@@ -249,11 +249,11 @@ bibFieldRules:
           constants:
             LABEL: current
             LINK: http://id.loc.gov/vocabulary/mstatus/current
-    - types: ID_EAN, IDENTIFIER
+    - types: ID_IAN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
       subfields:
-        z: EAN_VALUE
+        z: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
