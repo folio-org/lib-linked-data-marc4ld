@@ -29,7 +29,7 @@ public class CreatedDateMapper implements CustomControlFieldsMapper {
     if (isInstance(resource)) {
       var optionalCreatedDate = getCreatedDateFromResource(resource);
       optionalCreatedDate.ifPresent(
-        date -> controlFieldsBuilder.addFieldValue(TAG_008, conditionalReformatDate(date), 0, 5));
+        date -> controlFieldsBuilder.addFieldValue(TAG_008, conditionalReformatDate(date), 0, 6));
     }
   }
 
