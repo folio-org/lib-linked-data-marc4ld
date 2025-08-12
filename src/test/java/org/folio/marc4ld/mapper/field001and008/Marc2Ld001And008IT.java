@@ -28,7 +28,7 @@ class Marc2Ld001And008IT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(CREATED_DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("112024");
+    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("2024-11-20");
     assertThat(edge.getTarget().getDoc().has(CONTROL_NUMBER.getValue()));
     assertThat(edge.getTarget().getDoc().get(CONTROL_NUMBER.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(CONTROL_NUMBER.getValue()).get(0).asText())
