@@ -33,7 +33,7 @@ class Marc2Ld040IT extends Marc2LdTestBase {
             "http://bibfra.me/vocab/marc/transcribingAgency", List.of("CtY"),
             "http://bibfra.me/vocab/marc/modifyingAgency", List.of("MH", "NU"),
             "http://bibfra.me/vocab/marc/controlNumber", List.of("123456789"),
-            "http://bibfra.me/vocab/lite/createdDate", List.of("018015")
+            "http://bibfra.me/vocab/lite/createdDate", List.of("2001-08-15")
           ),
           "123456789"))
       .extracting(this::getCatalogingLanguage)

@@ -73,7 +73,7 @@ class Ld2Marc040IT {
         TRANSCRIBING_AGENCY, List.of("CtY"),
         MODIFYING_AGENCY, List.of("MH", "NU"),
         CONTROL_NUMBER, List.of("123456789"),
-        CREATED_DATE, List.of("018015")
+        CREATED_DATE, List.of("010815")
       ),
       Set.of(ANNOTATION),
       Map.of(CATALOGING_LANGUAGE, List.of(language))
