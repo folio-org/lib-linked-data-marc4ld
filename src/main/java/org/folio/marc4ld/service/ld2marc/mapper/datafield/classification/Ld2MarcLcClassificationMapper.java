@@ -12,7 +12,6 @@ import static org.folio.marc4ld.util.Constants.ONE;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.ZERO;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.folio.ld.dictionary.model.Resource;
 import org.marc4j.marc.MarcFactory;
 import org.springframework.stereotype.Component;
@@ -20,8 +19,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Ld2MarcLcClassificationMapper extends AbstractClassificationMapper {
 
-  public Ld2MarcLcClassificationMapper(MarcFactory marcFactory, ObjectMapper objectMapper) {
-    super(objectMapper, marcFactory, TAG_050, LC);
+  public Ld2MarcLcClassificationMapper(MarcFactory marcFactory) {
+    super(marcFactory, TAG_050, LC);
   }
 
   @Override

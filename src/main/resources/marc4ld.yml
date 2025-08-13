@@ -298,6 +298,22 @@ bibFieldRules:
           constants:
             LABEL: canceled or invalid
             LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+  '040':
+    - types: ANNOTATION
+      parent: INSTANCE
+      predicate: ADMIN_METADATA
+      append: true
+      subfields:
+        a: CATALOGING_AGENCY
+        c: TRANSCRIBING_AGENCY
+        d: MODIFYING_AGENCY
+      edges:
+        - types: LANGUAGE_CATEGORY
+          predicate: CATALOGING_LANGUAGE
+          subfields:
+            b: CODE
+          constants:
+            LINK: http://id.loc.gov/vocabulary/languages/%CODE
   '041':
     - include: 041_mappings
       predicate: LANGUAGE
