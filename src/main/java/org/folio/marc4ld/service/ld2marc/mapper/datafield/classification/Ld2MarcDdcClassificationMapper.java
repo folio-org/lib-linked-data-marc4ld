@@ -18,7 +18,6 @@ import static org.folio.marc4ld.util.Constants.TWO;
 import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -29,8 +28,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Ld2MarcDdcClassificationMapper extends AbstractClassificationMapper {
 
-  public Ld2MarcDdcClassificationMapper(ObjectMapper objectMapper, MarcFactory marcFactory) {
-    super(objectMapper, marcFactory, TAG_082, DDC);
+  public Ld2MarcDdcClassificationMapper(MarcFactory marcFactory) {
+    super(marcFactory, TAG_082, DDC);
   }
 
   @Override
