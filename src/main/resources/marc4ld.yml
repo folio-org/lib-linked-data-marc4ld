@@ -8,13 +8,6 @@ bibFieldRules:
         '001':
           CONTROL_NUMBER: 0,99
   '008':
-    - types: ANNOTATION
-      parent: INSTANCE
-      predicate: ADMIN_METADATA
-      append: true
-      controlFields:
-        '008':
-          CREATED_DATE: 0,6
     - types: CATEGORY
       parent: WORK
       predicate: CHARACTERISTIC

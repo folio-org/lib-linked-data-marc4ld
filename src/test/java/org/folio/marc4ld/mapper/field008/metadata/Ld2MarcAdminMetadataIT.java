@@ -22,7 +22,7 @@ class Ld2MarcAdminMetadataIT {
   void shouldMapField001() {
     // given
     var expectedMarc = loadResourceAsString("fields/008/marc_008_admin_metadata.jsonl");
-    var resource = getInstanceWithAdminMetadata("112024");
+    var resource = getInstanceWithAdminMetadata("241120");
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
