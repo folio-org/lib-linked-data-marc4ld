@@ -599,13 +599,6 @@ bibFieldRules:
           concat: ' '
           ld2marcCondition:
             skip: true
-  310:
-    - types: INSTANCE
-      subfields:
-        a: PUBLICATION_FREQUENCY
-        b: PUBLICATION_FREQUENCY
-      concat: ', '
-      append: true
   334:
     - types: INSTANCE
       subfields:
