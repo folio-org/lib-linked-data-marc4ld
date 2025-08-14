@@ -53,7 +53,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.DATE_END;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DESCRIPTION_SOURCE_NOTE;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
-import static org.folio.ld.dictionary.PropertyDictionary.EAN_VALUE;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION;
 import static org.folio.ld.dictionary.PropertyDictionary.EDITION_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.ENTITY_AND_ATTRIBUTE_INFORMATION;
@@ -130,7 +129,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.COPYRIGHT_EVENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_EAN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_IAN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISBN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
@@ -314,19 +313,19 @@ public class MonographTestUtil {
 
     var ean = createResource(
       Map.of(
-        EAN_VALUE, List.of("111222"),
+        NAME, List.of("111222"),
         QUALIFIER, List.of("eanIdQal")
       ),
-      Set.of(IDENTIFIER, ID_EAN),
+      Set.of(IDENTIFIER, ID_IAN),
       Map.of(STATUS, List.of(status("current")))
     ).setLabel("111222");
 
     var eanCancelled = createResource(
       Map.of(
-        EAN_VALUE, List.of("333"),
+        NAME, List.of("333"),
         QUALIFIER, List.of("eanIdQal")
       ),
-      Set.of(IDENTIFIER, ID_EAN),
+      Set.of(IDENTIFIER, ID_IAN),
       Map.of(STATUS, List.of(status("canceled or invalid")))
     ).setLabel("333");
 

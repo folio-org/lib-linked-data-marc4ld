@@ -33,9 +33,9 @@ labelRules:
   - types: ID_CODEN, IDENTIFIER
     properties:
       - NAME
-  - types: ID_EAN, IDENTIFIER
+  - types: ID_IAN, IDENTIFIER
     properties:
-      - EAN_VALUE
+      - NAME
   - types: ID_UNKNOWN, IDENTIFIER
     properties:
       - NAME
