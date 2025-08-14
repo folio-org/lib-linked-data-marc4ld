@@ -46,7 +46,7 @@ class Ld2Marc001And008IT {
   private Resource createInstance() {
     var adminMetadata = createResource(
       Map.of(
-        CREATED_DATE, List.of("112024"),
+        CREATED_DATE, List.of("2024-11-20"),
         CONTROL_NUMBER, List.of("#880524405##")
       ),
       Set.of(ANNOTATION),

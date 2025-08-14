@@ -664,7 +664,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(CREATED_DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("190607");
+    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("2019-06-07");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
