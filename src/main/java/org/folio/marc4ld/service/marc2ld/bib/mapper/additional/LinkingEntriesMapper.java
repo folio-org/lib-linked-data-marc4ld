@@ -19,11 +19,11 @@ import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -34,7 +34,8 @@ import org.springframework.stereotype.Component;
 public class LinkingEntriesMapper implements AdditionalMapper {
 
   private static final List<String> TAGS = List.of(TAG_775, TAG_776);
-  private static final Set<PredicateDictionary> SUPPORTED_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);
+  private static final Set<String> SUPPORTED_PREDICATES =
+    Set.of(OTHER_EDITION.name(), OTHER_VERSION.name());
   private static final Set<ResourceTypeDictionary> IDENTIFIER_TYPE = Set.of(IDENTIFIER);
   private static final String DLC_PREFIX = "(DLC)";
 
@@ -47,8 +48,8 @@ public class LinkingEntriesMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return SUPPORTED_PREDICATES.contains(predicate);
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return SUPPORTED_PREDICATES.contains(fieldRule.getPredicate());
   }
 
   @Override

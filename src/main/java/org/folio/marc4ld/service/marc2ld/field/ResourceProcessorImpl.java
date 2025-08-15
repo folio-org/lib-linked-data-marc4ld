@@ -86,7 +86,7 @@ public class ResourceProcessorImpl implements ResourceProcessor {
 
   private static boolean isMapping(Marc2ldFieldRuleApplier fieldRule, AdditionalMapper mapper) {
     return Optional.of(fieldRule)
-      .map(Marc2ldFieldRuleApplier::getPredicate)
+      .map(Marc2ldFieldRuleApplier::getOriginal)
       .map(mapper::canMap)
       .orElse(false);
   }

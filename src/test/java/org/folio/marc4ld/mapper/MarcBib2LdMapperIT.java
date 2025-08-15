@@ -69,7 +69,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.PHYSICAL_DESCRIPTION;
 import static org.folio.ld.dictionary.PropertyDictionary.PROJECTED_PROVISION_DATE;
-import static org.folio.ld.dictionary.PropertyDictionary.PUBLICATION_FREQUENCY;
 import static org.folio.ld.dictionary.PropertyDictionary.QUALIFIER;
 import static org.folio.ld.dictionary.PropertyDictionary.REFERENCES;
 import static org.folio.ld.dictionary.PropertyDictionary.RELATED_PARTS;
@@ -306,7 +305,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
   private void validateInstance(Resource resource) {
     validateId(resource);
     assertThat(resource.getLabel()).isEqualTo("MainTitle SubTitle");
-    assertThat(resource.getDoc()).hasSize(34);
+    assertThat(resource.getDoc()).hasSize(33);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
@@ -340,7 +339,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         INFORMATION_ABOUT_DOCUMENTATION, DESCRIPTION_SOURCE_NOTE, GOVERNING_ACCESS_NOTE, TYPE_OF_REPORT,
         REPRODUCTION_NOTE, ORIGINAL_VERSION_NOTE, LOCATION_OF_ORIGINALS_DUPLICATES, FUNDING_INFORMATION,
         INFORMATION_RELATING_TO_COPYRIGHT_STATUS, RELATED_PARTS, ENTITY_AND_ATTRIBUTE_INFORMATION,
-        LOCATION_OF_OTHER_ARCHIVAL_MATERIAL, SYSTEM_DETAILS, SYSTEM_DETAILS_ACCESS_NOTE, PUBLICATION_FREQUENCY,
+        LOCATION_OF_OTHER_ARCHIVAL_MATERIAL, SYSTEM_DETAILS, SYSTEM_DETAILS_ACCESS_NOTE,
         DATES_OF_PUBLICATION_NOTE, PHYSICAL_DESCRIPTION)
       .forEach(p -> {
         assertThat(doc.has(p.getValue())).isTrue();
@@ -386,7 +385,6 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
       .isEqualTo("note, source, control, reference");
     assertThat(doc.get(SYSTEM_DETAILS.getValue()).get(0).asText()).isEqualTo("note, text, uri");
     assertThat(doc.get(SYSTEM_DETAILS_ACCESS_NOTE.getValue()).get(0).asText()).isEqualTo("model, language, system");
-    assertThat(doc.get(PUBLICATION_FREQUENCY.getValue()).get(0).asText()).isEqualTo("frequency, date");
     assertThat(doc.get(DATES_OF_PUBLICATION_NOTE.getValue()).get(0).asText()).isEqualTo("dates, source");
     assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asText()).isEqualTo("details");
   }

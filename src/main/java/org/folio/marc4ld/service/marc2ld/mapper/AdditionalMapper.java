@@ -1,8 +1,8 @@
 package org.folio.marc4ld.service.marc2ld.mapper;
 
 import java.util.List;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 
 /**
@@ -17,7 +17,7 @@ public interface AdditionalMapper {
 
   List<String> getTags();
 
-  boolean canMap(PredicateDictionary predicate);
+  boolean canMap(Marc4LdRules.FieldRule fieldRule);
 
   void map(MarcData marcData, Resource resource);
 }

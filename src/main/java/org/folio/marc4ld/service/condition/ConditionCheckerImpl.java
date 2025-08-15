@@ -185,11 +185,11 @@ public class ConditionCheckerImpl implements ConditionChecker {
     if (isEmpty(substring)) {
       return data;
     }
-    int start = substring.get(0);
+    int start = substring.getFirst();
     if (start >= data.length()) {
       return "";
     }
-    int end = substring.get(1);
+    int end = substring.getLast();
     if (end > data.length()) {
       return data.substring(start);
     }

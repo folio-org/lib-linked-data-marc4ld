@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -45,8 +45,8 @@ public class GovernmentPublicationMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == GOVERNMENT_PUBLICATION;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return GOVERNMENT_PUBLICATION.name().equals(fieldRule.getPredicate());
   }
 
   @Override

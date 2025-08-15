@@ -1,5 +1,5 @@
 {
-  "leader" : "09301nam a2201045uc 4500",
+  "leader" : "09269nam a2201033uc 4500",
   "fields" : [ {
     "008" : "       1999    ilub   b q   a  1   eng "
   }, {
@@ -383,14 +383,6 @@
       } ],
       "ind1" : " ",
       "ind2" : "4"
-    }
-  }, {
-    "310" : {
-      "subfields" : [ {
-        "a" : "frequency, date"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
     }
   }, {
     "334" : {

@@ -10,8 +10,8 @@ import static org.folio.marc4ld.util.Constants.ZERO;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -31,8 +31,8 @@ public class DdcClassificationMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == CLASSIFICATION;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return CLASSIFICATION.name().equals(fieldRule.getPredicate());
   }
 
   @Override

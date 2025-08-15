@@ -20,6 +20,7 @@
 - Code cleanup - Create separate class for mapping updated date (005) [MODLD-829](https://folio-org.atlassian.net/browse/MODLD-829)
 - Update creation date handling [MODLD-827](https://folio-org.atlassian.net/browse/MODLD-827)
 - Update mapping for MRC 024(ind1=3) [MODLD-810](https://folio-org.atlassian.net/browse/MODLD-810)
+- Serials - Marc to Graph mapping for Frequency [MODLD-817](https://folio-org.atlassian.net/browse/MODLD-817)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
