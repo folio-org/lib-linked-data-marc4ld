@@ -10,7 +10,7 @@ import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.List;
 import java.util.Set;
-import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
@@ -32,8 +32,8 @@ public class CharacteristicMapper extends DictionaryBasedMarc2LdMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == CHARACTERISTIC;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return CHARACTERISTIC.name().equals(fieldRule.getPredicate());
   }
 
   @Override

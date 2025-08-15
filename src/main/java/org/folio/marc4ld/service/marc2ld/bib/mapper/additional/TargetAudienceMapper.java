@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -63,8 +63,8 @@ public class TargetAudienceMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == TARGET_AUDIENCE;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return TARGET_AUDIENCE.name().equals(fieldRule.getPredicate());
   }
 
   @Override

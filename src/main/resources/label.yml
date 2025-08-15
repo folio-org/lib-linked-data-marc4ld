@@ -1,4 +1,14 @@
 labelRules:
+  - types: ABBREVIATED_TITLE
+    properties: MAIN_TITLE
+  - types: AGENT
+    properties:
+      - NAME
+  - types: ANNOTATION
+    properties:
+      - NAME
+      - LINK
+      - CONTROL_NUMBER
   - types: CATEGORY
     properties:
       - TERM
@@ -6,10 +16,70 @@ labelRules:
   - types: CATEGORY_SET
     properties:
       - LABEL
-  - types: STATUS
+  - types: CLASSIFICATION
+    properties:
+      - CODE
+  - types: CONCEPT, FAMILY
+    addLabelProperty: true
+    properties:
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, FORM
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, JURISDICTION
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, MEETING
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, ORGANIZATION
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, PERSON
+    addLabelProperty: true
+    properties:
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, PLACE
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, TOPIC
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: COPYRIGHT_EVENT
+    properties:
+      - DATE
+  - types: DISSERTATION
     properties:
       - LABEL
-  - types: IDENTIFIER
+  - types: EXTENT
+    properties:
+      - LABEL
+  - types: FAMILY
+    properties:
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
+  - types: FORM
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: FREQUENCY
+    properties:
+      - LABEL
+  - types: ID_CODEN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_IAN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_ISBN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_ISSN, IDENTIFIER
     addLabelProperty: true
     properties:
       - NAME
@@ -20,91 +90,17 @@ labelRules:
   - types: ID_LOCAL, IDENTIFIER
     properties:
       - LOCAL_ID_VALUE
-  - types: ID_ISBN, IDENTIFIER
-    properties:
-      - NAME
-  - types: ID_ISSN, IDENTIFIER
-    addLabelProperty: true
-    properties:
-      - NAME
   - types: ID_STRN, IDENTIFIER
-    properties:
-      - NAME
-  - types: ID_CODEN, IDENTIFIER
-    properties:
-      - NAME
-  - types: ID_IAN, IDENTIFIER
     properties:
       - NAME
   - types: ID_UNKNOWN, IDENTIFIER
     properties:
       - NAME
-  - types: PLACE
+  - types: IDENTIFIER
     addLabelProperty: true
     properties:
       - NAME
-      - CODE
-  - types: PERSON
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
-  - types: FAMILY
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
-  - types: ORGANIZATION
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
-  - types: MEETING
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}"
-  - types: CONCEPT, MEETING
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: PROVIDER_EVENT
-    properties:
-      - NAME
-  - types: COPYRIGHT_EVENT
-    properties:
-      - DATE
-  - types: CONCEPT, FAMILY
-    addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, PERSON
-    addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, JURISDICTION
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, ORGANIZATION
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, TOPIC
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, PLACE
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: CONCEPT, FORM
-    addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
-  - types: FORM
-    addLabelProperty: true
-    properties:
-      - NAME
-  - types: TOPIC
-    addLabelProperty: true
-    properties:
-      - NAME
-  - types: TEMPORAL
+  - types: INSTANCE, SERIES
     addLabelProperty: true
     properties:
       - NAME
@@ -112,45 +108,52 @@ labelRules:
     addLabelProperty: true
     properties:
       - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
-  - types: ANNOTATION
+  - types: LANGUAGE_CATEGORY
+    properties: CODE
+  - types: MEETING
+    addLabelProperty: true
     properties:
-      - NAME
-      - LINK
-      - CONTROL_NUMBER
-  - types: TITLE
+      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}"
+  - types: ORGANIZATION
+    addLabelProperty: true
     properties:
-      - "{$MAIN_TITLE} {$SUBTITLE}"
-  - types: VARIANT_TITLE
-    properties:
-      - "{$MAIN_TITLE} {$SUBTITLE}"
+      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: PARALLEL_TITLE
     properties:
       - "{$MAIN_TITLE} {$SUBTITLE}"
-  - types: CLASSIFICATION
+  - types: PERSON
     properties:
-      - CODE
-  - types: DISSERTATION
-    properties:
-      - LABEL
-  - types: AGENT
+      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
+  - types: PLACE
+    addLabelProperty: true
     properties:
       - NAME
-  - types: EXTENT
+      - CODE
+  - types: PROVIDER_EVENT
     properties:
-      - LABEL
-  - types: LANGUAGE_CATEGORY
-    properties: CODE
-  - types: ABBREVIATED_TITLE
-    properties: MAIN_TITLE
+      - NAME
   - types: SERIES
     addLabelProperty: true
     properties:
       - NAME
+  - types: STATUS
+    properties:
+      - LABEL
+  - types: TEMPORAL
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: TITLE
+    properties:
+      - "{$MAIN_TITLE} {$SUBTITLE}"
+  - types: TOPIC
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: VARIANT_TITLE
+    properties:
+      - "{$MAIN_TITLE} {$SUBTITLE}"
   - types: WORK, SERIES
     addLabelProperty: true
     properties:
       - "{$NAME} {$VOLUME}"
-  - types: INSTANCE, SERIES
-    addLabelProperty: true
-    properties:
-      - NAME

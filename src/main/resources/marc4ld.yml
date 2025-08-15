@@ -31,6 +31,37 @@ bibFieldRules:
             isAny: b, s
       ld2marcCondition:
         workType: CONTINUING_RESOURCES
+    - types: FREQUENCY
+      parent: INSTANCE
+      predicate: PUBLICATION_FREQUENCY
+      controlFields:
+        '008':
+          CODE: 18,19
+      marc2ldCondition:
+        controlFields:
+          - tag: 008
+            substring: 18,19
+            isAny: a, b, c, d, e, f, g, h, i, j, k, m, q, s, t, w
+        leader:
+          - substring: 7,8
+            isAny: b, s
+    - types: FREQUENCY
+      parent: INSTANCE
+      predicate: PUBLICATION_FREQUENCY
+      controlFields:
+        '008':
+          CODE: 19,20
+      constants:
+        LINK: http://id.loc.gov/vocabulary/frequencies/irr
+        LABEL: irregular
+      marc2ldCondition:
+        controlFields:
+          - tag: 008
+            substring: 19,20
+            isAny: n, x
+        leader:
+          - substring: 7,8
+            isAny: b, s
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES

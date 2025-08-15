@@ -9,8 +9,8 @@ import static org.folio.marc4ld.util.Constants.TAG_340;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -32,8 +32,8 @@ public class BookFormatMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == BOOK_FORMAT;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return BOOK_FORMAT.name().equals(fieldRule.getPredicate());
   }
 
   @Override

@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.bib.mapper.additional;
 
+import static org.folio.ld.dictionary.PredicateDictionary.PROVIDER_PLACE;
 import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 
@@ -7,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PlaceDictionary;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -26,8 +27,8 @@ public class ProviderPlaceMapper implements AdditionalMapper {
   }
 
   @Override
-  public boolean canMap(PredicateDictionary predicate) {
-    return predicate == PredicateDictionary.PROVIDER_PLACE;
+  public boolean canMap(Marc4LdRules.FieldRule fieldRule) {
+    return PROVIDER_PLACE.name().equals(fieldRule.getPredicate());
   }
 
   @Override
