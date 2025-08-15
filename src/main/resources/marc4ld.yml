@@ -45,6 +45,8 @@ bibFieldRules:
         leader:
           - substring: 7,8
             isAny: b, s
+      ld2marcCondition:
+        skip: true
     - types: FREQUENCY
       parent: INSTANCE
       predicate: PUBLICATION_FREQUENCY
@@ -62,6 +64,8 @@ bibFieldRules:
         leader:
           - substring: 7,8
             isAny: b, s
+      ld2marcCondition:
+        skip: true
     - types: WORK
       parent: INSTANCE
       predicate: INSTANTIATES
