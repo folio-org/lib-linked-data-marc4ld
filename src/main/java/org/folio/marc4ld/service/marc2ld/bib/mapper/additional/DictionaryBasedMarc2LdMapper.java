@@ -14,8 +14,8 @@ import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 
 public abstract class DictionaryBasedMarc2LdMapper implements AdditionalMapper {
 
+  protected final MapperHelper mapperHelper;
   private final DictionaryProcessor dictionaryProcessor;
-  private final MapperHelper mapperHelper;
 
   DictionaryBasedMarc2LdMapper(DictionaryProcessor dictionaryProcessor, MapperHelper mapperHelper) {
     this.dictionaryProcessor = dictionaryProcessor;

@@ -6,12 +6,15 @@ import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.marc4ld.util.Constants.Dictionary.PUBLICATION_FREQUENCY_CODE_TO_LABEL;
-import static org.folio.marc4ld.util.Constants.Dictionary.PUBLICATION_FREQUENCY_CODE_TO_LINK;
 import static org.folio.marc4ld.util.Constants.TAG_008;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import org.folio.ld.dictionary.PublicationFrequencyDictionary;
+import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
+import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
@@ -21,7 +24,6 @@ public class PublicationFrequencyMapper extends DictionaryBasedMarc2LdMapper {
 
   private static final int APPLICABLE_008_POSITION = 18;
   private static final List<String> TAGS = List.of(TAG_008);
-  private static final MappingConfig CONFIG_LINK = new MappingConfig(PUBLICATION_FREQUENCY_CODE_TO_LINK, CODE, LINK);
   private static final MappingConfig CONFIG_LABEL = new MappingConfig(PUBLICATION_FREQUENCY_CODE_TO_LABEL, CODE, LABEL);
 
   PublicationFrequencyMapper(DictionaryProcessor dictionaryProcessor, MapperHelper mapperHelper) {
@@ -50,7 +52,26 @@ public class PublicationFrequencyMapper extends DictionaryBasedMarc2LdMapper {
 
   @Override
   Set<MappingConfig> getMappingConfigs() {
-    return Set.of(CONFIG_LINK, CONFIG_LABEL);
+    return Set.of(CONFIG_LABEL);
   }
 
+  @Override
+  public void map(MarcData marcData, Resource resource) {
+    super.map(marcData, resource);
+    mapLinks(resource);
+  }
+
+  private void mapLinks(Resource resource) {
+    var properties = mapperHelper.getProperties(resource);
+    var codes = properties.getOrDefault(CODE.getValue(), List.of());
+    var links = codes.stream()
+      .map(PublicationFrequencyDictionary::getLink)
+      .flatMap(Optional::stream)
+      .toList();
+    if (links.isEmpty()) {
+      return;
+    }
+    properties.put(LINK.getValue(), links);
+    resource.setDoc(mapperHelper.getJsonNode(properties));
+  }
 }
