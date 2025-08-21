@@ -5,6 +5,8 @@ import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateCancelledStatus;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateCurrentStatus;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
@@ -13,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
@@ -45,15 +46,7 @@ class Marc2Ld010IT extends Marc2LdTestBase {
     );
 
     var currentEdge = getStatusEdge(lccnEdges.getFirst().getTarget());
-    validateResource(
-      currentEdge.getTarget(),
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("current"),
-        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/current")
-      ),
-      "current"
-    );
+    validateCurrentStatus(currentEdge.getTarget());
 
     // Cancelled LCCN edge (010$z)
     validateResource(
@@ -67,15 +60,7 @@ class Marc2Ld010IT extends Marc2LdTestBase {
     );
 
     var cancelledEdge = getStatusEdge(lccnEdges.get(1).getTarget());
-    validateResource(
-      cancelledEdge.getTarget(),
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("canceled or invalid"),
-        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/cancinv")
-      ),
-      "canceled or invalid"
-    );
+    validateCancelledStatus(cancelledEdge.getTarget());
   }
 
   private ResourceEdge getStatusEdge(Resource resource) {

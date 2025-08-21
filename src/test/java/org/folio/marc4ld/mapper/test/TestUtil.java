@@ -72,4 +72,28 @@ public class TestUtil {
     assertThat(actualValues)
       .containsOnlyOnceElementsOf(propertyValues);
   }
+
+  public static void validateCurrentStatus(Resource status) {
+    validateResource(
+      status,
+      List.of(ResourceTypeDictionary.STATUS),
+      Map.of(
+        "http://bibfra.me/vocab/lite/label", List.of("current"),
+        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/current")
+      ),
+      "current"
+    );
+  }
+
+  public static void validateCancelledStatus(Resource status) {
+    validateResource(
+      status,
+      List.of(ResourceTypeDictionary.STATUS),
+      Map.of(
+        "http://bibfra.me/vocab/lite/label", List.of("canceled or invalid"),
+        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/cancinv")
+      ),
+      "canceled or invalid"
+    );
+  }
 }

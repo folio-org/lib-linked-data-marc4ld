@@ -68,22 +68,6 @@ public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper
     return dataField;
   }
 
-  protected Optional<Character> getMarcSubfield(String statusLink) {
-    return switch (statusLink) {
-      case CURRENT -> Optional.of(A);
-      case CANCINV -> Optional.of(Z);
-      default -> Optional.empty();
-    };
-  }
-
-  protected char getInd1(ResourceEdge edge) {
-    return SPACE;
-  }
-
-  protected boolean hasQualifyingInfoSubfield() {
-    return false;
-  }
-
   private Optional<Character> getIdSubfieldChar(Resource resource) {
     return resource.getOutgoingEdges()
       .stream()
@@ -92,5 +76,22 @@ public abstract class AbstractIdentifierMapper implements CustomDataFieldsMapper
       .flatMap(e -> getPropertyValue(e.getTarget(), LINK.getValue()))
       .map(this::getMarcSubfield)
       .orElse(Optional.of(A));
+  }
+
+  @SuppressWarnings("squid:S1172")
+  protected char getInd1(ResourceEdge edge) {
+    return SPACE;
+  }
+
+  protected boolean hasQualifyingInfoSubfield() {
+    return false;
+  }
+
+  protected Optional<Character> getMarcSubfield(String statusLink) {
+    return switch (statusLink) {
+      case CURRENT -> Optional.of(A);
+      case CANCINV -> Optional.of(Z);
+      default -> Optional.empty();
+    };
   }
 }
