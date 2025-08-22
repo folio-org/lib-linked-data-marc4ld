@@ -7,8 +7,8 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PlaceDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.specific.PlaceDictionary;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
@@ -36,9 +36,8 @@ public class ProviderPlaceMapper implements AdditionalMapper {
     var properties = mapperHelper.getProperties(resource);
     var codes = properties.getOrDefault(CODE.getValue(), List.of());
     var values = codes.stream()
-      .map(PlaceDictionary::getName)
-      .filter(Optional::isPresent)
-      .map(Optional::get)
+      .map(PlaceDictionary::getValue)
+      .flatMap(Optional::stream)
       .toList();
     if (values.isEmpty()) {
       return;

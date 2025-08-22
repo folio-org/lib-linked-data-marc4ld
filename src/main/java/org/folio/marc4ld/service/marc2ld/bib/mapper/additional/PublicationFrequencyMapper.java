@@ -11,8 +11,8 @@ import static org.folio.marc4ld.util.Constants.TAG_008;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.folio.ld.dictionary.PublicationFrequencyDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.specific.PublicationFrequencyDictionary;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -65,7 +65,8 @@ public class PublicationFrequencyMapper extends DictionaryBasedMarc2LdMapper {
     var properties = mapperHelper.getProperties(resource);
     var codes = properties.getOrDefault(CODE.getValue(), List.of());
     var links = codes.stream()
-      .map(PublicationFrequencyDictionary::getLink)
+      .map(code -> code.charAt(0))
+      .map(PublicationFrequencyDictionary::getValue)
       .flatMap(Optional::stream)
       .toList();
     if (links.isEmpty()) {

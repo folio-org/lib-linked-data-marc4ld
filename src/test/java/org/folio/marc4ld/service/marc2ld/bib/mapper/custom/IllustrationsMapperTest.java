@@ -63,7 +63,7 @@ class IllustrationsMapperTest {
     "e, pln",
     "f, plt",
     "g, mus",
-    "h, mus",
+    "h, fac",
     "i, coa",
     "j, gnt",
     "k, for",

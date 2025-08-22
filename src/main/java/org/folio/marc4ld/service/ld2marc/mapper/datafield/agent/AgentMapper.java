@@ -18,16 +18,15 @@ import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
-import org.folio.ld.dictionary.RoleDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.dictionary.specific.RoleDictionary;
 import org.folio.marc4ld.service.ld2marc.mapper.CustomDataFieldsMapper;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -122,7 +121,7 @@ public abstract class AgentMapper implements CustomDataFieldsMapper {
       .filter(re -> agent.equals(re.getTarget()))
       .map(ResourceEdge::getPredicate)
       .map(RoleDictionary::getCode)
-      .filter(Objects::nonNull)
+      .flatMap(Optional::stream)
       .map(code -> marcFactory.newSubfield(FOUR, code))
       .forEach(dataField::addSubfield);
   }
