@@ -262,15 +262,11 @@ bibFieldRules:
       predicate: MAP
       subfields:
         a: NAME
-        d: NAME
         q: QUALIFIER
-      concat: ''
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '3'
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -287,8 +283,6 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
         ind1: '3'
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -300,15 +294,11 @@ bibFieldRules:
       predicate: MAP
       subfields:
         a: NAME
-        d: NAME
         q: QUALIFIER
-      concat: ''
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '!3'
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS
@@ -325,8 +315,6 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
         ind1: '!3'
-      ld2marcCondition:
-        edge: STATUS
       edges:
         - types: STATUS
           predicate: STATUS

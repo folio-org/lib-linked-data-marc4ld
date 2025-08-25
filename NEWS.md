@@ -23,6 +23,7 @@
 - Serials - Marc to Graph mapping for Frequency [MODLD-817](https://folio-org.atlassian.net/browse/MODLD-817)
 - Serials - Graph to Marc mapping for Frequency [MODLD-818](https://folio-org.atlassian.net/browse/MODLD-818)
 - Use PublicationFrequencyDictionary instead of local yml file [MODLD-826](https://folio-org.atlassian.net/browse/MODLD-826)
+- Graph to MARC conversion for IAN & UNKNOWN identifiers to MARC 024 [MODLD-845](https://folio-org.atlassian.net/browse/MODLD-845)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
