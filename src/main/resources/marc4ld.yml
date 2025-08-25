@@ -1133,10 +1133,6 @@ bibFieldRules:
       edges:
         - types: FAMILY
           include: 600_focus_mappings
-        - include: form_subdivision
-        - include: general_subdivision
-        - include: chronological_subdivision
-        - include: geographic_subdivision
     - types: CONCEPT, PERSON
       include: 600_mappings
       marc2ldCondition:
@@ -1144,10 +1140,6 @@ bibFieldRules:
       edges:
         - types: PERSON
           include: 600_focus_mappings
-        - include: form_subdivision
-        - include: general_subdivision
-        - include: chronological_subdivision
-        - include: geographic_subdivision
   610:
     - types: CONCEPT, JURISDICTION
       include: 610_mappings
@@ -1156,10 +1148,6 @@ bibFieldRules:
       edges:
         - types: JURISDICTION
           include: 610_focus_mappings
-        - include: form_subdivision
-        - include: general_subdivision
-        - include: chronological_subdivision
-        - include: geographic_subdivision
     - types: CONCEPT, ORGANIZATION
       include: 610_mappings
       marc2ldCondition:
@@ -1167,10 +1155,6 @@ bibFieldRules:
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
-        - include: form_subdivision
-        - include: general_subdivision
-        - include: chronological_subdivision
-        - include: geographic_subdivision
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
@@ -1508,6 +1492,11 @@ bibSharedRules:
       '6': LINKAGE
       '7': CONTROL_FIELD
       '8': FIELD_LINK
+    edges:
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
   600_focus_mappings:
     predicate: FOCUS
     subfields:
@@ -1553,6 +1542,11 @@ bibSharedRules:
       '6': LINKAGE
       '7': CONTROL_FIELD
       '8': FIELD_LINK
+    edges:
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
   610_focus_mappings:
     predicate: FOCUS
     subfields:
