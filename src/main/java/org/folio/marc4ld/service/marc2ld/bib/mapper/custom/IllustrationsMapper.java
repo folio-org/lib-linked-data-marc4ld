@@ -4,7 +4,6 @@ import static java.util.Map.entry;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 
 import java.util.Map;
-import java.util.Set;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.specific.IllustrationDictionary;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -15,9 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IllustrationsMapper extends AbstractCategoryMapper {
 
-  private static final String LINK_SUFFIX = "http://id.loc.gov/vocabulary/millus/";
-  private static final Set<Character> SUPPORTED_CODES = Set.of(
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p');
+  private static final String LINK_SUFFIX = "http://id.loc.gov/vocabulary/millus";
   private static final Map<Character, String> CODE_TO_TERM_MAP = Map.ofEntries(
     entry('a', "Illustrations"),
     entry('b', "Maps"),
@@ -39,14 +36,12 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   public IllustrationsMapper(LabelService labelService,
                              MapperHelper mapperHelper,
                              FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService, 18, 22,
-      "Illustrative Content",
-      "http://id.loc.gov/vocabulary/millus");
+    super(labelService, mapperHelper, hashService, 18, 22, "Illustrative Content", LINK_SUFFIX);
   }
 
   @Override
   protected boolean isSupportedCode(char code) {
-    return SUPPORTED_CODES.contains(code);
+    return IllustrationDictionary.getValue(code).isPresent();
   }
 
   @Override
@@ -57,7 +52,7 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   @Override
   protected String getLinkSuffix(char code) {
     return IllustrationDictionary.getValue(code)
-      .map(s -> s.substring(LINK_SUFFIX.length()))
+      .map(s -> s.substring(LINK_SUFFIX.length() + 1))
       .orElse(null);
   }
 
