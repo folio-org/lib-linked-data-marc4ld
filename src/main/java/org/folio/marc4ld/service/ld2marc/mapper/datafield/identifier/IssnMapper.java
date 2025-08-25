@@ -1,18 +1,18 @@
 package org.folio.marc4ld.service.ld2marc.mapper.datafield.identifier;
 
-import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.Constants.TAG_022;
 import static org.folio.marc4ld.util.Constants.Y;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Subfield;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,16 +21,13 @@ public class IssnMapper extends AbstractIdentifierMapper {
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(ID_ISSN, IDENTIFIER);
   private static final String INCORRECT = "http://id.loc.gov/vocabulary/mstatus/incorrect";
 
-  public IssnMapper(MarcFactory marcFactory) {
-    super(marcFactory);
+  public IssnMapper(MarcFactory marcFactory, Comparator<Subfield> subfieldComparator) {
+    super(marcFactory, subfieldComparator);
   }
 
   @Override
   public boolean test(ResourceEdge resourceEdge) {
-    return resourceEdge.getSource() != null
-      && resourceEdge.getSource().isOfType(INSTANCE)
-      && resourceEdge.getPredicate() == MAP
-      && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
+    return super.test(resourceEdge) && Objects.equals(resourceEdge.getTarget().getTypes(), SUPPORTED_TYPES);
   }
 
   @Override

@@ -195,9 +195,9 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateLocalId(edgeIterator.next(), "09151986", "canceled or invalid");
     validateIsbn(edgeIterator.next(), "9780143789963", "current");
     validateIsbn(edgeIterator.next(), "9999999", "canceled or invalid");
-    validateEan(edgeIterator.next(), "111222", "current");
+    validateEan(edgeIterator.next(), "111", "current");
     validateEan(edgeIterator.next(), "333", "canceled or invalid");
-    validateOtherId(edgeIterator.next(), "202320239999", "current");
+    validateOtherId(edgeIterator.next(), "20232023", "current");
     validateOtherId(edgeIterator.next(), "231123", "canceled or invalid");
     validateTitle(edgeIterator.next());
     validateTitle2(edgeIterator.next());

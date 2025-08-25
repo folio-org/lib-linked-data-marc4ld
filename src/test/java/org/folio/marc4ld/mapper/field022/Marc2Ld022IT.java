@@ -5,6 +5,8 @@ import static org.folio.ld.dictionary.PredicateDictionary.STATUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateCancelledStatus;
+import static org.folio.marc4ld.mapper.test.TestUtil.validateCurrentStatus;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
@@ -44,15 +46,7 @@ class Marc2Ld022IT extends Marc2LdTestBase {
     );
 
     var currentStatusEdge = getStatusEdge(issnEdges.getFirst().getTarget());
-    validateResource(
-      currentStatusEdge.getTarget(),
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("current"),
-        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/current")
-      ),
-      "current"
-    );
+    validateCurrentStatus(currentStatusEdge.getTarget());
 
     // Incorrect ISSN edge (022$y)
     validateResource(
@@ -88,15 +82,7 @@ class Marc2Ld022IT extends Marc2LdTestBase {
     );
 
     var cancelledStatusEdge = getStatusEdge(issnEdges.get(2).getTarget());
-    validateResource(
-      cancelledStatusEdge.getTarget(),
-      List.of(ResourceTypeDictionary.STATUS),
-      Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of("canceled or invalid"),
-        "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mstatus/cancinv")
-      ),
-      "canceled or invalid"
-    );
+    validateCancelledStatus(cancelledStatusEdge.getTarget());
   }
 
   private ResourceEdge getStatusEdge(Resource resource) {
