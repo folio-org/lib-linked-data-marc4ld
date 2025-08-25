@@ -4,8 +4,8 @@ import static java.util.Map.entry;
 import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 
 import java.util.Map;
-import java.util.Set;
 import org.folio.ld.dictionary.PredicateDictionary;
+import org.folio.ld.dictionary.specific.IllustrationDictionary;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -14,25 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IllustrationsMapper extends AbstractCategoryMapper {
 
-  private static final Set<Character> SUPPORTED_CODES = Set.of(
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p');
-  private static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.ofEntries(
-    entry('a', "ill"),
-    entry('b', "map"),
-    entry('c', "por"),
-    entry('d', "chr"),
-    entry('e', "pln"),
-    entry('f', "plt"),
-    entry('g', "mus"),
-    entry('h', "mus"),
-    entry('i', "coa"),
-    entry('j', "gnt"),
-    entry('k', "for"),
-    entry('l', "sam"),
-    entry('m', "pho"),
-    entry('o', "pht"),
-    entry('p', "ilm")
-  );
+  private static final String LINK_SUFFIX = "http://id.loc.gov/vocabulary/millus";
   private static final Map<Character, String> CODE_TO_TERM_MAP = Map.ofEntries(
     entry('a', "Illustrations"),
     entry('b', "Maps"),
@@ -54,14 +36,12 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
   public IllustrationsMapper(LabelService labelService,
                              MapperHelper mapperHelper,
                              FingerprintHashService hashService) {
-    super(labelService, mapperHelper, hashService, 18, 22,
-      "Illustrative Content",
-      "http://id.loc.gov/vocabulary/millus");
+    super(labelService, mapperHelper, hashService, 18, 22, "Illustrative Content", LINK_SUFFIX);
   }
 
   @Override
   protected boolean isSupportedCode(char code) {
-    return SUPPORTED_CODES.contains(code);
+    return IllustrationDictionary.getValue(code).isPresent();
   }
 
   @Override
@@ -71,7 +51,9 @@ public class IllustrationsMapper extends AbstractCategoryMapper {
 
   @Override
   protected String getLinkSuffix(char code) {
-    return CODE_TO_LINK_SUFFIX_MAP.get(code);
+    return IllustrationDictionary.getValue(code)
+      .map(s -> s.substring(LINK_SUFFIX.length() + 1))
+      .orElse(null);
   }
 
   @Override

@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.PredicateDictionary;
-import org.folio.ld.dictionary.RoleDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.ld.dictionary.specific.RoleDictionary;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.marc4j.marc.DataField;
@@ -46,7 +46,7 @@ public class RelationProviderImpl implements RelationProvider {
     return relation.getCode()
       .map(dataField::getSubfield)
       .map(Subfield::getData)
-      .map(RoleDictionary::getRole);
+      .flatMap(RoleDictionary::getValue);
   }
 
   private Optional<PredicateDictionary> getByText(Relation relation, DataField dataField) {
