@@ -130,11 +130,7 @@ bibFieldRules:
         fieldsAllOf:
           a: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -144,11 +140,7 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
@@ -161,11 +153,7 @@ bibFieldRules:
       ld2marcCondition:
         edge: STATUS
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -177,11 +165,7 @@ bibFieldRules:
       ld2marcCondition:
         edge: STATUS
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
   '020':
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
@@ -193,11 +177,7 @@ bibFieldRules:
         fieldsAllOf:
           a: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_ISBN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -208,11 +188,7 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
   '022':
     - types: ID_ISSN, IDENTIFIER
       parent: INSTANCE
@@ -223,11 +199,7 @@ bibFieldRules:
         fieldsAllOf:
           a: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_ISSN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -251,11 +223,7 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
   '024':
     - types: ID_IAN, IDENTIFIER
       parent: INSTANCE
@@ -268,11 +236,7 @@ bibFieldRules:
           a: presented
         ind1: '3'
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_IAN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -284,11 +248,7 @@ bibFieldRules:
           z: presented
         ind1: '3'
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -300,11 +260,7 @@ bibFieldRules:
           a: presented
         ind1: '!3'
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: current
-            LINK: http://id.loc.gov/vocabulary/mstatus/current
+        - include: status_current
     - types: ID_UNKNOWN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -316,11 +272,7 @@ bibFieldRules:
           z: presented
         ind1: '!3'
       edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: canceled or invalid
-            LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+        - include: status_cancelled
   '040':
     - types: ANNOTATION
       parent: INSTANCE
@@ -1360,6 +1312,20 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
+
+  status_current:
+    types: STATUS
+    predicate: STATUS
+    constants:
+      LABEL: current
+      LINK: http://id.loc.gov/vocabulary/mstatus/current
+
+  status_cancelled:
+    types: STATUS
+    predicate: STATUS
+    constants:
+      LABEL: canceled or invalid
+      LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
 
   041_mappings:
     types: LANGUAGE_CATEGORY

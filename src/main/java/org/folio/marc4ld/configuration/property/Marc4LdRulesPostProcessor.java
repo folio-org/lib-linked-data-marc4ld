@@ -43,7 +43,7 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
 
     if (isNotEmpty(rule.getEdges())) {
       rule.getEdges()
-        .forEach(edge -> copyIncludedRuleRecursive(sharedRules, edge));
+        .forEach(edgeRule -> copyIncludedRuleRecursive(sharedRules, edgeRule));
     }
   }
 
