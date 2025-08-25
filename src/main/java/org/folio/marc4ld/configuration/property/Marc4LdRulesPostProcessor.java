@@ -32,10 +32,10 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
     fieldRules.values()
       .stream()
       .flatMap(Collection::stream)
-      .forEach(rule -> copyIncludedRule(sharedRules, rule));
+      .forEach(rule -> copyIncludedRuleRecursive(sharedRules, rule));
   }
 
-  private void copyIncludedRule(Map<String, Marc4LdRules.FieldRule> sharedRules, Marc4LdRules.FieldRule rule) {
+  private void copyIncludedRuleRecursive(Map<String, Marc4LdRules.FieldRule> sharedRules, Marc4LdRules.FieldRule rule) {
     if (rule.getInclude() != null) {
       var includedRule = sharedRules.get(rule.getInclude());
       copyRule(includedRule, rule);
@@ -43,7 +43,7 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
 
     if (isNotEmpty(rule.getEdges())) {
       rule.getEdges()
-        .forEach(edge -> copyIncludedRule(sharedRules, edge));
+        .forEach(edge -> copyIncludedRuleRecursive(sharedRules, edge));
     }
   }
 

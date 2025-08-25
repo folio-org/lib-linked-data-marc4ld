@@ -250,6 +250,35 @@ authorityFieldRules:
           t: not_presented
 
 sharedAuthorityRules:
+
+  form_subdivision:
+    types: FORM
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      v: NAME
+
+  general_subdivision:
+    types: TOPIC
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      x: NAME
+
+  chronological_subdivision:
+    types: TEMPORAL
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      y: NAME
+
+  geographic_subdivision:
+    types: PLACE
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      z: NAME
+
   100_mappings_short:
     subfields:
       a: NAME
@@ -280,26 +309,10 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
     edges:
-      - types: FORM
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          v: NAME
-      - types: TOPIC
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          x: NAME
-      - types: TEMPORAL
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          y: NAME
-      - types: PLACE
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          z: NAME
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
 
   110_mappings:
     subfields:
@@ -316,26 +329,10 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
     edges:
-      - types: FORM
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          v: NAME
-      - types: TOPIC
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          x: NAME
-      - types: TEMPORAL
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          y: NAME
-      - types: PLACE
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          z: NAME
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
 
   110_mappings_short:
     subfields:
@@ -363,26 +360,10 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
     edges:
-      - types: FORM
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          v: NAME
-      - types: TOPIC
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          x: NAME
-      - types: TEMPORAL
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          y: NAME
-      - types: PLACE
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          z: NAME
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
 
   111_mappings_short:
     subfields:
@@ -406,23 +387,7 @@ sharedAuthorityRules:
     constants:
       RESOURCE_PREFERRED: true
     edges:
-      - types: FORM
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          v: NAME
-      - types: TOPIC
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          x: NAME
-      - types: TEMPORAL
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          y: NAME
-      - types: PLACE
-        predicate: SUB_FOCUS
-        multiply: true
-        subfields:
-          z: NAME
+      - include: form_subdivision
+      - include: general_subdivision
+      - include: chronological_subdivision
+      - include: geographic_subdivision
