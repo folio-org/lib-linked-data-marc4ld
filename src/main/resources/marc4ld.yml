@@ -1133,46 +1133,10 @@ bibFieldRules:
       edges:
         - types: FAMILY
           include: 600_focus_mappings
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
     - types: CONCEPT, PERSON
       include: 600_mappings
       marc2ldCondition:
@@ -1180,46 +1144,10 @@ bibFieldRules:
       edges:
         - types: PERSON
           include: 600_focus_mappings
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
   610:
     - types: CONCEPT, JURISDICTION
       include: 610_mappings
@@ -1228,46 +1156,10 @@ bibFieldRules:
       edges:
         - types: JURISDICTION
           include: 610_focus_mappings
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
     - types: CONCEPT, ORGANIZATION
       include: 610_mappings
       marc2ldCondition:
@@ -1275,46 +1167,10 @@ bibFieldRules:
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
@@ -1356,46 +1212,10 @@ bibFieldRules:
             '8': FIELD_LINK
           ld2marcCondition:
             skip: true
-        - types: FORM
-          predicate: SUB_FOCUS
-          subfields:
-            v: NAME
-          multiply: true
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          subfields:
-            z: NAME
-          multiply: true
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
   651:
     - types: CONCEPT, PLACE
       parent: WORK
@@ -1431,46 +1251,10 @@ bibFieldRules:
             '8': FIELD_LINK
           ld2marcCondition:
             skip: true
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            z: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
   655:
     - types: CONCEPT, FORM
       parent: WORK
@@ -1506,46 +1290,10 @@ bibFieldRules:
             '8': FIELD_LINK
           ld2marcCondition:
             skip: true
-        - types: FORM
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            v: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              v: presented
-          ld2marcCondition:
-            skip: true
-        - types: TOPIC
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            x: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              x: presented
-          ld2marcCondition:
-            skip: true
-        - types: TEMPORAL
-          predicate: SUB_FOCUS
-          multiply: true
-          subfields:
-            y: NAME
-          marc2ldCondition:
-            fieldsAllOf:
-              y: presented
-          ld2marcCondition:
-            skip: true
-        - types: PLACE
-          predicate: SUB_FOCUS
-          subfields:
-            z: NAME
-          multiply: true
-          marc2ldCondition:
-            fieldsAllOf:
-              z: presented
-          ld2marcCondition:
-            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
     - types: FORM
       parent: WORK
       predicate: GENRE
@@ -1690,6 +1438,50 @@ bibSharedRules:
   545_mappings:
     types: INSTANCE
     append: true
+  form_subdivision:
+    types: FORM
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      v: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        v: presented
+    ld2marcCondition:
+      skip: true
+  general_subdivision:
+    types: TOPIC
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      x: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        x: presented
+    ld2marcCondition:
+      skip: true
+  chronological_subdivision:
+    types: TEMPORAL
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      y: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        y: presented
+    ld2marcCondition:
+      skip: true
+  geographic_subdivision:
+    types: PLACE
+    predicate: SUB_FOCUS
+    multiply: true
+    subfields:
+      z: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        z: presented
+    ld2marcCondition:
+      skip: true
   600_mappings:
     parent: WORK
     predicate: SUBJECT
