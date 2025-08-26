@@ -47,6 +47,10 @@ labelRules:
     addLabelProperty: true
     properties:
       - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
+  - types: CONCEPT, TEMPORAL
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, TOPIC
     addLabelProperty: true
     properties:
