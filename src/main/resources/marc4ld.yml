@@ -1107,6 +1107,43 @@ bibFieldRules:
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
+  648:
+    - types: CONCEPT, TEMPORAL
+      parent: WORK
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        e: RELATOR_TERM
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+        '0': AUTHORITY_LINK
+        '1': EQUIVALENT
+        '2': SOURCE
+        '3': MATERIALS_SPECIFIED
+        '4': RELATOR_CODE
+        '6': LINKAGE
+        '7': CONTROL_FIELD
+        '8': FIELD_LINK
+      edges:
+        - types: TEMPORAL
+          predicate: FOCUS
+          subfields:
+            a: NAME
+            '0': AUTHORITY_LINK
+            '1': EQUIVALENT
+            '2': SOURCE
+            '3': MATERIALS_SPECIFIED
+            '6': LINKAGE
+            '7': CONTROL_FIELD
+            '8': FIELD_LINK
+          ld2marcCondition:
+            skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
   650:
     - types: CONCEPT, TOPIC
       parent: WORK
