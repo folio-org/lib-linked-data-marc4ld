@@ -26,6 +26,7 @@
 - Graph to MARC conversion for IAN & UNKNOWN identifiers to MARC 024 [MODLD-845](https://folio-org.atlassian.net/browse/MODLD-845)
 - Use IllustrationDictionary instead of hard-code [MODLD-841](https://folio-org.atlassian.net/browse/MODLD-841)
 - Implement MARC to Graph and Graph to MARC conversion of MARC 648 [MODLD-534](https://folio-org.atlassian.net/browse/MODLD-534)
+- Update vocabulary term IRIs in tests to replace 'marc' with 'library' [MODLD-792](https://folio-org.atlassian.net/browse/MODLD-792)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

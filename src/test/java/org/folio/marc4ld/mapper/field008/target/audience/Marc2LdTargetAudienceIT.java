@@ -35,14 +35,14 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, BOOKS), Map.of(), ""))
-      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/library/targetAudience")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(1);
         validateEdge(edges.getFirst(), TARGET_AUDIENCE, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("b"),
+            "http://bibfra.me/vocab/library/code", List.of("b"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-            "http://bibfra.me/vocab/marc/term", List.of("Primary")
+            "http://bibfra.me/vocab/library/term", List.of("Primary")
           ), "Primary");
       })
       .extracting(edges -> getOutgoingEdges(edges.getFirst()))
@@ -70,7 +70,7 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
-      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/targetAudience")))
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/library/targetAudience")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }

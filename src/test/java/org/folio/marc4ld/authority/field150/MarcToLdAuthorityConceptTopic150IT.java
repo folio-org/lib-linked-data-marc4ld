@@ -59,12 +59,12 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
   private Map<String, List<String>> conceptTopicProperties() {
     return Map.of(
       "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-      "http://bibfra.me/vocab/marc/geographicCoverage", List.of("bValue"),
-      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
-      "http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1", "vValue2"),
-      "http://bibfra.me/vocab/marc/generalSubdivision", List.of("xValue1", "xValue2"),
-      "http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("yValue1", "yValue2"),
-      "http://bibfra.me/vocab/marc/geographicSubdivision", List.of("zValue1", "zValue2"),
+      "http://bibfra.me/vocab/library/geographicCoverage", List.of("bValue"),
+      "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/library/formSubdivision", List.of("vValue1", "vValue2"),
+      "http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2"),
+      "http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2"),
+      "http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2"),
       "http://library.link/vocab/resourcePreferred", List.of("true"),
       "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
     );
@@ -73,8 +73,8 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
   private Map<String, List<String>> focusProperties() {
     return Map.of(
       "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-      "http://bibfra.me/vocab/marc/geographicCoverage", List.of("bValue"),
-      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/library/geographicCoverage", List.of("bValue"),
+      "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
       "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL)
     );
   }

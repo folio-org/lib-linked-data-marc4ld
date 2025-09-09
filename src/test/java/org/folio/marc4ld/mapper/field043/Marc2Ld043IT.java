@@ -33,19 +33,19 @@ class Marc2Ld043IT extends Marc2LdTestBase {
     var edgesIterator = work.getOutgoingEdges().iterator();
     validateEdge(edgesIterator.next(), GEOGRAPHIC_COVERAGE, List.of(ResourceTypeDictionary.PLACE),
       Map.of(
-        "http://bibfra.me/vocab/marc/geographicCoverage",
+        "http://bibfra.me/vocab/library/geographicCoverage",
         List.of("http://id.loc.gov/vocabulary/geographicAreas/n-us"),
         "http://bibfra.me/vocab/lite/name", List.of("United States"),
         "http://bibfra.me/vocab/lite/label", List.of("United States"),
-        "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("n-us")
+        "http://bibfra.me/vocab/library/geographicAreaCode", List.of("n-us")
       ), "United States");
     validateEdge(edgesIterator.next(), GEOGRAPHIC_COVERAGE, List.of(ResourceTypeDictionary.PLACE),
       Map.of(
-        "http://bibfra.me/vocab/marc/geographicCoverage",
+        "http://bibfra.me/vocab/library/geographicCoverage",
         List.of("http://id.loc.gov/vocabulary/geographicAreas/a-is"),
         "http://bibfra.me/vocab/lite/name", List.of("Israel"),
         "http://bibfra.me/vocab/lite/label", List.of("Israel"),
-        "http://bibfra.me/vocab/marc/geographicAreaCode", List.of("a-is")
+        "http://bibfra.me/vocab/library/geographicAreaCode", List.of("a-is")
       ), "Israel");
   }
 }

@@ -34,10 +34,10 @@ class MarcToLd337IT extends Marc2LdTestBase {
       .extracting(this::getMediaEdge)
       .satisfies(e -> validateEdge(e, MEDIA, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("MEDIA code"),
+          "http://bibfra.me/vocab/library/code", List.of("MEDIA code"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mediaTypes/MEDIA code"),
-          "http://bibfra.me/vocab/marc/term", List.of("MEDIA term"),
-          "http://bibfra.me/vocab/marc/source", List.of("MEDIA source")
+          "http://bibfra.me/vocab/library/term", List.of("MEDIA term"),
+          "http://bibfra.me/vocab/library/source", List.of("MEDIA source")
         ),
         "MEDIA term"))
       .extracting(ResourceEdgeHelper::getCategorySetEdge)
@@ -53,7 +53,7 @@ class MarcToLd337IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getMediaEdge(Resource result) {
-    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/media"));
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/library/media"));
   }
 
 }

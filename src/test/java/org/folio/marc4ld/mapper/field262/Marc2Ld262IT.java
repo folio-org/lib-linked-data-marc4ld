@@ -44,7 +44,7 @@ class Marc2Ld262IT extends Marc2LdTestBase {
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/xxc"),
-          "http://bibfra.me/vocab/marc/code", List.of("xxc"),
+          "http://bibfra.me/vocab/library/code", List.of("xxc"),
           "http://bibfra.me/vocab/lite/label", List.of("Canada"),
           "http://bibfra.me/vocab/lite/name", List.of("Canada")
 
@@ -56,7 +56,7 @@ class Marc2Ld262IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getPublicationEdge(Resource resource) {
-    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/marc/publication"));
+    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/library/publication"));
   }
 
   private ResourceEdge getProviderPlaceEdge(ResourceEdge edge) {

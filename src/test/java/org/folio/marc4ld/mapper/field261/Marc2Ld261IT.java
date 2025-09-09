@@ -44,7 +44,7 @@ class Marc2Ld261IT extends Marc2LdTestBase {
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/ch"),
-          "http://bibfra.me/vocab/marc/code", List.of("ch"),
+          "http://bibfra.me/vocab/library/code", List.of("ch"),
           "http://bibfra.me/vocab/lite/label", List.of("China (Republic : 1949- )"),
           "http://bibfra.me/vocab/lite/name", List.of("China (Republic : 1949- )")
 
@@ -56,7 +56,7 @@ class Marc2Ld261IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getManufactureEdge(Resource result) {
-    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/manufacture"));
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/library/manufacture"));
   }
 
   private ResourceEdge getProviderPlaceEdge(ResourceEdge edge) {

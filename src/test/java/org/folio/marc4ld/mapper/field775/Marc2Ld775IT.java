@@ -83,7 +83,7 @@ class Marc2Ld775IT extends Marc2LdTestBase {
       validateEdge(resourceEdges.get(index), LANGUAGE,
         List.of(LANGUAGE_CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of(expectedCode),
+          "http://bibfra.me/vocab/library/code", List.of(expectedCode),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/languages/" + expectedCode)
         ), expectedCode);
       index++;
@@ -98,7 +98,7 @@ class Marc2Ld775IT extends Marc2LdTestBase {
       validateEdge(resourceEdges.get(index), PredicateDictionary.TITLE,
         List.of(ABBREVIATED_TITLE),
         Map.of(
-          "http://bibfra.me/vocab/marc/mainTitle", List.of(expectedTitle)
+          "http://bibfra.me/vocab/library/mainTitle", List.of(expectedTitle)
         ), expectedTitle);
       index++;
     }

@@ -38,7 +38,7 @@ class Marc2Ld024IsrcIT extends Marc2LdTestBase {
       ianEdges.getFirst().getTarget(),
       List.of(IDENTIFIER, ID_UNKNOWN),
       Map.of(
-        "http://bibfra.me/vocab/marc/qualifier", List.of("q1"),
+        "http://bibfra.me/vocab/library/qualifier", List.of("q1"),
         "http://bibfra.me/vocab/lite/name", List.of("ISRC-01")
       ),
       "ISRC-01"

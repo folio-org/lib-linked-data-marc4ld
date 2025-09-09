@@ -27,7 +27,7 @@ class Marc2Ld546IT extends Marc2LdTestBase {
     assertThat(work)
       .satisfies(w -> validateResource(w,
         List.of(WORK, BOOKS),
-        Map.of("http://bibfra.me/vocab/marc/languageNote", List.of("Language note 1", "Language note 2")),
+        Map.of("http://bibfra.me/vocab/library/languageNote", List.of("Language note 1", "Language note 2")),
         ""));
   }
 }

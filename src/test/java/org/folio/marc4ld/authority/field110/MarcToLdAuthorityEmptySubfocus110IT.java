@@ -18,11 +18,11 @@ class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
   private static final String EXPECTED_IDENTIFIER = "010fieldvalue";
   private static final Map<String, List<String>> EXPECTED_PROPERTIES = Map.of(
     "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-    "http://bibfra.me/vocab/marc/subordinateUnit", List.of("bValue"),
-    "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+    "http://bibfra.me/vocab/library/subordinateUnit", List.of("bValue"),
+    "http://bibfra.me/vocab/library/place", List.of("cValue1", "cValue2"),
     "http://bibfra.me/vocab/lite/date", List.of("dValue"),
-    "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
-    "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+    "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
+    "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
     "http://library.link/vocab/resourcePreferred", List.of("true"),
     "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
   );

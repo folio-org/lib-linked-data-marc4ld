@@ -39,9 +39,9 @@ class MarcToLdCharacteristicIT extends Marc2LdTestBase {
       .extracting(this::getCharacteristicEdge)
       .satisfies(e -> validateEdge(e, CHARACTERISTIC, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("g"),
+          "http://bibfra.me/vocab/library/code", List.of("g"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/mserialpubtype/mag"),
-          "http://bibfra.me/vocab/marc/term", List.of("magazine")
+          "http://bibfra.me/vocab/library/term", List.of("magazine")
         ), "magazine"))
       .extracting(ResourceEdgeHelper::getCategorySetEdge)
       .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
@@ -65,7 +65,7 @@ class MarcToLdCharacteristicIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, BOOKS), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
-      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/characteristic")))
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/library/characteristic")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
@@ -89,12 +89,12 @@ class MarcToLdCharacteristicIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
-      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/characteristic")))
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/library/characteristic")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
   private ResourceEdge getCharacteristicEdge(ResourceEdge resourceEdge) {
-    return getFirstOutgoingEdge(resourceEdge, withPredicateUri("http://bibfra.me/vocab/marc/characteristic"));
+    return getFirstOutgoingEdge(resourceEdge, withPredicateUri("http://bibfra.me/vocab/library/characteristic"));
   }
 
 }

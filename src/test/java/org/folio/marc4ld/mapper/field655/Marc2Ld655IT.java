@@ -44,22 +44,22 @@ class Marc2Ld655IT extends Marc2LdTestBase {
       subjectEdge.getTarget(),
       List.of(FORM, CONCEPT),
       Map.ofEntries(
-        Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
-        Map.entry("http://bibfra.me/vocab/marc/relator_code", List.of("relator code")),
+        Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
+        Map.entry("http://bibfra.me/vocab/library/relator_code", List.of("relator code")),
         Map.entry("http://bibfra.me/vocab/lite/label", List.of("name -- form 1 -- form 2 -- topic 1 -- topic 2 -- temporal 1 -- temporal 2 -- place 1 -- place 2")),
-        Map.entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link")),
-        Map.entry("http://bibfra.me/vocab/marc/source", List.of("source")),
-        Map.entry("http://bibfra.me/vocab/marc/controlField", List.of("control field")),
+        Map.entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link")),
+        Map.entry("http://bibfra.me/vocab/library/source", List.of("source")),
+        Map.entry("http://bibfra.me/vocab/library/controlField", List.of("control field")),
         Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
-        Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info")),
+        Map.entry("http://bibfra.me/vocab/library/miscInfo", List.of("misc info")),
         Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
-        Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
-        Map.entry("http://bibfra.me/vocab/marc/relator_term", List.of("relator term")),
+        Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("topic 1", "topic 2")),
+        Map.entry("http://bibfra.me/vocab/library/relator_term", List.of("relator term")),
         Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
-        Map.entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
-        Map.entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage")),
-        Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("place 1", "place 2")),
-        Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1", "form 2"))
+        Map.entry("http://bibfra.me/vocab/library/materialsSpecified", List.of("materials specified")),
+        Map.entry("http://bibfra.me/vocab/library/linkage", List.of("linkage")),
+        Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("place 1", "place 2")),
+        Map.entry("http://bibfra.me/vocab/library/formSubdivision", List.of("form 1", "form 2"))
       ),
       expectedConceptLabel);
 
@@ -69,16 +69,16 @@ class Marc2Ld655IT extends Marc2LdTestBase {
       focusEdge.getTarget(),
       List.of(FORM),
       Map.of(
-        "http://bibfra.me/vocab/marc/controlField", List.of("control field"),
+        "http://bibfra.me/vocab/library/controlField", List.of("control field"),
         "http://bibfra.me/vocab/lite/equivalent", List.of("equivalent"),
-        "http://bibfra.me/vocab/marc/miscInfo", List.of("misc info"),
+        "http://bibfra.me/vocab/library/miscInfo", List.of("misc info"),
         "http://bibfra.me/vocab/lite/authorityLink", List.of("authority link"),
         "http://bibfra.me/vocab/lite/label", List.of("name"),
         "http://bibfra.me/vocab/lite/name", List.of("name"),
-        "http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified"),
-        "http://bibfra.me/vocab/marc/linkage", List.of("linkage"),
-        "http://bibfra.me/vocab/marc/fieldLink", List.of("field link"),
-        "http://bibfra.me/vocab/marc/source", List.of("source")
+        "http://bibfra.me/vocab/library/materialsSpecified", List.of("materials specified"),
+        "http://bibfra.me/vocab/library/linkage", List.of("linkage"),
+        "http://bibfra.me/vocab/library/fieldLink", List.of("field link"),
+        "http://bibfra.me/vocab/library/source", List.of("source")
       ),
       "name"
     );

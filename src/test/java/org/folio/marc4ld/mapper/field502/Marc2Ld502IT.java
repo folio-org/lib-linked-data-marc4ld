@@ -36,10 +36,10 @@ class Marc2Ld502IT extends Marc2LdTestBase {
         List.of(ResourceTypeDictionary.DISSERTATION),
         Map.of(
           "http://bibfra.me/vocab/lite/label", List.of("dissertation label"),
-          "http://bibfra.me/vocab/marc/degree", List.of("dissertation degree"),
-          "http://bibfra.me/vocab/marc/dissertationYear", List.of("dissertation year"),
-          "http://bibfra.me/vocab/marc/dissertationNote", List.of("dissertation note 1", "dissertation note 2"),
-          "http://bibfra.me/vocab/marc/dissertationID", List.of("dissertation ID 1", "dissertation ID 2")
+          "http://bibfra.me/vocab/library/degree", List.of("dissertation degree"),
+          "http://bibfra.me/vocab/library/dissertationYear", List.of("dissertation year"),
+          "http://bibfra.me/vocab/library/dissertationNote", List.of("dissertation note 1", "dissertation note 2"),
+          "http://bibfra.me/vocab/library/dissertationID", List.of("dissertation ID 1", "dissertation ID 2")
         ),
         "dissertation label"))
       .extracting(this::getGrantingInstitutionEdge)
@@ -66,6 +66,6 @@ class Marc2Ld502IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getGrantingInstitutionEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/marc/grantingInstitution"));
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/library/grantingInstitution"));
   }
 }
