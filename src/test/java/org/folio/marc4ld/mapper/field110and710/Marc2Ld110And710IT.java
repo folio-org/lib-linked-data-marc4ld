@@ -56,15 +56,15 @@ class Marc2Ld110And710IT extends Marc2LdTestBase {
     return Map.ofEntries(
       entry("http://bibfra.me/vocab/lite/authorityLink", List.of("lccn link", "another lccn link")),
       entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent", "another equivalent")),
-      entry("http://bibfra.me/vocab/marc/subordinateUnit", List.of("subordinate unit", "another subordinate unit")),
-      entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage")),
-      entry("http://bibfra.me/vocab/marc/controlField", List.of("control field", "another control field")),
-      entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link", "another field link")),
+      entry("http://bibfra.me/vocab/library/subordinateUnit", List.of("subordinate unit", "another subordinate unit")),
+      entry("http://bibfra.me/vocab/library/linkage", List.of("linkage")),
+      entry("http://bibfra.me/vocab/library/controlField", List.of("control field", "another control field")),
+      entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link", "another field link")),
       entry("http://bibfra.me/vocab/lite/name", List.of("author")),
       entry("http://bibfra.me/vocab/lite/date", List.of("date")),
-      entry("http://bibfra.me/vocab/marc/miscInfo", List.of("misc info", "another misc info")),
-      entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("number of parts", "another number of parts")),
-      entry("http://bibfra.me/vocab/marc/place", List.of("place", "another place")),
+      entry("http://bibfra.me/vocab/library/miscInfo", List.of("misc info", "another misc info")),
+      entry("http://bibfra.me/vocab/library/numberOfParts", List.of("number of parts", "another number of parts")),
+      entry("http://bibfra.me/vocab/library/place", List.of("place", "another place")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
       entry("http://bibfra.me/vocab/lite/label", List.of("author, subordinate unit, another subordinate unit, place,"
         + " another place, date, another date"))

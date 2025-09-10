@@ -77,15 +77,15 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private Map<String, List<String>> generalProperties() {
     return Map.ofEntries(
       Map.entry("http://bibfra.me/vocab/lite/name", List.of("aValue")),
-      Map.entry("http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2")),
+      Map.entry("http://bibfra.me/vocab/library/place", List.of("cValue1", "cValue2")),
       Map.entry("http://bibfra.me/vocab/lite/date", List.of("dValue")),
-      Map.entry("http://bibfra.me/vocab/marc/subordinateUnit", List.of("eValue")),
-      Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2")),
-      Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2")),
-      Map.entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("vValue1", "vValue2")),
-      Map.entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("xValue1", "xValue2")),
-      Map.entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("yValue1", "yValue2")),
-      Map.entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("zValue1", "zValue2")),
+      Map.entry("http://bibfra.me/vocab/library/subordinateUnit", List.of("eValue")),
+      Map.entry("http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2")),
+      Map.entry("http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2")),
+      Map.entry("http://bibfra.me/vocab/library/formSubdivision", List.of("vValue1", "vValue2")),
+      Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2")),
+      Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2")),
+      Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2")),
       Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
       Map.entry("http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL))
     );
@@ -94,11 +94,11 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private Map<String, List<String>> focusProperties() {
     return Map.of(
       "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-      "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+      "http://bibfra.me/vocab/library/place", List.of("cValue1", "cValue2"),
       "http://bibfra.me/vocab/lite/date", List.of("dValue"),
-      "http://bibfra.me/vocab/marc/subordinateUnit", List.of("eValue"),
-      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
-      "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+      "http://bibfra.me/vocab/library/subordinateUnit", List.of("eValue"),
+      "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
       "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL)
     );
   }
@@ -106,11 +106,11 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
   private Map<String, List<String>> meetingProperties() {
     return Map.of(
       "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-      "http://bibfra.me/vocab/marc/place", List.of("cValue1", "cValue2"),
+      "http://bibfra.me/vocab/library/place", List.of("cValue1", "cValue2"),
       "http://bibfra.me/vocab/lite/date", List.of("dValue"),
-      "http://bibfra.me/vocab/marc/subordinateUnit", List.of("eValue"),
-      "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue1", "gValue2"),
-      "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue1", "nValue2"),
+      "http://bibfra.me/vocab/library/subordinateUnit", List.of("eValue"),
+      "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
+      "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
       "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL),
       "http://library.link/vocab/resourcePreferred", List.of("true")
     );

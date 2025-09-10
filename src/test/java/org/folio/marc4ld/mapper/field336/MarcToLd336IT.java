@@ -41,10 +41,10 @@ class MarcToLd336IT extends Marc2LdTestBase {
       .extracting(this::getContentEdge)
       .satisfies(e -> validateEdge(e, CONTENT, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("CONTENT code"),
+          "http://bibfra.me/vocab/library/code", List.of("CONTENT code"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/contentTypes/CONTENT code"),
-          "http://bibfra.me/vocab/marc/term", List.of("CONTENT term"),
-          "http://bibfra.me/vocab/marc/source", List.of("CONTENT source")
+          "http://bibfra.me/vocab/library/term", List.of("CONTENT term"),
+          "http://bibfra.me/vocab/library/source", List.of("CONTENT source")
         ),
         "CONTENT term"))
       .extracting(ResourceEdgeHelper::getCategorySetEdge)
@@ -66,7 +66,7 @@ class MarcToLd336IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getContentEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/marc/content"));
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/library/content"));
   }
 
 }

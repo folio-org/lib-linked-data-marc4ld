@@ -33,60 +33,60 @@ class TemplateLabelProcessorTest {
       Arguments.of("Hello, world and moon",
         "Hello, {$TERM} and {$TITLES}",
         Map.of(
-          "http://bibfra.me/vocab/marc/term", List.of("world"),
-          "http://bibfra.me/vocab/marc/titles", List.of("moon")
+          "http://bibfra.me/vocab/library/term", List.of("world"),
+          "http://bibfra.me/vocab/library/titles", List.of("moon")
         )),
       Arguments.of("Hello, only moon",
         "Hello,{ $TERM} only {$TITLES}",
-        Map.of("http://bibfra.me/vocab/marc/titles", List.of("moon")
+        Map.of("http://bibfra.me/vocab/library/titles", List.of("moon")
         )),
       Arguments.of("bVal, aVal, cVal, qVal, dVal -- vVal -- xVal -- yVal -- zVal1 zVal2",
         "{$LINK}, {$AFFILIATION}, {$CODE}, {$TERM}, {$DATE} -- {$NOTE} -- {$SUMMARY} -- {$TITLES} --{ $WITH_NOTE}",
         Map.of(
           "http://bibfra.me/vocab/scholar/affiliation", List.of("aVal"),
           "http://bibfra.me/vocab/lite/link", List.of("bVal"),
-          "http://bibfra.me/vocab/marc/code", List.of("cVal"),
+          "http://bibfra.me/vocab/library/code", List.of("cVal"),
           "http://bibfra.me/vocab/lite/date", List.of("dVal"),
-          "http://bibfra.me/vocab/marc/term", List.of("qVal"),
+          "http://bibfra.me/vocab/library/term", List.of("qVal"),
           "http://bibfra.me/vocab/lite/note", List.of("vVal"),
-          "http://bibfra.me/vocab/marc/summary", List.of("xVal"),
-          "http://bibfra.me/vocab/marc/titles", List.of("yVal"),
-          "http://bibfra.me/vocab/marc/withNote", List.of("zVal1", "zVal2")
+          "http://bibfra.me/vocab/library/summary", List.of("xVal"),
+          "http://bibfra.me/vocab/library/titles", List.of("yVal"),
+          "http://bibfra.me/vocab/library/withNote", List.of("zVal1", "zVal2")
         )),
       Arguments.of("bVal, aVal, cVal, qVal, dVal -- vVal -- xVal, -- yVal -- zVal1 -- zVal2",
         "{$LINK}{, $AFFILIATION}{, $CODE}{, $TERM, }{$DATE}{ -- $NOTE}{ -- $SUMMARY,}{ -- $TITLES}{ -- $WITH_NOTE}",
         Map.of(
           "http://bibfra.me/vocab/scholar/affiliation", List.of("aVal"),
           "http://bibfra.me/vocab/lite/link", List.of("bVal"),
-          "http://bibfra.me/vocab/marc/code", List.of("cVal"),
+          "http://bibfra.me/vocab/library/code", List.of("cVal"),
           "http://bibfra.me/vocab/lite/date", List.of("dVal"),
-          "http://bibfra.me/vocab/marc/term", List.of("qVal"),
+          "http://bibfra.me/vocab/library/term", List.of("qVal"),
           "http://bibfra.me/vocab/lite/note", List.of("vVal"),
-          "http://bibfra.me/vocab/marc/summary", List.of("xVal"),
-          "http://bibfra.me/vocab/marc/titles", List.of("yVal"),
-          "http://bibfra.me/vocab/marc/withNote", List.of("zVal1", "zVal2")
+          "http://bibfra.me/vocab/library/summary", List.of("xVal"),
+          "http://bibfra.me/vocab/library/titles", List.of("yVal"),
+          "http://bibfra.me/vocab/library/withNote", List.of("zVal1", "zVal2")
         )),
       Arguments.of("aVal -- xVal",
         "{$LINK}{, $AFFILIATION}{, $CODE}{, $TERM, }{$DATE}{ -- $NOTE}{ -- $SUMMARY,}{ -- $TITLES}{ -- $WITH_NOTE}",
         Map.of(
           "http://bibfra.me/vocab/scholar/affiliation", List.of("aVal"),
-          "http://bibfra.me/vocab/marc/summary", List.of("xVal")
+          "http://bibfra.me/vocab/library/summary", List.of("xVal")
         )),
       Arguments.of("non-trimmed,,,,,,,,,,   ,,,,,--,,,: titles",
         "{$TERM,,,,,,,,,,   ,,,,,--,,,}{: $TITLES}",
         Map.of(
-          "http://bibfra.me/vocab/marc/term", List.of("non-trimmed"),
-          "http://bibfra.me/vocab/marc/titles", List.of("titles")
+          "http://bibfra.me/vocab/library/term", List.of("non-trimmed"),
+          "http://bibfra.me/vocab/library/titles", List.of("titles")
         )),
       Arguments.of("trimmed",
         "{$TERM,,,,,,,,,,   ,,,,,--,,,}{: $TITLES}",
         Map.of(
-          "http://bibfra.me/vocab/marc/term", List.of("trimmed")
+          "http://bibfra.me/vocab/library/term", List.of("trimmed")
         )),
       Arguments.of("Prelude to the wedding, Batgirl vs. Riddler",
         "{, $TERM}",
         Map.of(
-          "http://bibfra.me/vocab/marc/term", List.of("Prelude to the wedding", "Batgirl vs. Riddler")
+          "http://bibfra.me/vocab/library/term", List.of("Prelude to the wedding", "Batgirl vs. Riddler")
         )),
       Arguments.of("f1--, f2--, f3",
         "{, $LINK--}",

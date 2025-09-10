@@ -38,7 +38,7 @@ class Marc2Ld024IanIT extends Marc2LdTestBase {
       ianEdges.getFirst().getTarget(),
       List.of(IDENTIFIER, ID_IAN),
       Map.of(
-        "http://bibfra.me/vocab/marc/qualifier", List.of("q1", "q2"),
+        "http://bibfra.me/vocab/library/qualifier", List.of("q1", "q2"),
         "http://bibfra.me/vocab/lite/name", List.of("IAN-01")
       ),
       "IAN-01"
@@ -52,7 +52,7 @@ class Marc2Ld024IanIT extends Marc2LdTestBase {
       ianEdges.get(1).getTarget(),
       List.of(IDENTIFIER, ID_IAN),
       Map.of(
-        "http://bibfra.me/vocab/marc/qualifier", List.of("q3"),
+        "http://bibfra.me/vocab/library/qualifier", List.of("q3"),
         "http://bibfra.me/vocab/lite/name", List.of("IAN-02")
       ),
       "IAN-02"

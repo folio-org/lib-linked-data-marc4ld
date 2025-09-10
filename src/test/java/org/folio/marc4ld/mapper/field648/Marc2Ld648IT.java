@@ -42,20 +42,20 @@ class Marc2Ld648IT extends Marc2LdTestBase {
       List.of(CONCEPT, TEMPORAL),
       Map.ofEntries(
         entry("http://bibfra.me/vocab/lite/name", List.of("1793")),
-        entry("http://bibfra.me/vocab/marc/formSubdivision", List.of("form 1")),
-        entry("http://bibfra.me/vocab/marc/generalSubdivision", List.of("topic 1", "topic 2")),
-        entry("http://bibfra.me/vocab/marc/chronologicalSubdivision", List.of("tmp 1", "tmp 2")),
-        entry("http://bibfra.me/vocab/marc/geographicSubdivision", List.of("place 1", "place 2")),
-        entry("http://bibfra.me/vocab/marc/relator_code", List.of("relator code")),
+        entry("http://bibfra.me/vocab/library/formSubdivision", List.of("form 1")),
+        entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("topic 1", "topic 2")),
+        entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("tmp 1", "tmp 2")),
+        entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("place 1", "place 2")),
+        entry("http://bibfra.me/vocab/library/relator_code", List.of("relator code")),
         entry("http://bibfra.me/vocab/lite/label", List.of(expectedConceptLabel)),
-        entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link")),
-        entry("http://bibfra.me/vocab/marc/source", List.of("source")),
-        entry("http://bibfra.me/vocab/marc/controlField", List.of("control field")),
+        entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link")),
+        entry("http://bibfra.me/vocab/library/source", List.of("source")),
+        entry("http://bibfra.me/vocab/library/controlField", List.of("control field")),
         entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
         entry("http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890")),
-        entry("http://bibfra.me/vocab/marc/relator_term", List.of("setting.")),
-        entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
-        entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage"))
+        entry("http://bibfra.me/vocab/library/relator_term", List.of("setting.")),
+        entry("http://bibfra.me/vocab/library/materialsSpecified", List.of("materials specified")),
+        entry("http://bibfra.me/vocab/library/linkage", List.of("linkage"))
       ),
       expectedConceptLabel
     );
@@ -66,14 +66,14 @@ class Marc2Ld648IT extends Marc2LdTestBase {
       List.of(TEMPORAL),
       Map.ofEntries(
         Map.entry("http://bibfra.me/vocab/lite/label", List.of("1793")),
-        Map.entry("http://bibfra.me/vocab/marc/fieldLink", List.of("field link")),
-        Map.entry("http://bibfra.me/vocab/marc/source", List.of("source")),
-        Map.entry("http://bibfra.me/vocab/marc/controlField", List.of("control field")),
+        Map.entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link")),
+        Map.entry("http://bibfra.me/vocab/library/source", List.of("source")),
+        Map.entry("http://bibfra.me/vocab/library/controlField", List.of("control field")),
         Map.entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent")),
         Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890")),
         Map.entry("http://bibfra.me/vocab/lite/name", List.of("1793")),
-        Map.entry("http://bibfra.me/vocab/marc/materialsSpecified", List.of("materials specified")),
-        Map.entry("http://bibfra.me/vocab/marc/linkage", List.of("linkage"))
+        Map.entry("http://bibfra.me/vocab/library/materialsSpecified", List.of("materials specified")),
+        Map.entry("http://bibfra.me/vocab/library/linkage", List.of("linkage"))
       ),
       "1793"
     );

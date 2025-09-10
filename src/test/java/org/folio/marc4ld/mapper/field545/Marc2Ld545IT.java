@@ -25,8 +25,8 @@ class Marc2Ld545IT extends Marc2LdTestBase {
       .satisfies(instance -> validateResource(instance,
         List.of(INSTANCE),
         Map.of(
-          "http://bibfra.me/vocab/marc/biogdata", List.of("biographical data"),
-          "http://bibfra.me/vocab/marc/adminhist", List.of("historical data"),
+          "http://bibfra.me/vocab/library/biogdata", List.of("biographical data"),
+          "http://bibfra.me/vocab/library/adminhist", List.of("historical data"),
           "http://bibfra.me/vocab/lite/note", List.of("545 data")
         ),
         ""));

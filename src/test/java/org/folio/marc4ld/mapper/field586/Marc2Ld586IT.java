@@ -29,6 +29,6 @@ class Marc2Ld586IT extends Marc2LdTestBase {
 
   private void validateAwardsNote(Resource resource) {
     validateResource(resource, List.of(WORK, BOOKS),
-      Map.of("http://bibfra.me/vocab/marc/awardsNote", List.of("awards_note1", "awards_note2")), "");
+      Map.of("http://bibfra.me/vocab/library/awardsNote", List.of("awards_note1", "awards_note2")), "");
   }
 }

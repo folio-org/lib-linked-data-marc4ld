@@ -31,16 +31,16 @@ class MarcToLdPublicationFrequencyIT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/marc/publicationFrequency")))
+      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/library/publicationFrequency")))
       .satisfies(edges -> validateEdge(edges.getFirst(), PUBLICATION_FREQUENCY, List.of(FREQUENCY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("a"),
+          "http://bibfra.me/vocab/library/code", List.of("a"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/frequencies/ann"),
           "http://bibfra.me/vocab/lite/label", List.of("annual")
         ), "annual"))
       .satisfies(edges -> validateEdge(edges.getLast(), PUBLICATION_FREQUENCY, List.of(FREQUENCY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("n"),
+          "http://bibfra.me/vocab/library/code", List.of("n"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/frequencies/irr"),
           "http://bibfra.me/vocab/lite/label", List.of("irregular")
         ), "irregular"));
@@ -63,7 +63,7 @@ class MarcToLdPublicationFrequencyIT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/marc/publicationFrequency")))
+      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/library/publicationFrequency")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
@@ -84,7 +84,7 @@ class MarcToLdPublicationFrequencyIT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/marc/publicationFrequency")))
+      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/library/publicationFrequency")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 
@@ -104,7 +104,7 @@ class MarcToLdPublicationFrequencyIT extends Marc2LdTestBase {
 
     //then
     assertThat(result)
-      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/marc/publicationFrequency")))
+      .extracting(i -> getOutgoingEdges(i, withPredicateUri("http://bibfra.me/vocab/library/publicationFrequency")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 

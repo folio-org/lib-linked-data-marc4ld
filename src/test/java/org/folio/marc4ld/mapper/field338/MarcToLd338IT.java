@@ -34,10 +34,10 @@ class MarcToLd338IT extends Marc2LdTestBase {
       .extracting(this::getCarrierEdge)
       .satisfies(e -> validateEdge(e, CARRIER, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("CARRIER code"),
+          "http://bibfra.me/vocab/library/code", List.of("CARRIER code"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/carriers/CARRIER code"),
-          "http://bibfra.me/vocab/marc/term", List.of("CARRIER term"),
-          "http://bibfra.me/vocab/marc/source", List.of("CARRIER source")
+          "http://bibfra.me/vocab/library/term", List.of("CARRIER term"),
+          "http://bibfra.me/vocab/library/source", List.of("CARRIER source")
         ),
         "CARRIER term"))
       .extracting(ResourceEdgeHelper::getCategorySetEdge)
@@ -53,7 +53,7 @@ class MarcToLd338IT extends Marc2LdTestBase {
   }
 
   private ResourceEdge getCarrierEdge(Resource result) {
-    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/carrier"));
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/library/carrier"));
   }
 
 }

@@ -78,7 +78,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
   private void validateWorkSeries(ResourceEdge workSeries) {
     validateEdge(workSeries, IS_PART_OF, List.of(WORK, SERIES),
       Map.of(
-        "http://bibfra.me/vocab/marc/volume", List.of("volume"),
+        "http://bibfra.me/vocab/library/volume", List.of("volume"),
         "http://bibfra.me/vocab/lite/label", List.of("name volume"),
         "http://bibfra.me/vocab/lite/name", List.of("name")), "name volume");
   }
@@ -88,7 +88,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
         "http://bibfra.me/vocab/lite/name", List.of("name"),
-        "http://bibfra.me/vocab/marc/issn", List.of("issn")
+        "http://bibfra.me/vocab/library/issn", List.of("issn")
       ), "name");
 
     var issnEdge = getFirstOutgoingEdge(series.getTarget(), withPredicateUri("http://library.link/vocab/map"));
@@ -108,7 +108,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
         "http://bibfra.me/vocab/lite/name", List.of("name"),
-        "http://bibfra.me/vocab/marc/issn", List.of("issn")), "name");
+        "http://bibfra.me/vocab/library/issn", List.of("issn")), "name");
   }
 
   private void validateInstanceSeriesWithoutIssn(ResourceEdge instanceSeries) {

@@ -41,10 +41,10 @@ class MarcToLd340IT extends Marc2LdTestBase {
       .extracting(this::getBookFormatEdge)
       .satisfies(e -> validateEdge(e, BOOK_FORMAT, List.of(CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of(code),
+          "http://bibfra.me/vocab/library/code", List.of(code),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/bookformat/" + code),
-          "http://bibfra.me/vocab/marc/term", List.of(term),
-          "http://bibfra.me/vocab/marc/source", List.of("rdabf")
+          "http://bibfra.me/vocab/library/term", List.of(term),
+          "http://bibfra.me/vocab/library/source", List.of("rdabf")
         ),
         term))
       .extracting(ResourceEdgeHelper::getCategorySetEdge)
@@ -71,13 +71,13 @@ class MarcToLd340IT extends Marc2LdTestBase {
     assertThat(result)
       .satisfies(resource -> validateResource(resource,
         List.of(INSTANCE),
-        Map.of("http://bibfra.me/vocab/marc/bookFormat", List.of("book format label.")),
+        Map.of("http://bibfra.me/vocab/library/bookFormat", List.of("book format label.")),
         ""))
       .satisfies(r -> assertThat(r.getOutgoingEdges()).isEmpty());
   }
 
   private ResourceEdge getBookFormatEdge(Resource result) {
-    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/marc/bookFormat"));
+    return getFirstOutgoingEdge(result, withPredicateUri("http://bibfra.me/vocab/library/bookFormat"));
   }
 
   private static Stream<Arguments> provideStandardBookFormatParams() {

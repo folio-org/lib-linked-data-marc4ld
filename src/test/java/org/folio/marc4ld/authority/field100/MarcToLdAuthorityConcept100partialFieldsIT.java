@@ -58,14 +58,14 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
 
   @ParameterizedTest
   @CsvSource(value = {
-    "vValue , PERSON, FORM     , http://bibfra.me/vocab/marc/formSubdivision          , authority/100/marc_100_concept_person_with_v.jsonl",
-    "xValue , PERSON, TOPIC    , http://bibfra.me/vocab/marc/generalSubdivision       , authority/100/marc_100_concept_person_with_x.jsonl",
-    "yValue , PERSON, TEMPORAL , http://bibfra.me/vocab/marc/chronologicalSubdivision , authority/100/marc_100_concept_person_with_y.jsonl",
-    "zValue , PERSON, PLACE    , http://bibfra.me/vocab/marc/geographicSubdivision    , authority/100/marc_100_concept_person_with_z.jsonl",
-    "vValue , FAMILY, FORM     , http://bibfra.me/vocab/marc/formSubdivision          , authority/100/marc_100_concept_family_with_v.jsonl",
-    "xValue , FAMILY, TOPIC    , http://bibfra.me/vocab/marc/generalSubdivision       , authority/100/marc_100_concept_family_with_x.jsonl",
-    "yValue , FAMILY, TEMPORAL , http://bibfra.me/vocab/marc/chronologicalSubdivision , authority/100/marc_100_concept_family_with_y.jsonl",
-    "zValue , FAMILY, PLACE    , http://bibfra.me/vocab/marc/geographicSubdivision    , authority/100/marc_100_concept_family_with_z.jsonl"
+    "vValue , PERSON, FORM     , http://bibfra.me/vocab/library/formSubdivision          , authority/100/marc_100_concept_person_with_v.jsonl",
+    "xValue , PERSON, TOPIC    , http://bibfra.me/vocab/library/generalSubdivision       , authority/100/marc_100_concept_person_with_x.jsonl",
+    "yValue , PERSON, TEMPORAL , http://bibfra.me/vocab/library/chronologicalSubdivision , authority/100/marc_100_concept_person_with_y.jsonl",
+    "zValue , PERSON, PLACE    , http://bibfra.me/vocab/library/geographicSubdivision    , authority/100/marc_100_concept_person_with_z.jsonl",
+    "vValue , FAMILY, FORM     , http://bibfra.me/vocab/library/formSubdivision          , authority/100/marc_100_concept_family_with_v.jsonl",
+    "xValue , FAMILY, TOPIC    , http://bibfra.me/vocab/library/generalSubdivision       , authority/100/marc_100_concept_family_with_x.jsonl",
+    "yValue , FAMILY, TEMPORAL , http://bibfra.me/vocab/library/chronologicalSubdivision , authority/100/marc_100_concept_family_with_y.jsonl",
+    "zValue , FAMILY, PLACE    , http://bibfra.me/vocab/library/geographicSubdivision    , authority/100/marc_100_concept_family_with_z.jsonl"
   })
   void shouldMapField100_withConditionFields(String value,
                                              ResourceTypeDictionary mainType,
@@ -87,12 +87,12 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
         Map.ofEntries(
           Map.entry(property, List.of(value)),
           Map.entry("http://bibfra.me/vocab/lite/name", List.of("aValue")),
-          Map.entry("http://bibfra.me/vocab/marc/numeration", List.of("bValue")),
-          Map.entry("http://bibfra.me/vocab/marc/titles", List.of("cValue")),
+          Map.entry("http://bibfra.me/vocab/library/numeration", List.of("bValue")),
+          Map.entry("http://bibfra.me/vocab/library/titles", List.of("cValue")),
           Map.entry("http://bibfra.me/vocab/lite/date", List.of("dValue")),
-          Map.entry("http://bibfra.me/vocab/marc/miscInfo", List.of("gValue")),
-          Map.entry("http://bibfra.me/vocab/marc/attribution", List.of("jValue")),
-          Map.entry("http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue")),
+          Map.entry("http://bibfra.me/vocab/library/miscInfo", List.of("gValue")),
+          Map.entry("http://bibfra.me/vocab/library/attribution", List.of("jValue")),
+          Map.entry("http://bibfra.me/vocab/library/numberOfParts", List.of("nValue")),
           Map.entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")),
           Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
           Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue, qValue, dValue -- "
@@ -121,12 +121,12 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
     validateEdge(edge.get(), FOCUS, List.of(type),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),
-        "http://bibfra.me/vocab/marc/numeration", List.of("bValue"),
-        "http://bibfra.me/vocab/marc/titles", List.of("cValue"),
+        "http://bibfra.me/vocab/library/numeration", List.of("bValue"),
+        "http://bibfra.me/vocab/library/titles", List.of("cValue"),
         "http://bibfra.me/vocab/lite/date", List.of("dValue"),
-        "http://bibfra.me/vocab/marc/miscInfo", List.of("gValue"),
-        "http://bibfra.me/vocab/marc/attribution", List.of("jValue"),
-        "http://bibfra.me/vocab/marc/numberOfParts", List.of("nValue"),
+        "http://bibfra.me/vocab/library/miscInfo", List.of("gValue"),
+        "http://bibfra.me/vocab/library/attribution", List.of("jValue"),
+        "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
       ),
       "bValue, aValue, cValue, qValue, dValue");

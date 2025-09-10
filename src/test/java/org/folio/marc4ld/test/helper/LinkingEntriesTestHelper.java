@@ -103,8 +103,8 @@ public class LinkingEntriesTestHelper {
     validateEdge(resourceEdges.getFirst(), TITLE,
       List.of(ResourceTypeDictionary.TITLE),
       Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of(expectedMainTitle),
-        "http://bibfra.me/vocab/marc/qualifier", List.of("work title qualifier")
+        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedMainTitle),
+        "http://bibfra.me/vocab/library/qualifier", List.of("work title qualifier")
       ), expectedMainTitle);
   }
 
@@ -112,12 +112,12 @@ public class LinkingEntriesTestHelper {
     var liteInstance = getLiteInstance(resource);
     validateResource(liteInstance, List.of(INSTANCE),
       Map.of(
-        "http://bibfra.me/vocab/marc/edition", List.of("instance edition"),
-        "http://bibfra.me/vocab/marc/publicationInformation", List.of("instance publication information"),
-        "http://bibfra.me/vocab/marc/materials", List.of("instance materials"),
+        "http://bibfra.me/vocab/library/edition", List.of("instance edition"),
+        "http://bibfra.me/vocab/library/publicationInformation", List.of("instance publication information"),
+        "http://bibfra.me/vocab/library/materials", List.of("instance materials"),
         "http://bibfra.me/vocab/lite/note", List.of("instance note"),
-        "http://bibfra.me/vocab/marc/seriesStatement", List.of("instance series statement"),
-        "http://bibfra.me/vocab/marc/reportNumber", List.of("instance report number")
+        "http://bibfra.me/vocab/library/seriesStatement", List.of("instance series statement"),
+        "http://bibfra.me/vocab/library/reportNumber", List.of("instance report number")
       ), "work/instance title main title");
     assertThat(liteInstance.getOutgoingEdges()).hasSize(expectedEdgesSize);
     var resourceEdges = getEdges(liteInstance, WORK);
@@ -157,7 +157,7 @@ public class LinkingEntriesTestHelper {
       validateEdge(resourceEdges.get(index), MAP,
         List.of(IDENTIFIER, ID_LOCAL),
         Map.of(
-          "http://bibfra.me/vocab/marc/localId", List.of(expectedLocalId)
+          "http://bibfra.me/vocab/library/localId", List.of(expectedLocalId)
         ), expectedLocalId);
       index++;
     }
@@ -225,7 +225,7 @@ public class LinkingEntriesTestHelper {
     validateEdge(resourceEdges.getFirst(), TITLE,
       List.of(ResourceTypeDictionary.TITLE),
       Map.of(
-        "http://bibfra.me/vocab/marc/mainTitle", List.of("work/instance title main title")
+        "http://bibfra.me/vocab/library/mainTitle", List.of("work/instance title main title")
       ), "work/instance title main title");
   }
 }

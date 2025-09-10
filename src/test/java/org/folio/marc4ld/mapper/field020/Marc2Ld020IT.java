@@ -38,7 +38,7 @@ class Marc2Ld020IT extends Marc2LdTestBase {
       isbnEdges.getFirst().getTarget(),
       List.of(IDENTIFIER, ID_ISBN),
       Map.of(
-        "http://bibfra.me/vocab/marc/qualifier", List.of("hardcover"),
+        "http://bibfra.me/vocab/library/qualifier", List.of("hardcover"),
         "http://bibfra.me/vocab/lite/name", List.of("1000")
       ),
       "1000"
@@ -52,7 +52,7 @@ class Marc2Ld020IT extends Marc2LdTestBase {
       isbnEdges.get(1).getTarget(),
       List.of(IDENTIFIER, ID_ISBN),
       Map.of(
-        "http://bibfra.me/vocab/marc/qualifier", List.of("black leather"),
+        "http://bibfra.me/vocab/library/qualifier", List.of("black leather"),
         "http://bibfra.me/vocab/lite/name", List.of("1002")
       ),
       "1002"

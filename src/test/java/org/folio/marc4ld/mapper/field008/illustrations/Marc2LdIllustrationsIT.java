@@ -35,32 +35,32 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, BOOKS), Map.of(), ""))
-      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/library/illustrations")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(4);
         validateEdge(edges.getFirst(), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("b"),
+            "http://bibfra.me/vocab/library/code", List.of("b"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/map"),
-            "http://bibfra.me/vocab/marc/term", List.of("Maps")
+            "http://bibfra.me/vocab/library/term", List.of("Maps")
           ), "Maps");
         validateEdge(edges.get(1), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("c"),
+            "http://bibfra.me/vocab/library/code", List.of("c"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/por"),
-            "http://bibfra.me/vocab/marc/term", List.of("Portraits")
+            "http://bibfra.me/vocab/library/term", List.of("Portraits")
           ), "Portraits");
         validateEdge(edges.get(2), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("d"),
+            "http://bibfra.me/vocab/library/code", List.of("d"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/chr"),
-            "http://bibfra.me/vocab/marc/term", List.of("Charts")
+            "http://bibfra.me/vocab/library/term", List.of("Charts")
           ), "Charts");
         validateEdge(edges.get(3), ILLUSTRATIONS, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("e"),
+            "http://bibfra.me/vocab/library/code", List.of("e"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/millus/pln"),
-            "http://bibfra.me/vocab/marc/term", List.of("Plans")
+            "http://bibfra.me/vocab/library/term", List.of("Plans")
           ), "Plans");
       })
       .extracting(edges -> getOutgoingEdges(edges.getFirst()))
@@ -88,7 +88,7 @@ class Marc2LdIllustrationsIT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getWorkEdge)
       .satisfies(we -> validateResource(we.getTarget(), List.of(WORK, CONTINUING_RESOURCES), Map.of(), ""))
       .extracting(ResourceEdge::getTarget)
-      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/marc/illustrations")))
+      .extracting(work -> getOutgoingEdges(work, withPredicateUri("http://bibfra.me/vocab/library/illustrations")))
       .satisfies(edges -> assertThat(edges).isEmpty());
   }
 }

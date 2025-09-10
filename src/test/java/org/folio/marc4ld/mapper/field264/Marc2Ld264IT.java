@@ -51,7 +51,7 @@ class Marc2Ld264IT extends Marc2LdTestBase {
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/nyu"),
-          "http://bibfra.me/vocab/marc/code", List.of("nyu"),
+          "http://bibfra.me/vocab/library/code", List.of("nyu"),
           "http://bibfra.me/vocab/lite/label", List.of("New York (State)"),
           "http://bibfra.me/vocab/lite/name", List.of("New York (State)")
         ),
