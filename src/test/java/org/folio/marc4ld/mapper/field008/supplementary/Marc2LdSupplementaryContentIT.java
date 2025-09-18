@@ -29,32 +29,32 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .extracting(ResourceEdgeHelper::getWorkEdge)
-      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/marc/supplementaryContent")))
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/library/supplementaryContent")))
       .satisfies(edges -> {
         assertThat(edges).hasSize(4);
         validateEdge(edges.getFirst(), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("bibliography"),
+            "http://bibfra.me/vocab/library/code", List.of("bibliography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/bibliography"),
-            "http://bibfra.me/vocab/marc/term", List.of("bibliography")
+            "http://bibfra.me/vocab/library/term", List.of("bibliography")
           ), "bibliography");
         validateEdge(edges.get(1), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("filmography"),
+            "http://bibfra.me/vocab/library/code", List.of("filmography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/filmography"),
-            "http://bibfra.me/vocab/marc/term", List.of("filmography")
+            "http://bibfra.me/vocab/library/term", List.of("filmography")
           ), "filmography");
         validateEdge(edges.get(2), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("discography"),
+            "http://bibfra.me/vocab/library/code", List.of("discography"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/discography"),
-            "http://bibfra.me/vocab/marc/term", List.of("discography")
+            "http://bibfra.me/vocab/library/term", List.of("discography")
           ), "discography");
         validateEdge(edges.get(3), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/marc/code", List.of("index"),
+            "http://bibfra.me/vocab/library/code", List.of("index"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/index"),
-            "http://bibfra.me/vocab/marc/term", List.of("index")
+            "http://bibfra.me/vocab/library/term", List.of("index")
           ), "index");
       })
       .extracting(edges -> getOutgoingEdges(edges.getFirst()))

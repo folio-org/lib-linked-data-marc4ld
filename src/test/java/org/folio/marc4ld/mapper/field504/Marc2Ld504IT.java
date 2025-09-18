@@ -27,7 +27,7 @@ class Marc2Ld504IT extends Marc2LdTestBase {
     assertThat(work)
       .satisfies(w -> validateResource(w,
         List.of(WORK, BOOKS),
-        Map.of("http://bibfra.me/vocab/marc/bibliographyNote", List.of("504 a 1, 504 b 1", "504 a 2, 504 b 2")),
+        Map.of("http://bibfra.me/vocab/library/bibliographyNote", List.of("504 a 1, 504 b 1", "504 a 2, 504 b 2")),
         ""));
   }
 }

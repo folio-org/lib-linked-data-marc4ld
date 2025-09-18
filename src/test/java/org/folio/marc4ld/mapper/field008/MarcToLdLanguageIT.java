@@ -32,7 +32,7 @@ class MarcToLdLanguageIT extends Marc2LdTestBase {
       .extracting(this::getLanguageEdge)
       .satisfies(e -> validateEdge(e, LANGUAGE, List.of(LANGUAGE_CATEGORY),
         Map.of(
-          "http://bibfra.me/vocab/marc/code", List.of("eng"),
+          "http://bibfra.me/vocab/library/code", List.of("eng"),
           "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/languages/eng")
         ),
         "eng"))

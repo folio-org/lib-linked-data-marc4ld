@@ -29,10 +29,10 @@ class Marc2Ld040IT extends Marc2LdTestBase {
       .satisfies(r -> validateResource(r,
           List.of(ANNOTATION),
           Map.of(
-            "http://bibfra.me/vocab/marc/catalogingAgency", List.of("DLC"),
-            "http://bibfra.me/vocab/marc/transcribingAgency", List.of("CtY"),
-            "http://bibfra.me/vocab/marc/modifyingAgency", List.of("MH", "NU"),
-            "http://bibfra.me/vocab/marc/controlNumber", List.of("123456789"),
+            "http://bibfra.me/vocab/library/catalogingAgency", List.of("DLC"),
+            "http://bibfra.me/vocab/library/transcribingAgency", List.of("CtY"),
+            "http://bibfra.me/vocab/library/modifyingAgency", List.of("MH", "NU"),
+            "http://bibfra.me/vocab/library/controlNumber", List.of("123456789"),
             "http://bibfra.me/vocab/lite/createdDate", List.of("2001-08-15")
           ),
           "123456789"))
@@ -41,7 +41,7 @@ class Marc2Ld040IT extends Marc2LdTestBase {
           List.of(LANGUAGE_CATEGORY),
           Map.of(
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/languages/fre"),
-            "http://bibfra.me/vocab/marc/code", List.of("fre")
+            "http://bibfra.me/vocab/library/code", List.of("fre")
           ),
           "fre"));
   }
@@ -51,6 +51,6 @@ class Marc2Ld040IT extends Marc2LdTestBase {
   }
 
   private Resource getAdminMetadata(Resource resource) {
-    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/marc/adminMetadata")).getTarget();
+    return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/library/adminMetadata")).getTarget();
   }
 }
