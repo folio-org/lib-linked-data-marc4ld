@@ -66,7 +66,7 @@ class Ld2MarcSupplementaryContentIT {
       Map.of(SUPPLEMENTARY_CONTENT, List.of(
         createCategory("bibliography", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography",
           categorySet),
-        createCategory("filmography", "http://id.loc.gov/vocabulary/msupplcont/filmography", "filmography",
+        createCategory("film", "http://id.loc.gov/vocabulary/msupplcont/film", "filmography",
           categorySet),
         createCategory("discography", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography",
           categorySet),

@@ -22,10 +22,15 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
   public static final Map<Character, String> CODE_TO_LINK_SUFFIX_MAP = Map.of(
     'b', "bibliography",
     'k', "discography",
+    'q', "film",
+    '1', "index"
+  );
+  private static final Map<Character, String> CODE_TO_TERM_MAP = Map.of(
+    'b', "bibliography",
+    'k', "discography",
     'q', "filmography",
     '1', "index"
   );
-
   private static final Set<Character> SUPPORTED_CODES = Set.of('b', 'k', 'q');
   private static final int INDEX_PRESENT_INDEX = 31;
 
@@ -54,12 +59,12 @@ public class SupplementaryContentMapper extends AbstractCategoryMapper {
 
   @Override
   protected String getTerm(char code) {
-    return getLinkSuffix(code);
+    return CODE_TO_TERM_MAP.get(code);
   }
 
   @Override
   protected String getCode(char code) {
-    return getTerm(code);
+    return CODE_TO_LINK_SUFFIX_MAP.get(code);
   }
 
   @Override
