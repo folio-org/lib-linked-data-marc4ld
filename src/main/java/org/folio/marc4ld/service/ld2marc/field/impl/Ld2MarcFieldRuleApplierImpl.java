@@ -135,7 +135,8 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
       .sorted(Map.Entry.comparingByKey())
       .collect(
         toMap(
-          e -> e.getValue().stream().findFirst().orElseThrow(),
+          e -> e.getValue().stream().findFirst()
+            .orElseThrow(() -> new IllegalStateException("No graph property configured for " + tag + "$" + e.getKey())),
           Map.Entry::getKey,
           (oldValue, newValue) -> oldValue
         )
