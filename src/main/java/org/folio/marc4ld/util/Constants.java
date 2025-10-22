@@ -19,10 +19,17 @@ public class Constants {
   public static final char A = 'a';
   public static final char B = 'b';
   public static final char C = 'c';
+  public static final char D = 'd';
   public static final char E = 'e';
+  public static final char F = 'f';
+  public static final char H = 'h';
   public static final char J = 'j';
+  public static final char L = 'l';
   public static final char M = 'm';
+  public static final char N = 'n';
+  public static final char P = 'p';
   public static final char Q = 'q';
+  public static final char R = 'r';
   public static final char S = 's';
   public static final char T = 't';
   public static final char Y = 'y';
@@ -37,6 +44,7 @@ public class Constants {
   public static final String TAG_100 = "100";
   public static final String TAG_110 = "110";
   public static final String TAG_111 = "111";
+  public static final String TAG_240 = "240";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";
   public static final String TAG_300 = "300";
