@@ -3,6 +3,7 @@ package org.folio.marc4ld.service.marc2ld.field.property.builder;
 
 import java.util.Collection;
 import java.util.Objects;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.service.marc2ld.field.property.Property;
@@ -12,18 +13,19 @@ import org.marc4j.marc.Subfield;
 @RequiredArgsConstructor
 public class SubfieldPropertyBuilder implements PropertyBuilder<DataField> {
 
-  private final char field;
-  private final String rule;
+  @Getter
+  private final char marcSubfield;
+  private final String graphProperty;
 
   @Override
   public Collection<Property> apply(DataField dataField) {
-    return dataField.getSubfields(field)
+    return dataField.getSubfields(marcSubfield)
       .stream()
       .map(Subfield::getData)
       .filter(Objects::nonNull)
       .map(String::trim)
       .filter(StringUtils::isNotEmpty)
-      .map(v -> new Property(rule, v))
+      .map(v -> new Property(graphProperty, v))
       .toList();
   }
 }
