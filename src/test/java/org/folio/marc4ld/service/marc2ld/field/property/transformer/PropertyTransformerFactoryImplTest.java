@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Map;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.spring.testing.type.UnitTest;
@@ -35,7 +36,7 @@ class PropertyTransformerFactoryImplTest {
     when(rule.isMultiply())
       .thenReturn(true);
     when(rule.getSubfields())
-      .thenReturn(Map.of('1', "one"));
+      .thenReturn(Map.of('1', List.of("one")));
 
     // when
     var result = propertyTransformerFactory.get(rule);
@@ -50,7 +51,7 @@ class PropertyTransformerFactoryImplTest {
   void whenRuleIsMultiply_andSubfieldsIsOneThenReturnSeparateTransformer(int size) {
     // given
     var rule = Mockito.mock(Marc4LdRules.FieldRule.class);
-    Map<Character, String> subfields = Mockito.mock(Map.class);
+    Map<Character, List<String>> subfields = Mockito.mock(Map.class);
     when(subfields.size())
       .thenReturn(size);
     when(rule.isMultiply())

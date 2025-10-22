@@ -150,7 +150,7 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .entrySet()
       .stream()
       .filter(entry -> Objects.nonNull(entry.getValue()))
-      .map(entry -> new SubfieldPropertyBuilder(entry.getKey(), entry.getValue()))
+      .flatMap(entry -> entry.getValue().stream().map(key -> new SubfieldPropertyBuilder(entry.getKey(), key)))
       .collect(Collectors.toList());
   }
 
