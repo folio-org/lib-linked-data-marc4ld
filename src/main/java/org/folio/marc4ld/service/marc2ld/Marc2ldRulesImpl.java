@@ -20,6 +20,7 @@ import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRuleImpl;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.ControlFieldsPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.IndicatorPropertyBuilder;
+import org.folio.marc4ld.service.marc2ld.field.property.builder.MarcKeyPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.PropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.SubfieldPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
@@ -42,12 +43,15 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
   private final PropertyMergerFactory propertyMergerFactory;
+  private final MarcKeyPropertyBuilder marcKeyPropertyBuilder;
 
   @Autowired
   public Marc2ldRulesImpl(Marc4LdRules marc4LdRules,
                           DictionaryProcessor dictionaryProcessor,
                           PropertyTransformerFactory propertyTransformerFactory,
-                          PropertyMergerFactory propertyMergerFactory) {
+                          PropertyMergerFactory propertyMergerFactory,
+                          MarcKeyPropertyBuilder marcKeyPropertyBuilder) {
+    this.marcKeyPropertyBuilder = marcKeyPropertyBuilder;
     this.dictionaryProcessor = dictionaryProcessor;
     this.propertyTransformerFactory = propertyTransformerFactory;
     this.propertyMergerFactory = propertyMergerFactory;
@@ -127,10 +131,18 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .propertyMerger(getPropertyMerger(rule))
       .constantMerger(getConstantPropertyMerger(rule))
       .subFieldBuilders(getSubfieldBuilders(rule))
+      .marcKeyBuilder(getMarcKeyBuilder(rule).orElse(null))
       .indicatorBuilders(getIndicatorBuilders(rule))
       .controlFieldBuilders(getControlBuilders(rule))
       .constants(getConstants(rule))
       .build();
+  }
+
+  private Optional<PropertyBuilder<DataField>> getMarcKeyBuilder(Marc4LdRules.FieldRule rule) {
+    if (rule.isIncludeMarcKey()) {
+      return Optional.of(marcKeyPropertyBuilder);
+    }
+    return Optional.empty();
   }
 
   private PropertyTransformer getTransformer(Marc4LdRules.FieldRule rule) {
