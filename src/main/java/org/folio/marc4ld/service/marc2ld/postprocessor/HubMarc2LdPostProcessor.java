@@ -4,15 +4,20 @@ import static java.lang.String.join;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+import static org.folio.ld.dictionary.PropertyDictionary.MARC_KEY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
+import static org.folio.marc4ld.util.Constants.TAG_240;
 import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.LdUtil.getWork;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
@@ -22,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
+@Log4j2
 public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
 
   private final FingerprintHashService hashService;
@@ -31,7 +37,7 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
   @Override
   public void process(Resource instance, Record marcRecord) {
     var creators = getWorkCreators(instance);
-    var hubs = getExpressionOfHubs(instance);
+    var hubs = getMarc240Hubs(instance);
     if (creators.isEmpty() || hubs.isEmpty()) {
       return;
     }
@@ -53,17 +59,31 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
       .orElse(List.of());
   }
 
-  private List<Resource> getExpressionOfHubs(Resource instance) {
+  private List<Resource> getMarc240Hubs(Resource instance) {
     return getWork(instance)
       .map(work -> getOutgoingEdges(work, EXPRESSION_OF)
         .stream()
         .map(ResourceEdge::getTarget)
         .filter(r -> r.isOfType(HUB))
+        .filter(this::isMarc240Hub)
         .toList())
       .orElse(List.of());
   }
 
-  public void setHubLabel(Resource hub, String newLabel) {
+  private boolean isMarc240Hub(Resource hub) {
+    return getPropertyValue(hub, MARC_KEY.getValue())
+      .map(json -> {
+        try {
+          return objectMapper.readTree(json).has(TAG_240);
+        } catch (JsonProcessingException e) {
+          log.error(e.getMessage());
+          return false;
+        }
+      })
+      .orElse(false);
+  }
+
+  private void setHubLabel(Resource hub, String newLabel) {
     var originalProperties = new HashMap<>(mapperHelper.getProperties(hub));
     originalProperties.put(LABEL.getValue(), List.of(newLabel));
     hub.setDoc(objectMapper.convertValue(originalProperties, JsonNode.class));

@@ -1,5 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.field.property;
 
+import static java.util.Objects.nonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTran
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
+import org.springframework.lang.Nullable;
 
 @Builder
 public class PropertyRuleImpl implements PropertyRule {
@@ -28,6 +31,8 @@ public class PropertyRuleImpl implements PropertyRule {
   private final PropertyMerger constantMerger;
   @NonNull
   private final Map<Character, List<PropertyBuilder<DataField>>> subFieldBuilders;
+  @Nullable
+  private final PropertyBuilder<DataField> marcKeyBuilder;
   @NonNull
   private final Collection<PropertyBuilder<DataField>> indicatorBuilders;
   @NonNull
@@ -58,10 +63,10 @@ public class PropertyRuleImpl implements PropertyRule {
   }
 
   private Collection<Property> getDataFieldProperties(DataField dataField) {
-
     var subfieldBuildersOrdered = getSubfieldBuildersInOrder(dataField);
-
+    var marcKeyBuilders = nonNull(marcKeyBuilder) ? List.of(marcKeyBuilder) : List.<PropertyBuilder<DataField>>of();
     return Stream.of(
+        marcKeyBuilders,
         subfieldBuildersOrdered,
         indicatorBuilders
       )

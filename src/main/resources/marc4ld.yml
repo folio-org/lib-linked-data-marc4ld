@@ -451,6 +451,7 @@ bibFieldRules:
         r: MUSIC_KEY, LABEL
         s: VERSION, LABEL
       concat: ' '
+      includeMarcKey: true
       edges:
         - predicate: TITLE
           types: TITLE

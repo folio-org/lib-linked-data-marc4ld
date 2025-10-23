@@ -44,6 +44,7 @@ public class Marc4LdRules {
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
     private String include;
+    private boolean includeMarcKey;
 
     public void addTypes(Set<String> types) {
       ofNullable(this.types).ifPresentOrElse(t -> t.addAll(types), () -> this.setTypes(types));
