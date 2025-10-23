@@ -30,6 +30,7 @@ import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcBibPunctuationNormalizerImpl;
+import org.folio.marc4ld.service.marc2ld.postprocessor.PostProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
 import org.folio.marc4ld.service.marc2ld.preprocessor.FieldPreprocessor;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -55,6 +56,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
   private final List<CustomMapper> customMappers;
+  private final List<PostProcessor> postProcessors;
   private final MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
 
   @Override
@@ -99,6 +101,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
     customMappers.stream()
       .filter(customMapper -> customMapper.isApplicable(marcRecord))
       .forEach(customMapper -> customMapper.map(marcRecord, instance));
+    postProcessors
+      .forEach(postProcessor -> postProcessor.accept(instance, marcRecord));
   }
 
   private void fillControl(org.marc4j.marc.Record marcRecord, Resource instance, ControlField controlField) {
