@@ -433,6 +433,44 @@ bibFieldRules:
   111:
     - include: 111_711_mappings
       predicate: CREATOR
+  240:
+    - parent: WORK
+      types: HUB
+      predicate: EXPRESSION_OF
+      subfields:
+        a: LABEL
+        d: LEGAL_DATE, LABEL
+        f: DATE, LABEL
+        g: LABEL
+        k: LABEL
+        l: LANGUAGE, LABEL
+        m: LABEL
+        n: LABEL
+        o: LABEL
+        p: LABEL
+        r: MUSIC_KEY, LABEL
+        s: VERSION, LABEL
+      concat: ' '
+      includeMarcKey: true
+      edges:
+        - predicate: TITLE
+          types: TITLE
+          parent: HUB
+          subfields:
+            a: MAIN_TITLE
+            d: MAIN_TITLE
+            f: MAIN_TITLE
+            g: MAIN_TITLE
+            k: MAIN_TITLE
+            l: MAIN_TITLE
+            m: MAIN_TITLE
+            n: PART_NUMBER, MAIN_TITLE
+            o: MAIN_TITLE
+            p: PART_NAME, MAIN_TITLE
+            r: MAIN_TITLE
+            s: MAIN_TITLE
+          ind2: NON_SORT_NUM
+          concat: ' '
   245:
     - parent: INSTANCE
       include: 245_mappings

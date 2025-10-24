@@ -1,0 +1,24 @@
+{
+  "leader" : "00510nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  },
+  {
+    "110" : {
+      "subfields" : [ {
+        "a" : "Creator organization"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  },
+  {
+    "240" : {
+      "subfields" : [ {
+        "a" : "Uniform title"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}
