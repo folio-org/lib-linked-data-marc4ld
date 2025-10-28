@@ -88,9 +88,7 @@ public class PropertyRuleImpl implements PropertyRule {
   }
 
   private List<PropertyBuilder<DataField>> getSubfieldBuildersInOrder(DataField dataField) {
-    return dataField
-      .getSubfields()
-      .stream()
+    return dataField.getSubfields().stream()
       .map(Subfield::getCode)
       .distinct()
       .map(subFieldBuilders::get)
