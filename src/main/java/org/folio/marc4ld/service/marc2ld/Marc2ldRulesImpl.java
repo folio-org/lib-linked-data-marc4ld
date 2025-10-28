@@ -1,12 +1,15 @@
 package org.folio.marc4ld.service.marc2ld;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -17,6 +20,7 @@ import org.folio.marc4ld.service.marc2ld.field.property.PropertyRule;
 import org.folio.marc4ld.service.marc2ld.field.property.PropertyRuleImpl;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.ControlFieldsPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.IndicatorPropertyBuilder;
+import org.folio.marc4ld.service.marc2ld.field.property.builder.MarcKeyPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.PropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.SubfieldPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
@@ -39,12 +43,15 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
   private final PropertyMergerFactory propertyMergerFactory;
+  private final MarcKeyPropertyBuilder marcKeyPropertyBuilder;
 
   @Autowired
   public Marc2ldRulesImpl(Marc4LdRules marc4LdRules,
                           DictionaryProcessor dictionaryProcessor,
                           PropertyTransformerFactory propertyTransformerFactory,
-                          PropertyMergerFactory propertyMergerFactory) {
+                          PropertyMergerFactory propertyMergerFactory,
+                          MarcKeyPropertyBuilder marcKeyPropertyBuilder) {
+    this.marcKeyPropertyBuilder = marcKeyPropertyBuilder;
     this.dictionaryProcessor = dictionaryProcessor;
     this.propertyTransformerFactory = propertyTransformerFactory;
     this.propertyMergerFactory = propertyMergerFactory;
@@ -68,7 +75,7 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
     return rules
       .entrySet()
       .stream()
-      .collect(Collectors.toMap(Map.Entry::getKey, entry -> createRules(entry.getValue())));
+      .collect(toMap(Map.Entry::getKey, entry -> createRules(entry.getValue())));
   }
 
   private Collection<Marc2ldFieldRuleApplier> createRules(List<Marc4LdRules.FieldRule> fieldRules) {
@@ -124,10 +131,18 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .propertyMerger(getPropertyMerger(rule))
       .constantMerger(getConstantPropertyMerger(rule))
       .subFieldBuilders(getSubfieldBuilders(rule))
+      .marcKeyBuilder(getMarcKeyBuilder(rule).orElse(null))
       .indicatorBuilders(getIndicatorBuilders(rule))
       .controlFieldBuilders(getControlBuilders(rule))
       .constants(getConstants(rule))
       .build();
+  }
+
+  private Optional<PropertyBuilder<DataField>> getMarcKeyBuilder(Marc4LdRules.FieldRule rule) {
+    if (rule.isIncludeMarcKey()) {
+      return Optional.of(marcKeyPropertyBuilder);
+    }
+    return Optional.empty();
   }
 
   private PropertyTransformer getTransformer(Marc4LdRules.FieldRule rule) {
@@ -142,16 +157,17 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
     return propertyMergerFactory.getConstant(rule);
   }
 
-  private Collection<PropertyBuilder<DataField>> getSubfieldBuilders(Marc4LdRules.FieldRule rule) {
+  private Map<Character, List<PropertyBuilder<DataField>>> getSubfieldBuilders(Marc4LdRules.FieldRule rule) {
     if (Objects.isNull(rule.getSubfields())) {
-      return Collections.emptyList();
+      return Map.of();
     }
     return rule.getSubfields()
       .entrySet()
       .stream()
       .filter(entry -> Objects.nonNull(entry.getValue()))
-      .map(entry -> new SubfieldPropertyBuilder(entry.getKey(), entry.getValue()))
-      .collect(Collectors.toList());
+      .flatMap(entry -> entry.getValue().stream()
+          .map(graphProperty -> new SubfieldPropertyBuilder(entry.getKey(), graphProperty)))
+      .collect(groupingBy(builder -> ((SubfieldPropertyBuilder) builder).getMarcSubfield()));
   }
 
   private Collection<PropertyBuilder<DataField>> getIndicatorBuilders(Marc4LdRules.FieldRule rule) {
@@ -169,7 +185,7 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
       .entrySet()
       .stream()
       .map(entry -> new ControlFieldsPropertyBuilder(entry.getKey(), entry.getValue(), dictionaryProcessor))
-      .collect(Collectors.toList());
+      .collect(toList());
   }
 
   private Collection<Property> getConstants(Marc4LdRules.FieldRule rule) {

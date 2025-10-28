@@ -161,3 +161,6 @@ labelRules:
     addLabelProperty: true
     properties:
       - "{$NAME} {$VOLUME}"
+  - types: HUB
+    properties:
+      - LABEL

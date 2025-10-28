@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.startsWith;
@@ -10,7 +11,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
@@ -133,7 +133,14 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
     return subFields.entrySet()
       .stream()
       .sorted(Map.Entry.comparingByKey())
-      .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (oldValue, newValue) -> oldValue))
+      .collect(
+        toMap(
+          e -> e.getValue().stream().findFirst()
+            .orElseThrow(() -> new IllegalStateException("No graph property configured for " + tag + "$" + e.getKey())),
+          Map.Entry::getKey,
+          (oldValue, newValue) -> oldValue
+        )
+      )
       .entrySet()
       .stream()
       .map(entry -> new SubFieldRuleApplierImpl(entry.getValue(), entry.getKey()))

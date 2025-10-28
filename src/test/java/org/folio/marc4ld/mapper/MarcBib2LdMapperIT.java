@@ -362,7 +362,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(doc.get(INFORMATION_ABOUT_DOCUMENTATION.getValue()).get(0).asText()).isEqualTo("info about doc note");
     assertThat(doc.get(DESCRIPTION_SOURCE_NOTE.getValue()).get(0).asText()).isEqualTo("description source note");
     assertThat(doc.get(GOVERNING_ACCESS_NOTE.getValue()).get(0).asText())
-      .isEqualTo("terms, jurisdiction, provisions, users, authorization, terminology, date, agency");
+      .isEqualTo("jurisdiction, terms, provisions, users, authorization, terminology, date, agency");
     assertThat(doc.get(TYPE_OF_REPORT.getValue()).get(0).asText()).isEqualTo("type, period");
     assertThat(doc.get(REPRODUCTION_NOTE.getValue()).get(0).asText())
       .isEqualTo("type, place, agency, date, description, statement, note");

@@ -34,7 +34,7 @@ public class Marc4LdRules {
     private Marc2ldCondition marc2ldCondition;
     private Ld2marcCondition ld2marcCondition;
     private FieldRelation relation;
-    private Map<Character, String> subfields;
+    private Map<Character, List<String>> subfields;
     private String ind1;
     private String ind2;
     private String concat;
@@ -44,12 +44,13 @@ public class Marc4LdRules {
     private Map<String, Map<String, List<Integer>>> controlFields;
     private List<FieldRule> edges;
     private String include;
+    private boolean includeMarcKey;
 
     public void addTypes(Set<String> types) {
       ofNullable(this.types).ifPresentOrElse(t -> t.addAll(types), () -> this.setTypes(types));
     }
 
-    public void putSubfields(Map<Character, String> subfields) {
+    public void putSubfields(Map<Character, List<String>> subfields) {
       ofNullable(this.subfields).ifPresentOrElse(s -> s.putAll(subfields), () -> this.setSubfields(subfields));
     }
 

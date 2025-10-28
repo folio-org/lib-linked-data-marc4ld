@@ -1,10 +1,13 @@
 package org.folio.marc4ld.service.marc2ld.field.property;
 
+import static java.util.Objects.nonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.NonNull;
@@ -14,6 +17,8 @@ import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformer;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Subfield;
+import org.springframework.lang.Nullable;
 
 @Builder
 public class PropertyRuleImpl implements PropertyRule {
@@ -25,7 +30,9 @@ public class PropertyRuleImpl implements PropertyRule {
   @NonNull
   private final PropertyMerger constantMerger;
   @NonNull
-  private final Collection<PropertyBuilder<DataField>> subFieldBuilders;
+  private final Map<Character, List<PropertyBuilder<DataField>>> subFieldBuilders;
+  @Nullable
+  private final PropertyBuilder<DataField> marcKeyBuilder;
   @NonNull
   private final Collection<PropertyBuilder<DataField>> indicatorBuilders;
   @NonNull
@@ -56,8 +63,11 @@ public class PropertyRuleImpl implements PropertyRule {
   }
 
   private Collection<Property> getDataFieldProperties(DataField dataField) {
+    var subfieldBuildersOrdered = getSubfieldBuildersInOrder(dataField);
+    var marcKeyBuilders = nonNull(marcKeyBuilder) ? List.of(marcKeyBuilder) : List.<PropertyBuilder<DataField>>of();
     return Stream.of(
-        subFieldBuilders,
+        marcKeyBuilders,
+        subfieldBuildersOrdered,
         indicatorBuilders
       )
       .flatMap(Collection::stream)
@@ -73,6 +83,16 @@ public class PropertyRuleImpl implements PropertyRule {
     return controlFieldBuilders
       .stream()
       .map(propertyBuilder -> propertyBuilder.apply(controlFields))
+      .flatMap(Collection::stream)
+      .toList();
+  }
+
+  private List<PropertyBuilder<DataField>> getSubfieldBuildersInOrder(DataField dataField) {
+    return dataField.getSubfields().stream()
+      .map(Subfield::getCode)
+      .distinct()
+      .map(subFieldBuilders::get)
+      .filter(Objects::nonNull)
       .flatMap(Collection::stream)
       .toList();
   }

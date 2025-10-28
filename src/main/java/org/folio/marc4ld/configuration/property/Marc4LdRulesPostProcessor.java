@@ -64,5 +64,6 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
 
     target.setAppend(source.isAppend());
     target.setMultiply(source.isMultiply());
+    target.setIncludeMarcKey(source.isIncludeMarcKey());
   }
 }
