@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.spring.testing.type.UnitTest;
@@ -36,7 +37,7 @@ class TargetAudienceMapperTest {
   @BeforeEach
   void setup() {
     FingerprintHashService hashService = Mockito.mock(FingerprintHashService.class);
-    mapper = new TargetAudienceMapper(hashService, new MapperHelper(OBJECT_MAPPER));
+    mapper = new TargetAudienceMapper(hashService, new MapperHelper(new Marc4LdObjectMapper()));
   }
 
   @ParameterizedTest

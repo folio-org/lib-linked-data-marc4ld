@@ -2,8 +2,8 @@ package org.folio.marc4ld.mapper.leader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.service.marc2ld.bib.MarcBib2ldMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ class MarcBib2ldMapperLeaderIT extends Marc2LdTestBase {
   private MarcBib2ldMapper marcBib2ldMapper;
 
   @Autowired
-  private ObjectMapper objectMapper;
+  private Marc4LdObjectMapper objectMapper;
 
   @Test
   void shouldProcessBook() throws Exception {

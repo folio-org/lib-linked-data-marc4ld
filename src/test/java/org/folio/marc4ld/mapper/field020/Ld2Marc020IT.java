@@ -12,11 +12,11 @@ import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.isbn;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class Ld2Marc020IT {
   private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Autowired
-  private ObjectMapper objectMapper;
+  private Marc4LdObjectMapper objectMapper;
 
   @Test
   void should_map_each_isbn_edge() {

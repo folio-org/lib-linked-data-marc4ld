@@ -5,13 +5,13 @@ import static java.util.Objects.nonNull;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.marc4j.marc.ControlField;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MapperHelper {
 
-  private final ObjectMapper objectMapper;
+  private final Marc4LdObjectMapper objectMapper;
 
   /**
    * From the given list of control fields, return the first control field with the given tag and data length greater
