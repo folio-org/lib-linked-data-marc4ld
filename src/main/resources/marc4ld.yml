@@ -433,44 +433,16 @@ bibFieldRules:
   111:
     - include: 111_711_mappings
       predicate: CREATOR
-  240:
-    - parent: WORK
-      types: HUB
-      predicate: EXPRESSION_OF
-      subfields:
-        a: LABEL
-        d: LEGAL_DATE, LABEL
-        f: DATE, LABEL
-        g: LABEL
-        k: LABEL
-        l: LANGUAGE, LABEL
-        m: LABEL
-        n: LABEL
-        o: LABEL
-        p: LABEL
-        r: MUSIC_KEY, LABEL
-        s: VERSION, LABEL
-      concat: ' '
-      includeMarcKey: true
+  130:
+    - include: 130_240_hub
       edges:
-        - predicate: TITLE
-          types: TITLE
-          parent: HUB
-          subfields:
-            a: MAIN_TITLE
-            d: MAIN_TITLE
-            f: MAIN_TITLE
-            g: MAIN_TITLE
-            k: MAIN_TITLE
-            l: MAIN_TITLE
-            m: MAIN_TITLE
-            n: PART_NUMBER, MAIN_TITLE
-            o: MAIN_TITLE
-            p: PART_NAME, MAIN_TITLE
-            r: MAIN_TITLE
-            s: MAIN_TITLE
+        - include: 130_240_hub_title
+          ind1: NON_SORT_NUM
+  240:
+    - include: 130_240_hub
+      edges:
+        - include: 130_240_hub_title
           ind2: NON_SORT_NUM
-          concat: ' '
   245:
     - parent: INSTANCE
       include: 245_mappings
@@ -1669,6 +1641,45 @@ bibSharedRules:
     relation:
       code: '4'
       text: j
+
+  130_240_hub:
+    parent: WORK
+    types: HUB
+    predicate: EXPRESSION_OF
+    subfields:
+      a: LABEL
+      d: LEGAL_DATE, LABEL
+      f: DATE, LABEL
+      g: LABEL
+      k: LABEL
+      l: LANGUAGE, LABEL
+      m: LABEL
+      n: LABEL
+      o: LABEL
+      p: LABEL
+      r: MUSIC_KEY, LABEL
+      s: VERSION, LABEL
+    concat: ' '
+    includeMarcKey: true
+
+  130_240_hub_title:
+    predicate: TITLE
+    types: TITLE
+    parent: HUB
+    subfields:
+      a: MAIN_TITLE
+      d: MAIN_TITLE
+      f: MAIN_TITLE
+      g: MAIN_TITLE
+      k: MAIN_TITLE
+      l: MAIN_TITLE
+      m: MAIN_TITLE
+      n: PART_NUMBER, MAIN_TITLE
+      o: MAIN_TITLE
+      p: PART_NAME, MAIN_TITLE
+      r: MAIN_TITLE
+      s: MAIN_TITLE
+    concat: ' '
 
   linking_entries_mappings:
     types: WORK
