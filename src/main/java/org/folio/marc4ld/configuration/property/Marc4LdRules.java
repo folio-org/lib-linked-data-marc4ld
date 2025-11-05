@@ -81,9 +81,21 @@ public class Marc4LdRules {
 
   @Data
   public static class Ld2marcCondition {
-    private String edge;
+    private Map<String, Ld2marcEdgeMatchCondition> edge;
     private boolean skip;
     private ResourceTypeDictionary workType;
+  }
+
+  @Data
+  public static class Ld2marcEdgeMatchCondition {
+    private List<Ld2marcEdgeCondition> anyMatch;
+    private List<Ld2marcEdgeCondition> allMatch;
+  }
+
+  @Data
+  public static class Ld2marcEdgeCondition {
+    private Boolean present;
+    private Map<String, String> properties;
   }
 
   @Data
