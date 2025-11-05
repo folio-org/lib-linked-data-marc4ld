@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @UnitTest
-class ConditionCheckerImplTest {
+class Marc2LdConditionCheckerImplTest {
 
   static Stream<Arguments> substring() {
     return Stream.of(
@@ -27,7 +27,7 @@ class ConditionCheckerImplTest {
   @ParameterizedTest
   @MethodSource
   void substring(String data, List<Integer> substring, String expected) {
-    assertThat(ConditionCheckerImpl.substring(data, substring)).isEqualTo(expected);
+    assertThat(Marc2LdConditionCheckerImpl.substring(data, substring)).isEqualTo(expected);
   }
 
 }

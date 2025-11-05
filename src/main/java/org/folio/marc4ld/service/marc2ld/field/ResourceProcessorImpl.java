@@ -9,7 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.dto.MarcData;
-import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.folio.marc4ld.service.marc2ld.mapper.AdditionalMapper;
@@ -29,7 +29,7 @@ public class ResourceProcessorImpl implements ResourceProcessor {
   private final AdditionalMapperController additionalMapperController;
   private final FingerprintHashService hashService;
   private final MapperHelper mapperHelper;
-  private final ConditionChecker conditionChecker;
+  private final Marc2LdConditionChecker conditionChecker;
   private final LabelService labelService;
 
   @Override

@@ -25,7 +25,7 @@ import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.service.condition.ConditionChecker;
+import org.folio.marc4ld.service.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
@@ -52,7 +52,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final FieldPreprocessor fieldPreprocessor;
   private final MarcFactory marcFactory;
   private final FingerprintHashService hashService;
-  private final ConditionChecker conditionChecker;
+  private final Marc2LdConditionChecker conditionChecker;
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
   private final List<CustomMapper> customMappers;

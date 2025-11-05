@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
-import org.folio.marc4ld.service.condition.ConditionCheckerImpl;
+import org.folio.marc4ld.service.condition.Marc2LdConditionCheckerImpl;
 import org.folio.marc4ld.service.ld2marc.field.IndicatorRuleApplier;
 
 public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
@@ -21,8 +21,8 @@ public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
       .orElse(null);
     this.defaultIndicator = Optional.ofNullable(indCondition)
       .filter(StringUtils::isNotBlank)
-      .filter(ic -> !ic.startsWith(ConditionCheckerImpl.NOT))
-      .filter(ic -> !ic.equals(ConditionCheckerImpl.PRESENTED))
+      .filter(ic -> !ic.startsWith(Marc2LdConditionCheckerImpl.NOT))
+      .filter(ic -> !ic.equals(Marc2LdConditionCheckerImpl.PRESENTED))
       .map(c -> c.charAt(0))
       .orElse(SPACE);
   }
