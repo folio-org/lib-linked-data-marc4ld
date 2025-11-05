@@ -7,7 +7,6 @@ import static org.folio.marc4ld.util.LdUtil.isEmpty;
 import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
@@ -18,6 +17,7 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
@@ -34,7 +34,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(INSTANCE);
 
-  private final ObjectMapper objectMapper;
+  private final Marc4LdObjectMapper objectMapper;
   private final LeaderGenerator leaderGenerator;
   private final Resource2MarcRecordMapper resourceMapper;
   private final MarcReaderProcessor marcReaderProcessor;
@@ -66,7 +66,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
       log.warn("Given resource is not an Instance [{}]", resource);
       return false;
     }
-    return  true;
+    return true;
   }
 
   private Optional<Record> getUnmappedMarc(Resource resource) {

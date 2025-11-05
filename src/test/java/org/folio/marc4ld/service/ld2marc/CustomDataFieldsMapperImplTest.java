@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +29,7 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
@@ -58,7 +58,7 @@ class CustomDataFieldsMapperImplTest {
   private static final String RAW_MARC = "rawMarc";
   private static final String TAG_007 = "007";
   @Mock
-  ObjectMapper objectMapper;
+  Marc4LdObjectMapper objectMapper;
   @Mock
   LeaderGenerator leaderGenerator;
   @Mock
