@@ -151,7 +151,13 @@ bibFieldRules:
         fieldsAllOf:
           a: presented
       ld2marcCondition:
-        edge: STATUS
+        edge:
+          STATUS:
+            anyMatch:
+              - present: false
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/current
       edges:
         - include: status_current
     - types: ID_LOCAL, IDENTIFIER
@@ -163,7 +169,12 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
       ld2marcCondition:
-        edge: STATUS
+        edge:
+          STATUS:
+            allMatch:
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
       edges:
         - include: status_cancelled
   '020':

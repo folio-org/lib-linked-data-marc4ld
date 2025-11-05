@@ -1,15 +1,14 @@
 package org.folio.marc4ld.service.condition;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
+import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,6 +18,7 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -111,20 +111,64 @@ public class ConditionCheckerImpl implements ConditionChecker {
   }
 
   private boolean isEdgeConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource) {
-    if (isNull(fieldRule.getLd2marcCondition().getEdge())) {
+    var edgeRules = fieldRule.getLd2marcCondition().getEdge();
+
+    if (isNull(edgeRules)) {
       return true;
     }
-    if (isEmpty(resource.getOutgoingEdges())) {
-      return false;
-    }
-    return fieldRule.getEdges().stream()
-      .filter(edgeRule -> edgeRule.getTypes().contains(fieldRule.getLd2marcCondition().getEdge()))
-      .filter(edgeRule -> nonNull(edgeRule.getPredicate()))
+
+    return edgeRules.entrySet().stream()
       .findFirst()
-      .map(edgeRule -> resource.getOutgoingEdges().stream()
-        .filter(re -> re.getPredicate().equals(PredicateDictionary.valueOf(edgeRule.getPredicate())))
-        .anyMatch(re -> isResourceSatisfiesRule(re.getTarget(), edgeRule)))
+      .map(entry -> checkEdgeRule(resource, entry))
       .orElse(false);
+  }
+
+  private Boolean checkEdgeRule(Resource resource,
+                                Map.Entry<String, Marc4LdRules.Ld2marcEdgeMatchCondition> predicateAndCondition) {
+    var edgePredicate = PredicateDictionary.valueOf(predicateAndCondition.getKey());
+    var edges = getOutgoingEdges(resource, edgePredicate)
+      .stream()
+      .map(ResourceEdge::getTarget)
+      .toList();
+    var matchCondition = predicateAndCondition.getValue();
+
+    if (matchCondition.getAnyMatch() != null) {
+      var conditions = matchCondition.getAnyMatch();
+      return conditions.stream().anyMatch(c -> checkEdgeRule(c, edges));
+    }
+
+    if (matchCondition.getAllMatch() != null) {
+      var conditions = matchCondition.getAllMatch();
+      return conditions.stream().allMatch(c -> checkEdgeRule(c, edges));
+    }
+
+    return false;
+  }
+
+  private boolean checkEdgeRule(Marc4LdRules.Ld2marcEdgeCondition condition, List<Resource> edgeResources) {
+
+    if (condition.getPresent() == Boolean.FALSE && edgeResources.isEmpty()) {
+      return true;
+    }
+
+    if (condition.getPresent() == Boolean.TRUE && condition.getProperties() != null) {
+      return edgeResources.stream().anyMatch(r -> resourceHasAllProperties(r, condition.getProperties()));
+    }
+
+    if (condition.getPresent() == Boolean.TRUE) {
+      return !edgeResources.isEmpty();
+    }
+
+    return false;
+  }
+
+  private boolean resourceHasAllProperties(Resource resource, Map<String, String> properties) {
+    return properties.entrySet()
+      .stream()
+      .allMatch(
+        propAndValue -> getPropertyValues(resource, PropertyDictionary.valueOf(propAndValue.getKey()).getValue())
+          .contains(propAndValue.getValue())
+      );
   }
 
   private boolean isWorkTypeConditionSatisfied(ResourceTypeDictionary conditionalWorkType, Resource parent) {
@@ -134,19 +178,6 @@ public class ConditionCheckerImpl implements ConditionChecker {
     return parent.isOfType(conditionalWorkType);
   }
 
-  private boolean isResourceSatisfiesRule(Resource resource, Marc4LdRules.FieldRule rule) {
-    var types = rule.getTypes().stream().map(ResourceTypeDictionary::valueOf).collect(toSet());
-    var constantsPresented = isConstantsPresented(rule.getConstants(), resource.getDoc());
-    return Objects.equals(resource.getTypes(), types) && constantsPresented;
-  }
-
-  private boolean isConstantsPresented(Map<String, String> constants, JsonNode doc) {
-    return constants.entrySet().stream().allMatch(e -> {
-      var property = PropertyDictionary.valueOf(e.getKey()).getValue();
-      return nonNull(doc) && doc.has(property) && !doc.get(property).isEmpty()
-        && e.getValue().equals(doc.get(property).get(0).asText());
-    });
-  }
 
   private boolean isControlFieldConditions(List<ControlField> controlFields,
                                            Marc4LdRules.Marc2ldCondition condition) {
