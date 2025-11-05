@@ -131,6 +131,14 @@ bibFieldRules:
           a: presented
       edges:
         - include: status_current
+      ld2marcCondition:
+        edge:
+          STATUS:
+            anyMatch:
+              - present: false
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/current
     - types: ID_LCCN, IDENTIFIER
       parent: INSTANCE
       predicate: MAP
@@ -141,6 +149,13 @@ bibFieldRules:
           z: presented
       edges:
         - include: status_cancelled
+      ld2marcCondition:
+        edge:
+          STATUS:
+            allMatch:
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
