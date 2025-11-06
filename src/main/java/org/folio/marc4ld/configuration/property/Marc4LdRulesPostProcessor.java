@@ -6,6 +6,8 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -48,16 +50,17 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
   }
 
   private void copyRule(Marc4LdRules.FieldRule source, Marc4LdRules.FieldRule target) {
+    setIfNull(target::getParent, source::getParent, target::setParent);
+    setIfNull(target::getPredicate, source::getPredicate, target::setPredicate);
+    setIfNull(target::getMarc2ldCondition, source::getMarc2ldCondition, target::setMarc2ldCondition);
+    setIfNull(target::getLd2marcCondition, source::getLd2marcCondition, target::setLd2marcCondition);
+    setIfNull(target::getRelation, source::getRelation, target::setRelation);
+    setIfNull(target::getInd1, source::getInd1, target::setInd1);
+    setIfNull(target::getInd2, source::getInd2, target::setInd2);
+    setIfNull(target::getConcat, source::getConcat, target::setConcat);
+
     ofNullable(source.getTypes()).ifPresent(target::addTypes);
-    ofNullable(source.getParent()).ifPresent(target::setParent);
-    ofNullable(source.getPredicate()).ifPresent(target::setPredicate);
-    ofNullable(source.getMarc2ldCondition()).ifPresent(target::setMarc2ldCondition);
-    ofNullable(source.getLd2marcCondition()).ifPresent(target::setLd2marcCondition);
-    ofNullable(source.getRelation()).ifPresent(target::setRelation);
     ofNullable(source.getSubfields()).ifPresent(target::putSubfields);
-    ofNullable(source.getInd1()).ifPresent(target::setInd1);
-    ofNullable(source.getInd2()).ifPresent(target::setInd2);
-    ofNullable(source.getConcat()).ifPresent(target::setConcat);
     ofNullable(source.getConstants()).ifPresent(target::putConstants);
     ofNullable(source.getControlFields()).ifPresent(target::putControlFields);
     ofNullable(source.getEdges()).ifPresent(target::addEdges);
@@ -65,5 +68,13 @@ public class Marc4LdRulesPostProcessor implements BeanPostProcessor {
     target.setAppend(source.isAppend());
     target.setMultiply(source.isMultiply());
     target.setIncludeMarcKey(source.isIncludeMarcKey());
+  }
+
+  private <T> void setIfNull(Supplier<T> targetGetter, Supplier<T> sourceGetter, Consumer<T> targetSetter) {
+    T targetValue = targetGetter.get();
+    T sourceValue = sourceGetter.get();
+    if (targetValue == null && sourceValue != null) {
+      targetSetter.accept(sourceValue);
+    }
   }
 }

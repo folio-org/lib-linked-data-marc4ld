@@ -178,54 +178,38 @@ bibFieldRules:
     - types: ID_ISSN
       include: cancelled_instance_identifier
   '024':
-    - types: ID_IAN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_IAN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '3'
-      edges:
-        - include: status_current
-    - types: ID_IAN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_IAN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           z: presented
         ind1: '3'
-      edges:
-        - include: status_cancelled
-    - types: ID_UNKNOWN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_UNKNOWN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '!3'
-      edges:
-        - include: status_current
-    - types: ID_UNKNOWN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_UNKNOWN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           z: presented
         ind1: '!3'
-      edges:
-        - include: status_cancelled
   '040':
     - types: ANNOTATION
       parent: INSTANCE
