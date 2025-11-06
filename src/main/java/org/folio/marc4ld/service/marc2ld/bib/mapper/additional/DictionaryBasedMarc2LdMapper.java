@@ -23,11 +23,11 @@ public abstract class DictionaryBasedMarc2LdMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource mappedSofar) {
     getMappingConfigs()
       .stream()
-      .map(mc -> mapSingle(resource, mc))
-      .forEach(properties -> resource.setDoc(mapperHelper.getJsonNode(properties)));
+      .map(mc -> mapSingle(mappedSofar, mc))
+      .forEach(properties -> mappedSofar.setDoc(mapperHelper.getJsonNode(properties)));
   }
 
   private Map<String, List<String>> mapSingle(Resource resource, MappingConfig config) {

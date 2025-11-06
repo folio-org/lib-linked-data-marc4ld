@@ -53,11 +53,11 @@ public class LinkingEntriesMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource mappedSofar) {
     var dataField = marcData.getDataField();
-    mapWork(resource, getSubfieldValue(S, dataField));
-    mapInstance(resource, getSubfieldValue(T, dataField));
-    adjustWorkToInstanceRelation(resource);
+    mapWork(mappedSofar, getSubfieldValue(S, dataField));
+    mapInstance(mappedSofar, getSubfieldValue(T, dataField));
+    adjustWorkToInstanceRelation(mappedSofar);
   }
 
   private void mapWork(Resource resource, String title) {

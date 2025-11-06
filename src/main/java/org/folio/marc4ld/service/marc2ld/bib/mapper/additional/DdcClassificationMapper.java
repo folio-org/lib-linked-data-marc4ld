@@ -36,14 +36,14 @@ public class DdcClassificationMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource mappedSofar) {
     var dataField = marcData.getDataField();
-    var properties = mapperHelper.getProperties(resource);
+    var properties = mapperHelper.getProperties(mappedSofar);
     if (dataField.getIndicator1() == ZERO) {
       properties.put(EDITION.getValue(), List.of(FULL));
     } else if (dataField.getIndicator1() == ONE) {
       properties.put(EDITION.getValue(), List.of(ABRIDGED));
     }
-    resource.setDoc(mapperHelper.getJsonNode(properties));
+    mappedSofar.setDoc(mapperHelper.getJsonNode(properties));
   }
 }

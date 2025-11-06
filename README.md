@@ -79,8 +79,12 @@ public class YourService {
   }
 }
 ```
-### Dependencies
+## Dependencies
 - [lib-linked-data-dictionary](https://github.com/folio-org/lib-linked-data-dictionary)
 - [lib-linked-data-fingerprint](https://github.com/folio-org/lib-linked-data-fingerprint)
 ## Download and configuration
 The built artifacts for this module are available. See [configuration](https://dev.folio.org/download/artifacts/) for repository access.
+
+## Developer Documentation
+
+For detailed configuration and developer instructions, see the [Developer Guide](DEVELOPER_GUIDE.md).

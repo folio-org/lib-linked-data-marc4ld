@@ -32,8 +32,8 @@ public class ProviderPlaceMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
-    var properties = mapperHelper.getProperties(resource);
+  public void map(MarcData marcData, Resource mappedSofar) {
+    var properties = mapperHelper.getProperties(mappedSofar);
     var codes = properties.getOrDefault(CODE.getValue(), List.of());
     var values = codes.stream()
       .map(PlaceDictionary::getValue)
@@ -43,7 +43,7 @@ public class ProviderPlaceMapper implements AdditionalMapper {
       return;
     }
     properties.put(NAME.getValue(), values);
-    resource.setDoc(mapperHelper.getJsonNode(properties));
+    mappedSofar.setDoc(mapperHelper.getJsonNode(properties));
   }
 
 }
