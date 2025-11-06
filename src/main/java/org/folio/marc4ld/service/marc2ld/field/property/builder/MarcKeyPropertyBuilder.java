@@ -4,13 +4,13 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.folio.ld.dictionary.PropertyDictionary.MARC_KEY;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.Property;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class MarcKeyPropertyBuilder implements PropertyBuilder<DataField> {
 
   private final ObjectWriter objectWriter;
 
-  public MarcKeyPropertyBuilder(ObjectMapper objectMapper) {
+  public MarcKeyPropertyBuilder(Marc4LdObjectMapper objectMapper) {
     this.objectWriter = objectMapper
       .writer()
       .without(INDENT_OUTPUT);

@@ -28,6 +28,7 @@
 - Implement MARC to Graph and Graph to MARC conversion of MARC 648 [MODLD-534](https://folio-org.atlassian.net/browse/MODLD-534)
 - Update vocabulary term IRIs in tests to replace 'marc' with 'library' [MODLD-792](https://folio-org.atlassian.net/browse/MODLD-792)
 - Map MARC 240 to HUB resource [MODLD-884](https://folio-org.atlassian.net/browse/MODLD-884)
+- Isolated Marc4LdObjectMapper introduced [MODLD-873](https://folio-org.atlassian.net/browse/MODLD-873)
 - Map MARC 130 to HUB resource [MODLD-879](https://folio-org.atlassian.net/browse/MODLD-879)
 
 ## 1.0.3 (04-09-2025)

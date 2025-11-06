@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.spring.testing.type.UnitTest;
@@ -32,7 +33,7 @@ class GovernmentPublicationMapperTest {
 
   @BeforeEach
   void setup() {
-    mapper = new GovernmentPublicationMapper(new MapperHelper(OBJECT_MAPPER));
+    mapper = new GovernmentPublicationMapper(new MapperHelper(new Marc4LdObjectMapper()));
   }
 
   @ParameterizedTest
