@@ -171,40 +171,12 @@ bibFieldRules:
       subfields:
         q: QUALIFIER
   '022':
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        a: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        y: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          y: presented
-      edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: incorrect
-            LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        z: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
+    - types: ID_ISSN
+      include: current_instance_identifier
+    - types: ID_ISSN
+      include: incorrect_instance_identifier
+    - types: ID_ISSN
+      include: cancelled_instance_identifier
   '024':
     - types: ID_IAN, IDENTIFIER
       parent: INSTANCE
@@ -1379,6 +1351,29 @@ bibSharedRules:
             - present: true
               properties:
                 LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+
+  incorrect_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      y: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        y: presented
+    edges:
+      - types: STATUS
+        predicate: STATUS
+        constants:
+          LABEL: incorrect
+          LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
+    ld2marcCondition:
+      edge:
+        STATUS:
+          allMatch:
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
 
   status_current:
     types: STATUS
