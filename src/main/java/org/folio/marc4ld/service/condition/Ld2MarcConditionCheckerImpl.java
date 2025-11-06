@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.condition;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
@@ -36,47 +37,39 @@ public class Ld2MarcConditionCheckerImpl implements Ld2MarcConditionChecker {
       return true;
     }
     return edgeRules.entrySet().stream()
-      .findFirst()
-      .map(entry -> checkEdgeRule(resource, entry))
-      .orElse(false);
+      .allMatch(entry -> checkEdgeRule(resource, entry));
   }
 
-  private Boolean checkEdgeRule(Resource resource,
+  private boolean checkEdgeRule(Resource resource,
                                 Map.Entry<String, Marc4LdRules.Ld2marcEdgeMatchCondition> predicateAndCondition) {
-    var edgePredicate = PredicateDictionary.valueOf(predicateAndCondition.getKey());
-    var edges = getOutgoingEdges(resource, edgePredicate)
+    var edges = getOutgoingEdges(resource, PredicateDictionary.valueOf(predicateAndCondition.getKey()))
       .stream()
       .map(ResourceEdge::getTarget)
       .toList();
     var matchCondition = predicateAndCondition.getValue();
-    if (matchCondition.getAnyMatch() != null) {
-      var conditions = matchCondition.getAnyMatch();
-      return conditions.stream().anyMatch(c -> checkEdgeRule(c, edges));
+
+    if (nonNull(matchCondition.getAnyMatch())) {
+      return matchCondition.getAnyMatch().stream().anyMatch(c -> checkEdgeRule(c, edges));
     }
-    if (matchCondition.getAllMatch() != null) {
-      var conditions = matchCondition.getAllMatch();
-      return conditions.stream().allMatch(c -> checkEdgeRule(c, edges));
+    if (nonNull(matchCondition.getAllMatch())) {
+      return matchCondition.getAllMatch().stream().allMatch(c -> checkEdgeRule(c, edges));
     }
     return false;
   }
+
 
   private boolean checkEdgeRule(Marc4LdRules.Ld2marcEdgeCondition condition, List<Resource> edgeResources) {
-    if (condition.getPresent() == Boolean.FALSE && edgeResources.isEmpty()) {
-      return true;
+    if (edgeResources.isEmpty()) {
+      return !condition.isPresent();
     }
-    if (condition.getPresent() == Boolean.TRUE && condition.getProperties() != null) {
+    if (nonNull(condition.getProperties())) {
       return edgeResources.stream().anyMatch(r -> resourceHasAllProperties(r, condition.getProperties()));
     }
-    if (condition.getPresent() == Boolean.TRUE) {
-      return !edgeResources.isEmpty();
-    }
-    return false;
+    return condition.isPresent();
   }
 
-  private boolean resourceHasAllProperties(Resource resource, Map<String, String> properties) {
-    return properties.entrySet()
-      .stream()
-      .allMatch(
+  private boolean resourceHasAllProperties(Resource resource, Map<String, String> propsAndValues) {
+    return propsAndValues.entrySet().stream().allMatch(
         propAndValue -> getPropertyValues(resource, PropertyDictionary.valueOf(propAndValue.getKey()).getValue())
           .contains(propAndValue.getValue())
       );

@@ -9,6 +9,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -68,7 +69,7 @@ public class Marc2LdConditionCheckerImpl implements Marc2LdConditionChecker {
   }
 
   private boolean isSingleConditionSatisfied(String value, String condition) {
-    if (org.apache.commons.lang3.StringUtils.isEmpty(condition)) {
+    if (StringUtils.isEmpty(condition)) {
       return true;
     }
     if (condition.contains(NOT)) {
@@ -79,7 +80,7 @@ public class Marc2LdConditionCheckerImpl implements Marc2LdConditionChecker {
       return isNotEmpty(value);
     }
     if (condition.equals(NOT_PRESENTED)) {
-      return org.apache.commons.lang3.StringUtils.isEmpty(value);
+      return StringUtils.isEmpty(value);
     }
     return Objects.equals(value, condition);
   }

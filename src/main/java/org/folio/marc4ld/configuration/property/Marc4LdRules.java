@@ -94,7 +94,7 @@ public class Marc4LdRules {
 
   @Data
   public static class Ld2marcEdgeCondition {
-    private Boolean present;
+    private boolean present;
     private Map<String, String> properties;
   }
 
