@@ -121,41 +121,10 @@ bibFieldRules:
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
   '010':
-    - types: ID_LCCN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        a: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-      ld2marcCondition:
-        edge:
-          STATUS:
-            anyMatch:
-              - present: false
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/current
-    - types: ID_LCCN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        z: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
-      ld2marcCondition:
-        edge:
-          STATUS:
-            allMatch:
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+    - types: ID_LCCN
+      include: current_instance_identifier
+    - types: ID_LCCN
+      include: cancelled_instance_identifier
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
@@ -193,43 +162,14 @@ bibFieldRules:
       edges:
         - include: status_cancelled
   '020':
-    - types: ID_ISBN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_ISBN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-      ld2marcCondition:
-        edge:
-          STATUS:
-            anyMatch:
-              - present: false
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/current
-    - types: ID_ISBN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_ISBN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
-      ld2marcCondition:
-        edge:
-          STATUS:
-            allMatch:
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
   '022':
     - types: ID_ISSN, IDENTIFIER
       parent: INSTANCE
@@ -1400,6 +1340,45 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
+
+  current_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      a: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        a: presented
+    edges:
+      - include: status_current
+    ld2marcCondition:
+      edge:
+        STATUS:
+          anyMatch:
+            - present: false
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/current
+
+  cancelled_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      z: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        z: presented
+    edges:
+      - include: status_cancelled
+    ld2marcCondition:
+      edge:
+        STATUS:
+          allMatch:
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
 
   status_current:
     types: STATUS
