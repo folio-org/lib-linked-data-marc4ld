@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.condition;
+package org.folio.marc4ld.service.marc2ld.condition;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;

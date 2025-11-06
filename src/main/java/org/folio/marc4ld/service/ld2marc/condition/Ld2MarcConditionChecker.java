@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.condition;
+package org.folio.marc4ld.service.ld2marc.condition;
 
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;

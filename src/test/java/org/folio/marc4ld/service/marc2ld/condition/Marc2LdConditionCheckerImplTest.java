@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.condition;
+package org.folio.marc4ld.service.marc2ld.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -5,6 +5,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.util.Constants.EIGHT;
+import static org.folio.marc4ld.util.Constants.TAG_024;
 
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.service.ld2marc.mapper.AdditionalDataFieldsMapper;
@@ -12,7 +13,7 @@ import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Marc024AdditionalMapper implements AdditionalDataFieldsMapper {
+public class Marc024UnknownIdMapper implements AdditionalDataFieldsMapper {
   @Override
   public boolean test(ResourceEdge edge) {
     return edge.getSource() != null
@@ -24,7 +25,9 @@ public class Marc024AdditionalMapper implements AdditionalDataFieldsMapper {
 
   @Override
   public DataField apply(ResourceEdge edge, DataField dataField) {
-    dataField.setIndicator1(EIGHT);
+    if (dataField.getTag().equals(TAG_024)) {
+      dataField.setIndicator1(EIGHT);
+    }
     return dataField;
   }
 }

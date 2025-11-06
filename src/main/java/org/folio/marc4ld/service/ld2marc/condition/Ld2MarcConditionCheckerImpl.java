@@ -1,4 +1,4 @@
-package org.folio.marc4ld.service.condition;
+package org.folio.marc4ld.service.ld2marc.condition;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Ld2MarcConditionCheckerImpl implements Ld2MarcConditionChecker {
 
+  @Override
   public boolean isLd2MarcConditionSatisfied(Marc4LdRules.FieldRule fieldRule, Resource resource, Resource parent) {
     var condition = fieldRule.getLd2marcCondition();
     if (isNull(condition)) {
