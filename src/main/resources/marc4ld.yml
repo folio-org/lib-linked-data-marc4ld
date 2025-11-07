@@ -1659,6 +1659,7 @@ bibSharedRules:
       p: LABEL
       r: MUSIC_KEY, LABEL
       s: VERSION, LABEL
+      t: LABEL
     concat: ' '
     includeMarcKey: true
 
@@ -1679,6 +1680,7 @@ bibSharedRules:
       p: PART_NAME, MAIN_TITLE
       r: MAIN_TITLE
       s: MAIN_TITLE
+      t: MAIN_TITLE
     concat: ' '
 
   linking_entries_mappings:
