@@ -1691,8 +1691,6 @@ bibSharedRules:
       s: MAIN_TITLE
       t: MAIN_TITLE
     concat: ' '
-    ld2marcCondition:
-      skip: true
 
   linking_entries_mappings:
     types: WORK

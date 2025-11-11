@@ -22,10 +22,7 @@ public class Constants {
   public static final char C = 'c';
   public static final char E = 'e';
   public static final char J = 'j';
-  public static final char L = 'l';
   public static final char M = 'm';
-  public static final char N = 'n';
-  public static final char P = 'p';
   public static final char Q = 'q';
   public static final char S = 's';
   public static final char T = 't';
@@ -37,7 +34,6 @@ public class Constants {
   public static final String TAG_100 = "100";
   public static final String TAG_110 = "110";
   public static final String TAG_111 = "111";
-  public static final String TAG_130 = "130";
   public static final String TAG_240 = "240";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";

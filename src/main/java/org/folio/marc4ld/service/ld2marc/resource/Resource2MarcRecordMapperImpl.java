@@ -2,6 +2,7 @@ package org.folio.marc4ld.service.ld2marc.resource;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Stream.concat;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.ObjectUtils.allNull;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -9,6 +10,7 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
+import static org.folio.marc4ld.util.MarcUtil.isSubfieldPresent;
 import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
 import java.util.Collection;
@@ -57,7 +59,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var cfb = new ControlFieldsBuilder();
     var dataFields = getDataFields(new ResourceEdge(null, resource, null), cfb);
     customControlFieldMappers.forEach(mapper -> mapper.map(resource, cfb));
-    Stream.concat(cfb.build(marcFactory), dataFields.stream())
+    concat(cfb.build(marcFactory), dataFields.stream())
       .forEach(marcRecord::addVariableField);
     return marcRecord;
   }
@@ -101,7 +103,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
       var merged = mergeDataFields(fieldsFromResource.getFirst(), fieldsFromEdges.getFirst());
       return List.of(merged);
     }
-    return Stream.concat(fieldsFromResource.stream(), fieldsFromEdges.stream()).toList();
+    return concat(fieldsFromResource.stream(), fieldsFromEdges.stream()).toList();
   }
 
   private boolean isMergeable(List<DataField> fields1, List<DataField> fields2) {
@@ -111,12 +113,19 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
   }
 
   private DataField mergeDataFields(DataField first, DataField second) {
+    char ind1 = isBlank(String.valueOf(first.getIndicator1())) ? second.getIndicator1() : first.getIndicator1();
+    char ind2 = isBlank(String.valueOf(first.getIndicator2())) ? second.getIndicator2() : first.getIndicator2();
+
     var mergedField = marcFactory.newDataField(
       first.getTag(),
-      first.getIndicator1(),
-      first.getIndicator2()
+      ind1,
+      ind2
     );
-    Stream.concat(first.getSubfields().stream(), second.getSubfields().stream())
+
+    concat(
+      first.getSubfields().stream(),
+      second.getSubfields().stream().filter(sf -> !isSubfieldPresent(sf.getCode(), first))
+    )
       .sorted(subfieldComparator)
       .forEach(mergedField::addSubfield);
     return mergedField;

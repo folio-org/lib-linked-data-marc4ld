@@ -1,12 +1,10 @@
 package org.folio.marc4ld.configuration;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
@@ -26,31 +24,31 @@ public class Ld2MarcRulesConfig {
     Marc4LdRules marc4LdRules
   ) {
     var fieldRules = new HashMap<>(marc4LdRules.getBibFieldRules());
-    fieldRules.replaceAll((key, value) -> extractAdditionalFieldRules(value));
 
     return fieldRules.entrySet()
       .stream()
-      .map(fr -> generateFieldRules(fr, conditionChecker, dictionaryProcessor))
+      .map(fr -> generateFieldRules(fr.getKey(), fr.getValue(), conditionChecker, dictionaryProcessor, null))
       .flatMap(Collection::stream)
       .toList();
   }
 
-  private List<Marc4LdRules.FieldRule> extractAdditionalFieldRules(List<Marc4LdRules.FieldRule> value) {
-    return value.stream()
-      .flatMap(fr -> Stream.concat(Stream.of(fr), ofNullable(fr.getEdges()).orElse(emptyList()).stream()))
-      .toList();
-  }
-
   private Collection<Ld2MarcFieldRuleApplier> generateFieldRules(
-    Map.Entry<String, List<Marc4LdRules.FieldRule>> frs,
+    String tag,
+    List<Marc4LdRules.FieldRule> frs,
     Ld2MarcConditionChecker conditionChecker,
-    DictionaryProcessor dictionaryProcessor
+    DictionaryProcessor dictionaryProcessor,
+    Ld2MarcFieldRuleApplier parentRule
   ) {
-    var tag = frs.getKey();
-    return frs.getValue()
+    if (isEmpty(frs)) {
+      return List.of();
+    }
+    return frs
       .stream()
-      .map(fr -> new Ld2MarcFieldRuleApplierImpl(tag, fr, conditionChecker, dictionaryProcessor))
-      .map(Ld2MarcFieldRuleApplier.class::cast)
+      .flatMap(fr -> {
+        var ruleApplier = new Ld2MarcFieldRuleApplierImpl(tag, fr, conditionChecker, dictionaryProcessor, parentRule);
+        var edgeAppliers = generateFieldRules(tag, fr.getEdges(), conditionChecker, dictionaryProcessor, ruleApplier);
+        return Stream.concat(Stream.of(ruleApplier), edgeAppliers.stream());
+      })
       .toList();
   }
 }
