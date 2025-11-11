@@ -10,13 +10,15 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.MarcUtil.isSubfieldPresent;
+import static org.folio.marc4ld.util.MarcUtil.hasSubfield;
+import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.FolioMetadata;
@@ -100,34 +102,33 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private List<DataField> combineFields(List<DataField> fieldsFromResource, List<DataField> fieldsFromEdges) {
     if (isMergeable(fieldsFromResource, fieldsFromEdges)) {
-      var merged = mergeDataFields(fieldsFromResource.getFirst(), fieldsFromEdges.getFirst());
+      var merged = mergeDataFields(concat(fieldsFromResource.stream(), fieldsFromEdges.stream()).toList());
       return List.of(merged);
     }
     return concat(fieldsFromResource.stream(), fieldsFromEdges.stream()).toList();
   }
 
   private boolean isMergeable(List<DataField> fields1, List<DataField> fields2) {
-    return fields1.size() == 1
-      && fields2.size() == 1
-      && fields1.getFirst().getTag().equals(fields2.getFirst().getTag());
+    if (fields1.isEmpty() || fields2.isEmpty()) {
+      return false;
+    }
+    var marcField = fields1.getFirst().getTag();
+    return fields1.stream().allMatch(f -> f.getTag().equals(marcField))
+           && fields2.stream().allMatch(f -> f.getTag().equals(marcField));
   }
 
-  private DataField mergeDataFields(DataField first, DataField second) {
-    char ind1 = isBlank(String.valueOf(first.getIndicator1())) ? second.getIndicator1() : first.getIndicator1();
-    char ind2 = isBlank(String.valueOf(first.getIndicator2())) ? second.getIndicator2() : first.getIndicator2();
+  private DataField mergeDataFields(List<DataField> fields) {
+    var marcField = fields.getFirst().getTag();
+    var ind1 = selectFirstNonBlankIndicator(fields, DataField::getIndicator1);
+    var ind2 = selectFirstNonBlankIndicator(fields, DataField::getIndicator2);
 
-    var mergedField = marcFactory.newDataField(
-      first.getTag(),
-      ind1,
-      ind2
-    );
-
-    concat(
-      first.getSubfields().stream(),
-      second.getSubfields().stream().filter(sf -> !isSubfieldPresent(sf.getCode(), first))
-    )
-      .sorted(subfieldComparator)
+    var mergedField = marcFactory.newDataField(marcField, ind1, ind2);
+    fields.stream()
+      .flatMap(f -> f.getSubfields().stream())
+      .filter(sf -> !hasSubfield(sf, mergedField))
       .forEach(mergedField::addSubfield);
+    orderSubfields(mergedField, subfieldComparator);
+
     return mergedField;
   }
 
@@ -200,5 +201,13 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
 
   private boolean notContainsMetadata(FolioMetadata folioMetadata) {
     return isNull(folioMetadata) || allNull(folioMetadata.getInventoryId(), folioMetadata.getSrsId());
+  }
+
+  private char selectFirstNonBlankIndicator(List<DataField> fields, Function<DataField, Character> indicatorGetter) {
+    return fields.stream()
+      .map(indicatorGetter)
+      .filter(i -> !isBlank(String.valueOf(i)))
+      .findFirst()
+      .orElse(indicatorGetter.apply(fields.getFirst()));
   }
 }

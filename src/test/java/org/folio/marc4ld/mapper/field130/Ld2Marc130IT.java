@@ -2,9 +2,10 @@ package org.folio.marc4ld.mapper.field130;
 
 import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.CODE;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
-import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.LEGAL_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.MUSIC_KEY;
@@ -15,6 +16,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.VERSION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -65,17 +67,27 @@ class Ld2Marc130IT {
       Map.of()
     );
 
+    var language = createResource(
+      Map.of(
+        CODE, List.of("Language")
+      ),
+      Set.of(LANGUAGE_CATEGORY),
+      Map.of()
+    );
+
     var hub = createResource(
       Map.of(
         LABEL, List.of("Hub title"),
         LEGAL_DATE, List.of("Legal Date"),
         DATE, List.of("Date"),
         MUSIC_KEY, List.of("Music Key"),
-        VERSION, List.of("Version"),
-        LANGUAGE, List.of("Language")
+        VERSION, List.of("Version")
       ),
       Set.of(HUB),
-      Map.of(PredicateDictionary.TITLE, List.of(title))
+      Map.of(
+        PredicateDictionary.TITLE, List.of(title),
+        LANGUAGE, List.of(language)
+      )
     );
 
     var work = createResource(

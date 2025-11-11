@@ -8,6 +8,7 @@ import static org.folio.marc4ld.util.LdUtil.getPropertyValues;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
@@ -50,6 +51,15 @@ public class MarcUtil {
 
   public static boolean isSubfieldPresent(char subfield, DataField dataField) {
     return dataField.getSubfield(subfield) != null;
+  }
+
+  public static boolean hasSubfield(Subfield subfield, DataField dataField) {
+    return dataField.getSubfields()
+      .stream()
+      .anyMatch(
+        sf -> Objects.equals(sf.getCode(), subfield.getCode())
+          && Objects.equals(sf.getData(), subfield.getData())
+      );
   }
 
   public static String getSubfieldValue(char subfield, DataField dataField) {
