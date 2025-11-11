@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
-import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.ld2marc.condition.Ld2MarcConditionChecker;
 import org.folio.marc4ld.service.ld2marc.field.Ld2MarcFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.impl.Ld2MarcFieldRuleApplierImpl;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ public class Ld2MarcRulesConfig {
 
   @Bean
   public Collection<Ld2MarcFieldRuleApplier> getRules(
-    ConditionChecker conditionChecker,
+    Ld2MarcConditionChecker conditionChecker,
     DictionaryProcessor dictionaryProcessor,
     Marc4LdRules marc4LdRules
   ) {
@@ -43,7 +43,7 @@ public class Ld2MarcRulesConfig {
 
   private Collection<Ld2MarcFieldRuleApplier> generateFieldRules(
     Map.Entry<String, List<Marc4LdRules.FieldRule>> frs,
-    ConditionChecker conditionChecker,
+    Ld2MarcConditionChecker conditionChecker,
     DictionaryProcessor dictionaryProcessor
   ) {
     var tag = frs.getKey();

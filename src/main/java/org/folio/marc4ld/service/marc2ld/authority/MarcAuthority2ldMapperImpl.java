@@ -16,9 +16,9 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.authority.control.AuthorityIdentifierProcessor;
+import org.folio.marc4ld.service.marc2ld.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcAuthorityPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
 
   private final Marc2ldRules rules;
-  private final ConditionChecker conditionChecker;
+  private final Marc2LdConditionChecker conditionChecker;
   private final ResourceProcessor fieldController;
   private final FingerprintHashService hashService;
   private final MarcReaderProcessor marcReaderProcessor;

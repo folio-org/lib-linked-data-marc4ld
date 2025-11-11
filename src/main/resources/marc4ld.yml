@@ -121,26 +121,10 @@ bibFieldRules:
           constants:
             LINK: http://id.loc.gov/vocabulary/languages/%CODE
   '010':
-    - types: ID_LCCN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        a: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-    - types: ID_LCCN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        z: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
+    - types: ID_LCCN
+      include: current_instance_identifier
+    - types: ID_LCCN
+      include: cancelled_instance_identifier
   '019':
     - types: ID_LOCAL, IDENTIFIER
       parent: INSTANCE
@@ -151,7 +135,13 @@ bibFieldRules:
         fieldsAllOf:
           a: presented
       ld2marcCondition:
-        edge: STATUS
+        edge:
+          STATUS:
+            anyMatch:
+              - present: false
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/current
       edges:
         - include: status_current
     - types: ID_LOCAL, IDENTIFIER
@@ -163,116 +153,63 @@ bibFieldRules:
         fieldsAllOf:
           z: presented
       ld2marcCondition:
-        edge: STATUS
+        edge:
+          STATUS:
+            allMatch:
+              - present: true
+                properties:
+                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
       edges:
         - include: status_cancelled
   '020':
-    - types: ID_ISBN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_ISBN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-    - types: ID_ISBN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_ISBN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
   '022':
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        a: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      edges:
-        - include: status_current
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        y: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          y: presented
-      edges:
-        - types: STATUS
-          predicate: STATUS
-          constants:
-            LABEL: incorrect
-            LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
-    - types: ID_ISSN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        z: NAME
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      edges:
-        - include: status_cancelled
+    - types: ID_ISSN
+      include: current_instance_identifier
+    - types: ID_ISSN
+      include: incorrect_instance_identifier
+    - types: ID_ISSN
+      include: cancelled_instance_identifier
   '024':
-    - types: ID_IAN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_IAN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '3'
-      edges:
-        - include: status_current
-    - types: ID_IAN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_IAN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           z: presented
         ind1: '3'
-      edges:
-        - include: status_cancelled
-    - types: ID_UNKNOWN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_UNKNOWN
+      include: current_instance_identifier
       subfields:
-        a: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           a: presented
         ind1: '!3'
-      edges:
-        - include: status_current
-    - types: ID_UNKNOWN, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
+    - types: ID_UNKNOWN
+      include: cancelled_instance_identifier
       subfields:
-        z: NAME
         q: QUALIFIER
       marc2ldCondition:
         fieldsAllOf:
           z: presented
         ind1: '!3'
-      edges:
-        - include: status_cancelled
   '040':
     - types: ANNOTATION
       parent: INSTANCE
@@ -1359,6 +1296,68 @@ bibFieldRules:
         z: NOTE
 
 bibSharedRules:
+
+  current_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      a: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        a: presented
+    edges:
+      - include: status_current
+    ld2marcCondition:
+      edge:
+        STATUS:
+          anyMatch:
+            - present: false
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/current
+
+  cancelled_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      z: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        z: presented
+    edges:
+      - include: status_cancelled
+    ld2marcCondition:
+      edge:
+        STATUS:
+          allMatch:
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
+
+  incorrect_instance_identifier:
+    types: IDENTIFIER
+    parent: INSTANCE
+    predicate: MAP
+    subfields:
+      y: NAME
+    marc2ldCondition:
+      fieldsAllOf:
+        y: presented
+    edges:
+      - types: STATUS
+        predicate: STATUS
+        constants:
+          LABEL: incorrect
+          LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
+    ld2marcCondition:
+      edge:
+        STATUS:
+          allMatch:
+            - present: true
+              properties:
+                LINK: http://id.loc.gov/vocabulary/mstatus/incorrect
 
   status_current:
     types: STATUS

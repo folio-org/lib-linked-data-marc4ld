@@ -14,8 +14,8 @@ import java.util.function.Function;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
-import org.folio.marc4ld.service.condition.ConditionChecker;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
+import org.folio.marc4ld.service.ld2marc.condition.Ld2MarcConditionChecker;
 import org.folio.marc4ld.service.ld2marc.field.ControlFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.IndicatorRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.Ld2MarcFieldRuleApplier;
@@ -33,12 +33,12 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
   private final Marc4LdRules.FieldRule fieldRule;
   private final Collection<ControlFieldRuleApplier> controlFieldRuleAppliers;
   private final Collection<SubFieldRuleApplier> subFieldRuleAppliers;
-  private final ConditionChecker conditionChecker;
+  private final Ld2MarcConditionChecker conditionChecker;
 
   public Ld2MarcFieldRuleApplierImpl(
     String tag,
     Marc4LdRules.FieldRule fieldRule,
-    ConditionChecker conditionChecker,
+    Ld2MarcConditionChecker conditionChecker,
     DictionaryProcessor dictionaryProcessor
   ) {
     this.tag = tag;
