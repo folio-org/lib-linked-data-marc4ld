@@ -375,11 +375,21 @@ bibFieldRules:
       edges:
         - include: 130_240_hub_title
           ind1: NON_SORT_NUM
+      ld2marcCondition:
+        edge:
+          CREATOR:
+            allMatch:
+              - present: false
   240:
     - include: 130_240_hub
       edges:
         - include: 130_240_hub_title
           ind2: NON_SORT_NUM
+      ld2marcCondition:
+        edge:
+          CREATOR:
+            allMatch:
+              - present: true
   245:
     - parent: INSTANCE
       include: 245_mappings
@@ -1681,6 +1691,8 @@ bibSharedRules:
       s: MAIN_TITLE
       t: MAIN_TITLE
     concat: ' '
+    ld2marcCondition:
+      skip: true
 
   linking_entries_mappings:
     types: WORK

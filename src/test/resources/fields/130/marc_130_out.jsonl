@@ -1,0 +1,28 @@
+{
+  "leader" : "00176n s a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "130" : {
+      "subfields" : [ {
+        "a" : "Hub title"
+      }, {
+        "d" : "Legal Date"
+      }, {
+        "f" : "Date"
+      }, {
+        "l" : "Language"
+      }, {
+        "n" : "Part Number"
+      }, {
+        "p" : "Part Name"
+      }, {
+        "r" : "Music Key"
+      }, {
+        "s" : "Version"
+      } ],
+      "ind1" : "8",
+      "ind2" : " "
+    }
+  } ]
+}
