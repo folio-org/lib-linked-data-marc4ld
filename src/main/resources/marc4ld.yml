@@ -375,11 +375,23 @@ bibFieldRules:
       edges:
         - include: 130_240_hub_title
           ind1: NON_SORT_NUM
+        - include: 130_240_hub_language
+      ld2marcCondition:
+        edge:
+          CREATOR:
+            allMatch:
+              - present: false
   240:
     - include: 130_240_hub
       edges:
         - include: 130_240_hub_title
           ind2: NON_SORT_NUM
+        - include: 130_240_hub_language
+      ld2marcCondition:
+        edge:
+          CREATOR:
+            allMatch:
+              - present: true
   245:
     - parent: INSTANCE
       include: 245_mappings
@@ -1681,6 +1693,15 @@ bibSharedRules:
       s: MAIN_TITLE
       t: MAIN_TITLE
     concat: ' '
+
+  130_240_hub_language:
+    types: LANGUAGE_CATEGORY
+    parent: HUB
+    predicate: LANGUAGE
+    subfields:
+      l: CODE
+    marc2LdCondition:
+      skip: true
 
   linking_entries_mappings:
     types: WORK

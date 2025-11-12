@@ -34,12 +34,14 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
   private final Collection<ControlFieldRuleApplier> controlFieldRuleAppliers;
   private final Collection<SubFieldRuleApplier> subFieldRuleAppliers;
   private final Ld2MarcConditionChecker conditionChecker;
+  private final Ld2MarcFieldRuleApplier parentFieldRuleApplier;
 
   public Ld2MarcFieldRuleApplierImpl(
     String tag,
     Marc4LdRules.FieldRule fieldRule,
     Ld2MarcConditionChecker conditionChecker,
-    DictionaryProcessor dictionaryProcessor
+    DictionaryProcessor dictionaryProcessor,
+    Ld2MarcFieldRuleApplier parentFieldRuleApplier
   ) {
     this.tag = tag;
     this.fieldRule = fieldRule;
@@ -56,6 +58,7 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
     );
     this.parent = Optional.ofNullable(fieldRule.getParent())
       .orElse(EMPTY);
+    this.parentFieldRuleApplier = parentFieldRuleApplier;
   }
 
   @Override
@@ -63,7 +66,8 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
     return isSuitableTypes(edge)
       && isSuitablePredicate(edge)
       && isTypeLikeRuleParent(edge)
-      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, edge.getTarget(), edge.getSource());
+      && conditionChecker.isLd2MarcConditionSatisfied(fieldRule, edge.getTarget(), edge.getSource())
+      && isParentRuleApplicable(edge);
   }
 
   @Override
@@ -102,6 +106,11 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
   @Override
   public String getTag() {
     return tag;
+  }
+
+  @Override
+  public Marc4LdRules.FieldRule getFieldRule() {
+    return fieldRule;
   }
 
   private Collection<ControlFieldRuleApplier> mapToControlFieldRules(DictionaryProcessor dictionaryProcessor) {
@@ -167,5 +176,10 @@ public class Ld2MarcFieldRuleApplierImpl implements Ld2MarcFieldRuleApplier {
       .map(ResourceEdge::getSource)
       .map(resource -> resource.getTypeNames().contains(parent))
       .orElse(true);
+  }
+
+  private boolean isParentRuleApplicable(ResourceEdge edge) {
+    return parentFieldRuleApplier == null
+      || conditionChecker.isLd2MarcConditionSatisfied(parentFieldRuleApplier.getFieldRule(), edge.getSource(), null);
   }
 }

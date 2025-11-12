@@ -3,12 +3,15 @@ package org.folio.marc4ld.service.ld2marc.field;
 import java.util.Collection;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import org.folio.marc4ld.configuration.property.Marc4LdRules;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
 
 public interface Ld2MarcFieldRuleApplier {
 
   String getTag();
+
+  Marc4LdRules.FieldRule getFieldRule();
 
   boolean isSuitable(ResourceEdge edge);
 

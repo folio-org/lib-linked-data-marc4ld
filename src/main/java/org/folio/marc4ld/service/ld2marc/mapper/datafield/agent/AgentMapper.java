@@ -6,6 +6,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.Constants.E;
 import static org.folio.marc4ld.util.Constants.FOUR;
 import static org.folio.marc4ld.util.Constants.NINE;
@@ -67,8 +68,11 @@ public abstract class AgentMapper implements CustomDataFieldsMapper {
 
   @Override
   public boolean test(ResourceEdge resourceEdge) {
-    return resourceEdge.getPredicate() != null
-      && (isAgentEdge(resourceEdge) || isRelationEdge(resourceEdge));
+    return
+      resourceEdge.getSource() != null
+        && resourceEdge.getSource().isOfType(WORK)
+        && resourceEdge.getPredicate() != null
+        && (isAgentEdge(resourceEdge) || isRelationEdge(resourceEdge));
   }
 
   @Override
