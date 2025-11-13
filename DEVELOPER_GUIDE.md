@@ -125,6 +125,10 @@ concat: ' '
 In this example, if both subfields 'a' and 'd' are present, their values will be concatenated with a space and stored
 in the `MAIN_TITLE` property of the graph resource (e.g., `MAIN_TITLE: "valueA valueD"`).
 
+When converting from graph to MARC, the entire concatenated string stored in the graph property will be mapped back to
+the first MARC subfield listed for that property (e.g., in the example above, `MAIN_TITLE` will be mapped back to
+subfield`$a`, not `$d`).
+
 ## ind1 and ind2
 **Description:** Specify the resource properties that correspond to the MARC indicators 1 and 2 (ind1 and ind2) for the
 field.
