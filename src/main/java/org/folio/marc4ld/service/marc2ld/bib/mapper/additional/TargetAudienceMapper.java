@@ -68,9 +68,9 @@ public class TargetAudienceMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource mappedSofar) {
     mapperHelper.getControlField(marcData.getControlFields(), TAG_008, TARGET_AUD_CHAR_INDEX + 1)
-      .ifPresent(controlField -> processControlField(resource, controlField));
+      .ifPresent(controlField -> processControlField(mappedSofar, controlField));
   }
 
   private void processControlField(Resource resource, ControlField controlField) {

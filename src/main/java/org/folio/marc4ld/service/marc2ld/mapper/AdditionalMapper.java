@@ -19,5 +19,5 @@ public interface AdditionalMapper {
 
   boolean canMap(Marc4LdRules.FieldRule fieldRule);
 
-  void map(MarcData marcData, Resource resource);
+  void map(MarcData marcData, Resource mappedSofar);
 }

@@ -50,9 +50,9 @@ public class GovernmentPublicationMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
+  public void map(MarcData marcData, Resource mappedSofar) {
     mapperHelper.getControlField(marcData.getControlFields(), TAG_008, GOVT_PUB_CHAR_INDEX + 1)
-      .ifPresent(cf -> processControlField(resource, cf));
+      .ifPresent(cf -> processControlField(mappedSofar, cf));
   }
 
   private void processControlField(Resource resource, ControlField controlField) {

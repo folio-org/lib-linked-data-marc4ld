@@ -56,9 +56,9 @@ public class PublicationFrequencyMapper extends DictionaryBasedMarc2LdMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
-    super.map(marcData, resource);
-    mapLinks(resource);
+  public void map(MarcData marcData, Resource mappedSofar) {
+    super.map(marcData, mappedSofar);
+    mapLinks(mappedSofar);
   }
 
   private void mapLinks(Resource resource) {

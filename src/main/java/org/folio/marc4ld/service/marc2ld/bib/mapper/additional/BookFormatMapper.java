@@ -37,8 +37,8 @@ public class BookFormatMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
-    var terms = mapperHelper.getProperties(resource).getOrDefault(TERM.getValue(), List.of());
+  public void map(MarcData marcData, Resource mappedSofar) {
+    var terms = mapperHelper.getProperties(mappedSofar).getOrDefault(TERM.getValue(), List.of());
 
     if (terms.isEmpty()) {
       return;
@@ -47,7 +47,7 @@ public class BookFormatMapper implements AdditionalMapper {
     var codes = terms.stream().map(term -> term.equals(FULL_SHEET_TERM) ? FULL_SHEET_CODE : term).toList();
     var links = codes.stream().map(code -> LINK_PREFIX + code).toList();
     mapperHelper.addPropertiesToResource(
-      resource,
+      mappedSofar,
       Map.of(
         CODE.getValue(), codes,
         LINK.getValue(), links

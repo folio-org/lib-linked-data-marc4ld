@@ -28,8 +28,8 @@ public class WorkSeriesMapper implements AdditionalMapper {
   }
 
   @Override
-  public void map(MarcData marcData, Resource resource) {
-    adjustInstanceSeriesToSeriesRelation(resource);
+  public void map(MarcData marcData, Resource mappedSofar) {
+    adjustInstanceSeriesToSeriesRelation(mappedSofar);
   }
 
   private void adjustInstanceSeriesToSeriesRelation(Resource resource) {
