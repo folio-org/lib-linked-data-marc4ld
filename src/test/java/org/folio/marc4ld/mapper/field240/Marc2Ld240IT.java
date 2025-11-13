@@ -76,8 +76,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
     // given
     var marc = loadResourceAsString("fields/240/marc_240_with_110.jsonl");
     var expectedOrganizationLabel = "Creator organization";
-    var expectedTitleLabel = "Uniform title";
-    var expectedHubLabel = expectedOrganizationLabel + " " + expectedTitleLabel;
+    var expectedHubLabel = "Uniform title";
     var expectedHubProps = Map.of(
       "http://bibfra.me/vocab/lite/label", List.of(expectedHubLabel),
       "http://bibfra.me/vocab/bflc/marcKey", List.of("""
@@ -88,7 +87,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/lite/label", List.of(expectedOrganizationLabel)
     );
     var expectedTitleProps = Map.of(
-      "http://bibfra.me/vocab/library/mainTitle", List.of(expectedTitleLabel)
+      "http://bibfra.me/vocab/library/mainTitle", List.of(expectedHubLabel)
     );
 
     // when
@@ -102,7 +101,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       .satisfies(h -> {
         validateResource(h, List.of(HUB), expectedHubProps, expectedHubLabel);
         var title = getTitleEdge(h).getTarget();
-        validateResource(title, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedTitleLabel);
+        validateResource(title, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedHubLabel);
       })
       .extracting(this::getCreatorEdge)
       .satisfies(c -> {
