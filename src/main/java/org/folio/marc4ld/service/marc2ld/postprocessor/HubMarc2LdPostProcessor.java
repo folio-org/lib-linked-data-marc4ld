@@ -1,9 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.postprocessor;
 
-import static java.lang.String.join;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.MARC_KEY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.marc4ld.util.Constants.TAG_240;
@@ -12,8 +10,6 @@ import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.LdUtil.getWork;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,7 +17,6 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
-import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +26,6 @@ import org.springframework.stereotype.Component;
 public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
 
   private final FingerprintHashService hashService;
-  private final MapperHelper mapperHelper;
   private final Marc4LdObjectMapper objectMapper;
 
   @Override
@@ -45,8 +39,6 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
   }
 
   private void updateHub(Resource hub, List<Resource> creators) {
-    var firstCreatorLabel = creators.stream().map(Resource::getLabel).findFirst().orElse("");
-    setHubLabel(hub, join(" ", firstCreatorLabel, hub.getLabel()));
     creators
       .forEach(creator -> hub.addOutgoingEdge(new ResourceEdge(hub, creator, CREATOR)));
     hub.setId(hashService.hash(hub));
@@ -81,12 +73,5 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
         }
       })
       .orElse(false);
-  }
-
-  private void setHubLabel(Resource hub, String newLabel) {
-    var originalProperties = new HashMap<>(mapperHelper.getProperties(hub));
-    originalProperties.put(LABEL.getValue(), List.of(newLabel));
-    hub.setDoc(objectMapper.convertValue(originalProperties, JsonNode.class));
-    hub.setLabel(newLabel);
   }
 }
