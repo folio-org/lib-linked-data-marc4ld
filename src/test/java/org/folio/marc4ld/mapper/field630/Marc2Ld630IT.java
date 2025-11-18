@@ -1,5 +1,6 @@
 package org.folio.marc4ld.mapper.field630;
 
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
@@ -11,6 +12,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
+import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
@@ -18,6 +20,8 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -27,10 +31,18 @@ import org.junit.jupiter.api.Test;
 
 class Marc2Ld630IT extends Marc2LdTestBase {
 
+  private final ObjectMapper objectMapper = OBJECT_MAPPER;
+
   @Test
-  void shouldMapField630() {
+  void shouldMapField630() throws JsonProcessingException {
     // given
     var marc = loadResourceAsString("fields/630/marc_630.jsonl");
+    var marcNode = objectMapper.readTree(marc);
+    var node630 = stream(marcNode.get("fields").spliterator(), false)
+      .filter(field -> field.has("630"))
+      .findFirst()
+      .orElse(null);
+    var expectedMarcKey = objectMapper.writeValueAsString(node630);
 
     // when
     var resource = marcBibToResource(marc);
@@ -59,7 +71,9 @@ class Marc2Ld630IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/version", List.of("version")),
         Map.entry("http://bibfra.me/vocab/library/musicKey", List.of("music key")),
         Map.entry("http://bibfra.me/vocab/library/legalDate", List.of("2024")),
-        Map.entry("http://bibfra.me/vocab/lite/name", List.of(expectedConceptName))
+        Map.entry("http://bibfra.me/vocab/lite/name", List.of(expectedConceptName)),
+        Map.entry("http://bibfra.me/vocab/library/partName", List.of("part name")),
+        Map.entry("http://bibfra.me/vocab/library/partNumber", List.of("part number"))
       ),
       expectedConceptLabel);
 
@@ -68,13 +82,14 @@ class Marc2Ld630IT extends Marc2LdTestBase {
     validateResource(
       hubResource,
       List.of(ResourceTypeDictionary.HUB),
-      Map.ofEntries(
-        Map.entry("http://bibfra.me/vocab/lite/label", List.of(expectedConceptName)),
-        Map.entry("http://bibfra.me/vocab/lite/language", List.of("English")),
-        Map.entry("http://bibfra.me/vocab/lite/date", List.of("2025")),
-        Map.entry("http://bibfra.me/vocab/library/version", List.of("version")),
-        Map.entry("http://bibfra.me/vocab/library/musicKey", List.of("music key")),
-        Map.entry("http://bibfra.me/vocab/library/legalDate", List.of("2024"))
+      Map.of(
+        "http://bibfra.me/vocab/lite/label", List.of(expectedConceptName),
+        "http://bibfra.me/vocab/lite/language", List.of("English"),
+        "http://bibfra.me/vocab/lite/date", List.of("2025"),
+        "http://bibfra.me/vocab/library/version", List.of("version"),
+        "http://bibfra.me/vocab/library/musicKey", List.of("music key"),
+        "http://bibfra.me/vocab/library/legalDate", List.of("2024"),
+        "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey)
       ),
       expectedConceptName
     );
@@ -84,10 +99,10 @@ class Marc2Ld630IT extends Marc2LdTestBase {
     validateResource(
       titleResource,
       List.of(ResourceTypeDictionary.TITLE),
-      Map.ofEntries(
-        Map.entry("http://bibfra.me/vocab/library/partNumber", List.of("part number")),
-        Map.entry("http://bibfra.me/vocab/library/partName", List.of("part name")),
-        Map.entry("http://bibfra.me/vocab/library/mainTitle", List.of(expectedConceptName))
+      Map.of(
+        "http://bibfra.me/vocab/library/partNumber", List.of("part number"),
+        "http://bibfra.me/vocab/library/partName", List.of("part name"),
+        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedConceptName)
       ),
       expectedConceptName
     );

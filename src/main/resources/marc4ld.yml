@@ -371,22 +371,26 @@ bibFieldRules:
     - include: 111_711_mappings
       predicate: CREATOR
   130:
-    - include: 130_240_hub
+    - include: X30_240_hub
+      predicate: EXPRESSION_OF
+      parent: WORK
       edges:
-        - include: 130_240_hub_title
+        - include: X30_240_hub_title
           ind1: NON_SORT_NUM
-        - include: 130_240_hub_language
+        - include: X30_240_hub_language
       ld2marcCondition:
         edge:
           CREATOR:
             allMatch:
               - present: false
   240:
-    - include: 130_240_hub
+    - include: X30_240_hub
+      predicate: EXPRESSION_OF
+      parent: WORK
       edges:
-        - include: 130_240_hub_title
+        - include: X30_240_hub_title
           ind2: NON_SORT_NUM
-        - include: 130_240_hub_language
+        - include: X30_240_hub_language
       ld2marcCondition:
         edge:
           CREATOR:
@@ -1079,9 +1083,9 @@ bibFieldRules:
         k: NAME
         l: LANGUAGE, NAME
         m: NAME
-        n: NAME
+        n: PART_NUMBER, NAME
         o: NAME
-        p: NAME
+        p: PART_NAME, NAME
         r: MUSIC_KEY, NAME
         s: VERSION, NAME
         t: NAME
@@ -1091,45 +1095,16 @@ bibFieldRules:
         z: GEOGRAPHIC_SUBDIVISION
       concat: ' '
       edges:
-        - types: HUB
+        - include: X30_240_hub
           predicate: FOCUS
-          subfields:
-            a: LABEL
-            d: LEGAL_DATE, LABEL
-            f: DATE, LABEL
-            g: LABEL
-            k: LABEL
-            l: LANGUAGE, LABEL
-            m: LABEL
-            n: LABEL
-            o: LABEL
-            p: LABEL
-            r: MUSIC_KEY, LABEL
-            s: VERSION, LABEL
-            t: LABEL
-          concat: ' '
+          parent: CONCEPT
           ld2MarcCondition:
             skip: true
           edges:
-            - types: TITLE
-              predicate: TITLE
-              subFields:
-                a: MAIN_TITLE
-                d: MAIN_TITLE
-                f: MAIN_TITLE
-                g: MAIN_TITLE
-                k: MAIN_TITLE
-                l: MAIN_TITLE
-                m: MAIN_TITLE
-                n: PART_NUMBER, MAIN_TITLE
-                o: MAIN_TITLE
-                p: PART_NAME, MAIN_TITLE
-                r: MAIN_TITLE
-                s: MAIN_TITLE
-                t: MAIN_TITLE
-              concat: ' '
+            - include: X30_240_hub_title
               ld2MarcCondition:
                 skip: true
+            - include: X30_240_hub_language
         - include: form_subdivision
         - include: general_subdivision
         - include: chronological_subdivision
@@ -1722,10 +1697,8 @@ bibSharedRules:
       code: '4'
       text: j
 
-  130_240_hub:
-    parent: WORK
+  X30_240_hub:
     types: HUB
-    predicate: EXPRESSION_OF
     subfields:
       a: LABEL
       d: LEGAL_DATE, LABEL
@@ -1743,7 +1716,7 @@ bibSharedRules:
     concat: ' '
     includeMarcKey: true
 
-  130_240_hub_title:
+  X30_240_hub_title:
     predicate: TITLE
     types: TITLE
     parent: HUB
@@ -1763,7 +1736,7 @@ bibSharedRules:
       t: MAIN_TITLE
     concat: ' '
 
-  130_240_hub_language:
+  X30_240_hub_language:
     types: LANGUAGE_CATEGORY
     parent: HUB
     predicate: LANGUAGE
