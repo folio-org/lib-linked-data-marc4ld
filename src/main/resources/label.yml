@@ -164,3 +164,7 @@ labelRules:
   - types: HUB
     properties:
       - LABEL
+  - types: CONCEPT, HUB
+    addLabelProperty: true
+    properties:
+      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"

@@ -1066,6 +1066,75 @@ bibFieldRules:
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
+
+  630:
+    - types: CONCEPT, HUB
+      predicate: SUBJECT
+      parent: WORK
+      subfields:
+        a: NAME
+        d: LEGAL_DATE, NAME
+        f: DATE, NAME
+        g: NAME
+        k: NAME
+        l: LANGUAGE, NAME
+        m: NAME
+        n: NAME
+        o: NAME
+        p: NAME
+        r: MUSIC_KEY, NAME
+        s: VERSION, NAME
+        t: NAME
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+      concat: ' '
+      edges:
+        - types: HUB
+          predicate: FOCUS
+          subfields:
+            a: LABEL
+            d: LEGAL_DATE, LABEL
+            f: DATE, LABEL
+            g: LABEL
+            k: LABEL
+            l: LANGUAGE, LABEL
+            m: LABEL
+            n: LABEL
+            o: LABEL
+            p: LABEL
+            r: MUSIC_KEY, LABEL
+            s: VERSION, LABEL
+            t: LABEL
+          concat: ' '
+          ld2MarcCondition:
+            skip: true
+          edges:
+            - types: TITLE
+              predicate: TITLE
+              subFields:
+                a: MAIN_TITLE
+                d: MAIN_TITLE
+                f: MAIN_TITLE
+                g: MAIN_TITLE
+                k: MAIN_TITLE
+                l: MAIN_TITLE
+                m: MAIN_TITLE
+                n: PART_NUMBER, MAIN_TITLE
+                o: MAIN_TITLE
+                p: PART_NAME, MAIN_TITLE
+                r: MAIN_TITLE
+                s: MAIN_TITLE
+                t: MAIN_TITLE
+              concat: ' '
+              ld2MarcCondition:
+                skip: true
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
+
   648:
     - types: CONCEPT, TEMPORAL
       parent: WORK
