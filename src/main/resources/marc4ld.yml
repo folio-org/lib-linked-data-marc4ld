@@ -371,22 +371,26 @@ bibFieldRules:
     - include: 111_711_mappings
       predicate: CREATOR
   130:
-    - include: 130_240_hub
+    - include: X30_240_hub
+      predicate: EXPRESSION_OF
+      parent: WORK
       edges:
-        - include: 130_240_hub_title
+        - include: X30_240_hub_title
           ind1: NON_SORT_NUM
-        - include: 130_240_hub_language
+        - include: X30_240_hub_language
       ld2marcCondition:
         edge:
           CREATOR:
             allMatch:
               - present: false
   240:
-    - include: 130_240_hub
+    - include: X30_240_hub
+      predicate: EXPRESSION_OF
+      parent: WORK
       edges:
-        - include: 130_240_hub_title
+        - include: X30_240_hub_title
           ind2: NON_SORT_NUM
-        - include: 130_240_hub_language
+        - include: X30_240_hub_language
       ld2marcCondition:
         edge:
           CREATOR:
@@ -1066,6 +1070,46 @@ bibFieldRules:
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
+
+  630:
+    - types: CONCEPT, HUB
+      predicate: SUBJECT
+      parent: WORK
+      subfields:
+        a: NAME
+        d: LEGAL_DATE, NAME
+        f: DATE, NAME
+        g: NAME
+        k: NAME
+        l: LANGUAGE, NAME
+        m: NAME
+        n: PART_NUMBER, NAME
+        o: NAME
+        p: PART_NAME, NAME
+        r: MUSIC_KEY, NAME
+        s: VERSION, NAME
+        t: NAME
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+      concat: ' '
+      edges:
+        - include: X30_240_hub
+          predicate: FOCUS
+          parent: CONCEPT
+          ld2MarcCondition:
+            skip: true
+          edges:
+            - include: X30_240_hub_title
+              ld2MarcCondition:
+                skip: true
+            - include: X30_240_hub_language
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
+
   648:
     - types: CONCEPT, TEMPORAL
       parent: WORK
@@ -1653,10 +1697,8 @@ bibSharedRules:
       code: '4'
       text: j
 
-  130_240_hub:
-    parent: WORK
+  X30_240_hub:
     types: HUB
-    predicate: EXPRESSION_OF
     subfields:
       a: LABEL
       d: LEGAL_DATE, LABEL
@@ -1674,7 +1716,7 @@ bibSharedRules:
     concat: ' '
     includeMarcKey: true
 
-  130_240_hub_title:
+  X30_240_hub_title:
     predicate: TITLE
     types: TITLE
     parent: HUB
@@ -1694,7 +1736,7 @@ bibSharedRules:
       t: MAIN_TITLE
     concat: ' '
 
-  130_240_hub_language:
+  X30_240_hub_language:
     types: LANGUAGE_CATEGORY
     parent: HUB
     predicate: LANGUAGE
