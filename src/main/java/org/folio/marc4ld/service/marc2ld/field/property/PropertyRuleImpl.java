@@ -26,9 +26,11 @@ public class PropertyRuleImpl implements PropertyRule {
   @NonNull
   private final PropertyTransformer propertyTransformer;
   @NonNull
-  private final PropertyMerger propertyMerger;
+  private final Map<String, PropertyMerger> concatMergersByPropertyName;
   @NonNull
   private final PropertyMerger constantMerger;
+  @NonNull
+  private final PropertyMerger unionMerger;
   @NonNull
   private final Map<Character, List<PropertyBuilder<DataField>>> subFieldBuilders;
   @Nullable
@@ -57,9 +59,16 @@ public class PropertyRuleImpl implements PropertyRule {
       .flatMap(Collection::stream)
       .toList();
     var values = new HashMap<String, List<String>>();
-    properties.forEach(property -> propertyMerger.merge(values, property));
+    properties.forEach(property -> getPropertyMerger(property.field()).merge(values, property));
     constants.forEach(property -> constantMerger.merge(values, property));
     return values;
+  }
+
+  private PropertyMerger getPropertyMerger(String propertyName) {
+    if (this.concatMergersByPropertyName.containsKey(propertyName)) {
+      return this.concatMergersByPropertyName.get(propertyName);
+    }
+    return unionMerger;
   }
 
   private Collection<Property> getDataFieldProperties(DataField dataField) {

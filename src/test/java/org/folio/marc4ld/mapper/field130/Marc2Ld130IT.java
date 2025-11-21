@@ -46,7 +46,7 @@ class Marc2Ld130IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/library/legalDate", List.of("d-1"),
       "http://bibfra.me/vocab/lite/date", List.of("f-4"),
       "http://bibfra.me/vocab/lite/language", List.of("l-7"),
-      "http://bibfra.me/vocab/library/musicKey", List.of("r-12 r-13"),
+      "http://bibfra.me/vocab/library/musicKey", List.of("r-12", "r-13"),
       "http://bibfra.me/vocab/library/version", List.of("s-14"),
       "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey)
     );

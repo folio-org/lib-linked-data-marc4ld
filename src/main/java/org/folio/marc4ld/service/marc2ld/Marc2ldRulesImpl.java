@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld;
 
+import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -23,8 +27,10 @@ import org.folio.marc4ld.service.marc2ld.field.property.builder.IndicatorPropert
 import org.folio.marc4ld.service.marc2ld.field.property.builder.MarcKeyPropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.PropertyBuilder;
 import org.folio.marc4ld.service.marc2ld.field.property.builder.SubfieldPropertyBuilder;
+import org.folio.marc4ld.service.marc2ld.field.property.merger.ConcatenatedPropertyMerger;
+import org.folio.marc4ld.service.marc2ld.field.property.merger.ConstantPropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMerger;
-import org.folio.marc4ld.service.marc2ld.field.property.merger.PropertyMergerFactory;
+import org.folio.marc4ld.service.marc2ld.field.property.merger.UnionPropertyMerger;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformer;
 import org.folio.marc4ld.service.marc2ld.field.property.transformer.PropertyTransformerFactory;
 import org.folio.marc4ld.service.marc2ld.relation.Relation;
@@ -42,19 +48,22 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
 
   private final DictionaryProcessor dictionaryProcessor;
   private final PropertyTransformerFactory propertyTransformerFactory;
-  private final PropertyMergerFactory propertyMergerFactory;
   private final MarcKeyPropertyBuilder marcKeyPropertyBuilder;
+  private final ConstantPropertyMerger constantPropertyMerger;
+  private final UnionPropertyMerger unionPropertyMerger;
 
   @Autowired
   public Marc2ldRulesImpl(Marc4LdRules marc4LdRules,
                           DictionaryProcessor dictionaryProcessor,
                           PropertyTransformerFactory propertyTransformerFactory,
-                          PropertyMergerFactory propertyMergerFactory,
-                          MarcKeyPropertyBuilder marcKeyPropertyBuilder) {
+                          MarcKeyPropertyBuilder marcKeyPropertyBuilder,
+                          ConstantPropertyMerger constantPropertyMerger,
+                          UnionPropertyMerger unionPropertyMerger) {
     this.marcKeyPropertyBuilder = marcKeyPropertyBuilder;
     this.dictionaryProcessor = dictionaryProcessor;
     this.propertyTransformerFactory = propertyTransformerFactory;
-    this.propertyMergerFactory = propertyMergerFactory;
+    this.constantPropertyMerger = constantPropertyMerger;
+    this.unionPropertyMerger = unionPropertyMerger;
 
     this.bibRules = initRules(marc4LdRules.getBibFieldRules());
     this.authorityRules = initRules(marc4LdRules.getAuthorityFieldRules());
@@ -128,8 +137,9 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
   private PropertyRule getPropertyRule(Marc4LdRules.FieldRule rule) {
     return PropertyRuleImpl.builder()
       .propertyTransformer(getTransformer(rule))
-      .propertyMerger(getPropertyMerger(rule))
-      .constantMerger(getConstantPropertyMerger(rule))
+      .concatMergersByPropertyName(getConcatMergers(rule))
+      .unionMerger(unionPropertyMerger)
+      .constantMerger(constantPropertyMerger)
       .subFieldBuilders(getSubfieldBuilders(rule))
       .marcKeyBuilder(getMarcKeyBuilder(rule).orElse(null))
       .indicatorBuilders(getIndicatorBuilders(rule))
@@ -149,12 +159,25 @@ public class Marc2ldRulesImpl implements Marc2ldRules {
     return propertyTransformerFactory.get(rule);
   }
 
-  private PropertyMerger getPropertyMerger(Marc4LdRules.FieldRule rule) {
-    return propertyMergerFactory.get(rule);
+  private Map<String, PropertyMerger> getConcatMergers(Marc4LdRules.FieldRule rule) {
+    if (isNull(rule.getConcat())) {
+      return Map.of();
+    }
+    return findRepeatedProperties(rule.getSubfields()).stream()
+      .collect(toMap(Function.identity(), property -> new ConcatenatedPropertyMerger(rule.getConcat())));
   }
 
-  private PropertyMerger getConstantPropertyMerger(Marc4LdRules.FieldRule rule) {
-    return propertyMergerFactory.getConstant(rule);
+  private Set<String> findRepeatedProperties(Map<Character, List<String>> subfields) {
+    return subfields.values().stream()
+      .flatMap(Collection::stream)
+      .collect(Collectors.groupingBy(
+        Function.identity(),
+        Collectors.counting()
+      ))
+      .entrySet().stream()
+      .filter(e -> e.getValue() > 1)
+      .map(Map.Entry::getKey)
+      .collect(Collectors.toSet());
   }
 
   private Map<Character, List<PropertyBuilder<DataField>>> getSubfieldBuilders(Marc4LdRules.FieldRule rule) {
