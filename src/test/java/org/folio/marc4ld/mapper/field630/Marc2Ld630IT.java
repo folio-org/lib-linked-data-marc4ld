@@ -55,17 +55,17 @@ class Marc2Ld630IT extends Marc2LdTestBase {
     var expectedConceptName = "uniform title 2024 2025 misc info another misc info form subheading k English medium "
       + "part number arranged stmt for music part name music key version";
 
-    var expectedConceptLabel = expectedConceptName + " -- form 1 form 2 -- topic 1 topic 2 -- temporal 1 temporal 2 "
-      + "-- place 1 place 2";
+    var expectedConceptLabel = expectedConceptName + " -- form 1 -- form 2 -- topic 1 -- topic 2 "
+      + "-- temporal 1 -- temporal 2 -- place 1 -- place 2";
     validateResource(
       subjectEdge.getTarget(),
       List.of(HUB, CONCEPT),
       Map.ofEntries(
-        Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("temporal 1 temporal 2")),
+        Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
         Map.entry("http://bibfra.me/vocab/lite/label", List.of(expectedConceptLabel)),
-        Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("topic 1 topic 2")),
-        Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("place 1 place 2")),
-        Map.entry("http://bibfra.me/vocab/library/formSubdivision", List.of("form 1 form 2")),
+        Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("topic 1", "topic 2")),
+        Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("place 1", "place 2")),
+        Map.entry("http://bibfra.me/vocab/library/formSubdivision", List.of("form 1", "form 2")),
         Map.entry("http://bibfra.me/vocab/lite/language", List.of("English")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("2025")),
         Map.entry("http://bibfra.me/vocab/library/version", List.of("version")),
