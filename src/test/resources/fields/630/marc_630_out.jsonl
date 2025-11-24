@@ -1,0 +1,42 @@
+{
+  "leader" : "00262n s a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "630" : {
+      "subfields" : [ {
+        "a" : "Hub title"
+      }, {
+        "d" : "2025"
+      }, {
+        "f" : "2024"
+      }, {
+        "l" : "Language"
+      }, {
+        "n" : "Part Number"
+      }, {
+        "p" : "Part Name"
+      }, {
+        "r" : "Music Key 1"
+      }, {
+        "s" : "Version"
+      }, {
+        "v" : "Form1"
+      }, {
+        "v" : "Form2"
+      }, {
+        "x" : "General1"
+      }, {
+        "x" : "General2"
+      }, {
+        "y" : "Chronological1"
+      }, {
+        "y" : "Chronological2"
+      }, {
+        "z" : "Geographic subdivision"
+      } ],
+      "ind1" : "8",
+      "ind2" : " "
+    }
+  } ]
+}

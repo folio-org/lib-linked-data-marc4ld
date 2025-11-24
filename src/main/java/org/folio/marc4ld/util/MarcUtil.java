@@ -49,6 +49,13 @@ public class MarcUtil {
       .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
   }
 
+  public static void setInd1(Resource resource, String property, DataField dataField) {
+    getPropertyValue(resource, property)
+      .filter(val -> val.length() == 1)
+      .map(val -> val.charAt(0))
+      .ifPresent(dataField::setIndicator1);
+  }
+
   public static boolean isSubfieldPresent(char subfield, DataField dataField) {
     return dataField.getSubfield(subfield) != null;
   }
