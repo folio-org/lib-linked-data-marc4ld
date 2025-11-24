@@ -31,6 +31,7 @@
 - Isolated Marc4LdObjectMapper introduced [MODLD-873](https://folio-org.atlassian.net/browse/MODLD-873)
 - Map MARC 130 to HUB resource [MODLD-879](https://folio-org.atlassian.net/browse/MODLD-879)
 - Make ld2marcCondition -> edge configuration more flexible [MODLD-887](https://folio-org.atlassian.net/browse/MODLD-887)
+- Map MARC 630 to HUB resource. Fix unwanted value concatenation when 'concat' config is used. [MODLD-886](https://folio-org.atlassian.net/browse/MODLD-886)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
