@@ -17,6 +17,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.VERSION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.Constants.A;
@@ -63,6 +64,7 @@ public class Hub630Mapper implements CustomDataFieldsMapper {
       && edge.getSource().isOfType(WORK)
       && edge.getPredicate().equals(SUBJECT)
       && edge.getTarget().isOfType(HUB)
+      && edge.getTarget().isOfType(CONCEPT)
       && isHubWithNoCreator(edge);
   }
 

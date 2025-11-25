@@ -1,5 +1,6 @@
 package org.folio.marc4ld.mapper.field630;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
@@ -31,7 +32,6 @@ import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -57,7 +57,7 @@ class Ld2Marc630IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    AssertionsForClassTypes.assertThat(result)
+    assertThat(result)
       .isEqualTo(expectedMarc);
   }
 
