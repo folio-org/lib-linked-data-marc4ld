@@ -1094,6 +1094,8 @@ bibFieldRules:
         y: CHRONOLOGICAL_SUBDIVISION
         z: GEOGRAPHIC_SUBDIVISION
       concat: ' '
+      ld2MarcCondition:
+        skip: true
       edges:
         - include: X30_240_hub
           predicate: FOCUS
