@@ -71,9 +71,7 @@ class Marc2Ld630IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/version", List.of("version")),
         Map.entry("http://bibfra.me/vocab/library/musicKey", List.of("music key")),
         Map.entry("http://bibfra.me/vocab/library/legalDate", List.of("2024")),
-        Map.entry("http://bibfra.me/vocab/lite/name", List.of(expectedConceptName)),
-        Map.entry("http://bibfra.me/vocab/library/partName", List.of("part name")),
-        Map.entry("http://bibfra.me/vocab/library/partNumber", List.of("part number"))
+        Map.entry("http://bibfra.me/vocab/lite/name", List.of(expectedConceptName))
       ),
       expectedConceptLabel);
 

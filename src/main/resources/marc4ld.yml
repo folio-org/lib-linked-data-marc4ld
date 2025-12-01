@@ -1083,9 +1083,9 @@ bibFieldRules:
         k: NAME
         l: LANGUAGE, NAME
         m: NAME
-        n: PART_NUMBER, NAME
+        n: NAME
         o: NAME
-        p: PART_NAME, NAME
+        p: NAME
         r: MUSIC_KEY, NAME
         s: VERSION, NAME
         t: NAME
