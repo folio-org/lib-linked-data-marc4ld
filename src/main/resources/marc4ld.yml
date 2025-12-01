@@ -1104,6 +1104,7 @@ bibFieldRules:
             skip: true
           edges:
             - include: X30_240_hub_title
+              ind1: NON_SORT_NUM
               ld2MarcCondition:
                 skip: true
             - include: X30_240_hub_language

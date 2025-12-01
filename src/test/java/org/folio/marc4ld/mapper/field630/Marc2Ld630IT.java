@@ -102,7 +102,8 @@ class Marc2Ld630IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/library/partNumber", List.of("part number"),
         "http://bibfra.me/vocab/library/partName", List.of("part name"),
-        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedConceptName)
+        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedConceptName),
+        "http://bibfra.me/vocab/bflc/nonSortNum", List.of("8")
       ),
       expectedConceptName
     );
