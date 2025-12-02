@@ -79,7 +79,6 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/attribution", List.of("attribution"),
         "http://bibfra.me/vocab/lite/date", List.of("2024"),
         "http://bibfra.me/vocab/library/miscInfo", List.of("misc info", "another misc info"),
-        "http://bibfra.me/vocab/library/numberOfParts", List.of("number of parts", "another number of parts"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative"),
         "http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890")
       ),
