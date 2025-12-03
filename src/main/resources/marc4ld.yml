@@ -1045,16 +1045,93 @@ bibFieldRules:
       include: 600_mappings
       marc2ldCondition:
         ind1: '3'
+        fieldsAllOf:
+          t: not_presented
       edges:
         - types: FAMILY
+          predicate: FOCUS
           include: 600_focus_mappings
     - types: CONCEPT, PERSON
       include: 600_mappings
       marc2ldCondition:
         ind1: '!3'
+        fieldsAllOf:
+          t: not_presented
       edges:
         - types: PERSON
+          predicate: FOCUS
           include: 600_focus_mappings
+    - types: CONCEPT, HUB
+      parent: WORK
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: NAME
+        c: NAME
+        d: NAME
+        f: DATE
+        j: NAME
+        k: NAME
+        l: LANGUAGE, NAME
+        q: NAME
+        t: NAME
+        r: MUSIC_KEY
+        s: VERSION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+      edges:
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
+        - types: HUB
+          parent: CONCEPT
+          predicate: FOCUS
+          subfields:
+            a: LABEL
+            b: LABEL
+            c: LABEL
+            d: LABEL
+            j: LABEL
+            k: LABEL
+            l: LANGUAGE, LABEL
+            q: LABEL
+            t: LABEL
+            r: MUSIC_KEY
+            s: VERSION
+          edges:
+            - types: TITLE
+              predicate: TITLE
+              parent: HUB
+              subfields:
+                t: MAIN_TITLE
+                p: PART_NAME
+                n: PART_NUMBER
+              ld2MarcCondition:
+                skip: true
+            - types: FAMILY
+              predicate: CREATOR
+              parent: HUB
+              include: 600_focus_mappings
+              marc2ldCondition:
+                ind1: '3'
+            - types: PERSON
+              predicate: CREATOR
+              parent: HUB
+              include: 600_focus_mappings
+              marc2ldCondition:
+                ind1: '!3'
+          ld2MarcCondition:
+            skip: true
+          concat: '. '
+      marc2ldCondition:
+        fieldsAllOf:
+          t: presented
+      ld2MarcCondition:
+        skip: true
+      concat: '. '
   610:
     - types: CONCEPT, JURISDICTION
       include: 610_mappings
@@ -1569,7 +1646,6 @@ bibSharedRules:
       - include: geographic_subdivision
 
   600_focus_mappings:
-    predicate: FOCUS
     subfields:
       a: NAME
       b: NUMERATION
@@ -1577,7 +1653,6 @@ bibSharedRules:
       d: DATE
       g: MISC_INFO
       j: ATTRIBUTION
-      n: NUMBER_OF_PARTS
       q: NAME_ALTERNATIVE
       u: AFFILIATION
       '0': AUTHORITY_LINK

@@ -1,0 +1,34 @@
+{
+  "leader" : "00373nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "600" : {
+      "subfields" : [ {
+        "a" : "Dracontius, Blossius Aemilius,"
+      }, {
+        "d" : "active 5th century."
+      }, {
+        "p" : "Part II"
+      }, {
+        "n" : "Liber 2"
+      }, {
+        "t" : "Medea."
+      }, {
+        "l" : "German & Latin"
+      }, {
+        "v" : "Drama"
+      }, {
+        "z" : "Spain"
+      }, {
+        "z" : "Germany"
+      }, {
+        "y" : "1st Century"
+      }, {
+        "x" : "Parodies, imitations, etc."
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  } ]
+}
