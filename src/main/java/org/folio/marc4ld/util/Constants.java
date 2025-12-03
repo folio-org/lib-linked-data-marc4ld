@@ -43,6 +43,7 @@ public class Constants {
   public static final String TAG_100 = "100";
   public static final String TAG_110 = "110";
   public static final String TAG_111 = "111";
+  public static final String TAG_130 = "130";
   public static final String TAG_240 = "240";
   public static final String TAG_245 = "245";
   public static final String TAG_257 = "257";
@@ -50,6 +51,7 @@ public class Constants {
   public static final String TAG_340 = "340";
   public static final String TAG_490 = "490";
   public static final String TAG_630 = "630";
+  public static final String TAG_730 = "730";
   public static final String TAG_545 = "545";
   public static final String TAG_700 = "700";
   public static final String TAG_710 = "710";

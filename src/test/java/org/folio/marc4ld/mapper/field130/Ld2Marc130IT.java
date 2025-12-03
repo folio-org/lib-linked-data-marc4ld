@@ -56,9 +56,26 @@ class Ld2Marc130IT {
   }
 
   private Resource createInstanceWithHub() {
+    var hub1 = getHub("1");
+    var hub2 = getHub("2");
+
+    var work = createResource(
+      Map.of(),
+      Set.of(WORK, CONTINUING_RESOURCES),
+      Map.of(EXPRESSION_OF, List.of(hub1, hub2))
+    );
+
+    return createResource(
+      Map.of(),
+      Set.of(INSTANCE),
+      Map.of(INSTANTIATES, List.of(work))
+    );
+  }
+
+  private Resource getHub(String suffix) {
     var title = createResource(
       Map.of(
-        MAIN_TITLE, List.of("Hub title"),
+        MAIN_TITLE, List.of("Hub title " + suffix),
         NON_SORT_NUM, List.of("8"),
         PART_NAME, List.of("Part Name"),
         PART_NUMBER, List.of("Part Number")
@@ -75,9 +92,9 @@ class Ld2Marc130IT {
       Map.of()
     );
 
-    var hub = createResource(
+    return createResource(
       Map.of(
-        LABEL, List.of("Hub title"),
+        LABEL, List.of("Hub title " + suffix),
         LEGAL_DATE, List.of("Legal Date"),
         DATE, List.of("Date"),
         MUSIC_KEY, List.of("Music Key"),
@@ -88,18 +105,6 @@ class Ld2Marc130IT {
         PredicateDictionary.TITLE, List.of(title),
         LANGUAGE, List.of(language)
       )
-    );
-
-    var work = createResource(
-      Map.of(),
-      Set.of(WORK, CONTINUING_RESOURCES),
-      Map.of(EXPRESSION_OF, List.of(hub))
-    );
-
-    return createResource(
-      Map.of(),
-      Set.of(INSTANCE),
-      Map.of(INSTANTIATES, List.of(work))
     );
   }
 }

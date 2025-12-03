@@ -33,6 +33,7 @@
 - Make ld2marcCondition -> edge configuration more flexible [MODLD-887](https://folio-org.atlassian.net/browse/MODLD-887)
 - Map MARC 630 to HUB resource. Fix unwanted value concatenation when 'concat' config is used. [MODLD-886](https://folio-org.atlassian.net/browse/MODLD-886)
 - Map MARC 600 to Concept, HUB when $t is present. [MODLD-537](https://folio-org.atlassian.net/browse/MODLD-537)
+- Ensure only one MARC 130 is present in the derived MARC, converting any additional 130 fields to 730 [MODLD-918](https://folio-org.atlassian.net/browse/MODLD-918)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)

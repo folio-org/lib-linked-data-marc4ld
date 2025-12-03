@@ -481,3 +481,24 @@ Register your implementation as a Spring bean. The system will invoke your mappe
 - These interfaces allow you to extend the system for advanced graph-to-MARC mapping needs.
 
 See the `org.folio.marc4ld.service.ld2marc.mapper` package for examples and further details.
+
+### 5.4 Ld2MarcPostProcessor
+
+**Purpose:**
+The `Ld2MarcPostProcessor` interface allows you to implement post-processing logic for MARC records generated from
+Linked Data resource. Post processors can be used to update or correct the generated MARC record before it is returned
+to clients. This is useful for enforcing MARC-specific rules, deduplication, normalization, or other custom corrections
+that cannot be handled by configuration alone.
+
+**How to Use:**
+Implement the `Ld2MarcPostProcessor` interface:
+```java
+public interface Ld2MarcPostProcessor {
+  void postProcess(Resource instance, Record generatedMarc);
+}
+```
+- The `postProcess` method receives the Linked Data Instance resource and the generated MARC record. You can mutate the MARC record in place to apply corrections or updates.
+- Register your implementation as a Spring bean. The system will invoke your post processor after the MARC record is generated but before it is returned to the client.
+
+**Example Use Case:**
+A post processor that ensures only one MARC 130 field is present, converting any additional 130 fields to 730.

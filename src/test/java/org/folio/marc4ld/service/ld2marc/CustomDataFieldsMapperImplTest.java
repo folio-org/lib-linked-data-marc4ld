@@ -32,6 +32,7 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
+import org.folio.marc4ld.service.ld2marc.postprocessor.Ld2MarcPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.spring.testing.type.UnitTest;
@@ -65,6 +66,8 @@ class CustomDataFieldsMapperImplTest {
   Resource2MarcRecordMapper resourceMapper;
   @Mock
   MarcReaderProcessor marcReaderProcessor;
+  @Mock
+  List<Ld2MarcPostProcessor> postProcessors;
   @InjectMocks
   Ld2MarcMapperImpl mapper;
   @Captor
