@@ -1,11 +1,33 @@
 {
-  "leader" : "00176n s a2200049uc 4500",
+  "leader" : "00278n s a2200061uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
     "130" : {
       "subfields" : [ {
-        "a" : "Hub title"
+        "a" : "Hub title 1"
+      }, {
+        "d" : "Legal Date"
+      }, {
+        "f" : "Date"
+      }, {
+        "l" : "Language"
+      }, {
+        "n" : "Part Number"
+      }, {
+        "p" : "Part Name"
+      }, {
+        "r" : "Music Key"
+      }, {
+        "s" : "Version"
+      } ],
+      "ind1" : "8",
+      "ind2" : " "
+    }
+  }, {
+    "730" : {
+      "subfields" : [ {
+        "a" : "Hub title 2"
       }, {
         "d" : "Legal Date"
       }, {

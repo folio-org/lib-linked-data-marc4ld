@@ -9,6 +9,7 @@ import static org.folio.marc4ld.util.MarcUtil.sortFields;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -20,6 +21,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
+import org.folio.marc4ld.service.ld2marc.postprocessor.Ld2MarcPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.marc4j.MarcJsonWriter;
@@ -38,6 +40,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
   private final LeaderGenerator leaderGenerator;
   private final Resource2MarcRecordMapper resourceMapper;
   private final MarcReaderProcessor marcReaderProcessor;
+  private final List<Ld2MarcPostProcessor> postProcessors;
 
   @Override
   public String toMarcJson(Resource resource) {
@@ -50,6 +53,8 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
       var marcRecord = resourceMapper.toMarcRecord(resource);
       getUnmappedMarc(resource)
         .ifPresent(unmappedMarc -> addUnmappedMarc(marcHandling, unmappedMarc, marcRecord));
+      postProcessors
+          .forEach(processor -> processor.postProcess(resource, marcRecord));
       leaderGenerator.addLeader(marcRecord, resource);
       return toJsonString(marcRecord);
     } else {
