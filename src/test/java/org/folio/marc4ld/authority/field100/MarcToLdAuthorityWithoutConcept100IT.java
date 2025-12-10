@@ -64,6 +64,7 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
   }
 
   private void validateRootResource(Resource resource, ResourceTypeDictionary type) {
+    var expectedLabel = "bValue, aValue, cValue1, cValue2, qValue, dValue";
     TestUtil.validateResource(resource, List.of(type),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),
@@ -74,9 +75,10 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/attribution", List.of("jValue1", "jValue2"),
         "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue"),
-        "http://library.link/vocab/resourcePreferred", List.of("true")
+        "http://library.link/vocab/resourcePreferred", List.of("true"),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ),
-      "bValue, aValue, cValue1, cValue2, qValue, dValue");
+      expectedLabel);
   }
 
   private void validateIdentifier(Resource resource) {

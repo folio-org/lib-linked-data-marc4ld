@@ -68,6 +68,7 @@ class Marc2Ld600IT extends Marc2LdTestBase {
       expectedConceptLabel);
 
     // Validate focus resource
+    var expectedFocusLabel = "numeration, name, title 1, title 2, name alternative, 2024";
     var focusEdge = getFirstOutgoingEdge(subjectEdge, withPredicateUri(FOCUS.getUri()));
     validateResource(
       focusEdge.getTarget(),
@@ -80,9 +81,10 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/date", List.of("2024"),
         "http://bibfra.me/vocab/library/miscInfo", List.of("misc info", "another misc info"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative"),
-        "http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890")
+        "http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890"),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedFocusLabel)
       ),
-      "numeration, name, title 1, title 2, name alternative, 2024"
+      expectedFocusLabel
     );
 
     // Validate subFocus resources

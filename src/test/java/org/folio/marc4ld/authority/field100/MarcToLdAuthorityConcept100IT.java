@@ -83,8 +83,8 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
 
   private void validateFocus(Resource resource, ResourceTypeDictionary resourceType) {
     var resourceEdges = getEdges(resource, resourceType);
-    assertThat(resourceEdges)
-      .hasSize(1);
+    var expectedLabel = "bValue, aValue, cValue1, cValue2, qValue, dValue";
+    assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.getFirst(), FOCUS, List.of(resourceType),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),
@@ -94,8 +94,9 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
         "http://bibfra.me/vocab/library/attribution", List.of("jValue1", "jValue2"),
         "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
-        "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
+        "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue"),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ),
-      "bValue, aValue, cValue1, cValue2, qValue, dValue");
+      expectedLabel);
   }
 }

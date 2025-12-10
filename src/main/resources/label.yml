@@ -65,6 +65,7 @@ labelRules:
     properties:
       - LABEL
   - types: FAMILY
+    addLabelProperty: true
     properties:
       - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: FORM
@@ -126,6 +127,7 @@ labelRules:
     properties:
       - "{$MAIN_TITLE} {$SUBTITLE}"
   - types: PERSON
+    addLabelProperty: true
     properties:
       - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: PLACE
