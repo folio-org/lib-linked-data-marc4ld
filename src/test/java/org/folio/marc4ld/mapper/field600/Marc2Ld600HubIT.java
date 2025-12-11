@@ -88,15 +88,17 @@ class Marc2Ld600HubIT extends Marc2LdTestBase {
     );
 
     // validate creator resource
+    var expectedCreatorLabel = "Dracontius, Blossius Aemilius, active 5th century";
     var creatorEdge = getFirstOutgoingEdge(focusEdge, withPredicateUri(CREATOR.getUri()));
     validateResource(
       creatorEdge.getTarget(),
       List.of(ResourceTypeDictionary.fromUri(subjectType).get()),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("Dracontius, Blossius Aemilius"),
-        "http://bibfra.me/vocab/lite/date", List.of("active 5th century")
+        "http://bibfra.me/vocab/lite/date", List.of("active 5th century"),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedCreatorLabel)
       ),
-      "Dracontius, Blossius Aemilius, active 5th century"
+      expectedCreatorLabel
     );
 
     // Validate subFocus resources

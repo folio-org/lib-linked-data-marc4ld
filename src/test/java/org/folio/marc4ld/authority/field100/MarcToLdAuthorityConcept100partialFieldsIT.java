@@ -116,8 +116,8 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
 
   private void validateFocus(Resource resource, ResourceTypeDictionary type) {
     var edge = getEdge(resource, type);
-    assertThat(edge)
-      .isPresent();
+    var expectedLabel = "bValue, aValue, cValue, qValue, dValue";
+    assertThat(edge).isPresent();
     validateEdge(edge.get(), FOCUS, List.of(type),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),
@@ -127,8 +127,9 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/miscInfo", List.of("gValue"),
         "http://bibfra.me/vocab/library/attribution", List.of("jValue"),
         "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue"),
-        "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")
+        "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue"),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ),
-      "bValue, aValue, cValue, qValue, dValue");
+      expectedLabel);
   }
 }
