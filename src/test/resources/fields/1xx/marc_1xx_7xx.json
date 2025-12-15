@@ -1,0 +1,66 @@
+{
+  "leader" : "00567nam a2200097uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "130" : {
+      "subfields" : [ {
+        "a" : "Year of Marvels. Unstoppable."
+      }, {
+        "p" : "Unstoppable"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "700" : {
+      "subfields" : [ {
+        "a" : "Ludwig, Alexander"
+      }, {
+        "d" : "1880-"
+      }, {
+        "0" : "http://id.loc.gov/authorities/names/n2023009647"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "700" : {
+      "subfields" : [ {
+        "a" : "Rinehart family"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "710" : {
+      "subfields" : [ {
+        "a" : "Association for Japanese Literary Studies"
+      }, {
+        "b" : "Annual Meeting"
+      }, {
+        "c" : "University of California, Berkeley"
+      }, {
+        "d" : "2018"
+      }, {
+        "0" : "http://id.loc.gov/authorities/names/no2023017580"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "711" : {
+      "subfields" : [ {
+        "a" : "International Society for Geomorphometry. Conference"
+      }, {
+        "c" : "Poznań, Poland"
+      }, {
+        "d" : "2015"
+      }, {
+        "0" : "http://id.loc.gov/authorities/names/n2023008934"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

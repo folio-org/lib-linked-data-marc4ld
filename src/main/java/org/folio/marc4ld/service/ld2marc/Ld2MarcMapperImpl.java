@@ -51,10 +51,10 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
   public String toMarcJson(Resource resource, UnmappedMarcHandling marcHandling) {
     if (isValid(resource)) {
       var marcRecord = resourceMapper.toMarcRecord(resource);
+      postProcessors
+        .forEach(processor -> processor.postProcess(resource, marcRecord));
       getUnmappedMarc(resource)
         .ifPresent(unmappedMarc -> addUnmappedMarc(marcHandling, unmappedMarc, marcRecord));
-      postProcessors
-          .forEach(processor -> processor.postProcess(resource, marcRecord));
       leaderGenerator.addLeader(marcRecord, resource);
       return toJsonString(marcRecord);
     } else {
