@@ -1,4 +1,4 @@
-package org.folio.marc4ld.mapper.field1xx;
+package org.folio.marc4ld.postprocessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
@@ -41,15 +41,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
-class Ld2Marc1xxIT {
+class Marc1xxTo7xxNormalizerIT {
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
 
   @Test
-  void marcShouldContainOnlySingle1xxField() {
+  void marcShouldContain130And7xxFields() {
     // given
-    var expectedMarc = loadResourceAsString("fields/1xx/marc_1xx_7xx.json");
-    var instanceWithMultipleCreators = instanceWithMultipleCreators();
+    var expectedMarc = loadResourceAsString("postprocessor/marc_130_7xx.json");
+    var instanceWithMultipleCreators = createInstance(
+      List.of(createHubResource()),
+      List.of(createMeetingResource(), createOrganizationResource(), createPersonResource(), createFamilyResource())
+    );
 
     // when
     var actualMarc = ld2MarcMapper.toMarcJson(instanceWithMultipleCreators);
@@ -58,7 +61,97 @@ class Ld2Marc1xxIT {
     assertThat(actualMarc).isEqualTo(expectedMarc);
   }
 
-  private Resource instanceWithMultipleCreators() {
+  @Test
+  void marcShouldContain100And7xxFields() {
+    // given
+    var expectedMarc = loadResourceAsString("postprocessor/marc_100_7xx.json");
+    var instanceWithMultipleCreators = createInstance(
+      List.of(),
+      List.of(createMeetingResource(), createOrganizationResource(), createPersonResource(), createFamilyResource())
+    );
+
+    // when
+    var actualMarc = ld2MarcMapper.toMarcJson(instanceWithMultipleCreators);
+
+    // then
+    assertThat(actualMarc).isEqualTo(expectedMarc);
+  }
+
+  private Resource createInstance(List<Resource> expressionOf, List<Resource> creators) {
+    var work = createResource(
+      Map.of(),
+      Set.of(WORK, BOOKS),
+      Map.of(
+        CREATOR, creators,
+        EXPRESSION_OF, expressionOf
+      )
+    );
+
+    return createResource(
+      Map.of(),
+      Set.of(INSTANCE),
+      Map.of(INSTANTIATES, List.of(work))
+    );
+  }
+
+  private Resource createFamilyResource() {
+    return createResource(
+      Map.of(
+        NAME, List.of("Rinehart family")
+      ),
+      Set.of(FAMILY),
+      Map.of()
+    );
+  }
+
+  private Resource createPersonResource() {
+    return createResource(
+      Map.of(
+        NAME, List.of("Ludwig, Alexander"),
+        DATE, List.of("1880-")
+      ),
+      Set.of(PERSON),
+      Map.of(MAP, List.of(createLccnResource("n2023009647")))
+    );
+  }
+
+  private Resource createOrganizationResource() {
+    return createResource(
+      Map.of(
+        NAME, List.of("Association for Japanese Literary Studies"),
+        SUBORDINATE_UNIT, List.of("Annual Meeting"),
+        DATE, List.of("2018"),
+        PLACE, List.of("University of California, Berkeley")
+      ),
+      Set.of(ORGANIZATION),
+      Map.of(MAP, List.of(createLccnResource("no2023017580")))
+    );
+  }
+
+  private Resource createMeetingResource() {
+    return createResource(
+      Map.of(
+        NAME, List.of("International Society for Geomorphometry. Conference"),
+        DATE, List.of("2015"),
+        PLACE, List.of("Poznań, Poland")
+      ),
+      Set.of(MEETING),
+      Map.of(MAP, List.of(createLccnResource("n2023008934")))
+    );
+  }
+
+  private Resource createLccnResource(String lccn) {
+    return createResource(
+      Map.of(
+        NAME, List.of(lccn),
+        LINK, List.of("http://id.loc.gov/authorities/names/" + lccn)
+      ),
+      Set.of(IDENTIFIER, ID_LCCN),
+      Map.of()
+    );
+  }
+
+  private Resource createHubResource() {
     var yearOfMarvalsTitle = createResource(
       Map.of(
         MAIN_TITLE, List.of("Year of Marvels. Unstoppable."),
@@ -68,90 +161,10 @@ class Ld2Marc1xxIT {
       Map.of()
     );
 
-    var yearOfMarvals = createResource(
+    return createResource(
       Map.of(LABEL, List.of("Year of Marvels. Unstoppable.")),
       Set.of(HUB),
       Map.of(PredicateDictionary.TITLE, List.of(yearOfMarvalsTitle))
-    );
-
-    var geometryMeetingLccn = createResource(
-      Map.of(
-        NAME, List.of("n2023008934"),
-        LINK, List.of("http://id.loc.gov/authorities/names/n2023008934")
-      ),
-      Set.of(IDENTIFIER, ID_LCCN),
-      Map.of()
-    );
-
-    var geometryMeeting = createResource(
-      Map.of(
-        NAME, List.of("International Society for Geomorphometry. Conference"),
-        DATE, List.of("2015"),
-        PLACE, List.of("Poznań, Poland")
-      ),
-      Set.of(MEETING),
-      Map.of(MAP, List.of(geometryMeetingLccn))
-    );
-
-    var japaneseLiteraryStudiesLccn = createResource(
-      Map.of(
-        NAME, List.of("no2023017580"),
-        LINK, List.of("http://id.loc.gov/authorities/names/no2023017580")
-      ),
-      Set.of(IDENTIFIER, ID_LCCN),
-      Map.of()
-    );
-
-    var japaneseLiteraryStudies = createResource(
-      Map.of(
-        NAME, List.of("Association for Japanese Literary Studies"),
-        SUBORDINATE_UNIT, List.of("Annual Meeting"),
-        DATE, List.of("2018"),
-        PLACE, List.of("University of California, Berkeley")
-      ),
-      Set.of(ORGANIZATION),
-      Map.of(MAP, List.of(japaneseLiteraryStudiesLccn))
-    );
-
-    var alexanderLccn = createResource(
-      Map.of(
-        NAME, List.of("n2023009647"),
-        LINK, List.of("http://id.loc.gov/authorities/names/n2023009647")
-      ),
-      Set.of(IDENTIFIER, ID_LCCN),
-      Map.of()
-    );
-
-    var alexandr = createResource(
-      Map.of(
-        NAME, List.of("Ludwig, Alexander"),
-        DATE, List.of("1880-")
-      ),
-      Set.of(PERSON),
-      Map.of(MAP, List.of(alexanderLccn))
-    );
-
-    var regnier = createResource(
-      Map.of(
-        NAME, List.of("Rinehart family")
-      ),
-      Set.of(FAMILY),
-      Map.of()
-    );
-
-    var work = createResource(
-      Map.of(),
-      Set.of(WORK, BOOKS),
-      Map.of(
-        CREATOR, List.of(geometryMeeting, japaneseLiteraryStudies, alexandr, regnier),
-        EXPRESSION_OF, List.of(yearOfMarvals)
-      )
-    );
-
-    return createResource(
-      Map.of(),
-      Set.of(INSTANCE),
-      Map.of(INSTANTIATES, List.of(work))
     );
   }
 }

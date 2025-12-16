@@ -28,7 +28,10 @@ public class Marc1xxTo7xxNormalizer implements Ld2MarcPostProcessor {
     TAG_130, TAG_730
   );
 
-  private static final Marc1xxPriorityComparator MARC_1XX_PRIORITY_COMPARATOR = new Marc1xxPriorityComparator();
+  private static final Comparator<VariableField> MARC_1XX_PRIORITY_COMPARATOR =
+    field130BeforeOther1xxComparator()
+      .thenComparing(personBeforeFamilyComparator())
+      .thenComparing(tagComparator());
 
   @Override
   public void postProcess(Resource instance, Record generatedMarc) {
@@ -46,30 +49,27 @@ public class Marc1xxTo7xxNormalizer implements Ld2MarcPostProcessor {
     }
   }
 
-  private static final class Marc1xxPriorityComparator implements Comparator<VariableField> {
-    @Override
-    public int compare(VariableField field1, VariableField field2) {
-      if (is130Field(field1) || is130Field(field2)) {
-        return Boolean.compare(is130Field(field2), is130Field(field1));
-      }
+  private static Comparator<VariableField> tagComparator() {
+    return Comparator.comparing(VariableField::getTag);
+  }
 
-      if (is100Field(field1) && is100Field(field2)) {
-        return Boolean.compare(isFamily(field1), isFamily(field2));
-      }
+  private static Comparator<VariableField> field130BeforeOther1xxComparator() {
+    return (f1, f2) -> Boolean.compare(is130Field(f2), is130Field(f1));
+  }
 
-      return field1.getTag().compareTo(field2.getTag());
-    }
+  private static Comparator<VariableField> personBeforeFamilyComparator() {
+    return (f1, f2) -> Boolean.compare(isPerson(f2), isPerson(f1));
+  }
 
-    private boolean is130Field(VariableField field) {
-      return TAG_130.equals(field.getTag());
-    }
+  private static boolean isPerson(VariableField field) {
+    return is100Field(field) && ((DataField) field).getIndicator1() != THREE;
+  }
 
-    private boolean is100Field(VariableField field) {
-      return TAG_100.equals(field.getTag());
-    }
+  private static boolean is130Field(VariableField field) {
+    return TAG_130.equals(field.getTag());
+  }
 
-    private boolean isFamily(VariableField field) {
-      return ((DataField) field).getIndicator1() == THREE;
-    }
+  private static boolean is100Field(VariableField field) {
+    return TAG_100.equals(field.getTag());
   }
 }
