@@ -51,11 +51,11 @@ public class Constants {
   public static final String TAG_340 = "340";
   public static final String TAG_490 = "490";
   public static final String TAG_630 = "630";
-  public static final String TAG_730 = "730";
   public static final String TAG_545 = "545";
   public static final String TAG_700 = "700";
   public static final String TAG_710 = "710";
   public static final String TAG_711 = "711";
+  public static final String TAG_730 = "730";
   public static final String TAG_775 = "775";
   public static final String TAG_776 = "776";
 

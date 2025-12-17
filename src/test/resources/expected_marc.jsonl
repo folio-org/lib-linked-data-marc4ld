@@ -171,88 +171,6 @@
       "ind2" : " "
     }
   }, {
-    "100" : {
-      "subfields" : [ {
-        "a" : "CREATOR FAMILY name"
-      }, {
-        "b" : "CREATOR FAMILY numeration"
-      }, {
-        "c" : "CREATOR FAMILY titles"
-      }, {
-        "d" : "CREATOR FAMILY date"
-      }, {
-        "j" : "CREATOR FAMILY attribution"
-      }, {
-        "q" : "CREATOR FAMILY name alternative"
-      }, {
-        "u" : "CREATOR FAMILY affiliation"
-      }, {
-        "0" : "CREATOR FAMILY authority link"
-      }, {
-        "1" : "CREATOR FAMILY equivalent"
-      }, {
-        "6" : "CREATOR FAMILY linkage"
-      }, {
-        "7" : "CREATOR FAMILY control field"
-      }, {
-        "8" : "CREATOR FAMILY field link"
-      } ],
-      "ind1" : "3",
-      "ind2" : " "
-    }
-  }, {
-    "110" : {
-      "subfields" : [ {
-        "a" : "CREATOR ORGANIZATION name"
-      }, {
-        "b" : "CREATOR ORGANIZATION subordinate unit"
-      }, {
-        "c" : "CREATOR ORGANIZATION place"
-      }, {
-        "d" : "CREATOR ORGANIZATION date"
-      }, {
-        "u" : "CREATOR ORGANIZATION affiliation"
-      }, {
-        "0" : "CREATOR ORGANIZATION authority link"
-      }, {
-        "1" : "CREATOR ORGANIZATION equivalent"
-      }, {
-        "6" : "CREATOR ORGANIZATION linkage"
-      }, {
-        "7" : "CREATOR ORGANIZATION control field"
-      }, {
-        "8" : "CREATOR ORGANIZATION field link"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
-    "111" : {
-      "subfields" : [ {
-        "a" : "CREATOR MEETING name"
-      }, {
-        "c" : "CREATOR MEETING place"
-      }, {
-        "d" : "CREATOR MEETING date"
-      }, {
-        "e" : "CREATOR MEETING subordinate unit"
-      }, {
-        "u" : "CREATOR MEETING affiliation"
-      }, {
-        "0" : "CREATOR MEETING authority link"
-      }, {
-        "1" : "CREATOR MEETING equivalent"
-      }, {
-        "6" : "CREATOR MEETING linkage"
-      }, {
-        "7" : "CREATOR MEETING control field"
-      }, {
-        "8" : "CREATOR MEETING field link"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  }, {
     "245" : {
       "subfields" : [ {
         "a" : "MainTitle"
@@ -1009,6 +927,36 @@
   }, {
     "700" : {
       "subfields" : [ {
+        "a" : "CREATOR FAMILY name"
+      }, {
+        "b" : "CREATOR FAMILY numeration"
+      }, {
+        "c" : "CREATOR FAMILY titles"
+      }, {
+        "d" : "CREATOR FAMILY date"
+      }, {
+        "j" : "CREATOR FAMILY attribution"
+      }, {
+        "q" : "CREATOR FAMILY name alternative"
+      }, {
+        "u" : "CREATOR FAMILY affiliation"
+      }, {
+        "0" : "CREATOR FAMILY authority link"
+      }, {
+        "1" : "CREATOR FAMILY equivalent"
+      }, {
+        "6" : "CREATOR FAMILY linkage"
+      }, {
+        "7" : "CREATOR FAMILY control field"
+      }, {
+        "8" : "CREATOR FAMILY field link"
+      } ],
+      "ind1" : "3",
+      "ind2" : " "
+    }
+  }, {
+    "700" : {
+      "subfields" : [ {
         "a" : "CONTRIBUTOR PERSON name"
       }, {
         "b" : "CONTRIBUTOR PERSON numeration"
@@ -1069,6 +1017,32 @@
   }, {
     "710" : {
       "subfields" : [ {
+        "a" : "CREATOR ORGANIZATION name"
+      }, {
+        "b" : "CREATOR ORGANIZATION subordinate unit"
+      }, {
+        "c" : "CREATOR ORGANIZATION place"
+      }, {
+        "d" : "CREATOR ORGANIZATION date"
+      }, {
+        "u" : "CREATOR ORGANIZATION affiliation"
+      }, {
+        "0" : "CREATOR ORGANIZATION authority link"
+      }, {
+        "1" : "CREATOR ORGANIZATION equivalent"
+      }, {
+        "6" : "CREATOR ORGANIZATION linkage"
+      }, {
+        "7" : "CREATOR ORGANIZATION control field"
+      }, {
+        "8" : "CREATOR ORGANIZATION field link"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "710" : {
+      "subfields" : [ {
         "a" : "CONTRIBUTOR ORGANIZATION name"
       }, {
         "b" : "CONTRIBUTOR ORGANIZATION subordinate unit"
@@ -1088,6 +1062,32 @@
         "7" : "CONTRIBUTOR ORGANIZATION control field"
       }, {
         "8" : "CONTRIBUTOR ORGANIZATION field link"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  }, {
+    "711" : {
+      "subfields" : [ {
+        "a" : "CREATOR MEETING name"
+      }, {
+        "c" : "CREATOR MEETING place"
+      }, {
+        "d" : "CREATOR MEETING date"
+      }, {
+        "e" : "CREATOR MEETING subordinate unit"
+      }, {
+        "u" : "CREATOR MEETING affiliation"
+      }, {
+        "0" : "CREATOR MEETING authority link"
+      }, {
+        "1" : "CREATOR MEETING equivalent"
+      }, {
+        "6" : "CREATOR MEETING linkage"
+      }, {
+        "7" : "CREATOR MEETING control field"
+      }, {
+        "8" : "CREATOR MEETING field link"
       } ],
       "ind1" : " ",
       "ind2" : " "
