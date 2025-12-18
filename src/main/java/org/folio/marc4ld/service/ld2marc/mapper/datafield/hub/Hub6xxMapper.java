@@ -12,12 +12,16 @@ import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.MUSIC_KEY;
+import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
+import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.VERSION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.Constants.F;
 import static org.folio.marc4ld.util.Constants.L;
+import static org.folio.marc4ld.util.Constants.N;
+import static org.folio.marc4ld.util.Constants.P;
 import static org.folio.marc4ld.util.Constants.R;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.V;
@@ -54,10 +58,10 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
     var dataField = createEmptyDatafield(edge.getTarget());
     getOutgoingEdge(concept, FOCUS)
       .ifPresent(hub -> {
-        setLanguageField(hub, dataField);
-        getOutgoingEdge(hub, TITLE).ifPresent(title -> setFieldsFromTitle(title, dataField));
-        getOutgoingEdge(hub, CREATOR).ifPresent(creator -> setFieldsFromCreator(creator, dataField));
-        setFieldsFromConcept(concept, dataField);
+        setConceptFields(concept, dataField);
+        setLanguageFields(hub, dataField);
+        getOutgoingEdge(hub, TITLE).ifPresent(title -> setTitleFields(title, dataField));
+        getOutgoingEdge(hub, CREATOR).ifPresent(creator -> setCreatorFields(creator, dataField));
         orderSubfields(dataField, comparator);
       });
     return dataField;
@@ -80,10 +84,12 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
       .findFirst();
   }
 
-  protected void setFieldsFromTitle(Resource title, DataField dataField) {
+  protected void setTitleFields(Resource title, DataField dataField) {
+    addRepeatableSubfield(title, PART_NUMBER.getValue(), dataField, N, marcFactory);
+    addRepeatableSubfield(title, PART_NAME.getValue(), dataField, P, marcFactory);
   }
 
-  protected void setFieldsFromConcept(Resource concept, DataField dataField) {
+  protected void setConceptFields(Resource concept, DataField dataField) {
     addNonRepeatableSubfield(concept, DATE.getValue(), dataField, F, marcFactory);
     addNonRepeatableSubfield(concept, MUSIC_KEY.getValue(), dataField, R, marcFactory);
     addRepeatableSubfield(concept, VERSION.getValue(), dataField, S, marcFactory);
@@ -93,12 +99,12 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
     addRepeatableSubfield(concept, GEOGRAPHIC_SUBDIVISION.getValue(), dataField, Z, marcFactory);
   }
 
-  protected void setFieldsFromCreator(Resource creator, DataField dataField) {
-  }
-
-  private void setLanguageField(Resource hub, DataField dataField) {
+  private void setLanguageFields(Resource hub, DataField dataField) {
     addNonRepeatableSubfield(hub, LANGUAGE.getValue(), dataField, L, marcFactory);
     getOutgoingEdge(hub, PredicateDictionary.LANGUAGE)
       .ifPresent(language -> addNonRepeatableSubfield(language, CODE.getValue(), dataField, L, marcFactory));
+  }
+
+  protected void setCreatorFields(Resource creator, DataField dataField) {
   }
 }

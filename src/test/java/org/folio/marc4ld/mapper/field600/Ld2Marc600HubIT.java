@@ -52,12 +52,13 @@ class Ld2Marc600HubIT {
 
   @ParameterizedTest
   @CsvSource(value = {
-    "PERSON, fields/600/marc_600_person_hub_out.jsonl",
-    "FAMILY, fields/600/marc_600_family_hub_out.jsonl"
+    "PERSON, ' '",
+    "FAMILY, '3'"
   })
-  void shouldCreateMarc600(ResourceTypeDictionary hubCreatorType, String expectedMarcFile) {
+  void shouldCreateMarc600(ResourceTypeDictionary hubCreatorType, String ind1Char) {
     // given
-    var expectedMarc = loadResourceAsString(expectedMarcFile);
+    var expectedMarc = loadResourceAsString("fields/600/marc_600_hub_out.jsonl")
+      .replace("%IND1_CHAR%", ind1Char);
     var resource = createInstance(hubCreatorType);
 
     // when

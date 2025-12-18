@@ -8,8 +8,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME_ALTERNATIVE;
 import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
-import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
@@ -19,8 +17,6 @@ import static org.folio.marc4ld.util.Constants.B;
 import static org.folio.marc4ld.util.Constants.C;
 import static org.folio.marc4ld.util.Constants.D;
 import static org.folio.marc4ld.util.Constants.J;
-import static org.folio.marc4ld.util.Constants.N;
-import static org.folio.marc4ld.util.Constants.P;
 import static org.folio.marc4ld.util.Constants.Q;
 import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.T;
@@ -66,7 +62,7 @@ public class Hub600Mapper extends Hub6xxMapper {
   }
 
   @Override
-  protected void setFieldsFromCreator(Resource creator, DataField dataField) {
+  protected void setCreatorFields(Resource creator, DataField dataField) {
     addNonRepeatableSubfield(creator, NAME.getValue(), dataField, A, marcFactory);
     addNonRepeatableSubfield(creator, NUMERATION.getValue(), dataField, B, marcFactory);
     addRepeatableSubfield(creator, TITLES.getValue(), dataField, C, marcFactory);
@@ -76,9 +72,8 @@ public class Hub600Mapper extends Hub6xxMapper {
   }
 
   @Override
-  protected void setFieldsFromTitle(Resource title, DataField dataField) {
+  protected void setTitleFields(Resource title, DataField dataField) {
+    super.setTitleFields(title, dataField);
     addNonRepeatableSubfield(title, MAIN_TITLE.getValue(), dataField, T, marcFactory);
-    addRepeatableSubfield(title, PART_NUMBER.getValue(), dataField, N, marcFactory);
-    addRepeatableSubfield(title, PART_NAME.getValue(), dataField, P, marcFactory);
   }
 }
