@@ -45,8 +45,10 @@ public class MarcUtil {
 
   public static void addNonRepeatableSubfield(Resource resource, String property, DataField dataField, char subfield,
                                               MarcFactory marcFactory) {
-    getPropertyValue(resource, property)
-      .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
+    if (!isSubfieldPresent(subfield, dataField)) {
+      getPropertyValue(resource, property)
+        .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
+    }
   }
 
   public static void setInd1(Resource resource, String property, DataField dataField) {
