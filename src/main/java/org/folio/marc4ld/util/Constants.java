@@ -50,6 +50,7 @@ public class Constants {
   public static final String TAG_300 = "300";
   public static final String TAG_340 = "340";
   public static final String TAG_490 = "490";
+  public static final String TAG_600 = "600";
   public static final String TAG_630 = "630";
   public static final String TAG_545 = "545";
   public static final String TAG_700 = "700";

@@ -36,6 +36,7 @@
 - Ensure only one MARC 130 is present in the derived MARC, converting any additional 130 fields to 730 [MODLD-918](https://folio-org.atlassian.net/browse/MODLD-918)
 - Include Person and Family resource's label in the resource document [MODLD-937](https://folio-org.atlassian.net/browse/MODLD-937)
 - Ensure only one MARC 100/110/111/130 is present in the derived MARC, converting any additional 1XX fields to 7XX [MODLD-934](https://folio-org.atlassian.net/browse/MODLD-934)
+- Create MARC 600 when subject is a HUB [MODLD-538](https://folio-org.atlassian.net/browse/MODLD-538)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
