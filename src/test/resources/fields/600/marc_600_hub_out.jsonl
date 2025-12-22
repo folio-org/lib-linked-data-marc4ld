@@ -1,0 +1,42 @@
+{
+  "leader" : "00256n s a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "600" : {
+      "subfields" : [ {
+        "a" : "Bernstein, Leonard"
+      }, {
+        "b" : "I"
+      }, {
+        "c" : "Prof."
+      }, {
+        "d" : "1918-1990"
+      }, {
+        "l" : "English"
+      }, {
+        "n" : "no. 2, op. 255."
+      }, {
+        "p" : "Muqaddimah"
+      }, {
+        "q" : "Leonard Bernstein"
+      }, {
+        "t" : "Candide"
+      }, {
+        "v" : "Exhibitions"
+      }, {
+        "x" : "Influence"
+      }, {
+        "y" : "First"
+      }, {
+        "y" : "1st"
+      }, {
+        "z" : "USA"
+      }, {
+        "z" : "North America"
+      } ],
+      "ind1" : "%IND1_CHAR%",
+      "ind2" : " "
+    }
+  } ]
+}
