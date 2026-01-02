@@ -126,41 +126,10 @@ bibFieldRules:
     - types: ID_LCCN
       include: cancelled_instance_identifier
   '019':
+    - types: ID_LOCAL
+      include: current_instance_identifier
     - types: ID_LOCAL, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        a: LOCAL_ID_VALUE
-      marc2ldCondition:
-        fieldsAllOf:
-          a: presented
-      ld2marcCondition:
-        edge:
-          STATUS:
-            anyMatch:
-              - present: false
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/current
-      edges:
-        - include: status_current
-    - types: ID_LOCAL, IDENTIFIER
-      parent: INSTANCE
-      predicate: MAP
-      subfields:
-        z: LOCAL_ID_VALUE
-      marc2ldCondition:
-        fieldsAllOf:
-          z: presented
-      ld2marcCondition:
-        edge:
-          STATUS:
-            allMatch:
-              - present: true
-                properties:
-                  LINK: http://id.loc.gov/vocabulary/mstatus/cancinv
-      edges:
-        - include: status_cancelled
+      include: cancelled_instance_identifier
   '020':
     - types: ID_ISBN
       include: current_instance_identifier
@@ -1876,7 +1845,7 @@ bibSharedRules:
             predicate: MAP
             multiply: true
             subfields:
-              o: LOCAL_ID_VALUE
+              o: NAME
           - types: ID_STRN, IDENTIFIER
             parent: INSTANCE
             predicate: MAP
