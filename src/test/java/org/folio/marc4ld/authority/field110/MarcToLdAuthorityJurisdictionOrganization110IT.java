@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCSH;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_VIAF;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -51,7 +53,7 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
   void shouldMap110FieldIfOnlyOneFieldPresent() {
     // given
     var marc = loadResourceAsString("authority/110/marc_110_single_field.jsonl");
-    var outgoingEdges = 3;
+    var outgoingEdges = 4;
 
     // when
     var resources = marcAuthorityToResources(marc);
@@ -64,7 +66,8 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
           outgoingEdges, EXPECTED_SHORT_LABEL))
       .satisfies(resource -> validateFocusResource(resource, JURISDICTION, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(this::validateOnlyOneSubfocusResource)
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "viaf12345", ID_VIAF, null))
+      .satisfies(resource -> validateIdentifier(resource, "no1234567890", ID_LCNAF, "http://id.loc.gov/authorities/no1234567890"));
   }
 
   @ParameterizedTest
