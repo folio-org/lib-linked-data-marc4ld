@@ -38,6 +38,7 @@
 - Ensure only one MARC 100/110/111/130 is present in the derived MARC, converting any additional 1XX fields to 7XX [MODLD-934](https://folio-org.atlassian.net/browse/MODLD-934)
 - Create MARC 600 when subject is a HUB [MODLD-538](https://folio-org.atlassian.net/browse/MODLD-538)
 - Handle invalid place codes in MARC 26X [MODLD-949](https://folio-org.atlassian.net/browse/MODLD-949)
+- Update the mapping of 019 to use NAME property instead of LOCAL_ID_VALUE property [MODLD-939](https://folio-org.atlassian.net/browse/MODLD-939)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
