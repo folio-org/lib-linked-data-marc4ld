@@ -18,6 +18,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -46,6 +47,31 @@ public class AuthorityValidationHelper {
             NAME.getValue(), List.of(expectedValue),
             LABEL.getValue(), List.of(expectedValue)
           ), expectedValue));
+  }
+
+  public static void validateIdentifier(Resource resource,
+                                        String identifier,
+                                        ResourceTypeDictionary type,
+                                        String link) {
+    var expectedDoc = new HashMap<String, List<String>>();
+    expectedDoc.put(NAME.getValue(), List.of(identifier));
+    expectedDoc.put(LABEL.getValue(), List.of(identifier));
+    if (link != null) {
+      expectedDoc.put(LINK.getValue(), List.of(link));
+    }
+
+    var resourceEdges = getEdges(resource, type, IDENTIFIER);
+    assertThat(resourceEdges)
+      .hasSize(1)
+      .map(ResourceEdge::getTarget)
+      .first()
+      .satisfies(identifierResource ->
+        validateResource(
+          identifierResource,
+          List.of(type, IDENTIFIER),
+          expectedDoc,
+          identifier)
+      );
   }
 
   public static void validateSubFocusResources(Resource resource) {
