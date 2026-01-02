@@ -1,7 +1,10 @@
 package org.folio.marc4ld.authority.field150;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.*;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCSH;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
