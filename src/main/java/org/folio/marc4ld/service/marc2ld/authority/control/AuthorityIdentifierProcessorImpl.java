@@ -60,3 +60,4 @@ public class AuthorityIdentifierProcessorImpl implements AuthorityIdentifierProc
     ));
   }
 }
+

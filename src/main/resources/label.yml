@@ -94,7 +94,7 @@ labelRules:
       - NAME
   - types: ID_LOCAL, IDENTIFIER
     properties:
-      - LOCAL_ID_VALUE
+      - NAME
   - types: ID_STRN, IDENTIFIER
     properties:
       - NAME
