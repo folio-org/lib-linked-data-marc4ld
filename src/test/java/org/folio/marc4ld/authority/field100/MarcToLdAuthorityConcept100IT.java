@@ -3,6 +3,8 @@ package org.folio.marc4ld.authority.field100;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCSH;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCDGT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
@@ -55,7 +57,8 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
       .satisfies(resource -> validateRootResource(resource, List.of(CONCEPT, resourceType)))
       .satisfies(resource -> validateFocus(resource, resourceType))
       .satisfies(AuthorityValidationHelper::validateSubFocusResources)
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "sj85121033", ID_LCCSH, "http://id.loc.gov/authorities/sj85121033"))
+      .satisfies(resource -> validateIdentifier(resource, "dg8904567", ID_LCDGT, "http://id.loc.gov/authorities/dg8904567"));
   }
 
   private void validateRootResource(Resource resource, List<ResourceTypeDictionary> types) {

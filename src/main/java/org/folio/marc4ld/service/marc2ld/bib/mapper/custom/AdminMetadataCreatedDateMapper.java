@@ -14,7 +14,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
-import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.CustomBibMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.Record;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AdminMetadataCreatedDateMapper implements CustomMapper {
+public class AdminMetadataCreatedDateMapper implements CustomBibMapper {
 
   private final LabelService labelService;
   private final MapperHelper mapperHelper;
