@@ -1,6 +1,7 @@
 package org.folio.marc4ld.service.marc2ld.authority;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
@@ -15,9 +16,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
+import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
-import org.folio.marc4ld.service.marc2ld.authority.control.AuthorityIdentifierProcessor;
+import org.folio.marc4ld.service.marc2ld.authority.identifier.IdentifierResourceProvider;
 import org.folio.marc4ld.service.marc2ld.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcAuthorityPunctuationNormalizerImpl;
@@ -37,8 +39,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   private final FingerprintHashService hashService;
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
-  private final AuthorityIdentifierProcessor authorityIdentifierProcessor;
   private final MarcAuthorityPunctuationNormalizerImpl marcPunctuationNormalizer;
+  private final IdentifierResourceProvider identifierResourceProvider;
 
   @Override
   public Collection<Resource> fromMarcJson(String marc) {
@@ -70,8 +72,10 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   }
 
   private Resource fillResource(Resource resource, org.marc4j.marc.Record marcRecord) {
-    marcRecord.getDataFields()
-      .forEach(controlField -> authorityIdentifierProcessor.setIdentifier(resource, controlField));
+    identifierResourceProvider.getIdentifierResources(marcRecord)
+      .stream()
+      .map(idResource -> new ResourceEdge(resource, idResource, MAP))
+      .forEach(resource::addOutgoingEdge);
     resource.setId(hashService.hash(resource));
     folioMetadataFrom(marcRecord).ifPresent(resource::setFolioMetadata);
     return resource;

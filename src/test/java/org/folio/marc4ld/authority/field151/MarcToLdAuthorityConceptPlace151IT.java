@@ -10,6 +10,9 @@ import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_FAST;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_MESH;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
@@ -40,12 +43,13 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
     // then
     assertThat(resources)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(11))
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, PLACE), conceptPlaceProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, PLACE, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(AuthorityValidationHelper::validateSubFocusResources)
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "nr0987654321", ID_LCNAF, "http://id.loc.gov/authorities/nr0987654321"))
+      .satisfies(resource -> validateIdentifier(resource, "D67890123", ID_MESH, null));
   }
 
   @Test
@@ -59,9 +63,10 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
     //then
     assertThat(resources)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(PLACE), placeProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "fst98765430", ID_FAST, null))
+      .satisfies(resource -> validateIdentifier(resource, "ns0987654", ID_LCNAF, "http://id.loc.gov/authorities/ns0987654"));
   }
 
   private Map<String, List<String>> conceptPlaceProperties() {

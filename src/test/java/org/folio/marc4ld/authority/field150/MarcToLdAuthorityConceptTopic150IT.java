@@ -2,6 +2,8 @@ package org.folio.marc4ld.authority.field150;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCSH;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
@@ -32,12 +34,13 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
     // then
     assertThat(result)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(11))
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, TOPIC), conceptTopicProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, TOPIC, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(AuthorityValidationHelper::validateSubFocusResources)
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue", ID_LOCAL, null))
+      .satisfies(resource -> validateIdentifier(resource, "sh85121033", ID_LCSH, "http://id.loc.gov/authorities/sh85121033"));
   }
 
   @Test
@@ -51,9 +54,10 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
     // then
     assertThat(result)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(TOPIC), topicProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue", ID_LOCAL, null))
+      .satisfies(resource -> validateIdentifier(resource, "sh85121033", ID_LCSH, "http://id.loc.gov/authorities/sh85121033"));
   }
 
   private Map<String, List<String>> conceptTopicProperties() {

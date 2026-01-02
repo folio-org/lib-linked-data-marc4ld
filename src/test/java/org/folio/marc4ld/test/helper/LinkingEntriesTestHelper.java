@@ -157,7 +157,8 @@ public class LinkingEntriesTestHelper {
       validateEdge(resourceEdges.get(index), MAP,
         List.of(IDENTIFIER, ID_LOCAL),
         Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of(expectedLocalId)
+          "http://bibfra.me/vocab/lite/name", List.of(expectedLocalId),
+          "http://bibfra.me/vocab/lite/label", List.of(expectedLocalId)
         ), expectedLocalId);
       index++;
     }

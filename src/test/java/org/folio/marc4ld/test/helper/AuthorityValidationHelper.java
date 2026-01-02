@@ -2,14 +2,12 @@ package org.folio.marc4ld.test.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
-import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
@@ -18,6 +16,7 @@ import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -35,17 +34,29 @@ public class AuthorityValidationHelper {
     PLACE, 'z'
   );
 
-  public static void validateIdentifier(Resource resource, String expectedValue) {
-    var resourceEdges = getEdges(resource, ID_LCCN, IDENTIFIER);
+  public static void validateIdentifier(Resource resource,
+                                        String identifier,
+                                        ResourceTypeDictionary type,
+                                        String link) {
+    var expectedDoc = new HashMap<String, List<String>>();
+    expectedDoc.put(NAME.getValue(), List.of(identifier));
+    expectedDoc.put(LABEL.getValue(), List.of(identifier));
+    if (link != null) {
+      expectedDoc.put(LINK.getValue(), List.of(link));
+    }
+
+    var resourceEdges = getEdges(resource, type, IDENTIFIER);
     assertThat(resourceEdges)
       .hasSize(1)
-      .satisfies(edges ->
-        validateEdge(resourceEdges.getFirst(), MAP, List.of(ID_LCCN, IDENTIFIER),
-          Map.of(
-            LINK.getValue(), List.of("http://id.loc.gov/authorities/" + expectedValue),
-            NAME.getValue(), List.of(expectedValue),
-            LABEL.getValue(), List.of(expectedValue)
-          ), expectedValue));
+      .map(ResourceEdge::getTarget)
+      .first()
+      .satisfies(identifierResource ->
+        validateResource(
+          identifierResource,
+          List.of(type, IDENTIFIER),
+          expectedDoc,
+          identifier)
+      );
   }
 
   public static void validateSubFocusResources(Resource resource) {
