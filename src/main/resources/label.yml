@@ -93,12 +93,29 @@ labelRules:
     properties:
       - NAME
   - types: ID_LOCAL, IDENTIFIER
+    addLabelProperty: true
     properties:
       - NAME
   - types: ID_STRN, IDENTIFIER
     properties:
       - NAME
   - types: ID_UNKNOWN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_LCSH, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_FAST, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCNAF, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_VIAF, IDENTIFIER
+    addLabelProperty: true
     properties:
       - NAME
   - types: IDENTIFIER
