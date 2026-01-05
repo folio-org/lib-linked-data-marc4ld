@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.authority.identifier;
 
+import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -19,8 +20,8 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_WIKIID;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -28,6 +29,7 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.CustomAuthorityMapper;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
+import org.marc4j.marc.Record;
 
 @RequiredArgsConstructor
 public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper {
@@ -36,13 +38,20 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
 
-  protected void addIdentifierEdge(Resource authority, String identifier) {
-    var identifierResource = getIdentifierResource(identifier);
-    var identifierEdge = new ResourceEdge(authority, identifierResource, PredicateDictionary.MAP);
-    authority.addOutgoingEdge(identifierEdge);
+  protected abstract Optional<String> getIdentifier(Record marc);
+
+  @Override
+  public boolean isApplicable(Record marcRecord) {
+    return getIdentifier(marcRecord).isPresent();
   }
 
-  private Resource getIdentifierResource(String identifier) {
+  @Override
+  public void map(Record marcRecord, Resource authority) {
+    getIdentifier(marcRecord)
+      .ifPresent(id -> authority.addOutgoingEdge(getIdentifierEdge(authority, id)));
+  }
+
+  private ResourceEdge getIdentifierEdge(Resource authority, String identifier) {
     var identifierType = deriveIdentifierType(identifier);
 
     var resource = new Resource()
@@ -56,7 +65,7 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
       .setDoc(mapperHelper.getJsonNode(properties))
       .setId(hashService.hash(resource));
 
-    return resource;
+    return new ResourceEdge(authority, resource, MAP);
   }
 
   private Map<String, List<String>> makeProperties(String identifier, ResourceTypeDictionary identifierType) {

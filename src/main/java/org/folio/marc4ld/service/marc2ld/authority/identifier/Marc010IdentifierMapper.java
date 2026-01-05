@@ -5,7 +5,6 @@ import static org.folio.marc4ld.util.Constants.TAG_010;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueWithoutSpaces;
 
 import java.util.Optional;
-import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
@@ -23,17 +22,7 @@ public class Marc010IdentifierMapper extends AbstractIdentifierMapper {
   }
 
   @Override
-  public boolean isApplicable(Record marcRecord) {
-    return get010SubfieldA(marcRecord).isPresent();
-  }
-
-  @Override
-  public void map(Record marcRecord, Resource authority) {
-    get010SubfieldA(marcRecord)
-      .ifPresent(id -> addIdentifierEdge(authority, id));
-  }
-
-  private Optional<String> get010SubfieldA(Record marc) {
+  protected Optional<String> getIdentifier(Record marc) {
     return marc.getDataFields().stream()
       .filter(df -> df.getTag().equals(TAG_010))
       .flatMap(df -> getSubfieldValueWithoutSpaces(df, A).stream())
