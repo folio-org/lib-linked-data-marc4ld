@@ -82,6 +82,10 @@ labelRules:
     addLabelProperty: true
     properties:
       - NAME
+  - types: ID_GND, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
   - types: ID_IAN, IDENTIFIER
     properties:
       - NAME

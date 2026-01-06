@@ -3,7 +3,7 @@ package org.folio.marc4ld.authority.field111;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_FAST;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_GND;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -59,7 +59,7 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(MEETING), meetingProperties(), EXPECTED_MEETING_LABEL))
       .satisfies(resource -> validateIdentifier(resource, "fst12345678", ID_FAST, null))
-      .satisfies(resource -> validateIdentifier(resource, "n0987654321", ID_LCNAF, "http://id.loc.gov/authorities/n0987654321"));
+      .satisfies(resource -> validateIdentifier(resource, "gnd0987654321", ID_GND, null));
   }
 
   @ParameterizedTest

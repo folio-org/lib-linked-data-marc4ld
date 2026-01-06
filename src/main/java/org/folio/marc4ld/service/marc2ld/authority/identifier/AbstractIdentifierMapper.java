@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -33,6 +34,8 @@ import org.marc4j.marc.Record;
 
 @RequiredArgsConstructor
 public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper {
+  private static final Pattern NON_ALPHA_PATTERN = Pattern.compile("[^a-zA-Z]");
+
   private final LabelService labelService;
   private final IdentifierLinkService identifierLinkService;
   private final MapperHelper mapperHelper;
@@ -77,8 +80,7 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
   }
 
   private ResourceTypeDictionary deriveIdentifierType(String identifier) {
-    var prefix = identifier == null ? "" : identifier.split("[^a-zA-Z]", 2)[0].toLowerCase();
-
+    var prefix = identifier == null ? "" : NON_ALPHA_PATTERN.split(identifier, 2)[0].toLowerCase();
     return switch (prefix) {
       case "n", "no", "nb", "nr", "ns" -> ID_LCNAF;
       case "sh" -> ID_LCSH;
