@@ -1,12 +1,9 @@
 package org.folio.marc4ld.authority.field100;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.ld.dictionary.PredicateDictionary.MAP;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
-import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
-import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdges;
+import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
 
 import java.util.List;
 import java.util.Map;
@@ -60,7 +57,7 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
     assertThat(result)
       .singleElement()
       .satisfies(resource -> validateRootResource(resource, resourceType))
-      .satisfies(this::validateIdentifier);
+      .satisfies(resource -> validateIdentifier(resource, "n0987654321", ID_LCNAF, "http://id.loc.gov/authorities/n0987654321"));
   }
 
   private void validateRootResource(Resource resource, ResourceTypeDictionary type) {
@@ -79,20 +76,5 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ),
       expectedLabel);
-  }
-
-  private void validateIdentifier(Resource resource) {
-    var resourceEdges = getEdges(resource, ID_LCCN, IDENTIFIER);
-    assertThat(resourceEdges)
-      .hasSize(1)
-      .singleElement()
-      .satisfies(edge ->
-        validateEdge(edge, MAP, List.of(ID_LCCN, IDENTIFIER),
-          Map.of(
-            "http://bibfra.me/vocab/lite/name", List.of("010fieldvalue"),
-            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/010fieldvalue"),
-            "http://bibfra.me/vocab/lite/label", List.of("010fieldvalue")
-          ),
-          "010fieldvalue"));
   }
 }

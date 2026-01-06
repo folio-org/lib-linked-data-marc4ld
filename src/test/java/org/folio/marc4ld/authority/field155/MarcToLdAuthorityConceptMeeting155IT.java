@@ -10,6 +10,10 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCSH;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_WIKIID;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateFocusResource;
@@ -40,12 +44,13 @@ class MarcToLdAuthorityConceptMeeting155IT extends Marc2LdTestBase {
     // then
     assertThat(resources)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(10))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(11))
       .satisfies(
         resource -> validateResource(resource, List.of(CONCEPT, FORM), generalProperties(), EXPECTED_MAIN_LABEL))
       .satisfies(resource -> validateFocusResource(resource, FORM, focusProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(AuthorityValidationHelper::validateSubFocusResources)
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "nb9876543", ID_LCNAF, "http://id.loc.gov/authorities/nb9876543"))
+      .satisfies(resource -> validateIdentifier(resource, "q85121033", ID_WIKIID, null));
   }
 
   @Test
@@ -59,9 +64,10 @@ class MarcToLdAuthorityConceptMeeting155IT extends Marc2LdTestBase {
     //then
     assertThat(resources)
       .singleElement()
-      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(FORM), shortProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue"));
+      .satisfies(resource -> validateIdentifier(resource, "010fieldvalue", ID_LOCAL, null))
+      .satisfies(resource -> validateIdentifier(resource, "sh85121033", ID_LCSH, "http://id.loc.gov/authorities/sh85121033"));
   }
 
   @ParameterizedTest

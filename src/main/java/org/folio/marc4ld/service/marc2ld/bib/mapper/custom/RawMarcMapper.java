@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
-import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.CustomBibMapper;
 import org.marc4j.MarcJsonWriter;
 import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Log4j2
 @RequiredArgsConstructor
-public class RawMarcMapper implements CustomMapper {
+public class RawMarcMapper implements CustomBibMapper {
 
   private static final Set<String> SELECTED_TAGS = Set.of(TAG_775, TAG_776);
   private static final Set<String> EXCLUDED_TAGS = Set.of(TAG_005, FIELD_UUID);

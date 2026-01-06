@@ -1,6 +1,8 @@
 package org.folio.marc4ld.authority.field110;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCGFT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCMPT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
@@ -15,7 +17,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
 
   private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
-  private static final String EXPECTED_IDENTIFIER = "010fieldvalue";
   private static final Map<String, List<String>> EXPECTED_PROPERTIES = Map.of(
     "http://bibfra.me/vocab/lite/name", List.of("aValue"),
     "http://bibfra.me/vocab/library/subordinateUnit", List.of("bValue"),
@@ -44,6 +45,7 @@ class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
       .hasSize(1)
       .singleElement()
       .satisfies(resource -> validateResource(resource, List.of(type), EXPECTED_PROPERTIES, EXPECTED_MAIN_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, EXPECTED_IDENTIFIER));
+      .satisfies(resource -> validateIdentifier(resource, "gf05121033", ID_LCGFT, "http://id.loc.gov/authorities/gf05121033"))
+      .satisfies(resource -> validateIdentifier(resource, "mp098765890", ID_LCMPT, "http://id.loc.gov/authorities/mp098765890"));
   }
 }

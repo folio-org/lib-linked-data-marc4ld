@@ -9,6 +9,7 @@ import static org.folio.marc4ld.util.MarcUtil.getSubfieldValueStripped;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,14 @@ import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
-import org.folio.marc4ld.service.marc2ld.authority.control.AuthorityIdentifierProcessor;
 import org.folio.marc4ld.service.marc2ld.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
+import org.folio.marc4ld.service.marc2ld.mapper.CustomAuthorityMapper;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcAuthorityPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.marc4ld.service.marc2ld.relation.EmptyEdgesCleaner;
 import org.marc4j.marc.DataField;
+import org.marc4j.marc.Record;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -37,8 +39,8 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   private final FingerprintHashService hashService;
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
-  private final AuthorityIdentifierProcessor authorityIdentifierProcessor;
   private final MarcAuthorityPunctuationNormalizerImpl marcPunctuationNormalizer;
+  private final List<CustomAuthorityMapper> customMappers;
 
   @Override
   public Collection<Resource> fromMarcJson(String marc) {
@@ -54,9 +56,9 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
 
   private Stream<Resource> createResources(org.marc4j.marc.Record marcRecord) {
     marcPunctuationNormalizer.normalize(marcRecord);
-    return marcRecord.getDataFields()
-      .stream()
+    return marcRecord.getDataFields().stream()
       .flatMap(dataField -> createResources(dataField, marcRecord))
+      .map(r -> performCustomMapping(r, marcRecord))
       .map(r -> fillResource(r, marcRecord));
   }
 
@@ -70,8 +72,6 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
   }
 
   private Resource fillResource(Resource resource, org.marc4j.marc.Record marcRecord) {
-    marcRecord.getDataFields()
-      .forEach(controlField -> authorityIdentifierProcessor.setIdentifier(resource, controlField));
     resource.setId(hashService.hash(resource));
     folioMetadataFrom(marcRecord).ifPresent(resource::setFolioMetadata);
     return resource;
@@ -86,5 +86,12 @@ public class MarcAuthority2ldMapperImpl implements MarcAuthority2ldMapper {
           .setInventoryId(getSubfieldValueStripped(metadata, SUBFIELD_INVENTORY_ID).orElse(null))
           .setSrsId(getSubfieldValueStripped(metadata, S).orElse(null))
       );
+  }
+
+  private Resource performCustomMapping(Resource resource, Record marcRecord) {
+    customMappers.stream()
+      .filter(customMapper -> customMapper.isApplicable(marcRecord))
+      .forEach(customMapper -> customMapper.map(marcRecord, resource));
+    return resource;
   }
 }

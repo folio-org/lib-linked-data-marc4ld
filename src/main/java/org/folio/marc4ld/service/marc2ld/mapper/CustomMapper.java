@@ -10,5 +10,5 @@ public interface CustomMapper {
 
   boolean isApplicable(org.marc4j.marc.Record marcRecord);
 
-  void map(org.marc4j.marc.Record marcRecord, Resource instance);
+  void map(org.marc4j.marc.Record marcRecord, Resource resource);
 }

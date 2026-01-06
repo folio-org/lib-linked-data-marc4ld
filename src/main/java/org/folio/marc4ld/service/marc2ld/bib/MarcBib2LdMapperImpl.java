@@ -28,7 +28,7 @@ import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.marc2ld.Marc2ldRules;
 import org.folio.marc4ld.service.marc2ld.condition.Marc2LdConditionChecker;
 import org.folio.marc4ld.service.marc2ld.field.ResourceProcessor;
-import org.folio.marc4ld.service.marc2ld.mapper.CustomMapper;
+import org.folio.marc4ld.service.marc2ld.mapper.CustomBibMapper;
 import org.folio.marc4ld.service.marc2ld.normalization.MarcBibPunctuationNormalizerImpl;
 import org.folio.marc4ld.service.marc2ld.postprocessor.Marc2LdPostProcessor;
 import org.folio.marc4ld.service.marc2ld.preprocessor.DataFieldPreprocessor.PreprocessorContext;
@@ -55,7 +55,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final Marc2LdConditionChecker conditionChecker;
   private final MarcReaderProcessor marcReaderProcessor;
   private final EmptyEdgesCleaner emptyEdgesCleaner;
-  private final List<CustomMapper> customMappers;
+  private final List<CustomBibMapper> customMappers;
   private final List<Marc2LdPostProcessor> postProcessors;
   private final MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
 

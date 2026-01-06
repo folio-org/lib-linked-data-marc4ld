@@ -395,10 +395,13 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateId(edge.getTarget());
     assertThat(edge.getTarget().getLabel()).isEqualTo(number);
     assertThat(edge.getTarget().getTypes()).containsOnly(ID_LOCAL, IDENTIFIER);
-    assertThat(edge.getTarget().getDoc()).hasSize(1);
+    assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
     assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().has(LABEL.getValue())).isTrue();
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue())).hasSize(1);
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo(number);
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);

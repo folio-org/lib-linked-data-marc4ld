@@ -78,6 +78,14 @@ labelRules:
   - types: ID_CODEN, IDENTIFIER
     properties:
       - NAME
+  - types: ID_FAST, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_GND, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
   - types: ID_IAN, IDENTIFIER
     properties:
       - NAME
@@ -92,13 +100,50 @@ labelRules:
     addLabelProperty: true
     properties:
       - NAME
+  - types: ID_LCCSH, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCDGT, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCGFT, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCMPT, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCNAF, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_LCSH, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
   - types: ID_LOCAL, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_MESH, IDENTIFIER
+    addLabelProperty: true
     properties:
       - NAME
   - types: ID_STRN, IDENTIFIER
     properties:
       - NAME
   - types: ID_UNKNOWN, IDENTIFIER
+    properties:
+      - NAME
+  - types: ID_VIAF, IDENTIFIER
+    addLabelProperty: true
+    properties:
+      - NAME
+  - types: ID_WIKIID, IDENTIFIER
+    addLabelProperty: true
     properties:
       - NAME
   - types: IDENTIFIER
