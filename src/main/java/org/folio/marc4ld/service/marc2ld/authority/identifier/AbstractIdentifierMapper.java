@@ -37,7 +37,7 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
   private static final Pattern NON_ALPHA_PATTERN = Pattern.compile("[^a-zA-Z]");
 
   private final LabelService labelService;
-  private final IdentifierLinkService identifierLinkService;
+  private final IdentifierUrlProvider identifierUrlProvider;
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
 
@@ -55,13 +55,11 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
   }
 
   private ResourceEdge getIdentifierEdge(Resource authority, String identifier) {
-    var identifierType = deriveIdentifierType(identifier);
-
     var resource = new Resource()
       .addType(IDENTIFIER)
-      .addType(identifierType);
+      .addType(deriveIdentifierType(identifier));
 
-    var properties = makeProperties(identifier, identifierType);
+    var properties = makeProperties(identifier);
     labelService.setLabel(resource, properties);
 
     resource
@@ -71,16 +69,18 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
     return new ResourceEdge(authority, resource, MAP);
   }
 
-  private Map<String, List<String>> makeProperties(String identifier, ResourceTypeDictionary identifierType) {
+  private Map<String, List<String>> makeProperties(String identifier) {
     var properties = new HashMap<String, List<String>>();
     properties.put(NAME.getValue(), List.of(identifier));
-    identifierLinkService.getIdentifierLink(identifier, identifierType)
+    var prefix = getIdentifierPrefix(identifier);
+    identifierUrlProvider.getBaseUrl(prefix)
+      .map(baseUrl -> createLink(baseUrl, identifier))
       .ifPresent(link -> properties.put(LINK.getValue(), List.of(link)));
     return properties;
   }
 
   private ResourceTypeDictionary deriveIdentifierType(String identifier) {
-    var prefix = identifier == null ? "" : NON_ALPHA_PATTERN.split(identifier, 2)[0].toLowerCase();
+    var prefix = getIdentifierPrefix(identifier);
     return switch (prefix) {
       case "n", "no", "nb", "nr", "ns" -> ID_LCNAF;
       case "sh" -> ID_LCSH;
@@ -95,5 +95,16 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
       case "viaf" -> ID_VIAF;
       default -> ID_LOCAL;
     };
+  }
+
+  private String createLink(String baseUrl, String identifier) {
+    if (!baseUrl.endsWith("/")) {
+      baseUrl = baseUrl + "/";
+    }
+    return baseUrl + identifier;
+  }
+
+  private String getIdentifierPrefix(String identifier) {
+    return identifier == null ? "" : NON_ALPHA_PATTERN.split(identifier, 2)[0].toLowerCase();
   }
 }

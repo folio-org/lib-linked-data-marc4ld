@@ -40,6 +40,8 @@
 - Handle invalid place codes in MARC 26X [MODLD-949](https://folio-org.atlassian.net/browse/MODLD-949)
 - Update the mapping of 019 to use NAME property instead of LOCAL_ID_VALUE property [MODLD-939](https://folio-org.atlassian.net/browse/MODLD-939)
 - Derive the type of the Identity resource based on the prefix value of 010 / 001 [MODLD-939](https://folio-org.atlassian.net/browse/MODLD-939)
+- Set LINK of the identity resource based on FOLIO configuration [MODLD-923](https://folio-org.atlassian.net/browse/MODLD-923)
+
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
 - "targetAudience", "geographicCoverage" links contain https instead of http [MODLD-695](https://folio-org.atlassian.net/browse/MODLD-695)
