@@ -13,10 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Marc001IdentifierMapper extends AbstractIdentifierMapper {
   public Marc001IdentifierMapper(LabelService labelService,
-                                 IdentifierUrlProvider identifierUrlProvider,
+                                 IdentifierLinkProvider identifierLinkProvider,
                                  MapperHelper mapperHelper,
-                                 FingerprintHashService hashService) {
-    super(labelService, identifierUrlProvider, mapperHelper, hashService);
+                                 FingerprintHashService hashService,
+                                 IdentifierPrefixService identifierPrefixService) {
+    super(labelService, identifierLinkProvider, mapperHelper, hashService, identifierPrefixService);
   }
 
 

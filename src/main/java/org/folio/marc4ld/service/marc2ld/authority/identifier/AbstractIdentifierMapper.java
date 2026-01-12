@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -34,12 +33,11 @@ import org.marc4j.marc.Record;
 
 @RequiredArgsConstructor
 public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper {
-  private static final Pattern NON_ALPHA_PATTERN = Pattern.compile("[^a-zA-Z]");
-
   private final LabelService labelService;
-  private final IdentifierUrlProvider identifierUrlProvider;
+  private final IdentifierLinkProvider identifierLinkProvider;
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
+  private final IdentifierPrefixService identifierPrefixService;
 
   protected abstract Optional<String> getIdentifier(Record marc);
 
@@ -72,15 +70,13 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
   private Map<String, List<String>> makeProperties(String identifier) {
     var properties = new HashMap<String, List<String>>();
     properties.put(NAME.getValue(), List.of(identifier));
-    var prefix = getIdentifierPrefix(identifier);
-    identifierUrlProvider.getBaseUrl(prefix)
-      .map(baseUrl -> createLink(baseUrl, identifier))
+    identifierLinkProvider.getIdentifierLink(identifier)
       .ifPresent(link -> properties.put(LINK.getValue(), List.of(link)));
     return properties;
   }
 
   private ResourceTypeDictionary deriveIdentifierType(String identifier) {
-    var prefix = getIdentifierPrefix(identifier);
+    var prefix = identifierPrefixService.getIdentifierPrefix(identifier).toLowerCase();
     return switch (prefix) {
       case "n", "no", "nb", "nr", "ns" -> ID_LCNAF;
       case "sh" -> ID_LCSH;
@@ -95,16 +91,5 @@ public abstract class AbstractIdentifierMapper implements CustomAuthorityMapper 
       case "viaf" -> ID_VIAF;
       default -> ID_LOCAL;
     };
-  }
-
-  private String createLink(String baseUrl, String identifier) {
-    if (!baseUrl.endsWith("/")) {
-      baseUrl = baseUrl + "/";
-    }
-    return baseUrl + identifier;
-  }
-
-  private String getIdentifierPrefix(String identifier) {
-    return identifier == null ? "" : NON_ALPHA_PATTERN.split(identifier, 2)[0].toLowerCase();
   }
 }
