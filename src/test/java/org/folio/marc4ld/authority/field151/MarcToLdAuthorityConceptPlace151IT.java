@@ -65,7 +65,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
       .singleElement()
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(PLACE), placeProperties(), EXPECTED_FOCUS_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "fst98765430", ID_FAST, null))
+      .satisfies(resource -> validateIdentifier(resource, "fst98765430", ID_FAST, "http://id.worldcat.org/fast/fst98765430"))
       .satisfies(resource -> validateIdentifier(resource, "ns0987654", ID_LCNAF, "http://id.loc.gov/authorities/ns0987654"));
   }
 
