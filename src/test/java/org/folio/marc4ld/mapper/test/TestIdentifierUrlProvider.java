@@ -7,21 +7,27 @@ import org.folio.marc4ld.service.marc2ld.authority.identifier.IdentifierLinkProv
 public class TestIdentifierUrlProvider implements IdentifierLinkProvider {
   @Override
   public Optional<String> getIdentifierLink(String identifier) {
-    if (isLcIdentifier(identifier)) {
-      return Optional.of("http://id.loc.gov/authorities/" + identifier);
-    }
+    String link = null;
     if (isFastIdentifier(identifier)) {
-      return Optional.of("http://id.worldcat.org/fast/" + identifier);
+      link = "http://id.worldcat.org/fast/" + identifier;
+    } else if (isGenreFormLcIdentifier(identifier)) {
+      link = "http://id.loc.gov/authorities/genreForms/" + identifier;
+    } else if (isLcIdentifier(identifier)) {
+      link = "http://id.loc.gov/authorities/" + identifier;
     }
-    return Optional.empty();
+    return Optional.ofNullable(link);
   }
 
   private boolean isFastIdentifier(String identifier) {
     return identifier.toLowerCase().startsWith("fst");
   }
 
+  private boolean isGenreFormLcIdentifier(String identifier) {
+    return identifier.toLowerCase().startsWith("gf");
+  }
+
   private boolean isLcIdentifier(String identifier) {
-    return Stream.of("n", "no", "nb", "nr", "ns", "sh", "dg", "sj", "gf", "mp")
+    return Stream.of("n", "no", "nb", "nr", "ns", "sh", "dg", "sj", "mp")
       .anyMatch(identifier.toLowerCase()::startsWith);
   }
 }
