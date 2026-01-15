@@ -58,7 +58,7 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
       .singleElement()
       .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(2))
       .satisfies(resource -> validateResource(resource, List.of(MEETING), meetingProperties(), EXPECTED_MEETING_LABEL))
-      .satisfies(resource -> validateIdentifier(resource, "fst12345678", ID_FAST, null))
+      .satisfies(resource -> validateIdentifier(resource, "Fst12345678", ID_FAST, "http://id.worldcat.org/fast/Fst12345678"))
       .satisfies(resource -> validateIdentifier(resource, "gnd0987654321", ID_GND, null));
   }
 
