@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.marc2ld.bib.mapper.custom;
 
+import static java.util.Collections.emptyMap;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.GENRE;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
@@ -12,7 +13,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,14 +23,13 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
 import org.folio.marc4ld.service.label.LabelService;
+import org.folio.marc4ld.service.marc2ld.authority.identifier.IdentifierLinkProvider;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConceptFormMapper extends AbstractBookMapper {
 
-  private static final Set<Character> SUPPORTED_CODES =
-    Set.of('c', 'd', 'e', 'f', 'i', 'j', 'l', 'm', 'r', 's', 't', 'v', 'w', 'y', 'z', '5', '6');
   private static final String LAW_MATERIALS = "Law materials";
   private static final String LAW_MATERIALS_LCCN = "gf2011026351";
   private static final Map<Character, String> CODE_TO_LABEL_MAP = Map.ofEntries(
@@ -73,33 +73,43 @@ public class ConceptFormMapper extends AbstractBookMapper {
 
   private final MapperHelper mapperHelper;
   private final FingerprintHashService hashService;
+  private final IdentifierLinkProvider identifierLinkProvider;
 
-  public ConceptFormMapper(LabelService labelService, MapperHelper mapperHelper, FingerprintHashService hashService) {
+  public ConceptFormMapper(LabelService labelService,
+                           MapperHelper mapperHelper,
+                           FingerprintHashService hashService,
+                           IdentifierLinkProvider identifierLinkProvider) {
     super(labelService, mapperHelper, hashService, 24, 28);
     this.mapperHelper = mapperHelper;
     this.hashService = hashService;
+    this.identifierLinkProvider = identifierLinkProvider;
   }
 
   @Override
   protected boolean isSupportedCode(char code) {
-    return SUPPORTED_CODES.contains(code);
+    return CODE_TO_LABEL_MAP.containsKey(code) && CODE_TO_LCCN_MAP.containsKey(code);
   }
 
   @Override
   protected void addSubResource(Resource resource, char code) {
-    var lccn = createResource(Set.of(ID_LCCN, IDENTIFIER), Map.of(
-      NAME.getValue(), List.of(CODE_TO_LCCN_MAP.get(code)),
-      LINK.getValue(), List.of("http://id.loc.gov/authorities/genreForms/" + CODE_TO_LCCN_MAP.get(code)),
-      LABEL.getValue(), List.of(CODE_TO_LCCN_MAP.get(code))
-    ), Collections.emptyMap());
+    var lccnResource = getLccnResource(CODE_TO_LCCN_MAP.get(code));
     var form = createResource(Set.of(FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
-    ), Map.of(MAP, lccn));
+    ), Map.of(MAP, lccnResource));
     var conceptForm = createResource(Set.of(CONCEPT, FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
     ), Map.of(FOCUS, form));
     resource.addOutgoingEdge(new ResourceEdge(resource, conceptForm, SUBJECT));
     resource.addOutgoingEdge(new ResourceEdge(resource, form, GENRE));
+  }
+
+  private Resource getLccnResource(String lccn) {
+    var props = new HashMap<String, List<String>>();
+    props.put(NAME.getValue(), List.of(lccn));
+    props.put(LABEL.getValue(), List.of(lccn));
+    identifierLinkProvider.getIdentifierLink(lccn)
+      .ifPresent(link -> props.put(LINK.getValue(), List.of(link)));
+    return createResource(Set.of(ID_LCCN, IDENTIFIER), props, emptyMap());
   }
 
   @Override
