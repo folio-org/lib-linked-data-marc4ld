@@ -203,7 +203,7 @@ authorityFieldRules:
             a: NAME
             g: MISC_INFO
       marc2ldCondition:
-        fieldsAllOf:
+        fieldsAnyOf:
           v: presented
           x: presented
           y: presented
