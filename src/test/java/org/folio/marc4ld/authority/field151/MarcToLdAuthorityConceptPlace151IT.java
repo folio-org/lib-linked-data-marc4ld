@@ -1,6 +1,7 @@
 package org.folio.marc4ld.authority.field151;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
@@ -67,6 +68,58 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
       .satisfies(resource -> validateResource(resource, List.of(PLACE), placeProperties(), EXPECTED_FOCUS_LABEL))
       .satisfies(resource -> validateIdentifier(resource, "fst98765430", ID_FAST, "http://id.worldcat.org/fast/fst98765430"))
       .satisfies(resource -> validateIdentifier(resource, "ns0987654", ID_LCNAF, "http://id.loc.gov/authorities/ns0987654"));
+  }
+
+  @Test
+  void shouldMap151FieldToConceptPlaceResource_withOnlySubfieldZ() {
+    // given
+    var marc = loadResourceAsString("authority/151/marc_151_concept_japan_tokyo.jsonl");
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(resources)
+      .singleElement()
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(3))
+      .satisfies(
+        resource -> validateResource(
+          resource,
+          List.of(CONCEPT, PLACE),
+          Map.of(
+            "http://library.link/vocab/resourcePreferred", List.of("true"),
+            "http://bibfra.me/vocab/library/geographicSubdivision", List.of("Tokyo"),
+            "http://bibfra.me/vocab/lite/name", List.of("Japan"),
+            "http://bibfra.me/vocab/lite/label", List.of("Japan -- Tokyo")
+          ),
+          "Japan -- Tokyo")
+      )
+      .satisfies(
+        resource -> validateFocusResource(
+          resource,
+          PLACE,
+          Map.of(
+            "http://bibfra.me/vocab/lite/label", List.of("Japan"),
+            "http://bibfra.me/vocab/lite/name", List.of("Japan")
+          ),
+          "Japan")
+      )
+      .satisfies(resource -> {
+        var subFocuses = resource.getOutgoingEdges().stream()
+          .filter(e -> e.getPredicate().equals(SUB_FOCUS))
+          .toList();
+        assertThat(subFocuses).hasSize(1);
+        validateResource(
+          subFocuses.getFirst().getTarget(),
+          List.of(PLACE),
+          Map.of(
+            "http://bibfra.me/vocab/lite/label", List.of("Tokyo"),
+            "http://bibfra.me/vocab/lite/name", List.of("Tokyo")
+          ),
+          "Tokyo"
+        );
+      })
+      .satisfies(resource -> validateIdentifier(resource, "fst01204835", ID_FAST, "http://id.worldcat.org/fast/fst01204835"));
   }
 
   private Map<String, List<String>> conceptPlaceProperties() {
