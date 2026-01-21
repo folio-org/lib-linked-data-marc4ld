@@ -54,7 +54,8 @@ class Marc2Ld100And700IT extends Marc2LdTestBase {
 
   private Map<String, List<String>> getProperties() {
     return Map.ofEntries(
-      entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link", "another authority link")),
+      entry("http://bibfra.me/vocab/lite/authorityLink", List.of("(FAST)fst1234567890",
+        "http://id.worldcat.org/fast/fst1234567890", "http://id.loc.gov/authorities/names/n1234567890")),
       entry("http://bibfra.me/vocab/lite/equivalent", List.of("equivalent", "another equivalent")),
       entry("http://bibfra.me/vocab/library/linkage", List.of("linkage")),
       entry("http://bibfra.me/vocab/library/controlField", List.of("control field", "another control field")),

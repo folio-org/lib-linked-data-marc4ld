@@ -6,13 +6,15 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.STATUS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
-import static org.folio.marc4ld.util.MarcUtil.duplicateDataField;
+import static org.folio.marc4ld.util.MarcUtil.addSubfieldIfNotDuplicate;
 
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -38,37 +40,38 @@ public class ConceptSubfield0Mapper implements AdditionalDataFieldsMapper {
   @Override
   public DataField apply(ResourceEdge resourceEdge, DataField mappedSoFar) {
     var conceptResource = resourceEdge.getTarget();
-    var lccnLinkOpt = getLccnResource(conceptResource)
-      .flatMap(lccnResource -> getPropertyValue(lccnResource, LINK.getValue()));
+    getIdentifierResources(conceptResource).stream()
+      .flatMap(identifierResource -> getPropertyValue(identifierResource, LINK.getValue()).stream())
+      .sorted()
+      .forEach(identifierLink -> addSubfieldIfNotDuplicate(mappedSoFar, marcFactory.newSubfield(ZERO, identifierLink)));
 
-    if (lccnLinkOpt.isPresent()) {
-      var newDataField = duplicateDataField(mappedSoFar, marcFactory);
-      newDataField.addSubfield(marcFactory.newSubfield(ZERO, lccnLinkOpt.get()));
-      return newDataField;
-    }
     return mappedSoFar;
   }
 
-  private Optional<Resource> getLccnResource(Resource conceptResource) {
-    return conceptResource.getOutgoingEdges()
+  private Set<Resource> getIdentifierResources(Resource conceptResource) {
+    var result = conceptResource.getOutgoingEdges()
       .stream()
       .filter(edge -> edge.getPredicate() == MAP)
       .map(ResourceEdge::getTarget)
-      .filter(this::isCurrentLccn)
-      .findFirst()
-      .or(() -> findFocusLccnResource(conceptResource));
+      .filter(resource -> resource.isOfType(IDENTIFIER))
+      .filter(this::isCurrentIdentifier)
+      .collect(Collectors.toSet());
+    if (result.isEmpty()) {
+      return findFocusIdentifierResources(conceptResource);
+    }
+    return result;
   }
 
-  private Optional<Resource> findFocusLccnResource(Resource conceptResource) {
+  private Set<Resource> findFocusIdentifierResources(Resource conceptResource) {
     if (isIntermediateConcept(conceptResource)) {
       return conceptResource.getOutgoingEdges()
         .stream()
         .filter(edge -> edge.getPredicate() == FOCUS)
         .map(ResourceEdge::getTarget)
-        .flatMap(resource -> getLccnResource(resource).stream())
-        .findFirst();
+        .flatMap(resource -> getIdentifierResources(resource).stream())
+        .collect(Collectors.toSet());
     }
-    return Optional.empty();
+    return Set.of();
   }
 
   private boolean isIntermediateConcept(Resource conceptResource) {
@@ -87,9 +90,9 @@ public class ConceptSubfield0Mapper implements AdditionalDataFieldsMapper {
       .noneMatch(predicate -> predicate.equals(SUB_FOCUS.getUri()));
   }
 
-  private boolean isCurrentLccn(Resource lccnResource) {
-    return lccnResource.getOutgoingEdges().isEmpty()
-      || lccnResource.getOutgoingEdges()
+  private boolean isCurrentIdentifier(Resource identifierResource) {
+    return identifierResource.getOutgoingEdges().isEmpty()
+      || identifierResource.getOutgoingEdges()
         .stream()
         .map(ResourceEdge::getTarget)
         .filter(target -> target.isOfType(STATUS))

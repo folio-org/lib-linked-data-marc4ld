@@ -1,5 +1,5 @@
 {
-  "leader" : "00373nam a2200049uc 4500",
+  "leader" : "00415nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -45,7 +45,9 @@
       }, {
         "z" : "place 2"
       }, {
-        "0" : "https://id.loc.gov/authorities/names/n1234567890"
+        "0" : "http://id.loc.gov/authorities/names/n1234567890"
+      }, {
+        "0" : "http://id.worldcat.org/fast/fst1234567890"
       } ],
       "ind1" : "3",
       "ind2" : " "

@@ -23,7 +23,9 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_FAST;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PERSON;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -75,9 +77,26 @@ class Ld2Marc600ComplexConceptIT {
     var lccn = createResource(
       Map.of(
         NAME, List.of("n1234567890"),
-        LINK, List.of("https://id.loc.gov/authorities/names/n1234567890")
+        LINK, List.of("http://id.loc.gov/authorities/names/n1234567890")
       ),
-      Set.of(IDENTIFIER, ID_LCCN),
+      Set.of(IDENTIFIER, ID_LCNAF),
+      Map.of()
+    );
+
+    var fast = createResource(
+      Map.of(
+        NAME, List.of("fst1234567890"),
+        LINK, List.of("http://id.worldcat.org/fast/fst1234567890")
+      ),
+      Set.of(IDENTIFIER, ID_FAST),
+      Map.of()
+    );
+
+    var local = createResource(
+      Map.of(
+        NAME, List.of("1234567890")
+      ),
+      Set.of(IDENTIFIER, ID_LOCAL),
       Map.of()
     );
 
@@ -113,7 +132,7 @@ class Ld2Marc600ComplexConceptIT {
         Map.entry(CHRONOLOGICAL_SUBDIVISION, List.of("temporal 1", "temporal 2"))
       ),
       Set.of(subjectType, CONCEPT),
-      Map.of(FOCUS, List.of(personOrFamily), MAP, List.of(lccn))
+      Map.of(FOCUS, List.of(personOrFamily), MAP, List.of(lccn, fast, local))
     );
     var work = createResource(
       Map.of(),

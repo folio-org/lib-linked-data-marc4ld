@@ -15,6 +15,7 @@ import static org.folio.marc4ld.util.Constants.ZERO;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
+import static org.folio.marc4ld.util.MarcUtil.addSubfieldIfNotDuplicate;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 
 import java.util.Comparator;
@@ -150,8 +151,9 @@ public abstract class AgentMapper implements CustomDataFieldsMapper {
       .map(ResourceEdge::getTarget)
       .map(r -> getPropertyValue(r, LINK.getValue()))
       .flatMap(Optional::stream)
+      .sorted()
       .map(value -> marcFactory.newSubfield(ZERO, value))
-      .forEach(dataField::addSubfield);
+      .forEach(sf -> addSubfieldIfNotDuplicate(dataField, sf));
   }
 
   private boolean isIdentifier(ResourceEdge resourceEdge) {

@@ -19,9 +19,12 @@ import static org.folio.ld.dictionary.PropertyDictionary.NUMERATION;
 import static org.folio.ld.dictionary.PropertyDictionary.TITLES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_FAST;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.Collections;
@@ -33,7 +36,6 @@ import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -70,25 +72,27 @@ class LdToMarc100And700IT {
   }
 
   private Resource createResourceWithWork(ResourceTypeDictionary type, PredicateDictionary predicate) {
-    var lccn = MonographTestUtil.createResource(
-      Map.ofEntries(
-        entry(LINK, List.of("lccn link"))
-      ),
+    var lccnId = createResource(
+      Map.of(LINK, List.of("http://id.loc.gov/authorities/names/n1234567890")),
       Set.of(IDENTIFIER, ID_LCCN),
       emptyMap()
-    ).setLabel("lccn");
+    ).setLabel("n1234567890");
 
-    var anotherLccn = MonographTestUtil.createResource(
-      Map.ofEntries(
-        entry(LINK, List.of("another lccn link"))
-      ),
-      Set.of(IDENTIFIER, ID_LCCN),
+    var fastId = createResource(
+      Map.of(LINK, List.of("http://id.worldcat.org/fast/fst1234567890")),
+      Set.of(IDENTIFIER, ID_FAST),
       emptyMap()
-    ).setLabel("another lccn");
+    ).setLabel("fst1234567890");
 
-    var creator = MonographTestUtil.createResource(
+    var localId = createResource(
+      Map.of(NAME, List.of("1234567890")),
+      Set.of(IDENTIFIER, ID_LOCAL),
+      emptyMap()
+    ).setLabel("1234567890");
+
+    var creator = createResource(
         Map.ofEntries(
-          entry(AUTHORITY_LINK, List.of("authority link", "another authority link")),
+          entry(AUTHORITY_LINK, List.of("(FAST)fst1234567890", "http://id.worldcat.org/fast/fst1234567890")),
           entry(EQUIVALENT, List.of("equivalent", "another equivalent")),
           entry(LINKAGE, List.of("linkage")),
           entry(CONTROL_FIELD, List.of("control field", "another control field")),
@@ -104,12 +108,12 @@ class LdToMarc100And700IT {
           entry(AFFILIATION, List.of("affiliation"))
         ),
         Set.of(type),
-        Map.of(PredicateDictionary.MAP, List.of(lccn, anotherLccn))
+        Map.of(PredicateDictionary.MAP, List.of(localId, lccnId, fastId))
       )
       .setLabel("name")
       .setFolioMetadata(new FolioMetadata().setInventoryId("8473ef4b-001f-46b3-a60e-52bcdeb3d5b2"));
 
-    var work = MonographTestUtil.createResource(
+    var work = createResource(
       Collections.emptyMap(),
       Set.of(WORK, BOOKS),
       Map.of(
@@ -118,7 +122,7 @@ class LdToMarc100And700IT {
       )
     ).setLabel("Work: label");
 
-    return MonographTestUtil.createResource(
+    return createResource(
       Collections.emptyMap(),
       Set.of(INSTANCE),
       Map.of(PredicateDictionary.INSTANTIATES, List.of(work))

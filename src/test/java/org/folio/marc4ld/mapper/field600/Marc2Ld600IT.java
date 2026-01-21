@@ -63,7 +63,7 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/formSubdivision", List.of("form 1", "form 2")),
         Map.entry("http://bibfra.me/vocab/library/relator_term", List.of("relator")),
         Map.entry("http://bibfra.me/vocab/lite/authorityLink",
-          List.of("https://id.loc.gov/authorities/names/n1234567890"))
+          List.of("http://id.loc.gov/authorities/names/n1234567890", "http://id.worldcat.org/fast/fst1234567890"))
       ),
       expectedConceptLabel);
 
@@ -81,7 +81,8 @@ class Marc2Ld600IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/date", List.of("2024"),
         "http://bibfra.me/vocab/library/miscInfo", List.of("misc info", "another misc info"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative"),
-        "http://bibfra.me/vocab/lite/authorityLink", List.of("https://id.loc.gov/authorities/names/n1234567890"),
+        "http://bibfra.me/vocab/lite/authorityLink", List.of(
+          "http://id.loc.gov/authorities/names/n1234567890", "http://id.worldcat.org/fast/fst1234567890"),
         "http://bibfra.me/vocab/lite/label", List.of(expectedFocusLabel)
       ),
       expectedFocusLabel
