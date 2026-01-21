@@ -8,7 +8,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCGFT;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
@@ -74,27 +74,27 @@ class Marc2LdConceptFormIT extends Marc2LdTestBase {
           .flatMap(List::stream)
           .toList()
       )
-      .satisfies(lccnEdges -> {
-        assertThat(lccnEdges).hasSize(4);
-        validateEdge(lccnEdges.getFirst(), MAP, List.of(ID_LCCN, IDENTIFIER),
+      .satisfies(lcgftEdges -> {
+        assertThat(lcgftEdges).hasSize(4);
+        validateEdge(lcgftEdges.getFirst(), MAP, List.of(ID_LCGFT, IDENTIFIER),
           Map.of(
             "http://bibfra.me/vocab/lite/name", List.of("gf2014026057"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/genreForms/gf2014026057"),
             "http://bibfra.me/vocab/lite/label", List.of("gf2014026057")
           ), "gf2014026057");
-        validateEdge(lccnEdges.get(1), MAP, List.of(ID_LCCN, IDENTIFIER),
+        validateEdge(lcgftEdges.get(1), MAP, List.of(ID_LCGFT, IDENTIFIER),
           Map.of(
             "http://bibfra.me/vocab/lite/name", List.of("gf2014026112"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/genreForms/gf2014026112"),
             "http://bibfra.me/vocab/lite/label", List.of("gf2014026112")
           ), "gf2014026112");
-        validateEdge(lccnEdges.get(2), MAP, List.of(ID_LCCN, IDENTIFIER),
+        validateEdge(lcgftEdges.get(2), MAP, List.of(ID_LCGFT, IDENTIFIER),
           Map.of(
             "http://bibfra.me/vocab/lite/name", List.of("gf2014026055"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/genreForms/gf2014026055"),
             "http://bibfra.me/vocab/lite/label", List.of("gf2014026055")
           ), "gf2014026055");
-        validateEdge(lccnEdges.get(3), MAP, List.of(ID_LCCN, IDENTIFIER),
+        validateEdge(lcgftEdges.get(3), MAP, List.of(ID_LCGFT, IDENTIFIER),
           Map.of(
             "http://bibfra.me/vocab/lite/name", List.of("gf2014026266"),
             "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/authorities/genreForms/gf2014026266"),
