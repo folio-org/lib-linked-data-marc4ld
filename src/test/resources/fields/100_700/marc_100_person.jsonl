@@ -1,5 +1,5 @@
 {
-  "leader" : "00510nam a2200049uc 4500",
+  "leader" : "00553nam a2200049uc 4500",
   "fields" : [ {
     "008" : "                                       "
   }, {
@@ -33,13 +33,11 @@
       }, {
         "u" : "affiliation"
       }, {
-        "0" : "authority link"
+        "0" : "(FAST)fst1234567890"
       }, {
-        "0" : "another authority link"
+        "0" : "http://id.worldcat.org/fast/fst1234567890"
       }, {
-        "0" : "lccn link"
-      }, {
-        "0" : "another lccn link"
+        "0" : "http://id.loc.gov/authorities/names/n1234567890"
       }, {
         "1" : "equivalent"
       }, {

@@ -10,7 +10,7 @@ import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.INDICATOR_FOLIO;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.MarcUtil.hasSubfield;
+import static org.folio.marc4ld.util.MarcUtil.addSubfieldIfNotDuplicate;
 import static org.folio.marc4ld.util.MarcUtil.orderSubfields;
 import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
@@ -125,8 +125,7 @@ public class Resource2MarcRecordMapperImpl implements Resource2MarcRecordMapper 
     var mergedField = marcFactory.newDataField(marcField, ind1, ind2);
     fields.stream()
       .flatMap(f -> f.getSubfields().stream())
-      .filter(sf -> !hasSubfield(sf, mergedField))
-      .forEach(mergedField::addSubfield);
+      .forEach(sf -> addSubfieldIfNotDuplicate(mergedField, sf));
     orderSubfields(mergedField, subfieldComparator);
 
     return mergedField;

@@ -40,14 +40,15 @@ public class MarcUtil {
     getPropertyValues(resource, property)
       .stream()
       .map(val -> marcFactory.newSubfield(subfield, val))
-      .forEach(dataField::addSubfield);
+      .forEach(sf -> addSubfieldIfNotDuplicate(dataField, sf));
   }
 
   public static void addNonRepeatableSubfield(Resource resource, String property, DataField dataField, char subfield,
                                               MarcFactory marcFactory) {
     if (!isSubfieldPresent(subfield, dataField)) {
       getPropertyValue(resource, property)
-        .ifPresent(val -> dataField.addSubfield(marcFactory.newSubfield(subfield, val)));
+        .map(val -> marcFactory.newSubfield(subfield, val))
+        .ifPresent(sf -> addSubfieldIfNotDuplicate(dataField, sf));
     }
   }
 
@@ -62,13 +63,19 @@ public class MarcUtil {
     return dataField.getSubfield(subfield) != null;
   }
 
-  public static boolean hasSubfield(Subfield subfield, DataField dataField) {
+  public static boolean hasSubfield(DataField dataField, Subfield subfield) {
     return dataField.getSubfields()
       .stream()
       .anyMatch(
         sf -> Objects.equals(sf.getCode(), subfield.getCode())
           && Objects.equals(sf.getData(), subfield.getData())
       );
+  }
+
+  public static void addSubfieldIfNotDuplicate(DataField dataField, Subfield subfield) {
+    if (!hasSubfield(dataField, subfield)) {
+      dataField.addSubfield(subfield);
+    }
   }
 
   public static String getSubfieldValue(char subfield, DataField dataField) {
