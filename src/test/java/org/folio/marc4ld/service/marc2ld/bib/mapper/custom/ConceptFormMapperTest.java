@@ -3,7 +3,7 @@ package org.folio.marc4ld.service.marc2ld.bib.mapper.custom;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCGFT;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
@@ -101,10 +101,10 @@ class ConceptFormMapperTest {
     var form = formEdge.get().getTarget();
     assertEquals(1, form.getOutgoingEdges().size());
 
-    var lccnEdge = getEdge(form, ID_LCCN, IDENTIFIER);
-    assertTrue(lccnEdge.isPresent());
-    assertEquals("http://library.link/vocab/map", lccnEdge.get().getPredicate().getUri());
-    assertTrue(lccnEdge.get().getTarget().getOutgoingEdges().isEmpty());
+    var lcgftEdge = getEdge(form, ID_LCGFT, IDENTIFIER);
+    assertTrue(lcgftEdge.isPresent());
+    assertEquals("http://library.link/vocab/map", lcgftEdge.get().getPredicate().getUri());
+    assertTrue(lcgftEdge.get().getTarget().getOutgoingEdges().isEmpty());
 
     var genreEdge = getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/lite/genre"));
     assertEquals(form, genreEdge.getTarget());

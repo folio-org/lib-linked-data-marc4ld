@@ -11,7 +11,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCGFT;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 public class ConceptFormMapper extends AbstractBookMapper {
 
   private static final String LAW_MATERIALS = "Law materials";
-  private static final String LAW_MATERIALS_LCCN = "gf2011026351";
+  private static final String LAW_MATERIALS_LCGFT = "gf2011026351";
   private static final Map<Character, String> CODE_TO_LABEL_MAP = Map.ofEntries(
     Map.entry('c', "Catalogs"),
     Map.entry('d', "Dictionaries"),
@@ -51,20 +51,20 @@ public class ConceptFormMapper extends AbstractBookMapper {
     Map.entry('5', "Calendars"),
     Map.entry('6', "Comics (Graphic works)")
   );
-  private static final Map<Character, String> CODE_TO_LCCN_MAP = Map.ofEntries(
+  private static final Map<Character, String> CODE_TO_LCGFT_MAP = Map.ofEntries(
     Map.entry('c', "gf2014026057"),
     Map.entry('d', "gf2014026086"),
     Map.entry('e', "gf2014026092"),
     Map.entry('f', "gf2014026109"),
     Map.entry('i', "gf2014026112"),
     Map.entry('j', "gf2011026438"),
-    Map.entry('l', LAW_MATERIALS_LCCN),
+    Map.entry('l', LAW_MATERIALS_LCGFT),
     Map.entry('m', "gf2014026039"),
     Map.entry('r', "gf2014026087"),
     Map.entry('s', "gf2014026181"),
     Map.entry('t', "gf2015026093"),
-    Map.entry('v', LAW_MATERIALS_LCCN),
-    Map.entry('w', LAW_MATERIALS_LCCN),
+    Map.entry('v', LAW_MATERIALS_LCGFT),
+    Map.entry('w', LAW_MATERIALS_LCGFT),
     Map.entry('y', "gf2014026208"),
     Map.entry('z', "gf2011026707"),
     Map.entry('5', "gf2014026055"),
@@ -87,15 +87,15 @@ public class ConceptFormMapper extends AbstractBookMapper {
 
   @Override
   protected boolean isSupportedCode(char code) {
-    return CODE_TO_LABEL_MAP.containsKey(code) && CODE_TO_LCCN_MAP.containsKey(code);
+    return CODE_TO_LABEL_MAP.containsKey(code) && CODE_TO_LCGFT_MAP.containsKey(code);
   }
 
   @Override
   protected void addSubResource(Resource resource, char code) {
-    var lccnResource = getLccnResource(CODE_TO_LCCN_MAP.get(code));
+    var lcgftResource = getLcgftResource(CODE_TO_LCGFT_MAP.get(code));
     var form = createResource(Set.of(FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
-    ), Map.of(MAP, lccnResource));
+    ), Map.of(MAP, lcgftResource));
     var conceptForm = createResource(Set.of(CONCEPT, FORM), Map.of(
       NAME.getValue(), List.of(CODE_TO_LABEL_MAP.get(code))
     ), Map.of(FOCUS, form));
@@ -103,13 +103,13 @@ public class ConceptFormMapper extends AbstractBookMapper {
     resource.addOutgoingEdge(new ResourceEdge(resource, form, GENRE));
   }
 
-  private Resource getLccnResource(String lccn) {
+  private Resource getLcgftResource(String lcgftValue) {
     var props = new HashMap<String, List<String>>();
-    props.put(NAME.getValue(), List.of(lccn));
-    props.put(LABEL.getValue(), List.of(lccn));
-    identifierLinkProvider.getIdentifierLink(lccn)
+    props.put(NAME.getValue(), List.of(lcgftValue));
+    props.put(LABEL.getValue(), List.of(lcgftValue));
+    identifierLinkProvider.getIdentifierLink(lcgftValue)
       .ifPresent(link -> props.put(LINK.getValue(), List.of(link)));
-    return createResource(Set.of(ID_LCCN, IDENTIFIER), props, emptyMap());
+    return createResource(Set.of(ID_LCGFT, IDENTIFIER), props, emptyMap());
   }
 
   @Override
