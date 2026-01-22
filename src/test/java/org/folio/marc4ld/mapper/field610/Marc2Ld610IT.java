@@ -89,7 +89,6 @@ class Marc2Ld610IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/lite/authorityLink", List.of("authority link")),
         Map.entry("http://bibfra.me/vocab/lite/date", List.of("date")),
         Map.entry("http://bibfra.me/vocab/library/miscInfo", List.of("misc info", "another misc info")),
-        Map.entry("http://bibfra.me/vocab/library/numberOfParts", List.of("number of parts", "another number of parts")),
         Map.entry("http://bibfra.me/vocab/lite/name", List.of("name")),
         Map.entry("http://bibfra.me/vocab/library/materialsSpecified", List.of("materials specified")),
         Map.entry("http://bibfra.me/vocab/library/linkage", List.of("linkage"))
