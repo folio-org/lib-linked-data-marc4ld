@@ -14,14 +14,12 @@ import static org.folio.marc4ld.util.Constants.C;
 import static org.folio.marc4ld.util.Constants.D;
 import static org.folio.marc4ld.util.Constants.G;
 import static org.folio.marc4ld.util.Constants.ONE;
-import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.T;
 import static org.folio.marc4ld.util.Constants.TAG_610;
 import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
 
 import java.util.Comparator;
-import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
@@ -32,26 +30,22 @@ import org.springframework.stereotype.Component;
 public class Hub610Mapper extends Hub6xxMapper {
   private final MarcFactory marcFactory;
 
-  public Hub610Mapper(MarcFactory marcFactory, Comparator<Subfield> comparator) {
-    super(marcFactory, comparator);
+  public Hub610Mapper(MarcFactory marcFactory,
+                      Comparator<Subfield> subfieldComparator,
+                      HubCreatorComparator hubCreatorComparator) {
+    super(marcFactory, subfieldComparator, hubCreatorComparator);
     this.marcFactory = marcFactory;
   }
 
   @Override
-  protected DataField createEmptyDatafield(Resource concept) {
-    var ind1 = isCreatorOfType(concept, JURISDICTION) ? ONE : SPACE;
-    return marcFactory.newDataField(TAG_610, ind1, SPACE);
+  protected String getTag() {
+    return TAG_610;
   }
-
 
   @Override
-  protected boolean isCreatorConditionSatisfied(Resource concept) {
-    return isCreatorOfType(concept, JURISDICTION) || isCreatorOfType(concept, ORGANIZATION);
-  }
-
-  private boolean isCreatorOfType(Resource concept, ResourceTypeDictionary creatorType) {
-    return getHubCreator(concept)
-      .filter(creator -> creator.isOfType(creatorType))
+  protected boolean isCreatorConditionMet(Resource hub) {
+    return getHubCreator(hub)
+      .filter(agent -> agent.isOfType(JURISDICTION) || agent.isOfType(ORGANIZATION))
       .isPresent();
   }
 
@@ -63,6 +57,9 @@ public class Hub610Mapper extends Hub6xxMapper {
 
   @Override
   protected void setCreatorFields(Resource creator, DataField dataField) {
+    if (creator.isOfType(JURISDICTION)) {
+      dataField.setIndicator1(ONE);
+    }
     addNonRepeatableSubfield(creator, NAME.getValue(), dataField, A, marcFactory);
     addRepeatableSubfield(creator, SUBORDINATE_UNIT.getValue(), dataField, B, marcFactory);
     addRepeatableSubfield(creator, PLACE.getValue(), dataField, C, marcFactory);

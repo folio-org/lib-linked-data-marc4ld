@@ -46,7 +46,7 @@ class Marc2Ld600HubIT extends Marc2LdTestBase {
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
 
     // validate Concept resource
-    var hubLabel = "Dracontius, Blossius Aemilius. active 5th century. Medea. German & Latin";
+    var hubLabel = "Dracontius, Blossius Aemilius. active 5th century. Part II. Liber 2. Medea. German & Latin";
     var conceptLabel = hubLabel + " -- Drama -- Parodies, imitations, etc -- 1st Century -- Spain -- Germany";
     validateResource(
       subjectEdge.getTarget(),
@@ -84,7 +84,7 @@ class Marc2Ld600HubIT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/partNumber", List.of("Liber 2"),
         "http://bibfra.me/vocab/library/partName", List.of("Part II")
       ),
-      "Medea"
+      "Medea Liber 2 Part II"
     );
 
     // validate creator resource

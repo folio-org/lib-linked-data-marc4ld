@@ -303,7 +303,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
 
   private void validateInstance(Resource resource) {
     validateId(resource);
-    assertThat(resource.getLabel()).isEqualTo("MainTitle SubTitle");
+    assertThat(resource.getLabel()).isEqualTo("MainTitle SubTitle 8 PartName");
     assertThat(resource.getDoc()).hasSize(33);
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
@@ -492,7 +492,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getHash()).isEqualTo(INSTANTIATES.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(INSTANTIATES.getUri());
     validateId(work);
-    assertThat(work.getLabel()).isEqualTo("MainTitle SubTitle");
+    assertThat(work.getLabel()).isEqualTo("MainTitle SubTitle 8 PartName");
     assertThat(work.getTypes()).containsOnly(WORK, BOOKS);
     assertThat(work.getDoc()).hasSize(13);
     getWorkExpectedProperties()
@@ -512,7 +512,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo("MainTitle SubTitle");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("MainTitle SubTitle 8 PartName");
     assertThat(edge.getTarget().getTypes()).containsOnly(TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(5);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
@@ -567,7 +567,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Variant-MainTitle Variant-SubTitle");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("Variant-MainTitle Variant-SubTitle 5 Variant-PartName");
     assertThat(edge.getTarget().getTypes()).containsOnly(VARIANT_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(7);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
@@ -599,7 +599,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getPredicate().getHash()).isEqualTo(PredicateDictionary.TITLE.getHash());
     assertThat(edge.getPredicate().getUri()).isEqualTo(PredicateDictionary.TITLE.getUri());
     validateId(edge.getTarget());
-    assertThat(edge.getTarget().getLabel()).isEqualTo("Parallel-MainTitle Parallel-SubTitle");
+    assertThat(edge.getTarget().getLabel()).isEqualTo("Parallel-MainTitle Parallel-SubTitle 6 Parallel-PartName");
     assertThat(edge.getTarget().getTypes()).containsOnly(PARALLEL_TITLE);
     assertThat(edge.getTarget().getDoc()).hasSize(6);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();

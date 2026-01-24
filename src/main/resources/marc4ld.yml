@@ -1044,6 +1044,8 @@ bibFieldRules:
         l: LANGUAGE, NAME
         q: NAME
         t: NAME
+        p: NAME
+        n: NAME
         r: MUSIC_KEY
         s: VERSION
         v: FORM_SUBDIVISION
@@ -1068,6 +1070,8 @@ bibFieldRules:
             l: LANGUAGE, LABEL
             q: LABEL
             t: LABEL
+            p: LABEL
+            n: LABEL
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1129,11 +1133,12 @@ bibFieldRules:
         c: NAME
         d: NAME
         f: DATE
-        j: NAME
+        g: NAME
         k: NAME
         l: LANGUAGE, NAME
-        q: NAME
         t: NAME
+        p: NAME
+        n: NAME
         r: MUSIC_KEY
         s: VERSION
         v: FORM_SUBDIVISION
@@ -1153,11 +1158,12 @@ bibFieldRules:
             b: LABEL
             c: LABEL
             d: LABEL
-            j: LABEL
+            g: LABEL
             k: LABEL
             l: LANGUAGE, LABEL
-            q: LABEL
             t: LABEL
+            p: LABEL
+            n: LABEL
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1848,9 +1854,9 @@ bibSharedRules:
       k: MAIN_TITLE
       l: MAIN_TITLE
       m: MAIN_TITLE
-      n: PART_NUMBER, MAIN_TITLE
+      n: PART_NUMBER
       o: MAIN_TITLE
-      p: PART_NAME, MAIN_TITLE
+      p: PART_NAME
       r: MAIN_TITLE
       s: MAIN_TITLE
       t: MAIN_TITLE

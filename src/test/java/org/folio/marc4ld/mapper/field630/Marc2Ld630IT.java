@@ -93,6 +93,9 @@ class Marc2Ld630IT extends Marc2LdTestBase {
     );
 
     // Validate Hub's title resource
+    var expectedMainTitle = "uniform title 2024 2025 misc info another misc info form subheading k English medium "
+      + "arranged stmt for music music key version";
+    var expectedTitleLabel = expectedMainTitle + " part number part name";
     var titleResource = getFirstOutgoingEdge(hubResource, withPredicateUri(TITLE.getUri())).getTarget();
     validateResource(
       titleResource,
@@ -100,10 +103,10 @@ class Marc2Ld630IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/library/partNumber", List.of("part number"),
         "http://bibfra.me/vocab/library/partName", List.of("part name"),
-        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedConceptName),
+        "http://bibfra.me/vocab/library/mainTitle", List.of(expectedMainTitle),
         "http://bibfra.me/vocab/bflc/nonSortNum", List.of("8")
       ),
-      expectedConceptName
+      expectedTitleLabel
     );
 
     // Validate subFocus resources

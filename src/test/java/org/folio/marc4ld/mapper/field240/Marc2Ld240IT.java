@@ -51,7 +51,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey)
     );
     var expectedTitleProps = Map.of(
-      "http://bibfra.me/vocab/library/mainTitle", List.of(expectedHubLabel),
+      "http://bibfra.me/vocab/library/mainTitle", List.of("d-1 a-2 g-3 f-4 k-6 l-7 m-8 o-10 r-12 r-13 s-14"),
       "http://bibfra.me/vocab/library/partName", List.of("p-11"),
       "http://bibfra.me/vocab/library/partNumber", List.of("n-9"),
       "http://bibfra.me/vocab/bflc/nonSortNum", List.of("4")
@@ -63,11 +63,12 @@ class Marc2Ld240IT extends Marc2LdTestBase {
     // then
     var work = getWorkEdge(resource).getTarget();
     var hub = getExpressionOfEdge(work).getTarget();
+    var expectedTitleLabel = "d-1 a-2 g-3 f-4 k-6 l-7 m-8 o-10 r-12 r-13 s-14 n-9 p-11";
     assertThat(hub)
       .satisfies(h -> validateResource(h, List.of(HUB), expectedHubProps, expectedHubLabel))
       .extracting(this::getTitleEdge)
       .satisfies(
-        h -> validateEdge(h, TITLE, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedHubLabel)
+        h -> validateEdge(h, TITLE, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedTitleLabel)
       );
   }
 

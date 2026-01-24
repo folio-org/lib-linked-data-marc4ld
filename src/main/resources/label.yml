@@ -170,7 +170,7 @@ labelRules:
       - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: PARALLEL_TITLE
     properties:
-      - "{$MAIN_TITLE} {$SUBTITLE}"
+      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: PERSON
     addLabelProperty: true
     properties:
@@ -196,14 +196,14 @@ labelRules:
       - NAME
   - types: TITLE
     properties:
-      - "{$MAIN_TITLE} {$SUBTITLE}"
+      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: TOPIC
     addLabelProperty: true
     properties:
       - NAME
   - types: VARIANT_TITLE
     properties:
-      - "{$MAIN_TITLE} {$SUBTITLE}"
+      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: WORK, SERIES
     addLabelProperty: true
     properties:
