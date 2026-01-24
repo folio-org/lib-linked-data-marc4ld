@@ -24,6 +24,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCE
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
@@ -79,7 +80,7 @@ class Ld2Marc600HubIT {
       Map.of()
     );
 
-    var creator = createResource(
+    var creator1 = createResource(
       Map.of(
         NAME, List.of("Bernstein, Leonard"),
         DATE, List.of("1918-1990"),
@@ -89,7 +90,19 @@ class Ld2Marc600HubIT {
       ),
       Set.of(hubCreatorType),
       Map.of()
-    );
+    ).setLabel("Leonard Bernstein");
+
+    var creator2 = createResource(
+      Map.of(NAME, List.of("Abc Corp.")),
+      Set.of(ORGANIZATION),
+      Map.of()
+    ).setLabel("Abc Corp.");
+
+    var creator3 = createResource(
+      Map.of(NAME, List.of("zzz")),
+      Set.of(hubCreatorType),
+      Map.of()
+    ).setLabel("zzz");
 
     var language = createResource(
       Map.of(CODE, List.of("eng")),
@@ -102,7 +115,7 @@ class Ld2Marc600HubIT {
       Set.of(HUB),
       Map.of(
         PredicateDictionary.TITLE, List.of(title),
-        CREATOR, List.of(creator),
+        CREATOR, List.of(creator2, creator1, creator3),
         LANGUAGE, List.of(language)
       )
     );
