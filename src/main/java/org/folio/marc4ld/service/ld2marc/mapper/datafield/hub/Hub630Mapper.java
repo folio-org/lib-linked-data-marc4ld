@@ -1,14 +1,10 @@
 package org.folio.marc4ld.service.ld2marc.mapper.datafield.hub;
 
-import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
-import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LEGAL_DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.NON_SORT_NUM;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.marc4ld.util.Constants.A;
 import static org.folio.marc4ld.util.Constants.D;
-import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.TAG_630;
 import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
@@ -25,17 +21,21 @@ import org.springframework.stereotype.Component;
 public class Hub630Mapper extends Hub6xxMapper {
   private final MarcFactory marcFactory;
 
-  public Hub630Mapper(MarcFactory marcFactory, Comparator<Subfield> comparator) {
-    super(marcFactory, comparator);
+  public Hub630Mapper(MarcFactory marcFactory,
+                      Comparator<Subfield> subfieldComparator,
+                      HubCreatorComparator hubCreatorComparator) {
+    super(marcFactory, subfieldComparator, hubCreatorComparator);
     this.marcFactory = marcFactory;
   }
 
   @Override
-  protected boolean isCreatorConditionSatisfied(Resource concept) {
-    return getOutgoingEdge(concept, FOCUS)
-      .filter(focus -> focus.isOfType(HUB))
-      .flatMap(hub -> getOutgoingEdge(hub, CREATOR))
-      .isEmpty();
+  protected String getTag() {
+    return TAG_630;
+  }
+
+  @Override
+  protected boolean isCreatorConditionMet(Resource hub) {
+    return getHubCreator(hub).isEmpty();
   }
 
   @Override
@@ -49,10 +49,5 @@ public class Hub630Mapper extends Hub6xxMapper {
   protected void setConceptFields(Resource concept, DataField dataField) {
     super.setConceptFields(concept, dataField);
     addRepeatableSubfield(concept, LEGAL_DATE.getValue(), dataField, D, marcFactory);
-  }
-
-  @Override
-  protected DataField createEmptyDatafield(Resource edge) {
-    return marcFactory.newDataField(TAG_630, SPACE, SPACE);
   }
 }

@@ -24,6 +24,7 @@ import static org.folio.marc4ld.util.Constants.N;
 import static org.folio.marc4ld.util.Constants.P;
 import static org.folio.marc4ld.util.Constants.R;
 import static org.folio.marc4ld.util.Constants.S;
+import static org.folio.marc4ld.util.Constants.SPACE;
 import static org.folio.marc4ld.util.Constants.V;
 import static org.folio.marc4ld.util.Constants.X;
 import static org.folio.marc4ld.util.Constants.Y;
@@ -47,21 +48,22 @@ import org.marc4j.marc.Subfield;
 public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
   private final MarcFactory marcFactory;
   private final Comparator<Subfield> comparator;
+  private final HubCreatorComparator hubCreatorComparator;
 
-  protected abstract DataField createEmptyDatafield(Resource concept);
+  protected abstract String getTag();
 
-  protected abstract boolean isCreatorConditionSatisfied(Resource concept);
+  protected abstract boolean isCreatorConditionMet(Resource hub);
 
   @Override
   public DataField apply(ResourceEdge edge) {
     var concept = edge.getTarget();
-    var dataField = createEmptyDatafield(edge.getTarget());
+    var dataField = marcFactory.newDataField(getTag(), SPACE, SPACE);
     getOutgoingEdge(concept, FOCUS)
       .ifPresent(hub -> {
         setConceptFields(concept, dataField);
         setLanguageFields(hub, dataField);
         getOutgoingEdge(hub, TITLE).ifPresent(title -> setTitleFields(title, dataField));
-        getOutgoingEdge(hub, CREATOR).ifPresent(creator -> setCreatorFields(creator, dataField));
+        getHubCreator(hub).ifPresent(creator -> setCreatorFields(creator, dataField));
         orderSubfields(dataField, comparator);
       });
     return dataField;
@@ -74,7 +76,7 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
       && edge.getPredicate().equals(SUBJECT)
       && edge.getTarget().isOfType(HUB)
       && edge.getTarget().isOfType(CONCEPT)
-      && isCreatorConditionSatisfied(edge.getTarget());
+      && getOutgoingEdge(edge.getTarget(), FOCUS).filter(this::isCreatorConditionMet).isPresent();
   }
 
   protected Optional<Resource> getOutgoingEdge(Resource concept, PredicateDictionary predicate) {
@@ -106,5 +108,12 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
   }
 
   protected void setCreatorFields(Resource creator, DataField dataField) {
+  }
+
+  protected Optional<Resource> getHubCreator(Resource hub) {
+    return hub.getOutgoingEdges().stream()
+      .filter(e -> e.getPredicate().equals(CREATOR))
+      .map(ResourceEdge::getTarget)
+      .min(hubCreatorComparator);
   }
 }
