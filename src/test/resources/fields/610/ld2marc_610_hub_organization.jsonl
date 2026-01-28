@@ -1,0 +1,41 @@
+{
+  "fields" : [ {
+    "610" : {
+      "subfields" : [ {
+        "a" : "Example Creator"
+      }, {
+        "b" : "Example Subordinate Unit"
+      }, {
+        "c" : "Example Place"
+      }, {
+        "d" : "Example Date"
+      }, {
+        "f" : "Concept Date"
+      }, {
+        "g" : "Example Misc Info"
+      }, {
+        "l" : "English"
+      }, {
+        "n" : "Example Part Number"
+      }, {
+        "p" : "Example Part Name"
+      }, {
+        "r" : "Concept Music Key"
+      }, {
+        "s" : "Concept Version"
+      }, {
+        "t" : "Example Title"
+      }, {
+        "v" : "Form Subdivision"
+      }, {
+        "x" : "General Subdivision"
+      }, {
+        "y" : "Chronological Subdivision"
+      }, {
+        "z" : "Geographic Subdivision"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

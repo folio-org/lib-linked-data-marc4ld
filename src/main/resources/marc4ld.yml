@@ -1044,6 +1044,8 @@ bibFieldRules:
         l: LANGUAGE, NAME
         q: NAME
         t: NAME
+        p: NAME
+        n: NAME
         r: MUSIC_KEY
         s: VERSION
         v: FORM_SUBDIVISION
@@ -1068,6 +1070,8 @@ bibFieldRules:
             l: LANGUAGE, LABEL
             q: LABEL
             t: LABEL
+            p: LABEL
+            n: LABEL
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1106,6 +1110,8 @@ bibFieldRules:
       include: 610_mappings
       marc2ldCondition:
         ind1: '1'
+        fieldsAllOf:
+          t: not_presented
       edges:
         - types: JURISDICTION
           include: 610_focus_mappings
@@ -1113,10 +1119,84 @@ bibFieldRules:
       include: 610_mappings
       marc2ldCondition:
         ind1: '!1'
+        fieldsAllOf:
+          t: not_presented
       edges:
         - types: ORGANIZATION
           include: 610_focus_mappings
-
+    - types: CONCEPT, HUB
+      parent: WORK
+      predicate: SUBJECT
+      subfields:
+        a: NAME
+        b: NAME
+        c: NAME
+        d: NAME
+        f: DATE
+        g: NAME
+        k: NAME
+        l: LANGUAGE, NAME
+        t: NAME
+        p: NAME
+        n: NAME
+        r: MUSIC_KEY
+        s: VERSION
+        v: FORM_SUBDIVISION
+        x: GENERAL_SUBDIVISION
+        y: CHRONOLOGICAL_SUBDIVISION
+        z: GEOGRAPHIC_SUBDIVISION
+      edges:
+        - include: form_subdivision
+        - include: general_subdivision
+        - include: chronological_subdivision
+        - include: geographic_subdivision
+        - types: HUB
+          parent: CONCEPT
+          predicate: FOCUS
+          subfields:
+            a: LABEL
+            b: LABEL
+            c: LABEL
+            d: LABEL
+            g: LABEL
+            k: LABEL
+            l: LANGUAGE, LABEL
+            t: LABEL
+            p: LABEL
+            n: LABEL
+            r: MUSIC_KEY
+            s: VERSION
+          edges:
+            - types: TITLE
+              predicate: TITLE
+              parent: HUB
+              subfields:
+                t: MAIN_TITLE
+                p: PART_NAME
+                n: PART_NUMBER
+              ld2MarcCondition:
+                skip: true
+            - types: JURISDICTION
+              predicate: CREATOR
+              parent: HUB
+              include: 610_focus_mappings
+              marc2ldCondition:
+                ind1: '1'
+            - types: ORGANIZATION
+              predicate: CREATOR
+              parent: HUB
+              include: 610_focus_mappings
+              marc2ldCondition:
+                ind1: '!1'
+          ld2MarcCondition:
+            skip: true
+          concat: '. '
+      marc2ldCondition:
+        fieldsAllOf:
+          t: presented
+      ld2MarcCondition:
+        skip: true
+      concat: '. '
   630:
     - types: CONCEPT, HUB
       predicate: SUBJECT
@@ -1672,7 +1752,6 @@ bibSharedRules:
       c: PLACE
       d: DATE
       g: MISC_INFO
-      n: NUMBER_OF_PARTS
       u: AFFILIATION
       '0': AUTHORITY_LINK
       '1': EQUIVALENT
@@ -1775,9 +1854,9 @@ bibSharedRules:
       k: MAIN_TITLE
       l: MAIN_TITLE
       m: MAIN_TITLE
-      n: PART_NUMBER, MAIN_TITLE
+      n: PART_NUMBER
       o: MAIN_TITLE
-      p: PART_NAME, MAIN_TITLE
+      p: PART_NAME
       r: MAIN_TITLE
       s: MAIN_TITLE
       t: MAIN_TITLE

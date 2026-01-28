@@ -1,0 +1,23 @@
+{
+  "fields" : [ {
+    "610" : {
+      "subfields" : [ {
+        "a" : "United States."
+      }, {
+        "t" : "Constitution."
+      }, {
+        "p": "Preamble"
+      }, {
+        "n" : "19th Amendment"
+      }, {
+        "l" : "English"
+      }, {
+        "x" : "History"
+      }, {
+        "v" : "Juvenile literature."
+      } ],
+      "ind1" : "1",
+      "ind2" : " "
+    }
+  } ]
+}
