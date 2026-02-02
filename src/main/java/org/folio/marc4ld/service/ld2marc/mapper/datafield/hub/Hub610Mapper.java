@@ -1,5 +1,6 @@
 package org.folio.marc4ld.service.ld2marc.mapper.datafield.hub;
 
+import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
@@ -16,6 +17,7 @@ import static org.folio.marc4ld.util.Constants.G;
 import static org.folio.marc4ld.util.Constants.ONE;
 import static org.folio.marc4ld.util.Constants.T;
 import static org.folio.marc4ld.util.Constants.TAG_610;
+import static org.folio.marc4ld.util.Constants.U;
 import static org.folio.marc4ld.util.MarcUtil.addNonRepeatableSubfield;
 import static org.folio.marc4ld.util.MarcUtil.addRepeatableSubfield;
 
@@ -65,5 +67,6 @@ public class Hub610Mapper extends Hub6xxMapper {
     addRepeatableSubfield(creator, PLACE.getValue(), dataField, C, marcFactory);
     addRepeatableSubfield(creator, DATE.getValue(), dataField, D, marcFactory);
     addRepeatableSubfield(creator, MISC_INFO.getValue(), dataField, G, marcFactory);
+    addNonRepeatableSubfield(creator, AFFILIATION.getValue(), dataField, U, marcFactory);
   }
 }

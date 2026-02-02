@@ -5,6 +5,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
+import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.CHRONOLOGICAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
@@ -86,7 +87,8 @@ class Ld2Marc610HubIT {
         SUBORDINATE_UNIT, List.of("Example Subordinate Unit"),
         PLACE, List.of("Example Place"),
         DATE, List.of("Example Date"),
-        MISC_INFO, List.of("Example Misc Info")
+        MISC_INFO, List.of("Example Misc Info"),
+        AFFILIATION, List.of("Example Affiliation")
       ),
       Set.of(creatorType),
       Map.of()
