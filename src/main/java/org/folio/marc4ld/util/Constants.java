@@ -33,6 +33,7 @@ public class Constants {
   public static final char R = 'r';
   public static final char S = 's';
   public static final char T = 't';
+  public static final char U = 'u';
   public static final char V = 'v';
   public static final char X = 'x';
   public static final char Y = 'y';
