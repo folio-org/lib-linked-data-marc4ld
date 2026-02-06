@@ -38,7 +38,7 @@
     <apache-commons-collections.version>4.5.0</apache-commons-collections.version>
 
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>13.1.0</checkstyle.version>
+    <checkstyle.version>13.2.0</checkstyle.version>
   </properties>
 
   <dependencies>
