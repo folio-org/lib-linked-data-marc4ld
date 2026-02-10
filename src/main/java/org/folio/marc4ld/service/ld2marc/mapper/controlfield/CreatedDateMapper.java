@@ -7,7 +7,6 @@ import static org.folio.marc4ld.util.Constants.TAG_008;
 import static org.folio.marc4ld.util.LdUtil.getAdminMetadata;
 import static org.folio.marc4ld.util.LdUtil.isInstance;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +15,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.service.ld2marc.mapper.CustomControlFieldsMapper;
 import org.folio.marc4ld.service.ld2marc.resource.field.ControlFieldsBuilder;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.JsonNode;
 
 @Component
 public class CreatedDateMapper implements CustomControlFieldsMapper {

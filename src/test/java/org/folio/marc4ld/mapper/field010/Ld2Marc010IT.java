@@ -9,21 +9,20 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.lccn;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.core.type.TypeReference;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
@@ -31,9 +30,6 @@ class Ld2Marc010IT {
 
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
-
-  @Autowired
-  private Marc4LdObjectMapper objectMapper;
 
   @Test
   void should_map_only_one_subfield_a() {
@@ -76,7 +72,7 @@ class Ld2Marc010IT {
   }
 
   @Test
-  void should_ignore_lccn_with_invalid_status() throws JsonProcessingException {
+  void should_ignore_lccn_with_invalid_status() {
     // given
     var resource = createInstanceWithLccn(
       lccn("11111111", "invalid_status")
@@ -86,7 +82,7 @@ class Ld2Marc010IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    Map<String, Object> resultAsMap = objectMapper.readValue(result, new TypeReference<>() {
+    Map<String, Object> resultAsMap = JSON_MAPPER.readValue(result, new TypeReference<>() {
     });
     assertThat((List) resultAsMap.get("fields")).isEqualTo(List.of(
       Map.of("008", "                                       ")

@@ -5,16 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.TERM;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.dto.MarcData;
 import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.folio.spring.testing.type.UnitTest;
@@ -25,6 +22,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.MarcFactory;
 import org.mockito.Mockito;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 
 @UnitTest
 class TargetAudienceMapperTest {
@@ -37,7 +36,7 @@ class TargetAudienceMapperTest {
   @BeforeEach
   void setup() {
     FingerprintHashService hashService = Mockito.mock(FingerprintHashService.class);
-    mapper = new TargetAudienceMapper(hashService, new MapperHelper(new Marc4LdObjectMapper()));
+    mapper = new TargetAudienceMapper(hashService, new MapperHelper());
   }
 
   @ParameterizedTest
@@ -53,14 +52,14 @@ class TargetAudienceMapperTest {
   })
   void shouldMapTargetAudience(String charInMarc, String expectedLinkSuffix, String expectedTerm) {
     // given
-    var resource = new Resource().setDoc(OBJECT_MAPPER.convertValue(Map.of(), JsonNode.class));
+    var resource = new Resource().setDoc(JSON_MAPPER.convertValue(Map.of(), JsonNode.class));
     ControlField controlField = factory.newControlField("008", repeat(' ', 22) + charInMarc);
 
     // when
     mapper.map(new MarcData(factory.newDataField(), List.of(controlField)), resource);
 
     // then
-    var properties = OBJECT_MAPPER.convertValue(resource.getDoc(),
+    var properties = JSON_MAPPER.convertValue(resource.getDoc(),
       new TypeReference<HashMap<String, List<String>>>() {
       });
     var actualLink = properties.get(LINK.getValue()).getFirst();
