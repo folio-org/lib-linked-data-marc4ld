@@ -27,10 +27,9 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +42,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.databind.JsonNode;
 
 @EnableConfigurationProperties
 @SpringBootTest(classes = SpringTestConfig.class)
@@ -58,11 +58,11 @@ class Ld2Marc610HubIT {
   void shouldCreateMarc610ForConceptHub(ResourceTypeDictionary creatorType, String expectedMarcFile) throws Exception {
     // given
     var resource = createInstance(creatorType);
-    var expectedNode = OBJECT_MAPPER.readTree(loadResourceAsString(expectedMarcFile));
+    var expectedNode = JSON_MAPPER.readTree(loadResourceAsString(expectedMarcFile));
 
     // when
     var marc = ld2MarcMapper.toMarcJson(resource);
-    var actualNode = OBJECT_MAPPER.readTree(marc);
+    var actualNode = JSON_MAPPER.readTree(marc);
 
     // then
     var expected610 = findFieldNode(expectedNode, "610");

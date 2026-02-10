@@ -7,15 +7,13 @@ import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ORGANIZATION;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -26,19 +24,17 @@ import org.junit.jupiter.api.Test;
 
 class Marc2Ld240IT extends Marc2LdTestBase {
 
-  private final ObjectMapper objectMapper = OBJECT_MAPPER;
-
   @Test
-  void shouldMapMarc240ToHub() throws JsonProcessingException {
+  void shouldMapMarc240ToHub() {
     // given
     var marc = loadResourceAsString("fields/240/marc_240.jsonl");
 
-    var marcNode = objectMapper.readTree(marc);
+    var marcNode = JSON_MAPPER.readTree(marc);
     var node240 = stream(marcNode.get("fields").spliterator(), false)
       .filter(field -> field.has("240"))
       .findFirst()
       .orElse(null);
-    var expectedMarcKey = objectMapper.writeValueAsString(node240);
+    var expectedMarcKey = JSON_MAPPER.writeValueAsString(node240);
 
     var expectedHubLabel = "d-1 a-2 g-3 f-4 k-6 l-7 m-8 n-9 o-10 p-11 r-12 r-13 s-14";
     var expectedHubProps = Map.of(

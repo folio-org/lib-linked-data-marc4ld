@@ -2,12 +2,12 @@ package org.folio.marc4ld.service.ld2marc.field.impl;
 
 import static org.folio.marc4ld.util.Constants.SPACE;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.ld2marc.field.IndicatorRuleApplier;
 import org.folio.marc4ld.service.marc2ld.condition.Marc2LdConditionCheckerImpl;
+import tools.jackson.databind.JsonNode;
 
 public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
 
@@ -33,7 +33,7 @@ public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
       .map(prop -> node.get(property))
       .filter(n -> !n.isEmpty())
       .map(n -> n.get(0))
-      .map(JsonNode::asText)
+      .map(JsonNode::asString)
       .map(s -> s.charAt(0))
       .orElse(defaultIndicator);
   }

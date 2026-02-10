@@ -164,11 +164,11 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc()).hasSize(2);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asText())
+    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asString())
       .isEqualTo("Edition Statement Edition statement2");
     assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asString())
       .isEqualTo("Statement Of Responsibility");
     assertThat(resource.getTypes()).containsOnly(INSTANCE);
     assertThat(resource.getOutgoingEdges()).isEmpty();
@@ -298,7 +298,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(resource.getDoc()).hasSize(1);
     assertThat(resource.getDoc().has(LABEL.getValue())).isTrue();
     assertThat(resource.getDoc().get(LABEL.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo("extent");
+    assertThat(resource.getDoc().get(LABEL.getValue()).get(0).asString()).isEqualTo("extent");
   }
 
   private void validateInstance(Resource resource) {
@@ -308,21 +308,21 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     validateInstanceNotes(resource);
     assertThat(resource.getDoc().has(EDITION.getValue())).isTrue();
     assertThat(resource.getDoc().get(EDITION.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asText())
+    assertThat(resource.getDoc().get(EDITION.getValue()).get(0).asString())
       .isEqualTo("Edition Statement Edition statement2");
     assertThat(resource.getDoc().has(STATEMENT_OF_RESPONSIBILITY.getValue())).isTrue();
     assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asText())
+    assertThat(resource.getDoc().get(STATEMENT_OF_RESPONSIBILITY.getValue()).get(0).asString())
       .isEqualTo("Statement Of Responsibility");
     assertThat(resource.getDoc().has(DIMENSIONS.getValue())).isTrue();
     assertThat(resource.getDoc().get(DIMENSIONS.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(DIMENSIONS.getValue()).get(0).asText()).isEqualTo("dimensions");
+    assertThat(resource.getDoc().get(DIMENSIONS.getValue()).get(0).asString()).isEqualTo("dimensions");
     assertThat(resource.getDoc().has(ISSUANCE.getValue())).isTrue();
     assertThat(resource.getDoc().get(ISSUANCE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(ISSUANCE.getValue()).get(0).asText()).isEqualTo("issuance");
+    assertThat(resource.getDoc().get(ISSUANCE.getValue()).get(0).asString()).isEqualTo("issuance");
     assertThat(resource.getDoc().has(PROJECTED_PROVISION_DATE.getValue())).isTrue();
     assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue())).hasSize(1);
-    assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asText()).isEqualTo(
+    assertThat(resource.getDoc().get(PROJECTED_PROVISION_DATE.getValue()).get(0).asString()).isEqualTo(
       "projectedProvisionDate");
     var folioMetadata = resource.getFolioMetadata();
     assertThat(folioMetadata.getInventoryId()).hasToString("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1");
@@ -345,47 +345,47 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
         assertThat(doc.get(p.getValue())).hasSize(1);
       });
 
-    assertThat(doc.get(NOTE.getValue()).get(0).asText()).isEqualTo("general note");
-    assertThat(doc.get(WITH_NOTE.getValue()).get(0).asText()).isEqualTo("with note");
-    assertThat(doc.get(CREDITS_NOTE.getValue()).get(0).asText()).isEqualTo("credits note");
-    assertThat(doc.get(ISSUANCE_NOTE.getValue()).get(0).asText()).isEqualTo("issuance note");
-    assertThat(doc.get(FORMER_TITLE_NOTE.getValue()).get(0).asText()).isEqualTo("former title note");
-    assertThat(doc.get(ISSUING_BODY.getValue()).get(0).asText()).isEqualTo("issuing body note");
-    assertThat(doc.get(EXHIBITIONS_NOTE.getValue()).get(0).asText()).isEqualTo("exhibitions note");
-    assertThat(doc.get(PARTICIPANT_NOTE.getValue()).get(0).asText()).isEqualTo("participant note");
-    assertThat(doc.get(COMPUTER_DATA_NOTE.getValue()).get(0).asText()).isEqualTo("computer data note");
-    assertThat(doc.get(CITATION_COVERAGE.getValue()).get(0).asText()).isEqualTo("citation coverage note");
-    assertThat(doc.get(ADDITIONAL_PHYSICAL_FORM.getValue()).get(0).asText())
+    assertThat(doc.get(NOTE.getValue()).get(0).asString()).isEqualTo("general note");
+    assertThat(doc.get(WITH_NOTE.getValue()).get(0).asString()).isEqualTo("with note");
+    assertThat(doc.get(CREDITS_NOTE.getValue()).get(0).asString()).isEqualTo("credits note");
+    assertThat(doc.get(ISSUANCE_NOTE.getValue()).get(0).asString()).isEqualTo("issuance note");
+    assertThat(doc.get(FORMER_TITLE_NOTE.getValue()).get(0).asString()).isEqualTo("former title note");
+    assertThat(doc.get(ISSUING_BODY.getValue()).get(0).asString()).isEqualTo("issuing body note");
+    assertThat(doc.get(EXHIBITIONS_NOTE.getValue()).get(0).asString()).isEqualTo("exhibitions note");
+    assertThat(doc.get(PARTICIPANT_NOTE.getValue()).get(0).asString()).isEqualTo("participant note");
+    assertThat(doc.get(COMPUTER_DATA_NOTE.getValue()).get(0).asString()).isEqualTo("computer data note");
+    assertThat(doc.get(CITATION_COVERAGE.getValue()).get(0).asString()).isEqualTo("citation coverage note");
+    assertThat(doc.get(ADDITIONAL_PHYSICAL_FORM.getValue()).get(0).asString())
       .isEqualTo("additional physical form note");
-    assertThat(doc.get(ACCESSIBILITY_NOTE.getValue()).get(0).asText()).isEqualTo("accessibility note");
-    assertThat(doc.get(INFORMATION_ABOUT_DOCUMENTATION.getValue()).get(0).asText()).isEqualTo("info about doc note");
-    assertThat(doc.get(DESCRIPTION_SOURCE_NOTE.getValue()).get(0).asText()).isEqualTo("description source note");
-    assertThat(doc.get(GOVERNING_ACCESS_NOTE.getValue()).get(0).asText())
+    assertThat(doc.get(ACCESSIBILITY_NOTE.getValue()).get(0).asString()).isEqualTo("accessibility note");
+    assertThat(doc.get(INFORMATION_ABOUT_DOCUMENTATION.getValue()).get(0).asString()).isEqualTo("info about doc note");
+    assertThat(doc.get(DESCRIPTION_SOURCE_NOTE.getValue()).get(0).asString()).isEqualTo("description source note");
+    assertThat(doc.get(GOVERNING_ACCESS_NOTE.getValue()).get(0).asString())
       .isEqualTo("jurisdiction, terms, provisions, users, authorization, terminology, date, agency");
-    assertThat(doc.get(TYPE_OF_REPORT.getValue()).get(0).asText()).isEqualTo("type, period");
-    assertThat(doc.get(REPRODUCTION_NOTE.getValue()).get(0).asText())
+    assertThat(doc.get(TYPE_OF_REPORT.getValue()).get(0).asString()).isEqualTo("type, period");
+    assertThat(doc.get(REPRODUCTION_NOTE.getValue()).get(0).asString())
       .isEqualTo("type, place, agency, date, description, statement, note");
-    assertThat(doc.get(ORIGINAL_VERSION_NOTE.getValue()).get(0).asText())
+    assertThat(doc.get(ORIGINAL_VERSION_NOTE.getValue()).get(0).asString())
       .isEqualTo("entry, statement, publication, description, series statement, key title, details, note, title");
-    assertThat(doc.get(LOCATION_OF_ORIGINALS_DUPLICATES.getValue()).get(0).asText())
+    assertThat(doc.get(LOCATION_OF_ORIGINALS_DUPLICATES.getValue()).get(0).asString())
       .isEqualTo("custodian, postal address, country, address, code");
-    assertThat(doc.get(FUNDING_INFORMATION.getValue()).get(0).asText())
+    assertThat(doc.get(FUNDING_INFORMATION.getValue()).get(0).asString())
       .isEqualTo("text, contact, grant, undifferentiated, program element, project, task, work unit");
-    assertThat(doc.get(INFORMATION_RELATING_TO_COPYRIGHT_STATUS.getValue()).get(0).asText())
+    assertThat(doc.get(INFORMATION_RELATING_TO_COPYRIGHT_STATUS.getValue()).get(0).asString())
       .isEqualTo("creator, date, corporate creator, holder, information, statement, copyright date, renewal date, "
         + "publication date, creation date, publisher, status, publication status, note, research date, country, "
         + "agency, jurisdiction");
-    assertThat(doc.get(RELATED_PARTS.getValue()).get(0).asText())
+    assertThat(doc.get(RELATED_PARTS.getValue()).get(0).asString())
       .isEqualTo("custodian, address, country, title, provenance, note");
-    assertThat(doc.get(ENTITY_AND_ATTRIBUTE_INFORMATION.getValue()).get(0).asText())
+    assertThat(doc.get(ENTITY_AND_ATTRIBUTE_INFORMATION.getValue()).get(0).asString())
       .isEqualTo("label, definition, attribute label, source, value, domain definition, range, codeset, domain, "
         + "units, date, accuracy, explanation, frequency, overview, citation, uri, note");
-    assertThat(doc.get(LOCATION_OF_OTHER_ARCHIVAL_MATERIAL.getValue()).get(0).asText())
+    assertThat(doc.get(LOCATION_OF_OTHER_ARCHIVAL_MATERIAL.getValue()).get(0).asString())
       .isEqualTo("note, source, control, reference");
-    assertThat(doc.get(SYSTEM_DETAILS.getValue()).get(0).asText()).isEqualTo("note, text, uri");
-    assertThat(doc.get(SYSTEM_DETAILS_ACCESS_NOTE.getValue()).get(0).asText()).isEqualTo("model, language, system");
-    assertThat(doc.get(DATES_OF_PUBLICATION_NOTE.getValue()).get(0).asText()).isEqualTo("dates, source");
-    assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asText()).isEqualTo("details");
+    assertThat(doc.get(SYSTEM_DETAILS.getValue()).get(0).asString()).isEqualTo("note, text, uri");
+    assertThat(doc.get(SYSTEM_DETAILS_ACCESS_NOTE.getValue()).get(0).asString()).isEqualTo("model, language, system");
+    assertThat(doc.get(DATES_OF_PUBLICATION_NOTE.getValue()).get(0).asString()).isEqualTo("dates, source");
+    assertThat(doc.get(PHYSICAL_DESCRIPTION.getValue()).get(0).asString()).isEqualTo("details");
   }
 
   private void validateLocalId(ResourceEdge edge, String number, String status) {
@@ -398,10 +398,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asString()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(LABEL.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LABEL.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asString()).isEqualTo(number);
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);
@@ -418,10 +418,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asString()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(QUALIFIER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("paperback");
+    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asString()).isEqualTo("paperback");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);
@@ -438,10 +438,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asString()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(QUALIFIER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("eanIdQal");
+    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asString()).isEqualTo("eanIdQal");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);
@@ -458,10 +458,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asText()).isEqualTo(number);
+    assertThat(edge.getTarget().getDoc().get(NAME.getValue()).get(0).asString()).isEqualTo(number);
     assertThat(edge.getTarget().getDoc().has(QUALIFIER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asText()).isEqualTo("otherIdQal");
+    assertThat(edge.getTarget().getDoc().get(QUALIFIER.getValue()).get(0).asString()).isEqualTo("otherIdQal");
     assertThat(edge.getTarget().getOutgoingEdges()).isNotEmpty();
     var edgeIterator = edge.getTarget().getOutgoingEdges().iterator();
     validateIdStatus(edgeIterator.next(), status);
@@ -478,10 +478,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(LABEL.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LABEL.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asText()).isEqualTo(value);
+    assertThat(edge.getTarget().getDoc().get(LABEL.getValue()).get(0).asString()).isEqualTo(value);
     assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText())
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asString())
       .isEqualTo("http://id.loc.gov/vocabulary/mstatus/" + (value.equals("canceled or invalid") ? "cancinv" : value));
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
@@ -517,19 +517,19 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(5);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("MainTitle");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asString()).isEqualTo("MainTitle");
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText()).isEqualTo("SubTitle");
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asString()).isEqualTo("SubTitle");
     assertThat(edge.getTarget().getDoc().has(PART_NUMBER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asText()).isEqualTo("8");
+    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asString()).isEqualTo("8");
     assertThat(edge.getTarget().getDoc().has(PART_NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asText()).isEqualTo("PartName");
+    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asString()).isEqualTo("PartName");
     assertThat(edge.getTarget().getDoc().has(NON_SORT_NUM.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue()).get(0).asText()).isEqualTo("7");
+    assertThat(edge.getTarget().getDoc().get(NON_SORT_NUM.getValue()).get(0).asString()).isEqualTo("7");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -543,7 +543,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Title empty");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asString()).isEqualTo("Title empty");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -557,7 +557,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText())
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asString())
       .isEqualTo("Title empty label");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
@@ -572,25 +572,25 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(7);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Variant-MainTitle");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asString()).isEqualTo("Variant-MainTitle");
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText()).isEqualTo("Variant-SubTitle");
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asString()).isEqualTo("Variant-SubTitle");
     assertThat(edge.getTarget().getDoc().has(PART_NUMBER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asText()).isEqualTo("5");
+    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asString()).isEqualTo("5");
     assertThat(edge.getTarget().getDoc().has(PART_NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asText()).isEqualTo("Variant-PartName");
+    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asString()).isEqualTo("Variant-PartName");
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2023-02-02");
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asString()).isEqualTo("2023-02-02");
     assertThat(edge.getTarget().getDoc().has(NOTE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("Variant-Note");
+    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asString()).isEqualTo("Variant-Note");
     assertThat(edge.getTarget().getDoc().has(VARIANT_TYPE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(VARIANT_TYPE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(VARIANT_TYPE.getValue()).get(0).asText()).isEqualTo("9");
+    assertThat(edge.getTarget().getDoc().get(VARIANT_TYPE.getValue()).get(0).asString()).isEqualTo("9");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -604,22 +604,22 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(6);
     assertThat(edge.getTarget().getDoc().has(MAIN_TITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asText()).isEqualTo("Parallel-MainTitle");
+    assertThat(edge.getTarget().getDoc().get(MAIN_TITLE.getValue()).get(0).asString()).isEqualTo("Parallel-MainTitle");
     assertThat(edge.getTarget().getDoc().has(SUBTITLE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asText()).isEqualTo("Parallel-SubTitle");
+    assertThat(edge.getTarget().getDoc().get(SUBTITLE.getValue()).get(0).asString()).isEqualTo("Parallel-SubTitle");
     assertThat(edge.getTarget().getDoc().has(PART_NUMBER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asText()).isEqualTo("6");
+    assertThat(edge.getTarget().getDoc().get(PART_NUMBER.getValue()).get(0).asString()).isEqualTo("6");
     assertThat(edge.getTarget().getDoc().has(PART_NAME.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asText()).isEqualTo("Parallel-PartName");
+    assertThat(edge.getTarget().getDoc().get(PART_NAME.getValue()).get(0).asString()).isEqualTo("Parallel-PartName");
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2023-01-01");
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asString()).isEqualTo("2023-01-01");
     assertThat(edge.getTarget().getDoc().has(NOTE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("Parallel-Note");
+    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asString()).isEqualTo("Parallel-Note");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -633,7 +633,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asText()).isEqualTo("2018");
+    assertThat(edge.getTarget().getDoc().get(DATE.getValue()).get(0).asString()).isEqualTo("2018");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -647,10 +647,10 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(2);
     assertThat(edge.getTarget().getDoc().has(LINK.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(LINK.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asText()).isEqualTo("access location URI");
+    assertThat(edge.getTarget().getDoc().get(LINK.getValue()).get(0).asString()).isEqualTo("access location URI");
     assertThat(edge.getTarget().getDoc().has(NOTE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(NOTE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asText()).isEqualTo("access location note");
+    assertThat(edge.getTarget().getDoc().get(NOTE.getValue()).get(0).asString()).isEqualTo("access location note");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 
@@ -664,7 +664,7 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getDoc()).hasSize(1);
     assertThat(edge.getTarget().getDoc().has(CREATED_DATE.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asText()).isEqualTo("2019-06-07");
+    assertThat(edge.getTarget().getDoc().get(CREATED_DATE.getValue()).get(0).asString()).isEqualTo("2019-06-07");
     assertThat(edge.getTarget().getOutgoingEdges()).isEmpty();
   }
 

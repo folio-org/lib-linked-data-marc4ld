@@ -5,20 +5,21 @@ import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
 import static org.folio.ld.dictionary.PropertyDictionary.MARC_KEY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.marc4ld.util.Constants.TAG_240;
+import static org.folio.marc4ld.util.JsonUtil.getJsonMapper;
 import static org.folio.marc4ld.util.LdUtil.getOutgoingEdges;
 import static org.folio.marc4ld.util.LdUtil.getPropertyValue;
 import static org.folio.marc4ld.util.LdUtil.getWork;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 @RequiredArgsConstructor
 @Component
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
 
   private final FingerprintHashService hashService;
-  private final Marc4LdObjectMapper objectMapper;
+  private final JsonMapper jsonMapper = getJsonMapper();
 
   @Override
   public void process(Resource instance, Record marcRecord) {
@@ -66,8 +67,8 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
     return getPropertyValue(hub, MARC_KEY.getValue())
       .map(json -> {
         try {
-          return objectMapper.readTree(json).has(TAG_240);
-        } catch (JsonProcessingException e) {
+          return jsonMapper.readTree(json).has(TAG_240);
+        } catch (JacksonException e) {
           log.error(e.getMessage());
           return false;
         }

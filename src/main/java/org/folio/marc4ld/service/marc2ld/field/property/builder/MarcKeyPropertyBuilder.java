@@ -1,19 +1,19 @@
 package org.folio.marc4ld.service.marc2ld.field.property.builder;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.folio.ld.dictionary.PropertyDictionary.MARC_KEY;
+import static org.folio.marc4ld.util.JsonUtil.getJsonMapper;
+import static tools.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.service.marc2ld.field.property.Property;
 import org.marc4j.marc.DataField;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectWriter;
 
 @Component
 @Log4j2
@@ -21,8 +21,8 @@ public class MarcKeyPropertyBuilder implements PropertyBuilder<DataField> {
 
   private final ObjectWriter objectWriter;
 
-  public MarcKeyPropertyBuilder(Marc4LdObjectMapper objectMapper) {
-    this.objectWriter = objectMapper
+  public MarcKeyPropertyBuilder() {
+    this.objectWriter = getJsonMapper()
       .writer()
       .without(INDENT_OUTPUT);
   }
@@ -41,11 +41,12 @@ public class MarcKeyPropertyBuilder implements PropertyBuilder<DataField> {
   private Optional<String> toJsonString(String tag, DataFieldJson dataField) {
     try {
       return Optional.of(objectWriter.writeValueAsString(Map.of(tag, dataField)));
-    } catch (JsonProcessingException exception) {
+    } catch (JacksonException exception) {
       log.error("Failed to serialize marc. {}: {}", tag, dataField, exception);
       return Optional.empty();
     }
   }
 
-  record DataFieldJson(List<Map.Entry<Character, String>> subfields, char ind1, char ind2) { }
+  record DataFieldJson(List<Map.Entry<Character, String>> subfields, char ind1, char ind2) {
+  }
 }

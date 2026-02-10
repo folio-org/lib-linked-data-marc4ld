@@ -2,23 +2,22 @@ package org.folio.marc4ld.service.marc2ld.mapper;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.marc4j.marc.MarcFactory;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 
 @UnitTest
 class MapperUtilsTest {
   private final MarcFactory factory = MarcFactory.newInstance();
-  private final MapperHelper mapperHelper = new MapperHelper(new Marc4LdObjectMapper());
+  private final MapperHelper mapperHelper = new MapperHelper();
 
   @Test
   void shouldReturnControlFieldWhenMatchingRecordFound() {
@@ -59,7 +58,7 @@ class MapperUtilsTest {
       "fruits", List.of("apples", "bananas")
     );
 
-    var resource = new Resource().setDoc(OBJECT_MAPPER.convertValue(existingProperties, JsonNode.class));
+    var resource = new Resource().setDoc(JSON_MAPPER.convertValue(existingProperties, JsonNode.class));
 
     var additionalProperties = Map.of(
       "colors", List.of("green"),
@@ -70,7 +69,7 @@ class MapperUtilsTest {
     mapperHelper.addPropertiesToResource(resource, additionalProperties);
 
     // then
-    var actualProperties = OBJECT_MAPPER.convertValue(resource.getDoc(),
+    var actualProperties = JSON_MAPPER.convertValue(resource.getDoc(),
       new TypeReference<HashMap<String, List<String>>>() {
       });
     assertThat(actualProperties)
@@ -94,7 +93,7 @@ class MapperUtilsTest {
     mapperHelper.addPropertiesToResource(resource, additionalProperties);
 
     // then
-    var actualProperties = OBJECT_MAPPER.convertValue(resource.getDoc(),
+    var actualProperties = JSON_MAPPER.convertValue(resource.getDoc(),
       new TypeReference<HashMap<String, List<String>>>() {
       });
     assertThat(actualProperties).isEqualTo(additionalProperties);

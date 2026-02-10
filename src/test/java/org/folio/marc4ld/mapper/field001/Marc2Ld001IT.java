@@ -27,6 +27,6 @@ class Marc2Ld001IT extends Marc2LdTestBase {
     assertThat(edge.getTarget().getLabel()).isEqualTo(controlNumber);
     assertThat(edge.getTarget().getDoc().has(CONTROL_NUMBER.getValue())).isTrue();
     assertThat(edge.getTarget().getDoc().get(CONTROL_NUMBER.getValue())).hasSize(1);
-    assertThat(edge.getTarget().getDoc().get(CONTROL_NUMBER.getValue()).get(0).asText()).isEqualTo(controlNumber);
+    assertThat(edge.getTarget().getDoc().get(CONTROL_NUMBER.getValue()).get(0).asString()).isEqualTo(controlNumber);
   }
 }

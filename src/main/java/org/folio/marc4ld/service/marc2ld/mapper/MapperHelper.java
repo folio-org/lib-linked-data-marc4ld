@@ -2,24 +2,25 @@ package org.folio.marc4ld.service.marc2ld.mapper;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.folio.marc4ld.util.JsonUtil.getJsonMapper;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.marc4j.marc.ControlField;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 @Service
 @RequiredArgsConstructor
 public class MapperHelper {
 
-  private final Marc4LdObjectMapper objectMapper;
+  private final JsonMapper jsonMapper = getJsonMapper();
 
   /**
    * From the given list of control fields, return the first control field with the given tag and data length greater
@@ -45,18 +46,18 @@ public class MapperHelper {
         return v1;
       })
     );
-    resource.setDoc(objectMapper.convertValue(originalProperties, JsonNode.class));
+    resource.setDoc(jsonMapper.convertValue(originalProperties, JsonNode.class));
   }
 
   public Map<String, List<String>> getProperties(Resource resource) {
     if (isNull(resource.getDoc())) {
       return new HashMap<>();
     }
-    return objectMapper.convertValue(resource.getDoc(), new TypeReference<>() {
+    return jsonMapper.convertValue(resource.getDoc(), new TypeReference<>() {
     });
   }
 
   public JsonNode getJsonNode(Map<String, List<String>> map) {
-    return objectMapper.convertValue(map, JsonNode.class);
+    return jsonMapper.convertValue(map, JsonNode.class);
   }
 }
