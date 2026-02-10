@@ -3,10 +3,10 @@ package org.folio.marc4ld.service.ld2marc;
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.ObjectUtils.notEqual;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.marc4ld.util.JsonUtil.getJsonMapper;
 import static org.folio.marc4ld.util.LdUtil.isEmpty;
 import static org.folio.marc4ld.util.MarcUtil.sortFields;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,6 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.postprocessor.Ld2MarcPostProcessor;
@@ -28,6 +27,7 @@ import org.marc4j.MarcJsonWriter;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.json.JsonMapper;
 
 @Log4j2
 @Service
@@ -36,7 +36,7 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
 
   private static final Set<ResourceTypeDictionary> SUPPORTED_TYPES = Set.of(INSTANCE);
 
-  private final Marc4LdObjectMapper objectMapper;
+  private final JsonMapper jsonMapper = getJsonMapper();
   private final LeaderGenerator leaderGenerator;
   private final Resource2MarcRecordMapper resourceMapper;
   private final MarcReaderProcessor marcReaderProcessor;
@@ -107,9 +107,9 @@ public class Ld2MarcMapperImpl implements Ld2MarcMapper {
     }
   }
 
-  private String toPrettyJson(String jsonString) throws JsonProcessingException {
-    var jsonObject = objectMapper.readValue(jsonString, Object.class);
-    return objectMapper.writeValueAsString(jsonObject);
+  private String toPrettyJson(String jsonString) {
+    var jsonObject = jsonMapper.readValue(jsonString, Object.class);
+    return jsonMapper.writeValueAsString(jsonObject);
   }
 
 }

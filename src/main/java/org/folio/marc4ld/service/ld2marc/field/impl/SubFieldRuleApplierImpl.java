@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.stream.StreamSupport;
 import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.ld2marc.field.SubFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.param.SubFieldParameter;
+import tools.jackson.databind.JsonNode;
 
 public class SubFieldRuleApplierImpl implements SubFieldRuleApplier {
 

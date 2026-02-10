@@ -12,7 +12,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.PLACE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
@@ -20,8 +20,6 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
@@ -31,18 +29,16 @@ import org.junit.jupiter.api.Test;
 
 class Marc2Ld630IT extends Marc2LdTestBase {
 
-  private final ObjectMapper objectMapper = OBJECT_MAPPER;
-
   @Test
-  void shouldMapField630() throws JsonProcessingException {
+  void shouldMapField630() {
     // given
     var marc = loadResourceAsString("fields/630/marc_630.jsonl");
-    var marcNode = objectMapper.readTree(marc);
+    var marcNode = JSON_MAPPER.readTree(marc);
     var node630 = stream(marcNode.get("fields").spliterator(), false)
       .filter(field -> field.has("630"))
       .findFirst()
       .orElse(null);
-    var expectedMarcKey = objectMapper.writeValueAsString(node630);
+    var expectedMarcKey = JSON_MAPPER.writeValueAsString(node630);
 
     // when
     var resource = marcBibToResource(marc);

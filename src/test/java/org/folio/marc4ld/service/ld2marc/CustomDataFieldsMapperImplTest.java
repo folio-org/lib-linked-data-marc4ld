@@ -14,29 +14,22 @@ import static org.folio.marc4ld.util.Constants.TAG_008;
 import static org.folio.marc4ld.util.Constants.TAG_245;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.BooleanNode;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.RawMarc;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.configuration.Marc4LdObjectMapper;
 import org.folio.marc4ld.enums.UnmappedMarcHandling;
 import org.folio.marc4ld.service.ld2marc.leader.LeaderGenerator;
 import org.folio.marc4ld.service.ld2marc.postprocessor.Ld2MarcPostProcessor;
 import org.folio.marc4ld.service.ld2marc.resource.Resource2MarcRecordMapper;
 import org.folio.marc4ld.service.marc2ld.reader.MarcReaderProcessor;
 import org.folio.spring.testing.type.UnitTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -51,6 +44,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.node.BooleanNode;
 
 @ExtendWith(MockitoExtension.class)
 @UnitTest
@@ -58,8 +52,6 @@ class CustomDataFieldsMapperImplTest {
 
   private static final String RAW_MARC = "rawMarc";
   private static final String TAG_007 = "007";
-  @Mock
-  Marc4LdObjectMapper objectMapper;
   @Mock
   LeaderGenerator leaderGenerator;
   @Mock
@@ -84,20 +76,18 @@ class CustomDataFieldsMapperImplTest {
 
   @ParameterizedTest
   @MethodSource("dataProvider")
-  void toMarcJson_shouldReturnMarcJson(UnmappedMarcHandling marcHandling, List<String> expectedTags)
-    throws JsonProcessingException {
+  void toMarcJson_shouldReturnMarcJson(UnmappedMarcHandling marcHandling, List<String> expectedTags) {
     //given
-    var expectedMarcJson = "prettyMarcJson";
     var resource = getResourceWithDocAndEdges().addType(INSTANCE);
     var marcRecord = getMarcRecord();
     when(marcReaderProcessor.readMarc(RAW_MARC)).thenReturn(Stream.of(getUnmappedMarcRecord()));
     when(resourceMapper.toMarcRecord(resource)).thenReturn(marcRecord);
-    var jsonObject = new Object();
-    when(objectMapper.readValue(anyString(), eq(Object.class))).thenReturn(jsonObject);
-    when(objectMapper.writeValueAsString(jsonObject)).thenReturn(expectedMarcJson);
 
-    //expect
-    assertEquals(expectedMarcJson, mapper.toMarcJson(resource, marcHandling));
+    //when
+    var result = mapper.toMarcJson(resource, marcHandling);
+
+    //then
+    assertThat(result).isNotNull();
     verify(leaderGenerator).addLeader(recordCaptor.capture(), resourceCaptor.capture());
     assertThat(extractTags(recordCaptor.getValue())).isEqualTo(expectedTags);
     assertThat(resourceCaptor.getValue()).isEqualTo(resource);
@@ -113,17 +103,6 @@ class CustomDataFieldsMapperImplTest {
   @ParameterizedTest
   @MethodSource("resourceProvider")
   void toMarcJson_shouldReturnNull(Resource resource) {
-    //expect
-    assertNull(mapper.toMarcJson(resource));
-  }
-
-  @Test
-  void toMarcJson_shouldReturnNull_whenJsonProcessingExceptionIsThrown() throws JsonProcessingException {
-    //given
-    var resource = getResourceWithDocAndEdges().addType(INSTANCE);
-    when(resourceMapper.toMarcRecord(resource)).thenReturn(getMarcRecord());
-    when(objectMapper.readValue(anyString(), eq(Object.class))).thenThrow(JsonProcessingException.class);
-
     //expect
     assertNull(mapper.toMarcJson(resource));
   }

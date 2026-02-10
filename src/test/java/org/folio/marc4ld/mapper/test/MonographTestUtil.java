@@ -145,14 +145,13 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.TEMPORAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TOPIC;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.VARIANT_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
-import static org.folio.marc4ld.mapper.test.TestUtil.OBJECT_MAPPER;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.util.Constants.Classification.DDC;
 import static org.folio.marc4ld.util.Constants.Classification.DLC;
 import static org.folio.marc4ld.util.Constants.Classification.FULL;
 import static org.folio.marc4ld.util.Constants.Classification.LC;
 import static org.folio.marc4ld.util.Constants.Classification.UBA;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,6 +167,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
+import tools.jackson.databind.JsonNode;
 
 
 @UtilityClass
@@ -975,7 +975,7 @@ public class MonographTestUtil {
   }
 
   public static JsonNode getJsonNode(Map<String, ?> map) {
-    return OBJECT_MAPPER.convertValue(map, JsonNode.class);
+    return JSON_MAPPER.convertValue(map, JsonNode.class);
   }
 
   public static Resource getSampleInstanceWithWork(Resource work) {
