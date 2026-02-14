@@ -596,7 +596,7 @@ bibFieldRules:
       concat: ', '
       append: true
   490:
-    - types: WORK, SERIES
+    - types: WORK, SERIES, LIGHT_RESOURCE
       parent: WORK
       predicate: IS_PART_OF
       subfields:
@@ -617,7 +617,7 @@ bibFieldRules:
               predicate: MAP
               subfields:
                 x: NAME
-            - types: INSTANCE, SERIES
+            - types: INSTANCE, SERIES, LIGHT_RESOURCE
               parent: SERIES
               predicate: INSTANTIATES
               subfields:
@@ -1872,7 +1872,7 @@ bibSharedRules:
       skip: true
 
   linking_entries_mappings:
-    types: WORK
+    types: WORK, LIGHT_RESOURCE
     parent: WORK
     edges:
       - types: AGENT
@@ -1898,7 +1898,7 @@ bibSharedRules:
           s: MAIN_TITLE
         ld2marcCondition:
           skip: true
-      - types: INSTANCE
+      - types: INSTANCE, LIGHT_RESOURCE
         parent: WORK
         predicate: INSTANTIATES
         subfields:

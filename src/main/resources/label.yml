@@ -150,7 +150,7 @@ labelRules:
     addLabelProperty: true
     properties:
       - NAME
-  - types: INSTANCE, SERIES
+  - types: INSTANCE, SERIES, LIGHT_RESOURCE
     addLabelProperty: true
     properties:
       - NAME
@@ -204,7 +204,7 @@ labelRules:
   - types: VARIANT_TITLE
     properties:
       - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
-  - types: WORK, SERIES
+  - types: WORK, SERIES, LIGHT_RESOURCE
     addLabelProperty: true
     properties:
       - "{$NAME} {$VOLUME}"
