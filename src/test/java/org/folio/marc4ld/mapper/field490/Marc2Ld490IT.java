@@ -7,6 +7,7 @@ import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LIGHT_RESOURCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.SERIES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
@@ -76,7 +77,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
   }
 
   private void validateWorkSeries(ResourceEdge workSeries) {
-    validateEdge(workSeries, IS_PART_OF, List.of(WORK, SERIES),
+    validateEdge(workSeries, IS_PART_OF, List.of(WORK, SERIES, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/library/volume", List.of("volume"),
         "http://bibfra.me/vocab/lite/label", List.of("name volume"),
@@ -104,7 +105,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
   }
 
   private void validateInstanceSeries(ResourceEdge instanceSeries) {
-    validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES),
+    validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
         "http://bibfra.me/vocab/lite/name", List.of("name"),
@@ -112,7 +113,7 @@ class Marc2Ld490IT extends Marc2LdTestBase {
   }
 
   private void validateInstanceSeriesWithoutIssn(ResourceEdge instanceSeries) {
-    validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES),
+    validateEdgeWithSource(instanceSeries, INSTANTIATES, List.of(INSTANCE, SERIES, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of("name"),
         "http://bibfra.me/vocab/lite/name", List.of("name")), "name");
