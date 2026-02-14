@@ -19,6 +19,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LIGHT_RESOURCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateResource;
@@ -45,7 +46,7 @@ public class LinkingEntriesTestHelper {
     var resourceEdges = getEdges(getWorkEdge(resource).getTarget(), WORK);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.getFirst(), predicate,
-      List.of(WORK),
+      List.of(WORK, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ), expectedLabel);
@@ -110,7 +111,7 @@ public class LinkingEntriesTestHelper {
 
   public static void validateLiteInstance(Resource resource, int expectedEdgesSize, String expectedWorkLabel) {
     var liteInstance = getLiteInstance(resource);
-    validateResource(liteInstance, List.of(INSTANCE),
+    validateResource(liteInstance, List.of(INSTANCE, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/library/edition", List.of("instance edition"),
         "http://bibfra.me/vocab/library/publicationInformation", List.of("instance publication information"),
@@ -123,7 +124,7 @@ public class LinkingEntriesTestHelper {
     var resourceEdges = getEdges(liteInstance, WORK);
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.getFirst(), INSTANTIATES,
-      List.of(WORK),
+      List.of(WORK, LIGHT_RESOURCE),
       Map.of(
         "http://bibfra.me/vocab/lite/label", List.of(expectedWorkLabel)
       ), expectedWorkLabel);
