@@ -1,6 +1,5 @@
 package org.folio.marc4ld.service.ld2marc.field.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.folio.ld.dictionary.PropertyDictionary;
 import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.ld2marc.field.ControlFieldRuleApplier;
 import org.folio.marc4ld.service.ld2marc.field.param.ControlFieldParameter;
+import tools.jackson.databind.JsonNode;
 
 public class ControlFieldRuleApplierImpl implements ControlFieldRuleApplier {
 
@@ -47,7 +47,7 @@ public class ControlFieldRuleApplierImpl implements ControlFieldRuleApplier {
 
   private ControlFieldParameter parseControlField(JsonNode node, ControlFieldSettings setting) {
     var property = setting.property;
-    var propertyValue = node.get(property).get(0).asText();
+    var propertyValue = node.get(property).get(0).asString();
     propertyValue = dictionaryProcessor.getKey(setting.key(), propertyValue)
       .orElse(propertyValue);
     return new ControlFieldParameter(tag, propertyValue, setting.start, setting.end);

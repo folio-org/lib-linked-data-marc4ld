@@ -2,8 +2,6 @@ package org.folio.marc4ld.mapper.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +15,13 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.springframework.core.io.ResourceLoader;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 @UtilityClass
 public class TestUtil {
 
-  public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  public static final JsonMapper JSON_MAPPER = new JsonMapper();
 
   @SneakyThrows
   public static String loadResourceAsString(String resourceName) {
@@ -67,7 +67,7 @@ public class TestUtil {
       .isTrue();
     var values = resource.getDoc().get(propertyKey);
     var actualValues = StreamSupport.stream(values.spliterator(), false)
-      .map(JsonNode::asText)
+      .map(JsonNode::asString)
       .toList();
     assertThat(actualValues)
       .containsOnlyOnceElementsOf(propertyValues);
