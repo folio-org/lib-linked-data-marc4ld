@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 
 class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
 
-  private static final String EXPECTED_MAIN_LABEL = "aValue -- vValue1 -- vValue2 -- xValue1"
-    + " -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
+  private static final String EXPECTED_MAIN_LABEL = "aValue -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 "
+    + "-- yValue2 -- vValue1 -- vValue2";
   private static final String EXPECTED_FOCUS_LABEL = "aValue";
 
   @Test

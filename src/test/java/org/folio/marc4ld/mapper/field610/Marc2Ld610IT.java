@@ -42,8 +42,8 @@ class Marc2Ld610IT extends Marc2LdTestBase {
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
 
     // validate Concept resource
-    var expectedConceptLabel = "name, subordinate unit, place, date -- form 1 -- form 2 "
-      + "-- topic 1 -- topic 2 -- temporal 1 -- temporal 2 -- place 1 -- place 2";
+    var expectedConceptLabel = "name, subordinate unit, place, date -- topic 1 -- topic 2 -- place 1 -- place 2 "
+      + "-- temporal 1 -- temporal 2 -- form 1 -- form 2";
     validateResource(
       subjectEdge.getTarget(),
       List.of(ResourceTypeDictionary.fromUri(subjectType).get(), ResourceTypeDictionary.CONCEPT),
@@ -51,7 +51,7 @@ class Marc2Ld610IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
         Map.entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
         Map.entry("http://bibfra.me/vocab/library/relator_code", List.of("relator code")),
-        Map.entry("http://bibfra.me/vocab/lite/label", List.of("name, subordinate unit, place, date -- form 1 -- form 2 -- topic 1 -- topic 2 -- temporal 1 -- temporal 2 -- place 1 -- place 2")),
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of("name, subordinate unit, place, date -- topic 1 -- topic 2 -- place 1 -- place 2 -- temporal 1 -- temporal 2 -- form 1 -- form 2")),
         Map.entry("http://bibfra.me/vocab/library/place", List.of("place")),
         Map.entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link")),
         Map.entry("http://bibfra.me/vocab/library/source", List.of("source")),

@@ -36,7 +36,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       .orElse(null);
     var expectedMarcKey = JSON_MAPPER.writeValueAsString(node240);
 
-    var expectedHubLabel = "d-1 a-2 g-3 f-4 k-6 l-7 m-8 n-9 o-10 p-11 r-12 r-13 s-14";
+    var expectedHubLabel = "d-1 a-2 g-3 f-4 k-6 l-7 m-8 o-10 r-12 r-13 s-14 n-9 p-11. l-7";
     var expectedHubProps = Map.of(
       "http://bibfra.me/vocab/lite/label", List.of(expectedHubLabel),
       "http://bibfra.me/vocab/library/legalDate", List.of("d-1"),

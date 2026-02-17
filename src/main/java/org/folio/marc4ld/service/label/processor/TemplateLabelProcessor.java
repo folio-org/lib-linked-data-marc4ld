@@ -21,7 +21,10 @@ import org.folio.ld.dictionary.PropertyDictionary;
  * {start - $TERM-some}-{$TITLE-d} -> "start - termValue-some-titleValue-d"
  * or if $TERM non exist -> "-titleValue-d"
  * or if $TITLE non exist "start - termValue-some"
+ *
+ * @deprecated use {@code org.folio.ld.dictionary.label.LabelGeneratorService} for label generation.
  */
+@Deprecated
 public class TemplateLabelProcessor implements LabelProcessor {
 
   private static final Pattern CONDITIONAL_PATTERN = Pattern.compile("\\{([^}]*)\\}");

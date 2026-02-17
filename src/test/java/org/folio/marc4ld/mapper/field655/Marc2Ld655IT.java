@@ -38,15 +38,15 @@ class Marc2Ld655IT extends Marc2LdTestBase {
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
 
     // validate Concept resource
-    var expectedConceptLabel = "name -- form 1 -- form 2 -- topic 1 -- topic 2 -- temporal 1 -- temporal 2 -- "
-      + "place 1 -- place 2";
+    var expectedConceptLabel = "name -- topic 1 -- topic 2 -- place 1 -- place 2 -- temporal 1 -- temporal 2 "
+      + "-- form 1 -- form 2";
     validateResource(
       subjectEdge.getTarget(),
       List.of(FORM, CONCEPT),
       Map.ofEntries(
         Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("temporal 1", "temporal 2")),
         Map.entry("http://bibfra.me/vocab/library/relator_code", List.of("relator code")),
-        Map.entry("http://bibfra.me/vocab/lite/label", List.of("name -- form 1 -- form 2 -- topic 1 -- topic 2 -- temporal 1 -- temporal 2 -- place 1 -- place 2")),
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of("name -- topic 1 -- topic 2 -- place 1 -- place 2 -- temporal 1 -- temporal 2 -- form 1 -- form 2")),
         Map.entry("http://bibfra.me/vocab/library/fieldLink", List.of("field link")),
         Map.entry("http://bibfra.me/vocab/library/source", List.of("source")),
         Map.entry("http://bibfra.me/vocab/library/controlField", List.of("control field")),

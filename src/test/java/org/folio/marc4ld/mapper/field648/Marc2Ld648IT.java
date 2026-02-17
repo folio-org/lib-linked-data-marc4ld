@@ -36,7 +36,7 @@ class Marc2Ld648IT extends Marc2LdTestBase {
     // then
     var work = getWorkEdge(result).getTarget();
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri(SUBJECT.getUri()));
-    var expectedConceptLabel = "1793 -- form 1 -- topic 1 -- topic 2 -- tmp 1 -- tmp 2 -- place 1 -- place 2";
+    var expectedConceptLabel = "1793 -- topic 1 -- topic 2 -- place 1 -- place 2 -- tmp 1 -- tmp 2 -- form 1";
     validateResource(
       subjectEdge.getTarget(),
       List.of(CONCEPT, TEMPORAL),

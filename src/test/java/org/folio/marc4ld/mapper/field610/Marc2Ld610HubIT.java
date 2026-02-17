@@ -34,8 +34,8 @@ class Marc2Ld610HubIT extends Marc2LdTestBase {
     var work = getWorkEdge(resource).getTarget();
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri("http://bibfra.me/vocab/lite/subject"));
 
-    var hubLabel = "United States. Constitution. Preamble. 19th Amendment. English";
-    var conceptLabel = hubLabel + " -- Juvenile literature -- History";
+    var hubLabel = "United States. Constitution 19th Amendment Preamble. English";
+    var conceptLabel = hubLabel + " -- History -- Juvenile literature";
 
     // validate concept resource
     validateResource(
@@ -45,7 +45,7 @@ class Marc2Ld610HubIT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/formSubdivision", List.of("Juvenile literature"),
         "http://bibfra.me/vocab/library/generalSubdivision", List.of("History"),
         "http://bibfra.me/vocab/lite/label", List.of(conceptLabel),
-        "http://bibfra.me/vocab/lite/name", List.of(hubLabel),
+        "http://bibfra.me/vocab/lite/name", List.of("United States. Constitution. Preamble. 19th Amendment. English"),
         "http://bibfra.me/vocab/lite/language", List.of("English")
       ),
       conceptLabel);
@@ -137,8 +137,8 @@ class Marc2Ld610HubIT extends Marc2LdTestBase {
     var subjectEdge = getFirstOutgoingEdge(work, withPredicateUri("http://bibfra.me/vocab/lite/subject"));
 
     // validate concept resource
-    var hubLabel = "United Nations. General Assembly. Universal Declaration of Human Rights";
-    var conceptLabel = hubLabel + " -- Congresses -- History";
+    var hubLabel = "United Nations, General Assembly. Universal Declaration of Human Rights";
+    var conceptLabel = hubLabel + " -- History -- Congresses";
     validateResource(
       subjectEdge.getTarget(),
       List.of(HUB, CONCEPT),
@@ -146,7 +146,7 @@ class Marc2Ld610HubIT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/formSubdivision", List.of("Congresses"),
         "http://bibfra.me/vocab/library/generalSubdivision", List.of("History"),
         "http://bibfra.me/vocab/lite/label", List.of(conceptLabel),
-        "http://bibfra.me/vocab/lite/name", List.of(hubLabel)
+        "http://bibfra.me/vocab/lite/name", List.of("United Nations. General Assembly. Universal Declaration of Human Rights")
       ),
       conceptLabel);
 
