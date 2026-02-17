@@ -1,23 +1,45 @@
 {
-  "fields" : [ {
-    "001":"sh85121033"
-  },{
-    "010": {
-      "subfields" : [ {
-        "a" : "010 field value"
-      } ]
-    }
-  }, {
-    "100" : {
-      "subfields" : [ {
-        "a" : "aValue"
-      }, {
-        "x" : "xValue2"
-      }, {
-        "t" : "tValue2"
-      } ],
-      "ind1" : " ",
-      "ind2" : " "
-    }
-  } ]
+   "fields":[
+      {
+         "001":"no98055590"
+      },
+      {
+         "010":{
+            "subfields":[
+               {
+                  "a":"no 98055590"
+               }
+            ]
+         }
+      },
+      {
+         "100":{
+            "subfields":[
+               {
+                  "a":"Lemare, Edwin H."
+               },
+               {
+                  "q":"(Edwin Henry),"
+               },
+               {
+                  "d":"1865-1934."
+               },
+               {
+                  "t":"Toccata and fugue,"
+               },
+               {
+                  "m":"organ,"
+               },
+               {
+                  "n":"op. 98,"
+               },
+               {
+                  "r":"D minor"
+               }
+            ],
+            "ind1":" ",
+            "ind2":" "
+         }
+      }
+   ]
 }
