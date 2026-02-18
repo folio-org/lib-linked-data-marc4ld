@@ -1,4 +1,4 @@
-package org.folio.marc4ld;
+package org.folio.marc4ld.configuration;
 
 import org.folio.ld.dictionary.label.LabelGeneratorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
