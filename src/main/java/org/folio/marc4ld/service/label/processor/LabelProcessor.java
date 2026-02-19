@@ -9,6 +9,6 @@ import java.util.function.Function;
  *
  * @deprecated use {@code org.folio.ld.dictionary.label.LabelGeneratorService} for label generation.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public interface LabelProcessor extends Function<Map<String, List<String>>, String> {
 }

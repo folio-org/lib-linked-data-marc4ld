@@ -93,7 +93,7 @@ public class LabelServiceImpl implements LabelService {
       .collect(Collectors.toSet());
   }
 
-  @Deprecated
+  @Deprecated(forRemoval = true)
   private record LabelController(Collection<LabelProcessor> labelProcessors, boolean addLabelProperty) {
   }
 }
