@@ -8,6 +8,12 @@ import java.util.Map;
 import java.util.Optional;
 import org.folio.ld.dictionary.PropertyDictionary;
 
+/**
+ * Legacy label processor that builds labels from a single configured property.
+ *
+ * @deprecated use {@code org.folio.ld.dictionary.label.LabelGeneratorService} for label generation.
+ */
+@Deprecated(forRemoval = true)
 public class PropertyLabelProcessor implements LabelProcessor {
 
   public static final String PROPERTY_DELIMITER = ", ";

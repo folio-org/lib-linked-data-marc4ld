@@ -51,8 +51,10 @@ class Marc2Ld630IT extends Marc2LdTestBase {
     var expectedConceptName = "uniform title 2024 2025 misc info another misc info form subheading k English medium "
       + "part number arranged stmt for music part name music key version";
 
-    var expectedConceptLabel = expectedConceptName + " -- form 1 -- form 2 -- topic 1 -- topic 2 "
-      + "-- temporal 1 -- temporal 2 -- place 1 -- place 2";
+    var expectedConceptLabel = "uniform title 2024 2025 misc info another misc info form subheading k English medium "
+      + "arranged stmt for music music key version part number part name. English -- topic 1 -- topic 2 -- place 1 "
+      + "-- place 2 -- temporal 1 -- temporal 2 -- form 1 -- form 2";
+
     validateResource(
       subjectEdge.getTarget(),
       List.of(HUB, CONCEPT),
@@ -72,12 +74,15 @@ class Marc2Ld630IT extends Marc2LdTestBase {
       expectedConceptLabel);
 
     // Validate Hub resource
+    var expectedHubLabel = "uniform title 2024 2025 misc info another misc info form subheading k English medium "
+      + "arranged stmt for music music key version part number part name. English";
+
     var hubResource = getFirstOutgoingEdge(subjectEdge, withPredicateUri(FOCUS.getUri())).getTarget();
     validateResource(
       hubResource,
       List.of(ResourceTypeDictionary.HUB),
       Map.of(
-        "http://bibfra.me/vocab/lite/label", List.of(expectedConceptName),
+        "http://bibfra.me/vocab/lite/label", List.of(expectedHubLabel),
         "http://bibfra.me/vocab/lite/language", List.of("English"),
         "http://bibfra.me/vocab/lite/date", List.of("2025"),
         "http://bibfra.me/vocab/library/version", List.of("version"),
@@ -85,7 +90,7 @@ class Marc2Ld630IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/legalDate", List.of("2024"),
         "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey)
       ),
-      expectedConceptName
+      expectedHubLabel
     );
 
     // Validate Hub's title resource

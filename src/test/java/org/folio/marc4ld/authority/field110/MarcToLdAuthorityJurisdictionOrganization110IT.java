@@ -32,8 +32,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
 
-  private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1, cValue2, dValue -- vValue1 -- vValue2 "
-    + "-- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2";
+  private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1, cValue2, dValue "
+    + "-- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2";
   private static final String EXPECTED_FOCUS_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
   private static final String EXPECTED_SHORT_LABEL = "aValue, bValue, cValue1, cValue2, dValue -- vValue1";
 

@@ -21,40 +21,22 @@ labelRules:
       - CODE
   - types: CONCEPT, FAMILY
     addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, FORM
     addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, JURISDICTION
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, MEETING
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, ORGANIZATION
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, PERSON
     addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, PLACE
     addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, TEMPORAL
     addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: CONCEPT, TOPIC
     addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"
   - types: COPYRIGHT_EVENT
     properties:
       - DATE
@@ -209,9 +191,6 @@ labelRules:
     properties:
       - "{$NAME} {$VOLUME}"
   - types: HUB
-    properties:
-      - LABEL
+    addLabelProperty: true
   - types: CONCEPT, HUB
     addLabelProperty: true
-    properties:
-      - "{$NAME}{ -- $FORM_SUBDIVISION}{ -- $GENERAL_SUBDIVISION}{ -- $CHRONOLOGICAL_SUBDIVISION}{ -- $GEOGRAPHIC_SUBDIVISION}"

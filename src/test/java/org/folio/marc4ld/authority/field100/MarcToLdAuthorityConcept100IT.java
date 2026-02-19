@@ -78,10 +78,10 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2")),
         Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
         Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue1, cValue2, qValue,"
-          + " dValue -- vValue1 -- vValue2 -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2"))
+          + " dValue -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2"))
       ),
       "bValue, aValue, cValue1, cValue2, qValue, dValue"
-        + " -- vValue1 -- vValue2 -- xValue1 -- xValue2 -- yValue1 -- yValue2 -- zValue1 -- zValue2");
+        + " -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2");
   }
 
   private void validateFocus(Resource resource, ResourceTypeDictionary resourceType) {
