@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Log4j2
+// Temporary suppression for legacy fallback path removal tracked in MODLD-994.
+@SuppressWarnings("java:S5738")
 public class LabelServiceImpl implements LabelService {
 
   private final LabelGeneratorService labelGeneratorService;
@@ -93,6 +95,11 @@ public class LabelServiceImpl implements LabelService {
       .collect(Collectors.toSet());
   }
 
+  /**
+   * Legacy controller used only by the temporary fallback path.
+   *
+   * @deprecated kept only until MODLD-994 removes deprecated label processing.
+   */
   @Deprecated(forRemoval = true)
   private record LabelController(Collection<LabelProcessor> labelProcessors, boolean addLabelProperty) {
   }

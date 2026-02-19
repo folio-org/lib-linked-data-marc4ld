@@ -16,6 +16,8 @@ import org.folio.spring.testing.type.UnitTest;
 import org.junit.jupiter.api.Test;
 
 @UnitTest
+// Temporary suppression for legacy fallback test coverage removal tracked in MODLD-994.
+@SuppressWarnings("java:S5738")
 class LabelServiceImplTest {
 
   @Test
@@ -109,6 +111,12 @@ class LabelServiceImplTest {
     }
   }
 
+  /**
+   * Test helper for the legacy fallback path.
+   *
+   * @deprecated used only while deprecated label processors remain until MODLD-994.
+   */
+  @Deprecated(forRemoval = true)
   private static final class TestLabelProcessor implements LabelProcessor {
 
     private final String label;
