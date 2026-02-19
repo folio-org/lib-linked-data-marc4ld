@@ -1,0 +1,57 @@
+{
+  "fields": [
+    {
+      "001": "n2019000001"
+    },
+    {
+      "010": {
+        "subfields": [
+          {
+            "a": "n 2019000001"
+          }
+        ]
+      }
+    },
+    {
+      "100": {
+        "subfields": [
+          {
+            "a": "House of Windsor"
+          },
+          {
+            "b": "Royal family,"
+          },
+          {
+            "c": "Dynasty,"
+          },
+          {
+            "d": "1917-"
+          },
+          {
+            "g": "British royal house,"
+          },
+          {
+            "j": "author of,"
+          },
+          {
+            "q": "(Alt. family name),"
+          },
+          {
+            "t": "Chronicles of the royal family,"
+          },
+          {
+            "m": "text,"
+          },
+          {
+            "n": "book 1,"
+          },
+          {
+            "r": "English"
+          }
+        ],
+        "ind1": "3",
+        "ind2": " "
+      }
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PropertyDictionary.MAIN_TITLE;
+import static org.folio.ld.dictionary.PropertyDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.MUSIC_KEY;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
@@ -111,6 +112,7 @@ class Ld2Marc610HubIT {
       Map.of(
         DATE, List.of("Concept Date"),
         MUSIC_KEY, List.of("Concept Music Key"),
+        MEDIUM, List.of("Concept Medium"),
         VERSION, List.of("Concept Version"),
         GENERAL_SUBDIVISION, List.of("General Subdivision"),
         FORM_SUBDIVISION, List.of("Form Subdivision"),
