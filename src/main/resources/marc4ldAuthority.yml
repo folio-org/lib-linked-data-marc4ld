@@ -66,6 +66,48 @@ authorityFieldRules:
           y: not_presented
           z: not_presented
           t: not_presented
+    - types: HUB
+      marc2ldCondition:
+        fieldsAllOf:
+          t: presented
+      subfields:
+        l: LANGUAGE
+        r: MUSIC_KEY
+        s: VERSION
+        m: MEDIUM
+      edges:
+        - types: PERSON
+          parent: HUB
+          predicate: CREATOR
+          subfields:
+            a: NAME
+            b: NUMERATION
+            c: TITLES
+            d: DATE
+            g: MISC_INFO
+            j: ATTRIBUTION
+            q: NAME_ALTERNATIVE
+          marc2ldCondition:
+            ind1: '!3'
+        - types: FAMILY
+          parent: HUB
+          predicate: CREATOR
+          subfields:
+            a: NAME
+            b: NUMERATION
+            c: TITLES
+            d: DATE
+            g: MISC_INFO
+            j: ATTRIBUTION
+          marc2ldCondition:
+            ind1: '3'
+        - types: TITLE
+          parent: HUB
+          predicate: TITLE
+          subfields:
+            t: MAIN_TITLE
+            p: PART_NAME
+            n: PART_NUMBER
 
   '110':
     - types: CONCEPT, ORGANIZATION

@@ -11,6 +11,7 @@ import static org.folio.ld.dictionary.PropertyDictionary.FORM_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GENERAL_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.LANGUAGE;
+import static org.folio.ld.dictionary.PropertyDictionary.MEDIUM;
 import static org.folio.ld.dictionary.PropertyDictionary.MUSIC_KEY;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NAME;
 import static org.folio.ld.dictionary.PropertyDictionary.PART_NUMBER;
@@ -20,6 +21,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.util.Constants.F;
 import static org.folio.marc4ld.util.Constants.L;
+import static org.folio.marc4ld.util.Constants.M;
 import static org.folio.marc4ld.util.Constants.N;
 import static org.folio.marc4ld.util.Constants.P;
 import static org.folio.marc4ld.util.Constants.R;
@@ -94,6 +96,7 @@ public abstract class Hub6xxMapper implements CustomDataFieldsMapper {
   protected void setConceptFields(Resource concept, DataField dataField) {
     addNonRepeatableSubfield(concept, DATE.getValue(), dataField, F, marcFactory);
     addNonRepeatableSubfield(concept, MUSIC_KEY.getValue(), dataField, R, marcFactory);
+    addNonRepeatableSubfield(concept, MEDIUM.getValue(), dataField, M, marcFactory);
     addRepeatableSubfield(concept, VERSION.getValue(), dataField, S, marcFactory);
     addRepeatableSubfield(concept, FORM_SUBDIVISION.getValue(), dataField, V, marcFactory);
     addRepeatableSubfield(concept, GENERAL_SUBDIVISION.getValue(), dataField, X, marcFactory);
