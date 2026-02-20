@@ -1061,17 +1061,7 @@ bibFieldRules:
           parent: CONCEPT
           predicate: FOCUS
           subfields:
-            a: LABEL
-            b: LABEL
-            c: LABEL
-            d: LABEL
-            j: LABEL
-            k: LABEL
-            l: LANGUAGE, LABEL
-            q: LABEL
-            t: LABEL
-            p: LABEL
-            n: LABEL
+            l: LANGUAGE
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1098,7 +1088,6 @@ bibFieldRules:
                 ind1: '!3'
           ld2MarcCondition:
             skip: true
-          concat: '. '
       marc2ldCondition:
         fieldsAllOf:
           t: presented
@@ -1154,16 +1143,7 @@ bibFieldRules:
           parent: CONCEPT
           predicate: FOCUS
           subfields:
-            a: LABEL
-            b: LABEL
-            c: LABEL
-            d: LABEL
-            g: LABEL
-            k: LABEL
-            l: LANGUAGE, LABEL
-            t: LABEL
-            p: LABEL
-            n: LABEL
+            l: LANGUAGE
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1190,7 +1170,6 @@ bibFieldRules:
                 ind1: '!1'
           ld2MarcCondition:
             skip: true
-          concat: '. '
       marc2ldCondition:
         fieldsAllOf:
           t: presented
@@ -1826,20 +1805,11 @@ bibSharedRules:
   X30_240_hub:
     types: HUB
     subfields:
-      a: LABEL
-      d: LEGAL_DATE, LABEL
-      f: DATE, LABEL
-      g: LABEL
-      k: LABEL
-      l: LANGUAGE, LABEL
-      m: LABEL
-      n: LABEL
-      o: LABEL
-      p: LABEL
-      r: MUSIC_KEY, LABEL
-      s: VERSION, LABEL
-      t: LABEL
-    concat: ' '
+      d: LEGAL_DATE
+      f: DATE
+      l: LANGUAGE
+      r: MUSIC_KEY
+      s: VERSION
     includeMarcKey: true
 
   X30_240_hub_title:
