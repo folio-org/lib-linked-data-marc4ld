@@ -1045,6 +1045,7 @@ bibFieldRules:
         q: NAME
         t: NAME
         p: NAME
+        m: MEDIUM
         n: NAME
         r: MUSIC_KEY
         s: VERSION
@@ -1062,6 +1063,7 @@ bibFieldRules:
           predicate: FOCUS
           subfields:
             l: LANGUAGE
+            m: MEDIUM
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1127,6 +1129,7 @@ bibFieldRules:
         l: LANGUAGE, NAME
         t: NAME
         p: NAME
+        m: MEDIUM
         n: NAME
         r: MUSIC_KEY
         s: VERSION
@@ -1144,6 +1147,7 @@ bibFieldRules:
           predicate: FOCUS
           subfields:
             l: LANGUAGE
+            m: MEDIUM
             r: MUSIC_KEY
             s: VERSION
           edges:
@@ -1187,7 +1191,7 @@ bibFieldRules:
         g: NAME
         k: NAME
         l: LANGUAGE, NAME
-        m: NAME
+        m: MEDIUM, NAME
         n: NAME
         o: NAME
         p: NAME
@@ -1808,6 +1812,7 @@ bibSharedRules:
       d: LEGAL_DATE
       f: DATE
       l: LANGUAGE
+      m: MEDIUM
       r: MUSIC_KEY
       s: VERSION
     includeMarcKey: true

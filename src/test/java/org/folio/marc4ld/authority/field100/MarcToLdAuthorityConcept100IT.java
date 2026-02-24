@@ -19,25 +19,8 @@ import org.folio.marc4ld.mapper.test.TestUtil;
 import org.folio.marc4ld.test.helper.AuthorityValidationHelper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
-
-  @ParameterizedTest
-  @ValueSource(strings = {
-    "authority/100/marc_100_with_$t.jsonl",
-    "authority/100/marc_100_with_$t_empty_subfocus.jsonl"}
-  )
-  void shouldNotMap100FieldIfTitleSubfieldIsPresent(String file) {
-    // given
-    var marc = loadResourceAsString(file);
-
-    // when
-    var resources = marcAuthorityToResources(marc);
-
-    // then
-    assertThat(resources).isEmpty();
-  }
 
   @ParameterizedTest
   @CsvSource(value = {

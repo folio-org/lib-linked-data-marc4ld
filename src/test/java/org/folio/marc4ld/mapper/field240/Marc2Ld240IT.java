@@ -44,7 +44,8 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/lite/language", List.of("l-7"),
       "http://bibfra.me/vocab/library/musicKey", List.of("r-12", "r-13"),
       "http://bibfra.me/vocab/library/version", List.of("s-14"),
-      "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey)
+      "http://bibfra.me/vocab/bflc/marcKey", List.of(expectedMarcKey),
+      "http://bibfra.me/vocab/lite/medium", List.of("m-8")
     );
     var expectedTitleProps = Map.of(
       "http://bibfra.me/vocab/library/mainTitle", List.of("d-1 a-2 g-3 f-4 k-6 l-7 m-8 o-10 r-12 r-13 s-14"),
