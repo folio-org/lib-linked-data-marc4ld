@@ -3,6 +3,7 @@ package org.folio.marc4ld.util;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FAMILY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.FORM;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.HUB;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.JURISDICTION;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
@@ -20,6 +21,6 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 public class ResourceKind {
   public static final Set<ResourceTypeDictionary> BIBLIOGRAPHIC = Set.of(INSTANCE, WORK);
   public static final Set<ResourceTypeDictionary> AUTHORITY = Set.of(
-    CONCEPT, PERSON, FAMILY, MEETING, JURISDICTION, ORGANIZATION, FORM, TOPIC, PLACE
+    CONCEPT, PERSON, FAMILY, MEETING, JURISDICTION, ORGANIZATION, FORM, TOPIC, PLACE, HUB
   );
 }
