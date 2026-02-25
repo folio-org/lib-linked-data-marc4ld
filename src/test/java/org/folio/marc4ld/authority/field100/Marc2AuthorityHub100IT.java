@@ -92,7 +92,8 @@ class Marc2AuthorityHub100IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/lite/medium", List.of("organ"),
         "http://bibfra.me/vocab/library/musicKey", List.of("D minor"),
-        "http://bibfra.me/vocab/lite/label", List.of(hubLabel)
+        "http://bibfra.me/vocab/lite/label", List.of(hubLabel),
+        "http://library.link/vocab/resourcePreferred", List.of("true")
       ),
       hubLabel
     );
@@ -139,7 +140,8 @@ class Marc2AuthorityHub100IT extends Marc2LdTestBase {
       Map.of(
         "http://bibfra.me/vocab/lite/medium", List.of("text"),
         "http://bibfra.me/vocab/library/musicKey", List.of("English"),
-        "http://bibfra.me/vocab/lite/label", List.of(hubLabel)
+        "http://bibfra.me/vocab/lite/label", List.of(hubLabel),
+        "http://library.link/vocab/resourcePreferred", List.of("true")
       ),
       hubLabel
     );
