@@ -70,6 +70,8 @@ authorityFieldRules:
       marc2ldCondition:
         fieldsAllOf:
           t: presented
+      constants:
+        RESOURCE_PREFERRED: true
       subfields:
         l: LANGUAGE
         r: MUSIC_KEY
