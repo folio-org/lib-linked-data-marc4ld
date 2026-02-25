@@ -16,6 +16,8 @@ import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.ld.fingerprint.service.FingerprintHashService;
+import org.folio.marc4ld.service.label.LabelService;
+import org.folio.marc4ld.service.marc2ld.mapper.MapperHelper;
 import org.marc4j.marc.Record;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.JacksonException;
@@ -28,6 +30,8 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
 
   private final FingerprintHashService hashService;
   private final JsonMapper jsonMapper = getJsonMapper();
+  private final LabelService labelService;
+  private final MapperHelper mapperHelper;
 
   @Override
   public void process(Resource instance, Record marcRecord) {
@@ -42,6 +46,9 @@ public class HubMarc2LdPostProcessor implements Marc2LdPostProcessor {
   private void updateHub(Resource hub, List<Resource> creators) {
     creators
       .forEach(creator -> hub.addOutgoingEdge(new ResourceEdge(hub, creator, CREATOR)));
+    var properties = mapperHelper.getProperties(hub);
+    labelService.setLabel(hub, properties);
+    hub.setDoc(mapperHelper.getJsonNode(properties));
     hub.setId(hashService.hash(hub));
   }
 
