@@ -70,11 +70,12 @@ class Marc2Ld240IT extends Marc2LdTestBase {
   }
 
   @Test
-  void shouldMapMarc240And100ToHubWithCreator() {
+  void shouldMapMarc240And110ToHubWithCreator() {
     // given
     var marc = loadResourceAsString("fields/240/marc_240_with_110.jsonl");
     var expectedOrganizationLabel = "Creator organization";
-    var expectedHubLabel = "Uniform title";
+    var expectedTitleLabel = "Uniform title";
+    var expectedHubLabel = expectedOrganizationLabel + ". " + expectedTitleLabel;
     var expectedHubProps = Map.of(
       "http://bibfra.me/vocab/lite/label", List.of(expectedHubLabel),
       "http://bibfra.me/vocab/bflc/marcKey", List.of("""
@@ -85,7 +86,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/lite/label", List.of(expectedOrganizationLabel)
     );
     var expectedTitleProps = Map.of(
-      "http://bibfra.me/vocab/library/mainTitle", List.of(expectedHubLabel)
+      "http://bibfra.me/vocab/library/mainTitle", List.of(expectedTitleLabel)
     );
 
     // when
@@ -99,7 +100,7 @@ class Marc2Ld240IT extends Marc2LdTestBase {
       .satisfies(h -> {
         validateResource(h, List.of(HUB), expectedHubProps, expectedHubLabel);
         var title = getTitleEdge(h).getTarget();
-        validateResource(title, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedHubLabel);
+        validateResource(title, List.of(ResourceTypeDictionary.TITLE), expectedTitleProps, expectedTitleLabel);
       })
       .extracting(this::getCreatorEdge)
       .satisfies(c -> {

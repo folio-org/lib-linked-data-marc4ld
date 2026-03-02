@@ -1,5 +1,7 @@
 package org.folio.marc4ld.service.label;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 
 import java.util.Collection;
@@ -46,11 +48,14 @@ public class LabelServiceImpl implements LabelService {
   @Override
   public void setLabel(Resource resource, Map<String, List<String>> properties) {
     var controller = getController(resource);
-    var generatedLabel = labelGeneratorService.getLabel(resource);
-    var label = shouldUseDeprecatedLabel(generatedLabel, resource.getLabel())
-      ? getDeprecatedLabel(resource, properties, controller)
-      : generatedLabel;
-    if (Objects.isNull(label)) {
+    var label = labelGeneratorService.getLabel(resource);
+    if (shouldUseDeprecatedLabel(label, resource.getLabel())) {
+      var deprecatedLabel = getDeprecatedLabel(resource, properties, controller);
+      if (isNotBlank(deprecatedLabel)) {
+        label = deprecatedLabel;
+      }
+    }
+    if (isBlank(label)) {
       return;
     }
     resource.setLabel(label);
