@@ -18,8 +18,8 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.label.LabelGeneratorService;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
+import org.folio.marc4ld.service.label.processor.DefaultLabelProcessor;
 import org.folio.marc4ld.service.label.processor.LabelProcessor;
-import org.folio.marc4ld.service.label.processor.UuidLabelProcessor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,7 +36,7 @@ public class LabelServiceImpl implements LabelService {
   public LabelServiceImpl(LabelGeneratorService labelGeneratorService, Marc4LdRules rules,
                           LabelProcessorFactory labelProcessorFactory) {
     this.labelGeneratorService = labelGeneratorService;
-    this.defaultProcessor = new UuidLabelProcessor();
+    this.defaultProcessor = new DefaultLabelProcessor();
     this.defaultController = new LabelController(List.of(defaultProcessor), false);
 
     this.typesControllers = rules.getLabelRules()

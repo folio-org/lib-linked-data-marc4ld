@@ -6,21 +6,19 @@ import static java.util.Optional.empty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
-import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.ld.dictionary.model.ResourceSource.MARC;
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.SUBFIELD_INVENTORY_ID;
-import static org.folio.marc4ld.util.LdUtil.getFirst;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
+import org.folio.ld.dictionary.label.LabelGeneratorService;
 import org.folio.ld.dictionary.model.FolioMetadata;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
@@ -58,6 +56,7 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   private final List<CustomBibMapper> customMappers;
   private final List<Marc2LdPostProcessor> postProcessors;
   private final MarcBibPunctuationNormalizerImpl marcPunctuationNormalizer;
+  private final LabelGeneratorService labelGeneratorService;
 
   @Override
   public Optional<Resource> fromMarcJson(String marc) {
@@ -151,16 +150,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   }
 
   private void setLabelAndId(Resource resource) {
-    resource.setLabel(selectLabelFromTitle(resource));
+    resource.setLabel(labelGeneratorService.getLabel(resource));
     resource.setId(hashService.hash(resource));
-  }
-
-  private String selectLabelFromTitle(Resource resource) {
-    var labels = resource.getOutgoingEdges().stream()
-      .filter(e -> Objects.equals(TITLE.getUri(), e.getPredicate().getUri()))
-      .map(re -> re.getTarget().getLabel())
-      .toList();
-    return getFirst(labels);
   }
 
   private record InstanceAndWork(Resource instance, Resource work) {
