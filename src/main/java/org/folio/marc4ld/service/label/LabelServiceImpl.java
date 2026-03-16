@@ -18,7 +18,6 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.label.LabelGeneratorService;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.configuration.property.Marc4LdRules;
-import org.folio.marc4ld.service.label.processor.DefaultLabelProcessor;
 import org.folio.marc4ld.service.label.processor.LabelProcessor;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +29,12 @@ public class LabelServiceImpl implements LabelService {
 
   private final LabelGeneratorService labelGeneratorService;
   private final Map<Set<ResourceTypeDictionary>, LabelController> typesControllers;
-  private final LabelProcessor defaultProcessor;
   private final LabelController defaultController;
 
   public LabelServiceImpl(LabelGeneratorService labelGeneratorService, Marc4LdRules rules,
                           LabelProcessorFactory labelProcessorFactory) {
     this.labelGeneratorService = labelGeneratorService;
-    this.defaultProcessor = new DefaultLabelProcessor();
-    this.defaultController = new LabelController(List.of(defaultProcessor), false);
+    this.defaultController = new LabelController(List.of(), false);
 
     this.typesControllers = rules.getLabelRules()
       .stream()
@@ -80,8 +77,8 @@ public class LabelServiceImpl implements LabelService {
       .filter(StringUtils::isNotBlank)
       .findFirst()
       .orElseGet(() -> {
-        log.warn("No label configuration for types: {}. Generating default label.", resource.getTypes());
-        return defaultProcessor.apply(properties);
+        log.warn("No label configuration for types: {}. Returning null.", resource.getTypes());
+        return null;
       });
   }
 
