@@ -38,9 +38,6 @@ labelRules:
   - types: COPYRIGHT_EVENT
     properties:
       - DATE
-  - types: DISSERTATION
-    properties:
-      - LABEL
   - types: EXTENT
     properties:
       - LABEL

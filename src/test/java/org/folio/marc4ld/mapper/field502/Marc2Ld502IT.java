@@ -35,15 +35,15 @@ class Marc2Ld502IT extends Marc2LdTestBase {
       .satisfies(e -> validateEdge(e, PredicateDictionary.DISSERTATION,
         List.of(ResourceTypeDictionary.DISSERTATION),
         Map.of(
-          "http://bibfra.me/vocab/lite/label", List.of("dissertation label"),
+          "http://bibfra.me/vocab/lite/note", List.of("dissertation label"),
           "http://bibfra.me/vocab/library/degree", List.of("dissertation degree"),
-          "http://bibfra.me/vocab/library/dissertationYear", List.of("dissertation year"),
-          "http://bibfra.me/vocab/library/dissertationNote", List.of("dissertation note 1", "dissertation note 2"),
+          "http://bibfra.me/vocab/lite/date", List.of("dissertation year"),
+          "http://bibfra.me/vocab/library/miscInfo", List.of("dissertation note 1", "dissertation note 2"),
           "http://bibfra.me/vocab/library/dissertationID", List.of("dissertation ID 1", "dissertation ID 2")
         ),
-        "dissertation label"))
-      .extracting(this::getGrantingInstitutionEdge)
-      .satisfies(e -> validateEdge(e, PredicateDictionary.GRANTING_INSTITUTION,
+        "dissertation label dissertation degree dissertation year"))
+      .extracting(this::getDegreeGrantingInstitutionEdge)
+      .satisfies(e -> validateEdge(e, PredicateDictionary.DEGREE_GRANTING_INSTITUTION,
         List.of(ResourceTypeDictionary.ORGANIZATION),
         Map.of(
           "http://bibfra.me/vocab/lite/label", List.of("dissertation granting institution"),
@@ -65,7 +65,7 @@ class Marc2Ld502IT extends Marc2LdTestBase {
     return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/scholar/dissertation"));
   }
 
-  private ResourceEdge getGrantingInstitutionEdge(ResourceEdge edge) {
-    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/library/grantingInstitution"));
+  private ResourceEdge getDegreeGrantingInstitutionEdge(ResourceEdge edge) {
+    return getFirstOutgoingEdge(edge, withPredicateUri("http://bibfra.me/vocab/relation/degreeGrantingInstitution"));
   }
 }

@@ -1,10 +1,10 @@
 package org.folio.marc4ld.mapper.field502;
 
+import static org.folio.ld.dictionary.PropertyDictionary.DATE;
 import static org.folio.ld.dictionary.PropertyDictionary.DEGREE;
 import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_ID;
-import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_NOTE;
-import static org.folio.ld.dictionary.PropertyDictionary.DISSERTATION_YEAR;
-import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
+import static org.folio.ld.dictionary.PropertyDictionary.NOTE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
@@ -76,14 +76,14 @@ class Ld2Marc502IT {
 
     return MonographTestUtil.createResource(
       Map.of(
-        LABEL, List.of("dissertation label " + dataSuffix),
+        NOTE, List.of("dissertation label " + dataSuffix),
         DEGREE, List.of("dissertation degree " + dataSuffix),
-        DISSERTATION_YEAR, List.of("dissertation year " + dataSuffix),
-        DISSERTATION_NOTE, List.of("dissertation note 1 " + dataSuffix, "dissertation note 2 " + dataSuffix),
+        DATE, List.of("dissertation year " + dataSuffix),
+        MISC_INFO, List.of("dissertation note 1 " + dataSuffix, "dissertation note 2 " + dataSuffix),
         DISSERTATION_ID, List.of("dissertation ID 1 " + dataSuffix, "dissertation ID 2 " + dataSuffix)
       ),
       Set.of(ResourceTypeDictionary.DISSERTATION),
-      Map.of(PredicateDictionary.GRANTING_INSTITUTION, List.of(organization))
+      Map.of(PredicateDictionary.DEGREE_GRANTING_INSTITUTION, List.of(organization))
     );
   }
 }

@@ -655,15 +655,15 @@ bibFieldRules:
       parent: WORK
       predicate: DISSERTATION
       subfields:
-        a: LABEL
+        a: NOTE
         b: DEGREE
-        d: DISSERTATION_YEAR
-        g: DISSERTATION_NOTE
+        d: DATE
+        g: MISC_INFO
         o: DISSERTATION_ID
       edges:
         - types: ORGANIZATION
           parent: DISSERTATION
-          predicate: GRANTING_INSTITUTION
+          predicate: DEGREE_GRANTING_INSTITUTION
           subfields:
             c: NAME
           marc2ldCondition:
