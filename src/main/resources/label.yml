@@ -1,6 +1,4 @@
 labelRules:
-  - types: ABBREVIATED_TITLE
-    properties: MAIN_TITLE
   - types: AGENT
     properties:
       - NAME
@@ -150,9 +148,6 @@ labelRules:
     addLabelProperty: true
     properties:
       - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
-  - types: PARALLEL_TITLE
-    properties:
-      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: PERSON
     addLabelProperty: true
     properties:
@@ -176,16 +171,10 @@ labelRules:
     addLabelProperty: true
     properties:
       - NAME
-  - types: TITLE
-    properties:
-      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: TOPIC
     addLabelProperty: true
     properties:
       - NAME
-  - types: VARIANT_TITLE
-    properties:
-      - "{$MAIN_TITLE}{ $SUBTITLE}{ $PART_NUMBER}{ $PART_NAME}"
   - types: WORK, SERIES, LIGHT_RESOURCE
     addLabelProperty: true
     properties:
