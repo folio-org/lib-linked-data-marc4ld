@@ -150,7 +150,8 @@ public class MarcBib2LdMapperImpl implements MarcBib2ldMapper {
   }
 
   private void setLabelAndId(Resource resource) {
-    resource.setLabel(labelGeneratorService.getLabel(resource));
+    String label = labelGeneratorService.getLabel(resource);
+    resource.setLabel(label != null ? label : EMPTY);
     resource.setId(hashService.hash(resource));
   }
 

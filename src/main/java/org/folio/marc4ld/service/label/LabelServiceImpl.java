@@ -77,7 +77,8 @@ public class LabelServiceImpl implements LabelService {
       .filter(StringUtils::isNotBlank)
       .findFirst()
       .orElseGet(() -> {
-        log.warn("No label configuration for types: {}. Returning null.", resource.getTypes());
+        log.warn("No deprecated label could be generated for types {} using configured label processors. "
+          + "Returning null.", resource.getTypes());
         return null;
       });
   }
