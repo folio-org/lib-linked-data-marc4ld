@@ -46,6 +46,7 @@
 - Map MARC authority record with $t into HUB resource [MODLD-510](https://folio-org.atlassian.net/browse/MODLD-510)
 - Remove unnecessary label configuration for TITLE, VARIANT_TITLE, PARALLEL_TITLE and ABBREVIATED_TITLE resources. Label will be generated using TitleLabelGenerator [MODLD-998](https://folio-org.atlassian.net/browse/MODLD-998)
 - Use LabelGeneratorService to generate label for WORK and INSTANCE resources [MODLD-998](https://folio-org.atlassian.net/browse/MODLD-998)
+- Update MARC mappings for field 502 (Dissertation note) [MODLD-1014](https://folio-org.atlassian.net/browse/MODLD-1014)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
