@@ -154,9 +154,6 @@ labelRules:
     properties:
       - NAME
       - CODE
-  - types: PROVIDER_EVENT
-    properties:
-      - NAME
   - types: SERIES
     addLabelProperty: true
     properties:
