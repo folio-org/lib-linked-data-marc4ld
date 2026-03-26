@@ -69,7 +69,6 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2"),
       "http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2"),
       "http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2"),
-      "http://library.link/vocab/resourcePreferred", List.of("true"),
       "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
     );
   }
@@ -84,8 +83,6 @@ class MarcToLdAuthorityConceptTopic150IT extends Marc2LdTestBase {
   }
 
   private Map<String, List<String>> topicProperties() {
-    var topicProperties = new HashMap<>(focusProperties());
-    topicProperties.put("http://library.link/vocab/resourcePreferred", List.of("true"));
-    return topicProperties;
+    return new HashMap<>(focusProperties());
   }
 }

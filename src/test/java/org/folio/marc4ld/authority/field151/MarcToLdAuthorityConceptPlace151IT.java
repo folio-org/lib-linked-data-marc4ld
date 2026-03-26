@@ -9,7 +9,6 @@ import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.MISC_INFO;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.PropertyDictionary.RESOURCE_PREFERRED;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_FAST;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
@@ -87,7 +86,6 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
           resource,
           List.of(CONCEPT, PLACE),
           Map.of(
-            "http://library.link/vocab/resourcePreferred", List.of("true"),
             "http://bibfra.me/vocab/library/geographicSubdivision", List.of("Tokyo"),
             "http://bibfra.me/vocab/lite/name", List.of("Japan"),
             "http://bibfra.me/vocab/lite/label", List.of("Japan -- Tokyo")
@@ -130,7 +128,6 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
       GENERAL_SUBDIVISION.getValue(), List.of("xValue1", "xValue2"),
       CHRONOLOGICAL_SUBDIVISION.getValue(), List.of("yValue1", "yValue2"),
       GEOGRAPHIC_SUBDIVISION.getValue(), List.of("zValue1", "zValue2"),
-      RESOURCE_PREFERRED.getValue(), List.of("true"),
       LABEL.getValue(), List.of(EXPECTED_MAIN_LABEL)
     );
   }
@@ -144,9 +141,7 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   }
 
   private Map<String, List<String>> placeProperties() {
-    var placeProperties = new HashMap<>(focusProperties());
-    placeProperties.put("http://library.link/vocab/resourcePreferred", List.of("true"));
-    return placeProperties;
+    return new HashMap<>(focusProperties());
   }
 
 }

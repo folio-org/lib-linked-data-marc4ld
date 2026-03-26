@@ -70,8 +70,6 @@ authorityFieldRules:
       marc2ldCondition:
         fieldsAllOf:
           t: presented
-      constants:
-        RESOURCE_PREFERRED: true
       subfields:
         l: LANGUAGE
         r: MUSIC_KEY
@@ -230,8 +228,6 @@ authorityFieldRules:
         a: NAME
         b: GEOGRAPHIC_COVERAGE
         g: MISC_INFO
-      constants:
-        RESOURCE_PREFERRED: true
       marc2ldCondition:
         fieldsAllOf:
           v: not_presented
@@ -257,8 +253,6 @@ authorityFieldRules:
       subfields:
         a: NAME
         g: MISC_INFO
-      constants:
-        RESOURCE_PREFERRED: true
       marc2ldCondition:
         fieldsAllOf:
           v: not_presented
@@ -284,8 +278,6 @@ authorityFieldRules:
     - types: FORM
       subfields:
         a: NAME
-      constants:
-        RESOURCE_PREFERRED: true
       marc2ldCondition:
         fieldsAllOf:
           v: not_presented
@@ -334,8 +326,6 @@ sharedAuthorityRules:
       j: ATTRIBUTION
       n: NUMBER_OF_PARTS
       q: NAME_ALTERNATIVE
-    constants:
-      RESOURCE_PREFERRED: true
 
   100_mappings:
     subfields:
@@ -351,8 +341,6 @@ sharedAuthorityRules:
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
       z: GEOGRAPHIC_SUBDIVISION
-    constants:
-      RESOURCE_PREFERRED: true
     edges:
       - include: form_subdivision
       - include: general_subdivision
@@ -371,8 +359,6 @@ sharedAuthorityRules:
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
       z: GEOGRAPHIC_SUBDIVISION
-    constants:
-      RESOURCE_PREFERRED: true
     edges:
       - include: form_subdivision
       - include: general_subdivision
@@ -387,8 +373,6 @@ sharedAuthorityRules:
       d: DATE
       g: MISC_INFO
       n: NUMBER_OF_PARTS
-    constants:
-      RESOURCE_PREFERRED: true
 
   111_mappings:
     subfields:
@@ -402,8 +386,6 @@ sharedAuthorityRules:
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
       z: GEOGRAPHIC_SUBDIVISION
-    constants:
-      RESOURCE_PREFERRED: true
     edges:
       - include: form_subdivision
       - include: general_subdivision
@@ -418,8 +400,6 @@ sharedAuthorityRules:
       e: SUBORDINATE_UNIT
       g: MISC_INFO
       n: NUMBER_OF_PARTS
-    constants:
-      RESOURCE_PREFERRED: true
 
   15X_mappings:
     subfields:
@@ -429,8 +409,6 @@ sharedAuthorityRules:
       x: GENERAL_SUBDIVISION
       y: CHRONOLOGICAL_SUBDIVISION
       z: GEOGRAPHIC_SUBDIVISION
-    constants:
-      RESOURCE_PREFERRED: true
     edges:
       - include: form_subdivision
       - include: general_subdivision

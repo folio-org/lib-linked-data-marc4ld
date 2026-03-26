@@ -24,7 +24,6 @@ class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
     "http://bibfra.me/vocab/lite/date", List.of("dValue"),
     "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
     "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
-    "http://library.link/vocab/resourcePreferred", List.of("true"),
     "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL)
   );
 
