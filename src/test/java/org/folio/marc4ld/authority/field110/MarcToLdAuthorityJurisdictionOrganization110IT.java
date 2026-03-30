@@ -124,7 +124,6 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
     return Map.ofEntries(
       Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2")),
       Map.entry("http://bibfra.me/vocab/library/subordinateUnit", List.of("bValue")),
-      Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
       Map.entry("http://bibfra.me/vocab/lite/date", List.of("dValue")),
       Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2")),
       Map.entry("http://bibfra.me/vocab/lite/name", List.of("aValue")),
@@ -152,7 +151,6 @@ class MarcToLdAuthorityJurisdictionOrganization110IT extends Marc2LdTestBase {
   private Map<String, List<String>> shortProperties() {
     return Map.of(
       "http://bibfra.me/vocab/library/subordinateUnit", List.of("bValue"),
-      "http://library.link/vocab/resourcePreferred", List.of("true"),
       "http://bibfra.me/vocab/lite/date", List.of("dValue"),
       "http://bibfra.me/vocab/lite/name", List.of("aValue"),
       "http://bibfra.me/vocab/library/place", List.of("cValue1", "cValue2"),

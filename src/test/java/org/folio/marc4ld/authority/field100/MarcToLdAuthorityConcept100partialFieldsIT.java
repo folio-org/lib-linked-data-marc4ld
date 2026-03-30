@@ -94,7 +94,6 @@ class MarcToLdAuthorityConcept100partialFieldsIT extends Marc2LdTestBase {
           Map.entry("http://bibfra.me/vocab/library/attribution", List.of("jValue")),
           Map.entry("http://bibfra.me/vocab/library/numberOfParts", List.of("nValue")),
           Map.entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue")),
-          Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
           Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue, qValue, dValue -- "
             + value))
         ),

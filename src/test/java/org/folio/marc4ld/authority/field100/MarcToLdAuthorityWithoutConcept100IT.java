@@ -72,7 +72,6 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/library/attribution", List.of("jValue1", "jValue2"),
         "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("qValue"),
-        "http://library.link/vocab/resourcePreferred", List.of("true"),
         "http://bibfra.me/vocab/lite/label", List.of(expectedLabel)
       ),
       expectedLabel);

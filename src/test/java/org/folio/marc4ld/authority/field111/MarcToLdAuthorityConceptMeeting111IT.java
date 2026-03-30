@@ -90,7 +90,6 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
       Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2")),
       Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2")),
       Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2")),
-      Map.entry("http://library.link/vocab/resourcePreferred", List.of("true")),
       Map.entry("http://bibfra.me/vocab/lite/label", List.of(EXPECTED_MAIN_LABEL))
     );
   }
@@ -115,8 +114,7 @@ class MarcToLdAuthorityConceptMeeting111IT extends Marc2LdTestBase {
       "http://bibfra.me/vocab/library/subordinateUnit", List.of("eValue"),
       "http://bibfra.me/vocab/library/miscInfo", List.of("gValue1", "gValue2"),
       "http://bibfra.me/vocab/library/numberOfParts", List.of("nValue1", "nValue2"),
-      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL),
-      "http://library.link/vocab/resourcePreferred", List.of("true")
+      "http://bibfra.me/vocab/lite/label", List.of(EXPECTED_FOCUS_LABEL)
     );
   }
 }
