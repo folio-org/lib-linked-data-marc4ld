@@ -39,7 +39,7 @@ class Marc2Ld262IT extends Marc2LdTestBase {
           "http://bibfra.me/vocab/lite/date", List.of("2001"),
           "http://bibfra.me/vocab/lite/providerDate", List.of("1995")
         ),
-        "Publisher or trade name"))
+        "Publisher or trade name, Place of production, 2001"))
       .extracting(this::getProviderPlaceEdge)
       .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
         Map.of(
