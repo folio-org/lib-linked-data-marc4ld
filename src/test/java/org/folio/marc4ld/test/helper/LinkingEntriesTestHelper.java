@@ -4,11 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
 import static org.folio.ld.dictionary.PredicateDictionary.EXTENT;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_PART_OF;
+import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
+import static org.folio.ld.dictionary.PredicateDictionary.RELATED_WORK;
 import static org.folio.ld.dictionary.PredicateDictionary.TITLE;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ABBREVIATED_TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.AGENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_CODEN;
@@ -19,6 +23,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LOCAL;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_STRN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.LIGHT_RESOURCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
@@ -40,7 +45,8 @@ import org.folio.spring.testing.type.UnitTest;
 @UnitTest
 public class LinkingEntriesTestHelper {
 
-  private static final Set<PredicateDictionary> LINKING_ENTRIES_PREDICATES = Set.of(OTHER_EDITION, OTHER_VERSION);
+  private static final Set<PredicateDictionary> LINKING_ENTRIES_PREDICATES =
+    Set.of(OTHER_EDITION, OTHER_VERSION, IS_PART_OF, RELATED_WORK);
 
   public static void validateLiteWork(Resource resource, PredicateDictionary predicate, String expectedLabel) {
     var resourceEdges = getEdges(getWorkEdge(resource).getTarget(), WORK);
@@ -229,5 +235,34 @@ public class LinkingEntriesTestHelper {
       Map.of(
         "http://bibfra.me/vocab/library/mainTitle", List.of("work/instance title main title")
       ), "work/instance title main title");
+  }
+
+  public static void validateLanguageCategory(Resource resource, String... expectedCodes) {
+    var resourceEdges = getEdges(getLiteWork(resource), LANGUAGE_CATEGORY);
+    assertThat(resourceEdges).hasSize(expectedCodes.length);
+    var index = 0;
+    for (var expectedCode : expectedCodes) {
+      validateEdge(resourceEdges.get(index), LANGUAGE,
+        List.of(LANGUAGE_CATEGORY),
+        Map.of(
+          "http://bibfra.me/vocab/library/code", List.of(expectedCode),
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/languages/" + expectedCode)
+        ), expectedCode);
+      index++;
+    }
+  }
+
+  public static void validateAbbreviatedTitle(Resource resource, String... expectedTitles) {
+    var resourceEdges = getEdges(getLiteWork(resource), ABBREVIATED_TITLE);
+    assertThat(resourceEdges).hasSize(expectedTitles.length);
+    var index = 0;
+    for (var expectedTitle : expectedTitles) {
+      validateEdge(resourceEdges.get(index), TITLE,
+        List.of(ABBREVIATED_TITLE),
+        Map.of(
+          "http://bibfra.me/vocab/library/mainTitle", List.of(expectedTitle)
+        ), expectedTitle);
+      index++;
+    }
   }
 }

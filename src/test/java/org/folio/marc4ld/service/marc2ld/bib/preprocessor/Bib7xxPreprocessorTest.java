@@ -34,7 +34,7 @@ class Bib7xxPreprocessorTest {
     var preprocessor = new Bib7xxPreprocessor(mock(MarcFactory.class));
 
     //expect
-    assertEquals(List.of("775", "776"), preprocessor.getTags());
+    assertEquals(List.of("773", "775", "776", "787"), preprocessor.getTags());
   }
 
   private static Stream<Arguments> provideArguments() {

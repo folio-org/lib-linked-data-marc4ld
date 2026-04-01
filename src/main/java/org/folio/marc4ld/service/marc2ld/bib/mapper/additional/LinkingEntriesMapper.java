@@ -1,9 +1,11 @@
 package org.folio.marc4ld.service.marc2ld.bib.mapper.additional;
 
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
+import static org.folio.ld.dictionary.PredicateDictionary.IS_PART_OF;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_EDITION;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
+import static org.folio.ld.dictionary.PredicateDictionary.RELATED_WORK;
 import static org.folio.ld.dictionary.PropertyDictionary.LABEL;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -11,8 +13,10 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_UNKNOWN;
 import static org.folio.marc4ld.util.Constants.S;
 import static org.folio.marc4ld.util.Constants.T;
+import static org.folio.marc4ld.util.Constants.TAG_773;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
+import static org.folio.marc4ld.util.Constants.TAG_787;
 import static org.folio.marc4ld.util.LdUtil.reverseFirstEdgeWithPredicate;
 import static org.folio.marc4ld.util.MarcUtil.getSubfieldValue;
 
@@ -33,9 +37,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LinkingEntriesMapper implements AdditionalMapper {
 
-  private static final List<String> TAGS = List.of(TAG_775, TAG_776);
+  private static final List<String> TAGS = List.of(TAG_773, TAG_775, TAG_776, TAG_787);
   private static final Set<String> SUPPORTED_PREDICATES =
-    Set.of(OTHER_EDITION.name(), OTHER_VERSION.name());
+    Set.of(OTHER_EDITION.name(), OTHER_VERSION.name(), IS_PART_OF.name(), RELATED_WORK.name());
   private static final Set<ResourceTypeDictionary> IDENTIFIER_TYPE = Set.of(IDENTIFIER);
   private static final String DLC_PREFIX = "(DLC)";
 
