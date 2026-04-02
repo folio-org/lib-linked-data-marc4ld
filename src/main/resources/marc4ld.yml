@@ -1430,6 +1430,28 @@ bibFieldRules:
         c: SYSTEM_DETAILS_ACCESS_NOTE
       concat: ', '
       append: true
+  773:
+    - include: linking_entries_mappings
+      predicate: IS_PART_OF
+      edges:
+        - types: LANGUAGE_CATEGORY
+          parent: WORK
+          predicate: LANGUAGE
+          multiply: true
+          subfields:
+            e: CODE
+          ld2marcCondition:
+            skip: true
+          constants:
+            LINK: http://id.loc.gov/vocabulary/languages/%CODE
+        - types: ABBREVIATED_TITLE
+          parent: WORK
+          predicate: TITLE
+          multiply: true
+          subfields:
+            p: MAIN_TITLE
+          ld2marcCondition:
+            skip: true
   775:
     - include: linking_entries_mappings
       predicate: OTHER_EDITION
@@ -1455,6 +1477,28 @@ bibFieldRules:
   776:
     - include: linking_entries_mappings
       predicate: OTHER_VERSION
+  787:
+    - include: linking_entries_mappings
+      predicate: RELATED_WORK
+      edges:
+        - types: LANGUAGE_CATEGORY
+          parent: WORK
+          predicate: LANGUAGE
+          multiply: true
+          subfields:
+            e: CODE
+          ld2marcCondition:
+            skip: true
+          constants:
+            LINK: http://id.loc.gov/vocabulary/languages/%CODE
+        - types: ABBREVIATED_TITLE
+          parent: WORK
+          predicate: TITLE
+          multiply: true
+          subfields:
+            p: MAIN_TITLE
+          ld2marcCondition:
+            skip: true
   856:
     - types: ANNOTATION
       parent: INSTANCE

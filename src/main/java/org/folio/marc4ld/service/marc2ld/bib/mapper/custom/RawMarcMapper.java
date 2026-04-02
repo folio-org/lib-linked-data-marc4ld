@@ -2,8 +2,10 @@ package org.folio.marc4ld.service.marc2ld.bib.mapper.custom;
 
 import static org.folio.marc4ld.util.Constants.FIELD_UUID;
 import static org.folio.marc4ld.util.Constants.TAG_005;
+import static org.folio.marc4ld.util.Constants.TAG_773;
 import static org.folio.marc4ld.util.Constants.TAG_775;
 import static org.folio.marc4ld.util.Constants.TAG_776;
+import static org.folio.marc4ld.util.Constants.TAG_787;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,7 +28,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RawMarcMapper implements CustomBibMapper {
 
-  private static final Set<String> SELECTED_TAGS = Set.of(TAG_775, TAG_776);
+  private static final Set<String> SELECTED_TAGS = Set.of(TAG_773, TAG_775, TAG_776, TAG_787);
   private static final Set<String> EXCLUDED_TAGS = Set.of(TAG_005, FIELD_UUID);
 
   private final MarcFactory marcFactory;

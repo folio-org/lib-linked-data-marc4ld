@@ -50,6 +50,7 @@
 - Use GitHub Workflows for Maven [MODLD-974](https://folio-org.atlassian.net/browse/MODLD-974)
 - Get rid of RESOURCE_PREFERRED property [MODLD-1028](https://folio-org.atlassian.net/browse/MODLD-1028)
 - Remove unwanted label configuration for PROVIDER_EVENT type. Label will be generated using ProviderEventLabelGenerator [MODLD-1020](https://folio-org.atlassian.net/browse/MODLD-1020)
+- 773 and 787 MARC to GRAPH mappings [MODLD-1029](https://folio-org.atlassian.net/browse/MODLD-1029)
 
 ## 1.0.3 (04-09-2025)
 - Geographic coverage: single "geographicCoverage" edge is created for Work which contains 043 with multiple $a fields [MODLD-694](https://folio-org.atlassian.net/browse/MODLD-694)
