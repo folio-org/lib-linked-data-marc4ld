@@ -13,27 +13,18 @@ import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
-import org.folio.marc4ld.service.dictionary.DictionaryProcessor;
 import org.folio.marc4ld.service.marc2ld.Marc2ldFieldRuleApplier;
 import org.folio.spring.testing.type.UnitTest;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Subfield;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 @UnitTest
-@ExtendWith(MockitoExtension.class)
 class RelationProviderImplTest {
 
-  @Mock
-  private DictionaryProcessor dictionaryProcessor;
-  @InjectMocks
-  private RelationProviderImpl relationProvider;
+  private final RelationProviderImpl relationProvider = new RelationProviderImpl();
 
   private static Stream<Arguments> provideArguments() {
     return Stream.of(
@@ -77,10 +68,6 @@ class RelationProviderImplTest {
     if (relation.isPresent()) {
       when(dataField.getSubfield('e')).thenReturn(subfieldE);
       when(dataField.getSubfield('4')).thenReturn(subfield4);
-      if (subfieldE != null) {
-        when(dictionaryProcessor.getValue("AGENT_TEXT_TO_PREDICATE", subfieldE.getData()))
-          .thenReturn(Optional.of("PHOTOGRAPHER"));
-      }
     }
 
     //when
