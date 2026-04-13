@@ -1,5 +1,6 @@
 labelRules:
   - types: AGENT
+    addLabelProperty: true
     properties:
       - NAME
   - types: ANNOTATION

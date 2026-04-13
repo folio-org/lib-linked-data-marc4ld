@@ -76,7 +76,8 @@ public class LinkingEntriesTestHelper {
       validateEdge(resourceEdges.get(index), CREATOR,
         List.of(AGENT),
         Map.of(
-          "http://bibfra.me/vocab/lite/name", List.of(expectedName)
+          "http://bibfra.me/vocab/lite/name", List.of(expectedName),
+          "http://bibfra.me/vocab/lite/label", List.of(expectedName)
         ), expectedName);
       index++;
     }
