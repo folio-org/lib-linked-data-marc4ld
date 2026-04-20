@@ -30,7 +30,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <lib-linked-data-dictionary.version>2.0.0-SNAPSHOT</lib-linked-data-dictionary.version>
-    <lib-linked-data-fingerprint.version>2.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
+    <lib-linked-data-fingerprint.version>2.0.0</lib-linked-data-fingerprint.version>
     <folio-spring-base.version>10.0.0</folio-spring-base.version>
     <marc4j.version>2.9.6</marc4j.version>
     <guava.version>33.6.0-jre</guava.version>
