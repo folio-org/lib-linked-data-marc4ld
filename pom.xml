@@ -4,7 +4,7 @@
 
   <groupId>org.folio</groupId>
   <artifactId>lib-linked-data-marc4ld</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -29,8 +29,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <lib-linked-data-dictionary.version>2.0.0-SNAPSHOT</lib-linked-data-dictionary.version>
-    <lib-linked-data-fingerprint.version>2.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
+    <lib-linked-data-dictionary.version>3.0.0-SNAPSHOT</lib-linked-data-dictionary.version>
+    <lib-linked-data-fingerprint.version>3.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
     <folio-spring-base.version>10.0.0</folio-spring-base.version>
     <marc4j.version>2.9.6</marc4j.version>
     <guava.version>33.6.0-jre</guava.version>
@@ -229,6 +229,17 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <preparationGoals>clean verify</preparationGoals>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
+        </configuration>
       </plugin>
     </plugins>
   </build>
