@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getWorkEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
@@ -20,6 +21,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -57,10 +59,62 @@ class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
       .isEmpty();
   }
 
+  @Test
+  void shouldNotMapGovernmentPublication_whenCodeIsNotRecognized() {
+    // given — code 'b' is not in isAny list
+    var marc = """
+        {
+          "leader" : "00078nam a2200037uc 4500",
+          "fields" : [ {
+            "008" : "                            b          "
+          } ]
+        }""";
+    // when
+    var result = marcBibToResource(marc);
+    // then — no GOVERNMENT_PUBLICATION edge (Work may not be created at all)
+    var govtPubEdges = getOutgoingEdges(result, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"))
+        .stream()
+        .flatMap(workEdge -> getOutgoingEdges(workEdge.getTarget(),
+            withPredicateUri("http://bibfra.me/vocab/library/governmentPublication")).stream())
+        .toList();
+    assertThat(govtPubEdges).isEmpty();
+  }
+
+  @ParameterizedTest
+  @MethodSource("fileNamesForCodeO")
+  void shouldMapGovernmentPublication_whenCodeIsO_linkContainsG(String fileName) {
+    var marc = loadResourceAsString(fileName);
+    var result = marcBibToResource(marc);
+    assertThat(result)
+      .extracting(this::getGovernmentPublicationEdge)
+      .satisfies(e -> validateEdge(e, GOVERNMENT_PUBLICATION, List.of(CATEGORY),
+        Map.of(
+          "http://bibfra.me/vocab/library/code", List.of("o"),
+          "http://bibfra.me/vocab/lite/link",    List.of("http://id.loc.gov/vocabulary/mgovtpubtype/g"),
+          "http://bibfra.me/vocab/library/term", List.of("Government")
+        ), "Government"))
+      .extracting(ResourceEdgeHelper::getCategorySetEdge)
+      .satisfies(e -> validateEdge(e, IS_DEFINED_BY, List.of(CATEGORY_SET),
+        Map.of(
+          "http://bibfra.me/vocab/lite/link",  List.of("http://id.loc.gov/vocabulary/mgovtpubtype"),
+          "http://bibfra.me/vocab/lite/label", List.of("Government Publication Type")
+        ), "Government Publication Type"))
+      .extracting(ResourceEdgeHelper::getOutgoingEdges)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
+      .isEmpty();
+  }
+
   private static Stream<Arguments> fileNames() {
     return Stream.of(
       Arguments.of("fields/008/marc_008_mgovtpubtype.jsonl"),
       Arguments.of("fields/008/marc_008_mgovtpubtype_serial.jsonl")
+    );
+  }
+
+  private static Stream<Arguments> fileNamesForCodeO() {
+    return Stream.of(
+      Arguments.of("fields/008/marc_008_mgovtpubtype_o.jsonl"),
+      Arguments.of("fields/008/marc_008_mgovtpubtype_o_serial.jsonl")
     );
   }
 

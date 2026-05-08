@@ -21,6 +21,7 @@ import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -40,7 +41,7 @@ class Ld2MarcGovernmentPublicationIT {
   void shouldMap_governmentPublication_whenWorkIsBookOrSerial(ResourceTypeDictionary workType, String fileName) {
     // given
     var expectedMarc = loadResourceAsString(fileName);
-    var resource = createInstanceWithWorkWithGovernmentPublication(workType);
+    var resource = createInstance(workType, "a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous");
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
@@ -49,27 +50,52 @@ class Ld2MarcGovernmentPublicationIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
-  private Resource createInstanceWithWorkWithGovernmentPublication(ResourceTypeDictionary workType) {
-    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/mgovtpubtype", "Government Publication Type");
-    var governmentPublication = createCategory("a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous",
-      categorySet);
-    var work = createResource(
-      emptyMap(),
-      Set.of(WORK, workType),
-      Map.of(GOVERNMENT_PUBLICATION, List.of(governmentPublication))
-    );
+  @ParameterizedTest
+  @MethodSource("argumentsForCodeO")
+  void shouldMap_governmentPublication_whenCodeIsO(ResourceTypeDictionary workType, String fileName) {
+    var expectedMarc = loadResourceAsString(fileName);
+    var resource = createInstance(workType, "o",
+        "http://id.loc.gov/vocabulary/mgovtpubtype/g", "Government");
+    assertThat(ld2MarcMapper.toMarcJson(resource)).isEqualTo(expectedMarc);
+  }
 
-    return createResource(
-      emptyMap(),
-      Set.of(INSTANCE),
-      Map.of(INSTANTIATES, List.of(work))
-    );
+  @Test
+  void shouldMap_governmentPublication_whenCodeIsU() {
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_mgovtpubtype_u.jsonl");
+    var resource = createInstance(BOOKS, "u",
+        "http://id.loc.gov/vocabulary/mgovtpubtype/u", "Unknown");
+    assertThat(ld2MarcMapper.toMarcJson(resource)).isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldMap_governmentPublication_whenCodeIsZ() {
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_mgovtpubtype_z.jsonl");
+    var resource = createInstance(BOOKS, "z",
+        "http://id.loc.gov/vocabulary/mgovtpubtype/z", "Other");
+    assertThat(ld2MarcMapper.toMarcJson(resource)).isEqualTo(expectedMarc);
+  }
+
+  private Resource createInstance(ResourceTypeDictionary workType,
+                                  String code, String link, String term) {
+    var categorySet = createCategorySet("http://id.loc.gov/vocabulary/mgovtpubtype", "Government Publication Type");
+    var govPub = createCategory(code, link, term, categorySet);
+    var work = createResource(emptyMap(), Set.of(WORK, workType),
+        Map.of(GOVERNMENT_PUBLICATION, List.of(govPub)));
+    return createResource(emptyMap(), Set.of(INSTANCE),
+        Map.of(INSTANTIATES, List.of(work)));
   }
 
   private static Stream<Arguments> arguments() {
     return Stream.of(
       Arguments.of(BOOKS, "fields/008/marc_008_mgovtpubtype.jsonl"),
       Arguments.of(CONTINUING_RESOURCES, "fields/008/marc_008_mgovtpubtype_serial.jsonl")
+    );
+  }
+
+  private static Stream<Arguments> argumentsForCodeO() {
+    return Stream.of(
+      Arguments.of(BOOKS,               "fields/008/marc_008_mgovtpubtype_o.jsonl"),
+      Arguments.of(CONTINUING_RESOURCES, "fields/008/marc_008_mgovtpubtype_o_serial.jsonl")
     );
   }
 }
