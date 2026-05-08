@@ -29,6 +29,7 @@ class Marc2Ld043IT extends Marc2LdTestBase {
   }
 
   private void hasGeographicCoverageEdges(Resource work) {
+    // 043 field with an unknown geographic code must not produce an edge
     assertThat(work.getOutgoingEdges()).hasSize(2);
     var edgesIterator = work.getOutgoingEdges().iterator();
     validateEdge(edgesIterator.next(), GEOGRAPHIC_COVERAGE, List.of(ResourceTypeDictionary.PLACE),
