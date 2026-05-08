@@ -34,7 +34,6 @@ public class IndicatorRuleApplierImpl implements IndicatorRuleApplier {
       .filter(n -> !n.isEmpty())
       .map(n -> n.get(0))
       .map(JsonNode::asString)
-      .filter(s -> s.length() == 1)
       .map(s -> s.charAt(0))
       .orElse(defaultIndicator);
   }

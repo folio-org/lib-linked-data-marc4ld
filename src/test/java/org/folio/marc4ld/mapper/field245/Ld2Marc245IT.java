@@ -76,18 +76,6 @@ class Ld2Marc245IT {
   }
 
   @Test
-  void shouldFallbackInd2ToSpace_whenNonSortNumIsInvalid() {
-    // given — "invalid" is not a single-character value; ind2 must fall back to ' '
-    var resource = createResourceWithWorkWith245("invalid");
-
-    // when
-    var result = ld2MarcMapper.toMarcJson(resource);
-
-    // then
-    assertThat(result).contains("\"ind2\" : \" \"");
-  }
-
-  @Test
   void whenTitleInBothInstanceAndWork_andMapOnlyInstance() {
     // given
     var expectedMarc = loadResourceAsString("fields/245/marc_245_title_conflict.jsonl");
