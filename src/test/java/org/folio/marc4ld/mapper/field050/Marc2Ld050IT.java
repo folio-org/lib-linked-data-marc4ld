@@ -68,6 +68,26 @@ class Marc2Ld050IT extends Marc2LdTestBase {
       Arguments.of(
         "fields/050/no_usage_information_with_lc_source.jsonl",
         createLcClassification(createAssigningSource(DLC), null)
+      ),
+      Arguments.of(
+        "fields/050/used_by_assigner_with_other_source.jsonl",
+        createLcClassification(null, createStatus(UBA))
+      ),
+      Arguments.of(
+        "fields/050/used_by_assigner_without_source_info.jsonl",
+        createLcClassification(null, createStatus(UBA))
+      ),
+      Arguments.of(
+        "fields/050/not_used_by_assigner_with_lc_source.jsonl",
+        createLcClassification(createAssigningSource(DLC), createStatus(NUBA))
+      ),
+      Arguments.of(
+        "fields/050/no_usage_information_with_non_lc_source.jsonl",
+        createLcClassification(null, null)
+      ),
+      Arguments.of(
+        "fields/050/no_usage_information_without_source_info.jsonl",
+        createLcClassification(null, null)
       )
     );
   }
