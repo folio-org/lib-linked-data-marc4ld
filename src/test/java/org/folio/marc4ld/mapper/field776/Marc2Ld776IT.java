@@ -2,8 +2,12 @@ package org.folio.marc4ld.mapper.field776;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.getEdges;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.getLiteInstance;
+import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.getLiteWork;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.validateAgent;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.validateIsbn;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.validateLiteInstance;
@@ -60,6 +64,34 @@ class Marc2Ld776IT extends Marc2LdTestBase {
       .satisfies(resource -> validateLocalId(resource, "local ID identifier name"))
       .satisfies(resource -> validateIsbn(resource, "ISBN identifier name"))
       .satisfies(LinkingEntriesTestHelper::validateUnknown)
-      .satisfies(LinkingEntriesTestHelper::validateLiteInstanceTitle);
+      .satisfies(LinkingEntriesTestHelper::validateLiteInstanceTitle)
+      .satisfies(resource -> assertThat(getEdges(getLiteWork(resource), IDENTIFIER, ID_ISSN)).isEmpty());
+  }
+
+  @Test
+  void shouldMapField776_whenSubfieldsSAndTAreMissing() {
+    //given
+    var marc = loadResourceAsString("fields/776/marc_776_without_s_and_t.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .satisfies(resource -> validateLiteWork(resource, OTHER_VERSION, "main title sub title"))
+      .satisfies(resource -> validateLiteWorkTitle(resource, "main title sub title"));
+  }
+
+  @Test
+  void shouldMapField776_whenSubfieldTIsMissing() {
+    //given
+    var marc = loadResourceAsString("fields/776/marc_776_without_t.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .satisfies(resource -> validateLiteWork(resource, OTHER_VERSION, "work title from s"));
   }
 }
