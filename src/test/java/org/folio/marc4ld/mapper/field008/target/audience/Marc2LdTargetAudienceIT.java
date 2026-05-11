@@ -28,7 +28,13 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
   @ParameterizedTest
   @CsvSource({
     "a, pre, Preschool",
-    "b, pri, Primary"
+    "b, pri, Primary",
+    "c, pad, Pre-adolescent",
+    "d, ado, Adolescent",
+    "e, adu, Adult",
+    "f, spe, Specialized",
+    "g, gen, General",
+    "j, juv, Juvenile"
   })
   void shouldMapTargetAudience_whenRecordIsMonograph(String code, String linkSuffix, String term) {
     // given

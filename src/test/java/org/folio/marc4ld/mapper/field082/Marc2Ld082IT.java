@@ -70,6 +70,14 @@ public class Marc2Ld082IT extends Marc2LdTestBase {
       Arguments.of(
         "fields/082/other_edition_without_source_info.jsonl",
         createDdcClassification(null, null)
+      ),
+      Arguments.of(
+        "fields/082/no_edition_without_source_info.jsonl",
+        createDdcClassification(null, null)
+      ),
+      Arguments.of(
+        "fields/082/abridged_edition_with_lc_source.jsonl",
+        createDdcClassification(ABRIDGED, createAssigningSource(DLC))
       )
     );
   }
