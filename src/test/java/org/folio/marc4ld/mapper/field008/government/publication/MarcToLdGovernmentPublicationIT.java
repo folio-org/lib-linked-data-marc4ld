@@ -21,7 +21,6 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -59,25 +58,34 @@ class MarcToLdGovernmentPublicationIT extends Marc2LdTestBase {
       .isEmpty();
   }
 
-  @Test
-  void shouldNotMapGovernmentPublication_whenCodeIsNotRecognized() {
-    // given — code 'b' is not in isAny list
+  @ParameterizedTest
+  @MethodSource("unrecognizedCodes")
+  void shouldNotMapGovernmentPublication_whenCodeIsNotRecognized(char code) {
+    // given
     var marc = """
         {
           "leader" : "00078nam a2200037uc 4500",
           "fields" : [ {
-            "008" : "                            b          "
+            "008" : "                            %c          "
           } ]
-        }""";
+        }""".formatted(code);
     // when
     var result = marcBibToResource(marc);
-    // then — no GOVERNMENT_PUBLICATION edge (Work may not be created at all)
+    // then
     var govtPubEdges = getOutgoingEdges(result, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"))
         .stream()
         .flatMap(workEdge -> getOutgoingEdges(workEdge.getTarget(),
             withPredicateUri("http://bibfra.me/vocab/library/governmentPublication")).stream())
         .toList();
     assertThat(govtPubEdges).isEmpty();
+  }
+
+  private static Stream<Arguments> unrecognizedCodes() {
+    return Stream.of(
+      Arguments.of('b'),  // not a MARC standard code
+      Arguments.of('u'),  // valid MARC code but not mapped to LD vocabulary
+      Arguments.of('z')   // valid MARC code but not mapped to LD vocabulary
+    );
   }
 
   @ParameterizedTest
