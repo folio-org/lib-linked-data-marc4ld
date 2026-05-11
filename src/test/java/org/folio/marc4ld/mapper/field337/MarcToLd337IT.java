@@ -8,6 +8,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.CATEGORY_SET;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.mapper.test.TestUtil.validateEdge;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getFirstOutgoingEdge;
+import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.getOutgoingEdges;
 import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
@@ -50,6 +51,24 @@ class MarcToLd337IT extends Marc2LdTestBase {
       .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
+  }
+
+  @Test
+  void shouldNotMapField337_whenFieldIsAbsent() {
+    // given
+    var marc = """
+        {
+          "leader" : "00078nam a2200037uc 4500",
+          "fields" : [ {
+            "008" : "                                       "
+          } ]
+        }""";
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(getOutgoingEdges(result, withPredicateUri("http://bibfra.me/vocab/library/media"))).isEmpty();
   }
 
   private ResourceEdge getMediaEdge(Resource result) {
