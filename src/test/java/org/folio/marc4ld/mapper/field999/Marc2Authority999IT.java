@@ -1,7 +1,9 @@
 package org.folio.marc4ld.mapper.field999;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCNAF;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
+import static org.folio.marc4ld.test.helper.AuthorityValidationHelper.validateIdentifier;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.folio.marc4ld.Marc2LdTestBase;
@@ -23,5 +25,7 @@ class Marc2Authority999IT extends Marc2LdTestBase {
     var folioMetadata = actualResource.get().getFolioMetadata();
     assertEquals("2165ef4b-001f-46b3-a60e-52bcdeb3d5a1", folioMetadata.getInventoryId());
     assertEquals("43d58061-decf-4d74-9747-0e1c368e861b", folioMetadata.getSrsId());
+    validateIdentifier(actualResource.get(), "n0987654321", ID_LCNAF,
+      "http://id.loc.gov/authorities/n0987654321");
   }
 }
