@@ -64,9 +64,7 @@ class Ld2MarcMappingIT {
     // then
     var leader = JSON_MAPPER.readTree(result).get("leader").asString();
     assertThat(leader).hasSizeGreaterThan(18);
-    assertThat(leader.charAt(18))
-      .as("Leader/18 (descriptive cataloging form) must always be 'c' regardless of work type")
-      .isEqualTo('c');
+    assertThat(leader.charAt(18)).isEqualTo('c');
   }
 
   private static Stream<ResourceTypeDictionary> workTypes() {
