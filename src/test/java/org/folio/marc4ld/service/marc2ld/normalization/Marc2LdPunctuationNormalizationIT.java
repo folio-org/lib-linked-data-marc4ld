@@ -118,6 +118,44 @@ class Marc2LdPunctuationNormalizationIT {
       .isEqualTo(expected);
   }
 
+  @ParameterizedTest
+  @CsvSource({
+    "336, a, 'Rees, Paul A.,', 'Rees, Paul A.'",
+    "336, a, 'Nancy W.K.,', 'Nancy W.K.'",
+  })
+  void shouldPreserveBibLastSubfieldAbbreviationPeriod(String tag, char code, String input, String expected) {
+    var factory = MarcFactory.newInstance();
+    var record = factory.newRecord();
+    var field = factory.newDataField(tag, ' ', ' ');
+    field.addSubfield(factory.newSubfield(code, input));
+    record.addVariableField(field);
+
+    marcPunctuationNormalizer.normalize(record);
+
+    assertThat(record.getDataFields().getFirst().getSubfield(code).getData())
+      .isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "100, a, 'Rees, Paul A.,', 2, 'Rees, Paul A.'",
+    "100, a, 'Nancy W.K.,', 2, 'Nancy W.K.'",
+  })
+  void shouldPreserveBibSubfieldAbbreviationPeriodWhenFollowedByNextSubfield(
+      String tag, char subfield, String input, char nextSubfield, String expected) {
+    var factory = MarcFactory.newInstance();
+    var record = factory.newRecord();
+    var field = factory.newDataField(tag, ' ', ' ');
+    field.addSubfield(factory.newSubfield(subfield, input));
+    field.addSubfield(factory.newSubfield(nextSubfield, "x"));
+    record.addVariableField(field);
+
+    marcPunctuationNormalizer.normalize(record);
+
+    assertThat(record.getDataFields().getFirst().getSubfield(subfield).getData())
+      .isEqualTo(expected);
+  }
+
   private void isNormalized(Record marcRecord) {
     marcRecord.getDataFields()
       .stream()
