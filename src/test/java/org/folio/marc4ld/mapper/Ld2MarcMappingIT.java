@@ -5,17 +5,23 @@ import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PropertyDictionary.DATE_START;
 import static org.folio.ld.dictionary.PropertyDictionary.DIMENSIONS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
+import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,6 +50,32 @@ class Ld2MarcMappingIT {
 
     // then
     assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  @ParameterizedTest
+  @MethodSource("workTypes")
+  void shouldSetDescriptiveCatalogingFormToC_whenConvertingToMarc(ResourceTypeDictionary workType) {
+    // given
+    var instance = createInstanceWithWork(workType);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(instance);
+
+    // then
+    var leader = JSON_MAPPER.readTree(result).get("leader").asString();
+    assertThat(leader).hasSizeGreaterThan(18);
+    assertThat(leader.charAt(18))
+      .as("Leader/18 (descriptive cataloging form) must always be 'c' regardless of work type")
+      .isEqualTo('c');
+  }
+
+  private static Stream<ResourceTypeDictionary> workTypes() {
+    return Stream.of(BOOKS, CONTINUING_RESOURCES);
+  }
+
+  private Resource createInstanceWithWork(ResourceTypeDictionary workType) {
+    var work = createResource(Map.of(), Set.of(WORK, workType), Map.of());
+    return createResource(Map.of(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
   }
 
   private Resource createResourceWithEmptyProperties() {
