@@ -65,6 +65,38 @@ class Marc2LdPunctuationNormalizationIT {
 
   @ParameterizedTest
   @CsvSource({
+    "100, d, '(date)', date",
+    "100, d, '[date]', date",
+    "100, q, '(qualifier)', qualifier",
+    "100, e, '(relator)', relator",
+    "245, h, '(medium)', medium",
+    "245, h, '[electronic resource]', electronic resource",
+    "260, a, '(New York)', New York",
+    "260, b, '[Publisher]', Publisher",
+    "260, c, '()] 2022)', 2022",
+    "264, a, '(Place)', Place",
+    "264, b, '[Publisher]', Publisher",
+    "264, c, '(2022)', 2022",
+    "610, e, '(role)', role",
+    "711, c, '(city)', city",
+    "711, d, '(date)', date",
+    "711, n, '(number)', number",
+  })
+  void shouldNormalizeBibSubfieldParenthesesAndSquareBrackets(String tag, char code, String input, String expected) {
+    var factory = MarcFactory.newInstance();
+    var record = factory.newRecord();
+    var field = factory.newDataField(tag, ' ', ' ');
+    field.addSubfield(factory.newSubfield(code, input));
+    record.addVariableField(field);
+
+    marcPunctuationNormalizer.normalize(record);
+
+    assertThat(record.getDataFields().getFirst().getSubfield(code).getData())
+      .isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
     "100, a, name., name",
     "245, a, title., title",
     "246, a, title., title",
