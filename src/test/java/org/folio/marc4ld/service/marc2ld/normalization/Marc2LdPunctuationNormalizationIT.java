@@ -156,6 +156,45 @@ class Marc2LdPunctuationNormalizationIT {
       .isEqualTo(expected);
   }
 
+  @ParameterizedTest
+  @CsvSource({
+    "100, ' ', a, 'name,', c, name",
+    "100, ' ', a, 'name ;', d, name",
+    "100, ' ', a, 'name,', d, name",
+    "100, ' ', a, 'name ;', v, name",
+    "100, ' ', a, 'name,', v, name",
+    "100, ' ', a, 'form.', k, form",
+    "100, ' ', k, 'lang.', l, lang",
+    "100, ' ', l, 'text,', m, text",
+    "100, ' ', l, 'num.', n, num",
+    "100, ' ', l, 'num,', n, num",
+    "100, ' ', n, 'key,', r, key",
+    "100, ' ', a, 'title.', t, title",
+    "100, 3, a, 'family,', c, family",
+    "100, 3, a, 'family ;', d, family",
+    "100, 3, a, 'title.', t, title",
+    "110, ' ', a, 'corp.', b, corp",
+    "110, ' ', a, 'corp,', c, corp",
+    "110, ' ', a, 'corp ;', d, corp",
+    "111, ' ', a, 'conf :', c, conf",
+    "111, ' ', c, 'place,', d, place",
+    "111, ' ', d, 'date.', q, date",
+  })
+  void shouldNormalizeAuthoritySubfieldTrailingPunctuationWhenFollowedByNextSubfield(
+      String tag, char ind1, char subfield, String input, char nextSubfield, String expected) {
+    var factory = MarcFactory.newInstance();
+    var record = factory.newRecord();
+    var field = factory.newDataField(tag, ind1, ' ');
+    field.addSubfield(factory.newSubfield(subfield, input));
+    field.addSubfield(factory.newSubfield(nextSubfield, "x"));
+    record.addVariableField(field);
+
+    marcAuthorityPunctuationNormalizer.normalize(record);
+
+    assertThat(record.getDataFields().getFirst().getSubfield(subfield).getData())
+      .isEqualTo(expected);
+  }
+
   private void isNormalized(Record marcRecord) {
     marcRecord.getDataFields()
       .stream()
