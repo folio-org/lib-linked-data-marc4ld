@@ -53,6 +53,23 @@ class MarcToLdAuthorityConceptPlace151IT extends Marc2LdTestBase {
   }
 
   @Test
+  void shouldMap151FieldToPlaceResource_whenSubFocusFieldsAreNotPresent_withOnlyLcnafIdentifier() {
+    // given
+    var marc = loadResourceAsString("authority/151/marc_151_place_without_subfocus_only_lcnaf.jsonl");
+
+    // when
+    var resources = marcAuthorityToResources(marc);
+
+    // then
+    assertThat(resources)
+      .singleElement()
+      .satisfies(resource -> assertThat(resource.getOutgoingEdges()).hasSize(1))
+      .satisfies(resource -> validateResource(resource, List.of(PLACE), placeProperties(), EXPECTED_FOCUS_LABEL))
+      .satisfies(resource -> validateIdentifier(resource, "nb2024001234", ID_LCNAF,
+        "http://id.loc.gov/authorities/nb2024001234"));
+  }
+
+  @Test
   void shouldMap151FieldToPlaceResource_whenSubFocusFieldsAreEmpty() {
     // given
     var marc = loadResourceAsString("authority/151/marc_151_place_empty_subfocus.jsonl");
