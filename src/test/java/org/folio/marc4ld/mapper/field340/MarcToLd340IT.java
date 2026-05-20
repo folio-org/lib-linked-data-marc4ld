@@ -20,7 +20,6 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -59,10 +58,11 @@ class MarcToLd340IT extends Marc2LdTestBase {
       .isEmpty();
   }
 
-  @Test
-  void shouldProcessNonStandardBookFormat() {
+  @ParameterizedTest
+  @MethodSource("provideNonStandardBookFormatParams")
+  void shouldProcessNonStandardBookFormat(String fileName, String expectedValue) {
     // given
-    var marc = loadResourceAsString("fields/340/marc_340_non_standard_book_format.jsonl");
+    var marc = loadResourceAsString(fileName);
 
     //when
     var result = marcBibToResource(marc);
@@ -71,7 +71,7 @@ class MarcToLd340IT extends Marc2LdTestBase {
     assertThat(result)
       .satisfies(resource -> validateResource(resource,
         List.of(INSTANCE),
-        Map.of("http://bibfra.me/vocab/library/bookFormat", List.of("book format label.")),
+        Map.of("http://bibfra.me/vocab/library/bookFormat", List.of(expectedValue)),
         ""))
       .satisfies(r -> assertThat(r.getOutgoingEdges()).isEmpty());
   }
@@ -83,7 +83,18 @@ class MarcToLd340IT extends Marc2LdTestBase {
   private static Stream<Arguments> provideStandardBookFormatParams() {
     return Stream.of(
       Arguments.of("fields/340/marc_340_standard_book_format.jsonl", "4to", "4to"),
-      Arguments.of("fields/340/marc_340_full-sheet_book_format.jsonl", "full", "full-sheet")
+      Arguments.of("fields/340/marc_340_full-sheet_book_format.jsonl", "full", "full-sheet"),
+      Arguments.of("fields/340/marc_340_8vo_book_format.jsonl", "8vo", "8vo"),
+      Arguments.of("fields/340/marc_340_32mo_book_format.jsonl", "32mo", "32mo"),
+      Arguments.of("fields/340/marc_340_128mo_book_format.jsonl", "128mo", "128mo"),
+      Arguments.of("fields/340/marc_340_folio_special_chars_book_format.jsonl", "folio", "folio")
+    );
+  }
+
+  private static Stream<Arguments> provideNonStandardBookFormatParams() {
+    return Stream.of(
+      Arguments.of("fields/340/marc_340_non_standard_book_format.jsonl", "book format label."),
+      Arguments.of("fields/340/marc_340_test_non_standard_book_format.jsonl", "test")
     );
   }
 }
