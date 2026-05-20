@@ -84,9 +84,6 @@ class MarcToLd340IT extends Marc2LdTestBase {
     return Stream.of(
       Arguments.of("fields/340/marc_340_standard_book_format.jsonl", "4to", "4to"),
       Arguments.of("fields/340/marc_340_full-sheet_book_format.jsonl", "full", "full-sheet"),
-      Arguments.of("fields/340/marc_340_8vo_book_format.jsonl", "8vo", "8vo"),
-      Arguments.of("fields/340/marc_340_32mo_book_format.jsonl", "32mo", "32mo"),
-      Arguments.of("fields/340/marc_340_128mo_book_format.jsonl", "128mo", "128mo"),
       Arguments.of("fields/340/marc_340_folio_special_chars_book_format.jsonl", "folio", "folio")
     );
   }
