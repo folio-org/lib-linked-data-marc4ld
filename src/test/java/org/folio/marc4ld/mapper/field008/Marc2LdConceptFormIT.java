@@ -116,6 +116,39 @@ class Marc2LdConceptFormIT extends Marc2LdTestBase {
       .satisfies(validateFocusEdges(GENRE));
   }
 
+  @Test
+  void shouldNotMapConceptForm_whenRecordIsSerial() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_concept_form_serial.jsonl");
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(result)
+      .extracting(instance -> getOutgoingEdges(instance, withPredicateUri("http://bibfra.me/vocab/lite/instantiates")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
+  }
+
+  @Test
+  void shouldNotMapConceptForm_whenCodesAreNotConceptFormCodes() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_concept_form_unsupported.jsonl");
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/lite/subject")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/lite/genre")))
+      .satisfies(edges -> assertThat(edges).isEmpty());
+  }
+
   private static @NotNull ThrowingConsumer<List<ResourceEdge>> validateFocusEdges(PredicateDictionary predicate) {
     return focusEdges -> {
       assertThat(focusEdges).hasSize(4);
