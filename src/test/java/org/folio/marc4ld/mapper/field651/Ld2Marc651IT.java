@@ -5,7 +5,6 @@ import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
-import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.GEOGRAPHIC_SUBDIVISION;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.NAME;
@@ -51,7 +50,7 @@ class Ld2Marc651IT {
   }
 
   @Test
-  void shouldMapField651WithFocusIdentifierAndSubFocusEdges() {
+  void shouldMapField651WithFocusIdentifier() {
     // given
     var resource = createInstanceWithPlaceConceptAndFocusIdentifier();
     var expectedMarc = loadResourceAsString("fields/651/marc_651_with_focus_id.jsonl");
@@ -99,22 +98,13 @@ class Ld2Marc651IT {
       Map.of(MAP, List.of(lccn))
     );
 
-    var subFocusPlace = createResource(
-      Map.of(NAME, List.of("place 1")),
-      Set.of(PLACE),
-      Map.of()
-    );
-
     var concept = createResource(
       Map.of(
         NAME, List.of("name"),
         GEOGRAPHIC_SUBDIVISION, List.of("place 1")
       ),
       Set.of(PLACE, CONCEPT),
-      Map.of(
-        FOCUS, List.of(focusPlace),
-        SUB_FOCUS, List.of(subFocusPlace)
-      )
+      Map.of(FOCUS, List.of(focusPlace))
     );
 
     var work = createResource(Map.of(), Set.of(WORK, BOOKS), Map.of(SUBJECT, List.of(concept)));
