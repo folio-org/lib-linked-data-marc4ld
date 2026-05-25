@@ -62,6 +62,19 @@ class Ld2Marc650IT {
     assertThat(actualMarc).isEqualTo(expectedMarc);
   }
 
+  @Test
+  void shouldMapField650WithMultipleMapIdentifiers() {
+    // given
+    var resource = createInstanceWithTopicConceptAndMultipleMapIdentifiers();
+    var expectedMarc = loadResourceAsString("fields/650/marc_650_with_multiple_map_ids.jsonl");
+
+    // when
+    var actualMarc = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(actualMarc).isEqualTo(expectedMarc);
+  }
+
   private Resource createInstanceWithTopicConceptAndMapIdentifier() {
     var lccn = createResource(
       Map.of(
@@ -105,6 +118,38 @@ class Ld2Marc650IT {
       ),
       Set.of(TOPIC, CONCEPT),
       Map.of(FOCUS, List.of(focusTopic))
+    );
+
+    var work = createResource(Map.of(), Set.of(WORK, BOOKS), Map.of(SUBJECT, List.of(concept)));
+    return createResource(Map.of(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
+  }
+
+  private Resource createInstanceWithTopicConceptAndMultipleMapIdentifiers() {
+    var lccn1 = createResource(
+      Map.of(
+        NAME, List.of("sh1234567890"),
+        LINK, List.of("http://id.loc.gov/authorities/subjects/sh1234567890")
+      ),
+      Set.of(IDENTIFIER, ID_LCCN),
+      Map.of()
+    );
+
+    var lccn2 = createResource(
+      Map.of(
+        NAME, List.of("sh9876543210"),
+        LINK, List.of("http://id.loc.gov/authorities/subjects/sh9876543210")
+      ),
+      Set.of(IDENTIFIER, ID_LCCN),
+      Map.of()
+    );
+
+    var concept = createResource(
+      Map.of(
+        NAME, List.of("name"),
+        GENERAL_SUBDIVISION, List.of("topic 1")
+      ),
+      Set.of(TOPIC, CONCEPT),
+      Map.of(MAP, List.of(lccn1, lccn2))
     );
 
     var work = createResource(Map.of(), Set.of(WORK, BOOKS), Map.of(SUBJECT, List.of(concept)));
