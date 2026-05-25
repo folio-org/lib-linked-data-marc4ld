@@ -3,7 +3,6 @@ package org.folio.marc4ld.service.ld2marc.mapper.datafield.concept;
 import static org.folio.ld.dictionary.PredicateDictionary.FOCUS;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
 import static org.folio.ld.dictionary.PredicateDictionary.SUBJECT;
-import static org.folio.ld.dictionary.PredicateDictionary.SUB_FOCUS;
 import static org.folio.ld.dictionary.PropertyDictionary.LINK;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONCEPT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
@@ -63,7 +62,7 @@ public class ConceptSubfield0Mapper implements AdditionalDataFieldsMapper {
   }
 
   private Set<Resource> findFocusIdentifierResources(Resource conceptResource) {
-    if (isIntermediateConcept(conceptResource)) {
+    if (hasFocusEdge(conceptResource)) {
       return conceptResource.getOutgoingEdges()
         .stream()
         .filter(edge -> edge.getPredicate() == FOCUS)
@@ -74,20 +73,9 @@ public class ConceptSubfield0Mapper implements AdditionalDataFieldsMapper {
     return Set.of();
   }
 
-  private boolean isIntermediateConcept(Resource conceptResource) {
-    return hasFocusEdge(conceptResource) && hasNoSubFocusEdges(conceptResource);
-  }
-
   private static boolean hasFocusEdge(Resource conceptResource) {
     return conceptResource.getOutgoingEdges().stream()
-      .filter(edge -> edge.getPredicate() == FOCUS)
-      .count() == 1;
-  }
-
-  private boolean hasNoSubFocusEdges(Resource resource) {
-    return resource.getOutgoingEdges().stream()
-      .map(edge -> edge.getPredicate().getUri())
-      .noneMatch(predicate -> predicate.equals(SUB_FOCUS.getUri()));
+      .anyMatch(edge -> edge.getPredicate() == FOCUS);
   }
 
   private boolean isCurrentIdentifier(Resource identifierResource) {
