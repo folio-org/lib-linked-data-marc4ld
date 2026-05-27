@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field008.target.audience;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.TARGET_AUDIENCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
@@ -58,6 +59,32 @@ class Ld2MarcTargetAudienceIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
+  @Test
+  void shouldMap_targetAudience_whenWorkHasBothBooksAndSerialFields_andIsBook() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_target_audience.jsonl");
+    var resource = createInstanceWithBothBooksAndSerialFields(BOOKS);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldNotMap_targetAudience_whenWorkHasBothBooksAndSerialFields_andIsSerial() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_characteristic.jsonl");
+    var resource = createInstanceWithBothBooksAndSerialFields(CONTINUING_RESOURCES);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
   private Resource createInstanceWithWorkWithTargetAudience(ResourceTypeDictionary workType) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/maudience", "Target audience");
     var characteristic = createCategory("b", "http://id.loc.gov/vocabulary/maudience/pri", "Primary",
@@ -73,5 +100,25 @@ class Ld2MarcTargetAudienceIT {
       Set.of(INSTANCE),
       Map.of(INSTANTIATES, List.of(work))
     );
+  }
+
+  private Resource createInstanceWithBothBooksAndSerialFields(ResourceTypeDictionary workType) {
+    var audienceCategorySet = createCategorySet("http://id.loc.gov/vocabulary/maudience", "Target audience");
+    var characteristicCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, workType),
+      Map.of(
+        TARGET_AUDIENCE, List.of(
+          createCategory("b", "http://id.loc.gov/vocabulary/maudience/pri", "Primary", audienceCategorySet)
+        ),
+        CHARACTERISTIC, List.of(
+          createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
+            characteristicCategorySet)
+        )
+      )
+    );
+    return createResource(emptyMap(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
   }
 }

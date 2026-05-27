@@ -2,6 +2,7 @@ package org.folio.marc4ld.mapper.field008.supplementary;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.SUPPLEMENTARY_CONTENT;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
@@ -58,6 +59,32 @@ class Ld2MarcSupplementaryContentIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
+  @Test
+  void shouldMap_supplementaryContent_whenWorkHasBothBooksAndSerialFields_andIsBook() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_supplementary_content.jsonl");
+    var resource = createInstanceWithBothBooksAndSerialFields(BOOKS);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldNotMap_supplementaryContent_whenWorkHasBothBooksAndSerialFields_andIsSerial() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_characteristic.jsonl");
+    var resource = createInstanceWithBothBooksAndSerialFields(CONTINUING_RESOURCES);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
   private Resource createInstance(ResourceTypeDictionary workType) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
     var work = createResource(
@@ -80,5 +107,31 @@ class Ld2MarcSupplementaryContentIT {
       Set.of(INSTANCE),
       Map.of(INSTANTIATES, List.of(work))
     );
+  }
+
+  private Resource createInstanceWithBothBooksAndSerialFields(ResourceTypeDictionary workType) {
+    var supplCategorySet = createCategorySet("http://id.loc.gov/vocabulary/msupplcont", "Supplementary Content");
+    var characteristicCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, workType),
+      Map.of(
+        SUPPLEMENTARY_CONTENT, List.of(
+          createCategory("bibliography", "http://id.loc.gov/vocabulary/msupplcont/bibliography", "bibliography",
+            supplCategorySet),
+          createCategory("film", "http://id.loc.gov/vocabulary/msupplcont/film", "filmography", supplCategorySet),
+          createCategory("discography", "http://id.loc.gov/vocabulary/msupplcont/discography", "discography",
+            supplCategorySet),
+          createCategory("music", "http://id.loc.gov/vocabulary/msupplcont/music", "music", supplCategorySet),
+          createCategory("index", "http://id.loc.gov/vocabulary/msupplcont/index", "index", supplCategorySet)
+        ),
+        CHARACTERISTIC, List.of(
+          createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
+            characteristicCategorySet)
+        )
+      )
+    );
+    return createResource(emptyMap(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
   }
 }

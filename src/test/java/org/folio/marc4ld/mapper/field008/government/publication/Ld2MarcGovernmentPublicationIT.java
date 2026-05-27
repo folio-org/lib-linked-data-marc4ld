@@ -2,7 +2,9 @@ package org.folio.marc4ld.mapper.field008.government.publication;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;
 import static org.folio.ld.dictionary.PredicateDictionary.GOVERNMENT_PUBLICATION;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
@@ -75,6 +77,32 @@ class Ld2MarcGovernmentPublicationIT {
     assertThat(ld2MarcMapper.toMarcJson(resource)).isEqualTo(expectedMarc);
   }
 
+  @Test
+  void shouldMap_governmentPublication_andNotCharacteristic_whenWorkHasBothFields_andIsBook() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_mgovtpubtype.jsonl");
+    var resource = createInstanceWithGovPubAndCharacteristic(BOOKS);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldMap_governmentPublication_andNotIllustrations_whenWorkHasBothFields_andIsSerial() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_mgovtpubtype_serial.jsonl");
+    var resource = createInstanceWithGovPubAndIllustrations(CONTINUING_RESOURCES);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
   private Resource createInstance(ResourceTypeDictionary workType,
                                   String code, String link, String term) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/mgovtpubtype", "Government Publication Type");
@@ -83,6 +111,50 @@ class Ld2MarcGovernmentPublicationIT {
         Map.of(GOVERNMENT_PUBLICATION, List.of(govPub)));
     return createResource(emptyMap(), Set.of(INSTANCE),
         Map.of(INSTANTIATES, List.of(work)));
+  }
+
+  private Resource createInstanceWithGovPubAndCharacteristic(ResourceTypeDictionary workType) {
+    var govPubCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mgovtpubtype", "Government Publication Type");
+    var characteristicCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, workType),
+      Map.of(
+        GOVERNMENT_PUBLICATION, List.of(
+          createCategory("a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous", govPubCategorySet)
+        ),
+        CHARACTERISTIC, List.of(
+          createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
+            characteristicCategorySet)
+        )
+      )
+    );
+    return createResource(emptyMap(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
+  }
+
+  private Resource createInstanceWithGovPubAndIllustrations(ResourceTypeDictionary workType) {
+    var govPubCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mgovtpubtype", "Government Publication Type");
+    var illustrationsCategorySet = createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content");
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, workType),
+      Map.of(
+        GOVERNMENT_PUBLICATION, List.of(
+          createCategory("a", "http://id.loc.gov/vocabulary/mgovtpubtype/a", "Autonomous", govPubCategorySet)
+        ),
+        ILLUSTRATIONS, List.of(
+          createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps", illustrationsCategorySet),
+          createCategory("c", "http://id.loc.gov/vocabulary/millus/por", "Portraits", illustrationsCategorySet),
+          createCategory("d", "http://id.loc.gov/vocabulary/millus/chr", "Charts", illustrationsCategorySet),
+          createCategory("e", "http://id.loc.gov/vocabulary/millus/pln", "Plans", illustrationsCategorySet),
+          createCategory("f", "http://id.loc.gov/vocabulary/millus/plt", "Plates", illustrationsCategorySet)
+        )
+      )
+    );
+    return createResource(emptyMap(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
   }
 
   private static Stream<Arguments> arguments() {
