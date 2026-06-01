@@ -1,5 +1,7 @@
 package org.folio.marc4ld.mapper.field130;
 
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.EXPRESSION_OF;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PredicateDictionary.LANGUAGE;
@@ -20,12 +22,12 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.LANGUAGE_CATEGORY;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.TITLE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
@@ -51,8 +53,46 @@ class Ld2Marc130IT {
     var result = ld2MarcMapper.toMarcJson(resource);
 
     // then
-    AssertionsForClassTypes.assertThat(result)
+    assertThat(result)
       .isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldCreateMarc730ForAdditionalExpressionOfHub() {
+    // given
+    var resource = createInstanceWithThreeHubs();
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    var fields = JSON_MAPPER.readTree(result).get("fields");
+    var marc130Fields = stream(fields.spliterator(), false)
+      .filter(f -> f.has("130"))
+      .toList();
+    var marc730Fields = stream(fields.spliterator(), false)
+      .filter(f -> f.has("730"))
+      .toList();
+    assertThat(marc130Fields).hasSize(1);
+    assertThat(marc730Fields).hasSize(2);
+  }
+
+  private Resource createInstanceWithThreeHubs() {
+    var hub1 = getHub("1");
+    var hub2 = getHub("2");
+    var hub3 = getHub("3");
+
+    var work = createResource(
+      Map.of(),
+      Set.of(WORK, CONTINUING_RESOURCES),
+      Map.of(EXPRESSION_OF, List.of(hub1, hub2, hub3))
+    );
+
+    return createResource(
+      Map.of(),
+      Set.of(INSTANCE),
+      Map.of(INSTANTIATES, List.of(work))
+    );
   }
 
   private Resource createInstanceWithHub() {

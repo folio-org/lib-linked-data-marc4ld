@@ -70,6 +70,19 @@ class Marc2Ld130IT extends Marc2LdTestBase {
     assertThat(getOutgoingEdges(resource, e -> e.getPredicate().equals(CREATOR))).isEmpty();
   }
 
+  @Test
+  void shouldNotMapMarc730ToExpressionOfHub() {
+    // given
+    var marc = loadResourceAsString("fields/130/marc_730.jsonl");
+
+    // when
+    var resource = marcBibToResource(marc);
+
+    // then
+    var work = getWorkEdge(resource).getTarget();
+    assertThat(getOutgoingEdges(work, e -> e.getPredicate().equals(EXPRESSION_OF))).isEmpty();
+  }
+
   private ResourceEdge getTitleEdge(Resource resource) {
     return getFirstOutgoingEdge(resource, e -> e.getPredicate().equals(TITLE));
   }
