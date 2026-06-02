@@ -108,7 +108,7 @@ class Ld2MarcMappingIT {
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
 
-    // then: 100 is the sole main entry; 110 is demoted to 710
+    // then: 100 is the sole main entry; 110 is converted to 710
     var fields = JSON_MAPPER.readTree(result).get("fields");
     assertThat(stream(fields.spliterator(), false).filter(f -> f.has("100")).toList()).hasSize(1);
     assertThat(stream(fields.spliterator(), false).filter(f -> f.has("110")).toList()).isEmpty();
