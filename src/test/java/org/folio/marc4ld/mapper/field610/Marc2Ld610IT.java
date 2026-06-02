@@ -17,9 +17,11 @@ import static org.folio.marc4ld.test.helper.ResourceEdgeHelper.withPredicateUri;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -150,5 +152,32 @@ class Marc2Ld610IT extends Marc2LdTestBase {
         var properties = expectedSubFocuses.get(label);
         validateResource(r, List.of(properties.type()), properties.properties(), label);
       });
+  }
+
+  @Test
+  void shouldMapRepeated610FieldsReusingSharedSubfocusNodes() {
+    // given
+    var marc = loadResourceAsString("fields/610/marc_610_repeated_shared_subfocus.jsonl");
+
+    // when
+    var resource = marcBibToResource(marc);
+
+    // then
+    var work = getWorkEdge(resource).getTarget();
+    var subjectEdges = getOutgoingEdges(work, withPredicateUri(SUBJECT.getUri()));
+    assertThat(subjectEdges).hasSize(2);
+
+    var concept1SubFocusIds = getOutgoingEdges(subjectEdges.get(0), withPredicateUri(SUB_FOCUS.getUri()))
+      .stream()
+      .map(e -> e.getTarget().getId())
+      .collect(Collectors.toSet());
+
+    var concept2SubFocusIds = getOutgoingEdges(subjectEdges.get(1), withPredicateUri(SUB_FOCUS.getUri()))
+      .stream()
+      .map(e -> e.getTarget().getId())
+      .collect(Collectors.toSet());
+
+    assertThat(concept1SubFocusIds).hasSize(2);
+    assertThat(concept1SubFocusIds).isEqualTo(concept2SubFocusIds);
   }
 }

@@ -2,8 +2,9 @@ package org.folio.marc4ld.mapper.field776;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.OTHER_VERSION;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_ISSN;
+import static org.folio.ld.dictionary.ResourceTypeDictionary.LIGHT_RESOURCE;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.getEdges;
 import static org.folio.marc4ld.test.helper.LinkingEntriesTestHelper.getLiteInstance;
@@ -93,5 +94,18 @@ class Marc2Ld776IT extends Marc2LdTestBase {
     //then
     assertThat(result)
       .satisfies(resource -> validateLiteWork(resource, OTHER_VERSION, "work title from s"));
+  }
+
+  @Test
+  void shouldMapField776_linkedResourcesAreLight() {
+    //given
+    var marc = loadResourceAsString("fields/776/marc_776.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(getLiteWork(result).getTypes()).contains(LIGHT_RESOURCE);
+    assertThat(getLiteInstance(result).getTypes()).contains(LIGHT_RESOURCE);
   }
 }

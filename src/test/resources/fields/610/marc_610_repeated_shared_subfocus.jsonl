@@ -1,0 +1,25 @@
+{
+  "fields" : [ {
+    "610" : {
+      "subfields" : [ {
+        "a" : "Organization A"
+      }, {
+        "x" : "shared topic"
+      }, {
+        "y" : "shared temporal"
+      } ],
+      "ind1" : "1"
+    }
+  }, {
+    "610" : {
+      "subfields" : [ {
+        "a" : "Organization B"
+      }, {
+        "x" : "shared topic"
+      }, {
+        "y" : "shared temporal"
+      } ],
+      "ind1" : "1"
+    }
+  } ]
+}

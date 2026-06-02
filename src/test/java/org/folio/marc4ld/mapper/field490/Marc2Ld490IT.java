@@ -71,6 +71,23 @@ class Marc2Ld490IT extends Marc2LdTestBase {
       .satisfies(this::hasNoIssnIdentifier);
   }
 
+  @Test
+  void shouldMapField490_seriesWorkAndInstanceAreLight() {
+    // given
+    var marc = loadResourceAsString("fields/490/marc_490.jsonl");
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    var workSeriesEdge = getFirstOutgoingEdge(getWorkEdge(result).getTarget(),
+      withPredicateUri(IS_PART_OF.getUri()));
+    assertThat(workSeriesEdge.getTarget().getTypes()).contains(LIGHT_RESOURCE, WORK, SERIES);
+    var seriesEdge = getFirstOutgoingEdge(workSeriesEdge.getTarget(), withPredicateUri(IS_PART_OF.getUri()));
+    var instanceSeriesEdge = getFirstIncomingEdge(seriesEdge, withPredicateUri(INSTANTIATES.getUri()));
+    assertThat(instanceSeriesEdge.getSource().getTypes()).contains(LIGHT_RESOURCE, INSTANCE, SERIES);
+  }
+
   private void hasNoIssnIdentifier(Resource instanceSeries) {
     var issnEdges = getOutgoingEdges(instanceSeries, withPredicateUri("http://library.link/vocab/map"));
     assertThat(issnEdges).isEmpty();
