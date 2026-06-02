@@ -18,6 +18,8 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class Marc2Ld260IT extends Marc2LdTestBase {
 
@@ -50,6 +52,58 @@ class Marc2Ld260IT extends Marc2LdTestBase {
 
         ),
         "North Carolina"))
+      .extracting(ResourceEdgeHelper::getOutgoingEdges)
+      .asInstanceOf(InstanceOfAssertFactories.LIST)
+      .isEmpty();
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"|||", "pvl"})
+  void shouldMapField260WithUnknownCountryCode(String countryCode) {
+    // given
+    var marc = """
+        {
+          "leader" : "00131nam a2200049uc 4500",
+          "fields" : [ {
+            "008" : "       2020    %CODE%                      "
+          }, {
+            "260" : {
+              "subfields" : [ {
+                "a" : "Place of publication"
+              },{
+                "b" : "publisher name"
+              }, {
+                "c" : "2021"
+              } ],
+              "ind1" : " ",
+              "ind2" : " "
+            }
+          } ]
+        }""".replace("%CODE%", countryCode);
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(result)
+      .extracting(this::getPublicationEdge)
+      .satisfies(e -> validateEdge(e, PE_PUBLICATION, List.of(PROVIDER_EVENT),
+        Map.of(
+          "http://bibfra.me/vocab/lite/name", List.of("publisher name"),
+          "http://bibfra.me/vocab/lite/place", List.of("Place of publication"),
+          "http://bibfra.me/vocab/lite/date", List.of("2021"),
+          "http://bibfra.me/vocab/lite/providerDate", List.of("2020")
+        ),
+        "publisher name, Place of publication, 2021"))
+      .extracting(this::getProviderPlaceEdge)
+      .satisfies(e -> validateEdge(e, PROVIDER_PLACE, List.of(PLACE),
+        Map.of(
+          "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/countries/xx"),
+          "http://bibfra.me/vocab/library/code", List.of("xx"),
+          "http://bibfra.me/vocab/lite/label", List.of("No place, unknown, or undetermined"),
+          "http://bibfra.me/vocab/lite/name", List.of("No place, unknown, or undetermined")
+        ),
+        "No place, unknown, or undetermined"))
       .extracting(ResourceEdgeHelper::getOutgoingEdges)
       .asInstanceOf(InstanceOfAssertFactories.LIST)
       .isEmpty();
