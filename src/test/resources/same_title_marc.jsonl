@@ -1,0 +1,39 @@
+{
+  "leader": "01767cam a22003977i 4500",
+  "fields": [
+    {
+      "020": {
+        "subfields": [
+          {
+            "a": "1111111111"
+          }
+        ],
+        "ind1": " ",
+        "ind2": " "
+      }
+    },
+    {
+      "245": {
+        "subfields": [
+          {
+            "a": "MainTitle"
+          },
+          {
+            "n": "8"
+          },
+          {
+            "p": "PartName"
+          },
+          {
+            "b": "SubTitle"
+          },
+          {
+            "c": "Statement Of Responsibility"
+          }
+        ],
+        "ind1": "1",
+        "ind2": "7"
+      }
+    }
+  ]
+}
