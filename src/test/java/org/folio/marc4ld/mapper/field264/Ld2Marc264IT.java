@@ -69,7 +69,7 @@ class Ld2Marc264IT {
       ),
       Set.of(PROVIDER_EVENT),
       Map.of(PredicateDictionary.PROVIDER_PLACE, List.of(activityPlace))
-    ).setLabel("Publisher name");
+    ).setLabel("Name of provision activity, Place of provision activity, 2010");
 
     return MonographTestUtil.createResource(
       Collections.emptyMap(),

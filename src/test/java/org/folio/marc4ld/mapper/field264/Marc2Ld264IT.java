@@ -124,6 +124,25 @@ class Marc2Ld264IT extends Marc2LdTestBase {
       .isEmpty();
   }
 
+  @ParameterizedTest
+  @CsvSource(value = {
+    "PE_PRODUCTION , fields/264/marc_264_Ind2_equals0.jsonl",
+    "PE_PUBLICATION , fields/264/marc_264_Ind2_equals1.jsonl",
+    "PE_DISTRIBUTION , fields/264/marc_264_Ind2_equals2.jsonl",
+    "PE_MANUFACTURE , fields/264/marc_264_Ind2_equals3.jsonl",
+  })
+  void shouldSetProviderEventLabelAsConcatenationOfNamePlaceAndDate(PredicateDictionary predicate, String file) {
+    // given
+    var marc = loadResourceAsString(file);
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(getFirstOutgoingEdgeFromResult(result, predicate).getTarget().getLabel())
+      .isEqualTo("Name of provision activity, Place of provision activity, 2010");
+  }
+
   private ResourceEdge getFirstOutgoingEdgeFromResult(Resource result, PredicateDictionary predicate) {
     return getFirstOutgoingEdge(result, withPredicateUri(predicate.getUri()));
   }

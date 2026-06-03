@@ -109,6 +109,19 @@ class Marc2Ld260IT extends Marc2LdTestBase {
       .isEmpty();
   }
 
+  @Test
+  void shouldSetProviderEventLabelAsConcatenationOfNamePlaceAndDate() {
+    // given
+    var marc = loadResourceAsString("fields/260/marc_260.jsonl");
+
+    // when
+    var result = marcBibToResource(marc);
+
+    // then
+    assertThat(getPublicationEdge(result).getTarget().getLabel())
+      .isEqualTo("publisher name, Place of publication, 2021");
+  }
+
   private ResourceEdge getPublicationEdge(Resource resource) {
     return getFirstOutgoingEdge(resource, withPredicateUri("http://bibfra.me/vocab/library/publication"));
   }
