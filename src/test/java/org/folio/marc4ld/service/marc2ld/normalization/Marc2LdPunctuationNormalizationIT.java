@@ -83,16 +83,7 @@ class Marc2LdPunctuationNormalizationIT {
     "711, n, '(number)', number",
   })
   void shouldNormalizeBibSubfieldParenthesesAndSquareBrackets(String tag, char code, String input, String expected) {
-    var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
-    var field = factory.newDataField(tag, ' ', ' ');
-    field.addSubfield(factory.newSubfield(code, input));
-    record.addVariableField(field);
-
-    marcPunctuationNormalizer.normalize(record);
-
-    assertThat(record.getDataFields().getFirst().getSubfield(code).getData())
-      .isEqualTo(expected);
+    normalizeBibSubfieldAndAssert(tag, code, input, expected);
   }
 
   @ParameterizedTest
@@ -112,16 +103,7 @@ class Marc2LdPunctuationNormalizationIT {
     "520, a, 'abstract ;', abstract",
   })
   void shouldNormalizeBibLastSubfieldTrailingPunctuation(String tag, char code, String input, String expected) {
-    var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
-    var field = factory.newDataField(tag, ' ', ' ');
-    field.addSubfield(factory.newSubfield(code, input));
-    record.addVariableField(field);
-
-    marcPunctuationNormalizer.normalize(record);
-
-    assertThat(record.getDataFields().getFirst().getSubfield(code).getData())
-      .isEqualTo(expected);
+    normalizeBibSubfieldAndAssert(tag, code, input, expected);
   }
 
   @ParameterizedTest
@@ -138,15 +120,15 @@ class Marc2LdPunctuationNormalizationIT {
   void shouldNormalizeBibSubfieldTrailingPunctuationWhenFollowedByNextSubfield(
       String tag, char subfield, String input, char nextSubfield, String expected) {
     var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
+    var marcRecord = factory.newRecord();
     var field = factory.newDataField(tag, ' ', ' ');
     field.addSubfield(factory.newSubfield(subfield, input));
     field.addSubfield(factory.newSubfield(nextSubfield, "x"));
-    record.addVariableField(field);
+    marcRecord.addVariableField(field);
 
-    marcPunctuationNormalizer.normalize(record);
+    marcPunctuationNormalizer.normalize(marcRecord);
 
-    assertThat(record.getDataFields().getFirst().getSubfield(subfield).getData())
+    assertThat(marcRecord.getDataFields().getFirst().getSubfield(subfield).getData())
       .isEqualTo(expected);
   }
 
@@ -156,16 +138,7 @@ class Marc2LdPunctuationNormalizationIT {
     "336, a, 'Nancy W.K.,', 'Nancy W.K.'",
   })
   void shouldPreserveBibLastSubfieldAbbreviationPeriod(String tag, char code, String input, String expected) {
-    var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
-    var field = factory.newDataField(tag, ' ', ' ');
-    field.addSubfield(factory.newSubfield(code, input));
-    record.addVariableField(field);
-
-    marcPunctuationNormalizer.normalize(record);
-
-    assertThat(record.getDataFields().getFirst().getSubfield(code).getData())
-      .isEqualTo(expected);
+    normalizeBibSubfieldAndAssert(tag, code, input, expected);
   }
 
   @ParameterizedTest
@@ -176,15 +149,15 @@ class Marc2LdPunctuationNormalizationIT {
   void shouldPreserveBibSubfieldAbbreviationPeriodWhenFollowedByNextSubfield(
       String tag, char subfield, String input, char nextSubfield, String expected) {
     var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
+    var marcRecord = factory.newRecord();
     var field = factory.newDataField(tag, ' ', ' ');
     field.addSubfield(factory.newSubfield(subfield, input));
     field.addSubfield(factory.newSubfield(nextSubfield, "x"));
-    record.addVariableField(field);
+    marcRecord.addVariableField(field);
 
-    marcPunctuationNormalizer.normalize(record);
+    marcPunctuationNormalizer.normalize(marcRecord);
 
-    assertThat(record.getDataFields().getFirst().getSubfield(subfield).getData())
+    assertThat(marcRecord.getDataFields().getFirst().getSubfield(subfield).getData())
       .isEqualTo(expected);
   }
 
@@ -215,15 +188,28 @@ class Marc2LdPunctuationNormalizationIT {
   void shouldNormalizeAuthoritySubfieldTrailingPunctuationWhenFollowedByNextSubfield(
       String tag, char ind1, char subfield, String input, char nextSubfield, String expected) {
     var factory = MarcFactory.newInstance();
-    var record = factory.newRecord();
+    var marcRecord = factory.newRecord();
     var field = factory.newDataField(tag, ind1, ' ');
     field.addSubfield(factory.newSubfield(subfield, input));
     field.addSubfield(factory.newSubfield(nextSubfield, "x"));
-    record.addVariableField(field);
+    marcRecord.addVariableField(field);
 
-    marcAuthorityPunctuationNormalizer.normalize(record);
+    marcAuthorityPunctuationNormalizer.normalize(marcRecord);
 
-    assertThat(record.getDataFields().getFirst().getSubfield(subfield).getData())
+    assertThat(marcRecord.getDataFields().getFirst().getSubfield(subfield).getData())
+      .isEqualTo(expected);
+  }
+
+  private void normalizeBibSubfieldAndAssert(String tag, char code, String input, String expected) {
+    var factory = MarcFactory.newInstance();
+    var marcRecord = factory.newRecord();
+    var field = factory.newDataField(tag, ' ', ' ');
+    field.addSubfield(factory.newSubfield(code, input));
+    marcRecord.addVariableField(field);
+
+    marcPunctuationNormalizer.normalize(marcRecord);
+
+    assertThat(marcRecord.getDataFields().getFirst().getSubfield(code).getData())
       .isEqualTo(expected);
   }
 

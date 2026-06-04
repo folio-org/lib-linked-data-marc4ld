@@ -177,7 +177,6 @@ class Marc2Ld610IT extends Marc2LdTestBase {
       .map(e -> e.getTarget().getId())
       .collect(Collectors.toSet());
 
-    assertThat(concept1SubFocusIds).hasSize(2);
-    assertThat(concept1SubFocusIds).isEqualTo(concept2SubFocusIds);
+    assertThat(concept1SubFocusIds).hasSize(2).isEqualTo(concept2SubFocusIds);
   }
 }
