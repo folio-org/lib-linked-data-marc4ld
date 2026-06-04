@@ -70,7 +70,7 @@ class Marc2Ld776IT extends Marc2LdTestBase {
   }
 
   @Test
-  void shouldMapField776_whenSubfieldsSAndTAreMissing() {
+  void shouldMapField776_whenMissingSubfieldSandT() {
     //given
     var marc = loadResourceAsString("fields/776/marc_776_without_s_and_t.jsonl");
 
@@ -84,7 +84,7 @@ class Marc2Ld776IT extends Marc2LdTestBase {
   }
 
   @Test
-  void shouldMapField776_whenSubfieldTIsMissing() {
+  void shouldMapField776_whenMissingSubfieldT() {
     //given
     var marc = loadResourceAsString("fields/776/marc_776_without_t.jsonl");
 
