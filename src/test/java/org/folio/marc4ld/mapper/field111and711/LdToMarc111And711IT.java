@@ -2,6 +2,10 @@ package org.folio.marc4ld.mapper.field111and711;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Map.entry;
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.folio.ld.dictionary.PredicateDictionary.CREATOR;
+import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.PropertyDictionary.AFFILIATION;
 import static org.folio.ld.dictionary.PropertyDictionary.AUTHORITY_LINK;
 import static org.folio.ld.dictionary.PropertyDictionary.CONTROL_FIELD;
@@ -21,6 +25,7 @@ import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.MEETING;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.WORK;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 
 import java.util.Collections;
@@ -34,6 +39,7 @@ import org.folio.ld.dictionary.model.Resource;
 import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +69,42 @@ class LdToMarc111And711IT {
     //then
     AssertionsForClassTypes.assertThat(result)
       .isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldEmitSingleMarc111WhenTwoMeetingCreatorsArePresent() {
+    // given
+    var firstMeeting = MonographTestUtil.createResource(
+        Map.of(NAME, List.of("First Meeting")),
+        Set.of(MEETING),
+        emptyMap()
+      ).setLabel("First Meeting");
+
+    var secondMeeting = MonographTestUtil.createResource(
+        Map.of(NAME, List.of("Second Meeting")),
+        Set.of(MEETING),
+        emptyMap()
+      ).setLabel("Second Meeting");
+
+    var work = MonographTestUtil.createResource(
+      Collections.emptyMap(),
+      Set.of(WORK, BOOKS),
+      Map.of(CREATOR, List.of(firstMeeting, secondMeeting))
+    );
+
+    var resource = MonographTestUtil.createResource(
+      Collections.emptyMap(),
+      Set.of(INSTANCE),
+      Map.of(INSTANTIATES, List.of(work))
+    );
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    var fields = JSON_MAPPER.readTree(result).get("fields");
+    assertThat(stream(fields.spliterator(), false).filter(f -> f.has("111")).toList()).hasSize(1);
+    assertThat(stream(fields.spliterator(), false).filter(f -> f.has("711")).toList()).hasSize(1);
   }
 
   private Resource createResourceWithWork(PredicateDictionary predicate) {

@@ -1,15 +1,19 @@
 package org.folio.marc4ld.mapper.field005;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createWorkBook;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.getLightWeightInstanceResource;
+import static org.folio.marc4ld.mapper.test.TestUtil.JSON_MAPPER;
 import static org.folio.marc4ld.mapper.test.TestUtil.loadResourceAsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,6 +43,26 @@ class Ld2Marc005IT {
 
     // then
     assertEquals(expectedMarc, actualMarc);
+  }
+
+  @Test
+  void map_shouldPlace005BeforeField008() {
+    // given
+    var work = createWorkBook();
+    work.setUpdatedDate(new Date(1734000500000L));
+    var instance = getLightWeightInstanceResource(work);
+    instance.setUpdatedDate(new Date(1734000555555L));
+
+    // when
+    var actualMarc = ld2MarcMapper.toMarcJson(instance);
+
+    // then
+    var fields = JSON_MAPPER.readTree(actualMarc).get("fields");
+    var relevantTags = StreamSupport.stream(fields.spliterator(), false)
+      .filter(node -> node.has("005") || node.has("008"))
+      .map(node -> node.has("005") ? "005" : "008")
+      .toList();
+    assertThat(relevantTags).containsSubsequence("005", "008");
   }
 
   private static Stream<Arguments> dateFieldSource() {

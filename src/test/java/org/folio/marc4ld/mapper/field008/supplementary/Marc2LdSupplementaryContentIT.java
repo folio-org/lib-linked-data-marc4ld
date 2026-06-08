@@ -70,6 +70,39 @@ class Marc2LdSupplementaryContentIT extends Marc2LdTestBase {
   }
 
   @Test
+  void shouldMapSupplementaryContent_whenChar31IsIndex() {
+    // given
+    var marc = loadResourceAsString("fields/008/marc_008_supplementary_content_char31_index.jsonl");
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    assertThat(result)
+      .extracting(ResourceEdgeHelper::getWorkEdge)
+      .extracting(workEdge -> getOutgoingEdges(workEdge, withPredicateUri("http://bibfra.me/vocab/library/supplementaryContent")))
+      .satisfies(edges -> {
+        assertThat(edges).hasSize(1);
+        validateEdge(edges.getFirst(), SUPPLEMENTARY_CONTENT, List.of(CATEGORY),
+          Map.of(
+            "http://bibfra.me/vocab/library/code", List.of("index"),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont/index"),
+            "http://bibfra.me/vocab/library/term", List.of("index")
+          ), "index");
+      })
+      .extracting(edges -> getOutgoingEdges(edges.getFirst()))
+      .satisfies(edges -> {
+        assertThat(edges).hasSize(1);
+        validateEdge(edges.getFirst(), IS_DEFINED_BY, List.of(CATEGORY_SET),
+          Map.of(
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/msupplcont"),
+            "http://bibfra.me/vocab/lite/label", List.of("Supplementary Content")
+          ), "Supplementary Content");
+        assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
+      });
+  }
+
+  @Test
   void shouldNotMapSupplementaryContent_whenRecordIsSerial() {
     // given
     var marc = loadResourceAsString("fields/008/marc_008_supplementary_content_serial.jsonl");

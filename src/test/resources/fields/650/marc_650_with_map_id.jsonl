@@ -1,0 +1,16 @@
+{
+  "leader" : "00152nam a2200049uc 4500",
+  "fields" : [ {
+    "008" : "                                       "
+  }, {
+    "650" : {
+      "subfields" : [ {
+        "a" : "name"
+      }, {
+        "0" : "http://id.loc.gov/authorities/subjects/sh1234567890"
+      } ],
+      "ind1" : " ",
+      "ind2" : " "
+    }
+  } ]
+}

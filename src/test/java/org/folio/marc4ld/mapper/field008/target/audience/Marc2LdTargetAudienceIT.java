@@ -20,13 +20,31 @@ import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
 import org.folio.marc4ld.test.helper.ResourceEdgeHelper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
 
-  @Test
-  void shouldMapTargetAudience_whenRecordIsMonograph() {
+  @ParameterizedTest
+  @CsvSource({
+    "a, pre, Preschool",
+    "b, pri, Primary",
+    "c, pad, Pre-adolescent",
+    "d, ado, Adolescent",
+    "e, adu, Adult",
+    "f, spe, Specialized",
+    "g, gen, General",
+    "j, juv, Juvenile"
+  })
+  void shouldMapTargetAudience_whenRecordIsMonograph(String code, String linkSuffix, String term) {
     // given
-    var marc = loadResourceAsString("fields/008/marc_008_target_audience.jsonl");
+    var marc = """
+        {
+          "leader" : "00078nam a2200037uc 4500",
+          "fields" : [ {
+            "008" : "                      %s                "
+          } ]
+        }""".formatted(code);
 
     //when
     var result = marcBibToResource(marc);
@@ -40,10 +58,10 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
         assertThat(edges).hasSize(1);
         validateEdge(edges.getFirst(), TARGET_AUDIENCE, List.of(CATEGORY),
           Map.of(
-            "http://bibfra.me/vocab/library/code", List.of("b"),
-            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/pri"),
-            "http://bibfra.me/vocab/library/term", List.of("Primary")
-          ), "Primary");
+            "http://bibfra.me/vocab/library/code", List.of(code),
+            "http://bibfra.me/vocab/lite/link", List.of("http://id.loc.gov/vocabulary/maudience/" + linkSuffix),
+            "http://bibfra.me/vocab/library/term", List.of(term)
+          ), term);
       })
       .extracting(edges -> getOutgoingEdges(edges.getFirst()))
       .satisfies(edges -> {
@@ -55,6 +73,29 @@ class Marc2LdTargetAudienceIT extends Marc2LdTestBase {
           ), "Target audience");
         assertThat(getOutgoingEdges(edges.getFirst())).isEmpty();
       });
+  }
+
+  @Test
+  void shouldNotMapTargetAudience_whenCodeIsInvalid() {
+    // given — 'x' is not a valid target audience code
+    var marc = """
+        {
+          "leader" : "00078nam a2200037uc 4500",
+          "fields" : [ {
+            "008" : "                      x                "
+          } ]
+        }""";
+
+    //when
+    var result = marcBibToResource(marc);
+
+    //then
+    var targetAudienceEdges = getOutgoingEdges(result, withPredicateUri("http://bibfra.me/vocab/lite/instantiates"))
+      .stream()
+      .flatMap(workEdge -> getOutgoingEdges(workEdge.getTarget(),
+        withPredicateUri("http://bibfra.me/vocab/library/targetAudience")).stream())
+      .toList();
+    assertThat(targetAudienceEdges).isEmpty();
   }
 
   @Test

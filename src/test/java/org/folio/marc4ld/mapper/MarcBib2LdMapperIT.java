@@ -228,6 +228,28 @@ class MarcBib2LdMapperIT extends Marc2LdTestBase {
     assertThat(work1opt.get().getTarget().getId()).isNotEqualTo(work2opt.get().getTarget().getId());
   }
 
+  @Test
+  void twoMappedResources_withSameTitleFields_shouldContainTitleWithSameId() {
+    // given
+    var marc1 = loadResourceAsString("full_marc.jsonl");
+    var marc2 = loadResourceAsString("same_title_marc.jsonl");
+
+    // when
+    var result1 = marcBibToResource(marc1);
+    var result2 = marcBibToResource(marc2);
+
+    // then
+    var title1 = result1.getOutgoingEdges().stream()
+      .filter(re -> PredicateDictionary.TITLE.equals(re.getPredicate()))
+      .findFirst();
+    var title2 = result2.getOutgoingEdges().stream()
+      .filter(re -> PredicateDictionary.TITLE.equals(re.getPredicate()))
+      .findFirst();
+    assertThat(title1).isPresent();
+    assertThat(title2).isPresent();
+    assertThat(title1.get().getTarget().getId()).isEqualTo(title2.get().getTarget().getId());
+  }
+
   @ParameterizedTest
   @MethodSource("provideMarcAndPredicates")
   void map_shouldReturnCorrectlyMappedRelations(String marc, List<PredicateDictionary> expectedPredicates) {

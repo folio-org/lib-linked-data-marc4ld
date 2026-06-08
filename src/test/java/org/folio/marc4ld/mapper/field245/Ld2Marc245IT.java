@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.folio.ld.dictionary.PredicateDictionary;
 import org.folio.ld.dictionary.ResourceTypeDictionary;
 import org.folio.ld.dictionary.model.Resource;
@@ -26,6 +27,9 @@ import org.folio.marc4ld.mapper.test.MonographTestUtil;
 import org.folio.marc4ld.mapper.test.SpringTestConfig;
 import org.folio.marc4ld.service.ld2marc.Ld2MarcMapperImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,11 +41,19 @@ class Ld2Marc245IT {
   @Autowired
   private Ld2MarcMapperImpl ld2MarcMapper;
 
-  @Test
-  void whenCombine_map_shouldReturnCorrectlyMappedMarcJson() {
+  static Stream<Arguments> combineArguments() {
+    return Stream.of(
+      Arguments.of("7", "fields/245/marc_245_combine.jsonl"),
+      Arguments.of("3", "fields/245/marc_245_combine_non_sort_3.jsonl")
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource("combineArguments")
+  void whenCombine_map_shouldReturnCorrectlyMappedMarcJson(String nonSortNum, String expectedMarcFile) {
     // given
-    var expectedMarc = loadResourceAsString("fields/245/marc_245_combine.jsonl");
-    var resource = createResourceWithWorkWith245();
+    var expectedMarc = loadResourceAsString(expectedMarcFile);
+    var resource = createResourceWithWorkWith245(nonSortNum);
 
     // when
     var result = ld2MarcMapper.toMarcJson(resource);
@@ -98,13 +110,13 @@ class Ld2Marc245IT {
     );
   }
 
-  private Resource createResourceWithWorkWith245() {
+  private Resource createResourceWithWorkWith245(String nonSortNum) {
     var instanceTitle = MonographTestUtil.createResource(
       Map.of(
         PART_NAME, List.of("Instance PartName 1"),
         PART_NUMBER, List.of("11"),
         MAIN_TITLE, List.of("Instance MainTitle"),
-        NON_SORT_NUM, List.of("7"),
+        NON_SORT_NUM, List.of(nonSortNum),
         SUBTITLE, List.of("Instance SubTitle")
       ),
       Set.of(ResourceTypeDictionary.TITLE),

@@ -25,6 +25,8 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
   @ParameterizedTest
   @CsvSource(value = {
     "PERSON , authority/100/marc_100_concept.jsonl",
+    "PERSON , authority/100/marc_100_concept_Ind1_equals0.jsonl",
+    "PERSON , authority/100/marc_100_concept_Ind1_equals1.jsonl",
     "FAMILY , authority/100/marc_100_concept_Ind1_equals3.jsonl",
   })
   void shouldMapField100(ResourceTypeDictionary resourceType, String file) {

@@ -3,9 +3,6 @@ package org.folio.marc4ld.mapper.field010;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.MAP;
-import static org.folio.ld.dictionary.PropertyDictionary.NAME;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.IDENTIFIER;
-import static org.folio.ld.dictionary.ResourceTypeDictionary.ID_LCCN;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.INSTANCE;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.createResource;
 import static org.folio.marc4ld.mapper.test.MonographTestUtil.lccn;
@@ -36,13 +33,9 @@ class Ld2Marc010IT {
     // given
     var expectedMarc = loadResourceAsString("fields/010/marc_010_a.jsonl");
     var resource = createInstanceWithLccn(
-      createResource(
-        Map.of(NAME, List.of("2019493855")),
-        Set.of(IDENTIFIER, ID_LCCN),
-        emptyMap()
-      ).setLabel("2019493855"),
+      lccn("2019493855", "current"),
       lccn("2019493854", "current"),
-      lccn("11111111", "other")
+      lccn("11111111", "invalid_status")
     );
 
     // when

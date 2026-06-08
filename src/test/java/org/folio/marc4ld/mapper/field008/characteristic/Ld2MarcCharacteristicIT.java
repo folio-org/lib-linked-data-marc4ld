@@ -3,6 +3,7 @@ package org.folio.marc4ld.mapper.field008.characteristic;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.folio.ld.dictionary.PredicateDictionary.CHARACTERISTIC;
+import static org.folio.ld.dictionary.PredicateDictionary.ILLUSTRATIONS;
 import static org.folio.ld.dictionary.PredicateDictionary.INSTANTIATES;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.BOOKS;
 import static org.folio.ld.dictionary.ResourceTypeDictionary.CONTINUING_RESOURCES;
@@ -58,6 +59,32 @@ class Ld2MarcCharacteristicIT {
     assertThat(result).isEqualTo(expectedMarc);
   }
 
+  @Test
+  void shouldMap_characteristic_whenWorkHasBothSerialAndBookFields_andIsSerial() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_characteristic.jsonl");
+    var resource = createInstanceWithBothSerialAndBookFields(CONTINUING_RESOURCES);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
+  @Test
+  void shouldNotMap_characteristic_whenWorkHasBothSerialAndBookFields_andIsBook() {
+    // given
+    var expectedMarc = loadResourceAsString("fields/008/marc_008_illustrations.jsonl");
+    var resource = createInstanceWithBothSerialAndBookFields(BOOKS);
+
+    // when
+    var result = ld2MarcMapper.toMarcJson(resource);
+
+    // then
+    assertThat(result).isEqualTo(expectedMarc);
+  }
+
   private Resource createInstanceWithWorkWithCharacteristic(ResourceTypeDictionary workType) {
     var categorySet = createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
     var characteristic = createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
@@ -73,5 +100,29 @@ class Ld2MarcCharacteristicIT {
       Set.of(INSTANCE),
       Map.of(INSTANTIATES, List.of(work))
     );
+  }
+
+  private Resource createInstanceWithBothSerialAndBookFields(ResourceTypeDictionary workType) {
+    var characteristicCategorySet =
+      createCategorySet("http://id.loc.gov/vocabulary/mserialpubtype", "Serial Publication Type");
+    var illustrationsCategorySet = createCategorySet("http://id.loc.gov/vocabulary/millus", "Illustrative Content");
+    var work = createResource(
+      emptyMap(),
+      Set.of(WORK, workType),
+      Map.of(
+        CHARACTERISTIC, List.of(
+          createCategory("g", "http://id.loc.gov/vocabulary/mserialpubtype/mag", "magazine",
+            characteristicCategorySet)
+        ),
+        ILLUSTRATIONS, List.of(
+          createCategory("b", "http://id.loc.gov/vocabulary/millus/map", "Maps", illustrationsCategorySet),
+          createCategory("c", "http://id.loc.gov/vocabulary/millus/por", "Portraits", illustrationsCategorySet),
+          createCategory("d", "http://id.loc.gov/vocabulary/millus/chr", "Charts", illustrationsCategorySet),
+          createCategory("e", "http://id.loc.gov/vocabulary/millus/pln", "Plans", illustrationsCategorySet),
+          createCategory("f", "http://id.loc.gov/vocabulary/millus/plt", "Plates", illustrationsCategorySet)
+        )
+      )
+    );
+    return createResource(emptyMap(), Set.of(INSTANCE), Map.of(INSTANTIATES, List.of(work)));
   }
 }

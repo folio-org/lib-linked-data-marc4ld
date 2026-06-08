@@ -15,51 +15,77 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.folio.ld.dictionary.model.Resource;
 import org.folio.ld.dictionary.model.ResourceEdge;
 import org.folio.marc4ld.Marc2LdTestBase;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class Marc2Ld020IT extends Marc2LdTestBase {
-  @Test
-  void shouldMapField020() {
+
+  @ParameterizedTest
+  @MethodSource("isbnMappingArguments")
+  void shouldMapField020(String marcFile, Map<String, List<String>> expectedProperties, String expectedLabel,
+                         boolean isCancelled) {
     // given
-    var marc = loadResourceAsString("fields/020/marc_020_marc2ld.jsonl");
+    var marc = loadResourceAsString(marcFile);
 
     // when
     var result = marcBibToResource(marc);
 
     // then
     var isbnEdges = getOutgoingEdges(result, withPredicateUri(MAP.getUri()));
-    assertEquals(2, isbnEdges.size());
+    assertEquals(1, isbnEdges.size());
 
-    // Current ISBN edge (020$a)
-    validateResource(
-      isbnEdges.getFirst().getTarget(),
-      List.of(IDENTIFIER, ID_ISBN),
-      Map.of(
-        "http://bibfra.me/vocab/library/qualifier", List.of("hardcover"),
-        "http://bibfra.me/vocab/lite/name", List.of("1000")
+    validateResource(isbnEdges.getFirst().getTarget(), List.of(IDENTIFIER, ID_ISBN), expectedProperties, expectedLabel);
+
+    var statusEdge = getStatusEdge(isbnEdges.getFirst().getTarget());
+    if (isCancelled) {
+      validateCancelledStatus(statusEdge.getTarget());
+    } else {
+      validateCurrentStatus(statusEdge.getTarget());
+    }
+  }
+
+  private static Stream<Arguments> isbnMappingArguments() {
+    return Stream.of(
+      Arguments.of(
+        "fields/020/marc_020_a_with_qualifier.jsonl",
+        Map.of(
+          "http://bibfra.me/vocab/library/qualifier", List.of("hardcover"),
+          "http://bibfra.me/vocab/lite/name", List.of("1000")
+        ),
+        "1000",
+        false
       ),
-      "1000"
-    );
-
-    var currentStatusEdge = getStatusEdge(isbnEdges.getFirst().getTarget());
-    validateCurrentStatus(currentStatusEdge.getTarget());
-
-    // Cancelled ISBN edge (020$z)
-    validateResource(
-      isbnEdges.get(1).getTarget(),
-      List.of(IDENTIFIER, ID_ISBN),
-      Map.of(
-        "http://bibfra.me/vocab/library/qualifier", List.of("black leather"),
-        "http://bibfra.me/vocab/lite/name", List.of("1002")
+      Arguments.of(
+        "fields/020/marc_020_a_only.jsonl",
+        Map.of(
+          "http://bibfra.me/vocab/lite/name", List.of("1000")
+        ),
+        "1000",
+        false
       ),
-      "1002"
+      Arguments.of(
+        "fields/020/marc_020_z_with_qualifier.jsonl",
+        Map.of(
+          "http://bibfra.me/vocab/library/qualifier", List.of("black leather"),
+          "http://bibfra.me/vocab/lite/name", List.of("1002")
+        ),
+        "1002",
+        true
+      ),
+      Arguments.of(
+        "fields/020/marc_020_z_only.jsonl",
+        Map.of(
+          "http://bibfra.me/vocab/lite/name", List.of("1002")
+        ),
+        "1002",
+        true
+      )
     );
-
-    var cancelledStatusEdge = getStatusEdge(isbnEdges.get(1).getTarget());
-    validateCancelledStatus(cancelledStatusEdge.getTarget());
   }
 
   private ResourceEdge getStatusEdge(Resource resource) {
