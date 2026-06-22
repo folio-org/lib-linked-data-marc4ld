@@ -1,4 +1,5 @@
 ## 3.0.0 (IN PROGRESS)
+- Authority label generators and ResourceKind moved to lib-dictionary [MODLD-1099](https://folio-org.atlassian.net/browse/MODLD-1099)
 
 ## 2.0.0 (17-04-2026)
 - Update Mapping for 300$b & $e (Physical description & Accompanying material) [MODLD-508](https://folio-org.atlassian.net/browse/MODLD-508)

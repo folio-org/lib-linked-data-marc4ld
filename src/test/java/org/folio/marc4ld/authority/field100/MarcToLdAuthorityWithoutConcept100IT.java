@@ -61,7 +61,7 @@ class MarcToLdAuthorityWithoutConcept100IT extends Marc2LdTestBase {
   }
 
   private void validateRootResource(Resource resource, ResourceTypeDictionary type) {
-    var expectedLabel = "bValue, aValue, cValue1, cValue2, qValue, dValue";
+    var expectedLabel = "bValue, aValue, cValue1 cValue2, qValue, dValue";
     TestUtil.validateResource(resource, List.of(type),
       Map.of(
         "http://bibfra.me/vocab/lite/name", List.of("aValue"),

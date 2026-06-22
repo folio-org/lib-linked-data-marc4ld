@@ -49,7 +49,7 @@ class Marc2Ld110And710IT extends Marc2LdTestBase {
       .isPresent()
       .get()
       .satisfies(edge -> validateEdge(edge, predicate, List.of(resourceType), getProperties(),
-        "author, subordinate unit, another subordinate unit, place, another place, date, another date"));
+        "author, subordinate unit another subordinate unit, place another place, date another date"));
   }
 
   private Map<String, List<String>> getProperties() {
@@ -66,8 +66,8 @@ class Marc2Ld110And710IT extends Marc2LdTestBase {
       entry("http://bibfra.me/vocab/library/numberOfParts", List.of("number of parts", "another number of parts")),
       entry("http://bibfra.me/vocab/library/place", List.of("place", "another place")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
-      entry("http://bibfra.me/vocab/lite/label", List.of("author, subordinate unit, another subordinate unit, place,"
-        + " another place, date, another date"))
+      entry("http://bibfra.me/vocab/lite/label", List.of("author, subordinate unit another subordinate unit, "
+        + "place another place, date another date"))
     );
   }
 }
