@@ -49,7 +49,7 @@ class Marc2Ld100And700IT extends Marc2LdTestBase {
       .isPresent()
       .get()
       .satisfies(edge -> validateEdge(edge, predicate, List.of(resourceType), getProperties(),
-        "numeration, name, titles, another titles, name alternative, date"));
+        "numeration, name, titles another titles, name alternative, date"));
   }
 
   private Map<String, List<String>> getProperties() {
@@ -69,7 +69,7 @@ class Marc2Ld100And700IT extends Marc2LdTestBase {
       entry("http://bibfra.me/vocab/library/attribution", List.of("attribution", "another attribution")),
       entry("http://bibfra.me/vocab/lite/nameAlternative", List.of("name alternative")),
       entry("http://bibfra.me/vocab/scholar/affiliation", List.of("affiliation")),
-      entry("http://bibfra.me/vocab/lite/label", List.of("numeration, name, titles, another titles, name alternative, date"))
+      entry("http://bibfra.me/vocab/lite/label", List.of("numeration, name, titles another titles, name alternative, date"))
     );
   }
 }

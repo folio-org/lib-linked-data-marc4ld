@@ -110,10 +110,11 @@ class Marc2AuthorityHub100IT extends Marc2LdTestBase {
         "http://bibfra.me/vocab/lite/date", List.of("1917-"),
         "http://bibfra.me/vocab/library/miscInfo", List.of("British royal house,"),
         "http://bibfra.me/vocab/library/attribution", List.of("author of,"),
-        "http://bibfra.me/vocab/lite/label", List.of("Royal family, House of Windsor, Dynasty, Alt. family name, 1917"),
+        "http://bibfra.me/vocab/lite/label", List.of("Royal family, House of Windsor, Dynasty, Alt. family name,"
+          + " 1917-"),
         "http://bibfra.me/vocab/lite/nameAlternative", List.of("Alt. family name")
       ),
-      "Royal family, House of Windsor, Dynasty, Alt. family name, 1917"
+      "Royal family, House of Windsor, Dynasty, Alt. family name, 1917-"
     );
   }
 
@@ -131,7 +132,7 @@ class Marc2AuthorityHub100IT extends Marc2LdTestBase {
   }
 
   private void validateFamilyHub(Resource hub) {
-    var hubLabel = "Royal family, House of Windsor, Dynasty, Alt. family name, 1917. "
+    var hubLabel = "Royal family, House of Windsor, Dynasty, Alt. family name, 1917-. "
       + "Chronicles of the royal family book 1";
     validateResource(
       hub,

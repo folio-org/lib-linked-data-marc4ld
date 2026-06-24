@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class MarcToLdAuthorityEmptySubfocus110IT extends Marc2LdTestBase {
 
-  private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1, cValue2, dValue";
+  private static final String EXPECTED_MAIN_LABEL = "aValue, bValue, cValue1 cValue2, dValue";
   private static final Map<String, List<String>> EXPECTED_PROPERTIES = Map.of(
     "http://bibfra.me/vocab/lite/name", List.of("aValue"),
     "http://bibfra.me/vocab/library/subordinateUnit", List.of("bValue"),

@@ -61,16 +61,16 @@ class MarcToLdAuthorityConcept100IT extends Marc2LdTestBase {
         Map.entry("http://bibfra.me/vocab/library/generalSubdivision", List.of("xValue1", "xValue2")),
         Map.entry("http://bibfra.me/vocab/library/chronologicalSubdivision", List.of("yValue1", "yValue2")),
         Map.entry("http://bibfra.me/vocab/library/geographicSubdivision", List.of("zValue1", "zValue2")),
-        Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue1, cValue2, qValue,"
-          + " dValue -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2"))
+        Map.entry("http://bibfra.me/vocab/lite/label", List.of("bValue, aValue, cValue1 cValue2, qValue, "
+          + "dValue -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2"))
       ),
-      "bValue, aValue, cValue1, cValue2, qValue, dValue"
-        + " -- xValue1 -- xValue2 -- zValue1 -- zValue2 -- yValue1 -- yValue2 -- vValue1 -- vValue2");
+      "bValue, aValue, cValue1 cValue2, qValue, dValue -- xValue1 -- xValue2 -- zValue1 -- zValue2 "
+        + "-- yValue1 -- yValue2 -- vValue1 -- vValue2");
   }
 
   private void validateFocus(Resource resource, ResourceTypeDictionary resourceType) {
     var resourceEdges = getEdges(resource, resourceType);
-    var expectedLabel = "bValue, aValue, cValue1, cValue2, qValue, dValue";
+    var expectedLabel = "bValue, aValue, cValue1 cValue2, qValue, dValue";
     assertThat(resourceEdges).hasSize(1);
     validateEdge(resourceEdges.getFirst(), FOCUS, List.of(resourceType),
       Map.of(

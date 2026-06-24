@@ -44,12 +44,8 @@ labelRules:
       - LABEL
   - types: FAMILY
     addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: FORM
     addLabelProperty: true
-    properties:
-      - NAME
   - types: FREQUENCY
     properties:
       - LABEL
@@ -134,27 +130,16 @@ labelRules:
       - NAME
   - types: JURISDICTION
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: LANGUAGE_CATEGORY
     properties: CODE
   - types: MEETING
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $DATE}{, $PLACE}{, $SUBORDINATE_UNIT}"
   - types: ORGANIZATION
     addLabelProperty: true
-    properties:
-      - "{$NAME}{, $SUBORDINATE_UNIT}{, $PLACE}{, $DATE}"
   - types: PERSON
     addLabelProperty: true
-    properties:
-      - "{$NUMERATION}{, $NAME}{, $TITLES}{, $NAME_ALTERNATIVE}{, $DATE}"
   - types: PLACE
     addLabelProperty: true
-    properties:
-      - NAME
-      - CODE
   - types: SERIES
     addLabelProperty: true
     properties:
@@ -164,12 +149,8 @@ labelRules:
       - LABEL
   - types: TEMPORAL
     addLabelProperty: true
-    properties:
-      - NAME
   - types: TOPIC
     addLabelProperty: true
-    properties:
-      - NAME
   - types: WORK, SERIES, LIGHT_RESOURCE
     addLabelProperty: true
     properties:
