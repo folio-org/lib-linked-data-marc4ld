@@ -33,12 +33,12 @@
     <lib-linked-data-fingerprint.version>3.0.0-SNAPSHOT</lib-linked-data-fingerprint.version>
     <folio-spring-base.version>10.0.0</folio-spring-base.version>
     <marc4j.version>2.9.8</marc4j.version>
-    <guava.version>33.7.1-jre</guava.version>
+    <guava.version>33.7.2-jre</guava.version>
     <commons-io.version>2.22.0</commons-io.version>
     <apache-commons-collections.version>4.6.0</apache-commons-collections.version>
 
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>14.1.0</checkstyle.version>
+    <checkstyle.version>14.3.0</checkstyle.version>
   </properties>
 
   <dependencies>
